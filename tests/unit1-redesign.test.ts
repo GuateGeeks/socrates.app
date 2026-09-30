@@ -19,18 +19,16 @@ const EXPECTED = [
 
 const unitWeeks = WEEKS.filter((week) => week.unidad === 1 && week.kind === 'aprendizaje');
 
-const ICON_CONTEXT_FIELDS = new Set([
+const PRIMARY_ICON_FIELDS = new Set([
   'text',
   'title',
   'front',
   'body',
   'label',
   'prompt',
-  'back',
   'problem',
-  'alt',
-  'brief',
 ]);
+const SUPPORTING_ICON_FIELDS = new Set(['back', 'alt', 'brief']);
 
 const CONCRETE_OBJECT = /(?:^|[^\p{L}])(?:comidas?|alimentos?|mercados?|escuelas?|parques?|casas?|edificios?|tiendas?|hospital(?:es)?|iglesias?|calles?|puentes?|rivers?|r[ií]os?|monta(?:n|ñ)as?|volc[aá]n(?:es)?|[aá]rbol(?:es)?|fruits?|frutas?|pan(?:es)?|ma[ií](?:z|ces)|frijoles?|huevos?|tortillas?|ventanas?|panelas?|pozos?|canchas?|herramientas?)(?=$|[^\p{L}])/iu;
 
@@ -42,8 +40,12 @@ function inspectConcreteIcon(value: unknown, path: string, failures: string[]): 
   if (!value || typeof value !== 'object') return;
   const record = value as Record<string, unknown>;
   const icon = typeof record.icon === 'string' ? record.icon : undefined;
-  const words = Object.entries(record)
-    .filter(([key, item]) => ICON_CONTEXT_FIELDS.has(key) && typeof item === 'string')
+  const primaryWords = Object.entries(record)
+    .filter(([key, item]) => PRIMARY_ICON_FIELDS.has(key) && typeof item === 'string' && item.trim())
+    .map(([, item]) => item)
+    .join(' ');
+  const words = primaryWords || Object.entries(record)
+    .filter(([key, item]) => SUPPORTING_ICON_FIELDS.has(key) && typeof item === 'string' && item.trim())
     .map(([, item]) => item)
     .join(' ');
   if ((icon === 'Circle' || icon === 'Square') && CONCRETE_OBJECT.test(words)) {
