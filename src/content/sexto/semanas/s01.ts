@@ -2,9 +2,9 @@ import { S, cierre, lesson, semana } from '../../dsl';
 
 /**
  * SEMANA 1 · Unidad 1 "Conociendo nuestras raíces"
- * Tema generador: Mi lugar en el planeta
+ * Tema generador: Nuestro lugar en mapas y palabras
  * Cierre semanal (v3): las 27 lecciones de materia viven en src/content/sexto/materias/<area>/u1/s01.ts.
- * El viernes: Taller "Mi lugar en el planeta en un minuto" (Sociales + L2 + Formación Ciudadana + L1)
+ * El viernes: Taller "Mapa y voz de nuestro lugar" (Sociales + Formación Ciudadana + L1)
  * y Reto semanal.
  */
 export default semana({
@@ -12,12 +12,12 @@ export default semana({
   unidad: 1,
   semana: 1,
   kind: 'aprendizaje',
-  temaGenerador: 'Mi lugar en el planeta',
-  title: 'Mi lugar en el planeta',
-  subtitle: 'Coordenadas y clima, fenómenos naturales, la célula, triángulos y paralelogramos, y tu voz para exponer',
+  temaGenerador: 'Nuestro lugar en mapas y palabras',
+  title: 'Nuestro lugar en mapas y palabras',
+  subtitle: 'Ubicamos la comunidad, comprendemos sus condiciones geográficas y compartimos lo que sabemos de ella',
   icon: 'Earth',
   color: 'var(--area-ccss)',
-  contexto: 'Desde el volcán más alto de Guatemala hasta la playa del Pacífico hay menos de 150 km, pero el clima cambia muchísimo. Esta semana ubicarás tu lugar con latitud y longitud, descubrirás por qué la altitud cambia el clima y cómo prepararte ante sismos y tormentas. También conocerás relatos y explicaciones sobre el origen de la Tierra, viajarás al interior de la célula, clasificarás triángulos y paralelogramos, leerás tus primeras notas musicales y aprenderás a usar tu voz y tu cuerpo para que el público te escuche. Convivir con solidaridad y conocer tus derechos completan el recorrido.',
+  contexto: 'Esta semana aprenderás a ubicar tu comunidad, reconocer cómo la altitud, el clima y los riesgos naturales influyen en la vida local, y presentar con un mapa y tu propia voz los conocimientos que las familias construyen sobre el lugar que comparten.',
   ejes: ['sostenible', 'multiculturalidad', 'vida-ciudadana', 'seguridad'],
   media: {
     id: 's01-portada', kind: 'video', title: 'Guatemala desde el cielo', aspect: '16:9', duration: 60,
@@ -31,20 +31,21 @@ export default semana({
       id: 's01-d5-taller',
       kind: 'taller',
       day: 5,
-      title: 'Taller: mi lugar en el planeta en un minuto',
+      title: 'Mapa y voz de nuestro lugar',
       icon: 'Presentation',
       minutes: 18,
       gancho: 'Si tuvieras solo un minuto para presentar tu lugar ante personas de todo el país, ¿qué dirías primero?',
       objetivos: [
-        'Usar coordenadas, altitud y riesgos naturales para describir un lugar real',
-        'Separar hechos de opiniones y relacionar las condiciones de un lugar con los derechos humanos',
-        'Preparar el guion de una exposición de un minuto que atrape al público',
+        'Ubicar una comunidad y representar en un mapa sus condiciones geográficas',
+        'Relacionar las condiciones de un lugar con los derechos humanos y el cuidado comunitario',
+        'Preparar y realizar una presentación oral breve que comparta conocimientos locales',
       ],
       resumen: [
         'Para presentar un lugar sirven datos comprobables: latitud y longitud, altitud, clima y riesgos.',
         'Las condiciones de un lugar (agua, escuela, caminos seguros) muestran qué derechos se cumplen y cuáles faltan.',
         'Ante un desastre, la prevención y la solidaridad protegen a la comunidad.',
-        'Una buena exposición tiene un inicio que atrapa, dos o tres ideas con datos y un cierre para recordar, dicho con voz clara y cuerpo expresivo.',
+        'Un mapa anotado permite mostrar la ubicación, las condiciones geográficas y las formas en que una comunidad conoce y cuida su territorio.',
+        'Una buena presentación oral tiene un inicio que atrapa, dos o tres ideas apoyadas en el mapa y un cierre para recordar, dicho con voz clara y cuerpo expresivo.',
       ],
       media: {
         id: 's01-d5-taller-ficha', kind: 'image', title: 'Ficha de la aldea Loma Linda', aspect: '4:3',
@@ -54,12 +55,11 @@ export default semana({
       steps: [
         S.explain(
           { fase: 'explorar', areas: ['ccss', 'l1'], cnb: ['ccss:1.2.1', 'l1:2.1.6'], ambito: 'conocer', title: 'Tu misión de hoy',
-            prompt: 'Un programa de radio escolar invita a estudiantes de todo el país a presentar **su lugar en el planeta en un minuto**. Hoy practicarás con la ficha de la aldea **Loma Linda** y al final escribirás tu propio guion. Toca cada tarjeta para ver qué usarás de lo que aprendiste esta semana.' },
+            prompt: 'La escuela invita a estudiantes de todo el país a compartir **Nuestro lugar en mapas y palabras**. Hoy practicarás con la ficha de la aldea **Loma Linda** y al final crearás un mapa anotado para apoyar una presentación oral breve. Toca cada tarjeta para ver qué usarás de lo que aprendiste esta semana.' },
           { icon: 'Radio', body: 'No aprenderás temas nuevos: vas a **usar** lo que ya sabes para comunicar algo importante.', reveal: [
             { icon: 'Globe', front: 'Sociales', back: 'Latitud, longitud y altitud para **ubicar** el lugar y explicar su **clima**; fenómenos naturales y **prevención**.' },
-            { icon: 'MessageCircle', front: 'L2', back: 'Separar **hechos** (se comprueban) de **opiniones** (lo que alguien piensa).' },
             { icon: 'Scale', front: 'Formación Ciudadana', back: 'Relacionar las condiciones del lugar con los **derechos humanos** y actuar con **solidaridad**.' },
-            { icon: 'Mic', front: 'Comunicación y Lenguaje', back: 'Un **inicio** que atrape, **voz** y **cuerpo** que mantengan la atención.' },
+            { icon: 'Mic', front: 'Comunicación y Lenguaje', back: 'Un **inicio** que atrape, ideas apoyadas en el mapa y **voz** y **cuerpo** que mantengan la atención.' },
           ] },
         ),
         S.choice(
@@ -74,7 +74,7 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.number(
-          { fase: 'construir', areas: ['ccss', 'mat'], cnb: ['ccss:1.2.1'], ambito: 'hacer',
+          { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'hacer',
             prompt: 'En Puerto San José, casi a 0 m de altitud, la temperatura promedio es de unos **27 °C**. La temperatura baja unos **6 °C por cada 1,000 m** que se sube. ¿Qué temperatura promedio aproximada esperas en Loma Linda, a **2,000 m**?',
             hint: 'Primero calcula cuántos grados baja en 2,000 m (dos veces 6 °C) y luego réstalos a 27 °C.',
             explain: 'En 2,000 m la temperatura baja 6 + 6 = 12 °C. Entonces 27 − 12 = **15 °C**. Por eso Loma Linda es tierra fría aunque Guatemala está en la zona tropical.' },
@@ -107,20 +107,21 @@ export default semana({
             ] },
         ),
         S.sort(
-          { fase: 'aplicar', areas: ['l2', 'ccss'], cnb: ['l2:1.2.6'], ambito: 'conocer',
-            prompt: 'En tu exposición conviene dejar claro qué es **dato** y qué es **tu opinión**. Clasifica estas frases sobre Loma Linda.',
-            hint: 'Pregúntate: ¿se puede comprobar midiendo, contando o consultando una fuente? Busca palabras como "creo", "más bonito", "mejor".',
-            explain: 'Los hechos se comprueban (altitud, cantidad de casas con agua). Las opiniones expresan lo que alguien piensa o siente; se pueden decir, pero avisando que son tuyas.' },
+          { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:1.2.1', 'ccss:1.3.1'], ambito: 'hacer',
+            prompt: 'Antes de elaborar el mapa, clasifica las **anotaciones** de Loma Linda según lo que ayudan a comunicar.',
+            hint: 'Ubicar indica dónde está; las condiciones geográficas explican cómo es el lugar; las acciones comunitarias muestran cómo se cuida.',
+            explain: 'Un mapa anotado combina ubicación, condiciones geográficas y acciones de cuidado para comunicar conocimientos importantes del lugar.' },
           { buckets: [
-            { id: 'h', label: 'Hecho', icon: 'BadgeCheck', color: 'var(--c-ok)' },
-            { id: 'o', label: 'Opinión', icon: 'MessageCircle', color: 'var(--c-hint)' },
+            { id: 'u', label: 'Ubicación', icon: 'MapPin', color: 'var(--area-ccss)' },
+            { id: 'g', label: 'Condición geográfica', icon: 'Mountain', color: 'var(--c-hint)' },
+            { id: 'c', label: 'Cuidado comunitario', icon: 'ShieldCheck', color: 'var(--c-ok)' },
           ], items: [
-            { id: 'f1', text: 'Loma Linda está a unos 2,000 metros de altitud.', bucket: 'h' },
-            { id: 'f2', text: 'Loma Linda tiene el paisaje más bonito del altiplano.', bucket: 'o', feedback: '"Más bonito" depende del gusto de cada quien.' },
-            { id: 'f3', text: 'Seis de cada diez casas tienen agua entubada.', bucket: 'h' },
-            { id: 'f4', text: 'Creo que el COCODE debería construir un instituto.', bucket: 'o', feedback: '"Creo que… debería" expresa lo que alguien piensa: es una opinión (¡puede ser una buena propuesta!).' },
-            { id: 'f5', text: 'La escuela está en terreno firme.', bucket: 'h' },
-            { id: 'f6', text: 'Vivir en tierra fría es aburrido.', bucket: 'o' },
+            { id: 'f1', text: '14.9° N y 91.4° O', bucket: 'u' },
+            { id: 'f2', text: 'Altitud aproximada: 2,000 metros', bucket: 'g' },
+            { id: 'f3', text: 'Tierra fría con escarcha en algunas mañanas', bucket: 'g' },
+            { id: 'f4', text: 'Casas en una ladera junto a un barranco', bucket: 'g' },
+            { id: 'f5', text: 'Ruta de evacuación hacia la escuela', bucket: 'c' },
+            { id: 'f6', text: 'Plan de emergencia organizado por el COCODE', bucket: 'c' },
           ] },
         ),
         S.choice(
@@ -180,21 +181,28 @@ export default semana({
             { text: 'Si hablo muy rápido, termino antes y el público entiende mejor.', answer: false, why: 'Una velocidad tranquila, con pausas, deja que el público entienda cada idea.' },
           ] },
         ),
-        S.write(
-          { fase: 'aplicar', areas: ['l1', 'ccss', 'fc'], cnb: ['l1:2.1.6', 'ccss:1.2.1', 'ccss:1.3.1'], ambito: 'hacer', title: 'Producto: mi guion de un minuto',
-            prompt: 'Escribe el guion de **tu** exposición de un minuto: "Mi lugar en el planeta". Habla de tu comunidad (o de Loma Linda si prefieres). Incluye un inicio que atrape, dónde está y cómo es su clima, un riesgo natural y cómo prepararse, y un cierre. Marca con **/** las pausas cortas y con **//** las largas.' },
-          { placeholder: '¿Sabían que…? / Mi comunidad está…', minWords: 50,
-            model: '¿Sabían que en mi aldea, en plena zona tropical, el pasto amanece blanco de escarcha? // Vivo en Loma Linda, / en el hemisferio norte y occidental, / a unos 2,000 metros de altura. / Por eso es tierra fría. // Nuestro mayor riesgo son los deslaves en época de lluvia, / porque muchas casas están junto al barranco. / Por eso tenemos un plan de emergencia / y una ruta de evacuación hacia la escuela. // Conocer tu lugar es el primer paso para cuidarlo.',
+        S.project(
+          { fase: 'aplicar', areas: ['l1', 'ccss', 'fc'], cnb: ['l1:2.1.6', 'ccss:1.2.1', 'ccss:1.3.1', 'fc:1.1.2'], ambito: 'hacer', title: 'Producto: mapa anotado y presentación oral',
+            prompt: 'Crea el producto **Mapa y voz de nuestro lugar** sobre tu comunidad, o sobre Loma Linda si lo prefieres. Sigue los pasos y autoevalúa cómo el mapa apoya tu presentación oral breve.' },
+          { goal: 'Elaborar un **mapa local anotado** y usarlo para realizar una **presentación oral breve** sobre la ubicación, las condiciones geográficas y los conocimientos de la comunidad.',
+            steps: [
+              { title: 'Traza y ubica', detail: 'Dibuja un mapa sencillo, marca el norte, señala la comunidad y agrega sus coordenadas si las conoces o su ubicación respecto de un lugar cercano.' },
+              { title: 'Anota las condiciones', detail: 'Agrega al menos tres anotaciones: altitud o relieve, clima, agua o caminos, y un riesgo natural presente en el lugar.' },
+              { title: 'Incluye el conocimiento local', detail: 'Anota una forma en que las familias reconocen, explican o cuidan esas condiciones, por ejemplo una señal del clima o una ruta segura.' },
+              { title: 'Prepara tu voz', detail: 'Organiza un inicio que atrape, dos o tres ideas apoyadas en el mapa y un cierre. Marca pausas y ensaya con voz clara y mirada al público.' },
+              { title: 'Presenta', detail: 'Muestra el mapa y realiza una presentación oral de aproximadamente un minuto.' },
+            ],
+            evidence: 'Un mapa local con anotaciones y una presentación oral breve apoyada en ese mapa.',
             rubric: [
-              'Mi inicio es una pregunta o un dato sorprendente',
-              'Digo dónde está mi lugar y explico su clima con la altitud (o la latitud)',
-              'Menciono un riesgo natural y una forma de prevenirlo',
-              'Uso solo hechos, o aviso cuando algo es mi opinión',
-              'Marqué pausas y tengo un cierre fácil de recordar',
+              'Mi mapa permite ubicar la comunidad y tiene anotaciones claras',
+              'Representé condiciones geográficas y un riesgo natural que aprendí esta semana',
+              'Incluí un conocimiento o una acción con que la comunidad comprende o cuida su lugar',
+              'Mi presentación tiene inicio, ideas apoyadas en el mapa y cierre',
+              'Usé voz clara, pausas, mirada y gestos para comunicar',
             ] },
         ),
         cierre({ areas: ['l1', 'ccss', 'fc'], cnb: ['l1:2.1.6', 'fc:1.1.2'] },
-          ['Ubico un lugar con latitud y longitud y explico su clima con la altitud', 'Distingo hechos de opiniones al presentar información', 'Preparo una exposición con inicio, desarrollo y cierre'],
+          ['Ubico un lugar con latitud y longitud y explico su clima con la altitud', 'Creo un mapa anotado con las condiciones y los cuidados de mi comunidad', 'Preparo una exposición con inicio, desarrollo y cierre'],
           ['Ensayaré mi exposición frente a mi familia', 'Preguntaré en casa si tenemos un plan de emergencia', 'Averiguaré a qué altitud está mi comunidad']),
       ],
     }),
@@ -292,13 +300,13 @@ export default semana({
             { id: 'c', text: 'Rotación' },
           ], correct: ['a'] },
         ),
-        S.choice(
-          { fase: 'comprobar', areas: ['fc'], cnb: ['fc:1.1.2'], prompt: 'Samuel te cuenta cómo celebra su familia una fiesta religiosa distinta de la tuya. ¿Qué respuesta muestra **tolerancia**?' },
-          { options: [
-            { id: 'a', text: 'Escucharlo con respeto y preguntarle lo que te da curiosidad, aunque tú creas distinto' },
-            { id: 'b', text: 'Decirle que su fiesta no tiene sentido' },
-            { id: 'c', text: 'Dejar de hablarle porque no piensa como tú' },
-          ], correct: ['a'] },
+        S.tf(
+          { fase: 'comprobar', areas: ['fc'], cnb: ['fc:1.1.2'], prompt: 'Samuel te cuenta cómo celebra su familia una fiesta religiosa distinta de la tuya. ¿Qué respuestas muestran **tolerancia**?' },
+          { statements: [
+            { text: 'Escucharlo con respeto y preguntarle lo que te da curiosidad, aunque tú creas distinto, muestra tolerancia.', answer: true },
+            { text: 'Decirle que su fiesta no tiene sentido muestra tolerancia.', answer: false, why: 'Descalificar sus creencias no respeta la diversidad religiosa.' },
+            { text: 'Dejar de hablarle porque no piensa como tú muestra tolerancia.', answer: false, why: 'La tolerancia permite convivir con respeto aunque tengamos creencias distintas.' },
+          ] },
         ),
         S.choice(
           { fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.4'], prompt: 'La maestra empieza: _"Saquen su cuaderno de Matemáticas y ábranlo en una página nueva…"_. ¿Qué es más probable que diga después?' },

@@ -136,7 +136,7 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer',
-          prompt: 'Esta semana prepararás una exposición de **un minuto** llamada **"Mi lugar en el planeta"** sobre el lugar donde vives. Escribe su **inicio**: usa una pregunta o un dato curioso y di qué gesto u objeto usarás.' },
+          prompt: 'Esta semana prepararás una exposición breve llamada **"Nuestro lugar en mapas y palabras"** sobre el lugar donde vives. Escribe su **inicio**: usa una pregunta o un dato curioso y di qué gesto u objeto usarás.' },
         { minWords: 20, placeholder: 'Mi inicio: "¿…?" (Gesto u objeto: …)',
           model: '"¿Sabían que desde mi casa se ven tres volcanes?" (Hago una pausa y señalo hacia la ventana.) "Vivo en Antigua Guatemala, y cada mañana el Volcán de Agua me dice si va a llover."',
           rubric: [
@@ -376,7 +376,7 @@ export default [
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer', title: 'Ejemplo resuelto: el guion de una exposición de un minuto',
-          prompt: 'Ana preparó su exposición **"Mi lugar en el planeta"**. Mira cómo organizó su guion y dónde decidió usar cada recurso.' },
+          prompt: 'Ana preparó su exposición **"Nuestro lugar en mapas y palabras"**. Mira cómo organizó su guion y dónde decidió usar cada recurso.' },
         { icon: 'ClipboardList', problem: 'Ana vive en Livingston, Izabal. Tiene un minuto para presentar su lugar.',
           steps: [
             { text: '**Inicio (atrapa):** "¿Se imaginan ir a la escuela… en lancha?" (Pausa. Sonríe. Mira a todo el grupo.)', why: 'Pregunta + pausa + mirada: tres recursos en diez segundos.' },
@@ -410,7 +410,7 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer',
-          prompt: 'Escribe el guion de tu exposición **"Mi lugar en el planeta"** (un minuto). Usa el inicio que escribiste en la lección 1, agrega **dos o tres ideas** y un **cierre**. Anota entre paréntesis tus recursos de voz y de cuerpo. Después, ensáyala frente a alguien de tu familia.' },
+          prompt: 'Escribe el guion de tu exposición **"Nuestro lugar en mapas y palabras"** (un minuto). Usa el inicio que escribiste en la lección 1, agrega **dos o tres ideas** y un **cierre**. Anota entre paréntesis tus recursos de voz y de cuerpo. Después, ensáyala frente a alguien de tu familia.' },
         { minWords: 50, placeholder: 'Inicio: … (recurso)\nIdea 1: … (recurso)\nIdea 2: …\nCierre: …',
           model: 'Inicio: "¿Sabían que desde mi casa se ven tres volcanes?" (Pausa, señalo la ventana.)\nIdea 1: "Vivo en Antigua Guatemala, una ciudad de calles empedradas." (Muestro una foto.)\nIdea 2: "Cada mañana miro el Volcán de Agua: si tiene nubes, mi abuela dice que va a llover." (Cara de duda, sonrío.)\nIdea 3: "En Semana Santa las calles se llenan de alfombras de aserrín de colores." (Abro los brazos.)\nCierre: "Mi lugar es pequeño, pero desde él se ven gigantes." (Paso al frente, voz más lenta.)',
           rubric: [
@@ -674,9 +674,9 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'hacer',
-          prompt: 'Escribe un correo a un familiar que viva en otro lugar (otro municipio, departamento o país). Invítalo a contarte **cómo es el lugar donde vive** para comparar con tu exposición "Mi lugar en el planeta". Incluye asunto, saludo, cuerpo, despedida y firma.' },
+          prompt: 'Escribe un correo a un familiar que viva en otro lugar (otro municipio, departamento o país). Invítalo a contarte **cómo es el lugar donde vive** para comparar con tu exposición "Nuestro lugar en mapas y palabras". Incluye asunto, saludo, cuerpo, despedida y firma.' },
         { minWords: 45, placeholder: 'Asunto: …\n\nSaludo…\n\nCuerpo…\n\nDespedida y firma…',
-          model: 'Asunto: Quiero conocer tu lugar\n\n¡Hola, tío Mario!\n\nEstoy preparando una exposición en la escuela llamada "Mi lugar en el planeta". Yo voy a hablar de Quetzaltenango, pero me gustaría compararlo con Petén, donde vives tú. ¿Me podrías contar cómo es el clima, qué se cultiva y qué te gusta más de ahí? Si tienes una foto, me ayudaría mucho.\n\nMuchas gracias. Un abrazo,\nValeria',
+          model: 'Asunto: Quiero conocer tu lugar\n\n¡Hola, tío Mario!\n\nEstoy preparando una exposición en la escuela llamada "Nuestro lugar en mapas y palabras". Yo voy a hablar de Quetzaltenango, pero me gustaría compararlo con Petén, donde vives tú. ¿Me podrías contar cómo es el clima, qué se cultiva y qué te gusta más de ahí? Si tienes una foto, me ayudaría mucho.\n\nMuchas gracias. Un abrazo,\nValeria',
           rubric: [
             'Escribí un asunto que dice el tema',
             'Tiene saludo, cuerpo, despedida y firma',
@@ -710,7 +710,7 @@ export default [
           'Interpreto íconos y elijo un lenguaje formal o informal según a quién escribo',
           'Escribo un correo con todas sus partes',
         ], commitments: [
-          'Presentaré mi exposición "Mi lugar en el planeta" a mi familia',
+          'Presentaré mi exposición "Nuestro lugar en mapas y palabras" a mi familia',
           'Revisaré a quién escribo antes de enviar un mensaje',
           'Evitaré escribir en mayúsculas para no "gritar" en los chats',
         ] },
