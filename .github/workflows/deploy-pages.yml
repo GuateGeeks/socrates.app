@@ -13,8 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      pages: write
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,17 +23,15 @@ jobs:
         with:
           node-version: 22
           cache: npm
-
+            deploy:
+              name: Deploy to GitHub Pages
       - name: Install dependencies
-        run: npm ci
-
-      - name: Build
         run: npm run build
-
-      - name: Configure GitHub Pages
+                - uses: actions/checkout@v4
+                  with:
+                    fetch-depth: 0
         uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
+                - uses: actions/setup-node@v4
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -42,13 +39,13 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    permissions:
+                - name: Build website
       pages: write
       id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
+                - name: Deploy to GitHub Pages
+                  uses: peaceiris/actions-gh-pages@v4
         id: deployment
-        uses: actions/deploy-pages@v4
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+                    publish_dir: ./dist
+                    user_name: github-actions[bot]
+                    user_email: 41898282+github-actions[bot]@users.noreply.github.com
