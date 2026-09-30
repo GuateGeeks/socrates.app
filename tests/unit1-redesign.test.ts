@@ -1,6 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { registerAll } from '../src/activities/index';
+import { getActivity } from '../src/core/registry';
 import { WEEKS } from '../src/content/index';
+
+registerAll();
 
 const EXPECTED = [
   [1, 'Nuestro lugar en mapas y palabras', 'Mapa y voz de nuestro lugar'],
@@ -28,6 +32,8 @@ const ICON_CONTEXT_FIELDS = new Set([
   'brief',
 ]);
 
+const CONCRETE_OBJECT = /(?:^|[^\p{L}])(?:comidas?|alimentos?|mercados?|escuelas?|parques?|casas?|edificios?|tiendas?|hospital(?:es)?|iglesias?|calles?|puentes?|rivers?|r[ií]os?|monta(?:n|ñ)as?|volc[aá]n(?:es)?|[aá]rbol(?:es)?|fruits?|frutas?|pan(?:es)?|ma[ií](?:z|ces)|frijoles?|huevos?|tortillas?|ventanas?|panelas?|pozos?|canchas?|herramientas?)(?=$|[^\p{L}])/iu;
+
 function inspectConcreteIcon(value: unknown, path: string, failures: string[]): void {
   if (Array.isArray(value)) {
     value.forEach((item, index) => inspectConcreteIcon(item, `${path}[${index}]`, failures));
@@ -40,7 +46,7 @@ function inspectConcreteIcon(value: unknown, path: string, failures: string[]): 
     .filter(([key, item]) => ICON_CONTEXT_FIELDS.has(key) && typeof item === 'string')
     .map(([, item]) => item)
     .join(' ');
-  if ((icon === 'Circle' || icon === 'Square') && /tortilla|ventana|panela|pozo|cancha|edificio|herramienta|alimento/i.test(words)) {
+  if ((icon === 'Circle' || icon === 'Square') && CONCRETE_OBJECT.test(words)) {
     failures.push(`${path}: ${icon} representa "${words}"`);
   }
   Object.entries(record).forEach(([key, item]) => inspectConcreteIcon(item, `${path}.${key}`, failures));
@@ -88,12 +94,12 @@ test('Unidad 1 evalúa al menos seis materias en cada reto', () => {
     assert.ok(challenge, `Semana ${week.semana} sin reto`);
     const assessedAreas = new Set(
       challenge.steps
-        .filter((step) => step.fase === 'comprobar')
-        .flatMap((step) => step.areas),
+        .filter((step) => step.fase === 'comprobar' && getActivity(step.type)!.graded)
+        .map((step) => step.areas[0]),
     );
     assert.ok(
       assessedAreas.size >= 6,
-      `Semana ${week.semana}: reto evalúa ${assessedAreas.size} materias en pasos comprobar`,
+      `Semana ${week.semana}: reto evalúa ${assessedAreas.size} materias en actividades calificadas de comprobar`,
     );
   }
 });
