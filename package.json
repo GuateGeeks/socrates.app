@@ -1,0 +1,35 @@
+{
+  "name": "socrates-aprende",
+  "private": true,
+  "version": "0.2.0",
+  "description": "Socrates Aprende — ciclo escolar completo (40 semanas) de experiencias interactivas basadas en el CNB de Guatemala (Sexto Primaria).",
+  "type": "module",
+  "scripts": {
+    "cnb": "node scripts/build-cnb.mjs ../contenido",
+    "plan": "node scripts/plan-year.mjs",
+    "icons": "node scripts/gen-icons.mjs",
+    "dev": "npm run icons && vite --host",
+    "build": "npm run icons && npm run validate && tsc --noEmit && vite build",
+    "preview": "vite preview --host",
+    "validate": "tsx scripts/validate-content.ts",
+    "test": "tsx --test tests/*.test.ts",
+    "build:standalone": "npm run icons && node scripts/build-standalone.mjs",
+    "e2e": "npm run build:standalone && node tests/e2e.mjs"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "lucide-react": ">=0.460.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "esbuild": "^0.25.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.0",
+    "vite": "^7.1.0",
+    "playwright": "^1.55.0"
+  }
+}

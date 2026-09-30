@@ -1,0 +1,127 @@
+/* ==========================================================================
+   Socrates Aprende — Design tokens
+   Fuente de color de áreas: Figura No. 2 del CNB (rueda "Tema Generador", Ciclo II).
+   Todos los componentes consumen SOLO estos tokens; cambiar un tema = cambiar este archivo.
+   ========================================================================== */
+:root {
+  /* ---- Marca ---- */
+  --c-maiz: #f3c94b;          /* centro de la rueda: Tema Generador */
+  --c-maiz-strong: #e0a91c;
+  --c-jade: #1f6f8b;           /* primario de interfaz */
+  --c-jade-strong: #15526a;
+  --c-quetzal: #1c9a6b;
+
+  /* ---- Colores de área (CNB) ---- */
+  --area-l1: #1d9bd7;
+  --area-l2: #2b86c5;
+  --area-l3: #3aa7c9;
+  --area-mat: #d6246e;
+  --area-cnt: #e8782a;
+  --area-ccss: #eeae1f;
+  --area-msn: #e8782a;
+  --area-art: #8db32c;
+  --area-ef: #7d3c98;
+  --area-pyd: #c0283b;
+  --area-fc: #1f6f8b;
+
+  /* ---- Retroalimentación ---- */
+  --c-ok: #1f9d55;
+  --c-ok-soft: #dcf5e6;
+  --c-bad: #d9434a;
+  --c-bad-soft: #fde4e4;
+  --c-hint: #6d5dfc;
+  --c-hint-soft: #ece9ff;
+
+  /* ---- Superficies (claro) ---- */
+  --c-bg: #fff8ec;
+  --c-surface: #ffffff;
+  --c-surface-2: #fbf1df;
+  --c-line: #eadcc3;
+  --c-ink: #1d2433;
+  --c-ink-2: #4a5468;
+  --c-ink-3: #7a8397;
+  --c-on-brand: #ffffff;
+  --c-shadow: 29 36 51;
+
+  /* ---- Tipografía ---- */
+  --font: "Nunito", ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fs-xs: 0.78rem;
+  --fs-sm: 0.9rem;
+  --fs-md: 1.02rem;
+  --fs-lg: 1.2rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 1.9rem;
+  --fs-3xl: 2.4rem;
+  --fw-regular: 600;
+  --fw-bold: 800;
+  --fw-black: 900;
+
+  /* ---- Espaciado (escala 4) ---- */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+
+  /* ---- Radios y elevación ---- */
+  --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 30px; --r-pill: 999px;
+  --e-1: 0 1px 0 rgb(var(--c-shadow) / 0.08), 0 2px 6px rgb(var(--c-shadow) / 0.06);
+  --e-2: 0 2px 0 rgb(var(--c-shadow) / 0.08), 0 8px 24px rgb(var(--c-shadow) / 0.1);
+  --e-3: 0 12px 40px rgb(var(--c-shadow) / 0.18);
+  /* "Tactile" border-bottom estilo botón físico (affordance para niños) */
+  --press-depth: 4px;
+
+  /* ---- Movimiento (ver src/design-system/motion.ts) ---- */
+  --dur-instant: 90ms;
+  --dur-fast: 160ms;
+  --dur-base: 240ms;
+  --dur-slow: 420ms;
+  --dur-epic: 900ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce: linear(0, 0.063, 0.25 18.2%, 1 36.4%, 0.813, 0.75, 0.813, 1, 0.938, 1, 1);
+
+  /* ---- Layout ---- */
+  --tap-min: 48px;            /* objetivo táctil mínimo (niños: 48+) */
+  --content-max: 720px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-bg: #121722;
+    --c-surface: #1b2230;
+    --c-surface-2: #232c3d;
+    --c-line: #313c52;
+    --c-ink: #f3f5f9;
+    --c-ink-2: #c3cad8;
+    --c-ink-3: #8b95aa;
+    --c-ok-soft: #173a29;
+    --c-bad-soft: #43201f;
+    --c-hint-soft: #2a2552;
+    --c-shadow: 0 0 0;
+    --c-jade: #3aa0c2;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --c-bg: #121722;
+  --c-surface: #1b2230;
+  --c-surface-2: #232c3d;
+  --c-line: #313c52;
+  --c-ink: #f3f5f9;
+  --c-ink-2: #c3cad8;
+  --c-ink-3: #8b95aa;
+  --c-ok-soft: #173a29;
+  --c-bad-soft: #43201f;
+  --c-hint-soft: #2a2552;
+  --c-shadow: 0 0 0;
+  --c-jade: #3aa0c2;
+  color-scheme: dark;
+}
+
+/* Movimiento reducido: el sistema de motion lee esta preferencia y también el ajuste de la app */
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 1ms; --dur-base: 1ms; --dur-slow: 1ms; --dur-epic: 1ms; }
+}
+:root[data-motion="reduced"] { --dur-fast: 1ms; --dur-base: 1ms; --dur-slow: 1ms; --dur-epic: 1ms; }

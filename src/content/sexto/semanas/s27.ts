@@ -1,0 +1,591 @@
+import { S, cierre, lesson, semana } from '../../dsl';
+
+/**
+ * SEMANA 27 · Unidad 3 "Valorando nuestra convivencia"
+ * Tema generador: Conectados con el mundo
+ * Energía potencial y cinética · calentamiento global y ecosistemas · minería y metales · litro y gramo ·
+ * migración y globalización · poderío norteamericano y siglo XXI · democracia, árbol del problema y reconciliación.
+ */
+export default semana({
+  id: 's27',
+  unidad: 3,
+  semana: 27,
+  kind: 'aprendizaje',
+  temaGenerador: 'Conectados con el mundo',
+  title: 'Conectados con el mundo',
+  subtitle: 'Energía, clima, minería, migración, democracia y reconciliación',
+  icon: 'Globe',
+  color: 'var(--area-ccss)',
+  contexto: 'En una comunidad de Huehuetenango, la familia de Rosa recibe cada mes una llamada de su tío, que migró a Estados Unidos. En la tienda se venden productos de muchos países, el río mueve una pequeña hidroeléctrica y las lluvias ya no llegan como antes. Esta semana descubrirás cómo lo que pasa en el mundo, la energía, el clima, los metales, la migración y la política, llega hasta tu comunidad, y cómo podemos decidir juntos, en democracia y en paz, qué futuro queremos.',
+  ejes: ['vida-ciudadana', 'sostenible', 'multiculturalidad', 'tecnologia'],
+  media: {
+    id: 's27-portada', kind: 'video', title: 'Hilos que nos conectan', aspect: '16:9', duration: 60,
+    alt: 'Una niña de Huehuetenango habla por teléfono con su tío en otro país; la cámara se aleja y muestra hilos de luz que conectan su comunidad con el mundo.',
+    brief: 'Animación 2D de 60 s. Inicio: cocina de una casa del altiplano de Huehuetenango, una niña (Rosa) habla por celular con su tío. La cámara se aleja: aparecen hilos de luz que salen de la comunidad hacia una hidroeléctrica en el río, una tienda con productos de varios países (sin marcas), una milpa seca por falta de lluvia, una mina a lo lejos y, finalmente, un globo terráqueo cubierto de conexiones. Cierre: la comunidad reunida en asamblea levantando la mano. Sobreimpreso: "Lo que pasa en el mundo llega a mi comunidad". Música de marimba con sonidos electrónicos suaves.',
+  },
+  badge: { id: 'medalla-s27', name: 'Ciudadano del mundo', icon: 'Globe', desc: 'Completaste la semana 27 y superaste su reto' },
+  lessons: [
+    /* ───────────────────────── Día 1 ───────────────────────── */
+    lesson({
+      id: 's27-d1-energia-clima',
+      title: 'Energía que se mueve, clima que cambia',
+      icon: 'Zap',
+      minutes: 14,
+      day: 1,
+      gancho: 'Cuando sueltas una pelota desde lo alto de una grada, ¿de dónde saca la energía para caer?',
+      objetivos: ['Diferenciar la energía potencial de la cinética', 'Ilustrar cómo el calentamiento global afecta a personas, animales y plantas', 'Describir las relaciones entre los componentes de un ecosistema', 'Convertir litros a sus múltiplos y submúltiplos', 'Describir una ilustración en inglés usando el presente'],
+      resumen: [
+        'La energía potencial es la que un cuerpo tiene guardada por su posición (altura) o por estar estirado; la energía cinética es la que tiene por estar en movimiento. Al caer, la potencial se transforma en cinética.',
+        'El efecto invernadero natural mantiene la Tierra tibia, pero los gases de la quema de combustibles y de bosques lo aumentan y la Tierra se calienta: hay sequías más largas, lluvias más intensas, especies que cambian de lugar y cosechas que se pierden.',
+        'En un ecosistema, los seres vivos se relacionan entre sí (alimentación, polinización, descomposición) y con el ambiente (sol, agua, suelo, aire).',
+        'Múltiplos del litro: kilolitro (1,000 L), hectolitro (100 L), decalitro (10 L). Submúltiplos: decilitro (0.1 L), centilitro (0.01 L), mililitro (0.001 L).',
+      ],
+      media: {
+        id: 's27-d1-hidro', kind: 'animation', title: 'Del embalse a la bombilla', aspect: '16:9', duration: 50,
+        alt: 'Animación del agua guardada en lo alto de un embalse que cae por una tubería, hace girar una turbina y enciende las bombillas de una comunidad.',
+        brief: 'Animación 2D de 50 s en corte lateral: (1) embalse en lo alto, con la etiqueta "Energía potencial" y una barra llena; (2) el agua baja por una tubería inclinada, la barra de potencial baja y sube una barra de "Energía cinética"; (3) el agua hace girar una turbina conectada a un generador; (4) cables llevan la electricidad a casas de una aldea que encienden sus focos al anochecer. Mencionar en la narración que Guatemala tiene hidroeléctricas como la de Chixoy. Colores claros, subtítulos.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['cnt', 'pyd'], cnb: ['cnt:7.1.3'], ambito: 'conocer', title: 'Energía guardada y energía en movimiento',
+            prompt: 'El río de la comunidad mueve una pequeña hidroeléctrica. Para entender cómo, conoce dos tipos de energía. Toca cada tarjeta.' },
+          { icon: 'Zap', body: 'La energía **no se crea ni se destruye**: se **transforma** de un tipo a otro.', reveal: [
+            { icon: 'Mountain', front: 'Energía potencial', back: 'Energía **guardada** por estar en lo **alto** o estirado: el agua en un embalse, una piedra en la orilla de un barranco, una hondilla estirada.' },
+            { icon: 'Wind', front: 'Energía cinética', back: 'Energía del **movimiento**: el agua que cae, un niño que corre, un barrilete que vuela.' },
+            { icon: 'RefreshCw', front: 'La transformación', back: 'Cuando el agua cae, su energía potencial se convierte en **cinética**, que mueve las turbinas y produce electricidad.' },
+          ] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.1.3'], ambito: 'conocer', prompt: '¿Qué tipo de energía **predomina** en cada caso?',
+            hint: '¿Está quieto en lo alto o estirado (potencial) o se está moviendo (cinética)?',
+            explain: 'Un mismo objeto puede tener las dos: la pelota en lo alto de la grada tiene potencial; al caer, cada vez tiene más cinética.' },
+          { buckets: [
+            { id: 'pot', label: 'Potencial', icon: 'Mountain', color: 'var(--area-cnt)' },
+            { id: 'cin', label: 'Cinética', icon: 'Wind', color: 'var(--area-l1)' },
+          ], items: [
+            { id: 'e1', text: 'Agua quieta en el embalse de una hidroeléctrica', icon: 'Droplets', bucket: 'pot' },
+            { id: 'e2', text: 'Una hondilla estirada antes de soltarla', icon: 'Target', bucket: 'pot' },
+            { id: 'e3', text: 'Una piedra en lo alto de un barranco', icon: 'Mountain', bucket: 'pot' },
+            { id: 'e4', text: 'Un río que corre', icon: 'Waves', bucket: 'cin' },
+            { id: 'e5', text: 'Un barrilete volando', icon: 'Wind', bucket: 'cin' },
+            { id: 'e6', text: 'Una niña que corre en la cancha', icon: 'PersonStanding', bucket: 'cin' },
+          ] },
+        ),
+        S.explain(
+          { fase: 'construir', areas: ['cnt', 'ccss'], cnb: ['cnt:7.3.3'], ambito: 'conocer', title: 'Un invernadero demasiado caliente',
+            prompt: 'Los agricultores dicen que las lluvias "ya no llegan como antes". Para entender por qué, toca cada tarjeta.',
+            media: { id: 's27-d1-invernadero', kind: 'diagram', title: 'El efecto invernadero', aspect: '16:9',
+              alt: 'Diagrama de la Tierra con rayos del sol que entran, calor que intenta salir y una capa de gases que devuelve parte del calor, más gruesa por el humo de fábricas, vehículos e incendios.',
+              brief: 'Diagrama educativo: Tierra a la izquierda con la atmósfera como una capa translúcida. Flechas amarillas del Sol entran; flechas rojas de calor salen, pero parte rebota en la capa y regresa. Dos versiones lado a lado: "Natural" (capa delgada, Tierra tibia) y "Aumentado" (capa gruesa y gris por humo de vehículos, fábricas e incendios forestales; termómetro más alto). Etiquetas: "dióxido de carbono", "metano". Estilo plano, sin textos largos.' } },
+          { icon: 'Thermometer', body: 'El **efecto invernadero** es natural y necesario: sin él la Tierra sería helada. El problema es que lo estamos **aumentando**.', reveal: [
+            { icon: 'Factory', front: 'Causa', back: 'Quemar combustibles (gasolina, diésel, carbón) y **bosques** libera gases como el **dióxido de carbono** que atrapan más calor.' },
+            { icon: 'Sun', front: 'Personas', back: 'Sequías más largas en el **Corredor Seco**, pérdida de cosechas, olas de calor y tormentas más fuertes. Algunas familias se ven obligadas a migrar.' },
+            { icon: 'Bird', front: 'Animales', back: 'Algunas especies suben a zonas más altas y frescas; los arrecifes de coral se blanquean y mueren.' },
+            { icon: 'Sprout', front: 'Plantas', back: 'Más incendios forestales; el maíz y el frijol sufren con la falta de lluvia en el momento de crecer.' },
+          ] },
+        ),
+        S.order(
+          { fase: 'construir', areas: ['pyd', 'cnt'], cnb: ['pyd:5.2.2'], ambito: 'conocer', prompt: 'En el bosque cercano a la comunidad, ordena la **cadena alimenticia** empezando por la fuente de energía.',
+            explain: 'La energía del sol pasa a las plantas y de ellas a los animales. Los hongos y bacterias descomponen los restos y devuelven nutrientes al suelo: todos los componentes del ecosistema dependen unos de otros.' },
+          { items: [
+            { id: 'c1', text: 'Sol' },
+            { id: 'c2', text: 'Pasto y plantas' },
+            { id: 'c3', text: 'Conejo' },
+            { id: 'c4', text: 'Coyote' },
+            { id: 'c5', text: 'Hongos y bacterias que descomponen' },
+          ], labels: { start: 'Fuente de energía', end: 'Descomponedores' } },
+        ),
+        S.match(
+          { fase: 'construir', areas: ['pyd', 'cnt'], cnb: ['pyd:5.2.2', 'cnt:7.3.3'], ambito: 'conocer', prompt: 'Une cada **relación** del ecosistema con su ejemplo en la comunidad.',
+            explain: 'Si el calentamiento global afecta a un componente (por ejemplo, menos abejas por el calor), toda la red se afecta: menos polinización significa menos frutos.' },
+          { leftTitle: 'Relación', rightTitle: 'Ejemplo', pairs: [
+            { id: 'pol', left: 'Polinización', leftIcon: 'Flower', right: 'Las abejas llevan polen de flor en flor y ayudan a que haya frutos' },
+            { id: 'dep', left: 'Depredación', leftIcon: 'Bird', right: 'El gavilán caza ratones en la milpa' },
+            { id: 'des', left: 'Descomposición', leftIcon: 'Sprout', right: 'Los hongos convierten las hojas caídas en abono' },
+            { id: 'abi', left: 'Ser vivo y ambiente', leftIcon: 'Droplets', right: 'El maíz necesita agua de lluvia y suelo fértil para crecer' },
+          ] },
+        ),
+        S.slider(
+          { fase: 'aplicar', areas: ['mat', 'cnt'], cnb: ['mat:7.1.5'], ambito: 'hacer',
+            prompt: 'Para enfrentar la sequía, la familia de Rosa cosecha agua de lluvia en un tonel de **2 hectolitros**. ¿Cuántos **litros** caben? Mueve el deslizador.',
+            hint: '1 hectolitro = 100 litros.',
+            explain: '2 hL × 100 = 200 L. Del hectolitro al litro se baja dos lugares: se multiplica por 100.' },
+          { min: 0, max: 400, step: 10, answer: 200, start: 0, unit: 'L', visual: 'line', ticks: [{ value: 0, label: '0' }, { value: 100, label: '100' }, { value: 200, label: '200' }, { value: 300, label: '300' }, { value: 400, label: '400' }] },
+        ),
+        S.fill(
+          { fase: 'aplicar', areas: ['l3', 'cnt'], cnb: ['l3:4.3.2'], ambito: 'conocer',
+            prompt: 'English time! Describe la ilustración de la hidroeléctrica en **presente simple**. Recuerda: con _it_ y _the water_ el verbo lleva **-s**.',
+            explain: 'In the present simple: "The water **falls**", "The turbine **turns**", "The houses **have** light".',
+            media: { id: 's27-d1-illustration', kind: 'image', title: 'The dam', aspect: '4:3',
+              alt: 'Ilustración sencilla de un embalse en una montaña, agua que cae por un tubo, una turbina girando y casas con luz.',
+              brief: 'Ilustración limpia tipo libro de inglés: montaña con embalse azul arriba, tubo blanco que baja, turbina con flechas de giro, poste de luz y tres casas con ventanas iluminadas al anochecer. Sin texto dentro de la imagen para que el niño la describa. Colores planos y contrastados.' } },
+          { text: 'The water [[falls]] down the pipe. The turbine [[turns]] fast. The houses [[have]] light at night.', distractors: ['fall', 'turned'] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.1.3'], prompt: 'Boleto de salida: un balde de agua está en lo alto de un muro y luego cae. ¿Qué pasa con su energía?' },
+          { options: [
+            { id: 'a', text: 'La energía potencial se transforma en cinética al caer' },
+            { id: 'b', text: 'La energía cinética se transforma en potencial al caer', feedback: 'Al revés: arriba tiene potencial por su altura; al caer gana movimiento (cinética).' },
+            { id: 'c', text: 'La energía desaparece', feedback: 'La energía no desaparece: se transforma.' },
+          ], correct: ['a'] },
+        ),
+        S.tf(
+          { fase: 'comprobar', areas: ['cnt', 'mat', 'pyd'], cnb: ['cnt:7.3.3', 'mat:7.1.5', 'pyd:5.2.2'], prompt: '¿Verdadero o falso?' },
+          { statements: [
+            { text: 'Quemar bosques aumenta el efecto invernadero.', answer: true },
+            { text: 'El calentamiento global solo afecta a las personas, no a las plantas ni a los animales.', answer: false, why: 'Afecta a todos: cosechas, especies que cambian de lugar, arrecifes que se blanquean.' },
+            { text: '1 litro tiene 1,000 mililitros.', answer: true },
+            { text: 'Los hongos que descomponen no forman parte del ecosistema.', answer: false, why: 'Son indispensables: devuelven los nutrientes al suelo.' },
+          ] },
+        ),
+        cierre({ areas: ['cnt', 'pyd'], cnb: ['cnt:7.3.3'] }, ['Diferencio energía potencial y cinética', 'Explico cómo el calentamiento global afecta la vida humana, animal y vegetal', 'Convierto litros a sus múltiplos y submúltiplos'],
+          ['Ahorraré electricidad apagando focos que no uso', 'Propondré en casa cosechar agua de lluvia', 'Cuidaré los árboles y plantas que sostienen mi ecosistema']),
+      ],
+    }),
+
+    /* ───────────────────────── Día 2 ───────────────────────── */
+    lesson({
+      id: 's27-d2-metales-jade',
+      title: 'Metales, jade y palabras',
+      icon: 'Gem',
+      minutes: 14,
+      day: 2,
+      gancho: '¿Cuántos objetos de metal hay a tu alrededor ahora mismo? ¿De dónde salió ese metal?',
+      objetivos: ['Describir ventajas y desventajas de la minería y del uso de metales y minerales', 'Conocer la historia del arte guatemalteco', 'Convertir gramos a sus múltiplos y submúltiplos', 'Formar familias de palabras, aumentativos y diminutivos', 'Reconocer palabras que vienen de otros idiomas'],
+      resumen: [
+        'La minería extrae metales y minerales para cables, herramientas, construcción, teléfonos y artesanías; genera empleo e impuestos. Pero los minerales no son renovables y la minería puede contaminar el agua, talar bosques y causar conflictos si no se consulta a las comunidades.',
+        'El arte guatemalteco tiene una larga historia: el arte maya (jade, estelas y murales), el arte colonial (imágenes religiosas, retablos y platería), el arte moderno (pintores como Carlos Mérida) y el arte contemporáneo, como la pintura de San Juan Comalapa.',
+        'Múltiplos del gramo: kilogramo (1,000 g), hectogramo (100 g), decagramo (10 g). Submúltiplos: decigramo (0.1 g), centigramo (0.01 g), miligramo (0.001 g).',
+        'Una familia de palabras comparte la misma raíz (plata, platero, platería, plateado). Los aumentativos (-ote, -ón, -azo) agrandan y los diminutivos (-ito, -illo) achican.',
+        'El español tomó palabras de otros idiomas: del náhuatl (tomate, aguacate, chocolate), del árabe (almohada, azúcar, aceite) y del inglés (fútbol, internet).',
+      ],
+      media: {
+        id: 's27-d2-arte', kind: 'image', title: 'Línea del tiempo del arte guatemalteco', aspect: '16:9',
+        alt: 'Cuatro obras en fila: una máscara de jade maya, una escultura religiosa colonial, una pintura moderna de formas geométricas y una pintura colorida de un pueblo con su feria.',
+        brief: 'Ilustración tipo museo con cuatro marcos sobre una línea del tiempo: (1) "Maya" — máscara de mosaico de jade verde y fragmento de estela tallada; (2) "Colonial" — escultura policromada de madera con dorados y un cáliz de plata; (3) "Moderno" — pintura de formas geométricas y colores inspirados en textiles (estilo inspirado en el muralismo guatemalteco, sin copiar obras reales); (4) "Contemporáneo" — pintura naíf colorida de un pueblo del altiplano con feria, al estilo de los pintores de Comalapa. Recrear obras genéricas, no reproducir piezas con derechos.',
+      },
+      steps: [
+        S.choice(
+          { fase: 'explorar', areas: ['cnt', 'pyd'], cnb: ['cnt:7.2.3'], ambito: 'conocer',
+            prompt: 'Rosa revisa su casa. ¿Cuáles de estos objetos se hicieron con **metales o minerales** extraídos de la tierra? Elige **todos** los correctos.',
+            explain: 'El celular tiene cobre, oro y otros metales; las láminas son de metal; el cemento viene de minerales como la piedra caliza. Casi todo lo que usamos depende de la minería.' },
+          { multiple: true, layout: 'grid', options: [
+            { id: 'a', text: 'El celular', icon: 'Smartphone' },
+            { id: 'b', text: 'La lámina del techo', icon: 'Home' },
+            { id: 'c', text: 'Los cables de la luz', icon: 'Zap' },
+            { id: 'd', text: 'El piso de cemento', icon: 'Square' },
+            { id: 'e', text: 'Una tortilla', icon: 'Circle', feedback: 'La tortilla viene del maíz, una planta. (Aunque se usa cal para el nixtamal, la tortilla no es un objeto de metal.)' },
+          ], correct: ['a', 'b', 'c', 'd'] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:7.2.3'], ambito: 'conocer',
+            prompt: 'La comunidad discute si aceptar un proyecto minero. Clasifica cada argumento como **ventaja** o **desventaja**.',
+            hint: 'Piensa en el empleo y los materiales, pero también en el agua, el bosque y la convivencia.',
+            explain: 'La minería tiene beneficios y riesgos. Por eso es importante informarse, consultar a las comunidades y exigir que se cuide el ambiente. Los minerales no son renovables: cuando se acaban, no vuelven.',
+            media: { id: 's27-d2-mina', kind: 'image', title: 'Una balanza de decisiones', aspect: '4:3',
+              alt: 'Balanza con dos platos: en uno, herramientas, cables y monedas; en el otro, un río turbio, árboles cortados y personas discutiendo.',
+              brief: 'Ilustración simbólica: gran balanza antigua sobre un paisaje de montaña. Plato izquierdo "Ventajas": casco de minero, rollo de cable de cobre, varillas de hierro y monedas. Plato derecho "Desventajas": vaso de agua turbia, tocones de árboles, montaña con un hueco y dos grupos de personas discutiendo. Balanza equilibrada para invitar a pensar. Estilo plano, sin empresas ni personas reales.' } },
+          { buckets: [
+            { id: 'ven', label: 'Ventaja', icon: 'ThumbsUp', color: 'var(--c-ok)' },
+            { id: 'des', label: 'Desventaja', icon: 'AlertTriangle', color: 'var(--area-cnt)' },
+          ], items: [
+            { id: 'm1', text: 'Da empleo a personas de la región', bucket: 'ven' },
+            { id: 'm2', text: 'Produce metales para cables, herramientas y construcción', bucket: 'ven' },
+            { id: 'm3', text: 'Paga impuestos que pueden usarse en obras públicas', bucket: 'ven' },
+            { id: 'm4', text: 'Puede contaminar ríos con sustancias tóxicas', bucket: 'des' },
+            { id: 'm5', text: 'Tala bosques y cambia el paisaje', bucket: 'des' },
+            { id: 'm6', text: 'Los minerales se agotan: no son renovables', bucket: 'des' },
+          ] },
+        ),
+        S.match(
+          { fase: 'construir', areas: ['art', 'ccss', 'cnt'], cnb: ['art:4.1.4', 'cnt:7.2.3'], ambito: 'conocer',
+            prompt: 'Los minerales también han sido **arte**. Une cada época del arte guatemalteco con una obra característica.',
+            explain: 'Los mayas tallaron jade del valle del río Motagua; en la Colonia se hicieron retablos dorados y platería; en el siglo XX, artistas como Carlos Mérida unieron lo moderno con lo maya; hoy, pintores de Comalapa retratan la vida de sus pueblos.' },
+          { leftTitle: 'Época', rightTitle: 'Obra característica', pairs: [
+            { id: 'may', left: 'Maya prehispánico', leftIcon: 'Gem', right: 'Máscaras y joyas de jade, estelas talladas' },
+            { id: 'col', left: 'Colonial', leftIcon: 'Church', right: 'Retablos dorados, esculturas religiosas y objetos de plata' },
+            { id: 'mod', left: 'Moderno (siglo XX)', leftIcon: 'Shapes', right: 'Pinturas y murales que mezclan formas modernas con lo maya' },
+            { id: 'con', left: 'Contemporáneo', leftIcon: 'Palette', right: 'Pintura colorida de la vida de los pueblos, como la de Comalapa' },
+          ] },
+        ),
+        S.explain(
+          { fase: 'construir', areas: ['mat', 'art'], cnb: ['mat:7.1.4'], ambito: 'conocer', title: 'El gramo y su familia',
+            prompt: 'Un artesano pesa sus materiales: **0.5 kg** de plata, un dije de jade de **25 g** y un hilo de oro de **800 mg**. Todas son medidas de la familia del **gramo**.' },
+          { icon: 'Scale', body: 'Igual que con el metro y el litro, cada unidad es **10 veces** la siguiente.', reveal: [
+            { icon: 'Package', front: 'Múltiplos', back: '1 kg = 1,000 g · 1 hg = 100 g · 1 dag = 10 g' },
+            { icon: 'Gem', front: 'Submúltiplos', back: '1 dg = 0.1 g · 1 cg = 0.01 g · 1 mg = 0.001 g' },
+            { icon: 'Calculator', front: 'Ejemplos', back: '0.5 kg × 1,000 = **500 g**. 800 mg ÷ 1,000 = **0.8 g**.' },
+          ] },
+        ),
+        S.number(
+          { fase: 'aplicar', areas: ['mat', 'art'], cnb: ['mat:7.1.4'], prompt: 'Supongamos que el artesano tiene **0.5 kg** de plata y cada pulsera usa **25 g**. ¿Cuántas pulseras puede hacer?',
+            hint: 'Convierte primero 0.5 kg a gramos.',
+            explain: '0.5 kg = 500 g; 500 ÷ 25 = 20 pulseras.' },
+          { answer: 20, unit: 'pulseras', misconceptions: [{ value: 0.02, msg: 'Convierte los kilogramos a gramos antes de dividir: 0.5 kg = 500 g.' }, { value: 12.5, msg: 'Parece que usaste 0.5 × 25. Hay que dividir 500 g entre 25 g.' }] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:7.2.4'], ambito: 'conocer',
+            prompt: 'Con la palabra **plata** se forma una **familia de palabras**. Y con **piedra** y **casa** podemos hacer aumentativos y diminutivos. Clasifica cada palabra.',
+            explain: 'Familia de palabras: comparten la raíz (plat-). Diminutivos: -ito, -ita, -illo. Aumentativos: -ote, -ota, -ón, -azo.' },
+          { buckets: [
+            { id: 'fam', label: 'Familia de "plata"', icon: 'Gem', color: 'var(--area-l1)' },
+            { id: 'dim', label: 'Diminutivo', icon: 'Minus', color: 'var(--c-ok)' },
+            { id: 'aum', label: 'Aumentativo', icon: 'Plus', color: 'var(--area-cnt)' },
+          ], items: [
+            { id: 'p1', text: 'platero', bucket: 'fam' },
+            { id: 'p2', text: 'platería', bucket: 'fam' },
+            { id: 'p3', text: 'plateado', bucket: 'fam' },
+            { id: 'p4', text: 'piedrita', bucket: 'dim' },
+            { id: 'p5', text: 'casita', bucket: 'dim' },
+            { id: 'p6', text: 'piedrota', bucket: 'aum' },
+            { id: 'p7', text: 'casona', bucket: 'aum' },
+          ] },
+        ),
+        S.match(
+          { fase: 'aplicar', areas: ['l1', 'ccss'], cnb: ['l1:6.3.1'], ambito: 'conocer',
+            prompt: 'Las palabras también **migran**. Une cada grupo de palabras con el idioma del que llegaron al español.',
+            explain: 'El náhuatl era el idioma de los mexicas; el árabe llegó a España durante siglos de convivencia; el inglés llega hoy con la tecnología y el deporte. Conocer el origen de las palabras enriquece tu vocabulario.' },
+          { leftTitle: 'Palabras', rightTitle: 'Idioma de origen', pairs: [
+            { id: 'nah', left: 'tomate, aguacate, chocolate', leftIcon: 'Apple', right: 'Náhuatl' },
+            { id: 'ara', left: 'almohada, azúcar, aceite', leftIcon: 'Moon', right: 'Árabe' },
+            { id: 'ing', left: 'fútbol, internet, béisbol', leftIcon: 'Laptop', right: 'Inglés' },
+          ] },
+        ),
+        S.fill(
+          { fase: 'comprobar', areas: ['mat'], cnb: ['mat:7.1.4'], prompt: 'Boleto de salida: completa las equivalencias.' },
+          { text: '2 kg = [[2000|2,000]] g\n3 hg = [[300]] g\n500 mg = [[0.5]] g', distractors: ['200', '30', '5'] },
+        ),
+        S.tf(
+          { fase: 'comprobar', areas: ['cnt', 'l1', 'art'], cnb: ['cnt:7.2.3', 'l1:7.2.4', 'l1:6.3.1', 'art:4.1.4'], prompt: '¿Verdadero o falso?' },
+          { statements: [
+            { text: 'Los minerales son recursos no renovables.', answer: true },
+            { text: '"Casona" es un diminutivo de casa.', answer: false, why: '"Casona" es un aumentativo; el diminutivo es "casita".' },
+            { text: 'La palabra "chocolate" llegó al español desde el náhuatl.', answer: true },
+            { text: 'Los mayas tallaron objetos de jade.', answer: true },
+          ] },
+        ),
+        cierre({ areas: ['cnt', 'l1'], cnb: ['cnt:7.2.3'] }, ['Explico ventajas y desventajas de la minería', 'Convierto gramos a sus múltiplos y submúltiplos', 'Formo familias de palabras, aumentativos y diminutivos'],
+          ['Reutilizaré objetos de metal en lugar de tirarlos', 'Visitaré o buscaré imágenes de arte guatemalteco de distintas épocas', 'Buscaré el origen de tres palabras que uso a diario']),
+      ],
+    }),
+
+    /* ───────────────────────── Día 3 ───────────────────────── */
+    lesson({
+      id: 's27-d3-migrar-global',
+      title: 'Migrar en un mundo global',
+      icon: 'Plane',
+      minutes: 15,
+      day: 3,
+      gancho: '¿Conoces a alguien que se haya ido a vivir a otro departamento o a otro país? ¿Por qué se fue?',
+      objetivos: ['Relacionar migración, emigración e inmigración', 'Identificar causas y consecuencias de la globalización en Guatemala', 'Identificar las doctrinas de dominio de Estados Unidos y el desarrollo del siglo XXI', 'Diferenciar una crónica de una carta', 'Leer en inglés sobre costumbres de Estados Unidos'],
+      resumen: [
+        'Migrar es trasladarse a vivir a otro lugar. Desde el país que se deja se llama emigración; desde el país que recibe, inmigración. También hay migración interna, por ejemplo del campo a la ciudad o a las cosechas de la costa.',
+        'La globalización conecta a los países por el comercio, la tecnología y las comunicaciones. En Guatemala trae productos, información y remesas, pero también competencia para productores locales, migración y cambios culturales.',
+        'Estados Unidos extendió su poder en América con doctrinas como la Doctrina Monroe (1823, "América para los americanos") y la política del Gran Garrote (inicios del siglo XX). En 1954 su gobierno apoyó el derrocamiento del presidente guatemalteco Jacobo Árbenz.',
+        'El siglo XXI se caracteriza por la expansión de internet, los teléfonos inteligentes y las redes sociales, el crecimiento de nuevas potencias como China, los acuerdos contra el cambio climático y retos mundiales como la pandemia de 2020.',
+        'La crónica narra hechos reales en orden de tiempo; la carta (texto epistolar) se dirige a alguien y tiene lugar y fecha, saludo, cuerpo, despedida y firma.',
+      ],
+      media: {
+        id: 's27-d3-remesa', kind: 'video', title: 'Dos casas, una familia', aspect: '16:9', duration: 55,
+        alt: 'Pantalla dividida: a un lado, un tío trabaja en una construcción en otro país; al otro, su familia en Huehuetenango recibe su llamada y compra útiles escolares.',
+        brief: 'Video o animación de 55 s en pantalla dividida. Izquierda: un hombre guatemalteco trabajando en una construcción en una ciudad de Estados Unidos, luego cocinando solo en un apartamento pequeño y mirando fotos de su familia. Derecha: su familia en una casa de Huehuetenango: la abuela, la mamá y Rosa reciben su videollamada, compran útiles escolares y siembran. Ambos lados se unen al final con un abrazo virtual por la pantalla. Tono cálido y respetuoso, sin estereotipos ni juicios; sin banderas ni marcas.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['cnt', 'ccss'], cnb: ['cnt:6.5.3'], ambito: 'conocer', title: 'Irse y llegar',
+            prompt: 'La migración es un **elemento de la población**, como la natalidad y la mortalidad. Toca cada tarjeta.' },
+          { icon: 'Route', body: 'Una misma persona es **emigrante** para el lugar que deja e **inmigrante** para el lugar al que llega.', reveal: [
+            { icon: 'Route', front: 'Migración', back: 'Movimiento de personas para vivir en **otro lugar**, dentro del país o hacia otro país.' },
+            { icon: 'Plane', front: 'Emigración', back: '**Salir** del propio país. El tío de Rosa **emigró** de Guatemala.' },
+            { icon: 'Home', front: 'Inmigración', back: '**Llegar** a otro país para vivir. En Estados Unidos, el tío de Rosa es un **inmigrante**.' },
+            { icon: 'Tractor', front: 'Migración interna', back: 'Dentro del país: del campo a la ciudad, o a las cosechas de café y caña en la costa.' },
+          ] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['ccss', 'cnt'], cnb: ['ccss:6.6.8', 'cnt:6.5.3'], ambito: 'conocer', prompt: 'Clasifica cada enunciado sobre la **globalización** en Guatemala.',
+            hint: 'Las causas explican por qué ocurre; las consecuencias, qué produce.',
+            explain: 'La tecnología, el transporte y los tratados de comercio impulsan la globalización. Sus consecuencias en Guatemala son positivas y negativas: por eso hay que analizarlas con cuidado.' },
+          { buckets: [
+            { id: 'cau', label: 'Causa', icon: 'Search', color: 'var(--area-ccss)' },
+            { id: 'pos', label: 'Consecuencia positiva', icon: 'ThumbsUp', color: 'var(--c-ok)' },
+            { id: 'neg', label: 'Consecuencia negativa', icon: 'AlertTriangle', color: 'var(--area-cnt)' },
+          ], items: [
+            { id: 'g1', text: 'Internet y teléfonos celulares conectan al mundo', bucket: 'cau' },
+            { id: 'g2', text: 'Tratados de libre comercio entre países', bucket: 'cau' },
+            { id: 'g3', text: 'Las familias reciben remesas que ayudan a cubrir estudios y salud', bucket: 'pos' },
+            { id: 'g4', text: 'Acceso a información y productos de todo el mundo', bucket: 'pos' },
+            { id: 'g5', text: 'Productores locales compiten con productos importados más baratos', bucket: 'neg' },
+            { id: 'g6', text: 'Familias separadas por la migración', bucket: 'neg' },
+          ] },
+        ),
+        S.match(
+          { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.3', 'ccss:6.6.3'], ambito: 'conocer',
+            prompt: 'Une cada hecho con lo que significó. Los primeros dos muestran el **poderío norteamericano** en el continente; los últimos, el mundo del **siglo XXI**.',
+            explain: 'Estas doctrinas marcaron a América Latina; en Guatemala, en 1954, el gobierno de EE. UU. apoyó el derrocamiento del presidente Jacobo Árbenz. En el siglo XXI el poder mundial se reparte entre más países y los retos, como el clima y las pandemias, son globales.' },
+          { leftTitle: 'Hecho', rightTitle: 'Significado', pairs: [
+            { id: 'mon', left: 'Doctrina Monroe (1823)', leftIcon: 'ScrollText', right: '"América para los americanos": EE. UU. rechazaba la intervención europea y se declaraba protector del continente' },
+            { id: 'gar', left: 'Política del Gran Garrote (inicios del siglo XX)', leftIcon: 'Gavel', right: 'EE. UU. usaba su fuerza militar y económica para imponer sus intereses en países vecinos' },
+            { id: 'int', left: 'Expansión de internet y teléfonos inteligentes', leftIcon: 'Smartphone', right: 'Comunicación instantánea en todo el mundo' },
+            { id: 'par', left: 'Acuerdo de París (2015)', leftIcon: 'Globe', right: 'Compromiso de casi todos los países para frenar el calentamiento global' },
+          ] },
+        ),
+        S.reading(
+          { fase: 'aplicar', areas: ['l2', 'cnt', 'fc'], cnb: ['l2:5.4.1', 'cnt:6.5.3'], ambito: 'conocer', prompt: 'Lee los dos textos y responde.' },
+          { genre: 'Carta y crónica', heading: 'Dos textos, una misma historia', passage:
+            '**Texto 1**\n\nChicago, 3 de marzo.\n\nQuerida Rosa:\n\nTe extraño mucho a ti, a la abuela y a tu mamá. Aquí hace mucho frío y trabajo largas jornadas, pero pienso en ustedes cada día. Estudia mucho, que tu futuro es lo más importante.\n\nCon cariño, tu tío Mateo.\n\n**Texto 2**\n\nEl sábado, a las seis de la mañana, la familia de Rosa se reunió en la cocina. A las siete sonó el teléfono: era el tío Mateo. Primero habló con la abuela; luego, con Rosa, que le mostró su diploma. Al mediodía, la familia fue al mercado a comprar los útiles escolares. Por la tarde, Rosa escribió una respuesta a su tío.',
+            questions: [
+              { q: '¿Qué tipo de texto es el **Texto 1**?', options: [
+                { id: 'a', text: 'Una carta, porque tiene lugar y fecha, saludo, cuerpo, despedida y firma' },
+                { id: 'b', text: 'Una crónica, porque narra hechos en orden de horas' },
+                { id: 'c', text: 'Un poema' },
+              ], correct: 'a' },
+              { q: '¿Qué tipo de texto es el **Texto 2**?', options: [
+                { id: 'a', text: 'Una carta' },
+                { id: 'b', text: 'Una crónica, porque narra hechos reales en orden de tiempo' },
+                { id: 'c', text: 'Una receta' },
+              ], correct: 'b', why: 'Las marcas de tiempo (a las seis, a las siete, al mediodía, por la tarde) son típicas de la crónica.' },
+              { q: 'Para el tío Mateo, ¿qué es Estados Unidos?', options: [
+                { id: 'a', text: 'El país al que inmigró' },
+                { id: 'b', text: 'El país del que emigró' },
+                { id: 'c', text: 'Su lugar de nacimiento' },
+              ], correct: 'a', why: 'Emigró de Guatemala e inmigró a Estados Unidos.' },
+            ] },
+        ),
+        S.reading(
+          { fase: 'aplicar', areas: ['l3', 'art'], cnb: ['l3:5.1.2', 'art:4.1.3'], ambito: 'conocer', prompt: 'English time! El primo de Rosa, que vive en Estados Unidos, le escribe sobre las fiestas de allá. Lee y responde.',
+            media: { id: 's27-d3-holidays', kind: 'image', title: 'Holidays in the USA', aspect: '16:9',
+              alt: 'Cuatro viñetas: tarjetas con corazones, fuegos artificiales en verano, un árbol de Navidad con luces y una familia celebrando a medianoche.',
+              brief: 'Ilustración en cuatro viñetas con rótulos en inglés: "Valentine\'s Day – February 14" (niños intercambiando tarjetas con corazones en un aula), "Independence Day – July 4" (desfile y fuegos artificiales en un parque), "Christmas – December 25" (familia cantando junto a un árbol con luces), "New Year\'s Day – January 1" (familia diversa brindando con jugo a medianoche). Estilo plano, personajes diversos, sin marcas ni personajes comerciales.' } },
+          { genre: 'Short story', heading: 'Holidays with my cousin', passage:
+            'Hi Rosa! Here in the USA, people celebrate many holidays. On February 14, Valentine\'s Day, children give cards with hearts to their friends. On July 4, Independence Day, there are parades and fireworks. At Christmas, my school choir sings "Jingle Bells", an old song from this country. We practice in groups: first we listen, then we learn the words, and finally we sing together. On New Year\'s Day, we have a big family dinner. I miss tamales at Christmas! Love, Kevin.',
+            questions: [
+              { q: 'What do children give on Valentine\'s Day?', options: [{ id: 'a', text: 'Cards with hearts' }, { id: 'b', text: 'Fireworks' }, { id: 'c', text: 'Tamales' }], correct: 'a' },
+              { q: 'When is Independence Day in the USA?', options: [{ id: 'a', text: 'On July 4' }, { id: 'b', text: 'On September 15' }, { id: 'c', text: 'On December 25' }], correct: 'a', why: 'El 15 de septiembre es la independencia de Guatemala; la de Estados Unidos es el 4 de julio.' },
+              { q: '¿Cómo interpreta el coro una canción de otra cultura?', options: [{ id: 'a', text: 'En grupo: escuchan, aprenden la letra y cantan juntos' }, { id: 'b', text: 'Cada quien canta una canción distinta' }, { id: 'c', text: 'No la cantan' }], correct: 'a', why: 'Interpretar en grupo obras de otras culturas nos acerca a ellas y exige escucharnos y coordinarnos.' },
+            ] },
+        ),
+        S.write(
+          { fase: 'aplicar', areas: ['l2', 'cnt'], cnb: ['l2:5.2.6'], ambito: 'hacer',
+            prompt: 'Escribe el **inicio de un cuento** sobre una niña o un niño que se despide de un familiar que migra. Deja claros el **lugar**, el **tiempo** y el **ambiente** (cómo se siente el lugar). Puedes usar lenguaje figurado.',
+            hint: 'Por ejemplo: "Era una madrugada fría de enero en la aldea…". Describe qué se oye, qué se ve y cómo se sienten.' },
+          { minWords: 45, placeholder: 'Era una madrugada…',
+            model: 'Era una madrugada fría de enero en una aldea de Huehuetenango. La neblina abrazaba las casas y solo se oía el canto de los gallos. En la cocina, el fuego del poyo iluminaba la cara triste de Juanita. Su papá guardaba sus pocas cosas en una mochila vieja. El silencio pesaba como una piedra en el pecho de todos.',
+            rubric: ['Indica el lugar donde ocurre la historia', 'Indica el tiempo (época, hora o momento)', 'Describe el ambiente con detalles de lo que se ve, se oye o se siente', 'Usa lenguaje cotidiano o figurado de forma adecuada'] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['cnt', 'ccss'], cnb: ['cnt:6.5.3'], prompt: 'Boleto de salida: una familia salvadoreña llega a vivir a Guatemala. Para Guatemala, esa familia es…' },
+          { options: [
+            { id: 'a', text: 'Inmigrante' },
+            { id: 'b', text: 'Emigrante', feedback: 'Es emigrante para El Salvador, el país que dejó. Para Guatemala, que la recibe, es inmigrante.' },
+            { id: 'c', text: 'Turista', feedback: 'Un turista visita por poco tiempo; esta familia llega a vivir.' },
+          ], correct: ['a'] },
+        ),
+        S.tf(
+          { fase: 'comprobar', areas: ['ccss', 'l2'], cnb: ['ccss:6.5.3', 'ccss:6.6.3', 'ccss:6.6.8', 'l2:5.4.1'], prompt: '¿Verdadero o falso?' },
+          { statements: [
+            { text: 'La Doctrina Monroe se resume en la frase "América para los americanos".', answer: true },
+            { text: 'Las remesas son una consecuencia de la migración y la globalización en Guatemala.', answer: true },
+            { text: 'Una carta no necesita saludo ni despedida.', answer: false, why: 'La carta tiene lugar y fecha, saludo, cuerpo, despedida y firma.' },
+            { text: 'En el siglo XXI, los teléfonos inteligentes y las redes sociales se volvieron parte de la vida diaria en todo el mundo.', answer: true },
+          ] },
+        ),
+        cierre({ areas: ['ccss', 'fc'], cnb: ['ccss:6.6.8'] }, ['Distingo emigración e inmigración', 'Explico causas y consecuencias de la globalización en Guatemala', 'Diferencio una crónica de una carta'],
+          ['Escribiré una carta a un familiar que viva lejos', 'Trataré con respeto a las personas migrantes', 'Conversaré en casa sobre cómo la globalización cambia nuestra vida']),
+      ],
+    }),
+
+    /* ───────────────────────── Día 4 ───────────────────────── */
+    lesson({
+      id: 's27-d4-democracia-reconciliacion',
+      title: 'Decidir juntos y reconciliarnos',
+      icon: 'Handshake',
+      minutes: 15,
+      day: 4,
+      gancho: 'Si en tu grado hay un problema que afecta a todos, ¿cómo deciden qué hacer?',
+      objetivos: ['Identificar los elementos del sistema democrático', 'Construir el árbol de un problema y describir consecuencias de distintas acciones', 'Describir los pasos de un proceso de reconciliación', 'Formular reglas de juego, confiar en el equipo y cumplir tu rol', 'Ampliar párrafos con enlaces y comparaciones y escribir con coherencia'],
+      resumen: [
+        'Elementos de la democracia: el poder viene del pueblo; elecciones libres y periódicas; separación de poderes (Ejecutivo, Legislativo y Judicial); respeto a la ley y a los derechos humanos; libertad de expresión y pluralidad de partidos.',
+        'En el árbol del problema, las raíces son las causas, el tronco es el problema y las ramas son los efectos. Distintas acciones producen distintas consecuencias.',
+        'Tras el conflicto armado interno, los informes REMHI (1998) y de la CEH (1999) recomendaron pasos para la reconciliación: conocer la verdad, dignificar a las víctimas, reparar el daño, hacer justicia y garantizar que no se repita.',
+        'Un buen equipo formula reglas justas, confía en las posibilidades de cada integrante y cada quien cumple su rol.',
+        'Para ampliar un párrafo se usan enlaces (además, sin embargo, por eso), preposiciones y comparaciones (más… que, tan… como). Un texto es coherente cuando todas sus ideas hablan del mismo tema en orden lógico.',
+      ],
+      media: {
+        id: 's27-d4-arbol', kind: 'diagram', title: 'El árbol del problema', aspect: '3:4',
+        alt: 'Árbol dibujado con raíces rotuladas como causas, tronco como problema central y ramas como efectos.',
+        brief: 'Diagrama vertical de un árbol grande estilo cartel escolar: RAÍCES (café) con tres tarjetas en blanco rotuladas "Causa"; TRONCO con una tarjeta "Problema central"; RAMAS (verde) con tres tarjetas "Efecto". Ejemplo escrito a mano en el tronco: "Conflictos por el agua en la aldea". Leyenda lateral: "Raíces = causas · Tronco = problema · Ramas = efectos". Colores planos, fácil de imprimir.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['ccss', 'fc'], cnb: ['ccss:6.7.2'], ambito: 'conocer', title: 'Los pilares de la democracia',
+            prompt: 'La comunidad de Rosa se reúne para decidir cómo repartir el agua en la sequía. Para que sea una decisión **democrática**, se necesitan varios pilares. Toca cada tarjeta.' },
+          { icon: 'Landmark', body: 'La democracia es el gobierno **del pueblo**. En Guatemala, el poder se divide en tres organismos: **Ejecutivo, Legislativo y Judicial**.', reveal: [
+            { icon: 'Vote', front: 'Elecciones libres', back: 'La ciudadanía **elige** a sus autoridades de forma libre, secreta y periódica.' },
+            { icon: 'Scale', front: 'Separación de poderes', back: 'Uno **ejecuta**, otro hace las **leyes** y otro **juzga**: ninguno tiene todo el poder.' },
+            { icon: 'ScrollText', front: 'Estado de derecho', back: 'Todas las personas, incluso las autoridades, deben **cumplir la ley**.' },
+            { icon: 'Megaphone', front: 'Derechos y libertades', back: 'Libertad de **expresión**, de organización y respeto a los **derechos humanos** y a las minorías.' },
+          ] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['fc', 'cnt'], cnb: ['fc:4.4.1'], ambito: 'convivir',
+            prompt: 'Construye el **árbol del problema** "Conflictos entre vecinos por el agua". Coloca cada tarjeta en las **raíces** (causas) o en las **ramas** (efectos).',
+            hint: 'Pregúntate: ¿esto provoca el problema o es algo que el problema produce?',
+            explain: 'Al ver las causas, la comunidad puede atacar el problema desde la raíz: reforestar, hacer acuerdos de turnos, cosechar agua de lluvia.' },
+          { buckets: [
+            { id: 'cau', label: 'Raíces: causas', icon: 'Sprout', color: 'var(--area-pyd)' },
+            { id: 'efe', label: 'Ramas: efectos', icon: 'TreeDeciduous', color: 'var(--c-quetzal)' },
+          ], items: [
+            { id: 'a1', text: 'Tala del bosque cerca del nacimiento', bucket: 'cau' },
+            { id: 'a2', text: 'Sequías más largas por el cambio climático', bucket: 'cau' },
+            { id: 'a3', text: 'No hay acuerdo de turnos para usar el agua', bucket: 'cau' },
+            { id: 'a4', text: 'Discusiones y peleas entre vecinos', bucket: 'efe' },
+            { id: 'a5', text: 'Enfermedades por usar agua sucia', bucket: 'efe' },
+            { id: 'a6', text: 'Algunas familias deciden migrar', bucket: 'efe' },
+          ] },
+        ),
+        S.match(
+          { fase: 'construir', areas: ['fc', 'ccss'], cnb: ['fc:4.4.2', 'fc:4.4.1'], ambito: 'convivir',
+            prompt: 'En el **mapa del problema** se ubican los actores y sus acciones. Une cada acción con su **consecuencia** más probable.',
+            explain: 'Las acciones que buscan acuerdos y atacan las causas reducen el conflicto; las que usan la fuerza o ignoran el problema lo agravan.' },
+          { leftTitle: 'Acción', rightTitle: 'Consecuencia', pairs: [
+            { id: 'asa', left: 'Asamblea que acuerda turnos por escrito', leftIcon: 'Users', right: 'Todas las familias reciben agua y bajan las peleas' },
+            { id: 'ref', left: 'Reforestar el nacimiento', leftIcon: 'Trees', right: 'Con los años, el nacimiento da más agua' },
+            { id: 'fue', left: 'Una familia rompe la tubería de otra', leftIcon: 'Hammer', right: 'Crece el enojo y el conflicto se vuelve más grave' },
+            { id: 'nad', left: 'No hacer nada', leftIcon: 'EyeOff', right: 'El problema sigue y aumenta cada verano' },
+          ] },
+        ),
+        S.order(
+          { fase: 'construir', areas: ['fc', 'ccss'], cnb: ['fc:4.5.3'], ambito: 'convivir',
+            prompt: 'Después del **conflicto armado interno** (que terminó con la firma de la paz el 29 de diciembre de 1996), los informes **REMHI** ("Guatemala: Nunca más", 1998) y de la **CEH** ("Guatemala, memoria del silencio", 1999) recomendaron pasos para la **reconciliación**. Ordénalos.',
+            explain: 'La reconciliación es un camino largo: primero se conoce la verdad; luego se dignifica y repara a las víctimas, se hace justicia y se educa para que no se repita. Es un tema serio: conversa sobre él con tu familia y tus maestros.',
+            media: { id: 's27-d4-memoria', kind: 'image', title: 'Caminos de reconciliación', aspect: '16:9',
+              alt: 'Cinco escalones que suben hacia un árbol en flor; en cada escalón, un ícono: una lupa, una flor, manos que sostienen, una balanza y un aula.',
+              brief: 'Ilustración simbólica y serena: escalera de cinco escalones de piedra que sube hacia un árbol de ceiba en flor. En cada escalón, un ícono grande y una palabra: lupa ("Verdad"), flor sobre un nombre sin texto legible ("Dignificar"), manos que sostienen una semilla ("Reparar"), balanza ("Justicia"), aula con niñas y niños ("Nunca más"). Colores suaves, sin personas identificables ni escenas de violencia.' } },
+          { items: [
+            { id: 'r1', text: 'Conocer y reconocer la verdad de lo que ocurrió' },
+            { id: 'r2', text: 'Dignificar a las víctimas y conservar la memoria' },
+            { id: 'r3', text: 'Reparar el daño a las víctimas y sus familias' },
+            { id: 'r4', text: 'Hacer justicia conforme a la ley' },
+            { id: 'r5', text: 'Educar y garantizar que no se repita' },
+          ], labels: { start: 'Primer paso', end: 'Último paso' } },
+        ),
+        S.cards(
+          { fase: 'construir', areas: ['ef', 'fc'], cnb: ['ef:4.2.1', 'ef:4.1.10'], ambito: 'convivir',
+            prompt: 'Para el torneo de la comunidad, cada integrante del equipo tiene un **rol**. Voltea cada tarjeta para descubrir cómo se cumple bien.' },
+          { cards: [
+            { front: 'Capitana o capitán', back: 'Anima al equipo, habla con el árbitro con respeto y ayuda a organizar las posiciones.', icon: 'Flag' },
+            { front: 'Defensa', back: 'Cuida su zona, marca al rival y confía en que sus compañeros cubren las otras zonas.', icon: 'Shield' },
+            { front: 'Ataque', back: 'Busca espacios, pasa a quien está mejor ubicado y no juega solo.', icon: 'Target' },
+            { front: 'Suplente', back: 'Observa el juego, apoya desde afuera y entra listo cuando le toca: también es parte del equipo.', icon: 'Users' },
+          ] },
+        ),
+        S.write(
+          { fase: 'aplicar', areas: ['ef', 'l1'], cnb: ['ef:4.1.6', 'ef:4.1.10', 'l1:7.3.3'], ambito: 'convivir',
+            prompt: 'Formula **cuatro reglas** para un juego del torneo que sean **justas** para todos (equipos mixtos, distintas habilidades) y que ayuden a **confiar** en los demás. Escríbelas numeradas y con coherencia.',
+            hint: 'Piensa en: cuántos jugadores, cómo se anota, qué no se permite y cómo se incluye a todos.' },
+          { minWords: 35, placeholder: '1. …',
+            model: '1. Cada equipo tiene seis jugadores, con al menos tres niñas y tres niños. 2. Antes de anotar, el balón debe pasar por tres compañeros diferentes. 3. No se permite empujar ni burlarse; si pasa, el equipo pierde el balón. 4. Todos los integrantes, incluidos los suplentes, juegan al menos un tiempo completo.',
+            rubric: ['Escribe cuatro reglas claras y numeradas', 'Las reglas son justas e incluyen a todos', 'Al menos una regla promueve la confianza o la cooperación', 'Las reglas no se contradicen entre sí (coherencia)'] },
+        ),
+        S.fill(
+          { fase: 'aplicar', areas: ['l1', 'ccss'], cnb: ['l1:7.3.2'], ambito: 'hacer',
+            prompt: 'Amplía el párrafo de Rosa con **enlaces** (además, sin embargo, por eso), una **preposición** y una **construcción comparativa** (tan… como / más… que).',
+            explain: 'Los enlaces unen las ideas y muestran su relación: suma (además), contraste (sin embargo), consecuencia (por eso). Las comparaciones ayudan a precisar.' },
+          { text: 'En la asamblea todos pudimos opinar. [[Además]], votamos a mano alzada. Algunos vecinos no estaban de acuerdo; [[sin embargo]], respetaron la decisión. El acuerdo de turnos es [[más]] justo que antes, [[por eso]] ahora hay menos peleas [[entre]] vecinos.',
+            distractors: ['aunque', 'menos', 'sobre'] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['ccss', 'fc'], cnb: ['ccss:6.7.2'], prompt: 'Boleto de salida: ¿cuál de estas situaciones **NO** es propia de un sistema democrático?' },
+          { options: [
+            { id: 'a', text: 'Un solo gobernante hace las leyes, las ejecuta y juzga a todos' },
+            { id: 'b', text: 'La ciudadanía elige a sus autoridades en elecciones libres', feedback: 'Las elecciones libres son un elemento central de la democracia.' },
+            { id: 'c', text: 'Se respeta la libertad de expresión', feedback: 'La libertad de expresión es un derecho propio de la democracia.' },
+          ], correct: ['a'] },
+        ),
+        S.sort(
+          { fase: 'comprobar', areas: ['fc', 'l1'], cnb: ['fc:4.4.1', 'fc:4.5.3'], prompt: 'Clasifica cada tarjeta.' },
+          { buckets: [
+            { id: 'cau', label: 'Raíz del árbol (causa)', icon: 'Sprout' },
+            { id: 'rec', label: 'Paso de reconciliación', icon: 'Handshake' },
+          ], items: [
+            { id: 'b1', text: 'Falta de acuerdos para repartir el agua', bucket: 'cau' },
+            { id: 'b2', text: 'Tala del bosque del nacimiento', bucket: 'cau' },
+            { id: 'b3', text: 'Conocer la verdad de lo ocurrido', bucket: 'rec' },
+            { id: 'b4', text: 'Reparar el daño a las víctimas', bucket: 'rec' },
+          ] },
+        ),
+        cierre({ areas: ['fc', 'ef'], cnb: ['fc:4.5.3', 'ef:4.1.10'] }, ['Identifico los elementos de la democracia', 'Construyo el árbol de un problema', 'Describo los pasos de la reconciliación y cumplo mi rol en un equipo'],
+          ['Propondré resolver un problema de mi grado con el árbol del problema', 'Participaré con respeto en las decisiones de mi escuela', 'Confiaré en mis compañeros y cumpliré mi rol en el equipo']),
+      ],
+    }),
+
+    /* ───────────────────────── Día 5: Reto semanal ───────────────────────── */
+    lesson({
+      id: 's27-d5-reto',
+      title: 'Reto de la semana 27',
+      icon: 'Trophy',
+      minutes: 13,
+      day: 5,
+      kind: 'reto',
+      objetivos: ['Demostrar lo que aprendiste esta semana', 'Obtener la medalla "Ciudadano del mundo" (70 % o más)'],
+      resumen: ['Superé el reto de la semana 27: energía, clima, minería, migración, globalización, democracia y reconciliación.'],
+      media: {
+        id: 's27-d5-reto', kind: 'image', title: 'Medalla Ciudadano del mundo', aspect: '1:1',
+        alt: 'Medalla dorada con un globo terráqueo rodeado de manos entrelazadas.',
+        brief: 'Ilustración de medalla circular dorada: globo terráqueo centrado en América, rodeado por un anillo de manos de distintos tonos de piel entrelazadas; pequeño rayo (energía) y hoja (clima) en la parte inferior. Cinta con los colores de las áreas del CNB. Fondo transparente, 1024×1024.',
+      },
+      steps: [
+        S.sort({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.1.3'], prompt: '¿Energía potencial o cinética?' },
+          { buckets: [{ id: 'p', label: 'Potencial', icon: 'Mountain' }, { id: 'c', label: 'Cinética', icon: 'Wind' }],
+            items: [{ id: 'a', text: 'Una manzana colgada en lo alto del árbol', bucket: 'p' }, { id: 'b', text: 'Una bicicleta en movimiento', bucket: 'c' }, { id: 'c', text: 'Un resorte estirado', bucket: 'p' }, { id: 'd', text: 'Agua que cae en una catarata', bucket: 'c' }] }),
+        S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.3.3'], prompt: '¿Cómo afecta el calentamiento global a las familias agricultoras del Corredor Seco?' },
+          { options: [{ id: 'a', text: 'Sequías más largas que dañan las cosechas' }, { id: 'b', text: 'Más lluvia exactamente cuando la necesitan' }, { id: 'c', text: 'No las afecta' }], correct: ['a'] }),
+        S.number({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:7.1.5'], prompt: '¿Cuántos mililitros hay en 2.5 litros?' },
+          { answer: 2500, unit: 'mL' }),
+        S.number({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:7.1.4'], prompt: '¿Cuántos gramos hay en 1.2 kg?' },
+          { answer: 1200, unit: 'g' }),
+        S.tf({ fase: 'comprobar', areas: ['cnt', 'pyd'], cnb: ['cnt:7.2.3', 'pyd:5.2.2'], prompt: '¿Verdadero o falso?' },
+          { statements: [{ text: 'La minería puede contaminar el agua de los ríos.', answer: true }, { text: 'Las abejas polinizan las flores y así ayudan a que haya frutos.', answer: true }, { text: 'Los metales se regeneran rápido después de extraerlos.', answer: false }] }),
+        S.choice({ fase: 'comprobar', areas: ['ccss', 'cnt'], cnb: ['ccss:6.6.8', 'cnt:6.5.3'], prompt: '¿Cuál es una consecuencia de la globalización y la migración en Guatemala?' },
+          { options: [{ id: 'a', text: 'Muchas familias reciben remesas de familiares en el extranjero' }, { id: 'b', text: 'Guatemala dejó de comerciar con otros países' }, { id: 'c', text: 'Ya no existe internet en el país' }], correct: ['a'] }),
+        S.match({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.5.3', 'ccss:6.7.2'], prompt: 'Une cada concepto con su descripción.' },
+          { pairs: [{ id: 'a', left: 'Doctrina Monroe', right: '"América para los americanos"' }, { id: 'b', left: 'Separación de poderes', right: 'Ejecutivo, Legislativo y Judicial' }, { id: 'c', left: 'Elecciones libres', right: 'La ciudadanía elige a sus autoridades' }] }),
+        S.order({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:4.5.3'], prompt: 'Ordena los pasos de la reconciliación.' },
+          { items: [{ id: 'a', text: 'Conocer la verdad' }, { id: 'b', text: 'Reparar a las víctimas' }, { id: 'c', text: 'Garantizar que no se repita' }] }),
+        S.highlight({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:7.2.4'], prompt: 'Toca los **diminutivos**.' },
+          { target: 'diminutivos', text: 'La {niñita} guardó una {piedrita} en su mochila y regresó a su {casita} con su perrote.' }),
+        S.choice({ fase: 'comprobar', areas: ['l2', 'l3'], cnb: ['l2:5.4.1', 'l3:5.1.2'], prompt: 'Kevin escribe: "Dear Rosa, on July 4 we saw fireworks… Love, Kevin". ¿Qué tipo de texto es y qué fiesta menciona?' },
+          { options: [{ id: 'a', text: 'Una carta; menciona el Día de la Independencia de Estados Unidos' }, { id: 'b', text: 'Una crónica; menciona la Navidad' }, { id: 'c', text: 'Una carta; menciona el Día de San Valentín' }], correct: ['a'] }),
+      ],
+    }),
+  ],
+
+  /* Banco de ítems para la Semana de validación de la Unidad 3 (el primer área = área principal) */
+  bank: [
+    S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.1.3'], prompt: 'En una hidroeléctrica, ¿qué energía tiene el agua guardada en lo alto del embalse?' },
+      { options: [{ id: 'a', text: 'Potencial' }, { id: 'b', text: 'Cinética' }, { id: 'c', text: 'Ninguna' }], correct: ['a'] }),
+    S.sort({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.3.3'], prompt: '¿A quién afecta principalmente cada efecto del calentamiento global?' },
+      { buckets: [{ id: 'h', label: 'Personas', icon: 'Users' }, { id: 'a', label: 'Animales', icon: 'Bird' }, { id: 'v', label: 'Plantas', icon: 'Sprout' }],
+        items: [{ id: 'x', text: 'Olas de calor que afectan la salud', bucket: 'h' }, { id: 'y', text: 'Blanqueamiento de arrecifes de coral', bucket: 'a' }, { id: 'z', text: 'Más incendios forestales', bucket: 'v' }] }),
+    S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:6.5.3'], prompt: 'Cuando una persona sale de Guatemala para vivir en México, para Guatemala se trata de…' },
+      { options: [{ id: 'a', text: 'Emigración' }, { id: 'b', text: 'Inmigración' }, { id: 'c', text: 'Natalidad' }], correct: ['a'] }),
+    S.fill({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:7.1.4', 'mat:7.1.5'], prompt: 'Completa.' },
+      { text: '3 kg = [[3000|3,000]] g\n4 L = [[4000|4,000]] mL', distractors: ['300', '400'] }),
+    S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.6.3'], prompt: '¿Cuál es un rasgo del desarrollo mundial en el siglo XXI?' },
+      { options: [{ id: 'a', text: 'Comunicación instantánea por internet y teléfonos inteligentes' }, { id: 'b', text: 'El sistema feudal' }, { id: 'c', text: 'La invención de la rueda' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.5.3'], prompt: '¿Qué política de Estados Unidos usaba la fuerza militar y económica para imponer sus intereses en países vecinos a inicios del siglo XX?' },
+      { options: [{ id: 'a', text: 'El Gran Garrote' }, { id: 'b', text: 'El Acuerdo de París' }, { id: 'c', text: 'La Doctrina de la Paz' }], correct: ['a'] }),
+    S.match({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:6.3.1', 'l1:7.2.4'], prompt: 'Une cada palabra con lo que corresponde.' },
+      { pairs: [{ id: 'a', left: 'aguacate', right: 'Viene del náhuatl' }, { id: 'b', left: 'almohada', right: 'Viene del árabe' }, { id: 'c', left: 'platero', right: 'Familia de "plata"' }] }),
+    S.choice({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:5.4.1'], prompt: '¿Qué elementos tiene una carta?' },
+      { options: [{ id: 'a', text: 'Lugar y fecha, saludo, cuerpo, despedida y firma' }, { id: 'b', text: 'Solo un título' }, { id: 'c', text: 'Ingredientes y preparación' }], correct: ['a'] }),
+    S.fill({ fase: 'comprobar', areas: ['l3'], cnb: ['l3:4.3.2'], prompt: 'Describe the picture in present simple.' },
+      { text: 'The girl [[drinks]] water. The sun [[shines]].', distractors: ['drink', 'shined'] }),
+    S.choice({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:4.4.1', 'fc:4.4.2'], prompt: 'En el árbol del problema, ¿qué representan las ramas?' },
+      { options: [{ id: 'a', text: 'Los efectos del problema' }, { id: 'b', text: 'Las causas del problema' }, { id: 'c', text: 'Las soluciones ya aplicadas' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.1.6', 'ef:4.2.1', 'ef:4.1.10'], prompt: '¿Qué regla de juego ayuda a que todos confíen y participen?' },
+      { options: [{ id: 'a', text: 'Todos los integrantes, incluidos los suplentes, juegan al menos un tiempo' }, { id: 'b', text: 'Solo juegan los más rápidos' }, { id: 'c', text: 'Se vale empujar para ganar' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['art'], cnb: ['art:4.1.4'], prompt: '¿Qué material usaban los mayas para tallar máscaras y joyas muy valiosas?' },
+      { options: [{ id: 'a', text: 'Jade' }, { id: 'b', text: 'Plástico' }, { id: 'c', text: 'Aluminio' }], correct: ['a'] }),
+  ],
+});

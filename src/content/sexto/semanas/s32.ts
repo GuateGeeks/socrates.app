@@ -1,0 +1,600 @@
+import { S, cierre, lesson, semana } from '../../dsl';
+
+/**
+ * SEMANA 32 · Unidad 4 "Fortaleciendo nuestro futuro"
+ * Tema generador: Redes que nos sostienen
+ * En el bosque nuboso de Purulhá, Baja Verapaz, donde vive el quetzal, sexto grado descubre
+ * que todo está conectado: seres vivos que se relacionan, especies con nombre científico,
+ * pueblos y países que conviven e instituciones que sostienen el desarrollo. Cierra con un
+ * debate en la plaza con voz, cuerpo y música.
+ */
+export default semana({
+  id: 's32',
+  unidad: 4,
+  semana: 32,
+  kind: 'aprendizaje',
+  temaGenerador: 'Redes que nos sostienen',
+  title: 'Redes que nos sostienen',
+  subtitle: 'Relaciones entre seres vivos, clasificación, pueblos y debate',
+  icon: 'Bird',
+  color: 'var(--area-cnt)',
+  contexto: 'En Purulhá, Baja Verapaz, el bosque nuboso guarda al quetzal, orquídeas, bromelias y árboles de aguacatillo. Allí viven familias poqomchi\'es, q\'eqchi\'es y ladinas que siembran cardamomo y café y reciben visitantes de todo el mundo. Esta semana descubrirás que todo está conectado: las plantas y los animales se ayudan, cada especie tiene un nombre científico, los pueblos y los países se relacionan, y las instituciones sostienen el desarrollo. Al final defenderás tus ideas en un debate con voz, cuerpo y música.',
+  ejes: ['sostenible', 'multiculturalidad', 'vida-ciudadana', 'valores', 'trabajo'],
+  media: {
+    id: 's32-portada', kind: 'video', title: 'La red del bosque nuboso', aspect: '16:9', duration: 60,
+    alt: 'Recorrido por un bosque nuboso con neblina, un quetzal que come un aguacatillo, bromelias sobre las ramas y una comunidad con cultivos de cardamomo.',
+    brief: 'Video de 60 s (animación 2D realista o tomas de naturaleza sin personas identificables). (1) Neblina entre árboles cubiertos de musgo; (2) un quetzal macho come un fruto de aguacatillo y vuela; (3) acercamiento a bromelias y orquídeas sobre una rama; (4) un colibrí en una flor; (5) una aldea con cultivos de cardamomo a la sombra y una escuela; (6) líneas de luz que conectan todos los elementos formando una red. Texto final: "Todo está conectado". Música de marimba suave con sonidos de aves.',
+  },
+  badge: { id: 'medalla-s32', name: 'Guardiana de la red', icon: 'Bird', desc: 'Completaste la semana 32 y superaste su reto' },
+  lessons: [
+    /* ───────────────────────── Día 1 ───────────────────────── */
+    lesson({
+      id: 's32-d1-relaciones-bosque',
+      title: 'Relaciones en el bosque nuboso',
+      icon: 'Trees',
+      minutes: 14,
+      day: 1,
+      gancho: 'En los árboles del bosque crecen plantas encima de otras plantas. ¿Le hacen daño al árbol o no?',
+      objetivos: ['Explicar el comensalismo con ejemplos', 'Diferenciarlo del mutualismo y el parasitismo', 'Relacionar plantas, animales y seres humanos', 'Distinguir señales naturales y convencionales de tu entorno'],
+      resumen: [
+        'En el comensalismo un ser vivo se beneficia y el otro no gana ni pierde: la bromelia que vive sobre la rama de un árbol o la garcita que come insectos junto al ganado.',
+        'En el mutualismo ambos ganan (colibrí y flor); en el parasitismo uno gana y el otro sale dañado (garrapata y perro).',
+        'Plantas, animales y personas dependemos unos de otros: el quetzal come aguacatillos y dispersa sus semillas; las abejas polinizan los cultivos; las personas protegen o destruyen el bosque.',
+        'Las señales naturales vienen de la naturaleza (las nubes, el canto de las aves, los zompopos de mayo); las convencionales las crean las personas (señales de tránsito, símbolos de un mapa).',
+      ],
+      media: {
+        id: 's32-d1-relaciones', kind: 'diagram', title: 'Tipos de relaciones entre seres vivos', aspect: '16:9',
+        alt: 'Tres parejas de seres vivos con signos: bromelia y árbol (+ y 0), colibrí y flor (+ y +), garrapata y perro (+ y −).',
+        brief: 'Infografía en tres columnas con ilustraciones naturalistas y signos grandes: (1) "Comensalismo": bromelia sobre la rama de un árbol del bosque nuboso, signos + (bromelia) y 0 (árbol); (2) "Mutualismo": colibrí tomando néctar de una flor roja, signos + y +; (3) "Parasitismo": garrapata en la oreja de un perro, signos + y −. Leyenda: + se beneficia, 0 ni gana ni pierde, − sale dañado. Fondo verde claro, estilo lámina escolar.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['cnt', 'ccss'], cnb: ['cnt:1.5.6'], ambito: 'conocer', title: 'Vivir encima sin hacer daño',
+            prompt: 'En el bosque nuboso, las **bromelias** y muchas **orquídeas** viven sobre las ramas de los árboles. Toca cada tarjeta.',
+            media: { id: 's32-d1-bromelias', kind: 'image', title: 'Bromelias sobre una rama', aspect: '4:3',
+              alt: 'Rama cubierta de musgo con varias bromelias y una orquídea; entre las hojas de una bromelia se ve agua acumulada.',
+              brief: 'Ilustración naturalista en primer plano de una rama gruesa de un árbol del bosque nuboso de Baja Verapaz, cubierta de musgo, con tres bromelias en forma de roseta (una con agua acumulada en el centro y una pequeña rana) y una orquídea blanca. Neblina al fondo. Rótulos: "bromelia", "orquídea", "rama del árbol". Sin texto adicional.' } },
+          { icon: 'Flower', body: 'Estas plantas usan al árbol **solo como apoyo** para recibir más luz. No le roban savia.', reveal: [
+            { icon: 'Flower2', front: '¿Qué gana la bromelia?', back: 'Altura para recibir luz y lluvia.' },
+            { icon: 'TreeDeciduous', front: '¿Y el árbol?', back: 'Ni gana ni pierde: no le quita alimento.' },
+            { icon: 'Link', front: 'Esa relación se llama…', back: '**Comensalismo**: uno se beneficia y el otro no resulta afectado.' },
+            { icon: 'Bird', front: 'Otro ejemplo', back: 'La **garcita bueyera** camina junto al ganado y come los insectos que saltan del pasto. La vaca no gana ni pierde.' },
+          ] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.5.6'], ambito: 'conocer',
+            prompt: 'Clasifica cada relación entre seres vivos.',
+            hint: 'Pregúntate qué le pasa a cada uno: ¿gana, pierde o queda igual?',
+            explain: 'Comensalismo: + y 0. Mutualismo: + y +. Parasitismo: + y −.' },
+          { buckets: [
+            { id: 'com', label: 'Comensalismo (+ / 0)', icon: 'Link', color: 'var(--area-cnt)' },
+            { id: 'mut', label: 'Mutualismo (+ / +)', icon: 'Handshake', color: 'var(--c-ok)' },
+            { id: 'par', label: 'Parasitismo (+ / −)', icon: 'Bug', color: 'var(--c-bad)' },
+          ], items: [
+            { id: 'r1', text: 'Orquídea que crece sobre la rama de un árbol', bucket: 'com' },
+            { id: 'r2', text: 'Rémora pegada a un tiburón, que come sus sobras', bucket: 'com' },
+            { id: 'r3', text: 'Colibrí que toma néctar y poliniza la flor', bucket: 'mut' },
+            { id: 'r4', text: 'Abeja que poliniza el cafeto mientras toma néctar', bucket: 'mut' },
+            { id: 'r5', text: 'Garrapata que chupa sangre de un perro', bucket: 'par' },
+            { id: 'r6', text: 'Piojo en la cabeza de una persona', bucket: 'par', feedback: 'El piojo se alimenta y a la persona le causa picazón y molestias: es parasitismo.' },
+          ] },
+        ),
+        S.match(
+          { fase: 'construir', areas: ['cnt', 'pyd', 'ccss'], cnb: ['cnt:1.5.7'], ambito: 'conocer',
+            prompt: 'En el bosque y la aldea, plantas, animales y personas se relacionan. Une cada relación con su efecto.',
+            explain: 'Las relaciones forman una red: si se rompe un hilo, como talar los aguacatillos, se afectan el quetzal, el bosque y las familias que viven del turismo.' },
+          { leftTitle: 'Relación', rightTitle: 'Efecto', pairs: [
+            { id: 'e1', left: 'El quetzal come frutos de aguacatillo', leftIcon: 'Bird', right: 'Dispersa las semillas y nacen árboles nuevos' },
+            { id: 'e2', left: 'Las abejas visitan las flores de los cultivos', leftIcon: 'Flower', right: 'Polinizan y aumentan las cosechas' },
+            { id: 'e3', left: 'Las familias siembran cardamomo y café bajo la sombra de árboles', leftIcon: 'Sprout', right: 'Obtienen ingresos y conservan parte del bosque' },
+            { id: 'e4', left: 'Se talan los árboles del bosque nuboso', leftIcon: 'Trees', right: 'Se pierden el hogar del quetzal y el agua de los nacimientos' },
+          ] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['l1', 'ccss', 'cnt'], cnb: ['l1:3.2.3'], ambito: 'conocer',
+            prompt: 'En muchas comunidades se leen **señales** en el entorno. Algunas vienen de la naturaleza y otras las crean las personas. Clasifícalas.',
+            explain: 'En la cosmovisión de muchos pueblos de Guatemala, las señales de la naturaleza orientan la siembra y la vida diaria: por ejemplo, cuando salen los zompopos de mayo, se sabe que llegaron las primeras lluvias. Las señales convencionales son acuerdos entre personas.' },
+          { buckets: [
+            { id: 'nat', label: 'Señal natural', icon: 'Leaf', color: 'var(--c-ok)' },
+            { id: 'conv', label: 'Señal convencional', icon: 'Signpost', color: 'var(--area-l1)' },
+          ], items: [
+            { id: 'n1', text: 'Los zompopos de mayo salen con las primeras lluvias', bucket: 'nat' },
+            { id: 'n2', text: 'Nubes oscuras y cargadas sobre el cerro', bucket: 'nat' },
+            { id: 'n3', text: 'El canto de ciertas aves al amanecer', bucket: 'nat' },
+            { id: 'n4', text: 'Rótulo de "Alto" en la carretera', bucket: 'conv' },
+            { id: 'n5', text: 'Símbolo de un árbol en el mapa del biotopo', bucket: 'conv' },
+            { id: 'n6', text: 'Campana de la escuela que anuncia el recreo', bucket: 'conv' },
+          ] },
+        ),
+        S.reading(
+          { fase: 'aplicar', areas: ['l3', 'cnt'], cnb: ['l3:3.1.2', 'cnt:1.5.7'], ambito: 'conocer', prompt: 'Read the story and answer. (Lee la historia y responde. Busca los **hechos**, _facts_, que se pueden comprobar.)' },
+          { genre: 'Story', heading: 'Ana and the Quetzal', passage:
+            'Ana lives in Purulhá, Baja Verapaz. One morning, she walks in the cloud forest with her grandfather.\n\nThey see a quetzal in a tall tree. The quetzal eats a small wild avocado. "The quetzal helps the forest," says her grandfather. "It drops the seeds, and new trees grow."\n\nAna smiles. In her dream that night, the quetzal talks to her and says: "Thank you for taking care of my home."',
+            questions: [
+              { q: 'Which sentence is a FACT (it can be checked in real life)?', options: [
+                { id: 'a', text: 'The quetzal eats a small wild avocado.' },
+                { id: 'b', text: 'The quetzal talks to Ana.' },
+                { id: 'c', text: 'The quetzal says "Thank you".' },
+              ], correct: 'a', why: 'Quetzals really eat wild avocados. Birds do not talk: that part is a dream (fiction).' },
+              { q: 'Where does Ana live?', options: [
+                { id: 'a', text: 'In Purulhá, Baja Verapaz' },
+                { id: 'b', text: 'In the city' },
+                { id: 'c', text: 'In a tree' },
+              ], correct: 'a' },
+              { q: 'Why does the quetzal help the forest?', options: [
+                { id: 'a', text: 'It drops the seeds, and new trees grow.' },
+                { id: 'b', text: 'It cuts the trees.' },
+                { id: 'c', text: 'It sings at night.' },
+              ], correct: 'a' },
+            ] },
+        ),
+        S.choice(
+          { fase: 'aplicar', areas: ['pyd', 'ccss', 'cnt'], cnb: ['pyd:1.4.3', 'cnt:1.5.7'], ambito: 'emprender',
+            prompt: 'Las familias de la aldea viven de sembrar cardamomo y café, de las artesanías y de atender a quienes visitan el bosque. Venden su cardamomo a compradores que lo exportan. ¿Qué **necesidad** genera esta forma de vida?',
+            explain: 'Cada forma de vida crea relaciones comerciales y necesidades: caminos para sacar la cosecha, precios justos, capacitación y un bosque sano que atraiga visitantes.' },
+          { options: [
+            { id: 'a', text: 'Buenos caminos, precios justos y un bosque conservado', icon: 'Route' },
+            { id: 'b', text: 'Talar todo el bosque para sembrar más', icon: 'Trees', feedback: 'Sin bosque se pierden el agua, la sombra para los cultivos y los visitantes.' },
+            { id: 'c', text: 'Ninguna: no tienen relaciones comerciales', icon: 'X', feedback: 'Venden a compradores y reciben turistas: sí tienen relaciones comerciales.' },
+          ], correct: ['a'] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.5.6'], prompt: 'Una **orquídea** vive sobre la rama de un árbol sin quitarle alimento. ¿Qué relación es?' },
+          { options: [
+            { id: 'a', text: 'Comensalismo' },
+            { id: 'b', text: 'Parasitismo', feedback: 'En el parasitismo uno sale dañado; aquí el árbol no pierde nada.' },
+            { id: 'c', text: 'Mutualismo', feedback: 'En el mutualismo ambos ganan; aquí el árbol ni gana ni pierde.' },
+          ], correct: ['a'] },
+        ),
+        S.tf(
+          { fase: 'comprobar', areas: ['cnt', 'l1'], cnb: ['cnt:1.5.7', 'l1:3.2.3'], prompt: '¿Verdadero o falso?' },
+          { statements: [
+            { text: 'El quetzal ayuda a dispersar las semillas del aguacatillo.', answer: true },
+            { text: 'Una señal de tránsito es una señal natural.', answer: false, why: 'La crean las personas: es convencional.' },
+            { text: 'Las abejas y los cultivos tienen una relación de parasitismo.', answer: false, why: 'Ambos ganan: la abeja toma néctar y poliniza. Es mutualismo.' },
+          ] },
+        ),
+        cierre({ areas: ['cnt', 'pyd'], cnb: ['cnt:1.5.7'] }, ['Explico el comensalismo con ejemplos', 'Relaciono plantas, animales y personas', 'Distingo señales naturales y convencionales'],
+          ['Buscaré una planta que viva sobre otra en mi comunidad', 'Preguntaré a mis abuelos qué señales de la naturaleza conocen', 'Cuidaré a las abejas y a las aves de mi entorno']),
+      ],
+    }),
+
+    /* ───────────────────────── Día 2 ───────────────────────── */
+    lesson({
+      id: 's32-d2-nombrar-vida',
+      title: 'Ponerle nombre a la vida',
+      icon: 'Microscope',
+      minutes: 15,
+      day: 2,
+      gancho: 'Al quetzal le dicen distinto en cada idioma. ¿Cómo hacen los científicos del mundo para saber que hablan del mismo pájaro?',
+      objetivos: ['Ordenar las categorías de clasificación de los seres vivos', 'Escribir nombres científicos con el sistema binomial', 'Elegir fuentes y secciones de un libro para investigar', 'Clasificar datos en cualitativos y cuantitativos'],
+      resumen: [
+        'Los seres vivos se clasifican de lo más general a lo más particular: dominio (gran reino), reino, filo, clase, orden, familia, género y especie.',
+        'El nombre científico tiene dos palabras en latín: el género (con mayúscula) y la especie (con minúscula), como Pharomachrus mocinno (quetzal) o Zea mays (maíz). Así lo entiende todo el mundo.',
+        'Para investigar se eligen fuentes orales y escritas según el tema, y se consultan las secciones útiles: índice, glosario o capítulo.',
+        'Los datos cualitativos son cualidades (color, sexo, especie); los cuantitativos son números (cantidad, peso, edad).',
+      ],
+      media: {
+        id: 's32-d2-clasificacion', kind: 'diagram', title: 'La clasificación del quetzal', aspect: '3:4',
+        alt: 'Pirámide invertida de ocho niveles que va de "Dominio" (muchos seres) a "Especie" (solo el quetzal).',
+        brief: 'Diagrama vertical en forma de embudo con 8 franjas de colores, de arriba (ancha) hacia abajo (angosta), cada una con ejemplos en íconos: Dominio Eukarya (hongos, plantas, animales); Reino Animalia (animales); Filo Chordata (animales con cordón dorsal: pez, rana, ave, mamífero); Clase Aves (aves); Orden Trogoniformes (trogones); Familia Trogonidae; Género Pharomachrus; Especie Pharomachrus mocinno (un quetzal macho). Nombres latinos en cursiva. Nota al pie: "Nombre común: quetzal".',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['cnt', 'l2'], cnb: ['cnt:2.1.5'], ambito: 'conocer', title: 'Un nombre para todo el mundo',
+            prompt: 'Cada ser vivo tiene un **nombre común** (distinto en cada idioma) y un **nombre científico** (igual en todo el mundo). Toca cada tarjeta.' },
+          { icon: 'Microscope', body: 'El naturalista sueco **Carlos Linneo** propuso en el siglo XVIII nombrar a cada especie con **dos palabras**: por eso se llama sistema **binomial**.', reveal: [
+            { icon: 'Bird', front: 'Quetzal', back: '_Pharomachrus mocinno_' },
+            { icon: 'Wheat', front: 'Maíz', back: '_Zea mays_' },
+            { icon: 'Cat', front: 'Jaguar', back: '_Panthera onca_' },
+            { icon: 'User', front: 'Ser humano', back: '_Homo sapiens_' },
+          ] },
+        ),
+        S.order(
+          { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.1.5'], ambito: 'conocer',
+            prompt: 'Ordena las categorías de clasificación de la **más general** (incluye más seres vivos) a la **más particular**.',
+            hint: 'Empieza por el "gran reino" y termina en la especie.',
+            explain: 'Dominio → reino → filo → clase → orden → familia → género → especie. Cada nivel agrupa a menos seres vivos, más parecidos entre sí.' },
+          { items: [
+            { id: 'c1', text: 'Dominio (gran reino)' },
+            { id: 'c2', text: 'Reino' },
+            { id: 'c3', text: 'Filo' },
+            { id: 'c4', text: 'Clase' },
+            { id: 'c5', text: 'Orden' },
+            { id: 'c6', text: 'Familia' },
+            { id: 'c7', text: 'Género' },
+            { id: 'c8', text: 'Especie' },
+          ], labels: { start: 'Más general', end: 'Más particular' } },
+        ),
+        S.match(
+          { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.1.5'], ambito: 'conocer',
+            prompt: 'Completa la ficha del **quetzal**: une cada categoría con su nombre.',
+            explain: 'El quetzal es un animal (reino Animalia), con cordón dorsal (Chordata), un ave (clase Aves), de la familia de los trogones. Su nombre científico une género y especie: Pharomachrus mocinno.' },
+          { leftTitle: 'Categoría', rightTitle: 'Quetzal', pairs: [
+            { id: 'q1', left: 'Reino', leftIcon: 'Dog', right: 'Animalia' },
+            { id: 'q2', left: 'Clase', leftIcon: 'Bird', right: 'Aves' },
+            { id: 'q3', left: 'Familia', leftIcon: 'Users', right: 'Trogonidae' },
+            { id: 'q4', left: 'Género', leftIcon: 'Layers', right: 'Pharomachrus' },
+            { id: 'q5', left: 'Nombre científico', leftIcon: 'Microscope', right: 'Pharomachrus mocinno' },
+            { id: 'q6', left: 'Nombre común', leftIcon: 'MessageCircle', right: 'Quetzal' },
+          ] },
+        ),
+        S.choice(
+          { fase: 'construir', areas: ['cnt', 'l2'], cnb: ['cnt:2.1.5'], ambito: 'conocer',
+            prompt: '¿Cuál nombre científico está **bien escrito**?',
+            explain: 'El género va con mayúscula inicial y la especie toda en minúscula; ambas palabras en cursiva (o subrayadas si escribes a mano).' },
+          { options: [
+            { id: 'a', text: '_Panthera onca_' },
+            { id: 'b', text: 'panthera Onca', feedback: 'Al revés: el género lleva mayúscula y la especie minúscula.' },
+            { id: 'c', text: 'PANTHERA ONCA', feedback: 'No se escribe todo en mayúsculas.' },
+          ], correct: ['a'] },
+        ),
+        S.match(
+          { fase: 'construir', areas: ['l2', 'cnt', 'l1'], cnb: ['l2:3.1.3', 'l2:3.1.4', 'l2:3.1.2'], ambito: 'hacer',
+            prompt: 'Vas a investigar sobre el quetzal. Une cada necesidad con la **fuente** o la **sección** que conviene consultar.',
+            explain: 'Elegir la fuente según el tema ahorra tiempo. Dentro de un libro, el índice te lleva al capítulo y el glosario explica palabras difíciles. Las fuentes orales, como la guardabosques, aportan lo que no está en los libros.',
+            media: { id: 's32-d2-libro', kind: 'image', title: 'Partes de un libro de consulta', aspect: '16:9',
+              alt: 'Libro abierto de aves de Guatemala con etiquetas que señalan el índice, un capítulo sobre el quetzal y el glosario al final.',
+              brief: 'Ilustración de un libro de consulta ficticio titulado "Aves de Guatemala" abierto en tres zonas con pestañas de colores: al inicio "Índice" (lista de capítulos con números de página), al centro "Capítulo 4: El quetzal" (dibujo del ave y texto genérico), al final "Glosario" (palabras como "endémico", "epífita" con definiciones). A un lado, una revista de ciencias y una guardabosques con libreta (de espaldas, sin rostro). Estilo plano.' } },
+          { leftTitle: 'Necesito…', rightTitle: 'Consulto…', pairs: [
+            { id: 'u1', left: 'Encontrar rápido en qué página habla del quetzal', leftIcon: 'List', right: 'El índice del libro' },
+            { id: 'u2', left: 'Saber qué significa "epífita"', leftIcon: 'BookOpen', right: 'El glosario' },
+            { id: 'u3', left: 'Leer todo sobre la alimentación del quetzal', leftIcon: 'Bookmark', right: 'El capítulo dedicado al quetzal' },
+            { id: 'u4', left: 'Saber cuántos quetzales se ven este año en el biotopo', leftIcon: 'Mic', right: 'Entrevista a la guardabosques (fuente oral)' },
+          ] },
+        ),
+        S.sort(
+          { fase: 'aplicar', areas: ['mat', 'cnt'], cnb: ['mat:6.1.1'], ambito: 'hacer',
+            prompt: 'La guardabosques anota datos de las aves que observa. Clasifica cada dato: ¿es **cualitativo** (una cualidad) o **cuantitativo** (un número)?',
+            hint: 'Si la respuesta es un número que se puede contar o medir, es cuantitativo.',
+            explain: 'Clasificar los datos ayuda a presentarlos: los cualitativos se cuentan por categorías y los cuantitativos se pueden sumar o promediar.' },
+          { buckets: [
+            { id: 'qual', label: 'Cualitativo', icon: 'Palette', color: 'var(--area-art)' },
+            { id: 'cuan', label: 'Cuantitativo', icon: 'Calculator', color: 'var(--area-mat)' },
+          ], items: [
+            { id: 'd1', text: 'Especie del ave', bucket: 'qual' },
+            { id: 'd2', text: 'Color del plumaje', bucket: 'qual' },
+            { id: 'd3', text: 'Sexo: macho o hembra', bucket: 'qual' },
+            { id: 'd4', text: 'Número de aves vistas', bucket: 'cuan' },
+            { id: 'd5', text: 'Largo de la cola en centímetros', bucket: 'cuan' },
+            { id: 'd6', text: 'Peso del ave en gramos', bucket: 'cuan' },
+          ] },
+        ),
+        S.choice(
+          { fase: 'aplicar', areas: ['l3', 'cnt'], cnb: ['l3:2.2.2'], ambito: 'hacer',
+            prompt: 'English time! Which text uses **punctuation** correctly? (Mayúscula al inicio, en nombres propios y en "I"; punto al final; signo de interrogación solo al final.)',
+            explain: '"Did you see the quetzal? I saw it in Purulhá, next to a tree." In English, questions only have "?" at the end, and "I" is always a capital letter.' },
+          { options: [
+            { id: 'a', text: 'Did you see the quetzal? I saw it in Purulhá, next to a tree.' },
+            { id: 'b', text: '¿did you see the quetzal? i saw it in purulhá next to a tree', feedback: 'English does not use "¿". Also, "Did", "I" and "Purulhá" need capital letters, and the text needs a period.' },
+            { id: 'c', text: 'did you see the Quetzal. I saw it in purulhá', feedback: 'A question ends with "?". "Did" and "Purulhá" need capital letters.' },
+          ], correct: ['a'] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.1.5'], prompt: 'En el nombre científico _Zea mays_, ¿qué indica la palabra **Zea**?' },
+          { options: [
+            { id: 'a', text: 'El género' },
+            { id: 'b', text: 'El reino', feedback: 'El reino del maíz es Plantae; no aparece en el nombre científico.' },
+            { id: 'c', text: 'El nombre común', feedback: 'El nombre común es "maíz".' },
+          ], correct: ['a'] },
+        ),
+        S.tf(
+          { fase: 'comprobar', areas: ['mat', 'l2'], cnb: ['mat:6.1.1', 'l2:3.1.4'], prompt: '¿Verdadero o falso?' },
+          { statements: [
+            { text: 'El número de quetzales observados es un dato cuantitativo.', answer: true },
+            { text: 'El color de las plumas es un dato cuantitativo.', answer: false, why: 'Es una cualidad: dato cualitativo.' },
+            { text: 'El glosario explica el significado de palabras difíciles.', answer: true },
+          ] },
+        ),
+        cierre({ areas: ['cnt', 'l2'], cnb: ['cnt:2.1.5'] }, ['Ordeno las categorías de clasificación', 'Escribo nombres científicos correctamente', 'Elijo la fuente y la sección adecuadas para investigar'],
+          ['Buscaré el nombre científico de un animal de mi comunidad', 'Usaré el índice y el glosario de mis libros', 'Anotaré datos cualitativos y cuantitativos de las aves que vea']),
+      ],
+    }),
+
+    /* ───────────────────────── Día 3 ───────────────────────── */
+    lesson({
+      id: 's32-d3-pueblos-paises',
+      title: 'Pueblos, países e instituciones',
+      icon: 'Globe',
+      minutes: 15,
+      day: 3,
+      gancho: 'Al biotopo llegan visitantes de muchos países. ¿Qué necesita una persona guatemalteca si pierde su pasaporte en otro país?',
+      objetivos: ['Describir características de los pueblos de Guatemala y del mundo', 'Explicar para qué sirven las relaciones diplomáticas y las instituciones del Estado', 'Analizar el papel de los partidos políticos y las organizaciones sociales', 'Presentar información en porcentajes'],
+      resumen: [
+        'En Guatemala conviven cuatro pueblos: maya, garífuna, xinka y ladino o mestizo, con 25 idiomas. En el mundo hay pueblos como los inuit (Ártico), los quechuas (Andes), los maasái (África oriental) y los sami (norte de Europa).',
+        'Los países mantienen relaciones diplomáticas por medio de embajadas y consulados: dialogan, firman acuerdos y protegen a sus ciudadanos en el extranjero.',
+        'El Estado está presente con instituciones para el desarrollo humano: escuelas (Ministerio de Educación), puestos de salud (Ministerio de Salud), la municipalidad, el RENAP y el CONAP, entre otras.',
+        'Los partidos políticos buscan ganar elecciones para gobernar; las organizaciones sociales (cooperativas, comités, asociaciones) defienden intereses de la comunidad. Ambos deben ser democráticos y transparentes.',
+        'Un porcentaje expresa una parte como si el total fuera 100: 20 de 50 = 20 ÷ 50 × 100 = 40 %.',
+        'La convivencia se sostiene en normas de respeto, equidad, justicia y cultura de paz.',
+      ],
+      media: {
+        id: 's32-d3-pueblos', kind: 'image', title: 'Pueblos de Guatemala y del mundo', aspect: '16:9',
+        alt: 'Mapamundi con ilustraciones de pueblos: maya, garífuna, xinka y ladino en Guatemala; inuit en el Ártico, quechua en los Andes, maasái en África y sami en el norte de Europa.',
+        brief: 'Mapamundi ilustrado con viñetas circulares unidas por líneas a su región. Guatemala ampliada con cuatro viñetas: familia maya con tejidos, familia garífuna en la costa caribe con tambores, familia xinka en el oriente, familia ladina en un mercado. Resto del mundo: inuit con ropa de abrigo junto al hielo, quechua con llamas en los Andes, maasái con ganado en la sabana, sami con renos en el norte de Europa. Estilo respetuoso, sin caricaturas ni estereotipos, personas no identificables.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['ccss', 'fc'], cnb: ['ccss:3.2.4'], ambito: 'convivir', title: 'Muchos pueblos, un mismo mundo',
+            prompt: 'Cada pueblo tiene su historia, su idioma y su forma de vida. Toca cada tarjeta.' },
+          { icon: 'Globe', body: 'Conocer a otros pueblos nos ayuda a respetarlos y a valorar el nuestro.', reveal: [
+            { icon: 'Languages', front: 'Maya', back: 'Habla 22 idiomas mayas, como k\'iche\', q\'eqchi\', mam, kaqchikel y poqomchi\'. Guarda saberes del calendario y la agricultura.' },
+            { icon: 'Drum', front: 'Garífuna', back: 'Vive en la costa caribe (Livingston, Puerto Barrios). Tiene idioma propio, tambores y danza.' },
+            { icon: 'Mountain', front: 'Xinka', back: 'Vive en el oriente (Santa Rosa, Jutiapa, Jalapa). Su idioma, el xinka, no es de origen maya.' },
+            { icon: 'Users', front: 'Ladino o mestizo', back: 'Habla español y combina herencias indígenas y europeas.' },
+            { icon: 'Snowflake', front: 'Pueblos del mundo', back: 'Inuit en el Ártico, quechuas en los Andes, maasái en África oriental, sami en el norte de Europa.' },
+          ] },
+        ),
+        S.match(
+          { fase: 'construir', areas: ['ccss', 'cnt'], cnb: ['ccss:3.2.4'], ambito: 'conocer',
+            prompt: 'Une cada pueblo con una característica de su forma de vida.',
+            explain: 'Cada pueblo se adapta a su ambiente: el frío del Ártico, la altura de los Andes, la sabana o la costa del Caribe.' },
+          { leftTitle: 'Pueblo', rightTitle: 'Característica', pairs: [
+            { id: 'p1', left: 'Inuit', leftIcon: 'Snowflake', right: 'Vive en el Ártico, donde la pesca y la caza son muy importantes' },
+            { id: 'p2', left: 'Quechua', leftIcon: 'MountainSnow', right: 'Vive en los Andes y cría llamas y alpacas' },
+            { id: 'p3', left: 'Maasái', leftIcon: 'Sun', right: 'Pastorea ganado en la sabana de África oriental' },
+            { id: 'p4', left: 'Garífuna', leftIcon: 'Waves', right: 'Vive en la costa del Caribe centroamericano y celebra con tambores' },
+          ] },
+        ),
+        S.fill(
+          { fase: 'construir', areas: ['ccss', 'fc', 'l2'], cnb: ['ccss:3.4.4'], ambito: 'conocer',
+            prompt: 'Completa el texto sobre las **relaciones diplomáticas**.',
+            explain: 'Las relaciones diplomáticas permiten resolver problemas dialogando, firmar tratados de comercio o cooperación y proteger a las personas que viven o viajan fuera de su país.' },
+          { text: 'Los países se relacionan por medio de la diplomacia. La [[embajada]] representa a un país en la capital de otro, y la dirige un [[embajador]] o una embajadora. El [[consulado]] atiende a los ciudadanos que viven o viajan en el extranjero: por ejemplo, les ayuda si pierden su pasaporte. Guatemala es miembro de la ONU desde su fundación en [[1945]].',
+            distractors: ['alcaldía', '1996', 'COCODE'] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['fc', 'ccss', 'pyd'], cnb: ['fc:2.4.4', 'fc:3.4.1'], ambito: 'conocer',
+            prompt: 'Clasifica cada organización: ¿es una **institución del Estado**, un **partido político** o una **organización social**?',
+            hint: 'Las instituciones del Estado prestan servicios públicos; los partidos buscan gobernar; las organizaciones sociales agrupan a personas con un interés común.',
+            explain: 'El Estado está presente con servicios; los partidos compiten en elecciones; las organizaciones sociales defienden intereses y sirven a la comunidad. Todos deben rendir cuentas y respetar la ley.' },
+          { buckets: [
+            { id: 'est', label: 'Institución del Estado', icon: 'Landmark', color: 'var(--area-fc)' },
+            { id: 'par', label: 'Partido político', icon: 'Vote', color: 'var(--area-l1)' },
+            { id: 'soc', label: 'Organización social', icon: 'Users', color: 'var(--area-pyd)' },
+          ], items: [
+            { id: 'o1', text: 'Puesto de salud del Ministerio de Salud', bucket: 'est' },
+            { id: 'o2', text: 'Escuela oficial del Ministerio de Educación', bucket: 'est' },
+            { id: 'o3', text: 'RENAP, que registra los nacimientos y entrega el DPI', bucket: 'est' },
+            { id: 'o4', text: 'Grupo que presenta candidatos a la alcaldía y a la presidencia', bucket: 'par' },
+            { id: 'o5', text: 'Cooperativa de productoras de cardamomo', bucket: 'soc' },
+            { id: 'o6', text: 'Asociación de mujeres artesanas', bucket: 'soc' },
+          ] },
+        ),
+        S.slider(
+          { fase: 'construir', areas: ['mat', 'ccss', 'fc'], cnb: ['mat:6.1.2', 'mat:6.1.1'], ambito: 'hacer',
+            prompt: 'Supongamos que en la asamblea de la aldea participaron **50 personas** y **20** eran mujeres. ¿Qué **porcentaje** de participantes eran mujeres? Mueve el deslizador.',
+            hint: 'Divide 20 entre 50 y multiplica por 100.',
+            explain: '20 ÷ 50 = 0.4 → 0.4 × 100 = 40 %. Presentar datos en porcentajes permite comparar grupos de distinto tamaño y ver si la participación es equitativa.' },
+          { min: 0, max: 100, step: 5, start: 0, answer: 40, unit: '%', visual: 'percent', display: 'percent' },
+        ),
+        S.number(
+          { fase: 'aplicar', areas: ['mat', 'ccss', 'pyd'], cnb: ['mat:6.1.2', 'pyd:1.4.3'], ambito: 'hacer',
+            prompt: 'Supongamos que de **200 visitantes** que llegaron al biotopo en un mes, **50** vinieron de otros países. ¿Qué **porcentaje** de visitantes fue extranjero?',
+            hint: 'Parte ÷ total × 100.',
+            explain: '50 ÷ 200 × 100 = 25 %. Los visitantes extranjeros crean relaciones comerciales: compran artesanías, comida y hospedaje en la aldea.' },
+          { answer: 25, unit: '%', stimulus: '50 de 200 = ? %', misconceptions: [
+            { value: 50, msg: 'Ese es el número de visitantes, no el porcentaje.' },
+            { value: 4, msg: 'Dividiste 200 ÷ 50. Divide la parte entre el total.' },
+          ] },
+        ),
+        S.dilemma(
+          { fase: 'aplicar', areas: ['ccss', 'fc', 'l1'], cnb: ['ccss:3.1.4', 'fc:3.4.1'], ambito: 'convivir', prompt: 'En la asamblea de la aldea, ¿qué harías tú?' },
+          { scene: { icon: 'MessagesSquare', text: 'En la asamblea se discute si la cooperativa pide ayuda a un partido político para construir el camino. Unos gritan que "todos los políticos son iguales"; otros dicen que "sin partido no se logra nada". Nadie deja hablar a las mujeres artesanas.' }, options: [
+            { id: 'a', icon: 'Vote', text: 'Proponer normas: turnos para hablar, que participen mujeres y hombres por igual, y pedir a cualquier partido o institución compromisos por escrito y rendición de cuentas', consequence: 'La asamblea se ordena. Las artesanas proponen solicitar el camino a la municipalidad con el apoyo de la cooperativa y vigilar que se cumpla. La decisión se toma con respeto.', values: ['Equidad', 'Justicia', 'Cultura de paz', 'Pensamiento crítico'], constructive: true },
+            { id: 'b', icon: 'Megaphone', text: 'Gritar más fuerte para que te escuchen', consequence: 'La discusión se vuelve una pelea y la asamblea termina sin acuerdos.', values: ['Imposición'], constructive: false },
+            { id: 'c', icon: 'Handshake', text: 'Aceptar la ayuda del primer partido que ofrezca algo, sin preguntar a cambio de qué', consequence: 'La aldea recibe una promesa sin compromisos claros y nadie sabe cómo exigir que se cumpla.', values: ['Falta de análisis crítico'], constructive: false },
+          ] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['ccss', 'fc'], cnb: ['ccss:3.4.4', 'fc:2.4.4'], prompt: 'Una familia guatemalteca que vive en otro país necesita renovar un documento. ¿A dónde debe acudir?' },
+          { options: [
+            { id: 'a', text: 'Al consulado de Guatemala en ese país', icon: 'Landmark' },
+            { id: 'b', text: 'Al COCODE de su aldea', icon: 'Home', feedback: 'El COCODE trabaja en la comunidad, no en el extranjero.' },
+            { id: 'c', text: 'A un partido político', icon: 'Vote', feedback: 'Los partidos no emiten documentos: eso lo hacen instituciones del Estado.' },
+          ], correct: ['a'] },
+        ),
+        S.number(
+          { fase: 'comprobar', areas: ['mat', 'ccss'], cnb: ['mat:6.1.2', 'ccss:3.2.4'], prompt: 'Supongamos que en un grado hay **40 estudiantes** y **10** hablan garífuna. ¿Qué porcentaje habla garífuna?' },
+          { answer: 25, unit: '%' },
+        ),
+        cierre({ areas: ['ccss', 'fc'], cnb: ['ccss:3.1.4'] }, ['Describo pueblos de Guatemala y del mundo', 'Explico para qué sirven embajadas y consulados', 'Distingo instituciones del Estado, partidos y organizaciones sociales', 'Presento datos en porcentajes'],
+          ['Aprenderé un saludo en el idioma de otro pueblo de Guatemala', 'Averiguaré qué instituciones del Estado hay en mi comunidad', 'Propondré turnos y respeto en la próxima reunión']),
+      ],
+    }),
+
+    /* ───────────────────────── Día 4 ───────────────────────── */
+    lesson({
+      id: 's32-d4-voz-cuerpo',
+      title: 'Voz, cuerpo y música',
+      icon: 'Megaphone',
+      minutes: 15,
+      day: 4,
+      gancho: 'Cuando alguien habla en la plaza y nadie lo escucha, ¿qué le falta: volumen, buenas razones o un final que se recuerde?',
+      objetivos: ['Construir un mensaje oral argumentativo con un cierre memorable', 'Proyectar la voz para que llegue a todas las personas', 'Combinar carrera, salto y lanzamiento, y medir tu resistencia', 'Moverte al ritmo de la música y acompañar una melodía con acordes'],
+      resumen: [
+        'Un mensaje argumentativo tiene una tesis (lo que defiendes), argumentos (razones con datos) y una conclusión.',
+        'Un buen cierre resume la idea, invita a actuar y deja una frase fácil de recordar.',
+        'Proyectar la voz es hablar desde el abdomen, abrir bien la boca y mirar al fondo del lugar, sin gritar.',
+        'La resistencia de corta y mediana duración se entrena con carreras continuas a ritmo cómodo (puedes hablar mientras corres).',
+        'Para acompañar una nota de la melodía se usa un acorde que la contenga: con mi, Do mayor; con si o re, Sol mayor; con fa o la, Fa mayor.',
+        'El cuerpo también expresa emociones: alegría, tristeza, valentía o calma.',
+      ],
+      media: {
+        id: 's32-d4-plaza', kind: 'video', title: 'Debate en la plaza', aspect: '16:9', duration: 50,
+        alt: 'Una niña habla en la plaza del pueblo con voz clara frente a vecinos; después, estudiantes marchan al ritmo de una marimba y un niño toca acordes en guitarra.',
+        brief: 'Video de 50 s (dramatización o animación, sin rostros identificables en primer plano) en la plaza de un pueblo de Baja Verapaz: (1) una niña poqomchi\' en una tarima habla con buena postura, mirando al fondo; sobreimpreso "Tesis → Argumentos → Cierre"; (2) vecinos al fondo de la plaza levantan el pulgar porque la escuchan bien; (3) estudiantes marchan y saltan sincronizados con marimba; (4) un niño toca en guitarra los acordes Do, Fa y Sol mientras una niña canta. Rótulos grandes. Sin logotipos.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['l1', 'fc'], cnb: ['l1:2.1.5', 'l1:2.2.4'], ambito: 'convivir', title: 'Convencer con razones',
+            prompt: 'En la plaza, sexto grado defenderá: **"Nuestra comunidad debe proteger el bosque del quetzal"**. Toca cada parte del mensaje.' },
+          { icon: 'Megaphone', body: 'Argumentar no es pelear: es dar **buenas razones** para convencer con respeto.', reveal: [
+            { icon: 'Target', front: 'Tesis', back: '"Debemos proteger el bosque del quetzal."' },
+            { icon: 'ListChecks', front: 'Argumentos', back: '"El bosque da agua a los nacimientos; el quetzal dispersa semillas; los visitantes compran a las familias."' },
+            { icon: 'Flag', front: 'Conclusión', back: '"Por eso, cuidemos el bosque todos."' },
+            { icon: 'Star', front: 'Cierre memorable', back: '"Si cuidamos el bosque, el bosque nos cuida." Una frase corta que la gente recuerde.' },
+          ] },
+        ),
+        S.order(
+          { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:2.1.5', 'l1:2.2.4'], ambito: 'hacer',
+            prompt: 'Ordena el mensaje argumentativo de Rosalía para la plaza.',
+            explain: 'Primero el saludo y la tesis, luego los argumentos con datos, después la conclusión y al final un cierre que invite a actuar y se recuerde.' },
+          { items: [
+            { id: 'a1', text: 'Buenos días, vecinas y vecinos. Hoy quiero pedirles que protejamos el bosque del quetzal.' },
+            { id: 'a2', text: 'Primero, porque el bosque guarda el agua de nuestros nacimientos.' },
+            { id: 'a3', text: 'Además, el quetzal dispersa las semillas que hacen crecer nuevos árboles.' },
+            { id: 'a4', text: 'Por lo tanto, cuidar el bosque es cuidar nuestra agua y nuestro trabajo.' },
+            { id: 'a5', text: 'Sembremos un árbol este mes. Recuerden: si cuidamos el bosque, el bosque nos cuida.' },
+          ], labels: { start: 'Inicio', end: 'Cierre' } },
+        ),
+        S.choice(
+          { fase: 'construir', areas: ['l1', 'ef'], cnb: ['l1:2.1.4'], ambito: 'hacer',
+            prompt: 'La plaza es grande y hay ruido. ¿Qué te ayuda a **proyectar la voz** para que llegue a todas las personas? Elige todas las correctas.',
+            explain: 'La voz proyectada nace de una buena respiración y una postura firme. Gritar lastima la garganta y no se entiende mejor.' },
+          { multiple: true, options: [
+            { id: 'a', text: 'Respirar profundo desde el abdomen', icon: 'Wind' },
+            { id: 'b', text: 'Mirar a las personas del fondo de la plaza', icon: 'Eye' },
+            { id: 'c', text: 'Abrir bien la boca y pronunciar cada sílaba', icon: 'MessageCircle' },
+            { id: 'd', text: 'Gritar lo más fuerte posible', icon: 'Volume2', feedback: 'Gritar daña la garganta y la voz se distorsiona. Proyectar no es gritar.' },
+            { id: 'e', text: 'Hablar mirando al suelo', icon: 'EyeOff', feedback: 'Si miras al suelo, tu voz se queda cerca de ti.' },
+          ], correct: ['a', 'b', 'c'] },
+        ),
+        S.write(
+          { fase: 'aplicar', areas: ['l1', 'ccss', 'fc'], cnb: ['l1:2.1.5', 'l1:2.2.4', 'ccss:3.1.4'], ambito: 'convivir',
+            prompt: 'Escribe un **mensaje argumentativo** breve para la plaza sobre un tema de tu comunidad (el bosque, el agua, la basura o el respeto entre pueblos). Incluye tesis, dos argumentos, conclusión y un **cierre memorable**.' },
+          { minWords: 45, placeholder: 'Tesis: … Primero… Además… Por lo tanto… Cierre: …',
+            model: 'Vecinas y vecinos: en nuestra aldea debemos respetar todos los idiomas. Primero, porque en Guatemala se hablan 25 idiomas y cada uno guarda saberes de nuestros abuelos. Además, cuando alguien se burla de cómo habla otra persona, esa persona deja de participar y todos perdemos sus ideas. Por lo tanto, saludemos a cada quien en su idioma y aprendamos unos de otros. Recuerden: muchas voces, una sola comunidad.',
+            rubric: ['Presenta una tesis clara', 'Da al menos dos argumentos con razones', 'Tiene una conclusión', 'Termina con un cierre memorable que invita a actuar'] },
+        ),
+        S.pulse(
+          { fase: 'aplicar', areas: ['ef', 'cnt'], cnb: ['ef:1.3.12', 'ef:1.3.13'], ambito: 'hacer',
+            prompt: 'Circuito en un lugar seguro y con supervisión: **corre** 10 pasos, **salta** con los dos pies sobre una línea y **lanza** una pelota de papel o calcetín a un aro o cubeta. Repite el circuito seguido. Luego trota **3 minutos** a ritmo cómodo (debes poder hablar). Mide tu pulso antes y después.' },
+          { seconds: 15, rounds: [
+            { label: 'En reposo' },
+            { label: 'Después del circuito carrera-salto-lanzamiento', exercise: { name: 'Carrera, salto y lanzamiento combinados', icon: 'Target', seconds: 60 } },
+            { label: 'Después del trote de resistencia', exercise: { name: 'Trote continuo a ritmo cómodo', icon: 'Footprints', seconds: 180 } },
+          ] },
+        ),
+        S.match(
+          { fase: 'construir', areas: ['ef', 'art', 'l1'], cnb: ['ef:1.4.5', 'ef:1.4.4'], ambito: 'ser',
+            prompt: 'Pon música de marimba y, con tu grupo, **marcha 8 tiempos** y da **4 saltos** al compás, todos a la vez. Luego piensa: ¿qué comunica cada forma de moverse? Une cada movimiento con la **emoción** que expresa.',
+            explain: 'El cuerpo comunica aunque no hablemos. Moverse juntos al ritmo de la música une al grupo y ayuda a expresar lo que sentimos.' },
+          { leftTitle: 'Movimiento', rightTitle: 'Emoción', pairs: [
+            { id: 'm1', left: 'Saltos ligeros con brazos arriba', leftIcon: 'PartyPopper', right: 'Alegría' },
+            { id: 'm2', left: 'Pasos lentos, cabeza baja y hombros caídos', leftIcon: 'CloudRain', right: 'Tristeza' },
+            { id: 'm3', left: 'Marcha firme, pecho abierto y mirada al frente', leftIcon: 'Flag', right: 'Valentía' },
+            { id: 'm4', left: 'Balanceo suave y respiración profunda', leftIcon: 'Wind', right: 'Calma' },
+          ] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['art', 'mat'], cnb: ['art:1.1.7'], ambito: 'hacer',
+            prompt: 'Vas a acompañar en guitarra o teclado una melodía sencilla. Para cada nota larga de la melodía, elige el **acorde** que la contiene.',
+            hint: 'Do mayor = do-mi-sol. Fa mayor = fa-la-do. Sol mayor = sol-si-re.',
+            explain: 'Un acorde armoniza bien una nota cuando esa nota es parte del acorde. Por eso, con si o re suena bien Sol mayor, y con fa o la, Fa mayor.',
+            media: { id: 's32-d4-acordes', kind: 'diagram', title: 'Tres acordes para empezar', aspect: '16:9',
+              alt: 'Tres diagramas: acordes Do, Fa y Sol en un teclado con las teclas marcadas, y los mismos acordes en el diapasón de una guitarra.',
+              brief: 'Diagrama en dos filas. Arriba: tres fragmentos de teclado con las teclas coloreadas: Do mayor (do-mi-sol, azul), Fa mayor (fa-la-do, verde), Sol mayor (sol-si-re, naranja). Abajo: tres diagramas de diapasón de guitarra (acordes abiertos C, F simplificado y G) con puntos numerados para los dedos. Nombres grandes en español y cifrado americano entre paréntesis (C, F, G). Fondo blanco.' } },
+          { buckets: [
+            { id: 'do', label: 'Do mayor (do-mi-sol)', icon: 'Music', color: 'var(--area-l1)' },
+            { id: 'fa', label: 'Fa mayor (fa-la-do)', icon: 'Music', color: 'var(--c-ok)' },
+            { id: 'sol', label: 'Sol mayor (sol-si-re)', icon: 'Music', color: 'var(--c-maiz)' },
+          ], items: [
+            { id: 'n1', text: 'Nota mi', bucket: 'do' },
+            { id: 'n2', text: 'Nota la', bucket: 'fa' },
+            { id: 'n3', text: 'Nota si', bucket: 'sol' },
+            { id: 'n4', text: 'Nota re', bucket: 'sol' },
+            { id: 'n5', text: 'Nota fa', bucket: 'fa' },
+          ] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['l1'], cnb: ['l1:2.2.4', 'l1:2.1.5'], prompt: '¿Cuál es el mejor **cierre** para un mensaje argumentativo sobre cuidar el agua?' },
+          { options: [
+            { id: 'a', text: '"Cerremos el chorro mientras nos enjabonamos. Recuerden: cada gota cuenta."' },
+            { id: 'b', text: '"Bueno, eso era todo, creo."', feedback: 'No resume la idea ni invita a actuar: se olvida pronto.' },
+            { id: 'c', text: '"El agua es H₂O y hierve a 100 °C al nivel del mar."', feedback: 'Es un dato cierto, pero no cierra el argumento ni invita a actuar.' },
+          ], correct: ['a'] },
+        ),
+        S.tf(
+          { fase: 'comprobar', areas: ['ef', 'art', 'l1'], cnb: ['ef:1.3.13', 'art:1.1.7', 'l1:2.1.4'], prompt: '¿Verdadero o falso?' },
+          { statements: [
+            { text: 'Para entrenar la resistencia conviene trotar a un ritmo en el que puedas hablar.', answer: true },
+            { text: 'Proyectar la voz significa gritar lo más fuerte posible.', answer: false, why: 'Proyectar es respirar bien, abrir la boca y dirigir la voz, sin gritar.' },
+            { text: 'La nota si forma parte del acorde de Sol mayor.', answer: true },
+          ] },
+        ),
+        cierre({ areas: ['l1', 'ef'], cnb: ['l1:2.1.5'] }, ['Construyo un mensaje argumentativo con un cierre memorable', 'Proyecto la voz sin gritar', 'Combino carrera, salto y lanzamiento y cuido mi resistencia', 'Acompaño una melodía con acordes sencillos'],
+          ['Practicaré mi mensaje frente a mi familia, desde el otro lado del patio', 'Trotaré 10 minutos tres veces por semana', 'Tocaré o cantaré una canción con los acordes Do, Fa y Sol']),
+      ],
+    }),
+
+    /* ───────────────────────── Día 5: Reto semanal ───────────────────────── */
+    lesson({
+      id: 's32-d5-reto',
+      title: 'Reto de la semana 32',
+      icon: 'Trophy',
+      minutes: 13,
+      day: 5,
+      kind: 'reto',
+      objetivos: ['Demostrar lo que aprendiste esta semana', 'Obtener la medalla "Guardiana de la red" (70 % o más)'],
+      resumen: ['Superé el reto de la semana 32: relaciones entre seres vivos, clasificación, pueblos, instituciones y argumentación.'],
+      media: {
+        id: 's32-d5-reto', kind: 'image', title: 'Medalla Guardiana de la red', aspect: '1:1',
+        alt: 'Medalla dorada con un quetzal posado en una rama con bromelias, rodeado por una red de hilos que une manos de distintos pueblos.',
+        brief: 'Ilustración de medalla circular dorada con relieve: un quetzal posado en una rama con una bromelia; alrededor, una red de hilos finos que conecta pequeñas manos de distintos tonos de piel en el borde. Cinta con los colores de las áreas del CNB. Fondo transparente, 1024×1024.',
+      },
+      steps: [
+        S.sort({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.5.6'], prompt: 'Clasifica cada relación.' },
+          { buckets: [{ id: 'c', label: 'Comensalismo', icon: 'Link' }, { id: 'p', label: 'Parasitismo', icon: 'Bug' }],
+            items: [{ id: 'a', text: 'Bromelia sobre un árbol', bucket: 'c' }, { id: 'b', text: 'Pulga en un gato', bucket: 'p' }, { id: 'd', text: 'Garcita que come insectos junto a una vaca', bucket: 'c' }] }),
+        S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.5.7'], prompt: '¿Cómo ayuda el quetzal al bosque?' },
+          { options: [{ id: 'a', text: 'Dispersa las semillas de los frutos que come' }, { id: 'b', text: 'Poda las ramas de los árboles' }, { id: 'c', text: 'Riega las plantas' }], correct: ['a'] }),
+        S.order({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.1.5'], prompt: 'Ordena de lo más general a lo más particular.' },
+          { items: [{ id: 'a', text: 'Reino' }, { id: 'b', text: 'Clase' }, { id: 'c', text: 'Familia' }, { id: 'd', text: 'Género' }, { id: 'e', text: 'Especie' }] }),
+        S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.1.5'], prompt: '¿Cuál es el nombre científico del ser humano, bien escrito?' },
+          { options: [{ id: 'a', text: 'Homo sapiens' }, { id: 'b', text: 'homo Sapiens' }, { id: 'c', text: 'HOMO SAPIENS' }], correct: ['a'] }),
+        S.match({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.4', 'ccss:3.4.4'], prompt: 'Une cada elemento con su descripción.' },
+          { pairs: [{ id: 'a', left: 'Pueblo xinka', right: 'Vive en el oriente de Guatemala y su idioma no es maya' }, { id: 'b', left: 'Consulado', right: 'Atiende a los ciudadanos en el extranjero' }, { id: 'c', left: 'Pueblo quechua', right: 'Vive en los Andes' }] }),
+        S.choice({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:2.4.4', 'fc:3.4.1'], prompt: '¿Cuál es una institución del Estado que trabaja por el desarrollo humano?' },
+          { options: [{ id: 'a', text: 'El Ministerio de Educación' }, { id: 'b', text: 'Un partido político' }, { id: 'c', text: 'Una tienda de la esquina' }], correct: ['a'] }),
+        S.number({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:6.1.2', 'mat:6.1.1'], prompt: 'Supongamos que de 20 aves observadas, 5 eran quetzales. ¿Qué porcentaje eran quetzales?' },
+          { answer: 25, unit: '%' }),
+        S.choice({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:2.1.5'], prompt: 'En un mensaje argumentativo, "Debemos proteger el bosque" es…' },
+          { options: [{ id: 'a', text: 'La tesis' }, { id: 'b', text: 'El saludo' }, { id: 'c', text: 'Una señal natural' }], correct: ['a'] }),
+        S.fill({ fase: 'comprobar', areas: ['l3'], cnb: ['l3:2.2.2'], prompt: 'Complete with the correct punctuation mark or capital letter.' },
+          { text: 'Where do quetzals live[[?]] They live in the cloud forest[[.]] [[I]] saw one in Baja Verapaz.', distractors: ['!', 'i'] }),
+        S.choice({ fase: 'comprobar', areas: ['art'], cnb: ['art:1.1.7'], prompt: '¿Qué acorde armoniza mejor la nota **mi**?' },
+          { options: [{ id: 'a', text: 'Do mayor (do-mi-sol)' }, { id: 'b', text: 'Sol mayor (sol-si-re)' }, { id: 'c', text: 'Fa mayor (fa-la-do)' }], correct: ['a'] }),
+      ],
+    }),
+  ],
+
+  /* Banco de ítems para la Semana de validación de la Unidad 4 (el primer área = área principal) */
+  bank: [
+    S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.5.6'], prompt: 'La rémora se pega al tiburón y come sus sobras; al tiburón no le afecta. ¿Qué relación es?' },
+      { options: [{ id: 'a', text: 'Comensalismo' }, { id: 'b', text: 'Mutualismo' }, { id: 'c', text: 'Depredación' }], correct: ['a'] }),
+    S.tf({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.5.7', 'cnt:2.1.5'], prompt: '¿Verdadero o falso?' },
+      { statements: [{ text: 'Las abejas polinizan muchos cultivos que comemos.', answer: true }, { text: 'En el nombre científico, la especie se escribe con mayúscula inicial.', answer: false }] }),
+    S.match({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.1.5'], prompt: 'Une el nombre común con el científico.' },
+      { pairs: [{ id: 'a', left: 'Jaguar', right: 'Panthera onca' }, { id: 'b', left: 'Maíz', right: 'Zea mays' }, { id: 'c', left: 'Quetzal', right: 'Pharomachrus mocinno' }] }),
+    S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.4'], prompt: '¿Cuántos idiomas se hablan en Guatemala?' },
+      { options: [{ id: 'a', text: '25 (22 mayas, garífuna, xinka y español)' }, { id: 'b', text: '2' }, { id: 'c', text: '100' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.4.4'], prompt: '¿Para qué sirven las relaciones diplomáticas entre países?' },
+      { options: [{ id: 'a', text: 'Para dialogar, firmar acuerdos y proteger a sus ciudadanos' }, { id: 'b', text: 'Para cerrar fronteras siempre' }, { id: 'c', text: 'Para elegir alcaldes' }], correct: ['a'] }),
+    S.sort({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:3.4.1', 'fc:2.4.4'], prompt: 'Clasifica.' },
+      { buckets: [{ id: 'p', label: 'Partido político', icon: 'Vote' }, { id: 's', label: 'Organización social', icon: 'Users' }],
+        items: [{ id: 'a', text: 'Presenta candidatos a elecciones', bucket: 'p' }, { id: 'b', text: 'Cooperativa de caficultores', bucket: 's' }, { id: 'c', text: 'Comité de padres de familia', bucket: 's' }] }),
+    S.number({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:6.1.2'], prompt: 'Supongamos que 30 de 60 estudiantes prefieren el fútbol. ¿Qué porcentaje es?' },
+      { answer: 50, unit: '%' }),
+    S.choice({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:6.1.1'], prompt: '¿Cuál de estos datos es cualitativo?' },
+      { options: [{ id: 'a', text: 'El idioma materno de cada estudiante' }, { id: 'b', text: 'La edad en años' }, { id: 'c', text: 'La estatura en centímetros' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:2.1.4'], prompt: '¿Qué ayuda a proyectar la voz en un lugar grande?' },
+      { options: [{ id: 'a', text: 'Respirar desde el abdomen y mirar al fondo del lugar' }, { id: 'b', text: 'Hablar hacia el suelo' }, { id: 'c', text: 'Taparse la boca' }], correct: ['a'] }),
+    S.match({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:3.1.3', 'l2:3.1.4', 'l2:3.1.2'], prompt: 'Une cada necesidad con la sección o fuente.' },
+      { pairs: [{ id: 'a', left: 'Buscar la página de un tema', right: 'Índice' }, { id: 'b', left: 'Entender una palabra difícil del libro', right: 'Glosario' }, { id: 'c', left: 'Conocer la experiencia de una guardabosques', right: 'Entrevista' }] }),
+    S.choice({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.3.12'], prompt: 'Un circuito de "carrera, salto y lanzamiento" combina…' },
+      { options: [{ id: 'a', text: 'Tres habilidades motrices seguidas' }, { id: 'b', text: 'Solo estiramientos' }, { id: 'c', text: 'Juegos de mesa' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:1.4.3'], prompt: 'Una familia que vende cardamomo a compradores que lo exportan necesita, sobre todo…' },
+      { options: [{ id: 'a', text: 'Caminos para sacar la cosecha y precios justos' }, { id: 'b', text: 'Que no llueva nunca' }, { id: 'c', text: 'Talar el bosque' }], correct: ['a'] }),
+  ],
+});
