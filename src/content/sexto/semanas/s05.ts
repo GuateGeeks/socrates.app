@@ -135,7 +135,7 @@ export default semana({
             { id: 'z1', left: 'Camino de tierra', leftIcon: 'Footprints', right: 'Arena pegada (rugosa)' },
             { id: 'z2', left: 'Pila de agua', leftIcon: 'Droplets', right: 'Papel aluminio alisado (liso y frío)' },
             { id: 'z3', left: 'Jardín con grama', leftIcon: 'Sprout', right: 'Felpa (suave)' },
-            { id: 'z4', left: 'Cancha de cemento', leftIcon: 'Square', right: 'Cartulina gruesa (lisa y firme)' },
+            { id: 'z4', left: 'Cancha de cemento', leftIcon: 'School', right: 'Cartulina gruesa (lisa y firme)' },
           ], leftTitle: 'Zona', rightTitle: 'Textura' },
         ),
         S.highlight(

@@ -75,6 +75,9 @@ Reglas:
 - Todos los pasos llevan `areas` con **la materia en primer lugar** (`areas[0]` = materia; el validador lo exige). Agrega otras áreas como secundarias **solo** si el paso de verdad las trabaja.
 - `cnb`: ids de CONTENIDO (`mat:1.1.1`) de la propia materia que el paso enseña o evalúa de verdad.
 - Variedad: no repitas el mismo tipo de actividad más de 2 veces seguidas; usa las actividades manipulativas (polygon, loom, maya, slider, chart, coord, rhythm, recipe, pulse) donde enseñan mejor que una pregunta de opción múltiple.
+- Representación visual: no uses `Circle`, `Square` u otra forma abstracta para representar objetos concretos (tortilla, ventana, panela, pozo, cancha, herramienta). Usa un icono Lucide específico (`Pizza`, `AppWindow`, `Package`, `Store`, `School`, `Wheat`, etc.) o agrega un `media` mock con brief claro de la imagen, diagrama o animación que debe reemplazarlo. Las formas geométricas solo deben representar la figura matemática cuando esa figura es el contenido que se enseña.
+- Matemáticas: el contexto debe servir al contenido. Usa `coord` para mapas y puntos, `slider` para rectas o termómetros, `polygon` para geometría, `chart` para datos, `recipe` para proporciones y `maya` para numeración maya antes de recurrir a choice. Si haría falta una simulación más compleja, deja un media mock con la animación esperada.
+- Lenguaje: vocabulario, lectura, producción escrita y oralidad deben compartir el tema central de la lección. Evita listas de palabras desconectadas del texto, situación o producto de la clase.
 - Retroalimentación formativa: `feedback` en distractores y `misconceptions` en `S.number` para errores típicos.
 - Duración: estima ~1 min por paso de práctica y ~1.5 min por paso de enseñanza o lectura; `minutes` realista.
 

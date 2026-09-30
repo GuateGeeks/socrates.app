@@ -44,5 +44,6 @@ Cada lección y varios pasos tienen un **espacio multimedia** (imagen, video, an
 - [docs/SISTEMA_DE_DISENO.md](docs/SISTEMA_DE_DISENO.md) — tokens, íconos, movimiento, interacción, medios.
 - [docs/ESPECIFICACION_MATERIAS.md](docs/ESPECIFICACION_MATERIAS.md) — v3: horario, lecciones por materia, taller y reto.
 - [docs/AUTORIA.md](docs/AUTORIA.md) y [docs/ESPECIFICACION_CONTENIDO.md](docs/ESPECIFICACION_CONTENIDO.md) — cómo escribir semanas, lecciones y actividades.
+- [docs/ESTADO_DISENO_CONTENIDO.md](docs/ESTADO_DISENO_CONTENIDO.md) — estado actual, brechas de cohesión y reglas para reemplazar mocks.
 
 Contenido curricular: © MINEDUC / cnbguatemala.org, CC BY-SA 4.0. Íconos: Lucide (ISC).

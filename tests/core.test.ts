@@ -9,6 +9,7 @@ import { mayaTotal } from '../src/activities/maya-number';
 import { setStorageAdapter, recordLesson, getProgress, emptyProgress, nivel, type Progress } from '../src/core/progress';
 import { parseDosificacion } from '../scripts/build-cnb.mjs';
 import { COURSE, evaluateBadges } from '../src/content/index';
+import { mediaReplacementSummary } from '../src/media/mockRegistry';
 
 registerAll();
 
@@ -161,4 +162,14 @@ test('año: 40 semanas y semanas de validación armadas desde los bancos', () =>
   const ids = v.lessons.flatMap((l) => l.steps.map((s) => s.id));
   assert.equal(new Set(ids).size, ids.length);
   assert.ok(v.lessons[0].steps.every((s) => s.fase === 'comprobar'));
+});
+
+test('medios: el registro interno lista maquetas y cómo reemplazarlas', () => {
+  const summary = mediaReplacementSummary();
+  assert.ok(summary.total >= 500);
+  assert.equal(summary.produced, 0);
+  assert.equal(summary.mocked, summary.total);
+  assert.ok(summary.rows.every((r) => r.replacement.fileTarget.startsWith('public/media/')));
+  assert.ok(summary.rows.every((r) => r.replacement.registrySnippet.includes(r.slot.id)));
+  assert.ok(summary.rows.some((r) => r.slot.brief.length >= 60));
 });

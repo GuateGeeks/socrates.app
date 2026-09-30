@@ -179,7 +179,7 @@ export default semana({
             explain: '22 de 40 estudiantes (16 + 6) trajeron golosinas o nada. Esa es la necesidad que justifica una refacción con proteínas, carbohidratos y vitaminas.' },
           { categories: [
             { id: 'gol', label: 'Golosinas', icon: 'Package', color: 'var(--area-cnt)' },
-            { id: 'tor', label: 'Tortilla y frijol', icon: 'Circle', color: 'var(--area-pyd)' },
+            { id: 'tor', label: 'Tortilla y frijol', icon: 'Utensils', color: 'var(--area-pyd)' },
             { id: 'fru', label: 'Fruta', icon: 'Apple', color: 'var(--c-ok)' },
             { id: 'nad', label: 'Nada', icon: 'X', color: 'var(--c-hint)' },
           ], data: [16, 10, 8, 6], max: 20, step: 2, unit: 'estudiantes', source: 'Encuesta hipotética del equipo' },
@@ -192,7 +192,7 @@ export default semana({
             { name: 'Masa de maíz', icon: 'Wheat', qty: 2, unit: 'libras' },
             { name: 'Leche', icon: 'Milk', qty: 3, unit: 'litros' },
             { name: 'Rajas de canela', icon: 'TreeDeciduous', qty: 2, unit: 'rajas' },
-            { name: 'Panela', icon: 'Square', qty: 1, unit: 'bloque' },
+            { name: 'Panela', icon: 'Package', qty: 1, unit: 'bloque' },
           ], ask: [0, 1, 3] },
         ),
         S.number(

@@ -35,8 +35,8 @@ export default [
           explain: 'La tortilla es redonda: su borde es **curvo**. Las figuras hechas solo de lados rectos y cerradas se llaman **polígonos**.' },
         { layout: 'grid', options: [
           { id: 'a', text: 'La señal de ALTO', icon: 'Octagon', feedback: 'La señal de ALTO tiene 8 lados rectos.' },
-          { id: 'b', text: 'Una tortilla', icon: 'Circle' },
-          { id: 'c', text: 'Una ventana', icon: 'Square', feedback: 'La ventana tiene 4 lados rectos.' },
+          { id: 'b', text: 'Una tortilla', icon: 'Pizza' },
+          { id: 'c', text: 'Una ventana', icon: 'AppWindow', feedback: 'La ventana tiene 4 lados rectos.' },
         ], correct: ['b'] },
       ),
       S.explain(

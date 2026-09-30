@@ -93,7 +93,7 @@ export default semana({
             { name: 'Elotes desgranados', icon: 'Wheat', qty: 3, unit: 'elotes' },
             { name: 'Leche', icon: 'Milk', qty: 2, unit: 'tazas' },
             { name: 'Frijol cocido', icon: 'Utensils', qty: 1, unit: 'taza' },
-            { name: 'Tortillas', icon: 'Circle', qty: 8, unit: 'tortillas' },
+            { name: 'Tortillas', icon: 'Pizza', qty: 8, unit: 'tortillas' },
           ], ask: [0, 1, 3] },
         ),
         S.explain(

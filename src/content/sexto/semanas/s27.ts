@@ -173,8 +173,8 @@ export default semana({
             { id: 'a', text: 'El celular', icon: 'Smartphone' },
             { id: 'b', text: 'La lámina del techo', icon: 'Home' },
             { id: 'c', text: 'Los cables de la luz', icon: 'Zap' },
-            { id: 'd', text: 'El piso de cemento', icon: 'Square' },
-            { id: 'e', text: 'Una tortilla', icon: 'Circle', feedback: 'La tortilla viene del maíz, una planta. (Aunque se usa cal para el nixtamal, la tortilla no es un objeto de metal.)' },
+            { id: 'd', text: 'El piso de cemento', icon: 'Warehouse' },
+            { id: 'e', text: 'Una tortilla', icon: 'Pizza', feedback: 'La tortilla viene del maíz, una planta. (Aunque se usa cal para el nixtamal, la tortilla no es un objeto de metal.)' },
           ], correct: ['a', 'b', 'c', 'd'] },
         ),
         S.sort(

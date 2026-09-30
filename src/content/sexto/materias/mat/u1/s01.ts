@@ -576,7 +576,7 @@ export default [
           prompt: 'Tienes dos tortillas hechas con el mismo molde y una tortillita pequeña. ¿Cuáles **encajarían exactamente** una sobre otra?',
           explain: 'Las dos del mismo molde tienen la misma forma **y** el mismo tamaño. La pequeña tiene la misma forma, pero no el mismo tamaño.' },
         { options: [
-          { id: 'a', text: 'Las dos tortillas del mismo molde', icon: 'Circle' },
+          { id: 'a', text: 'Las dos tortillas del mismo molde', icon: 'Pizza' },
           { id: 'b', text: 'Una tortilla del molde y la tortillita', icon: 'CircleDot', feedback: 'Son redondas las dos, pero de distinto tamaño: no encajan exactamente.' },
           { id: 'c', text: 'Todas, porque todas son redondas', icon: 'Layers', feedback: 'Ser redondas no basta: también deben ser del mismo tamaño.' },
         ], correct: ['a'] },
