@@ -1,0 +1,12 @@
+{
+  "name": "Socrates Aprende",
+  "short_name": "Socrates",
+  "description": "Experiencias interactivas basadas en el CNB de Guatemala",
+  "lang": "es-GT",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF8EC",
+  "theme_color": "#1F6F8B",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

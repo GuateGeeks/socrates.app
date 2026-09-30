@@ -1,0 +1,611 @@
+import { S, cierre, lesson, semana } from '../../dsl';
+
+/**
+ * SEMANA 16 · Unidad 2 "Consolidando nuestras relaciones"
+ * Tema generador: Sembrar juntos: bosques, pueblos y libertades
+ * Ambiente y salud, reforestación y especies en riesgo · divisibilidad y números primos ·
+ * Revolución Francesa e independencias de América · fin de la Guerra Fría y derechos humanos ·
+ * lengua, idioma y expresiones interculturales · juegos de campo y vida activa.
+ */
+export default semana({
+  id: 's16',
+  unidad: 2,
+  semana: 16,
+  kind: 'aprendizaje',
+  temaGenerador: 'Sembrar juntos: bosques, pueblos y libertades',
+  title: 'Sembrar juntos: bosques, pueblos y libertades',
+  subtitle: 'Ambiente sano, independencias, derechos y números primos',
+  icon: 'TreePine',
+  color: 'var(--area-cnt)',
+  contexto: 'En Totonicapán, las comunidades de los 48 Cantones cuidan desde hace generaciones sus bosques comunales, y de ellos depende el agua de muchas familias. Tu escuela prepara un puesto para la feria escolar: una campaña de reforestación y una exposición sobre cómo los pueblos de América y del mundo conquistaron su libertad y sus derechos. Esta semana descubrirás que cuidar el bosque y cuidar la libertad son tareas que se hacen en comunidad.',
+  ejes: ['sostenible', 'vida-ciudadana', 'multiculturalidad', 'seguridad'],
+  media: {
+    id: 's16-portada', kind: 'video', title: 'Bosques que cuidan comunidades', aspect: '16:9', duration: 60,
+    alt: 'Estudiantes y familias siembran árboles en una ladera del altiplano; luego aparece una feria escolar con carteles sobre independencia y derechos.',
+    brief: 'Video de 60 s (o animación 2D). Escena 1: neblina en un bosque de pino y pinabete del altiplano occidental, un nacimiento de agua. Escena 2: estudiantes de sexto, con sus familias, siembran pilones en una ladera; una niña con traje de Totonicapán y un niño con playera escolar cargan la pala juntos. Escena 3: feria escolar con carteles "Reforestemos", "1821: Independencia de Centroamérica" y "Derechos de la niñez". Texto final: "Sembrar juntos". Marimba de fondo. Sin marcas ni rostros reales identificables.',
+  },
+  badge: { id: 'medalla-s16', name: 'Sembrador de libertades', icon: 'TreePine', desc: 'Completaste la semana 16 y superaste su reto' },
+  lessons: [
+    /* ───────────────────────── Día 1 ───────────────────────── */
+    lesson({
+      id: 's16-d1-ambiente-salud',
+      title: 'Un ambiente sano, una salud compartida',
+      icon: 'HeartPulse',
+      minutes: 14,
+      day: 1,
+      gancho: 'Si el río de tu comunidad se ensucia, ¿quiénes se enferman primero: las personas, los animales o las plantas?',
+      objetivos: ['Demostrar que la salud de personas, animales y plantas depende del ambiente', 'Describir actividades humanas que dañan el ambiente', 'Explicar cómo la reforestación mejora el aire y la vida', 'Formar palabras nuevas con prefijos y sufijos'],
+      resumen: [
+        'La salud humana, la sanidad animal y la vegetal están unidas: agua sucia, humo o plaguicidas en exceso enferman a todos.',
+        'Deforestar, quemar basura, tirar desechos a los ríos y usar plaguicidas sin control dañan el ambiente.',
+        'Los árboles absorben dióxido de carbono, producen oxígeno, atrapan polvo y sujetan el suelo: reforestar mejora el aire y previene deslaves.',
+        'La raíz es la parte que lleva el significado (plant-); los prefijos van antes (re-plantar) y los sufijos después (planta-ción).',
+      ],
+      media: {
+        id: 's16-d1-una-salud', kind: 'diagram', title: 'Una sola salud', aspect: '4:3',
+        alt: 'Tres círculos que se cruzan: personas, animales y plantas, con el ambiente (agua, aire y suelo) rodeándolos.',
+        brief: 'Diagrama de Venn con tres círculos que se superponen: PERSONAS (niña bebiendo agua), ANIMALES (vaca y gallina), PLANTAS (milpa). En el centro, la frase "Una sola salud". Alrededor, un anillo rotulado AMBIENTE con íconos de agua, aire y suelo. Flechas que muestran: río limpio → todos sanos; río sucio → todos enfermos. Estilo plano, colores verdes y azules.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['cnt', 'ef'], cnb: ['cnt:6.1.2'], ambito: 'conocer', title: 'Una sola salud',
+            prompt: 'Las personas, los animales y las plantas compartimos el **mismo ambiente**: el agua, el aire y el suelo. Si el ambiente enferma, todos enfermamos. Toca cada tarjeta.' },
+          { icon: 'HeartPulse', body: 'Los científicos llaman a esta idea **"una sola salud"**: cuidar el ambiente es cuidar nuestra salud.', reveal: [
+            { icon: 'Droplets', front: 'Agua', back: 'Agua sucia causa **diarreas** en niños y **enfermedades** en el ganado; los peces mueren.' },
+            { icon: 'Wind', front: 'Aire', back: 'El humo de quemas provoca **tos y enfermedades respiratorias**; también daña las hojas de las plantas.' },
+            { icon: 'Sprout', front: 'Suelo', back: 'Un suelo con demasiados químicos da **cosechas pobres** y mata lombrices y abejas.' },
+            { icon: 'Bug', front: 'Agua estancada', back: 'Llantas y botes con agua son criaderos de **zancudos** que transmiten el dengue.' },
+          ] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:6.2.2'], ambito: 'conocer',
+            prompt: '¿Qué **actividades humanas dañan** el ambiente y cuáles lo **protegen**? Clasifícalas.',
+            hint: 'Pregúntate: ¿esta acción ensucia el agua, el aire o el suelo, o destruye bosques?',
+            explain: 'Muchas actividades que dañan el ambiente se pueden cambiar: en vez de quemar basura, se separa y se hace abono; en vez de talar sin control, se maneja el bosque.' },
+          { buckets: [
+            { id: 'dana', label: 'Dañan el ambiente', icon: 'Factory', color: 'var(--c-bad)' },
+            { id: 'protege', label: 'Protegen el ambiente', icon: 'Leaf', color: 'var(--c-ok)' },
+          ], items: [
+            { id: 'h1', text: 'Talar el bosque para vender leña sin permiso', icon: 'Trees', bucket: 'dana' },
+            { id: 'h2', text: 'Quemar basura en el patio', icon: 'Flame', bucket: 'dana' },
+            { id: 'h3', text: 'Tirar desechos al río', icon: 'Waves', bucket: 'dana' },
+            { id: 'h4', text: 'Usar plaguicidas en exceso', icon: 'FlaskConical', bucket: 'dana' },
+            { id: 'h5', text: 'Hacer abono con restos de comida', icon: 'Recycle', bucket: 'protege' },
+            { id: 'h6', text: 'Sembrar árboles en la orilla del río', icon: 'TreePine', bucket: 'protege' },
+          ] },
+        ),
+        S.match(
+          { fase: 'construir', areas: ['cnt'], cnb: ['cnt:6.1.2'], ambito: 'conocer',
+            prompt: 'Demuestra la relación **ambiente → salud**: une cada problema ambiental con su efecto en personas, animales o plantas.',
+            explain: 'Cada problema afecta a más de un ser vivo. Por eso la salud de la comunidad depende de un ambiente sano.' },
+          { leftTitle: 'Problema ambiental', rightTitle: 'Efecto en la salud', pairs: [
+            { id: 'agu', left: 'Agua estancada en llantas viejas', leftIcon: 'Droplet', right: 'Zancudos que transmiten dengue a las personas' },
+            { id: 'rio', left: 'Río con basura y aguas negras', leftIcon: 'Waves', right: 'Peces muertos y diarreas en la comunidad' },
+            { id: 'pla', left: 'Plaguicidas usados sin control', leftIcon: 'FlaskConical', right: 'Mueren abejas y baja la polinización de cultivos' },
+            { id: 'hum', left: 'Humo de quemas de basura', leftIcon: 'Flame', right: 'Tos y enfermedades respiratorias' },
+          ] },
+        ),
+        S.explain(
+          { fase: 'construir', areas: ['cnt', 'pyd'], cnb: ['cnt:6.3.2'], ambito: 'conocer', title: 'Reforestar para respirar',
+            prompt: 'Un bosque es como un gran **purificador de aire** y un **escudo** contra desastres. Toca cada tarjeta.',
+            media: { id: 's16-d1-arbol', kind: 'animation', title: '¿Qué hace un árbol por el aire?', aspect: '16:9', duration: 50,
+              alt: 'Animación de un árbol que absorbe dióxido de carbono, libera oxígeno, atrapa polvo en sus hojas y sujeta el suelo con sus raíces bajo la lluvia.',
+              brief: 'Animación 2D de 50 s con un pino del altiplano en corte. (1) Flechas grises "CO₂" entran a las hojas y salen burbujas celestes "O₂". (2) Partículas de polvo se pegan a las hojas. (3) Sombra que baja la temperatura del suelo (termómetro de 30 °C a 24 °C, rotulado "ejemplo"). (4) Llueve: las raíces sujetan la tierra, mientras en una ladera sin árboles la tierra se desliza. Narración infantil en español, subtítulos, sin víctimas.' } },
+          { icon: 'TreePine', body: 'Reforestar es **volver a sembrar árboles** donde se perdieron. Mejora la calidad del aire y, por eso, la calidad de vida.', reveal: [
+            { icon: 'Wind', front: 'Aire más limpio', back: 'Los árboles **absorben dióxido de carbono** y liberan **oxígeno**; sus hojas **atrapan polvo** y humo.' },
+            { icon: 'Thermometer', front: 'Menos calor', back: 'Su sombra y el agua que transpiran **refrescan** el ambiente.' },
+            { icon: 'Mountain', front: 'Menos deslaves', back: 'Las **raíces sujetan el suelo** y ayudan a que el agua de lluvia se filtre, reduciendo deslaves e inundaciones.' },
+            { icon: 'Bird', front: 'Más vida', back: 'Dan **hogar y alimento** a aves, insectos y mamíferos.' },
+          ] },
+        ),
+        S.fill(
+          { fase: 'construir', areas: ['l2', 'cnt'], cnb: ['l2:4.2.1', 'l2:4.2.2'], ambito: 'conocer',
+            prompt: 'Para el cartel de la feria formas palabras nuevas. La **raíz** (morfema base) lleva el significado; el **prefijo** va antes y el **sufijo**, después. Completa.',
+            hint: 'Busca la parte que se repite en plantar, planta y plantación.',
+            explain: 're- significa "otra vez"; des- significa "quitar o lo contrario"; -ción forma sustantivos de acción; -ito forma diminutivos.' },
+          { text: 'En plantar, planta y plantación, la raíz es [[plant]].\nCon el prefijo re- formo [[replantar]]: volver a plantar.\nCon el sufijo -ción formo [[plantación]]: lugar donde hay muchas plantas.\nCon el prefijo des- y "contaminar" formo [[descontaminar]]: quitar la contaminación.\nCon el sufijo -ito y "árbol" formo [[arbolito]].',
+            distractors: ['planteo', 'contaminación', 'arboleda'] },
+        ),
+        S.choice(
+          { fase: 'aplicar', areas: ['art', 'cnt'], cnb: ['art:3.2.3'], ambito: 'hacer',
+            prompt: 'En un cartel, la **figura** es lo que queremos que destaque y el **fondo** es lo que está detrás. Tu cartel lo verá también un compañero con **baja visión**. ¿Qué diseños hacen que el árbol (figura) se distinga bien del fondo? Elige **todos** los correctos.',
+            explain: 'La figura destaca cuando hay **contraste** de color (oscuro sobre claro) o de **textura** (rugoso sobre liso). La textura permite reconocer la figura con el tacto.',
+            media: { id: 's16-d1-cartel', kind: 'image', title: 'Figura y fondo en un cartel', aspect: '4:3',
+              alt: 'Cuatro versiones del mismo árbol: verde oscuro sobre amarillo claro, verde sobre verde, con relieve de cartón corrugado sobre fondo liso, y gris claro sobre blanco.',
+              brief: 'Lámina con 4 recuadros numerados, mismo dibujo de árbol en cada uno: (A) árbol verde oscuro sobre fondo amarillo claro; (B) árbol verde medio sobre fondo verde medio; (C) árbol hecho con cartón corrugado y semillas pegadas (textura visible) sobre fondo de papel liso celeste; (D) árbol gris claro sobre fondo blanco. Fotografía cenital de trabajos manuales reales de papel, sin texto dentro de la imagen.' } },
+          { multiple: true, layout: 'grid', options: [
+            { id: 'a', text: 'A: verde oscuro sobre amarillo claro', icon: 'Sun' },
+            { id: 'b', text: 'B: verde sobre verde', icon: 'Leaf', feedback: 'Sin contraste, la figura se confunde con el fondo.' },
+            { id: 'c', text: 'C: árbol con textura rugosa sobre fondo liso', icon: 'Hand' },
+            { id: 'd', text: 'D: gris claro sobre blanco', icon: 'Cloud', feedback: 'Dos colores muy claros casi no se distinguen, menos para alguien con baja visión.' },
+          ], correct: ['a', 'c'] },
+        ),
+        S.match(
+          { fase: 'aplicar', areas: ['ef', 'cnt'], cnb: ['ef:2.2.1'], ambito: 'hacer',
+            prompt: 'Después de sembrar, el grado hará **juegos de campo** en el bosque, cuidando no dañar plantas ni animales. Une cada tipo de juego con su definición.',
+            explain: 'Los juegos de campo se hacen al aire libre, con bajo impacto ambiental: se observa, se orienta y se supera retos sin dejar basura.' },
+          { leftTitle: 'Juego de campo', rightTitle: 'Definición', pairs: [
+            { id: 'exp', left: 'Exploración', leftIcon: 'Search', right: 'Recorrer y observar la naturaleza para descubrir plantas, huellas y sonidos' },
+            { id: 'ori', left: 'Orientación', leftIcon: 'Compass', right: 'Encontrar puntos marcados usando un mapa, una brújula o el sol' },
+            { id: 'ave', left: 'Aventura', leftIcon: 'Mountain', right: 'Superar retos físicos como cruzar un tronco o subir una cuesta con seguridad' },
+          ] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:6.3.2', 'cnt:6.1.2'], prompt: 'Boleto de salida: ¿por qué reforestar mejora la **calidad del aire**?' },
+          { options: [
+            { id: 'a', text: 'Porque los árboles absorben dióxido de carbono, liberan oxígeno y atrapan polvo', icon: 'Wind' },
+            { id: 'b', text: 'Porque los árboles producen humo', icon: 'Flame', feedback: 'Los árboles no producen humo; el humo viene de quemas.' },
+            { id: 'c', text: 'Porque los árboles hacen que llueva ácido', icon: 'CloudRain', feedback: 'La lluvia ácida la causa la contaminación, no los árboles.' },
+          ], correct: ['a'] },
+        ),
+        S.tf(
+          { fase: 'comprobar', areas: ['cnt', 'l2', 'art'], cnb: ['cnt:6.2.2', 'l2:4.2.1', 'art:3.2.3'], prompt: '¿Verdadero o falso?' },
+          { statements: [
+            { text: 'Quemar basura es una actividad humana que daña el ambiente.', answer: true },
+            { text: 'En "replantar", el prefijo es re-.', answer: true },
+            { text: 'Para que una figura destaque, conviene que tenga el mismo color que el fondo.', answer: false, why: 'Se necesita contraste: colores o texturas diferentes.' },
+            { text: 'La salud de los animales no tiene relación con el ambiente.', answer: false, why: 'El agua, el aire y el suelo afectan la salud de animales, plantas y personas.' },
+          ] },
+        ),
+        cierre({ areas: ['cnt', 'fc'], cnb: ['cnt:6.2.2'] }, ['Explico cómo el ambiente afecta la salud de personas, animales y plantas', 'Describo por qué reforestar mejora el aire', 'Formo palabras con prefijos y sufijos'],
+          ['Vaciaré los recipientes con agua estancada en mi casa', 'Propondré sembrar un árbol con mi familia', 'Separaré la basura en lugar de quemarla']),
+      ],
+    }),
+
+    /* ───────────────────────── Día 2 ───────────────────────── */
+    lesson({
+      id: 's16-d2-especies-primos',
+      title: 'Especies en riesgo, números en orden',
+      icon: 'Bird',
+      minutes: 15,
+      day: 2,
+      gancho: '¿Has visto alguna vez una guacamaya roja o un pinabete? ¿Por qué cada vez son más difíciles de encontrar?',
+      objetivos: ['Explicar por qué el crecimiento de la población amenaza a las especies silvestres', 'Predecir en inglés lo que ocurrirá en una ilustración', 'Aplicar las reglas de divisibilidad y clasificar números en primos y compuestos', 'Clasificar palabras en agudas, graves y esdrújulas'],
+      resumen: [
+        'Cuando la población crece sin planificación, se talan bosques para casas y cultivos: las especies pierden su hábitat y pueden desaparecer.',
+        'Reglas de divisibilidad: entre 2 si termina en cifra par (0, 2, 4, 6, 8); 3 si sus cifras suman múltiplo de 3; 4 si sus dos últimas cifras son múltiplo de 4; 5 si termina en 0 o 5; 6 si es divisible entre 2 y 3; 8 si sus tres últimas cifras son múltiplo de 8; 9 si sus cifras suman múltiplo de 9; 10 si termina en 0.',
+        'Un número primo tiene solo dos divisores (1 y él mismo); un compuesto tiene más. El 1 no es primo ni compuesto; el 2 es el único primo par.',
+        'Aguda: fuerza en la última sílaba (ja-guar); grave: en la penúltima (ár-bol); esdrújula: en la antepenúltima (pá-ja-ro).',
+      ],
+      media: {
+        id: 's16-d2-especies', kind: 'image', title: 'Especies de Guatemala que necesitan ayuda', aspect: '16:9',
+        alt: 'Ilustración de un bosque con una guacamaya roja, un jaguar, un pinabete, un quetzal y un manatí en un río.',
+        brief: 'Ilustración naturalista en estilo acuarela: selva de Petén a la izquierda (guacamaya roja en un árbol alto, jaguar entre helechos), bosque nuboso al centro (quetzal en un aguacatillo), altiplano a la derecha (pinabete joven) y un río con un manatí asomándose. Cada especie con una etiqueta y un ícono de "hábitat en riesgo". Sin personas ni texto en la imagen salvo las etiquetas.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['cnt', 'ccss'], cnb: ['cnt:6.4.2'], ambito: 'conocer', title: 'Más personas, menos hábitat',
+            prompt: 'Cada vez somos más personas en Guatemala y en el mundo. Si la población crece **sin planificación**, las especies silvestres pierden su hogar. Toca cada tarjeta.' },
+          { icon: 'Users', body: 'El problema no es que existan más personas, sino **cómo** usamos la tierra, el agua y los bosques para vivir.', reveal: [
+            { icon: 'Home', front: 'Más casas y cultivos', back: 'Se talan bosques y se secan humedales: los animales pierden su **hábitat**.' },
+            { icon: 'Droplets', front: 'Más consumo', back: 'Se necesita más agua, leña y alimento; los ríos bajan y se contaminan.' },
+            { icon: 'Route', front: 'Más carreteras', back: 'Los bosques quedan **divididos** en pedazos y los animales no pueden moverse.' },
+            { icon: 'ShoppingBasket', front: 'Caza y venta ilegal', back: 'Algunas personas capturan guacamayas o cortan pinabetes sin permiso para venderlos.' },
+          ] },
+        ),
+        S.chart(
+          { fase: 'construir', areas: ['cnt', 'mat', 'ccss'], cnb: ['cnt:6.4.2'], ambito: 'hacer',
+            prompt: '**Supongamos** que en un municipio se contaron las **manzanas de bosque** en distintos años: 1990 → 40, 2000 → 30, 2010 → 25, 2020 → 15. Construye la gráfica.',
+            explain: 'En este ejemplo, el bosque bajó de 40 a 15 manzanas mientras crecía la población. Con menos bosque, especies como la guacamaya o el jaguar tienen menos espacio para vivir y alimentarse.' },
+          { categories: [
+            { id: 'a1990', label: '1990', icon: 'Trees', color: 'var(--area-cnt)' },
+            { id: 'a2000', label: '2000', icon: 'Trees', color: 'var(--area-cnt)' },
+            { id: 'a2010', label: '2010', icon: 'Trees', color: 'var(--area-cnt)' },
+            { id: 'a2020', label: '2020', icon: 'Trees', color: 'var(--area-cnt)' },
+          ], data: [40, 30, 25, 15], max: 50, step: 5, unit: 'manzanas', source: 'Datos hipotéticos de un municipio' },
+        ),
+        S.choice(
+          { fase: 'construir', areas: ['l3', 'cnt'], cnb: ['l3:4.3.4'], ambito: 'conocer',
+            prompt: 'English time! Look at the picture and **predict**: what will happen next? (Para predecir usamos **will**: _The trees will grow_ = Los árboles crecerán.)',
+            explain: 'The children are planting trees near the river. In a few years, the trees **will grow** and the birds **will come back**.',
+            media: { id: 's16-d2-predict', kind: 'image', title: 'What will happen next?', aspect: '4:3',
+              alt: 'Niñas y niños siembran árboles pequeños junto a un río; en una rama seca lejana hay un nido vacío.',
+              brief: 'Ilustración infantil: a la orilla de un río, cuatro estudiantes con palas siembran árboles pequeños con tutores de madera. Al fondo, un árbol seco con un nido vacío y dos guacamayas volando a lo lejos, mirando hacia los arbolitos. Cielo despejado. Estilo cálido, sin texto dentro de la imagen.' } },
+          { options: [
+            { id: 'a', text: 'The trees will grow and the birds will come back.', icon: 'Bird' },
+            { id: 'b', text: 'The river will turn into a desert tomorrow.', icon: 'Sun', feedback: 'That is not a logical prediction from the picture.' },
+            { id: 'c', text: 'The children will cut all the trees.', icon: 'Trash2', feedback: 'The children are planting, not cutting.' },
+          ], correct: ['a'] },
+        ),
+        S.explain(
+          { fase: 'construir', areas: ['mat', 'pyd'], cnb: ['mat:4.3.2', 'mat:4.3.3'], ambito: 'conocer', title: 'Reglas para repartir pilones',
+            prompt: 'El vivero escolar reparte pilones en filas iguales. Con las **reglas de divisibilidad** sabes si un reparto es exacto **sin dividir**. Toca cada tarjeta.' },
+          { icon: 'Calculator', body: 'Un número es **divisible** entre otro si la división es exacta (residuo 0).', reveal: [
+            { icon: 'Slash', front: 'Entre 2, 5 y 10', back: '**2**: termina en 0, 2, 4, 6 u 8. **5**: termina en 0 o 5. **10**: termina en 0.' },
+            { icon: 'Plus', front: 'Entre 3 y 9', back: 'Suma sus cifras. **3**: si la suma es múltiplo de 3. **9**: si es múltiplo de 9. Ej.: 234 → 2 + 3 + 4 = 9 → divisible entre 3 y entre 9.' },
+            { icon: 'Layers', front: 'Entre 4, 6 y 8', back: '**4**: sus dos últimas cifras forman un múltiplo de 4. **6**: es divisible entre 2 **y** entre 3. **8**: sus tres últimas cifras forman un múltiplo de 8.' },
+            { icon: 'Star', front: 'Primos y compuestos', back: 'Un **primo** tiene solo 2 divisores: 1 y él mismo (2, 3, 5, 7, 11, 13…). Un **compuesto** tiene más de 2 (4, 6, 9, 15…). El **1** no es primo ni compuesto. El **2** es el único primo par.' },
+          ] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['mat'], cnb: ['mat:4.3.2'], ambito: 'hacer',
+            prompt: 'Aplica la regla del 3 y del 9: **suma las cifras** de cada cantidad de pilones y clasifícala.',
+            hint: 'Ejemplo: 126 → 1 + 2 + 6 = 9. Como 9 es múltiplo de 9 (y de 3), 126 es divisible entre 9.',
+            explain: '126 y 243 suman 9: divisibles entre 9 (y entre 3). 114 y 201 suman 6 y 3: divisibles entre 3, no entre 9. 125 suma 8 y 202 suma 4: no son divisibles entre 3.' },
+          { buckets: [
+            { id: 'nueve', label: 'Divisible entre 9', icon: 'Check', color: 'var(--c-ok)' },
+            { id: 'tres', label: 'Entre 3, pero no entre 9', icon: 'Minus', color: 'var(--area-mat)' },
+            { id: 'no', label: 'No divisible entre 3', icon: 'X', color: 'var(--c-hint)' },
+          ], items: [
+            { id: 'n1', text: '126', bucket: 'nueve' },
+            { id: 'n2', text: '243', bucket: 'nueve' },
+            { id: 'n3', text: '114', bucket: 'tres' },
+            { id: 'n4', text: '201', bucket: 'tres' },
+            { id: 'n5', text: '125', bucket: 'no', feedback: '1 + 2 + 5 = 8, que no es múltiplo de 3.' },
+            { id: 'n6', text: '202', bucket: 'no' },
+          ] },
+        ),
+        S.highlight(
+          { fase: 'construir', areas: ['mat', 'cnt'], cnb: ['mat:4.3.3'], ambito: 'hacer',
+            prompt: 'En el vivero, cada bandeja tiene un número. Marca **solo los números primos**.',
+            hint: 'Para cada número, busca si tiene algún divisor además del 1 y de sí mismo.',
+            explain: '2, 7, 11, 13 y 29 son primos. 9 = 3 × 3, 15 = 3 × 5, 21 = 3 × 7 y 27 = 3 × 9 son compuestos. El 1 no es primo ni compuesto.' },
+          { target: 'números primos', text: 'Bandejas: 1 · {2} · {7} · 9 · {11} · {13} · 15 · 21 · 27 · {29}' },
+        ),
+        S.sort(
+          { fase: 'aplicar', areas: ['l2', 'cnt'], cnb: ['l2:4.1.9'], ambito: 'conocer',
+            prompt: 'El cartel de la feria tiene nombres de especies. Dilos en voz alta y clasifícalos según **la sílaba donde cae la fuerza** de voz.',
+            hint: 'Separa en sílabas y di la palabra exagerando cada sílaba: ja-GUAR, gua-ca-MA-ya.',
+            explain: 'ja-**guar** y quet-**zal** son agudas. gua-ca-**ma**-ya y es-**pe**-cie son graves. **pá**-ja-ro y mur-**cié**-la-go son esdrújulas: siempre llevan tilde.' },
+          { buckets: [
+            { id: 'ag', label: 'Aguda (última)', icon: 'Target' },
+            { id: 'gr', label: 'Grave (penúltima)', icon: 'Minus' },
+            { id: 'es', label: 'Esdrújula (antepenúltima)', icon: 'Star' },
+          ], items: [
+            { id: 'p1', text: 'jaguar', icon: 'Cat', bucket: 'ag' },
+            { id: 'p2', text: 'quetzal', icon: 'Bird', bucket: 'ag' },
+            { id: 'p3', text: 'guacamaya', icon: 'Bird', bucket: 'gr' },
+            { id: 'p4', text: 'especie', icon: 'Dna', bucket: 'gr' },
+            { id: 'p5', text: 'pájaro', icon: 'Feather', bucket: 'es' },
+            { id: 'p6', text: 'murciélago', icon: 'Moon', bucket: 'es', feedback: 'mur-cié-la-go: la fuerza cae en "cié", la antepenúltima sílaba.' },
+          ] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.3.2'], prompt: 'Boleto de salida: hay **150 pilones**. ¿Entre cuáles números se pueden repartir **exactamente**? Elige todos.' },
+          { multiple: true, layout: 'grid', options: [
+            { id: 'a', text: '2' },
+            { id: 'b', text: '3' },
+            { id: 'c', text: '4', feedback: 'Las dos últimas cifras, 50, no son múltiplo de 4.' },
+            { id: 'd', text: '5' },
+            { id: 'e', text: '9', feedback: '1 + 5 + 0 = 6, que no es múltiplo de 9.' },
+            { id: 'f', text: '10' },
+          ], correct: ['a', 'b', 'd', 'f'] },
+        ),
+        S.tf(
+          { fase: 'comprobar', areas: ['mat', 'cnt'], cnb: ['mat:4.3.3', 'cnt:6.4.2'], prompt: '¿Verdadero o falso?' },
+          { statements: [
+            { text: 'El 23 es un número primo.', answer: true },
+            { text: 'El 21 es primo.', answer: false, why: '21 = 3 × 7: tiene más de dos divisores, es compuesto.' },
+            { text: 'El 2 es el único número primo par.', answer: true },
+            { text: 'La pérdida de bosques por el crecimiento urbano reduce el hábitat de las especies silvestres.', answer: true },
+          ] },
+        ),
+        cierre({ areas: ['cnt', 'mat'], cnb: ['cnt:6.4.2'] }, ['Explico por qué el crecimiento de la población amenaza a las especies', 'Aplico las reglas de divisibilidad', 'Distingo números primos y compuestos'],
+          ['Nunca compraré animales silvestres ni pinabetes sin permiso', 'Buscaré los números primos hasta el 50', 'Contaré en casa qué especies de mi región están en riesgo']),
+      ],
+    }),
+
+    /* ───────────────────────── Día 3 ───────────────────────── */
+    lesson({
+      id: 's16-d3-bastilla-1821',
+      title: 'De la Bastilla al 15 de septiembre',
+      icon: 'Flag',
+      minutes: 15,
+      day: 3,
+      gancho: 'Cada 15 de septiembre corres con la antorcha o ves el desfile. ¿Sabías que esa historia empezó muy lejos, en Europa?',
+      objetivos: ['Identificar los grupos protagonistas de la Revolución Francesa', 'Relacionar hechos de Europa con las independencias y comparar cómo se formaron las naciones americanas', 'Usar verbos para expresar acción, estado de ánimo o pasión', 'Reconocer expresiones del ejercicio del poder en los conflictos'],
+      resumen: [
+        'En Francia, el clero (Primer Estado) y la nobleza (Segundo Estado) tenían privilegios; el Tercer Estado (burguesía, campesinos y trabajadores urbanos) pagaba los impuestos y encabezó la revolución.',
+        'Las ideas de la Ilustración, la independencia de Estados Unidos (1776), la Revolución Francesa (1789) y la invasión de Napoleón a España (1808) impulsaron las independencias de América.',
+        'Centroamérica se independizó el 15 de septiembre de 1821, se unió a México en 1822, formó la República Federal de Centro América (1824) y, tras su separación, Guatemala se declaró república en 1847.',
+        'Los verbos expresan acción (tomaron), estado de ánimo (estaban furiosos) o pasión, en la voz pasiva (fue tomada).',
+      ],
+      media: {
+        id: 's16-d3-linea', kind: 'diagram', title: 'De Europa a América: línea de tiempo', aspect: '16:9',
+        alt: 'Línea de tiempo con dos franjas: arriba hechos de Europa y Estados Unidos, abajo independencias de América, unidas por flechas.',
+        brief: 'Infografía con dos franjas paralelas. Arriba (EUROPA Y EE. UU.): 1776 independencia de Estados Unidos, 1789 Revolución Francesa, 1808 Napoleón invade España, 1812 Constitución de Cádiz. Abajo (AMÉRICA LATINA): 1810 inicia la independencia de México, 1821 independencia de Centroamérica y de México, 1822 independencia de Brasil, 1824 República Federal de Centro América, 1847 República de Guatemala. Flechas punteadas de influencia entre franjas. Íconos de bandera y pergamino, colores sobrios.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['ccss', 'fc'], cnb: ['ccss:6.4.8'], ambito: 'conocer', title: 'Tres estados, una sociedad desigual',
+            prompt: 'Antes de 1789, la sociedad francesa estaba dividida en **tres estados**. Toca cada uno para descubrir quiénes fueron protagonistas de la revolución.',
+            media: { id: 's16-d3-estados', kind: 'image', title: 'La sociedad francesa antes de 1789', aspect: '4:3',
+              alt: 'Caricatura de un campesino que carga sobre la espalda a un sacerdote y a un noble.',
+              brief: 'Ilustración inspirada en las caricaturas de la época (no copiar ninguna obra existente): un campesino encorvado con azadón carga en su espalda a un clérigo y a un noble con peluca, que van cómodos. Rótulos: "Tercer Estado", "Primer Estado: clero", "Segundo Estado: nobleza". Colores terrosos, trazo limpio, tono respetuoso y sin burla ofensiva.' } },
+          { icon: 'Scale', body: 'Los dos primeros estados tenían **privilegios** y casi no pagaban impuestos. El Tercer Estado era la **gran mayoría** y cargaba con todo.', reveal: [
+            { icon: 'Church', front: 'Primer Estado', back: 'El **clero** (sacerdotes y obispos). Tenía tierras y cobraba el diezmo.' },
+            { icon: 'Crown', front: 'Segundo Estado', back: 'La **nobleza**. Ocupaba altos cargos y no pagaba la mayoría de impuestos.' },
+            { icon: 'Briefcase', front: 'Tercer Estado: burguesía', back: 'Comerciantes, banqueros, abogados. Tenían dinero e ideas, pero no poder político. **Dirigieron** la revolución.' },
+            { icon: 'Wheat', front: 'Tercer Estado: campesinos', back: 'La mayoría de la población. Pagaban impuestos al rey, a la nobleza y al clero.' },
+            { icon: 'Hammer', front: 'Tercer Estado: trabajadores urbanos', back: 'Artesanos y obreros de París, llamados **sans-culottes**. Participaron en la toma de la Bastilla.' },
+          ] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.4.8'],
+            prompt: 'Identifica a los **grupos protagonistas**: clasifica a cada persona según el estado al que pertenecía.',
+            explain: 'La burguesía, los campesinos y los trabajadores urbanos formaban el Tercer Estado, que exigió igualdad ante la ley.' },
+          { buckets: [
+            { id: 'e1', label: 'Primer Estado (clero)', icon: 'Church' },
+            { id: 'e2', label: 'Segundo Estado (nobleza)', icon: 'Crown' },
+            { id: 'e3', label: 'Tercer Estado', icon: 'Users' },
+          ], items: [
+            { id: 's1', text: 'Un obispo', bucket: 'e1' },
+            { id: 's2', text: 'Un conde dueño de tierras', bucket: 'e2' },
+            { id: 's3', text: 'Un comerciante rico de París', bucket: 'e3', feedback: 'Aunque tuviera dinero, un comerciante era de la burguesía: Tercer Estado.' },
+            { id: 's4', text: 'Una campesina que paga impuestos', bucket: 'e3' },
+            { id: 's5', text: 'Un artesano sans-culotte', bucket: 'e3' },
+            { id: 's6', text: 'Una duquesa de la corte', bucket: 'e2' },
+          ] },
+        ),
+        S.order(
+          { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.4.9'], ambito: 'conocer',
+            prompt: 'Relaciona Europa y América: ordena estos hechos de los siglos XVIII y XIX del **más antiguo** al **más reciente**.',
+            hint: 'Primero el ejemplo de Estados Unidos; después Francia; luego la crisis de España; al final las independencias.',
+            explain: 'Cuando Napoleón invadió España (1808) y apresó al rey, en América se formaron juntas de gobierno. Las ideas de libertad e igualdad de la Ilustración y de la Revolución Francesa inspiraron a los criollos a buscar la independencia.' },
+          { items: [
+            { id: 't1', text: '1776: independencia de Estados Unidos' },
+            { id: 't2', text: '1789: Revolución Francesa' },
+            { id: 't3', text: '1808: Napoleón invade España' },
+            { id: 't4', text: '1810: inicia la lucha por la independencia de México' },
+            { id: 't5', text: '1821: independencia de Centroamérica' },
+          ], labels: { start: 'Más antiguo', end: 'Más reciente' } },
+        ),
+        S.reading(
+          { fase: 'construir', areas: ['ccss', 'l1'], cnb: ['ccss:6.4.10', 'ccss:6.4.9'], ambito: 'conocer',
+            prompt: 'Lee y compara cómo se formaron algunas naciones americanas.' },
+          { genre: 'Texto expositivo', heading: 'Caminos distintos hacia la independencia', passage:
+            'Las naciones de América no se formaron igual. **Estados Unidos** declaró su independencia de Gran Bretaña en 1776 y la consiguió tras una guerra. Después se organizó como una república federal.\n\nEn **México**, la lucha armada comenzó en 1810 y duró once años. Al independizarse en 1821, primero se formó un imperio y poco después una república.\n\n**Brasil** se separó de Portugal en 1822; hubo algunos combates, pero no una guerra larga, y se convirtió en un imperio gobernado por un príncipe portugués.\n\nEn **Centroamérica**, el 15 de septiembre de 1821 se firmó en la Ciudad de Guatemala el Acta de Independencia, sin una guerra de independencia. En 1822 las provincias se unieron al Imperio Mexicano, pero en 1823 se separaron y en 1824 formaron la **República Federal de Centro América**, con cinco Estados. Los conflictos entre liberales y conservadores terminaron con la federación, y en 1847 Guatemala se declaró república independiente.',
+            questions: [
+              { q: '¿En qué se parece la independencia de Centroamérica a la de Brasil?', options: [
+                { id: 'a', text: 'Ninguna necesitó una guerra larga' },
+                { id: 'b', text: 'Ambas empezaron en 1776' },
+                { id: 'c', text: 'Ambas formaron una república federal de inmediato' },
+              ], correct: 'a' },
+              { q: '¿Qué pasó con Centroamérica en 1822?', options: [
+                { id: 'a', text: 'Se unió al Imperio Mexicano' },
+                { id: 'b', text: 'Se unió a Estados Unidos' },
+                { id: 'c', text: 'Se dividió en 20 países' },
+              ], correct: 'a' },
+              { q: '¿Por qué crees que la federación centroamericana no duró?', options: [
+                { id: 'a', text: 'Porque los grupos políticos no lograron ponerse de acuerdo' },
+                { id: 'b', text: 'Porque no tenía ningún territorio' },
+                { id: 'c', text: 'Porque Francia la prohibió' },
+              ], correct: 'a', why: 'El texto dice que los conflictos entre liberales y conservadores terminaron con la federación.' },
+            ] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['l1', 'ccss'], cnb: ['l1:5.2.3'], ambito: 'conocer',
+            prompt: 'Los verbos pueden expresar una **acción**, un **estado de ánimo** o **pasión** (voz pasiva: el sujeto _recibe_ la acción, con "fue + participio"). Clasifica cada oración.',
+            hint: 'Si ves "fue + …ado / …ido", es voz pasiva. Si el verbo es estar, sentirse o parecer + una emoción, es estado de ánimo.',
+            explain: 'Acción: "El pueblo tomó la Bastilla". Estado de ánimo: "Los campesinos estaban furiosos". Pasión: "La Bastilla fue tomada por el pueblo": la Bastilla recibe la acción.' },
+          { buckets: [
+            { id: 'accion', label: 'Acción', icon: 'Zap' },
+            { id: 'estado', label: 'Estado de ánimo', icon: 'Smile' },
+            { id: 'pasion', label: 'Pasión (voz pasiva)', icon: 'RefreshCw' },
+          ], items: [
+            { id: 'v1', text: 'El pueblo tomó la Bastilla.', bucket: 'accion' },
+            { id: 'v2', text: 'Los próceres firmaron el acta.', bucket: 'accion' },
+            { id: 'v3', text: 'Los campesinos estaban furiosos.', bucket: 'estado' },
+            { id: 'v4', text: 'Los criollos se sentían excluidos.', bucket: 'estado' },
+            { id: 'v5', text: 'La Bastilla fue tomada por el pueblo.', bucket: 'pasion' },
+            { id: 'v6', text: 'El Acta de Independencia fue firmada en 1821.', bucket: 'pasion' },
+          ] },
+        ),
+        S.highlight(
+          { fase: 'aplicar', areas: ['fc', 'ccss'], cnb: ['fc:4.5.2'], ambito: 'convivir',
+            prompt: 'En los conflictos, el poder se puede ejercer de forma **abusiva** (imponer, excluir, reprimir) o **democrática** (dialogar, consultar). Marca las **expresiones de abuso de poder** en este relato.',
+            hint: 'Busca acciones en las que alguien decide solo, deja fuera a otros o usa la fuerza contra quien protesta.',
+            explain: 'Imponer impuestos sin consultar, excluir a un grupo de las decisiones y castigar a quien protesta son formas autoritarias de ejercer el poder. Dialogar y votar son formas democráticas que ayudan a resolver conflictos.' },
+          { target: 'expresiones de abuso de poder', text: 'Antes de 1789, el rey {impuso nuevos impuestos sin consultar} al pueblo. Los nobles {no dejaban votar al Tercer Estado} en igualdad. Cuando la gente protestaba por el pan caro, {los guardias encarcelaban a quienes reclamaban}. Finalmente, el Tercer Estado se reunió, dialogó y votó para formar una Asamblea Nacional.' },
+        ),
+        S.match(
+          { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.4.8', 'ccss:6.4.9'], prompt: 'Boleto de salida: une cada grupo o hecho con su descripción.' },
+          { pairs: [
+            { id: 'bur', left: 'Burguesía', right: 'Comerciantes y profesionales que dirigieron la revolución' },
+            { id: 'nob', left: 'Nobleza', right: 'Segundo Estado, con privilegios y sin pagar muchos impuestos' },
+            { id: 'nap', left: 'Invasión de Napoleón a España (1808)', right: 'Dejó a España sin rey y animó las juntas en América' },
+          ] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['ccss', 'l1'], cnb: ['ccss:6.4.10'], prompt: '¿Qué ocurrió en Centroamérica en **1824**?' },
+          { options: [
+            { id: 'a', text: 'Se formó la República Federal de Centro América', icon: 'Flag' },
+            { id: 'b', text: 'Se firmó el Acta de Independencia', icon: 'ScrollText', feedback: 'El Acta se firmó el 15 de septiembre de 1821.' },
+            { id: 'c', text: 'Guatemala se declaró república independiente', icon: 'Landmark', feedback: 'Eso ocurrió en 1847, después de la federación.' },
+          ], correct: ['a'] },
+        ),
+        cierre({ areas: ['ccss', 'fc'], cnb: ['fc:4.5.2'] }, ['Identifico a los grupos protagonistas de la Revolución Francesa', 'Relaciono los hechos de Europa con la independencia de Centroamérica', 'Reconozco cuándo el poder se ejerce de forma autoritaria o democrática'],
+          ['Explicaré en casa por qué celebramos el 15 de septiembre', 'Usaré el diálogo cuando haya un conflicto en mi grado', 'Escribiré tres oraciones en voz pasiva sobre la independencia']),
+      ],
+    }),
+
+    /* ───────────────────────── Día 4 ───────────────────────── */
+    lesson({
+      id: 's16-d4-derechos-sin-muros',
+      title: 'Derechos sin muros',
+      icon: 'Globe',
+      minutes: 15,
+      day: 4,
+      gancho: 'Imagina que un muro partiera tu pueblo en dos y no pudieras visitar a tu abuela del otro lado. ¿Qué sentirías?',
+      objetivos: ['Explicar causas y consecuencias del fin de la Guerra Fría y evaluar convenios de derechos humanos', 'Diferenciar lenguaje, lengua e idioma', 'Usar expresiones coloquiales y expresar sentimientos con respeto', 'Combatir el sedentarismo con buena postura y equilibrio'],
+      resumen: [
+        'La Guerra Fría fue la rivalidad entre Estados Unidos y la Unión Soviética. Terminó con la caída del Muro de Berlín (1989), la reunificación de Alemania (1990) y la disolución de la Unión Soviética (1991).',
+        'Convenios como la Declaración Universal de los Derechos Humanos (1948), la Convención sobre los Derechos del Niño (1989) y el Convenio 169 de la OIT (1989) comprometen a los Estados a respetar los derechos.',
+        'Lenguaje es la capacidad humana de comunicarse; lengua es el sistema de signos de una comunidad; idioma es la lengua propia de un pueblo o nación. En Guatemala se hablan 25 idiomas.',
+        'Las pausas activas, la buena postura y los juegos de equilibrio combaten el sedentarismo y previenen lesiones.',
+      ],
+      media: {
+        id: 's16-d4-muro', kind: 'video', title: 'El día que cayó un muro', aspect: '16:9', duration: 70,
+        alt: 'Animación de una ciudad dividida por un muro gris; en 1989 la gente lo cruza y lo derriba pacíficamente; en 1990 aparece un mapa de Alemania unida.',
+        brief: 'Animación 2D de 70 s. (1) Mapa de Europa en 1961 con Alemania dividida y Berlín partida por un muro (rótulos "Este" y "Oeste"). (2) Familias separadas saludándose de lejos. (3) 9 de noviembre de 1989: multitudes celebran y pican el muro con martillos, abrazos entre vecinos. (4) 3 de octubre de 1990: el mapa de Alemania se une. (5) Diciembre de 1991: el mapa de la Unión Soviética se divide en 15 países. Narración infantil, subtítulos, sin violencia.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['ccss', 'fc'], cnb: ['ccss:6.5.7'], ambito: 'conocer', title: 'El fin de la Guerra Fría',
+            prompt: 'Después de la Segunda Guerra Mundial, **Estados Unidos** y la **Unión Soviética** compitieron por el poder mundial sin enfrentarse directamente: eso fue la **Guerra Fría**. Toca cada tarjeta.' },
+          { icon: 'Globe', body: 'A finales de los años 80, el mundo cambió muy rápido.', reveal: [
+            { icon: 'TrendingUp', front: 'Causas', back: 'Crisis económica en la Unión Soviética, **reformas** de su líder Mijaíl Gorbachov y **protestas pacíficas** de pueblos que pedían libertad y elecciones.' },
+            { icon: 'Hammer', front: '1989: cae el Muro de Berlín', back: 'El 9 de noviembre, la gente cruzó y derribó el muro que dividía la ciudad desde 1961.' },
+            { icon: 'Handshake', front: '1990: Alemania se une', back: 'Alemania del Este y del Oeste se **reunificaron** el 3 de octubre de 1990.' },
+            { icon: 'Flag', front: '1991: fin de la Unión Soviética', back: 'Se disolvió y surgieron **15 países** independientes. Países del Este de Europa, como Polonia y Hungría, eligieron nuevos gobiernos.' },
+          ] },
+        ),
+        S.order(
+          { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.7'],
+            prompt: 'Ordena los hechos que llevaron al **final de la Guerra Fría**.',
+            explain: 'El muro se construyó en 1961 y cayó en 1989. Un año después Alemania se reunificó y en 1991 la Unión Soviética dejó de existir.' },
+          { items: [
+            { id: 'g1', text: 'Se construye el Muro de Berlín (1961)' },
+            { id: 'g2', text: 'Protestas pacíficas en el Este de Europa (1989)' },
+            { id: 'g3', text: 'Cae el Muro de Berlín (1989)' },
+            { id: 'g4', text: 'Reunificación de Alemania (1990)' },
+            { id: 'g5', text: 'Disolución de la Unión Soviética (1991)' },
+          ], labels: { start: 'Primero', end: 'Último' } },
+        ),
+        S.match(
+          { fase: 'construir', areas: ['ccss', 'fc'], cnb: ['ccss:6.5.2'], ambito: 'conocer',
+            prompt: 'Después de las guerras, los países firmaron **convenios** para proteger los derechos humanos. Une cada convenio con lo que protege.',
+            explain: 'Cuando Guatemala **ratifica** un convenio, se compromete a cumplirlo. Guatemala ratificó la Convención sobre los Derechos del Niño en 1990 y el Convenio 169 en 1996.' },
+          { leftTitle: 'Convenio', rightTitle: '¿Qué protege?', pairs: [
+            { id: 'dudh', left: 'Declaración Universal de los Derechos Humanos (1948)', leftIcon: 'Globe', right: 'Los derechos de todas las personas del mundo' },
+            { id: 'cdn', left: 'Convención sobre los Derechos del Niño (1989)', leftIcon: 'Baby', right: 'Los derechos de niñas, niños y adolescentes' },
+            { id: 'oit', left: 'Convenio 169 de la OIT (1989)', leftIcon: 'Users', right: 'Los derechos de los pueblos indígenas' },
+            { id: 'mujer', left: 'Convención para eliminar la discriminación contra la mujer (1979)', leftIcon: 'Heart', right: 'La igualdad de derechos de las mujeres' },
+          ] },
+        ),
+        S.cards(
+          { fase: 'construir', areas: ['l1', 'l2', 'ccss'], cnb: ['l1:6.1.1', 'l1:6.2.1'], ambito: 'conocer', title: 'Lenguaje, lengua, idioma… y expresiones chapinas',
+            prompt: 'En la feria conversarás con visitantes de otras comunidades y países. Voltea las tarjetas.' },
+          { cards: [
+            { icon: 'Brain', front: 'Lenguaje', back: 'La **capacidad humana** de comunicarse con signos: palabras, gestos, dibujos, señas.' },
+            { icon: 'BookOpen', front: 'Lengua', back: 'El **sistema de signos y reglas** que comparte una comunidad para comunicarse.' },
+            { icon: 'Languages', front: 'Idioma', back: 'La lengua propia de un **pueblo o nación**. Guatemala reconoce **25**: 22 mayas, xinka, garífuna y español.' },
+            { icon: 'MessageCircle', front: '"¡Qué chilero!"', back: 'Expresión coloquial chapina: "¡Qué bonito!" o "¡Qué genial!". Úsala con amistades, no en una carta formal.' },
+            { icon: 'Smile', front: '"Patojo / patoja"', back: 'Forma coloquial guatemalteca de decir **niño, niña o joven**.' },
+            { icon: 'Check', front: '"¡Cabal!"', back: 'Coloquialmente, "¡exacto!" o "¡así es!".' },
+          ] },
+        ),
+        S.write(
+          { fase: 'aplicar', areas: ['ccss', 'fc', 'l1'], cnb: ['ccss:6.5.2'], ambito: 'convivir',
+            prompt: '**Evalúa** un convenio: elige un derecho de la **Convención sobre los Derechos del Niño** (educación, salud, juego, identidad, protección). ¿Se cumple en tu comunidad? Da un ejemplo y propón una acción para mejorarlo.' },
+          { minWords: 40, placeholder: 'El derecho que elegí es… En mi comunidad… Propongo…',
+            model: 'El derecho que elegí es el derecho al juego. En mi comunidad se cumple en parte: hay una cancha, pero está llena de basura y las niñas casi no la usan. Propongo que el gobierno escolar organice una jornada de limpieza y un horario para que niñas y niños jueguen por igual.',
+            rubric: ['Nombra un derecho de la Convención', 'Explica si se cumple con un ejemplo real', 'Propone una acción concreta', 'Toma en cuenta a niñas y niños por igual'] },
+        ),
+        S.dilemma(
+          { fase: 'aplicar', areas: ['l1', 'pyd', 'fc'], cnb: ['l1:6.2.1', 'l1:6.2.2', 'pyd:4.3.2'], ambito: 'convivir',
+            prompt: 'Es el día de la feria escolar. ¿Qué harías?' },
+          { scene: { icon: 'Store', text: 'Tu grupo expone el vivero en la feria. Llega Keyla, una estudiante garífuna que vino de visita desde Belice y está aprendiendo español; no entiende cuando dices "¡Qué chilero!". Además, sientes nervios: nunca has presentado en público.' }, options: [
+            { id: 'a', icon: 'EyeOff', text: 'No presentar y dejar que otro lo haga todo', consequence: 'Te pierdes la oportunidad de compartir tu trabajo y de conocer a Keyla.', values: ['Inseguridad'], constructive: false },
+            { id: 'b', icon: 'MessagesSquare', text: 'Explicarle que "chilero" significa "bonito", preguntarle cómo se dice en su comunidad y presentar aunque estés nervioso', consequence: 'Keyla te enseña una expresión de su comunidad. Tu presentación sale bien y sientes orgullo de tu trabajo.', values: ['Interculturalidad', 'Valentía', 'Participación'], constructive: true },
+            { id: 'c', icon: 'Heart', text: 'Decir con respeto: "Tengo nervios, ¿me ayudas a presentar?"', consequence: 'Expresar lo que sientes con calma ayuda: tu compañera te apoya y presentan juntos.', values: ['Expresión de emociones', 'Cooperación'], constructive: true },
+          ] },
+        ),
+        S.pulse(
+          { fase: 'aplicar', areas: ['ef', 'cnt'], cnb: ['ef:2.2.5', 'ef:3.1.3', 'ef:3.1.7'], ambito: 'hacer',
+            prompt: 'Organiza con tu grupo una **pausa activa** para la feria, contra el **sedentarismo**. (1) **Postura**: espalda recta, hombros atrás, pies apoyados; para levantar una caja, dobla las rodillas, no la espalda. (2) **Equilibrio**: camina sobre una línea con un cuaderno en la cabeza; luego párate en un pie como "flamenco". Mide tu pulso antes y después.' },
+          { seconds: 15, rounds: [
+            { label: 'Sentado, en reposo' },
+            { label: 'Después del juego de equilibrio', exercise: { name: 'Caminata sobre la línea y postura de flamenco', icon: 'PersonStanding', seconds: 60 } },
+          ] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.5.7'], prompt: 'Boleto de salida: ¿cuál fue una **consecuencia** del fin de la Guerra Fría?' },
+          { options: [
+            { id: 'a', text: 'Alemania se reunificó y surgieron 15 países de la antigua Unión Soviética', icon: 'Flag' },
+            { id: 'b', text: 'Se construyó el Muro de Berlín', icon: 'Construction', feedback: 'El muro se construyó en 1961, durante la Guerra Fría; su caída fue parte del final.' },
+            { id: 'c', text: 'Centroamérica se independizó de España', icon: 'ScrollText', feedback: 'Eso ocurrió en 1821, mucho antes.' },
+          ], correct: ['a'] },
+        ),
+        S.match(
+          { fase: 'comprobar', areas: ['l1', 'ef'], cnb: ['l1:6.1.1', 'ef:3.1.7'], prompt: 'Une cada concepto con su definición.' },
+          { pairs: [
+            { id: 'len', left: 'Lenguaje', right: 'Capacidad humana de comunicarse' },
+            { id: 'lng', left: 'Lengua', right: 'Sistema de signos y reglas de una comunidad' },
+            { id: 'idi', left: 'Idioma', right: 'Lengua propia de un pueblo o nación' },
+            { id: 'pos', left: 'Postura correcta al levantar peso', right: 'Doblar las rodillas y mantener la espalda recta' },
+          ] },
+        ),
+        cierre({ areas: ['fc', 'ef'], cnb: ['ef:3.1.3'] }, ['Explico cómo terminó la Guerra Fría', 'Evalúo si un derecho se cumple en mi comunidad', 'Diferencio lenguaje, lengua e idioma', 'Expreso mis sentimientos con respeto'],
+          ['Participaré en la feria escolar exponiendo un proyecto', 'Haré una pausa activa cada hora cuando estudie', 'Aprenderé un saludo en otro idioma de Guatemala']),
+      ],
+    }),
+
+    /* ───────────────────────── Día 5: Reto semanal ───────────────────────── */
+    lesson({
+      id: 's16-d5-reto',
+      title: 'Reto de la semana 16',
+      icon: 'Trophy',
+      minutes: 14,
+      day: 5,
+      kind: 'reto',
+      objetivos: ['Demostrar lo que aprendiste esta semana', 'Obtener la medalla "Sembrador de libertades" (70 % o más)'],
+      resumen: ['Superé el reto de la semana 16: ambiente y salud, números primos, independencias y derechos.'],
+      media: {
+        id: 's16-d5-reto', kind: 'image', title: 'Medalla Sembrador de libertades', aspect: '1:1',
+        alt: 'Medalla dorada con un pinabete joven y una antorcha de la independencia.',
+        brief: 'Ilustración de medalla circular dorada: al centro un pinabete joven brotando de un pergamino abierto; a un lado una antorcha estilizada con llama azul y blanca. Cinta con los colores de las áreas del CNB. Fondo transparente, 1024×1024, estilo plano con brillo suave.',
+      },
+      steps: [
+        S.sort({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:6.2.2', 'cnt:6.3.2'], prompt: '¿Daña o protege el ambiente?' },
+          { buckets: [{ id: 'd', label: 'Daña', icon: 'Factory' }, { id: 'p', label: 'Protege', icon: 'Leaf' }],
+            items: [{ id: 'a', text: 'Reforestar una ladera', bucket: 'p' }, { id: 'b', text: 'Tirar aceite al río', bucket: 'd' }, { id: 'c', text: 'Talar sin permiso', bucket: 'd' }, { id: 'e', text: 'Hacer abono', bucket: 'p' }] }),
+        S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:6.1.2'], prompt: 'Si un río se llena de aguas negras, ¿quiénes pueden enfermar?' },
+          { options: [{ id: 'a', text: 'Personas, animales y plantas' }, { id: 'b', text: 'Solo los peces' }, { id: 'c', text: 'Nadie' }], correct: ['a'] }),
+        S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:6.4.2'], prompt: '¿Por qué el crecimiento de la población sin planificación amenaza a las especies silvestres?' },
+          { options: [{ id: 'a', text: 'Porque se talan bosques y los animales pierden su hábitat' }, { id: 'b', text: 'Porque los animales se mudan a las ciudades por gusto' }, { id: 'c', text: 'Porque hay más lluvia' }], correct: ['a'] }),
+        S.number({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.3.2'], prompt: 'Escribe el **dígito** que falta para que 4_2 sea divisible entre 9 (una sola cifra del 0 al 9).', },
+          { answer: 3, misconceptions: [{ value: 9, msg: 'Prueba: 4 + 9 + 2 = 15, no es múltiplo de 9. Busca que la suma sea 9.' }] }),
+        S.sort({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.3.3'], prompt: 'Clasifica en primos y compuestos.' },
+          { buckets: [{ id: 'p', label: 'Primo', icon: 'Star' }, { id: 'c', label: 'Compuesto', icon: 'Blocks' }],
+            items: [{ id: 'a', text: '17', bucket: 'p' }, { id: 'b', text: '19', bucket: 'p' }, { id: 'c', text: '25', bucket: 'c' }, { id: 'd', text: '33', bucket: 'c' }] }),
+        S.order({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.4.9', 'ccss:6.4.10'], prompt: 'Ordena del más antiguo al más reciente.' },
+          { items: [{ id: 'a', text: 'Revolución Francesa' }, { id: 'b', text: 'Independencia de Centroamérica' }, { id: 'c', text: 'República Federal de Centro América' }, { id: 'd', text: 'Caída del Muro de Berlín' }], labels: { start: 'Más antiguo', end: 'Más reciente' } }),
+        S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.4.8'], prompt: '¿Qué grupo del Tercer Estado dirigió la Revolución Francesa?' },
+          { options: [{ id: 'a', text: 'La burguesía' }, { id: 'b', text: 'La nobleza' }, { id: 'c', text: 'El clero' }], correct: ['a'] }),
+        S.match({ fase: 'comprobar', areas: ['l2', 'l1'], cnb: ['l2:4.1.9', 'l2:4.2.2', 'l1:5.2.3'], prompt: 'Une cada palabra u oración con lo que es.' },
+          { pairs: [
+            { id: 'a', left: 'lámpara', right: 'Esdrújula' },
+            { id: 'b', left: 'reciclar', right: 'Tiene el prefijo re-' },
+            { id: 'c', left: 'El árbol fue sembrado por Ana.', right: 'Voz pasiva' },
+          ] }),
+        S.tf({ fase: 'comprobar', areas: ['fc', 'ccss', 'l1'], cnb: ['fc:4.5.2', 'ccss:6.5.2', 'l1:6.1.1'], prompt: '¿Verdadero o falso?' },
+          { statements: [
+            { text: 'Imponer una decisión sin consultar es una forma autoritaria de ejercer el poder.', answer: true },
+            { text: 'La Convención sobre los Derechos del Niño protege a niñas, niños y adolescentes.', answer: true },
+            { text: 'En Guatemala solo se habla un idioma.', answer: false },
+          ] }),
+        S.choice({ fase: 'comprobar', areas: ['l3'], cnb: ['l3:4.3.4'], prompt: 'A boy is holding an umbrella and the sky is full of dark clouds. What will happen next?' },
+          { options: [{ id: 'a', text: 'It will rain.' }, { id: 'b', text: 'It will snow in the desert.' }, { id: 'c', text: 'The sun will disappear forever.' }], correct: ['a'] }),
+      ],
+    }),
+  ],
+
+  /* Banco de ítems para la Semana de validación de la Unidad 2 */
+  bank: [
+    S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:6.3.2'], prompt: '¿Cómo ayudan las raíces de los árboles a prevenir desastres?' },
+      { options: [{ id: 'a', text: 'Sujetan el suelo y reducen los deslaves' }, { id: 'b', text: 'Hacen que la tierra tiemble menos' }, { id: 'c', text: 'Detienen los huracanes' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:6.1.2', 'cnt:6.2.2'], prompt: 'El uso excesivo de plaguicidas afecta la sanidad vegetal porque…' },
+      { options: [{ id: 'a', text: 'Mata a las abejas que polinizan los cultivos' }, { id: 'b', text: 'Hace crecer más rápido las plantas' }, { id: 'c', text: 'No tiene ningún efecto' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.3.2'], prompt: '¿Cuál de estos números es divisible entre **6**?' },
+      { options: [{ id: 'a', text: '114' }, { id: 'b', text: '115' }, { id: 'c', text: '116' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.3.3'], prompt: '¿Cuál es un número **compuesto**?' },
+      { options: [{ id: 'a', text: '27' }, { id: 'b', text: '31' }, { id: 'c', text: '37' }], correct: ['a'] }),
+    S.match({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.4.9', 'ccss:6.4.10'], prompt: 'Une cada año con su hecho.' },
+      { pairs: [{ id: 'a', left: '1808', right: 'Napoleón invade España' }, { id: 'b', left: '1821', right: 'Independencia de Centroamérica' }, { id: 'c', left: '1847', right: 'Guatemala se declara república' }] }),
+    S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.5.7'], prompt: '¿En qué año cayó el Muro de Berlín?' },
+      { options: [{ id: 'a', text: '1989' }, { id: 'b', text: '1961' }, { id: 'c', text: '1821' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:4.5.2'], prompt: '¿Cuál es una forma **democrática** de ejercer el poder en un conflicto?' },
+      { options: [{ id: 'a', text: 'Dialogar y consultar a todas las partes' }, { id: 'b', text: 'Castigar a quien protesta' }, { id: 'c', text: 'Excluir a un grupo de las decisiones' }], correct: ['a'] }),
+    S.fill({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.2.1', 'l2:4.2.2'], prompt: 'Completa.' },
+      { text: 'La raíz de "florero" y "florecer" es [[flor]].\nCon el prefijo des- y "ordenar" formo [[desordenar]].', distractors: ['ero', 'ordenado'] }),
+    S.choice({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:6.1.1'], prompt: 'El k\'iche\', el garífuna y el español son…' },
+      { options: [{ id: 'a', text: 'Idiomas de Guatemala' }, { id: 'b', text: 'Dialectos sin reglas' }, { id: 'c', text: 'Lenguajes de señas' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.2.1'], prompt: 'Buscar puntos marcados en el bosque usando un mapa y una brújula es un juego de…' },
+      { options: [{ id: 'a', text: 'Orientación' }, { id: 'b', text: 'Velocidad en pista' }, { id: 'c', text: 'Mesa' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.3'], prompt: '¿Qué ayuda más a que una figura se distinga del fondo?' },
+      { options: [{ id: 'a', text: 'El contraste de color o de textura' }, { id: 'b', text: 'Usar el mismo color en ambos' }, { id: 'c', text: 'Hacer la figura transparente' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['l3'], cnb: ['l3:4.3.4'], prompt: 'The students are planting a tree today. What will happen in ten years?' },
+      { options: [{ id: 'a', text: 'The tree will be tall.' }, { id: 'b', text: 'The tree was small yesterday.' }, { id: 'c', text: 'The tree is a car.' }], correct: ['a'] }),
+  ],
+});

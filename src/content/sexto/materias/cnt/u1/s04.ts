@@ -1,0 +1,501 @@
+/**
+ * Ciencias Naturales y Tecnología · Unidad 1 · Semana 4 — Crecer y cuidar la vida.
+ * Progresión: glándulas sexuales y pubertad (continúa las glándulas de la semana 3) →
+ * aparato reproductor masculino y formación de células reproductoras → ética: pudor y
+ * paternidad responsable. Lenguaje científico, respetuoso y apropiado para 11-12 años.
+ */
+import { lesson, S, cierre } from '../../../../dsl';
+
+export default [
+  /* ───────────────────────── 1. Pubertad y glándulas sexuales ───────────────────────── */
+  lesson({
+    id: 's04-cnt-1',
+    title: 'Pubertad: glándulas masculinas y femeninas',
+    icon: 'Sprout',
+    minutes: 15,
+    gancho: 'A tu edad, muchos compañeros crecen de golpe, les cambia la voz o notan otros cambios. ¿Qué está pasando en su cuerpo?',
+    objetivos: [
+      'Diferenciar las glándulas sexuales masculinas (testículos) y femeninas (ovarios) por su función',
+      'Explicar cómo las hormonas producen los cambios de la pubertad',
+      'Reconocer que cada cuerpo tiene su propio ritmo y merece respeto',
+    ],
+    resumen: [
+      'La pubertad es la etapa en que el cuerpo de niña o niño empieza a convertirse en el de una persona adulta. Suele empezar entre los 8 y los 14 años, y cada cuerpo tiene su ritmo.',
+      'La hipófisis envía hormonas que activan las glándulas sexuales: los testículos (masculinas) y los ovarios (femeninas).',
+      'Los testículos producen testosterona y espermatozoides. Los ovarios producen estrógenos y progesterona, y maduran los óvulos.',
+      'Cambios comunes: estirón, vello en axilas y pubis, más sudor y grasa en la piel. En los varones: voz más grave, vello en la cara, hombros más anchos. En las mujeres: desarrollo de las mamas, caderas más anchas y la primera menstruación.',
+    ],
+    media: {
+      id: 's04-cnt-1-cambios', kind: 'image', title: 'Todos crecemos a nuestro ritmo', aspect: '16:9',
+      alt: 'Ilustración de un grupo de estudiantes de sexto grado de la misma edad y estaturas muy distintas, conversando y riendo en el patio de la escuela.',
+      brief: 'Ilustración cálida de 6 estudiantes guatemaltecos (niñas y niños de distintos pueblos: maya con traje, garífuna, mestizo), todos de 11-12 años pero de estaturas y complexiones diferentes, conversando con respeto en el patio. Ropa escolar completa, nada de desnudez ni enfoque en el cuerpo. Rótulo: "Misma edad, distinto ritmo". Estilo de libro de texto amable.',
+    },
+    steps: [
+      S.choice(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
+          prompt: 'Hoy hablarás del cuerpo con **nombres científicos** y con respeto. Para empezar: ¿qué crees que es la **pubertad**?',
+          explain: 'La pubertad es una **etapa natural** en la que el cuerpo empieza a convertirse en el de una persona adulta. Si algo te genera dudas, es normal: conversa con tu familia, tu docente o el personal de salud.' },
+        { options: [
+          { id: 'a', text: 'Una enfermedad que da a los adolescentes', icon: 'Pill', feedback: 'No es una enfermedad: es una etapa natural del crecimiento.' },
+          { id: 'b', text: 'La etapa en que el cuerpo empieza a cambiar de niño a adulto', icon: 'Sprout' },
+          { id: 'c', text: 'Algo que solo les pasa a las mujeres', icon: 'User', feedback: 'Les pasa a todas las personas, hombres y mujeres.' },
+        ], correct: ['b'] },
+      ),
+      S.explain(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: '¿Quién da la señal?',
+          prompt: 'En la lección de las glándulas conociste a la **hipófisis**, la glándula maestra. Ella da la señal de inicio. Toca las tarjetas.' },
+        { icon: 'Crown', body: 'La pubertad no ocurre de un día para otro: dura **varios años**. Suele empezar entre los **8 y los 13 años** en las niñas y entre los **9 y los 14** en los niños, aproximadamente.', reveal: [
+          { icon: 'Crown', front: '1. La hipófisis', back: 'Empieza a enviar a la sangre **hormonas** que llegan a las glándulas sexuales.' },
+          { icon: 'HeartPulse', front: '2. Las glándulas sexuales', back: 'Se "despiertan" y producen sus propias hormonas: las **hormonas sexuales**.' },
+          { icon: 'Sprout', front: '3. Los cambios', back: 'Las hormonas sexuales viajan por la sangre y producen los **cambios** del cuerpo y también cambios en las **emociones**.' },
+          { icon: 'Clock', front: 'Cada quien a su ritmo', back: 'Algunas personas empiezan antes y otras después. **Las dos cosas son normales.** Nadie debe burlarse del cuerpo de otra persona.' },
+        ] },
+      ),
+      S.explain(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: 'Glándulas masculinas y femeninas',
+          prompt: 'Las glándulas sexuales se llaman **gónadas**. Tienen **dos funciones**: producen hormonas y forman células reproductoras. Toca las tarjetas.',
+          media: { id: 's04-cnt-1-gonadas', kind: 'diagram', title: 'Testículos y ovarios: dos funciones', aspect: '16:9',
+            alt: 'Diagrama en dos columnas: a la izquierda los testículos, con flechas hacia "testosterona" y "espermatozoides"; a la derecha los ovarios, con flechas hacia "estrógenos y progesterona" y "óvulos".',
+            brief: 'Diagrama escolar esquemático en dos columnas, sin representar genitales externos: columna izquierda "Glándulas masculinas: testículos" (dos óvalos dentro de un contorno sencillo) con dos flechas: "hormona: testosterona" (gota morada hacia un vaso sanguíneo) y "células: espermatozoides". Columna derecha "Glándulas femeninas: ovarios" (dos óvalos junto a un útero esquemático) con dos flechas: "hormonas: estrógenos y progesterona" y "células: óvulos". Arriba, la hipófisis con flechas hacia ambas columnas. Colores planos, letra grande.' } },
+        { icon: 'Copy', body: 'Las gónadas son glándulas de **secreción interna**: envían sus hormonas a la **sangre**, como aprendiste la semana pasada.', reveal: [
+          { icon: 'Circle', front: 'Testículos (masculinas)', back: 'Producen la hormona **testosterona** y, desde la pubertad, forman **espermatozoides**, las células reproductoras masculinas.' },
+          { icon: 'CircleDot', front: 'Ovarios (femeninas)', back: 'Producen las hormonas **estrógenos** y **progesterona** y hacen **madurar los óvulos**, las células reproductoras femeninas.' },
+          { icon: 'Droplet', front: 'Testosterona', back: 'Produce los cambios masculinos: voz más grave, vello en la cara, más músculo.' },
+          { icon: 'Droplets', front: 'Estrógenos y progesterona', back: 'Producen los cambios femeninos y regulan el **ciclo menstrual**.' },
+        ] },
+      ),
+      S.sort(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
+          prompt: 'Clasifica cada función: ¿es de los **testículos**, de los **ovarios** o de **ambos**?',
+          hint: 'Testículos: testosterona y espermatozoides. Ovarios: estrógenos, progesterona y óvulos.',
+          explain: 'Los dos son glándulas sexuales de secreción interna que producen hormonas y forman células reproductoras.' },
+        { buckets: [
+          { id: 'tes', label: 'Testículos', icon: 'Circle', color: 'var(--area-l1)' },
+          { id: 'ova', label: 'Ovarios', icon: 'CircleDot', color: 'var(--area-mat)' },
+          { id: 'amb', label: 'Ambos', icon: 'Copy', color: 'var(--area-cnt)' },
+        ], items: [
+          { id: 'f1', text: 'Producen testosterona', bucket: 'tes' },
+          { id: 'f2', text: 'Hacen madurar los óvulos', bucket: 'ova' },
+          { id: 'f3', text: 'Producen estrógenos y progesterona', bucket: 'ova' },
+          { id: 'f4', text: 'Forman espermatozoides', bucket: 'tes' },
+          { id: 'f5', text: 'Envían hormonas a la sangre', bucket: 'amb' },
+          { id: 'f6', text: 'Reciben la señal de la hipófisis', bucket: 'amb' },
+        ] },
+      ),
+      S.explain(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: 'Los cambios de la pubertad',
+          prompt: 'Las hormonas sexuales producen cambios. Algunos le pasan a todos; otros, sobre todo a varones o a mujeres. Toca las tarjetas.' },
+        { icon: 'Users', body: 'Todos estos cambios preparan el cuerpo para la **edad adulta**. Llegan poco a poco, durante varios años.', reveal: [
+          { icon: 'Users', front: 'En todas las personas', back: '**Estirón** (crecer rápido), **vello** en axilas y pubis, **más sudor** y **más grasa** en la piel (pueden salir granitos) y **emociones** más intensas.' },
+          { icon: 'Mic', front: 'Sobre todo en los varones', back: 'La **voz se vuelve más grave**, aparece **vello en la cara**, los **hombros se ensanchan** y los testículos empiezan a formar espermatozoides.' },
+          { icon: 'Flower', front: 'Sobre todo en las mujeres', back: 'Se **desarrollan las mamas**, las **caderas se ensanchan** y llega la **primera menstruación** (menarquia), señal de que los ovarios empezaron a madurar óvulos.' },
+        ] },
+      ),
+      S.sort(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
+          prompt: 'Clasifica cada cambio de la pubertad.',
+          hint: 'Revisa las tarjetas: ¿qué cambios les pasan a todos?',
+          explain: 'El estirón, el vello en las axilas y el sudor les pasan a todos. La voz grave es propia de los varones; la menstruación, de las mujeres.' },
+        { buckets: [
+          { id: 'var', label: 'Sobre todo en varones', icon: 'Mic', color: 'var(--area-l1)' },
+          { id: 'muj', label: 'Sobre todo en mujeres', icon: 'Flower', color: 'var(--area-mat)' },
+          { id: 'tod', label: 'En todas las personas', icon: 'Users', color: 'var(--area-cnt)' },
+        ], items: [
+          { id: 'c1', text: 'La voz se vuelve más grave', bucket: 'var' },
+          { id: 'c2', text: 'Primera menstruación', bucket: 'muj' },
+          { id: 'c3', text: 'Crecer rápido (estirón)', bucket: 'tod' },
+          { id: 'c4', text: 'Vello en las axilas', bucket: 'tod' },
+          { id: 'c5', text: 'Desarrollo de las mamas', bucket: 'muj' },
+          { id: 'c6', text: 'Vello en la cara', bucket: 'var' },
+          { id: 'c7', text: 'Más sudor y granitos en la piel', bucket: 'tod', feedback: 'Las glándulas sudoríparas y sebáceas trabajan más en todas las personas.' },
+        ] },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: 'Ejemplo: la cadena de mensajes',
+          prompt: 'Mira cómo una cadena de hormonas explica un cambio concreto.' },
+        { icon: 'Route', problem: 'A los 13 años, a Andrés se le empieza a "quebrar" la voz y luego se le vuelve más grave. ¿Cómo lo explica la ciencia?',
+          steps: [
+            { text: 'La **hipófisis** de Andrés empezó a enviar hormonas a la sangre.', why: 'Es la glándula maestra: da órdenes a otras glándulas.' },
+            { text: 'Esas hormonas llegaron a sus **testículos**, que comenzaron a producir **testosterona**.' },
+            { text: 'La testosterona viajó por la sangre hasta la **laringe** (donde está la voz), que creció, y sus cuerdas vocales se hicieron más largas y gruesas.' },
+            { text: 'Mientras la laringe crece, la voz se "quiebra"; al terminar, queda **más grave**.' },
+          ],
+          answer: 'Hipófisis → testículos → testosterona → la laringe crece → voz más grave.',
+          tip: 'La misma lógica sirve para las mujeres: hipófisis → ovarios → estrógenos → cambios femeninos.' },
+      ),
+      S.choice(
+        { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:2.3.2'], ambito: 'ser',
+          prompt: 'Kevin tiene 12 años. A sus amigos ya les cambió la voz, pero a él no, y está preocupado. ¿Qué le dirías?',
+          explain: 'La pubertad empieza a edades distintas: entre los 9 y los 14 años en los varones, aproximadamente. Si alguien tiene dudas sobre su desarrollo, puede consultar al personal de salud.' },
+        { options: [
+          { id: 'a', text: 'Que algo está mal en su cuerpo', icon: 'X', feedback: 'No es así: cada cuerpo tiene su propio ritmo.' },
+          { id: 'b', text: 'Que es normal: cada cuerpo tiene su ritmo, y puede preguntar a su familia o al centro de salud', icon: 'Clock' },
+          { id: 'c', text: 'Que tome algo para que le cambie más rápido', icon: 'Pill', feedback: 'Nunca se debe tomar nada sin indicación médica. Esperar es lo normal.' },
+        ], correct: ['b'] },
+      ),
+      S.match(
+        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
+          prompt: 'Une cada hormona o célula con la glándula que la produce.',
+          explain: 'Testosterona y espermatozoides: testículos. Estrógenos y óvulos: ovarios. La señal inicial: hipófisis.' },
+        { leftTitle: 'Producto', rightTitle: 'Glándula', pairs: [
+          { id: 't', left: 'Testosterona', right: 'Testículos' },
+          { id: 'e', left: 'Estrógenos', right: 'Ovarios' },
+          { id: 'h', left: 'Hormonas que inician la pubertad', right: 'Hipófisis' },
+        ] },
+      ),
+      S.choice(
+        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'hacer',
+          prompt: 'En la pubertad, las glándulas sudoríparas y sebáceas trabajan más. ¿Qué hábitos ayudan? Elige **todos** los correctos.',
+          explain: 'Bañarse a diario, usar ropa limpia y lavarse la cara con agua y jabón ayudan a controlar el olor y los granitos. Apretar los granitos puede infectarlos y dejar marcas.' },
+        { multiple: true, options: [
+          { id: 'a', text: 'Bañarse todos los días', icon: 'Droplets' },
+          { id: 'b', text: 'Usar ropa y calcetines limpios', icon: 'Shirt' },
+          { id: 'c', text: 'Apretar los granitos con las uñas', icon: 'Hand', feedback: 'Apretarlos puede causar infecciones y marcas.' },
+          { id: 'd', text: 'Lavarse la cara con agua y jabón suave', icon: 'Sparkles' },
+        ], correct: ['a', 'b', 'd'] },
+      ),
+      S.choice(
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.2'], prompt: '¿Qué producen los **ovarios**?' },
+        { options: [
+          { id: 'a', text: 'Testosterona y espermatozoides' },
+          { id: 'b', text: 'Estrógenos, progesterona y óvulos' },
+          { id: 'c', text: 'Insulina' },
+          { id: 'd', text: 'Adrenalina' },
+        ], correct: ['b'] },
+      ),
+      S.tf(
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.2'], prompt: '¿Verdadero o falso?' },
+        { statements: [
+          { text: 'Los testículos son las glándulas sexuales masculinas.', answer: true },
+          { text: 'La pubertad empieza exactamente a la misma edad en todas las personas.', answer: false, why: 'Cada cuerpo tiene su ritmo: empieza entre los 8 y los 14 años, aproximadamente.' },
+          { text: 'La hipófisis envía la señal que activa las glándulas sexuales.', answer: true },
+          { text: 'Las glándulas sexuales solo producen células reproductoras y ninguna hormona.', answer: false, why: 'También producen hormonas: testosterona, estrógenos y progesterona.' },
+        ] },
+      ),
+    ],
+  }),
+
+  /* ───────────────────────── 2. Aparato reproductor masculino y células reproductoras ───────────────────────── */
+  lesson({
+    id: 's04-cnt-2',
+    title: 'Aparato reproductor masculino y células reproductoras',
+    icon: 'HeartHandshake',
+    minutes: 15,
+    gancho: 'La planta de maíz tiene una espiga arriba que suelta polen y un jilote con "pelo de elote" que lo recibe. Los seres humanos también tienen órganos para formar nuevas vidas. ¿Cuáles son?',
+    objetivos: [
+      'Describir las estructuras del aparato reproductor masculino y su función',
+      'Diferenciar la espermatogénesis de la ovogénesis',
+    ],
+    resumen: [
+      'Aparato reproductor masculino: testículos (con túbulos seminíferos donde se forman los espermatozoides), escroto, conductos eferentes, epidídimo, conductos deferentes, vesículas seminales, próstata, uretra y pene, cuyo extremo se llama glande.',
+      'Recorrido de los espermatozoides: túbulos seminíferos → conductos eferentes → epidídimo → conducto deferente → uretra.',
+      'La espermatogénesis forma espermatozoides en los testículos, de forma continua desde la pubertad: de cada célula inicial salen 4.',
+      'La ovogénesis forma óvulos en los ovarios: empieza antes de nacer y, desde la pubertad, por lo general madura un óvulo en cada ciclo menstrual; de cada célula inicial sale 1 óvulo. Ambas células tienen 23 cromosomas.',
+    ],
+    media: {
+      id: 's04-cnt-2-aparato', kind: 'diagram', title: 'Aparato reproductor masculino (esquema)', aspect: '4:3',
+      alt: 'Esquema de libro de texto, de perfil y con colores planos, que señala testículos, escroto, conductos eferentes, epidídimo, conducto deferente, vesícula seminal, próstata, uretra y pene con el glande.',
+      brief: 'Diagrama escolar esquemático (no realista, sin sombreado de piel), vista de corte lateral en colores planos: testículos y escroto (naranja), recuadro ampliado de un testículo con los túbulos seminíferos enrollados y los conductos eferentes que salen hacia el epidídimo (amarillo), conducto deferente (línea azul que sube y rodea la vejiga), vesícula seminal y próstata (verde), uretra (azul claro) y pene con el glande señalado. Vejiga en gris como referencia. Etiquetas con líneas guía, tipografía grande. Estilo idéntico al de libros de Ciencias Naturales de primaria.',
+    },
+    steps: [
+      S.choice(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer',
+          prompt: 'Hoy usarás **nombres científicos**, correctos y respetuosos. En la milpa, la **espiga** del maíz suelta polen y el **jilote** lo recibe por sus "pelos de elote". En los seres humanos, ¿qué células se unen para formar una nueva vida?',
+          explain: 'Se unen el **óvulo** (célula reproductora femenina, formada en los **ovarios**; grande y sin movimiento propio) y el **espermatozoide** (célula reproductora masculina, formada en los **testículos**; muy pequeña y con una **cola** o flagelo para moverse). Hoy verás dónde y cómo se forman. Si tienes dudas, conversa con tu familia, tu docente o el personal de salud.' },
+        { options: [
+          { id: 'a', text: 'Un óvulo y un espermatozoide', icon: 'Egg' },
+          { id: 'b', text: 'Dos células de la piel', icon: 'Hand', feedback: 'Las células de la piel tienen 46 cromosomas y no forman nuevos seres. Se necesitan células reproductoras, de 23 cromosomas.' },
+          { id: 'c', text: 'Un grano de polen y una semilla', icon: 'Wheat', feedback: 'Eso se parece a lo que ocurre en las plantas. En las personas son otras células reproductoras.' },
+        ], correct: ['a'] },
+      ),
+      S.explain(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer', title: 'Donde se forman los espermatozoides',
+          prompt: 'Observa el esquema de la lección, empezando por los testículos. Toca cada tarjeta.' },
+        { icon: 'Circle', body: 'Los **testículos** son dos glándulas en forma de óvalo. Por dentro tienen tubitos enrollados muy finos.', reveal: [
+          { icon: 'Route', front: 'Túbulos seminíferos', back: 'Tubitos enrollados **dentro de los testículos**. En sus paredes se **forman los espermatozoides**.' },
+          { icon: 'Thermometer', front: 'Escroto', back: 'Bolsa de piel que **protege** a los testículos y los mantiene **fuera del abdomen**, un poco más frescos: los espermatozoides necesitan una temperatura algo menor que la del resto del cuerpo.' },
+          { icon: 'Link', front: 'Conductos eferentes', back: 'Pequeños conductos que **llevan los espermatozoides** desde los túbulos seminíferos hasta el epidídimo.' },
+          { icon: 'Archive', front: 'Epidídimo', back: 'Tubo enrollado sobre cada testículo donde los espermatozoides **maduran y se guardan**.' },
+        ] },
+      ),
+      S.explain(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer', title: 'Por donde viajan y qué los acompaña',
+          prompt: 'Ahora sigue el camino hacia afuera. Toca cada tarjeta.' },
+        { icon: 'Route', body: 'Los espermatozoides viajan por conductos, y varias glándulas agregan **líquidos** que los nutren y protegen. Espermatozoides + líquidos = **semen**.', reveal: [
+          { icon: 'Route', front: 'Conductos deferentes', back: 'Tubos que **transportan** los espermatozoides desde el epidídimo hacia la uretra.' },
+          { icon: 'Droplets', front: 'Vesículas seminales y próstata', back: 'Glándulas que producen **líquidos** que forman el **semen** y dan energía a los espermatozoides.' },
+          { icon: 'Droplet', front: 'Uretra', back: 'Conducto que pasa por el pene y lleva al exterior la **orina** o el **semen**, nunca los dos a la vez.' },
+          { icon: 'CircleDot', front: 'Pene y glande', back: 'El **pene** es el órgano externo por donde pasa la uretra. Su extremo se llama **glande** y está cubierto por una piel llamada **prepucio**.' },
+        ] },
+      ),
+      S.order(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer',
+          prompt: 'Ordena el **recorrido de los espermatozoides**, desde donde se forman hasta que salen del cuerpo.',
+          hint: 'Se forman dentro del testículo, pasan por conductos pequeños, maduran, viajan por un tubo largo y salen por la uretra.',
+          explain: 'Túbulos seminíferos → conductos eferentes → epidídimo → conducto deferente → uretra.',
+          media: { id: 's04-cnt-2-recorrido', kind: 'animation', title: 'El recorrido de los espermatozoides', aspect: '16:9', duration: 40,
+            alt: 'Animación esquemática en la que puntos de colores recorren túbulos seminíferos, conductos eferentes, epidídimo, conducto deferente y uretra, mientras la vesícula seminal y la próstata añaden líquido.',
+            brief: 'Animación 2D de 40 s sobre el mismo esquema escolar de la lección (colores planos, sin realismo): pequeños puntos representan espermatozoides que se forman en los túbulos seminíferos, pasan por los conductos eferentes al epidídimo, suben por el conducto deferente, reciben líquido de la vesícula seminal y la próstata (gotas verdes) y salen por la uretra. Rótulo en cada estructura cuando los puntos pasan. Narración científica, tranquila, en español con subtítulos.' } },
+        { labels: { start: 'Se forman', end: 'Salen' }, items: [
+          { id: 'r1', text: 'Túbulos seminíferos', icon: 'Route' },
+          { id: 'r2', text: 'Conductos eferentes', icon: 'Link' },
+          { id: 'r3', text: 'Epidídimo', icon: 'Archive' },
+          { id: 'r4', text: 'Conducto deferente', icon: 'Route' },
+          { id: 'r5', text: 'Uretra', icon: 'Droplet' },
+        ] },
+      ),
+      S.match(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer',
+          prompt: 'Une cada estructura con su función.',
+          hint: 'Vuelve a leer las tarjetas si lo necesitas: formar, proteger, madurar, transportar, agregar líquido.',
+          explain: 'Cada estructura tiene un trabajo en el recorrido: formar, proteger, madurar, transportar y agregar líquidos.' },
+        { leftTitle: 'Estructura', rightTitle: 'Función', pairs: [
+          { id: 'ts', left: 'Túbulos seminíferos', right: 'Forman los espermatozoides' },
+          { id: 'es', left: 'Escroto', right: 'Protege a los testículos y regula su temperatura' },
+          { id: 'ep', left: 'Epidídimo', right: 'Donde maduran y se guardan los espermatozoides' },
+          { id: 'de', left: 'Conducto deferente', right: 'Transporta los espermatozoides hacia la uretra' },
+          { id: 'pr', left: 'Próstata', right: 'Produce líquido que forma parte del semen' },
+          { id: 'gl', left: 'Glande', right: 'Extremo del pene, cubierto por el prepucio' },
+        ] },
+      ),
+      S.explain(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.2.1'], ambito: 'conocer', title: 'Espermatogénesis y ovogénesis',
+          prompt: 'La formación de células reproductoras se llama **gametogénesis**. Hay dos tipos. Toca las tarjetas.' },
+        { icon: 'Dna', body: 'Recuerda la semana 2: las células reproductoras llevan **23 cromosomas**, la mitad que las demás células. Al unirse un óvulo y un espermatozoide, la nueva célula tiene 46.', reveal: [
+          { icon: 'Circle', front: 'Espermatogénesis', back: 'Formación de **espermatozoides** en los **túbulos seminíferos** de los testículos. Empieza en la **pubertad** y continúa toda la vida: se forman **millones cada día**.' },
+          { icon: 'CircleDot', front: 'Ovogénesis', back: 'Formación de **óvulos** en los **ovarios**. **Empieza antes de nacer** y se pausa; desde la pubertad, por lo general **madura un óvulo en cada ciclo menstrual** (más o menos cada mes).' },
+          { icon: 'Hash', front: '¿Cuántas salen?', back: 'De cada célula inicial, la espermatogénesis forma **4 espermatozoides**; la ovogénesis forma **1 óvulo** (y otras células pequeñas que no se usan).' },
+          { icon: 'Egg', front: '¿Por qué el óvulo es grande?', back: 'Guarda **nutrientes** para los primeros días de una posible nueva vida. El espermatozoide es pequeño y ligero para **moverse**.' },
+        ] },
+      ),
+      S.sort(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.2.1'], ambito: 'conocer',
+          prompt: 'Clasifica cada característica: ¿espermatogénesis, ovogénesis o ambas?',
+          hint: 'Piensa en el lugar (testículos u ovarios), cuándo empieza y cuántas células forma.',
+          explain: 'Ambos procesos forman células con 23 cromosomas, pero se diferencian en el lugar, el momento y la cantidad.' },
+        { buckets: [
+          { id: 'esp', label: 'Espermatogénesis', icon: 'Circle', color: 'var(--area-l1)' },
+          { id: 'ovo', label: 'Ovogénesis', icon: 'CircleDot', color: 'var(--area-mat)' },
+          { id: 'amb', label: 'Ambas', icon: 'Copy', color: 'var(--area-cnt)' },
+        ], items: [
+          { id: 'o1', text: 'Ocurre en los testículos', bucket: 'esp' },
+          { id: 'o2', text: 'Ocurre en los ovarios', bucket: 'ovo' },
+          { id: 'o3', text: 'Forma millones de células cada día desde la pubertad', bucket: 'esp' },
+          { id: 'o4', text: 'Por lo general madura una célula en cada ciclo menstrual', bucket: 'ovo' },
+          { id: 'o5', text: 'Comienza antes del nacimiento', bucket: 'ovo' },
+          { id: 'o6', text: 'Forma células con 23 cromosomas', bucket: 'amb' },
+        ] },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['cnt', 'mat'], cnb: ['cnt:3.2.1'], ambito: 'hacer', title: 'Ejemplo: contar células reproductoras',
+          prompt: 'Usa lo aprendido para comparar los dos procesos con números.' },
+        { icon: 'Calculator', problem: 'Supongamos que **10 células iniciales** hacen espermatogénesis y otras **10** hacen ovogénesis. ¿Cuántas células reproductoras se forman en cada caso?',
+          steps: [
+            { text: 'En la espermatogénesis, cada célula inicial forma **4** espermatozoides: 10 × 4 = **40**.' },
+            { text: 'En la ovogénesis, cada célula inicial forma **1** óvulo: 10 × 1 = **10**.', why: 'Las otras células pequeñas que se forman no se usan: casi todo el citoplasma y los nutrientes quedan en el óvulo.' },
+            { text: 'Comparo: se forman 4 veces más espermatozoides que óvulos.' },
+          ],
+          answer: '**40 espermatozoides** y **10 óvulos**. Cada una de esas células tiene **23 cromosomas**.',
+          tip: 'Espermatozoides: muchos, pequeños y móviles. Óvulos: pocos, grandes y con reservas.' },
+      ),
+      S.number(
+        { fase: 'aplicar', areas: ['cnt', 'mat'], cnb: ['cnt:3.2.1'], ambito: 'hacer',
+          prompt: 'Supongamos que **25 células iniciales** hacen espermatogénesis. ¿Cuántos espermatozoides se forman?',
+          explain: 'Cada célula inicial forma 4 espermatozoides: 25 × 4 = 100.' },
+        { answer: 100, unit: 'espermatozoides', misconceptions: [
+          { value: 25, msg: 'Eso sería si cada célula formara 1, como en la ovogénesis. En la espermatogénesis forma 4.' },
+          { value: 29, msg: 'Sumaste 25 + 4. Cada una de las 25 células forma 4: hay que multiplicar.' },
+        ] },
+      ),
+      S.choice(
+        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer',
+          prompt: '¿Por qué los testículos están en el **escroto**, fuera del abdomen?',
+          explain: 'Los espermatozoides se forman mejor a una temperatura **un poco más baja** que la del interior del cuerpo; el escroto la regula.' },
+        { options: [
+          { id: 'a', text: 'Para que estén un poco más frescos, porque así se forman mejor los espermatozoides', icon: 'Thermometer' },
+          { id: 'b', text: 'Porque no caben dentro del cuerpo', icon: 'Package', feedback: 'La razón es la temperatura que necesitan los espermatozoides.' },
+          { id: 'c', text: 'Para producir orina', icon: 'Droplet', feedback: 'La orina se produce en los riñones, no en los testículos.' },
+        ], correct: ['a'] },
+      ),
+      S.choice(
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:3.1.1'], prompt: '¿En qué estructura se **forman** los espermatozoides?' },
+        { options: [
+          { id: 'a', text: 'En la próstata' },
+          { id: 'b', text: 'En los túbulos seminíferos de los testículos' },
+          { id: 'c', text: 'En la uretra' },
+          { id: 'd', text: 'En los ovarios' },
+        ], correct: ['b'] },
+      ),
+      S.tf(
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:3.1.1', 'cnt:3.2.1'], prompt: '¿Verdadero o falso?' },
+        { statements: [
+          { text: 'Los conductos deferentes transportan los espermatozoides hacia la uretra.', answer: true },
+          { text: 'La ovogénesis ocurre en los testículos.', answer: false, why: 'La ovogénesis ocurre en los ovarios; en los testículos ocurre la espermatogénesis.' },
+          { text: 'De cada célula inicial, la ovogénesis forma un solo óvulo.', answer: true },
+          { text: 'El glande es una glándula que produce semen.', answer: false, why: 'El glande es el extremo del pene. Los líquidos del semen los producen las vesículas seminales y la próstata.' },
+        ] },
+      ),
+    ],
+  }),
+
+  /* ───────────────────────── 3. Pudor y paternidad responsable ───────────────────────── */
+  lesson({
+    id: 's04-cnt-3',
+    title: 'Sexualidad con respeto: pudor y paternidad responsable',
+    icon: 'ShieldCheck',
+    minutes: 17,
+    gancho: 'Conocer cómo funciona el cuerpo viene con una pregunta importante: ¿cómo debemos tratar nuestro cuerpo y el de los demás?',
+    objetivos: [
+      'Explicar qué es el pudor y cómo se practica',
+      'Reconocer las partes privadas del cuerpo y a quién pedir ayuda',
+      'Describir qué significa la paternidad responsable y por qué es una decisión de la edad adulta',
+    ],
+    resumen: [
+      'La ética en la sexualidad significa tratar el propio cuerpo y el de los demás con respeto, cuidado y responsabilidad.',
+      'El pudor es respetar la intimidad propia y la de otras personas: cambiarse en privado, tocar antes de entrar, no mirar, tocar, fotografiar ni compartir imágenes del cuerpo de nadie.',
+      'Tu cuerpo es tuyo. Nadie puede tocar tus partes privadas ni pedirte que las muestres o guardes secretos sobre eso. Si pasa, cuéntalo a una persona adulta de confianza.',
+      'La paternidad responsable es cuidar, proteger, educar, dar afecto y sostener a los hijos, compartiendo las tareas con la madre. Requiere madurez: es una decisión para la edad adulta.',
+    ],
+    media: {
+      id: 's04-cnt-3-cuidar', kind: 'image', title: 'Un papá que cuida', aspect: '4:3',
+      alt: 'Ilustración de un padre guatemalteco que prepara el desayuno mientras conversa con su hija, y al fondo revisa las tareas de su hijo.',
+      brief: 'Ilustración cálida en una cocina sencilla guatemalteca: un padre joven prepara huevos y frijoles mientras escucha con atención a su hija de 7 años; en una mesa, su hijo hace la tarea y el padre le señala el cuaderno. Una madre llega del trabajo y se saludan. Mensaje visual de corresponsabilidad y afecto. Rótulo opcional: "Cuidar también es cosa de papás". Sin marcas, estilo de libro de texto.',
+    },
+    steps: [
+      S.choice(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:3.3.1'], ambito: 'ser',
+          prompt: 'Piensa en un buen papá o un buen cuidador. ¿Qué hace? Elige **todo** lo que creas correcto.',
+          explain: 'Un padre responsable **cuida, educa, da afecto, comparte las tareas** y también aporta para el sostén del hogar. Dar dinero es importante, pero no es suficiente por sí solo.' },
+        { multiple: true, layout: 'grid', options: [
+          { id: 'a', text: 'Cuida a sus hijos cuando están enfermos', icon: 'Stethoscope' },
+          { id: 'b', text: 'Juega y conversa con ellos', icon: 'MessageCircle' },
+          { id: 'c', text: 'Solo da dinero y no convive', icon: 'Banknote', feedback: 'Aportar económicamente es parte de la responsabilidad, pero los hijos también necesitan cuidado, tiempo y afecto.' },
+          { id: 'd', text: 'Les ayuda con las tareas de la escuela', icon: 'BookOpen' },
+        ], correct: ['a', 'b', 'd'] },
+      ),
+      S.explain(
+        { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'ser', title: '¿Qué es el pudor?',
+          prompt: 'La **ética en la sexualidad** es tratar el propio cuerpo y el de los demás con **respeto**. Una forma de hacerlo es el **pudor**. Toca las tarjetas.' },
+        { icon: 'Lock', body: 'El **pudor** es respetar la **intimidad**: la propia y la de otras personas. La intimidad es aquello que es privado y que cada quien decide con quién compartir.', reveal: [
+          { icon: 'Home', front: 'Mi privacidad', back: 'Me cambio de ropa y uso el baño **en privado**, cierro la puerta y cuido mi cuerpo.' },
+          { icon: 'EyeOff', front: 'La privacidad de otros', back: '**Toco antes de entrar**, no miro a quien se está cambiando y no hago bromas sobre el cuerpo de nadie.' },
+          { icon: 'Smartphone', front: 'Imágenes y celular', back: '**Nunca** tomo, pido ni comparto fotos o videos del cuerpo de otra persona sin ropa. Tampoco envío fotos así de mí.' },
+        ] },
+      ),
+      S.sort(
+        { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'ser',
+          prompt: '¿Esta acción **respeta** el pudor o **no lo respeta**?',
+          hint: 'Pregúntate: ¿cuida la intimidad de la persona?',
+          explain: 'Respetar el pudor es cuidar la intimidad propia y ajena, también en el celular.' },
+        { buckets: [
+          { id: 'si', label: 'Respeta el pudor', icon: 'ShieldCheck', color: 'var(--c-ok)' },
+          { id: 'no', label: 'No lo respeta', icon: 'X', color: 'var(--c-bad)' },
+        ], items: [
+          { id: 'p1', text: 'Tocar la puerta antes de entrar al baño', bucket: 'si' },
+          { id: 'p2', text: 'Asomarse al vestidor mientras otros se cambian', bucket: 'no' },
+          { id: 'p3', text: 'Cambiarse de ropa en un lugar privado', bucket: 'si' },
+          { id: 'p4', text: 'Reenviar en un grupo la foto íntima de alguien', bucket: 'no', feedback: 'Compartir imágenes íntimas de otra persona es una falta grave de respeto y puede ser un delito.' },
+          { id: 'p5', text: 'No burlarse de los cambios del cuerpo de un compañero', bucket: 'si' },
+          { id: 'p6', text: 'Hacer chistes sobre el cuerpo de una compañera', bucket: 'no' },
+        ] },
+      ),
+      S.explain(
+        { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'ser', title: 'Mi cuerpo es mío',
+          prompt: 'El respeto también te protege. Lee con calma cada tarjeta.' },
+        { icon: 'Hand', body: 'Las **partes privadas** son las que cubre la ropa interior. Nadie tiene derecho a tocarlas, mirarlas ni pedir fotos de ellas.', reveal: [
+          { icon: 'Hand', front: 'Puedo decir NO', back: 'Si alguien me toca de una forma que me incomoda, puedo decir **"¡No!"**, alejarme y **pedir ayuda**, aunque sea una persona conocida.' },
+          { icon: 'Lock', front: 'Secretos que no se guardan', back: 'Si alguien me pide guardar un **secreto** sobre tocarme o mostrarme el cuerpo, **no** lo guardo: se lo cuento a una persona adulta de confianza.' },
+          { icon: 'Stethoscope', front: 'En el centro de salud', back: 'Un médico o enfermera puede revisar el cuerpo **para cuidar la salud**, con explicación y con un familiar presente.' },
+          { icon: 'Users', front: 'Mis personas de confianza', back: 'Piensa en al menos **dos adultos** a quienes les contarías algo difícil: alguien de tu familia, tu docente, la directora u orientador.' },
+        ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'ser',
+          prompt: 'Una persona le pide a Lucía que le envíe una foto sin ropa y que "no le diga a nadie". ¿Qué debe hacer Lucía?',
+          hint: 'Recuerda la tarjeta de los secretos que no se guardan.',
+          explain: 'Lucía **no** debe enviar nada y **debe contarlo** a una persona adulta de confianza. No es su culpa, y pedir ayuda es lo correcto.' },
+        { options: [
+          { id: 'a', text: 'Enviarla para no quedar mal', icon: 'Smartphone', feedback: 'Nunca. Esa foto podría compartirse y hacerle mucho daño. Nadie tiene derecho a pedirla.' },
+          { id: 'b', text: 'No enviarla y contarlo a una persona adulta de confianza', icon: 'ShieldCheck' },
+          { id: 'c', text: 'No enviarla, pero guardar el secreto', icon: 'Lock', feedback: 'No enviarla es correcto, pero este es un secreto que **no** se guarda: hay que contarlo para que un adulto la proteja.' },
+        ], correct: ['b'] },
+      ),
+      S.explain(
+        { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'ser', title: 'Paternidad responsable',
+          prompt: 'Ser padre o madre es mucho más que tener un hijo. Mira la imagen de la lección y toca las tarjetas.' },
+        { icon: 'Baby', body: 'La **paternidad responsable** significa que el padre, junto con la madre, se hace cargo de sus hijos: los **cuida, protege, educa, les da afecto y los sostiene**.', reveal: [
+          { icon: 'Heart', front: 'Afecto y tiempo', back: 'Abrazar, escuchar, jugar y estar presente. Los niños necesitan a su papá **cerca**, no solo su dinero.' },
+          { icon: 'Stethoscope', front: 'Cuidado y salud', back: 'Alimentación, vacunas, higiene, llevarlos al centro de salud: **tareas de papá y mamá por igual**.' },
+          { icon: 'GraduationCap', front: 'Educación y ejemplo', back: 'Enseñar valores con el ejemplo, apoyar la escuela y poner **límites con cariño**, sin violencia.' },
+          { icon: 'Clock', front: 'Una decisión adulta', back: 'Un bebé necesita cuidado **día y noche** por muchos años. Por eso tener hijos es una decisión para la **edad adulta**, con madurez, estudios o trabajo y un proyecto de vida.' },
+        ] },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'ser', title: 'Ejemplo: ¿por qué es una decisión de la edad adulta?',
+          prompt: 'Razona paso a paso qué necesita un bebé y qué se necesita para dárselo.' },
+        { icon: 'Baby', problem: 'Un adolescente de 15 años pregunta: "¿Por qué dicen que ser papá es para cuando uno es adulto?". Ayúdale a razonar.',
+          steps: [
+            { text: 'Un bebé necesita **alimento, abrigo, vacunas y cuidado** a toda hora, también de noche.' },
+            { text: 'Después necesitará **educación**, útiles, ropa y acompañamiento durante **muchos años**.', why: 'La responsabilidad no dura unos meses: dura hasta que el hijo es adulto.' },
+            { text: 'Para darle todo eso se necesita **madurez emocional**, estabilidad, **estudios o trabajo** y acuerdo con la otra persona.' },
+            { text: 'A los 15 años, un adolescente todavía está **estudiando y creciendo**: le falta preparación para asumir esa responsabilidad.' },
+          ],
+          answer: 'Ser padre exige cuidado, tiempo y recursos por muchos años; por eso es una decisión **responsable de la edad adulta**.',
+          tip: 'Ahora es tiempo de estudiar, cuidar tu cuerpo y construir tu proyecto de vida.' },
+      ),
+      S.sort(
+        { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'ser',
+          prompt: '¿Es un ejemplo de paternidad **responsable** o **no responsable**?',
+          explain: 'La paternidad responsable incluye afecto, cuidado, educación, sostén y compartir las tareas del hogar.' },
+        { buckets: [
+          { id: 'si', label: 'Responsable', icon: 'HeartHandshake', color: 'var(--c-ok)' },
+          { id: 'no', label: 'No responsable', icon: 'X', color: 'var(--c-bad)' },
+        ], items: [
+          { id: 'r1', text: 'Don Julio lleva a su hija a vacunar', bucket: 'si' },
+          { id: 'r2', text: 'Un padre se va y no vuelve a saber de su hijo', bucket: 'no' },
+          { id: 'r3', text: 'Don Esteban cambia pañales y prepara la comida', bucket: 'si' },
+          { id: 'r4', text: 'Un padre grita y golpea para "educar"', bucket: 'no', feedback: 'Educar es poner límites con cariño y respeto, nunca con violencia.' },
+          { id: 'r5', text: 'Don Aurelio escucha a su hijo cuando está triste', bucket: 'si' },
+          { id: 'r6', text: 'Un padre dice que criar es "cosa solo de mujeres"', bucket: 'no' },
+        ] },
+      ),
+      S.dilemma(
+        { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'convivir', prompt: '¿Qué harías tú?' },
+        { scene: { icon: 'Smartphone', text: 'Después de Educación Física, **Brandon** saca un celular en el vestidor y quiere tomar una foto a un compañero mientras se cambia, "para reírse en el grupo".' }, options: [
+          { id: 'a', icon: 'EyeOff', text: 'Reírme y no decir nada', consequence: 'El compañero se siente humillado. Tomar o compartir imágenes íntimas de otra persona es una falta grave de respeto y puede ser un delito.', values: ['Indiferencia'], constructive: false },
+          { id: 'b', icon: 'Hand', text: 'Decirle a Brandon que no lo haga porque viola la intimidad de su compañero', consequence: 'Brandon guarda el celular. Tu compañero se siente protegido.', values: ['Pudor', 'Respeto', 'Valentía'], constructive: true },
+          { id: 'c', icon: 'Megaphone', text: 'Avisar al docente para que hablen con el grupo sobre la privacidad', consequence: 'El docente conversa con todos sobre el respeto a la intimidad y el uso responsable del celular.', values: ['Responsabilidad', 'Cuidado'], constructive: true },
+        ] },
+      ),
+      S.write(
+        { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:3.3.1'], ambito: 'ser', title: 'Una persona que cuida',
+          prompt: 'Piensa en un hombre adulto que cuide a niñas o niños con responsabilidad (tu papá, abuelo, tío, un vecino o un personaje). Escribe **qué hace** y **por qué** eso muestra paternidad responsable.' },
+        { placeholder: 'La persona que admiro es… Él… Eso es paternidad responsable porque…',
+          model: 'Admiro a mi tío Rigoberto. Todos los días lleva a mis primos a la escuela, les ayuda con las tareas y les prepara la refacción. Cuando mi prima se enfermó, la llevó al centro de salud y la cuidó toda la noche. También comparte los oficios de la casa con mi tía. Eso es paternidad responsable porque no solo trabaja para mantenerlos: les da tiempo, afecto y cuidado.',
+          rubric: ['Describe al menos tres acciones concretas de cuidado', 'Incluye afecto o tiempo, no solo dinero', 'Explica por qué eso es paternidad responsable'],
+          minWords: 35 },
+      ),
+      S.choice(
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:3.3.1'], prompt: '¿Qué significa **pudor**?' },
+        { options: [
+          { id: 'a', text: 'Tener miedo de hablar del cuerpo' },
+          { id: 'b', text: 'Respetar la intimidad propia y la de los demás' },
+          { id: 'c', text: 'Burlarse de los cambios de la pubertad' },
+          { id: 'd', text: 'No bañarse para cuidar la privacidad' },
+        ], correct: ['b'] },
+      ),
+      S.tf(
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:3.3.1'], prompt: '¿Verdadero o falso?' },
+        { statements: [
+          { text: 'La paternidad responsable incluye cuidar, educar y dar afecto a los hijos.', answer: true },
+          { text: 'Si alguien me pide guardar un secreto sobre tocar mi cuerpo, debo guardarlo.', answer: false, why: 'Ese secreto no se guarda: hay que contarlo a una persona adulta de confianza.' },
+          { text: 'Criar a los hijos es tarea solo de las madres.', answer: false, why: 'Es una responsabilidad compartida entre padre y madre.' },
+          { text: 'Tocar la puerta antes de entrar al baño es una forma de respetar el pudor.', answer: true },
+        ] },
+      ),
+      cierre({ areas: ['cnt', 'fc'], cnb: [] },
+        ['Explico cómo las glándulas sexuales producen los cambios de la pubertad', 'Nombro las estructuras del aparato reproductor masculino y su función', 'Diferencio espermatogénesis y ovogénesis', 'Explico qué es el pudor y la paternidad responsable'],
+        ['Respetaré la intimidad de mis compañeros', 'Identificaré a dos adultos de confianza', 'Conversaré con mi familia sobre lo que aprendí']),
+    ],
+  }),
+];
