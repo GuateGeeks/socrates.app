@@ -15,6 +15,19 @@ const EXPECTED = [
 
 const unitWeeks = WEEKS.filter((week) => week.unidad === 1 && week.kind === 'aprendizaje');
 
+const ICON_CONTEXT_FIELDS = new Set([
+  'text',
+  'title',
+  'front',
+  'body',
+  'label',
+  'prompt',
+  'back',
+  'problem',
+  'alt',
+  'brief',
+]);
+
 function inspectConcreteIcon(value: unknown, path: string, failures: string[]): void {
   if (Array.isArray(value)) {
     value.forEach((item, index) => inspectConcreteIcon(item, `${path}[${index}]`, failures));
@@ -24,7 +37,7 @@ function inspectConcreteIcon(value: unknown, path: string, failures: string[]): 
   const record = value as Record<string, unknown>;
   const icon = typeof record.icon === 'string' ? record.icon : undefined;
   const words = Object.entries(record)
-    .filter(([key, item]) => ['text', 'title', 'front', 'body', 'label'].includes(key) && typeof item === 'string')
+    .filter(([key, item]) => ICON_CONTEXT_FIELDS.has(key) && typeof item === 'string')
     .map(([, item]) => item)
     .join(' ');
   if ((icon === 'Circle' || icon === 'Square') && /tortilla|ventana|panela|pozo|cancha|edificio|herramienta|alimento/i.test(words)) {
@@ -48,8 +61,15 @@ test('Unidad 1 limita cada taller a dos, tres o cuatro áreas reales', () => {
   for (const week of unitWeeks) {
     const workshop = week.lessons.find((lesson) => lesson.kind === 'taller');
     assert.ok(workshop, `Semana ${week.semana} sin taller`);
-    const areas = new Set(workshop.steps.flatMap((step) => step.areas));
-    assert.ok(areas.size >= 2 && areas.size <= 4, `Semana ${week.semana}: taller integra ${areas.size} áreas`);
+    const contributors = new Set(
+      workshop.steps
+        .filter((step) => step.fase === 'construir' || step.fase === 'aplicar')
+        .flatMap((step) => step.areas),
+    );
+    assert.ok(
+      contributors.size >= 2 && contributors.size <= 4,
+      `Semana ${week.semana}: taller tiene ${contributors.size} áreas contribuyentes en construir/aplicar (${[...contributors].join(', ')})`,
+    );
   }
 });
 
@@ -66,7 +86,15 @@ test('Unidad 1 evalúa al menos seis materias en cada reto', () => {
   for (const week of unitWeeks) {
     const challenge = week.lessons.find((lesson) => lesson.kind === 'reto');
     assert.ok(challenge, `Semana ${week.semana} sin reto`);
-    assert.ok(new Set(challenge.steps.map((step) => step.areas[0])).size >= 6, `Semana ${week.semana}: reto con menos de seis materias`);
+    const assessedAreas = new Set(
+      challenge.steps
+        .filter((step) => step.fase === 'comprobar')
+        .flatMap((step) => step.areas),
+    );
+    assert.ok(
+      assessedAreas.size >= 6,
+      `Semana ${week.semana}: reto evalúa ${assessedAreas.size} materias en pasos comprobar`,
+    );
   }
 });
 
