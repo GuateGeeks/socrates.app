@@ -1,6 +1,0 @@
-node_modules
-dist
-tests/screens
-*.log
-_to_delete
-dist-standalone
