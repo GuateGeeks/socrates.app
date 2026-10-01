@@ -2593,16 +2593,100 @@ test('Arte 2 usa un kit reutilizable de tres texturas y una discriminacion tacti
   assert.equal(lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded).length, 2);
 });
 
-test('EF 2 practica una sola decision motriz con seis pases y tres finalizaciones controladas', () => {
+test('EF 2 practica seis secuencias integradas con ambos lados y las tres finalizaciones', () => {
   const lesson = weekFive.lessons.find((item) => item.id === 's05-ef-2');
   assert.ok(lesson, 'Falta s05-ef-2');
   const text = normalizeFactText(JSON.stringify(lesson));
-  assert.match(text, /6 pases|seis pases/);
-  assert.match(text, /3 con (?:la )?izquierda.{0,40}3 con (?:la )?derecha|3 por cada mano/);
-  assert.match(text, /3 finalizaciones|tres finalizaciones/);
+  assert.match(text, /6 secuencias|seis secuencias/);
+  assert.match(text, /3 pases con (?:la )?izquierda.{0,50}3 con (?:la )?derecha|3 por cada mano/);
+  assert.match(text, /directa/);
+  assert.match(text, /suspension/);
+  assert.match(text, /pique/);
   assert.match(text, /registro|tanteo|marcas/);
-  assert.doesNotMatch(text, /10 pases|5 con cada mano|5 veces directo|5 en suspension|5 con pique|3 contra 3|minipartido|partido corto/);
+  assert.doesNotMatch(text, /6 pases.{0,160}3 finalizaciones|10 pases|5 con cada mano|5 veces directo|5 en suspension|5 con pique|3 contra 3|minipartido|partido corto/);
   assert.equal(lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded).length, 2);
+});
+
+test('EF 2 ensena y evalua la secuencia reglada de avance, pase y finalizacion', () => {
+  const lesson = weekFive.lessons.find((item) => item.id === 's05-ef-2');
+  assert.ok(lesson, 'Falta s05-ef-2');
+  const objective = normalizeFactText((lesson.objetivos ?? []).join(' '));
+  assert.match(objective, /secuencia/);
+  assert.match(objective, /avance/);
+  assert.match(objective, /pase/);
+  assert.match(objective, /finalizacion/);
+
+  const firstScored = lesson.steps.findIndex((step) => getActivity(step.type)?.graded && step.cnb.includes('ef:2.1.13'));
+  assert.ok(firstScored > 0, 'Falta una actividad calificada para ef:2.1.13');
+  const taught = normalizeFactText(JSON.stringify(lesson.steps.slice(0, firstScored)));
+  assert.match(taught, /(?:maximo de )?3 pasos.{0,80}(?:bote|botar|drible)|(?:bote|botar|drible).{0,80}(?:maximo de )?3 pasos/);
+  assert.match(taught, /directa/);
+  assert.match(taught, /suspension|salto/);
+  assert.match(taught, /(?:con )?pique|bota una vez/);
+
+  const model = lesson.steps.find((step) => step.type === 'worked-example' && step.cnb.includes('ef:2.1.13'));
+  assert.ok(model, 'Falta modelado integrado bajo ef:2.1.13');
+  const modelText = normalizeFactText(JSON.stringify(model));
+  assert.match(modelText, /3 pasos/);
+  assert.match(modelText, /bote|botar|drible/);
+  assert.match(modelText, /pase/);
+  assert.match(modelText, /finalizacion|meta|gol/);
+
+  const practice = lesson.steps.find((step) => step.type === 'pulse-lab' && step.cnb.includes('ef:2.1.13'));
+  assert.ok(practice, 'Falta practica breve de la secuencia completa');
+  const practiceText = normalizeFactText(JSON.stringify(practice));
+  assert.match(practiceText, /6 secuencias|seis secuencias/);
+  assert.match(practiceText, /3 pasos.{0,80}(?:bote|botar)|(?:bote|botar).{0,80}3 pasos/);
+  assert.match(practiceText, /izquierda/);
+  assert.match(practiceText, /derecha/);
+  assert.match(practiceText, /directa/);
+  assert.match(practiceText, /suspension/);
+  assert.match(practiceText, /pique/);
+  assert.doesNotMatch(practiceText, /6 pases.{0,160}3 finalizaciones|10 pases|partido/);
+
+  const transfer = lesson.steps.find((step) => step.fase === 'aplicar'
+    && getActivity(step.type)?.graded && step.cnb.includes('ef:2.1.13') && !step.hint);
+  assert.ok(transfer, 'Falta transferencia independiente de ef:2.1.13');
+  assert.match(normalizeFactText(JSON.stringify(transfer)), /3 pasos|bote|directa|suspension|pique/);
+  const exit = lesson.steps.find((step) => step.fase === 'comprobar'
+    && getActivity(step.type)?.graded && step.cnb.includes('ef:2.1.13') && !step.hint && !step.explain);
+  assert.ok(exit, 'Falta salida sin pistas para ef:2.1.13');
+  assert.match(normalizeFactText(JSON.stringify(exit)), /3 pasos/);
+  assert.match(normalizeFactText(JSON.stringify(exit)), /bote|botar|drible/);
+  assert.match(normalizeFactText(JSON.stringify(exit)), /finalizacion|directa|suspension|pique/);
+});
+
+test('CCSS 1 valora la investigacion para responder preocupaciones colectivas', () => {
+  const lesson = weekFive.lessons.find((item) => item.id === 's05-ccss-1');
+  assert.ok(lesson, 'Falta s05-ccss-1');
+  const objective = normalizeFactText((lesson.objetivos ?? []).join(' '));
+  assert.match(objective, /seleccionar/);
+  assert.match(objective, /justificar/);
+  assert.match(objective, /tecnica|herramienta/);
+  assert.match(objective, /preocupacion colectiva|problema colectivo/);
+
+  const tagged = lesson.steps.filter((step) => step.cnb.includes('ccss:5.1.4'));
+  assert.ok(tagged.length >= 4, 'ccss:5.1.4 debe recorrer ensenanza y evaluacion');
+  const text = normalizeFactText(JSON.stringify(tagged));
+  assert.match(text, /preocupacion|problema|necesidad/);
+  assert.match(text, /comunitaria|comunidad|colectiva/);
+  assert.match(text, /nacional|pais/);
+  assert.match(text, /evidencia|datos/);
+  assert.match(text, /decision|decidir|propuesta/);
+
+  const model = tagged.find((step) => step.type === 'worked-example');
+  const guided = tagged.find((step) => step.fase === 'construir'
+    && getActivity(step.type)?.graded && step.hint && step.explain);
+  const transfer = tagged.find((step) => step.fase === 'aplicar'
+    && getActivity(step.type)?.graded && !step.hint);
+  const exit = tagged.find((step) => step.fase === 'comprobar'
+    && getActivity(step.type)?.graded && !step.hint && !step.explain);
+  assert.ok(model, 'Falta modelo de como la investigacion responde una preocupacion');
+  assert.ok(guided, 'Falta juicio guiado sobre el valor de la investigacion');
+  assert.ok(transfer, 'Falta aplicacion independiente de ccss:5.1.4');
+  assert.ok(exit, 'Falta salida sin pistas de ccss:5.1.4');
+  assert.match(normalizeFactText(JSON.stringify(exit)), /evidencia|datos/);
+  assert.match(normalizeFactText(JSON.stringify(exit)), /decision|preocupacion|problema/);
 });
 
 test('Productividad ensena el rodillo y el taller lo usa con evidencia de tecnica segura', () => {
@@ -2763,6 +2847,41 @@ test('Semana 5 aplica cuatro prerrequisitos en un mapa tactil viable y comprobab
   assert.ok(firstProject >= 0 && firstProject <= 3, 'El taller debe empezar a producir pronto');
   assert.ok(workshop.steps.slice(0, firstProject).every((step) => !getActivity(step.type)?.graded), 'No debe haber examen antes del producto');
   assert.ok(workshop.steps.slice(firstProject, -1).length >= 7, 'La mayoria del taller debe dedicarse al producto');
+});
+
+test('El taller conserva una sola correspondencia entre clave, lugares y ruta tactil', () => {
+  const workshop = weekFive.lessons.find((lesson) => lesson.kind === 'taller');
+  assert.ok(workshop, 'Semana 5 sin taller');
+  const alignment = workshop.steps.find((step) => step.type === 'match'
+    && /destino/.test(normalizeFactText(JSON.stringify(step))));
+  assert.ok(alignment, 'Falta la correspondencia estructurada de destinos');
+  const pairs = (alignment.props as { pairs?: Array<{ left?: string; right?: string }> }).pairs ?? [];
+  const assignments = new Map(pairs.map((pair) => [normalizeFactText(pair.left), normalizeFactText(pair.right)]));
+  assert.match(assignments.get('aula') ?? '', /eva lisa/);
+  assert.match(assignments.get('direccion') ?? '', /corcho rugoso/);
+  assert.match(assignments.get('banos') ?? '', /corcho rugoso/);
+  assert.match(assignments.get('bebedero') ?? '', /corcho rugoso/);
+
+  const key = workshop.steps.find((step) => step.type === 'project'
+    && /(?:leyenda|clave)/.test(normalizeFactText(JSON.stringify(step))));
+  assert.ok(key, 'Falta la clave tactil del producto');
+  const keyText = normalizeFactText(JSON.stringify(key));
+  assert.match(keyText, /eva lisa.{0,50}(?:aprendizaje|aula)/);
+  assert.match(keyText, /corcho rugoso.{0,50}(?:servicios|direccion|banos|bebedero)/);
+  assert.match(keyText, /plastico corrugado.{0,50}(?:circulacion|ruta|corredor)/);
+
+  const route = workshop.steps.find((step) => step.type === 'project'
+    && step.areas.includes('pyd')
+    && /ruta/.test(normalizeFactText(JSON.stringify(step))));
+  assert.ok(route, 'Falta la construccion de la ruta');
+  const routeText = normalizeFactText(JSON.stringify(route));
+  assert.match(routeText, /plastico corrugado/);
+  assert.match(routeText, /ruta|circulacion/);
+  const revision = normalizeFactText(JSON.stringify(workshop.steps.find((step) => (
+    step.type === 'project' && /revision/.test(normalizeFactText(`${step.title} ${step.prompt}`))
+  ))));
+  assert.match(revision, /eva|corcho|corrugado/);
+  assert.match(revision, /clave.{0,80}(?:lugares|destinos|ruta)|(?:lugares|destinos|ruta).{0,80}clave/);
 });
 
 test('Semana 5 declara un kit tactil durable con preparacion docente realista', () => {

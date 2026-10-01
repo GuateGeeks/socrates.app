@@ -50,8 +50,8 @@ export default semana({
         kind: 'image',
         title: 'Kit reutilizable de plano táctil',
         aspect: '4:3',
-        alt: 'Bandeja rotulada con base cuadriculada, piezas lavables de tres texturas, cordón grueso, etiquetas grandes, cierres removibles y un rodillo manual redondeado.',
-        brief: 'Activo físico de alta preparación pendiente. Reemplazo durable: 8 kits reutilizables para grupos de 3 o 4, cada uno en bandeja rotulada, con base rígida lavable cuadriculada de 40 por 40 cm, ejes y coordenadas de alto contraste, 12 piezas grandes precortadas de EVA lisa, corcho rugoso y plástico corrugado, cordón grueso, cierres de gancho y felpa ya instalados, etiquetas impresas grandes, tres muestras para la clave y un rodillo manual redondeado de goma de baja fuerza. Todas las esquinas deben estar redondeadas y las piezas deben llegar firmes y listas para reutilizar. Preparación central: fabricar y probar una vez, registrar piezas, comprobar que cada rodillo gire sin daño y guardar cada kit completo. Preparación docente normal, máximo 2 minutos: distribuir una bandeja por grupo y comprobar con la lista base, ruta, 12 zonas, tres muestras y rodillo. Alternativa de baja tecnología: cartón corrugado y retazos limpios preparados por una persona adulta fuera del tiempo de clase, con cierres removibles ya colocados. Toda fabricación permanente ocurre en la preparación central, fuera de la sesión habitual.',
+        alt: 'Bandeja rotulada con base cuadriculada, piezas lavables de tres texturas, tiras corrugadas para la ruta, etiquetas grandes, cierres removibles y un rodillo manual redondeado.',
+        brief: 'Activo físico de alta preparación pendiente. Reemplazo durable: 8 kits reutilizables para grupos de 3 o 4, cada uno en bandeja rotulada, con base rígida lavable cuadriculada de 40 por 40 cm, ejes y coordenadas de alto contraste, piezas grandes precortadas de EVA lisa para aprendizaje y corcho rugoso para servicios, tiras continuas de plástico corrugado para circulación, cierres de gancho y felpa ya instalados, etiquetas impresas grandes, tres muestras para la clave y un rodillo manual redondeado de goma de baja fuerza. Todas las esquinas deben estar redondeadas y las piezas deben llegar firmes y listas para reutilizar. Preparación central: fabricar y probar una vez, registrar piezas, comprobar que cada rodillo gire sin daño y guardar cada kit completo. Preparación docente normal, máximo 2 minutos: distribuir una bandeja por grupo y comprobar con la lista base, ruta corrugada, zonas, tres muestras y rodillo. Alternativa de baja tecnología: cartón corrugado y retazos limpios preparados por una persona adulta fuera del tiempo de clase, con cierres removibles ya colocados. Toda fabricación permanente ocurre en la preparación central, fuera de la sesión habitual.',
       },
       steps: [
         S.explain(
@@ -92,9 +92,9 @@ export default semana({
           { fase: 'aplicar', areas: ['mat', 'art'], cnb: ['mat:1.5.3', 'art:3.2.1'], ambito: 'hacer', title: '1 min · Alineen símbolos y datos',
             prompt: '**1 min.** Antes de fijar las piezas, unan cada destino con su coordenada y textura acordada.' },
           { leftTitle: 'Destino', rightTitle: 'Dato del plano', pairs: [
-            { id: 'a', left: 'Dirección', right: '(−3, 2) · EVA lisa' },
+            { id: 'a', left: 'Dirección', right: '(−3, 2) · corcho rugoso' },
             { id: 'b', left: 'Aula', right: '(2, 3) · EVA lisa' },
-            { id: 'c', left: 'Baños', right: '(4, −2) · plástico corrugado' },
+            { id: 'c', left: 'Baños', right: '(4, −2) · corcho rugoso' },
             { id: 'd', left: 'Bebedero', right: '(1, −3) · corcho rugoso' },
           ] },
         ),
@@ -103,23 +103,23 @@ export default semana({
             prompt: '**2 min.** Usen las tres muestras preparadas del kit para crear una clave táctil y visual concisa.' },
           { goal: 'Crear una leyenda táctil y visual consistente.',
             steps: [
-              { title: 'Tres muestras', detail: 'Asignen EVA lisa a espacios de aprendizaje, corcho rugoso a servicios y plástico corrugado a circulación.' },
+              { title: 'Tres muestras', detail: 'Asignen EVA lisa a aprendizaje (aula), corcho rugoso a servicios (Dirección, baños y bebedero) y plástico corrugado a circulación (ruta).' },
               { title: 'Clave', detail: 'Fijen una muestra de cada textura junto a su nombre en letra grande y alto contraste.' },
             ],
             evidence: 'Clave con tres muestras seguras y sus significados.',
-            rubric: ['Las texturas se distinguen entre sí', 'La clave coincide con las piezas del plano'] },
+            rubric: ['Las tres texturas se distinguen entre sí', 'Aula usa EVA, los tres servicios usan corcho y la ruta usa plástico corrugado'] },
         ),
         S.project(
           { fase: 'aplicar', areas: ['mat', 'art', 'pyd'], cnb: ['mat:1.5.3', 'art:3.2.1', 'pyd:3.2.3', 'pyd:3.2.4'], ambito: 'hacer', title: '3 min · Marquen y fijen la ruta',
-            prompt: '**3 min.** Unan entrada, dirección, aula y baños con el cordón continuo; después usen el rodillo manual redondeado para presionar los cierres removibles.' },
+            prompt: '**3 min.** Unan entrada, dirección, aula y baños con las tiras continuas de plástico corrugado para circulación; después usen el rodillo manual redondeado para presionar sus cierres removibles.' },
           { goal: 'Representar y fijar al producto una ruta accesible propuesta mediante la técnica segura ya practicada.',
             steps: [
-              { title: 'Ruta continua', detail: 'Fijen el cordón sin cruces ni extremos sueltos y dejen libres las etiquetas.' },
+              { title: 'Ruta de circulación', detail: 'Fijen las tiras de plástico corrugado sin cruces ni extremos sueltos y dejen libres las etiquetas.' },
               { title: 'Rodillo seguro', detail: 'Revisen mango, rueda y eje; apoyen la base en una mesa estable, mantengan los dedos fuera de la trayectoria y hagan una pasada con presión controlada. Si está flojo, dañado o trabado, no lo usen y repórtenlo.' },
               { title: 'Comprobación física', detail: 'Comparen la propuesta con el pasillo real: ancho, escalones, pendientes, puertas y objetos que obstruyen requieren revisión de la escuela.' },
             ],
-            evidence: 'Ruta firme con cuatro paradas coordenadas, lista de barreras por verificar y marcas de herramienta revisada, dedos fuera de la trayectoria y presión controlada.',
-            rubric: ['La ruta puede seguirse sin perder el cordón', 'La técnica segura quedó comprobada en el producto', 'No presentamos como accesible un tramo que no fue verificado'] },
+            evidence: 'Ruta corrugada firme con cuatro paradas coordenadas, lista de barreras por verificar y marcas de herramienta revisada, dedos fuera de la trayectoria y presión controlada.',
+            rubric: ['La ruta de circulación conserva el plástico corrugado de la clave', 'La técnica segura quedó comprobada en el producto', 'No presentamos como accesible un tramo que no fue verificado'] },
         ),
         S.write(
           { fase: 'aplicar', areas: ['fc', 'art'], cnb: ['fc:3.2.1', 'art:3.2.1'], ambito: 'convivir', title: '2 min · Prueba de claridad entre pares',
@@ -133,11 +133,11 @@ export default semana({
             prompt: '**2 min.** Corrijan una dificultad observada y vuelvan a comprobar coordenadas, leyenda, ruta y seguridad.' },
           { goal: 'Mejorar el producto con evidencia.',
             steps: [
-              { title: 'Una corrección', detail: 'Muevan una pieza, cambien una textura, separen elementos o reparen el cordón según la retroalimentación entre pares.' },
-              { title: 'Lista final', detail: 'Verifiquen cuatro coordenadas, tres significados de textura coincidentes, ruta continua y ninguna pieza suelta o filosa.' },
+              { title: 'Una corrección', detail: 'Muevan una pieza, separen elementos o reparen una tira de la ruta según la retroalimentación entre pares, sin cambiar el código de la clave.' },
+              { title: 'Lista final', detail: 'Verifiquen cuatro coordenadas y la misma clave en todo el producto: aula con EVA lisa; Dirección, baños y bebedero con corcho rugoso; ruta con plástico corrugado.' },
             ],
-            evidence: 'Plano revisado y nota breve que relaciona observación, cambio y nueva comprobación.',
-            rubric: ['El cambio responde a evidencia de la prueba', 'Ruta, clave, coordenadas y texturas siguen alineadas'] },
+            evidence: 'Plano revisado y nota breve que relaciona observación, cambio y nueva comprobación de lugares, ruta y clave.',
+            rubric: ['El cambio responde a evidencia de la prueba', 'Lugares, ruta y clave conservan la misma correspondencia de texturas'] },
         ),
         S.choice(
           { fase: 'comprobar', areas: ['fc'], cnb: ['fc:3.2.1'], title: '1 min · Salida de participación',
