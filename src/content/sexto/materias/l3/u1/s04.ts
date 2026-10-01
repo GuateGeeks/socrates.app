@@ -14,9 +14,7 @@ export default [
     minutes: 14,
     gancho: 'En español, "casa" se lee tal como se escribe. En inglés, "knife" (cuchillo) se dice "náif". ¿Dónde quedó la k?',
     objetivos: [
-      'Reconocer combinaciones de letras del inglés y cómo suenan: ee, ea, oo, sh, th',
-      'Identificar letras mudas y la "e mágica" al final de las palabras',
-      'Relacionar la forma escrita, el sonido y el significado de palabras frecuentes',
+      "Relacionar la escritura, el sonido y el significado de palabras frecuentes en inglés",
     ],
     resumen: [
       'En inglés muchas palabras no se pronuncian como se escriben: hay que aprender juntas su forma escrita, su sonido y su significado.',
@@ -30,8 +28,12 @@ export default [
       brief: 'Audio de 50 s. Voz adulta, inglés claro y pausado, sin música. Grupos con 1 s entre palabras y 2 s entre grupos, anunciando el patrón en español antes de cada grupo (voz en español de Guatemala): "ee y ea": "tree, green, eat, tea". "oo": "food, school, moon". "sh": "fish, shop, sheep". "th": "three, thank you, mother". "letras mudas": "knife, know, write, night, light". "e mágica": "cake, bike, home, cute". Al final, par contrastado dos veces: "ship – sheep".',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:2.2.1'], title: 'Idea central', prompt: 'Para compartir un mensaje breve de cuidado en inglés, relaciona escritura, sonido y significado.' },
+        { icon: 'BookOpenCheck', body: "En inglés muchas palabras no se pronuncian como se escriben: hay que aprender juntas su forma escrita, su sonido y su significado." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:2.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:2.2.1'], ambito: 'conocer',
           prompt: 'La palabra **knife** significa "cuchillo". ¿Cómo crees que se pronuncia?',
           explain: 'Se dice **"náif"**: la **k no suena** y la **e final tampoco**. En inglés la escritura y el sonido no siempre coinciden. Hoy aprenderás los patrones más comunes.' },
         { options: [
@@ -148,9 +150,7 @@ export default [
     minutes: 14,
     gancho: '"I see the sea." ¿Cuántas veces dice "si"? ¿Y significan lo mismo?',
     objetivos: [
-      'Reconocer homófonos: palabras que suenan igual y se escriben distinto',
-      'Relacionar cada forma escrita con su significado',
-      'Usar el contexto para elegir la palabra correcta al escribir',
+      "Elegir el homófono inglés correcto a partir del contexto",
     ],
     resumen: [
       'Los homófonos suenan igual pero se escriben distinto y significan cosas distintas: see (ver) / sea (mar).',
@@ -163,8 +163,12 @@ export default [
       brief: 'Animación 2D de 45 s. Pares de "gemelos" (dos burbujas del mismo color que suenan igual). Para cada par se escucha la palabra una vez y aparecen las dos formas escritas con su dibujo: "see" (un ojo) / "sea" (olas del mar Caribe); "sun" (sol) / "son" (un papá con su hijo); "flower" (una flor) / "flour" (un costal de harina); "eight" (el número 8) / "ate" (un niño que terminó su plato); "I" (una niña señalándose) / "eye" (un ojo). Cierra con la oración "I see the sea" y los dibujos correspondientes. Voz en inglés clara, subtítulos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:2.2.1'], title: 'Idea central', prompt: 'En un mensaje en inglés, el contexto permite elegir entre palabras que suenan igual.' },
+        { icon: 'BookOpenCheck', body: "Los homófonos suenan igual pero se escriben distinto y significan cosas distintas: see (ver) / sea (mar)." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:2.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:2.2.1'], ambito: 'conocer',
           prompt: 'Lee: _"I **see** the **sea**."_ Las dos palabras en negrita suenan "sii". ¿Qué significa la oración?',
           explain: '**See** = ver y **sea** = mar: "Yo veo el mar". Suenan igual, pero se escriben distinto y significan distinto. Se llaman **homófonos**.' },
         { options: [

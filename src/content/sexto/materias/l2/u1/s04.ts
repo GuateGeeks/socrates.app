@@ -15,9 +15,7 @@ export default [
     minutes: 13,
     gancho: '"Ya llegó." "¿Ya llegó?" "¡Ya llegó!" Son las mismas palabras… ¿por qué dicen cosas distintas?',
     objetivos: [
-      'Ajustar el volumen de tu voz al lugar y al público',
-      'Usar la entonación de preguntas, exclamaciones y afirmaciones',
-      'Leer en voz alta con fluidez, respetando las pausas',
+      "Comunicar un mensaje oral con volumen, entonación, fluidez y pausas adecuados",
     ],
     resumen: [
       'Volumen: qué tan fuerte hablas. Se ajusta al lugar y a la cantidad de personas que escuchan.',
@@ -30,8 +28,12 @@ export default [
       brief: 'Audio de 30 s, voz de niña o niño de 11-12 años, español de Guatemala, grabación limpia. Parte 1: "Ya llegó." (tono que baja) — pausa — "¿Ya llegó?" (tono que sube al final) — pausa — "¡Ya llegó!" (alegre, con fuerza). Parte 2: la oración "Mañana, si no llueve, iremos al río con mi abuelo." leída primero sílaba por sílaba, sin pausas correctas; después leída con fluidez, con pausa corta en cada coma y bajando el tono en el punto. Rotular en pantalla (si hay versión visual) la curva de entonación con flechas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:2.2.1'], title: 'Idea central', prompt: 'Un mensaje de cuidado se entiende mejor cuando ajustas volumen, entonación y fluidez al público.' },
+        { icon: 'BookOpenCheck', body: "Volumen: qué tan fuerte hablas. Se ajusta al lugar y a la cantidad de personas que escuchan." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:2.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:2.2.1'], ambito: 'conocer',
           prompt: 'Escucha el audio: la misma frase se dice de tres maneras. ¿En cuál la persona **pregunta** si alguien ya llegó?',
           explain: 'En la pregunta la voz **sube al final**. Las palabras son las mismas, pero la **entonación** cambia el mensaje. Hoy aprenderás a usar tu voz para comunicar mejor.' },
         { options: [
@@ -127,9 +129,9 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:2.2.1'], ambito: 'hacer',
-          prompt: 'Escribe un aviso corto para la radio de tu escuela (3 oraciones): una **afirmación**, una **pregunta** y una **exclamación**. Después léelo en voz alta tres veces, cuidando volumen, entonación y pausas.' },
+          prompt: 'Escribe un aviso corto para la campaña **Crecer con cuidado**: una afirmación respetuosa, una pregunta sobre dónde buscar información y una exclamación que invite a participar. Después léelo cuidando volumen, entonación y pausas.' },
         { minWords: 18, placeholder: 'Buenos días, compañeros…',
-          model: 'Buenos días, compañeros: el lunes empieza la campaña de reciclaje. ¿Ya separaron las botellas en su casa? ¡Traigan todas las que puedan!',
+          model: 'Buenos días, compañeros: cada cuerpo cambia a su propio ritmo. ¿Con qué persona adulta de confianza podemos aclarar una duda? ¡Escuchemos y participemos con respeto!',
           rubric: ['Escribí una afirmación, una pregunta y una exclamación', 'Usé los signos ¿? y ¡! al inicio y al final', 'Lo leí en voz alta con la entonación correcta', 'Hice pausas en las comas y los puntos'] },
       ),
       S.choice(
@@ -159,9 +161,7 @@ export default [
     minutes: 14,
     gancho: 'Cuando tu abuela cuenta que "el árbol era así de grande", ¿qué hace con los brazos?',
     objetivos: [
-      'Reconocer gestos y movimientos que ayudan a interpretar un poema o una rima',
-      'Elegir gestos que correspondan al significado de cada verso',
-      'Recitar un poema combinando voz y cuerpo',
+      "Interpretar versos mediante gestos y movimientos que correspondan a su significado",
     ],
     resumen: [
       'Al recitar, el cuerpo también comunica: gestos ilustrativos (muestran tamaño, forma o acción), gestos expresivos (la cara muestra emociones), movimientos de ritmo y desplazamientos.',
@@ -175,8 +175,12 @@ export default [
       brief: 'Video vertical de 55 s. Una niña de 11-12 años (ropa sencilla o traje típico, sin logotipos) recita frente a una milpa o un fondo liso el poema completo "La milpa bajo la lluvia" (texto exacto en la lección). Gestos: verso 1, estira los brazos hacia arriba; verso 2, mueve las manos sobre la cabeza como viento; "¡Plin, plin!", toca el aire con los dedos como gotas; "abre la boca la tierra", abre las manos hacia abajo; "se mecen, se mecen", mece el cuerpo de lado a lado; "sale el sol grande", forma un círculo grande con los brazos; "¡y ladra mi perro!", cara de sorpresa y risa. Voz clara, volumen moderado. Subtítulos con el texto del poema.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:2.2.2'], title: 'Idea central', prompt: 'La voz y los gestos pueden convertir una rima de cuidado en un mensaje fácil de recordar.' },
+        { icon: 'BookOpenCheck', body: "Al recitar, el cuerpo también comunica: gestos ilustrativos (muestran tamaño, forma o acción), gestos expresivos (la cara muestra emociones), movimientos de ritmo y desplazamientos." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:2.2.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:2.2.2'], ambito: 'conocer',
           prompt: 'Tu abuelo cuenta: _"¡Y apareció un árbol enorme!"_ ¿Qué gesto ayudaría más a imaginarlo?',
           explain: 'Abrir los brazos muestra el **tamaño**. El cuerpo también cuenta la historia. Hoy aprenderás a interpretar poemas y rimas con gestos y movimientos.' },
         { options: [
@@ -266,9 +270,9 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:2.2.2'], ambito: 'hacer',
-          prompt: 'Elige una canción, rima o poema corto que conozcas (de la escuela o de tu familia). Copia **dos versos** y escribe **qué gesto** harías en cada uno y **por qué**. Después ensáyalo en voz alta.' },
+          prompt: 'Crea dos versos breves para invitar al cuidado y la participación. Escribe qué gesto respetuoso harías en cada verso y por qué; después ensáyalos en voz alta.' },
         { minWords: 25, placeholder: 'Verso 1: … Gesto: …',
-          model: 'Verso 1: "Los pollitos dicen pío, pío, pío". Gesto: juntar los dedos y abrirlos como un pico, porque imita a los pollitos. Verso 2: "cuando tienen hambre, cuando tienen frío". Gesto: frotarme la panza y luego abrazarme temblando, porque muestra el hambre y el frío.',
+          model: 'Verso 1: "Cada cuerpo lleva su compás". Gesto: marcar un pulso suave sobre el corazón, porque representa un ritmo propio. Verso 2: "si tienes preguntas, apoyo encontrarás". Gesto: extender una mano abierta, porque comunica ayuda.',
           rubric: ['Copié dos versos', 'Propuse un gesto para cada verso', 'Expliqué por qué el gesto corresponde al significado', 'Lo ensayé con voz y cuerpo'] },
       ),
       S.choice(

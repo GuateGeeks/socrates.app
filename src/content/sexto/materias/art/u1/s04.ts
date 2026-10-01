@@ -15,9 +15,7 @@ export default [
     minutes: 15,
     gancho: 'Todos los días oyes música: en el bus, en la tienda, en una fiesta. Pero ¿cuántas veces la **escuchas** de verdad, con atención?',
     objetivos: [
-      'Distinguir entre oír música de fondo y escucharla con atención',
-      'Describir una pieza por sus instrumentos, su tempo, su intensidad y su carácter',
-      'Valorar la música tradicional guatemalteca como parte de nuestra identidad',
+      "Describir y valorar una pieza musical mediante escucha atenta y criterios musicales",
     ],
     resumen: [
       'Oír es percibir sonidos sin poner atención; escuchar es poner atención para comprender y disfrutar.',
@@ -31,8 +29,12 @@ export default [
       brief: 'Video de 60 s con cuatro escenas de 13 s (recreadas con músicos que dieron su permiso, rostros no protagonistas, sin marcas): (1) marimba de concierto con 4-5 músicos en una feria de pueblo; (2) chirimía y tambor acompañando un baile tradicional frente a un atrio; (3) tambores garífunas y maracas en Livingston, Izabal; (4) banda escolar de percusión y liras. En cada escena aparece un rótulo con el instrumento principal. Música: solo el sonido directo de cada escena (piezas originales o tradicionales de dominio público). Narración breve en español: "En Guatemala suenan muchas músicas".',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['art'], cnb: ['art:3.1.2'], title: 'Idea central', prompt: 'Escuchar con atención ayuda a elegir música que acompañe un mensaje sin tapar las voces.' },
+        { icon: 'BookOpenCheck', body: "Oír es percibir sonidos sin poner atención; escuchar es poner atención para comprender y disfrutar." },
+      ),
       S.sort(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'ser',
+        { fase: 'construir', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'ser',
           prompt: 'Piensa en tus días. Clasifica cada situación: ¿estás **oyendo** música de fondo o **escuchándola** con atención?',
           explain: '**Oír** es que el sonido te llegue; **escuchar** es poner atención. Para valorar la música, primero hay que escucharla de verdad.' },
         { buckets: [
@@ -165,9 +167,7 @@ export default [
     minutes: 15,
     gancho: 'Te sabes de memoria muchas canciones. Pero ¿alguna vez te has detenido a pensar **qué dicen** y **qué te hacen sentir**?',
     objetivos: [
-      'Analizar la letra y el mensaje de una canción antes de hacerla tuya',
-      'Respetar los gustos musicales de otras personas y abrirte a músicas diversas',
-      'Cuidar tu oído al escuchar música',
+      "Elegir música con criterios de mensaje, respeto y cuidado auditivo",
     ],
     resumen: [
       'La música que consumimos transmite ideas y valores. Por eso conviene escuchar la letra: ¿respeta a las personas o se burla de ellas, promueve la violencia o el cuidado?',
@@ -181,8 +181,12 @@ export default [
       brief: 'Animación 2D de 45 s, estilo amable, apta para 11-12 años. (1) Una niña con audífonos; zoom a su oído interno: células ciliadas dibujadas como hierbitas que se mecen con ondas suaves (volumen moderado). (2) El volumen sube mucho por largo rato: las hierbitas se doblan y algunas quedan caídas; rótulo "este daño no se recupera". (3) Consejos con íconos: bajar el volumen, descansar los oídos, alejarse de las bocinas, "si alguien a tu lado oye tu música desde tus audífonos, está muy fuerte". Sin cifras de decibeles. Narración en español, subtítulos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['art'], cnb: ['art:3.1.2'], title: 'Idea central', prompt: 'Antes de usar música en una campaña, revisa su mensaje, el respeto y el cuidado del oído.' },
+        { icon: 'BookOpenCheck', body: "La música que consumimos transmite ideas y valores. Por eso conviene escuchar la letra: ¿respeta a las personas o se burla de ellas, promueve la violencia o el cuidado?" },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'ser',
+        { fase: 'construir', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'ser',
           prompt: 'Una canción tiene un ritmo pegajoso, pero su letra se burla de las personas de un pueblo. ¿Qué piensas?',
           explain: 'Una canción es **música y mensaje**. Puede tener un ritmo que nos guste y, aun así, un mensaje que no compartimos. Aprender a notarlo es **valorar con criterio**.' },
         { options: [

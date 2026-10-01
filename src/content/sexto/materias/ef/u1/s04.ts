@@ -16,9 +16,7 @@ export default [
     minutes: 15,
     gancho: 'Para lanzar una bolsita de frijol dentro de un canasto a 2 pasos o a 8 pasos, ¿haces el mismo movimiento?',
     objetivos: [
-      'Aplicar la técnica del lanzamiento por encima del hombro con objetos de mediano peso',
-      'Ajustar la fuerza y la dirección de salida para lanzar a distintas distancias y alturas',
-      'Lanzar con seguridad y registrar tus resultados para mejorar',
+      "Ejecutar lanzamientos por encima del hombro con control, ajuste y seguridad",
     ],
     resumen: [
       'Un objeto de mediano peso (pelota de trapo, bolsita de arena o de frijol bien cerrada) necesita la fuerza de todo el cuerpo, no solo del brazo.',
@@ -32,8 +30,12 @@ export default [
       brief: 'Video vertical de 50 s en un campo o patio. Una niña diestra (ropa deportiva, rostro no protagonista) lanza una pelota de trapo o bolsita de arena: vista lateral en cámara lenta con 5 rótulos numerados: "1. De lado", "2. Pie contrario adelante", "3. Brazo atrás, codo alto", "4. Peso adelante y giro de tronco", "5. Suelta y sigue el movimiento". Luego tres lanzamientos a canastos a 2, 4 y 6 pasos, con una línea punteada que muestra la trayectoria (más alta y larga para el más lejano). Repetición con un niño zurdo (pie derecho adelante). Aviso "Nadie en la zona de lanzamiento".',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:2.1.2'], title: 'Idea central', prompt: 'Cuidarse al lanzar significa usar todo el cuerpo, ajustar la fuerza y despejar la zona.' },
+        { icon: 'BookOpenCheck', body: "Un objeto de mediano peso (pelota de trapo, bolsita de arena o de frijol bien cerrada) necesita la fuerza de todo el cuerpo, no solo del brazo." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:2.1.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.2'], ambito: 'conocer',
           prompt: 'Prueba a lanzar una bolsita de frijol (o calcetín enrollado) **solo con el brazo**, sin mover los pies. Luego lánzala dando un paso adelante y girando el cuerpo. ¿Cuándo llega más lejos?',
           explain: 'Llega más lejos cuando usas **todo el cuerpo**: piernas, tronco y brazo trabajan en cadena. El brazo solo tiene poca fuerza.' },
         { options: [
@@ -150,9 +152,7 @@ export default [
     minutes: 15,
     gancho: 'En el recreo, para pasar la pelota a alguien cercano, a alguien lejos o por encima de un compañero alto, ¿usas siempre el mismo lanzamiento?',
     objetivos: [
-      'Reconocer y practicar cinco formas de lanzar: rodado, a dos manos de pecho, por arriba del hombro, en suspensión y con pique',
-      'Elegir el lanzamiento adecuado según la distancia, la altura y los obstáculos',
-      'Lanzar en movimiento y alternando cada mano',
+      "Elegir y ejecutar distintas formas de lanzamiento según la situación",
     ],
     resumen: [
       'Rodado: la pelota va por el suelo; es seguro y preciso para distancias cortas (como en el boliche).',
@@ -167,8 +167,12 @@ export default [
       brief: 'Animación 2D de 60 s, cinco escenas de 11 s con el mismo par de personajes (una niña maya con trenza y una niña garífuna, ropa deportiva genérica). (1) Rodado: flexión de rodillas, balanceo del brazo abajo, pelota rodando. (2) Pecho a dos manos: pulgares atrás, extensión de brazos, muñecas giran hacia afuera. (3) Por arriba del hombro: pase largo, técnica de 5 pasos. (4) En suspensión: carrera, salto con impulso, lanzamiento en el punto más alto, por encima de un defensor. (5) Con pique: bote en el suelo a unos dos tercios del camino hacia la compañera, por debajo de los brazos de un defensor. Línea punteada de trayectoria en cada caso y rótulo con el nombre.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:2.1.3'], title: 'Idea central', prompt: 'Participar en equipo exige elegir el lanzamiento adecuado y adaptarlo a cada situación.' },
+        { icon: 'BookOpenCheck', body: "Rodado: la pelota va por el suelo; es seguro y preciso para distancias cortas (como en el boliche)." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:2.1.3'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.3'], ambito: 'conocer',
           prompt: 'Un compañero muy alto está entre tú y tu amiga, con los brazos levantados. ¿Cómo le pasarías la pelota?',
           explain: 'Una buena opción es un pase **con pique**: la pelota bota en el suelo y pasa **por debajo** de sus brazos. Hoy conocerás cinco formas de lanzar y cuándo usar cada una.' },
         { options: [
@@ -181,7 +185,7 @@ export default [
         { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.3'], ambito: 'hacer', title: 'Tres lanzamientos básicos',
           prompt: 'Mira la animación y toca cada tarjeta. Prueba el movimiento con una pelota imaginaria.' },
         { icon: 'Target', body: 'Cada lanzamiento tiene su técnica y su momento. Empieza por estos tres.', reveal: [
-          { icon: 'Circle', front: 'Rodado', back: 'Dobla las rodillas, balancea el brazo **por abajo** y suelta la pelota **cerca del suelo** para que ruede. Seguro y preciso de cerca.' },
+          { icon: 'CircleDot', front: 'Rodado', back: 'Dobla las rodillas, balancea el brazo **por abajo** y suelta la pelota **cerca del suelo** para que ruede. Seguro y preciso de cerca.' },
           { icon: 'Hand', front: 'A dos manos de pecho', back: 'Pelota frente al pecho, **pulgares detrás**, codos abiertos. **Estira los brazos** hacia tu compañero y al final gira las muñecas hacia afuera. Rápido y preciso.' },
           { icon: 'ArrowUpRight', front: 'Por arriba del hombro', back: 'Con **una mano**, como aprendiste el martes: de lado, pie contrario adelante, codo alto, giro. Para **distancias largas**.' },
         ] },

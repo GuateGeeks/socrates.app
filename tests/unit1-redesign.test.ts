@@ -30,6 +30,10 @@ const weekThree = unitWeeks.find((week) => week.semana === 3);
 assert.ok(weekThree, 'Falta semana 3');
 const weekThreeBank = weekThree.bank;
 assert.ok(weekThreeBank, 'Semana 3 sin banco');
+const weekFour = unitWeeks.find((week) => week.semana === 4);
+assert.ok(weekFour, 'Falta semana 4');
+const weekFourBank = weekFour.bank;
+assert.ok(weekFourBank, 'Semana 4 sin banco');
 
 const PRIMARY_AREAS = new Set(['mat', 'l1', 'cnt', 'ccss', 'l2', 'l3', 'fc', 'art', 'ef', 'pyd']);
 const INSTRUCTION_TYPES = new Set(['explain', 'worked-example', 'flashcards']);
@@ -1838,6 +1842,170 @@ test('Semana 3 evalúa las diez áreas con contenido enseñado y payloads fresco
     if (repeatedChallengeFact) reused.push(`banco/${assessment.areas[0]}/estructura: ${normalizeFactText(assessment.prompt)}`);
   }
   assert.deepEqual(reused, []);
+});
+
+test('Semana 4 preserva 27 lecciones, su cobertura CNB y una idea central por lección', () => {
+  const expectedLessonCounts = new Map([
+    ['mat', 5], ['l1', 5], ['cnt', 3], ['ccss', 3], ['l2', 2],
+    ['l3', 2], ['fc', 2], ['art', 2], ['ef', 2], ['pyd', 1],
+  ]);
+  const expectedCnb = new Set([
+    'mat:1.3.3', 'mat:1.3.4', 'mat:1.3.5', 'mat:1.3.6', 'mat:1.3.7',
+    'l1:5.1.8', 'l1:5.1.9',
+    'cnt:2.3.2', 'cnt:3.1.1', 'cnt:3.2.1', 'cnt:3.3.1',
+    'ccss:4.1.1', 'ccss:4.1.5', 'ccss:4.2.2', 'ccss:5.1.1', 'ccss:5.1.4', 'ccss:8.1.1',
+    'l2:2.2.1', 'l2:2.2.2', 'l3:2.2.1', 'fc:3.1.1', 'art:3.1.2',
+    'ef:2.1.2', 'ef:2.1.3', 'pyd:2.5.3',
+  ]);
+  const lessons = weekFour.lessons.filter((lesson) => lesson.kind === 'materia');
+  const actualCounts = new Map<string, number>();
+  const failures: string[] = [];
+  for (const lesson of lessons) {
+    const area = lesson.area;
+    assert.ok(area, `${lesson.id} no declara área`);
+    actualCounts.set(area, (actualCounts.get(area) ?? 0) + 1);
+    if ((lesson.objetivos?.length ?? 0) !== 1) failures.push(`${lesson.id}: ${lesson.objetivos?.length ?? 0} objetivos`);
+    if (lesson.steps.length < 9 || lesson.steps.length > 14) failures.push(`${lesson.id}: ${lesson.steps.length} pasos`);
+  }
+  assert.deepEqual(actualCounts, expectedLessonCounts);
+  assert.deepEqual(new Set(lessons.flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb))), expectedCnb);
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 4 enseña y modela antes de calificar con fases monotónicas', () => {
+  const phaseRank = new Map([
+    ['explorar', 0], ['construir', 1], ['aplicar', 2], ['comprobar', 3], ['reflexionar', 4],
+  ]);
+  const failures: string[] = [];
+  for (const lesson of weekFour.lessons.filter((item) => item.kind === 'materia')) {
+    const firstInstruction = lesson.steps.findIndex((step) => INSTRUCTION_TYPES.has(step.type));
+    const firstGraded = lesson.steps.findIndex((step) => getActivity(step.type)?.graded);
+    if (firstInstruction < 0 || firstGraded < 0 || firstInstruction > firstGraded) {
+      failures.push(`${lesson.id}: instrucción=${firstInstruction + 1}, calificada=${firstGraded + 1}`);
+    }
+    lesson.steps.forEach((step, index) => {
+      if (step.fase === 'explorar' && getActivity(step.type)?.graded) failures.push(`${lesson.id}: explorar calificado`);
+      if (index > 0 && (phaseRank.get(step.fase) ?? -1) < (phaseRank.get(lesson.steps[index - 1].fase) ?? -1)) {
+        failures.push(`${lesson.id}: ${lesson.steps[index - 1].fase} -> ${step.fase}`);
+      }
+    });
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 4 ofrece práctica guiada, transferencia y dos salidas justas', () => {
+  const failures: string[] = [];
+  for (const lesson of weekFour.lessons.filter((item) => item.kind === 'materia')) {
+    const guided = lesson.steps.some((step) => step.fase === 'construir'
+      && Boolean(getActivity(step.type)?.graded) && Boolean(step.hint) && Boolean(step.explain));
+    const transfer = lesson.steps.some((step) => step.fase === 'aplicar'
+      && Boolean(getActivity(step.type)?.graded) && !step.hint);
+    const exits = lesson.steps.filter((step) => step.fase === 'comprobar'
+      && Boolean(getActivity(step.type)?.graded) && !step.hint && !step.explain);
+    if (!guided || !transfer || exits.length < 2) {
+      failures.push(`${lesson.id}: guía=${guided}, transferencia=${transfer}, salidas=${exits.length}`);
+    }
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 4 trata crecimiento y cuidado con ciencia, fuentes confiables y respeto', () => {
+  assert.equal(weekFour.title, 'Crecer, cuidarnos y participar');
+  assert.equal(weekFour.temaGenerador, 'Crecer, cuidarnos y participar');
+  const framing = normalizeFactText(`${weekFour.contexto} ${weekFour.subtitle}`);
+  assert.match(framing, /cambios? (?:del|en el) cuerpo|cambios? corporales|pubertad/);
+  assert.match(framing, /cuidado|cuidarnos/);
+  assert.match(framing, /fuentes? confiables?|informacion confiable/);
+  assert.match(framing, /liderazgo/);
+  assert.match(framing, /participa/);
+
+  const science = weekFour.lessons.filter((lesson) => lesson.area === 'cnt');
+  const scienceText = normalizeFactText(JSON.stringify(science));
+  assert.match(scienceText, /cada (?:cuerpo|persona).{0,100}(?:ritmo|diferente)|variacion normal/);
+  assert.match(scienceText, /persona adulta de confianza/);
+  assert.match(scienceText, /profesional de salud|centro de salud/);
+  assert.match(scienceText, /fuente confiable|informacion confiable/);
+  assert.doesNotMatch(scienceText, /todos los (?:ninos|varones).{0,80}siempre|todas las (?:ninas|mujeres).{0,80}siempre/);
+  assert.doesNotMatch(scienceText, /(?:sucio|vergonzoso|anormal|culpa).{0,60}(?:cuerpo|pubertad|menstruacion|sexualidad)/);
+  assert.doesNotMatch(scienceText, /diagnostica|tienes la enfermedad|seguro que tienes/);
+});
+
+test('Semana 4 construye una campaña dramática breve con cuatro áreas ya enseñadas', () => {
+  const workshop = weekFour.lessons.find((lesson) => lesson.kind === 'taller');
+  assert.ok(workshop, 'Semana 4 sin taller');
+  assert.equal(workshop.title, 'Campaña: crecer con cuidado');
+  assert.ok(workshop.minutes <= 20, `Taller declara ${workshop.minutes} minutos`);
+  assert.ok(workshop.steps.length >= 10 && workshop.steps.length <= 14, `Taller tiene ${workshop.steps.length} pasos`);
+
+  const minuteLabels = workshop.steps.map((step) => {
+    const label = `${step.title ?? ''} ${step.prompt}`;
+    const match = label.match(/(?:^|[· ])(\d+) min(?:\.|utos?)?(?:$|[ .])/i);
+    return match ? Number(match[1]) : 0;
+  });
+  assert.ok(minuteLabels.every((minutes) => minutes > 0), 'Cada paso debe indicar minutos');
+  assert.ok(minuteLabels.reduce((sum, minutes) => sum + minutes, 0) <= workshop.minutes, 'La agenda excede el tiempo disponible');
+
+  const contributors = new Set(workshop.steps
+    .filter((step) => step.fase === 'construir' || step.fase === 'aplicar')
+    .flatMap((step) => step.areas));
+  assert.deepEqual(contributors, new Set(['cnt', 'l1', 'fc', 'art']));
+  const workshopIndex = weekFour.lessons.indexOf(workshop);
+  const priorCnb = new Set(weekFour.lessons.slice(0, workshopIndex)
+    .filter((lesson) => lesson.kind === 'materia')
+    .flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb)));
+  assert.ok(workshop.steps.every((step) => step.cnb.every((ref) => priorCnb.has(ref))), 'El taller introduce CNB no enseñado');
+
+  const projects = workshop.steps.filter((step) => step.type === 'project');
+  const firstProject = workshop.steps.findIndex((step) => step.type === 'project');
+  assert.ok(firstProject >= 0 && firstProject <= 2, 'La producción comienza demasiado tarde');
+  assert.ok(projects.length >= 3, 'La campaña debe producirse por etapas');
+  const productText = normalizeFactText(JSON.stringify(projects));
+  assert.match(productText, /escena dramatica|campana informativa/);
+  assert.match(productText, /exactitud cientifica|cientificamente correcto/);
+  assert.match(productText, /lenguaje respetuoso|respeto/);
+  assert.match(productText, /fuente confiable/);
+  const review = workshop.steps.find((step) => /revision|revis/i.test(`${step.title ?? ''} ${step.prompt}`));
+  assert.ok(review, 'Falta revisión del producto');
+  assert.match(normalizeFactText(JSON.stringify(review)), /exactitud cientifica/);
+  assert.match(normalizeFactText(JSON.stringify(review)), /respeto/);
+  assert.equal(workshop.steps.at(-1)?.type, 'reflection');
+});
+
+test('Semana 4 evalúa contenido enseñado en diez áreas con payloads frescos', () => {
+  const subjectSteps = weekFour.lessons.filter((lesson) => lesson.kind === 'materia').flatMap((lesson) => lesson.steps);
+  const taughtCnb = new Set(subjectSteps.flatMap((step) => step.cnb));
+  const challenge = weekFour.lessons.find((lesson) => lesson.kind === 'reto');
+  assert.ok(challenge, 'Semana 4 sin reto');
+  const assessments = [...challenge.steps, ...weekFourBank].filter((step) => getActivity(step.type)?.graded);
+  assert.ok(assessments.every((step) => !step.hint && !step.explain), 'Reto o banco contiene pistas');
+  assert.ok(assessments.every((step) => step.cnb.every((ref) => taughtCnb.has(ref))), 'Reto o banco evalúa CNB no enseñado');
+  const challengeAreas = new Set(challenge.steps.filter((step) => getActivity(step.type)?.graded).map((step) => step.areas[0]));
+  const bankAreas = new Set(weekFourBank.filter((step) => getActivity(step.type)?.graded).map((step) => step.areas[0]));
+  assert.deepEqual(challengeAreas, PRIMARY_AREAS);
+  assert.deepEqual(bankAreas, PRIMARY_AREAS);
+
+  const reused: string[] = [];
+  for (const [source, steps] of [['reto', challenge.steps], ['banco', weekFourBank]] as const) {
+    for (const assessment of steps.filter((step) => getActivity(step.type)?.graded)) {
+      const repeatedLesson = subjectSteps.find((practice) => practice.areas[0] === assessment.areas[0]
+        && repeatsStructuredFact(assessment, practice));
+      if (repeatedLesson) reused.push(`${source}/${assessment.areas[0]} <= ${normalizeFactText(repeatedLesson.prompt)}`);
+    }
+  }
+  const gradedChallenge = nestedGradedAssessments(challenge.steps);
+  for (const assessment of weekFourBank.filter((step) => getActivity(step.type)?.graded)) {
+    if (gradedChallenge.some((source) => source.areas[0] === assessment.areas[0]
+      && repeatsStructuredFact(assessment, source))) {
+      reused.push(`banco/${assessment.areas[0]}/estructura: ${normalizeFactText(assessment.prompt)}`);
+    }
+  }
+  assert.deepEqual(reused, []);
+});
+
+test('Semana 4 usa iconos descriptivos para objetos concretos', () => {
+  const failures: string[] = [];
+  inspectConcreteIcon(weekFour, weekFour.id, failures);
+  assert.deepEqual(failures, []);
 });
 
 test('Unidad 1 no repite una interacción tres veces seguidas', () => {

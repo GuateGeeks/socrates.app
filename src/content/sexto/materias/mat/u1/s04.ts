@@ -14,9 +14,7 @@ export default [
     minutes: 13,
     gancho: 'Una troje para guardar maíz, una caja y el techo de una torre. ¿Cómo sabes si un sólido es prisma o pirámide?',
     objetivos: [
-      'Reconocer las caras que funcionan como base en un sólido',
-      'Clasificar sólidos en prismas y pirámides según sus bases',
-      'Nombrar prismas y pirámides por el polígono de su base',
+      "Clasificar y nombrar prismas y pirámides a partir de sus bases",
     ],
     resumen: [
       'Prisma: tiene DOS bases congruentes y paralelas; sus caras laterales son rectángulos.',
@@ -30,8 +28,12 @@ export default [
       brief: 'Diagrama en dos filas. Fila de arriba "Prismas: 2 bases": prisma triangular, rectangular y hexagonal con sus dos bases coloreadas de azul y caras laterales rectangulares en gris claro. Fila de abajo "Pirámides: 1 base": pirámide triangular, cuadrangular y hexagonal con la base en naranja y caras triangulares en gris, cúspide marcada con punto. Debajo de cada sólido, su nombre. Aristas ocultas punteadas. Fondo blanco.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.3'], title: 'Idea central', prompt: 'Observa cómo las bases permiten elegir el soporte para un cartel de la campaña.' },
+        { icon: 'Box', body: 'Un prisma tiene dos bases congruentes y paralelas; una pirámide tiene una base y termina en una cúspide. El polígono de la base da nombre al sólido.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.3'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.3'], ambito: 'conocer',
           prompt: 'Pones una caja de cartón y un adorno en forma de pirámide sobre la mesa. ¿Cuál tiene **arriba** una cara **igual** a la que lo sostiene abajo?',
           explain: 'La caja tiene una cara igual arriba y abajo: **dos bases**. La pirámide termina en punta: tiene **una sola base**.' },
         { options: [
@@ -153,9 +155,7 @@ export default [
     minutes: 15,
     gancho: '¿Te imaginas contar las aristas de un prisma de 8 lados sin tenerlo enfrente? Con una regla, se puede.',
     objetivos: [
-      'Describir prismas y pirámides por sus caras laterales y caras-base',
-      'Calcular caras, aristas y vértices a partir del número de lados de la base',
-      'Describir conos y cilindros',
+      "Calcular caras, aristas y vértices de prismas y pirámides a partir de su base",
     ],
     resumen: [
       'Si la base tiene n lados, un PRISMA tiene: n + 2 caras (n laterales + 2 bases), 3 × n aristas y 2 × n vértices.',
@@ -169,8 +169,12 @@ export default [
       brief: 'Animación 2D de 45 s. Un prisma hexagonal gira lentamente. Se iluminan en rojo las 6 aristas de la base inferior ("6"), luego las 6 de la superior ("6") y luego las 6 verticales ("6"): aparece "3 × 6 = 18 aristas". Después se iluminan los vértices de abajo y de arriba: "2 × 6 = 12 vértices". Luego una pirámide hexagonal: 6 aristas de la base + 6 que suben = "2 × 6 = 12"; 6 vértices + cúspide = "7". Narración en español.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.4'], title: 'Idea central', prompt: 'Una estructura para exhibir mensajes debe poder describirse: usa las reglas de caras, aristas y vértices.' },
+        { icon: 'BookOpenCheck', body: "Si la base tiene n lados, un PRISMA tiene: n + 2 caras (n laterales + 2 bases), 3 × n aristas y 2 × n vértices." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.4'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.4'], ambito: 'conocer',
           prompt: 'Una troje moderna tiene forma de **prisma hexagonal**. Sin contarlas una por una, ¿cuántas **aristas** crees que tiene?',
           explain: 'Tiene **18**: 6 abajo, 6 arriba y 6 que las unen. Hoy aprenderás esta regla.' },
         { options: [
@@ -281,8 +285,7 @@ export default [
     minutes: 13,
     gancho: 'Un cono de tránsito tiene un costado inclinado. Si lo mides por el costado, ¿estás midiendo su altura?',
     objetivos: [
-      'Identificar la altura de prismas, pirámides, cilindros y conos',
-      'Distinguir la altura de una arista o costado inclinado',
+      "Identificar la altura perpendicular de prismas, pirámides, cilindros y conos",
     ],
     resumen: [
       'La altura de un prisma o de un cilindro es la distancia entre sus dos bases, medida en línea recta y perpendicular (formando ángulo recto con la base).',
@@ -296,8 +299,12 @@ export default [
       brief: 'Diagrama de cuatro sólidos en fila: prisma rectangular, cilindro, pirámide cuadrangular y cono. En cada uno, la altura como línea roja vertical con cuadradito de 90° donde toca la base, rotulada "h". En la pirámide y el cono, además, la arista/costado inclinado en gris con rótulo "no es la altura". Fondo blanco, trazos claros.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.5'], title: 'Idea central', prompt: 'Para que un panel informativo quepa en el aula, su altura se mide perpendicularmente a la base.' },
+        { icon: 'BookOpenCheck', body: "La altura de un prisma o de un cilindro es la distancia entre sus dos bases, medida en línea recta y perpendicular (formando ángulo recto con la base)." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.5'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.5'], ambito: 'conocer',
           prompt: 'Quieres saber qué tan alto es un cono de tránsito. ¿Cómo lo mides?',
           explain: 'Se mide en **línea recta** desde la punta hasta el piso, formando ángulo recto con el piso. Eso es la **altura**.' },
         { options: [
@@ -389,8 +396,7 @@ export default [
     minutes: 15,
     gancho: 'Si desarmas con cuidado una caja de pasta de dientes, queda una figura plana. ¿Podrías dibujarla y armarla de nuevo?',
     objetivos: [
-      'Reconocer el desarrollo plano de prismas, pirámides, cilindros y conos',
-      'Trazar el desarrollo de un cubo y de un prisma en hoja cuadriculada',
+      "Reconocer y trazar desarrollos planos de sólidos geométricos",
     ],
     resumen: [
       'El desarrollo plano es la figura que se obtiene al "desarmar" un sólido: todas sus caras unidas por algunas aristas.',
@@ -404,8 +410,12 @@ export default [
       brief: 'Diagrama en dos filas sobre fondo cuadriculado claro. Cada sólido en perspectiva y, a su derecha, su desarrollo plano con líneas de doblez punteadas: cubo → cruz de 6 cuadrados; prisma rectangular → 6 rectángulos (3 pares de colores); pirámide cuadrangular → cuadrado con 4 triángulos (estrella); cilindro → rectángulo con dos círculos arriba y abajo; cono → sector circular (abanico) con un círculo tocando su arco. Caras congruentes del mismo color.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.6'], title: 'Idea central', prompt: 'Los envases y soportes de la campaña se construyen a partir de desarrollos planos.' },
+        { icon: 'BookOpenCheck', body: "El desarrollo plano es la figura que se obtiene al \"desarmar\" un sólido: todas sus caras unidas por algunas aristas." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.6'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.6'], ambito: 'conocer',
           prompt: 'Desarmas con cuidado una caja de pasta de dientes (prisma rectangular) sin separar sus caras. ¿Qué obtienes?',
           explain: 'Obtienes una **figura plana de rectángulos unidos**: su **desarrollo plano**. Si lo doblas por las líneas, vuelves a armar la caja.' },
         { options: [
@@ -516,9 +526,7 @@ export default [
     minutes: 15,
     gancho: 'Con una hoja de cartulina, tijeras y pegamento puedes construir una aldea en miniatura. ¿Por dónde empezarías?',
     objetivos: [
-      'Construir un prisma, una pirámide, un cilindro y un cono a partir de su desarrollo',
-      'Calcular cuántas pestañas necesita un desarrollo',
-      'Repasar lo aprendido sobre sólidos',
+      "Construir sólidos a partir de desarrollos con medidas, dobleces y pestañas",
     ],
     resumen: [
       'Pasos para construir: trazar el desarrollo con medidas exactas, agregar pestañas, recortar, marcar los dobleces con la regla, doblar y pegar.',
@@ -532,8 +540,12 @@ export default [
       brief: 'Fotografía o ilustración realista de una maqueta escolar sobre una mesa: casitas hechas con prismas rectangulares de cartulina con techos de prisma triangular, una troje cilíndrica con techo cónico, una pirámide cuadrangular en la plaza central y árboles de papel. Se ven las pestañas pegadas en algunas aristas. Materiales sencillos: cartulina, goma, lápices de colores. Luz natural, sin marcas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.7'], title: 'Idea central', prompt: 'Construir un modelo sólido exige medir, añadir pestañas y trabajar con cuidado.' },
+        { icon: 'BookOpenCheck', body: "Pasos para construir: trazar el desarrollo con medidas exactas, agregar pestañas, recortar, marcar los dobleces con la regla, doblar y pegar." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.7'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.7'], ambito: 'conocer',
           prompt: 'Recortaste el desarrollo de un cubo, pero al doblarlo no hay cómo pegar las caras. ¿Qué le faltó?',
           explain: 'Le faltaron **pestañas**: tiras pequeñas en algunos bordes donde se pone el pegamento.' },
         { options: [

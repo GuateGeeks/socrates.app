@@ -1,5 +1,5 @@
 /**
- * Productividad y Desarrollo · Unidad 1 · Semana 4 — Semillas de vida y comunidad.
+ * Productividad y Desarrollo · Unidad 1 · Semana 4 — Crecer, cuidarnos y participar.
  * Analizar los fenómenos naturales (clima según la altura, lluvias y estaciones, suelos,
  * pendiente, heladas, canícula) para decidir qué cultivos y otras formas de producción
  * son posibles en un lugar.
@@ -14,9 +14,7 @@ export default [
     minutes: 15,
     gancho: '¿Por qué en Totonicapán se cosechan papas y duraznos, pero no bananos, y en Escuintla crece la caña pero no el trigo?',
     objetivos: [
-      'Explicar cómo el clima, la altura, las lluvias y el suelo deciden qué se puede cultivar',
-      'Relacionar las tierras caliente, templada y fría con sus cultivos',
-      'Analizar un terreno y proponer cultivos y cuidados adecuados',
+      "Analizar clima, suelo, estaciones y relieve para proponer una actividad productiva adecuada",
     ],
     resumen: [
       'Antes de producir se analiza la naturaleza: temperatura (depende mucho de la altura), lluvias y estaciones, tipo de suelo, pendiente del terreno y fenómenos como heladas, canícula o tormentas.',
@@ -30,8 +28,12 @@ export default [
       brief: 'Diagrama en corte lateral de un paisaje guatemalteco: a la izquierda el mar y la costa sur, subiendo hacia volcanes y el altiplano a la derecha. Tres franjas de color: "Tierra caliente" (naranja, abajo) con caña, banano y palma; "Tierra templada" (verde, en medio) con cafetales bajo sombra, naranjos y aguacates; "Tierra fría" (azul, arriba) con papa, trigo, haba y árboles de durazno, y un pequeño símbolo de helada. Un termómetro a un lado que baja al subir. Milpa dibujada en las tres franjas. Nota al pie: "A más altura, menos temperatura". Sin cifras exactas de altura.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:2.5.3'], title: 'Idea central', prompt: 'Cuidar la vida comunitaria incluye analizar clima, suelo y agua antes de proponer una actividad productiva.' },
+        { icon: 'BookOpenCheck', body: "Antes de producir se analiza la naturaleza: temperatura (depende mucho de la altura), lluvias y estaciones, tipo de suelo, pendiente del terreno y fenómenos como heladas, canícula o tormentas." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:2.5.3'], ambito: 'conocer',
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:2.5.3'], ambito: 'conocer',
           prompt: '¿Por qué crees que en el altiplano de Totonicapán **no** se cultivan bananos?',
           explain: 'El banano necesita **calor todo el año**. En el altiplano alto hace frío y en algunos meses caen **heladas**, que queman las hojas de las plantas de tierra caliente.' },
         { options: [

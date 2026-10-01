@@ -1,5 +1,5 @@
 /**
- * Formación Ciudadana · Unidad 1 · Semana 4 — Semillas de vida y comunidad.
+ * Formación Ciudadana · Unidad 1 · Semana 4 — Crecer, cuidarnos y participar.
  * Progresión: reconocer el liderazgo democrático y el autoritario en organizaciones de la comunidad →
  * revisar críticamente, con criterios y datos, el desempeño de líderes locales y nacionales.
  */
@@ -14,9 +14,7 @@ export default [
     minutes: 14,
     gancho: 'En tu grado hay que decidir a dónde ir de excursión. ¿Prefieres que decida una sola persona o que todos opinen?',
     objetivos: [
-      'Explicar qué es un liderazgo y qué organizaciones de la comunidad tienen líderes',
-      'Distinguir las características del liderazgo democrático y del autoritario',
-      'Reconocer qué tipo de liderazgo hay en situaciones reales',
+      "Distinguir el liderazgo democrático del autoritario mediante acciones observables",
     ],
     resumen: [
       'Un líder o una lideresa es una persona que guía a un grupo para lograr metas comunes. Hay líderes en el gobierno escolar, el COCODE, los comités, las cooperativas, las autoridades indígenas y el gobierno del país.',
@@ -30,8 +28,12 @@ export default [
       brief: 'Ilustración en dos mitades, estilo plano. Izquierda, rotulada "Democrático": salón comunal con sillas en círculo, una presidenta de comité escribe en un papelógrafo las ideas de vecinas, vecinos y jóvenes que levantan la mano; hay un cartel "Informe de gastos". Derecha, rotulada "Autoritario": un líder de pie frente a filas de sillas, con el dedo levantado; los vecinos cruzados de brazos y en silencio; un cajón con candado. Personajes diversos (mayas, ladinos), sin caricaturas ni rasgos exagerados, sin símbolos partidarios.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:3.1.1'], title: 'Idea central', prompt: 'Una campaña participativa necesita un liderazgo que escuche, informe y reparta tareas.' },
+        { icon: 'BookOpenCheck', body: "Un líder o una lideresa es una persona que guía a un grupo para lograr metas comunes. Hay líderes en el gobierno escolar, el COCODE, los comités, las cooperativas, las autoridades indígenas y el gobierno del país." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:3.1.1'], ambito: 'convivir',
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:3.1.1'], ambito: 'convivir',
           prompt: 'Hay que decidir a dónde irá tu grado de excursión. ¿Qué forma de decidir te parece **más justa**?',
           explain: 'Cuando todos opinan y se vota, la decisión es de todos y se cumple con más ganas. Esa es una forma **democrática** de dirigir. Hoy aprenderás a distinguirla de la forma **autoritaria**.' },
         { options: [
@@ -148,9 +150,7 @@ export default [
     minutes: 15,
     gancho: 'Si alguien de tu comunidad prometió arreglar el camino, ¿cómo sabes si cumplió? ¿Basta con lo que dicen los rumores?',
     objetivos: [
-      'Usar una lista de criterios para revisar el desempeño de un liderazgo',
-      'Distinguir una crítica basada en hechos de un ataque o un rumor',
-      'Conocer herramientas ciudadanas para revisar a las autoridades: preguntar, pedir información y votar',
+      "Evaluar un liderazgo con hechos, criterios y propuestas de mejora",
     ],
     resumen: [
       'Revisar críticamente un liderazgo es evaluar sus acciones con criterios y hechos, no con rumores ni insultos.',
@@ -164,8 +164,12 @@ export default [
       brief: 'Diagrama tipo hoja de cuaderno con título "¿Cómo lidera?". Cinco filas con ícono y casillas "Sí / No": (1) Consulta antes de decidir (ícono de mano levantada); (2) Informa y rinde cuentas (hoja con monedas); (3) Cumple lo que prometió (check); (4) Incluye a todas las personas (grupo diverso); (5) Respeta las reglas y la ley (balanza). Al pie: "Hecho → criterio → propuesta". Una lupa en la esquina. Estilo limpio, fondo claro, letras grandes.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:3.1.1'], title: 'Idea central', prompt: 'Revisar un liderazgo con hechos protege la participación y evita rumores o ataques.' },
+        { icon: 'BookOpenCheck', body: "Revisar críticamente un liderazgo es evaluar sus acciones con criterios y hechos, no con rumores ni insultos." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:3.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:3.1.1'], ambito: 'conocer',
           prompt: 'Se dice en la tienda que "el comité se robó el dinero del camino". ¿Qué deberías hacer **antes** de repetirlo?',
           explain: 'Un rumor no es una prueba. Para revisar un liderazgo de forma justa, se buscan **hechos**: documentos, informes, preguntas directas. Hoy aprenderás a hacerlo con criterios.' },
         { options: [

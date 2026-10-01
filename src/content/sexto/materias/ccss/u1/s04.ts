@@ -14,9 +14,7 @@ export default [
     minutes: 15,
     gancho: 'La señora que vende tostadas frente a la escuela y la enfermera del centro de salud trabajan muchas horas. ¿Tienen las mismas condiciones de trabajo?',
     objetivos: [
-      'Describir actividades y condiciones de trabajo en Guatemala',
-      'Identificar los rasgos de la economía formal y de la economía informal',
-      'Relacionar el tipo de trabajo con la calidad de vida de las familias',
+      "Distinguir el trabajo formal e informal y sus efectos en la calidad de vida",
     ],
     resumen: [
       'En Guatemala se trabaja en la agricultura, el comercio, la industria, la construcción, los servicios y el trabajo en casa. Las condiciones cambian mucho de un trabajo a otro.',
@@ -30,8 +28,12 @@ export default [
       brief: 'Ilustración panorámica de la calle principal de un municipio de Guatemala por la mañana. Personajes diversos en su trabajo: una vendedora de tostadas con su canasta frente a una escuela, un albañil en un andamio con casco, una enfermera en la puerta del centro de salud, un agricultor con azadón en una milpa al fondo, un maestro en el aula, un piloto de bus y una trabajadora de maquila con carné. Hombres y mujeres de pueblos maya, garífuna, xinka y ladino, sin estereotipos. Sin logos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:4.1.1'], title: 'Idea central', prompt: 'Cuidar a las personas también exige comprender cómo las condiciones de trabajo afectan la vida familiar.' },
+        { icon: 'BookOpenCheck', body: "En Guatemala se trabaja en la agricultura, el comercio, la industria, la construcción, los servicios y el trabajo en casa. Las condiciones cambian mucho de un trabajo a otro." },
+      ),
       S.sort(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:4.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:4.1.1'], ambito: 'conocer',
           prompt: 'Piensa en las personas que trabajan en tu comunidad. Según lo que ya sabes, ¿quiénes crees que tienen **seguro médico del trabajo** y quiénes no?',
           explain: 'Muchas personas trabajan duro, pero no todas tienen las mismas protecciones. Hoy aprenderás a qué se debe esa diferencia.' },
         { buckets: [
@@ -143,9 +145,7 @@ export default [
     minutes: 15,
     gancho: 'Tu bisabuela quizá no pudo votar ni estudiar. Hoy hay mujeres médicas, alcaldesas, científicas y presidentas. ¿Cómo cambió eso?',
     objetivos: [
-      'Comparar los roles de la mujer en distintas culturas y épocas',
-      'Distinguir los ámbitos familiar, económico y político',
-      'Reconocer los avances y los desafíos pendientes para la equidad',
+      "Comparar los roles de las mujeres a través del tiempo para reconocer avances y desafíos de equidad",
     ],
     resumen: [
       'Las mujeres siempre han trabajado y aportado: en la familia, la producción, el comercio, el arte y el gobierno, aunque muchas veces su trabajo no se reconoció.',
@@ -159,8 +159,12 @@ export default [
       brief: 'Línea del tiempo horizontal con cinco viñetas de figuras femeninas ilustradas y genéricas (no retratos): (1) Antiguo Egipto, hacia 1470 a. C.: una gobernante con tocado de faraón, "Hatshepsut gobierna Egipto"; (2) Período Clásico maya, 682 d. C.: una gobernante maya con tocado, "La Señora Seis Cielo gobierna Naranjo, Petén"; (3) época colonial: mujeres que venden en un mercado, "Trabajan, pero no pueden votar"; (4) siglo XX: mujeres en fila con papeletas, "1945: votan en Guatemala las mujeres alfabetas"; (5) hoy: una científica, una alcaldesa y un padre que cocina con su hija, "Roles compartidos". Colores cálidos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:4.2.2'], title: 'Idea central', prompt: 'Participar con equidad requiere reconocer los aportes de las mujeres y cuestionar roles impuestos.' },
+        { icon: 'BookOpenCheck', body: "Las mujeres siempre han trabajado y aportado: en la familia, la producción, el comercio, el arte y el gobierno, aunque muchas veces su trabajo no se reconoció." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:4.2.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:4.2.2'], ambito: 'conocer',
           prompt: 'Una tejedora de Santiago Atitlán se levanta a las 5, prepara el desayuno, lleva a sus hijos a la escuela, teje por horas y vende sus tejidos en el mercado. ¿Trabaja?',
           explain: '¡Sí, y mucho! Cuida la familia (trabajo **familiar**, aunque no se pague) y produce y vende (trabajo **económico**). Durante siglos el trabajo de las mujeres no se reconoció como tal.' },
         { options: [
@@ -274,9 +278,7 @@ export default [
     minutes: 14,
     gancho: '¿Por qué en tu comunidad se habla el idioma que se habla? ¿Por qué el mercado se hace ese día? ¿Por qué muchos jóvenes migran? Para cada pregunta hay una ciencia que ayuda.',
     objetivos: [
-      'Identificar las principales Ciencias Sociales y lo que estudia cada una',
-      'Explicar cómo las Ciencias Sociales ayudan a comprender la realidad',
-      'Valorar la investigación social para responder nuestras propias preguntas',
+      "Elegir Ciencias Sociales pertinentes para investigar preguntas de la comunidad",
     ],
     resumen: [
       'Las Ciencias Sociales estudian a las personas que viven en sociedad: cómo se organizan, cómo cambian y por qué.',
@@ -290,8 +292,12 @@ export default [
       brief: 'Animación 2D de 45 s. Plano general de un mercado de pueblo en Guatemala. Aparecen lupas de colores, una por ciencia, que se posan sobre la escena: Historia (lupa café) muestra una foto antigua del mercado; Geografía (verde) muestra un mapa con flechas de dónde vienen los productos; Economía (amarilla) muestra precios y monedas; Antropología (morada) muestra tejidos, idiomas y comidas; Ciencia política (azul) muestra la municipalidad que organiza el mercado. Al final, todas las lupas se juntan: "Juntas entendemos mejor". Narración en español con subtítulos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:5.1.1'], title: 'Idea central', prompt: 'Las Ciencias Sociales ayudan a investigar cómo participa una comunidad y qué barreras enfrenta.' },
+        { icon: 'BookOpenCheck', body: "Las Ciencias Sociales estudian a las personas que viven en sociedad: cómo se organizan, cómo cambian y por qué." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:5.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:5.1.1'], ambito: 'conocer',
           prompt: 'Las **Ciencias Naturales** estudian las plantas, los animales y la materia. ¿Qué estudian las **Ciencias Sociales**?',
           explain: 'Estudian a las **personas que viven en sociedad**: sus historias, sus culturas, su economía, su gobierno y el territorio donde viven.' },
         { options: [

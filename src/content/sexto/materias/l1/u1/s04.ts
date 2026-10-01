@@ -2,8 +2,8 @@
  * Comunicación y Lenguaje L1 · Unidad 1 · Semana 4
  * Hilo de la semana: del texto dramático a la escena. La tipografía del guion teatral, las formas
  * de iniciación al juego dramático (juego de roles, pantomima, títeres y marionetas) y los
- * recursos de apoyo para escenificar. La semana cierra planificando la puesta en escena de un
- * fragmento de "Los hombres de maíz" (Popol Wuj) con títeres.
+ * recursos de apoyo para escenificar. La semana cierra preparando una escena informativa sobre
+ * crecer con cuidado, comprobar datos y pedir apoyo.
  */
 import { lesson, S } from '../../../../dsl';
 
@@ -16,9 +16,7 @@ export default [
     minutes: 14,
     gancho: 'Si le das a tu grupo un guion desordenado, ¿cómo sabrá cada quien qué decir y cuándo moverse?',
     objetivos: [
-      'Reconocer la tipografía propia del guion teatral',
-      'Escribir nombres, diálogos y acotaciones con el formato correcto',
-      'Pasar un texto desordenado a formato de guion',
+      "Escribir una escena con la estructura y la tipografía del guion teatral",
     ],
     resumen: [
       'Un guion teatral empieza con el título y la lista de personajes (con una breve descripción de cada uno).',
@@ -32,8 +30,12 @@ export default [
       brief: 'Diagrama vertical de una página de guion escolar titulada "La semilla viajera". Bloques y etiquetas con flechas: "Título" (centrado, grande), "Personajes" (lista: SEMILLA, VIENTO, NIÑA ROSA), "Acto I – Escena 1" (negrita), "Acotación inicial" (cursiva, entre paréntesis: "Un campo de milpa al amanecer"), "NOMBRE EN MAYÚSCULAS + dos puntos", "Diálogo", "Acotación dentro del diálogo" (cursiva, paréntesis) y "Telón" al final. Colores distintos para cada tipo de elemento. Letra grande y clara.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.8'], title: 'Idea central', prompt: 'Una escena sobre crecimiento necesita un guion claro: aprende cómo se organizan personajes, diálogos y acotaciones.' },
+        { icon: 'BookOpenCheck', body: "Un guion teatral empieza con el título y la lista de personajes (con una breve descripción de cada uno)." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'conocer',
           prompt: '¿Cuál de estas líneas está escrita **como en un guion de teatro**?',
           explain: 'En un guion, el nombre va en mayúsculas y seguido de dos puntos; lo que se actúa va entre paréntesis y en cursiva. Así cada actor encuentra rápido su parte.' },
         { options: [
@@ -51,7 +53,7 @@ export default [
           { icon: 'Info', front: 'Acotación inicial', back: 'Al empezar cada escena, entre paréntesis y en cursiva, se describe **dónde y cuándo** ocurre: _(Un campo de milpa al amanecer. Se oye un gallo.)_' },
           { icon: 'Type', front: 'NOMBRE: diálogo', back: 'El nombre del personaje en **MAYÚSCULAS**, seguido de **dos puntos** y lo que dice. Sin comillas ni guiones.' },
           { icon: 'Italic', front: '(Acotaciones)', back: 'Dentro del diálogo, **entre paréntesis y en cursiva**: gestos, movimientos, tono. _(Se ríe.)_ _(Susurrando.)_' },
-          { icon: 'Square', front: 'Telón o Fin', back: 'Indica que termina un acto o la obra.' },
+          { icon: 'Flag', front: 'Telón o Fin', back: 'Indica que termina un acto o la obra.' },
         ] },
       ),
       S.highlight(
@@ -99,9 +101,9 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'hacer',
-          prompt: 'Pasa este fragmento de cuento a **formato de guion**, con título, lista de personajes, escena, acotación inicial, nombres en mayúsculas y acotaciones:\n\n"_Era la hora del recreo. Marcos corrió hacia Luisa y, muy emocionado, le contó que había visto un colibrí en el jardín. Luisa, que no le creyó, se cruzó de brazos y le dijo que era mentira._"' },
+          prompt: 'Pasa este fragmento a **formato de guion**, con título, lista de personajes, escena, acotación inicial, nombres en mayúsculas y acotaciones:\n\n"_Era la hora del recreo. Sofía mostró a Daniel un mensaje anónimo que afirmaba que todos los cuerpos cambian a la misma edad. Daniel abrió el libro de Ciencias y propuso comprobar el dato con la maestra._"' },
         { minWords: 35, placeholder: 'Título\nPersonajes: …\nEscena 1\n(…)\nMARCOS: (…) …\nLUISA: (…) …',
-          model: 'El colibrí del recreo\nPersonajes: MARCOS, niño entusiasta. LUISA, su amiga, un poco desconfiada.\nEscena 1\n(El patio de la escuela a la hora del recreo. Se oyen risas.)\nMARCOS: (entra corriendo, emocionado) ¡Luisa, Luisa! ¡Vi un colibrí en el jardín!\nLUISA: (se cruza de brazos) Mentira. Los colibríes no vienen a la escuela.\nMARCOS: (la toma de la mano) ¡Ven y te lo enseño!',
+          model: 'Comprobemos antes de compartir\nPersonajes: SOFÍA, curiosa. DANIEL, cuidadoso con la información.\nEscena 1\n(En el patio, Sofía muestra un papel.)\nSOFÍA: (preocupada) Aquí dice que todos cambiamos a la misma edad.\nDANIEL: (abre el libro de Ciencias) Cada cuerpo tiene su ritmo. Comprobemos el dato con la maestra antes de compartirlo.',
           rubric: [
             'Tiene título y lista de personajes',
             'Indiqué la escena y escribí una acotación inicial',
@@ -141,9 +143,7 @@ export default [
     minutes: 13,
     gancho: '¿Alguna vez has jugado a ser vendedor, maestra o doctor? Sin saberlo, ya hacías teatro.',
     objetivos: [
-      'Reconocer el juego dramático como una forma de iniciarse en el teatro',
-      'Participar en un juego de roles siguiendo sus reglas',
-      'Improvisar diálogos que respondan a lo que dice el otro personaje',
+      "Improvisar un juego de roles que escucha, acepta y responde con respeto",
     ],
     resumen: [
       'El juego dramático es una forma sencilla de empezar a hacer teatro: se juega a ser otra persona, sin necesidad de escenario ni guion completo.',
@@ -157,9 +157,14 @@ export default [
       brief: 'Video de 55 s en un aula. Con pupitres y canastos se arma un "mercado". Una niña hace de vendedora de frutas y un niño de comprador que quiere regatear. Improvisan con respeto y humor: él pide rebaja, ella le ofrece una ñapa (fruta de regalo) si compra más. En pantalla aparecen tres rótulos en momentos clave: "Escucha", "Acepta y agrega", "Mantente en tu personaje". El grupo aplaude al final. Sin marcas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.8'], title: 'Idea central', prompt: 'Un juego de roles permite ensayar cómo pedir información confiable y escuchar sin burlas.' },
+        { icon: 'BookOpenCheck', body: "El juego dramático es una forma sencilla de empezar a hacer teatro: se juega a ser otra persona, sin necesidad de escenario ni guion completo." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'conocer',
           prompt: 'En un juego de roles, tu compañera hace de vendedora y dice: **"¡Aguacates frescos, a cinco quetzales!"**. Tú eres el comprador. ¿Qué respuesta **mantiene vivo** el juego?',
+          hint: 'Elige la respuesta que acepta la situación y permite que el diálogo continúe.',
           explain: 'La primera respuesta acepta la situación y agrega algo nuevo (la duda sobre el precio). Así la escena avanza. Hoy aprenderás cómo funciona el juego de roles.' },
         { options: [
           { id: 'a', text: '"¡Buenos días, seño! ¿Y si le compro tres, me los deja a doce?"', icon: 'MessageCircle' },
@@ -200,9 +205,8 @@ export default [
           tip: '"Sí, y además…" es la frase mágica de la improvisación.' },
       ),
       S.choice(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'hacer',
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'hacer',
           prompt: 'Ahora tú. Situación: dos estudiantes ven que el chorro de la escuela está goteando. MARÍA dice: **"¡Se está desperdiciando el agua!"** ¿Qué respuesta sigue la regla "sí, y además"?',
-          hint: 'Busca la respuesta que acepta lo que dijo María y agrega una idea.',
           explain: 'La respuesta correcta acepta el problema y propone una acción: la escena avanza.' },
         { options: [
           { id: 'a', text: '"Sí, y además se va a inundar el pasillo. Vamos a avisarle al director."' },
@@ -222,9 +226,9 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'hacer',
-          prompt: 'Prepara un **juego de roles** para hacer en casa con alguien de tu familia. Escribe: la **situación**, los **dos personajes** (con una característica de cada uno) y las **tres primeras líneas** del diálogo usando "sí, y además…".' },
+          prompt: 'Prepara un **juego de roles** sobre una persona joven que busca información confiable acerca de un cambio de la pubertad. Escribe la situación, dos personajes respetuosos y las tres primeras líneas usando "sí, y además…". No inventes diagnósticos.' },
         { minWords: 30, placeholder: 'Situación: …\nPersonajes: …\nLínea 1: …\nLínea 2: …\nLínea 3: …',
-          model: 'Situación: una turista perdida pregunta cómo llegar al mercado.\nPersonajes: TURISTA, amable pero despistada. NIÑO GUÍA, conoce todas las calles del pueblo.\nTURISTA: Disculpa, ¿sabes dónde queda el mercado? Llevo media hora caminando.\nNIÑO GUÍA: Sí, y además hoy es día de mercado, así que hay mucha gente. Siga esta calle hasta la iglesia.\nTURISTA: ¡Gracias! Y además, ¿me recomiendas algo para comer ahí?',
+          model: 'Situación: una estudiante pregunta dónde aclarar una duda sobre su crecimiento.\nPersonajes: ESTUDIANTE, curiosa. TÍA, escucha con calma.\nESTUDIANTE: Me preocupa crecer a un ritmo distinto que mis amigas.\nTÍA: Sí, y además es común que cada cuerpo cambie a su ritmo. Podemos revisar tu libro de Ciencias.\nESTUDIANTE: Gracias, y además quisiera anotar mis preguntas para hablar con una profesional de salud.',
           rubric: [
             'Describí una situación clara',
             'Cada personaje tiene una característica',
@@ -259,9 +263,7 @@ export default [
     minutes: 13,
     gancho: '¿Podrías contar que estás tortillando, que se te quemó una tortilla y que te soplaste los dedos… sin decir una sola palabra?',
     objetivos: [
-      'Reconocer la pantomima como una forma de teatro sin palabras',
-      'Aplicar sus técnicas: gestos claros, objetos imaginarios y expresión del rostro',
-      'Planificar una pantomima corta con inicio, problema y final',
+      "Comunicar una historia completa mediante las técnicas de la pantomima",
     ],
     resumen: [
       'La pantomima (o mímica) es una representación sin palabras: todo se comunica con gestos, movimientos y expresiones del rostro.',
@@ -274,8 +276,12 @@ export default [
       brief: 'Video de 45 s sobre fondo liso. Una joven con ropa neutra (sin maquillaje de payaso para evitar miedo) representa sin palabras: toma una bolita de masa imaginaria, la palmea con ritmo, la coloca en un comal imaginario (mantiene siempre la misma altura y tamaño), se quema los dedos, los sopla con cara exagerada, voltea la tortilla y la come feliz. Cámara fija de cuerpo entero. Sin música durante la acción; al final, texto "¿Qué objetos imaginarios viste?".',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.8'], title: 'Idea central', prompt: 'La pantomima puede mostrar cuidado y apoyo sin usar palabras: los gestos deben contar una historia.' },
+        { icon: 'BookOpenCheck', body: "La pantomima (o mímica) es una representación sin palabras: todo se comunica con gestos, movimientos y expresiones del rostro." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'conocer',
           prompt: 'Mira el video. La actriz **no dijo nada** y no tenía objetos reales. ¿Qué historia contó?',
           explain: 'Con gestos claros y objetos imaginarios contó una historia completa. Eso es una **pantomima**.' },
         { options: [
@@ -341,9 +347,9 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'hacer',
-          prompt: 'Planifica tu propia **pantomima** de 30 segundos sobre una actividad de tu casa o comunidad. Escribe el inicio, el problema, el final, el **objeto imaginario** que usarás y **tres emociones**. Después, preséntala a tu familia y pídeles que adivinen la historia.' },
+          prompt: 'Planifica una **pantomima** de 30 segundos: una persona recibe una burla sobre su crecimiento, busca apoyo y otra persona la escucha. Escribe inicio, problema, final, un objeto imaginario y tres emociones. No imites ni ridiculices a una persona real.' },
         { minWords: 30, placeholder: 'Tema: …\nInicio: …\nProblema: …\nFinal: …\nObjeto imaginario: …\nEmociones: …',
-          model: 'Tema: Lavar ropa en la pila.\nInicio: llego con un canasto pesado, saco una camisa y la tallo con jabón.\nProblema: se me resbala el jabón y cae al suelo; lo busco agachado por todos lados.\nFinal: lo encuentro debajo de la pila, lo levanto feliz y termino de lavar.\nObjeto imaginario: el jabón (pequeño y resbaloso).\nEmociones: cansancio, frustración, alegría.',
+          model: 'Tema: Buscar apoyo.\nInicio: leo un mensaje imaginario en una tableta y sonrío.\nProblema: aparece una burla; bajo la mirada y cierro la tableta con tristeza.\nFinal: me acerco a una docente, le muestro el mensaje y ella escucha; respiro con alivio.\nObjeto imaginario: la tableta, siempre del mismo tamaño.\nEmociones: alegría, tristeza, alivio.',
           rubric: [
             'Mi pantomima tiene inicio, problema y final',
             'Elegí un objeto imaginario y pensé en su forma y peso',
@@ -378,9 +384,7 @@ export default [
     minutes: 14,
     gancho: 'Con un calcetín viejo y dos botones puedes crear un personaje que hable, cante y haga reír. ¿Cómo es posible?',
     objetivos: [
-      'Distinguir los tipos de títeres y las marionetas',
-      'Conocer técnicas básicas para manejar un títere',
-      'Elaborar un títere sencillo con materiales reciclados',
+      "Distinguir y manejar títeres y marionetas para comunicar un mensaje",
     ],
     resumen: [
       'Títeres de guante (o guiñol): se meten en la mano como un guante; con los dedos se mueven la cabeza y los brazos.',
@@ -394,8 +398,12 @@ export default [
       brief: 'Ilustración en cinco paneles en fila: (1) títere de guante hecho con calcetín, botones y lana, con la mano visible dentro; (2) cuatro títeres de dedo de papel (quetzal, jaguar, niña, abuelo); (3) títere de varilla de cartón con palitos de bambú; (4) una tela blanca iluminada por una linterna, con la silueta de un venado en sombra; (5) marioneta de madera con hilos atados a una cruceta sostenida desde arriba. Rótulos grandes bajo cada panel. Materiales reciclados, colores alegres.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.8'], title: 'Idea central', prompt: 'Un títere puede comunicar una duda con respeto si se maneja con técnica y una voz clara.' },
+        { icon: 'BookOpenCheck', body: "Títeres de guante (o guiñol): se meten en la mano como un guante; con los dedos se mueven la cabeza y los brazos." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'conocer',
           prompt: 'Observa la imagen. ¿Qué diferencia hay entre el títere de calcetín y la marioneta?',
           explain: 'El títere de guante se mueve con la mano **desde abajo, por dentro**; la marioneta se mueve **desde arriba, con hilos**. Hoy conocerás todos los tipos.' },
         { options: [
@@ -443,9 +451,8 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'hacer',
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'hacer',
           prompt: 'Mientras el títere de la abuela habla, el títere del niño **mueve la boca sin parar**. ¿Qué problema causa?',
-          hint: 'Recuerda la regla de la boca: ¿cuándo se mueve?',
           explain: 'El público no sabe quién está hablando. Solo mueve la boca el títere que habla; los demás se quedan quietos y "escuchan".' },
         { options: [
           { id: 'a', text: 'El público no sabe cuál de los dos está hablando' },
@@ -469,9 +476,9 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:5.1.8'], ambito: 'hacer',
-          prompt: 'Presenta a tu títere: escribe cómo se llama, qué tipo de títere es, cómo es su voz y **una línea de diálogo** en formato de guion con acotación.' },
+          prompt: 'Presenta a tu títere de la campaña: escribe cómo se llama, qué tipo es, cómo es su voz y una línea de diálogo respetuosa que recomiende comprobar información o pedir apoyo.' },
         { minWords: 20, placeholder: 'Nombre: …\nTipo: …\nVoz: …\nDiálogo: NOMBRE: (…) …',
-          model: 'Nombre: Doña Tacuacina\nTipo: títere de guante hecho con un calcetín gris\nVoz: aguda y un poco temblorosa, habla despacio\nDiálogo: DOÑA TACUACINA: (mira a ambos lados, nerviosa) ¿Alguien ha visto mis mazorquitas? ¡Juro que las dejé aquí!',
+          model: 'Nombre: Clara\nTipo: títere de guante hecho con un calcetín\nVoz: cálida y pausada\nDiálogo: CLARA: (muestra un libro al público) Antes de repetir un rumor sobre el cuerpo, comprobemos la información con una fuente confiable.',
           rubric: [
             'Dije el nombre y el tipo de títere',
             'Describí cómo es su voz',
@@ -503,11 +510,9 @@ export default [
     title: 'Recursos para escenificar: máscaras, vestuario, decorado y sonido',
     icon: 'Palette',
     minutes: 15,
-    gancho: 'Con solo un sonido de lluvia, una luz tenue y una máscara, el público puede sentir que está en un bosque de noche. ¿Cómo lo logra el teatro?',
+    gancho: 'Con una luz tranquila, un libro de utilería y un sonido breve, el público puede reconocer un lugar de escucha y cuidado. ¿Cómo lo logra el teatro?',
     objetivos: [
-      'Conocer los recursos de apoyo para escenificar: máscaras, títeres, vestuario, maquillaje, decorado y efectos de sonido',
-      'Distinguir los recursos que caracterizan al personaje de los que crean el ambiente',
-      'Planificar los recursos para escenificar una escena',
+      "Elegir recursos de escenificación que apoyen una escena sin distraer",
     ],
     resumen: [
       'Recursos que caracterizan al personaje: vestuario, maquillaje, máscaras y utilería personal (un bastón, un canasto). Ayudan a saber quién es, su edad y su carácter.',
@@ -516,19 +521,23 @@ export default [
       'Los recursos se eligen según lo que pide la escena: deben ayudar a contar la historia, no distraer.',
     ],
     media: {
-      id: 's04-l1-5-teatrino', kind: 'video', title: 'Los hombres de maíz en el teatrino', aspect: '16:9', duration: 75,
-      alt: 'Pequeña obra de títeres de guante en un teatrino de cartón en la que los abuelos creadores forman a las personas con masa de maíz; detrás, niñas y niños manejan los títeres y hacen los sonidos.',
-      brief: 'Video de 75 s de un teatrino de cartón decorado con milpa y montañas. Títeres de guante hechos con calcetines y tela típica representan a una abuela narradora y a los creadores del Popol Wuj formando personas con masa de maíz amarillo y blanco (versión respetuosa y sencilla, sin representar deidades de forma caricaturesca). Efectos de sonido hechos a mano y visibles al final: lluvia con semillas en un bote, viento soplando por un tubo, trueno con una lámina. Una linterna con papel naranja simula el amanecer. Al final, la cámara muestra detrás del teatrino a niñas y niños manejando los títeres y los sonidos.',
+      id: 's04-l1-5-teatrino', kind: 'video', title: 'Crecer con cuidado en el teatrino', aspect: '16:9', duration: 75,
+      alt: 'Dos títeres representan a una estudiante que tiene una duda y a una persona adulta que escucha y muestra un libro de Ciencias.',
+      brief: 'Video de 75 s de un teatrino de cartón con fondo de biblioteca escolar. Dos títeres de guante representan a una estudiante con una duda y a una persona adulta que escucha sin juzgar y muestra un libro de Ciencias. Una campanilla suave marca el inicio, una tarjeta grande dice “Fuente confiable” y una luz cálida ilumina el diálogo. Al final se muestran los recursos detrás del teatrino. No representar cambios corporales ni usar disfraces que caricaturicen profesiones o identidades.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.9'], title: 'Idea central', prompt: 'La campaña necesita recursos de escena que aclaren el mensaje sin exponer ni caricaturizar a nadie.' },
+        { icon: 'BookOpenCheck', body: "Recursos que caracterizan al personaje: vestuario, maquillaje, máscaras y utilería personal (un bastón, un canasto). Ayudan a saber quién es, su edad y su carácter." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.9'], ambito: 'conocer',
-          prompt: 'Mira el video. ¿Qué hizo que la escena pareciera ocurrir **en el campo, al amanecer y con lluvia**?',
-          explain: 'El decorado (milpa y montañas), la luz naranja y el sonido de lluvia crearon el ambiente. Son **recursos de apoyo para la escenificación**.' },
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.9'], ambito: 'conocer',
+          prompt: 'Mira el video. ¿Qué recursos hacen que la escena parezca un espacio tranquilo para escuchar y comprobar información?',
+          explain: 'El fondo de biblioteca, la luz cálida, la campanilla y el libro de utilería construyen el ambiente y apoyan la acción.' },
         { options: [
-          { id: 'a', text: 'El decorado de milpa, la luz naranja de la linterna y el sonido de semillas en un bote', icon: 'Sunrise' },
+          { id: 'a', text: 'El fondo de biblioteca, la luz cálida, la campanilla y el libro', icon: 'BookOpenCheck' },
           { id: 'b', text: 'Solo los diálogos', icon: 'MessageCircle', feedback: 'Los diálogos cuentan la historia, pero el ambiente lo crean otros recursos.' },
-          { id: 'c', text: 'Que lo filmaron en un campo de verdad', icon: 'Camera', feedback: 'Fue en un teatrino de cartón: todo el ambiente se creó con recursos sencillos.' },
+          { id: 'c', text: 'Que lo filmaron en un centro de salud verdadero', icon: 'Camera', feedback: 'Fue en un teatrino de cartón: el ambiente se creó con recursos sencillos.' },
         ], correct: ['a'] },
       ),
       S.explain(
@@ -552,64 +561,64 @@ export default [
         ] },
       ),
       S.sort(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.9'], ambito: 'hacer', prompt: 'Organiza los recursos de escenificación para la obra de títeres "Los hombres de maíz".',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.9'], ambito: 'hacer', prompt: 'Organiza los recursos de escenificación para la obra de títeres "Crecer con cuidado".',
           hint: '¿Este recurso cambia al personaje, o cambia el lugar y el ambiente?',
           explain: 'Unos recursos transforman al personaje y otros transforman el espacio. Los dos son necesarios para que el público "entre" en la historia.',
           media: {
             id: 's04-l1-5-mesa', kind: 'image', title: 'Detrás del teatrino', aspect: '4:3',
-            alt: 'Mesa con materiales: títeres de calcetín, una máscara de cartón, retazos de tela típica, pinturas, un fondo pintado con milpa y un bote con semillas.',
-            brief: 'Fotografía o ilustración cenital de una mesa escolar con materiales reciclados: títeres de calcetín con botones, una máscara de cartón de jaguar, retazos de tela típica para vestuario, pintura facial lavable, un cartón pintado con milpa y volcanes (decorado), un bote con semillas, una lámina pequeña y una linterna con papel naranja. Cada objeto con una etiqueta pequeña. Colores alegres.',
+            alt: 'Mesa con dos títeres, un libro de cartón, un gafete, un fondo de biblioteca, una campanilla y una linterna con papel amarillo.',
+            brief: 'Fotografía o ilustración cenital de una mesa escolar con materiales reciclados: dos títeres de calcetín, un libro de cartón, un gafete sencillo, un fondo pintado como biblioteca, una tarjeta “Fuente confiable”, una campanilla y una linterna con papel amarillo. Cada objeto tiene una etiqueta pequeña. Sin símbolos médicos engañosos ni marcas.',
           } },
         { buckets: [
           { id: 'per', label: 'Caracteriza al personaje', icon: 'User', color: 'var(--area-l1)' },
           { id: 'amb', label: 'Crea el ambiente', icon: 'Mountain', color: 'var(--area-art)' },
         ], items: [
-          { id: 'r1', text: 'Máscara de jaguar', bucket: 'per' },
-          { id: 'r2', text: 'Vestuario con tela típica', bucket: 'per' },
-          { id: 'r3', text: 'Maquillaje de arrugas para la abuela', bucket: 'per' },
-          { id: 'r4', text: 'Fondo pintado con milpa y volcanes', bucket: 'amb' },
-          { id: 'r5', text: 'Bote con semillas que suena como lluvia', bucket: 'amb', feedback: 'Es un efecto de sonido: crea el ambiente de la escena.' },
-          { id: 'r6', text: 'Linterna con papel naranja que simula el amanecer', bucket: 'amb' },
+          { id: 'r1', text: 'Libro que lleva quien comprueba el dato', bucket: 'per' },
+          { id: 'r2', text: 'Gafete de la persona orientadora', bucket: 'per' },
+          { id: 'r3', text: 'Mochila de la estudiante', bucket: 'per' },
+          { id: 'r4', text: 'Fondo pintado como biblioteca', bucket: 'amb' },
+          { id: 'r5', text: 'Campanilla suave al inicio', bucket: 'amb', feedback: 'Es un efecto de sonido que marca el inicio sin tapar las voces.' },
+          { id: 'r6', text: 'Luz cálida y moderada para el diálogo', bucket: 'amb' },
         ] },
       ),
       S.match(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:5.1.9'], ambito: 'hacer', prompt: 'Une cada acotación del guion con el recurso que la hace posible.',
           explain: 'Las acotaciones del guion le dicen al equipo técnico qué recursos preparar.' },
         { leftTitle: 'Acotación', rightTitle: 'Recurso', pairs: [
-          { id: 'a1', left: '(Cae un fuerte aguacero.)', right: 'Semillas moviéndose dentro de un bote' },
-          { id: 'a2', left: '(Anochece en el bosque.)', right: 'Luz tenue y azulada' },
-          { id: 'a3', left: '(Entra el jaguar.)', right: 'Máscara de jaguar' },
-          { id: 'a4', left: '(Retumba un trueno.)', right: 'Sacudir una lámina' },
+          { id: 'a1', left: '(Suena una notificación.)', right: 'Dos golpecitos suaves en una campanilla' },
+          { id: 'a2', left: '(La conversación se vuelve tranquila.)', right: 'Luz cálida de intensidad moderada' },
+          { id: 'a3', left: '(La orientadora muestra dónde comprobó el dato.)', right: 'Libro de utilería con una marca visible' },
+          { id: 'a4', left: '(Aparece el mensaje final.)', right: 'Tarjeta grande: “Pregunta y comprueba”' },
         ] },
       ),
       S.reading(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:5.1.9', 'l1:5.1.8'], ambito: 'hacer',
-          prompt: 'Lee este fragmento de guion para títeres, basado en el Popol Wuj, y decide qué recursos se necesitan.' },
-        { genre: 'Guion para títeres', heading: 'Los hombres de maíz (fragmento)', passage:
-          '**Personajes:** ABUELA NARRADORA (títere de guante con rebozo). NIÑO (títere de calcetín). LOS CREADORES (voces detrás del teatrino).\n\n**Escena 1**\n\n_(Oscuridad. Se oye el viento. Poco a poco, una luz naranja ilumina un fondo pintado con montañas.)_\n\nABUELA NARRADORA: _(con voz suave, mirando al público)_ Hace mucho tiempo, los creadores quisieron formar a los seres humanos. Primero los hicieron de barro…\n\nNIÑO: _(curioso)_ ¿Y qué pasó, abuela?\n\nABUELA NARRADORA: Se deshacían con el agua. _(Suena lluvia.)_ Luego los hicieron de madera, pero no tenían corazón ni recordaban a quienes los crearon.\n\nNIÑO: _(preocupado)_ ¿Y al final?\n\nABUELA NARRADORA: _(toma una mazorca y la levanta)_ Al final los formaron con masa de maíz amarillo y blanco. Y así nacimos nosotros.',
+          prompt: 'Lee este fragmento de la campaña y decide qué recursos necesita la escena.' },
+        { genre: 'Guion para títeres', heading: 'Pregunta y comprueba (fragmento)', passage:
+          '**Personajes:** ESTUDIANTE (títere con mochila). ORIENTADORA (títere con un libro).\n\n**Escena 1**\n\n_(Biblioteca escolar. Suena una notificación breve. Una luz cálida ilumina la mesa.)_\n\nESTUDIANTE: _(muestra una tarjeta, inquieta)_ Recibí un mensaje sobre los cambios del cuerpo. No dice quién lo escribió.\n\nORIENTADORA: _(escucha y abre el libro)_ Hiciste bien en preguntar antes de compartirlo. Busquemos una fuente confiable.\n\nESTUDIANTE: _(más tranquila)_ ¿Y si todavía tengo una pregunta personal?\n\nORIENTADORA: Puedes conversar con una persona adulta de confianza o un profesional de salud. _(Muestra la tarjeta “Pregunta y comprueba”.)_',
           questions: [
-            { q: '¿Qué efecto de sonido se necesita **al inicio** de la escena?', options: [
-              { id: 'a', text: 'Viento' },
+            { q: '¿Qué efecto de sonido se necesita **al inicio**?', options: [
+              { id: 'a', text: 'Una notificación breve' },
               { id: 'b', text: 'Un caballo galopando' },
-              { id: 'c', text: 'Aplausos' },
-            ], correct: 'a', why: 'La acotación inicial dice: "Se oye el viento".' },
-            { q: '¿Qué recurso crea el amanecer?', options: [
-              { id: 'a', text: 'Una luz naranja que ilumina poco a poco el fondo' },
-              { id: 'b', text: 'La máscara del niño' },
-              { id: 'c', text: 'El rebozo de la abuela' },
-            ], correct: 'a', why: 'La iluminación indica el momento del día.' },
-            { q: 'Según el fragmento, ¿de qué material formaron finalmente a los seres humanos?', options: [
-              { id: 'a', text: 'De masa de maíz amarillo y blanco' },
-              { id: 'b', text: 'De barro' },
-              { id: 'c', text: 'De madera' },
-            ], correct: 'a', why: 'El barro y la madera fueron intentos anteriores que no funcionaron.' },
+              { id: 'c', text: 'Un trueno fuerte' },
+            ], correct: 'a', why: 'La acotación inicial indica una notificación breve.' },
+            { q: '¿Qué recurso usa la orientadora para mostrar que comprueba el mensaje?', options: [
+              { id: 'a', text: 'Un libro de utilería' },
+              { id: 'b', text: 'Una máscara' },
+              { id: 'c', text: 'Una capa' },
+            ], correct: 'a', why: 'La acotación indica que abre el libro y busca una fuente.' },
+            { q: '¿Qué tarjeta debe aparecer al final?', options: [
+              { id: 'a', text: 'Pregunta y comprueba' },
+              { id: 'b', text: 'Comparte de inmediato' },
+              { id: 'c', text: 'Guarda todas tus dudas' },
+            ], correct: 'a', why: 'La última acotación nombra esa tarjeta.' },
           ] },
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:5.1.9'], ambito: 'hacer',
-          prompt: 'Eres parte del equipo técnico de "Los hombres de maíz". Haz una **lista de recursos** para la escena: dos que caractericen a los personajes y dos que creen el ambiente. Para cada uno, di con qué material sencillo lo harías.' },
+          prompt: 'Eres parte del equipo técnico de **"Crecer con cuidado"**. Haz una lista de recursos para la escena: dos que caractericen a los personajes sin estereotipos y dos que creen un ambiente tranquilo. Para cada uno, di con qué material sencillo lo harías.' },
         { minWords: 30, placeholder: 'Personajes:\n1. …\n2. …\nAmbiente:\n3. …\n4. …',
-          model: 'Personajes:\n1. Rebozo para la abuela narradora: un retazo de tela típica.\n2. Títere del niño: un calcetín con botones y lana negra.\nAmbiente:\n3. Sonido de lluvia: frijoles dentro de una botella plástica.\n4. Amanecer: una linterna cubierta con papel celofán naranja.',
+          model: 'Personajes:\n1. Libro para quien comprueba el dato: cartón doblado con una portada.\n2. Gafete de la orientadora: papel y lana, sin disfrazar ni caricaturizar.\nAmbiente:\n3. Música instrumental tranquila: palmas suaves o un audio a volumen moderado.\n4. Letrero “Escuchamos con respeto”: cartón reutilizado y marcadores.',
           rubric: [
             'Incluí dos recursos para los personajes',
             'Incluí dos recursos para el ambiente',
@@ -618,7 +627,7 @@ export default [
           ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:5.1.9'], prompt: 'Un bote con semillas que suena como lluvia es…' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:5.1.9'], prompt: 'Una campanilla que marca el inicio de la escena es…' },
         { options: [
           { id: 'a', text: 'Un efecto de sonido' },
           { id: 'b', text: 'Un vestuario' },
@@ -631,10 +640,10 @@ export default [
           { id: 'per', label: 'Caracteriza al personaje', icon: 'User', color: 'var(--area-l1)' },
           { id: 'amb', label: 'Crea el ambiente', icon: 'Mountain', color: 'var(--area-art)' },
         ], items: [
-          { id: 'z1', text: 'Sombrero y morral del agricultor', bucket: 'per' },
-          { id: 'z2', text: 'Luz azul tenue para la noche', bucket: 'amb' },
-          { id: 'z3', text: 'Máscara de venado', bucket: 'per' },
-          { id: 'z4', text: 'Fondo pintado de un mercado', bucket: 'amb' },
+          { id: 'z1', text: 'Libro que lleva la orientadora', bucket: 'per' },
+          { id: 'z2', text: 'Luz cálida para una conversación tranquila', bucket: 'amb' },
+          { id: 'z3', text: 'Mochila de la estudiante', bucket: 'per' },
+          { id: 'z4', text: 'Fondo pintado como biblioteca', bucket: 'amb' },
         ] },
       ),
       S.reflect(

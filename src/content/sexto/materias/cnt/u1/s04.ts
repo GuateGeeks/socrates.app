@@ -15,15 +15,13 @@ export default [
     minutes: 15,
     gancho: 'A tu edad, muchos compañeros crecen de golpe, les cambia la voz o notan otros cambios. ¿Qué está pasando en su cuerpo?',
     objetivos: [
-      'Diferenciar las glándulas sexuales masculinas (testículos) y femeninas (ovarios) por su función',
-      'Explicar cómo las hormonas producen los cambios de la pubertad',
-      'Reconocer que cada cuerpo tiene su propio ritmo y merece respeto',
+      "Explicar los cambios de la pubertad a partir de las hormonas y la variación normal",
     ],
     resumen: [
-      'La pubertad es la etapa en que el cuerpo de niña o niño empieza a convertirse en el de una persona adulta. Suele empezar entre los 8 y los 14 años, y cada cuerpo tiene su ritmo.',
-      'La hipófisis envía hormonas que activan las glándulas sexuales: los testículos (masculinas) y los ovarios (femeninas).',
-      'Los testículos producen testosterona y espermatozoides. Los ovarios producen estrógenos y progesterona, y maduran los óvulos.',
-      'Cambios comunes: estirón, vello en axilas y pubis, más sudor y grasa en la piel. En los varones: voz más grave, vello en la cara, hombros más anchos. En las mujeres: desarrollo de las mamas, caderas más anchas y la primera menstruación.',
+      'La pubertad es una etapa natural de transición hacia el cuerpo adulto. Suele comenzar entre los 8 y los 14 años, aproximadamente, y cada cuerpo lleva su propio ritmo.',
+      'La hipófisis envía hormonas que activan las gónadas, como los testículos y los ovarios.',
+      'Los testículos producen principalmente testosterona y forman espermatozoides; los ovarios producen principalmente estrógenos y progesterona y hacen madurar óvulos.',
+      'El estirón, el vello, el sudor, la voz, las mamas y la menstruación siguen patrones generales, pero no aparecen a la misma edad ni con la misma intensidad. No determinan la personalidad ni las capacidades.',
     ],
     media: {
       id: 's04-cnt-1-cambios', kind: 'image', title: 'Todos crecemos a nuestro ritmo', aspect: '16:9',
@@ -31,14 +29,18 @@ export default [
       brief: 'Ilustración cálida de 6 estudiantes guatemaltecos (niñas y niños de distintos pueblos: maya con traje, garífuna, mestizo), todos de 11-12 años pero de estaturas y complexiones diferentes, conversando con respeto en el patio. Ropa escolar completa, nada de desnudez ni enfoque en el cuerpo. Rótulo: "Misma edad, distinto ritmo". Estilo de libro de texto amable.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.3.2'], title: 'Idea central', prompt: 'Estudia la pubertad con nombres científicos y recuerda que cada cuerpo cambia a su ritmo.' },
+        { icon: 'BookOpenCheck', body: "La pubertad es la etapa en que el cuerpo de niña o niño empieza a convertirse en el de una persona adulta. Suele empezar entre los 8 y los 14 años, y cada cuerpo tiene su ritmo." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
           prompt: 'Hoy hablarás del cuerpo con **nombres científicos** y con respeto. Para empezar: ¿qué crees que es la **pubertad**?',
-          explain: 'La pubertad es una **etapa natural** en la que el cuerpo empieza a convertirse en el de una persona adulta. Si algo te genera dudas, es normal: conversa con tu familia, tu docente o el personal de salud.' },
+          explain: 'La pubertad es una **etapa natural** en la que el cuerpo cambia a su propio ritmo. Para una duda de salud, una persona adulta de confianza o un profesional de salud es una **fuente confiable**; una publicación sin autor o evidencia no reemplaza su orientación.' },
         { options: [
           { id: 'a', text: 'Una enfermedad que da a los adolescentes', icon: 'Pill', feedback: 'No es una enfermedad: es una etapa natural del crecimiento.' },
           { id: 'b', text: 'La etapa en que el cuerpo empieza a cambiar de niño a adulto', icon: 'Sprout' },
-          { id: 'c', text: 'Algo que solo les pasa a las mujeres', icon: 'User', feedback: 'Les pasa a todas las personas, hombres y mujeres.' },
+          { id: 'c', text: 'Algo que solo les pasa a las mujeres', icon: 'User', feedback: 'La pubertad es una etapa humana. Los cambios concretos y su ritmo varían entre personas.' },
         ], correct: ['b'] },
       ),
       S.explain(
@@ -58,10 +60,10 @@ export default [
             alt: 'Diagrama en dos columnas: a la izquierda los testículos, con flechas hacia "testosterona" y "espermatozoides"; a la derecha los ovarios, con flechas hacia "estrógenos y progesterona" y "óvulos".',
             brief: 'Diagrama escolar esquemático en dos columnas, sin representar genitales externos: columna izquierda "Glándulas masculinas: testículos" (dos óvalos dentro de un contorno sencillo) con dos flechas: "hormona: testosterona" (gota morada hacia un vaso sanguíneo) y "células: espermatozoides". Columna derecha "Glándulas femeninas: ovarios" (dos óvalos junto a un útero esquemático) con dos flechas: "hormonas: estrógenos y progesterona" y "células: óvulos". Arriba, la hipófisis con flechas hacia ambas columnas. Colores planos, letra grande.' } },
         { icon: 'Copy', body: 'Las gónadas son glándulas de **secreción interna**: envían sus hormonas a la **sangre**, como aprendiste la semana pasada.', reveal: [
-          { icon: 'Circle', front: 'Testículos (masculinas)', back: 'Producen la hormona **testosterona** y, desde la pubertad, forman **espermatozoides**, las células reproductoras masculinas.' },
-          { icon: 'CircleDot', front: 'Ovarios (femeninas)', back: 'Producen las hormonas **estrógenos** y **progesterona** y hacen **madurar los óvulos**, las células reproductoras femeninas.' },
-          { icon: 'Droplet', front: 'Testosterona', back: 'Produce los cambios masculinos: voz más grave, vello en la cara, más músculo.' },
-          { icon: 'Droplets', front: 'Estrógenos y progesterona', back: 'Producen los cambios femeninos y regulan el **ciclo menstrual**.' },
+          { icon: 'Dna', front: 'Testículos', back: 'Producen principalmente **testosterona** y, desde la pubertad, forman **espermatozoides**.' },
+          { icon: 'Microscope', front: 'Ovarios', back: 'Producen principalmente **estrógenos** y **progesterona** y hacen **madurar óvulos**.' },
+          { icon: 'Droplet', front: 'Testosterona', back: 'Contribuye a cambios como una voz más grave, vello facial y aumento de masa muscular. La intensidad varía entre personas.' },
+          { icon: 'Droplets', front: 'Estrógenos y progesterona', back: 'Contribuyen al desarrollo de las mamas y regulan el **ciclo menstrual**. Cada cuerpo responde de manera distinta.' },
         ] },
       ),
       S.sort(
@@ -70,8 +72,8 @@ export default [
           hint: 'Testículos: testosterona y espermatozoides. Ovarios: estrógenos, progesterona y óvulos.',
           explain: 'Los dos son glándulas sexuales de secreción interna que producen hormonas y forman células reproductoras.' },
         { buckets: [
-          { id: 'tes', label: 'Testículos', icon: 'Circle', color: 'var(--area-l1)' },
-          { id: 'ova', label: 'Ovarios', icon: 'CircleDot', color: 'var(--area-mat)' },
+          { id: 'tes', label: 'Testículos', icon: 'Dna', color: 'var(--area-l1)' },
+          { id: 'ova', label: 'Ovarios', icon: 'Microscope', color: 'var(--area-mat)' },
           { id: 'amb', label: 'Ambos', icon: 'Copy', color: 'var(--area-cnt)' },
         ], items: [
           { id: 'f1', text: 'Producen testosterona', bucket: 'tes' },
@@ -84,22 +86,22 @@ export default [
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: 'Los cambios de la pubertad',
-          prompt: 'Las hormonas sexuales producen cambios. Algunos le pasan a todos; otros, sobre todo a varones o a mujeres. Toca las tarjetas.' },
-        { icon: 'Users', body: 'Todos estos cambios preparan el cuerpo para la **edad adulta**. Llegan poco a poco, durante varios años.', reveal: [
-          { icon: 'Users', front: 'En todas las personas', back: '**Estirón** (crecer rápido), **vello** en axilas y pubis, **más sudor** y **más grasa** en la piel (pueden salir granitos) y **emociones** más intensas.' },
-          { icon: 'Mic', front: 'Sobre todo en los varones', back: 'La **voz se vuelve más grave**, aparece **vello en la cara**, los **hombros se ensanchan** y los testículos empiezan a formar espermatozoides.' },
-          { icon: 'Flower', front: 'Sobre todo en las mujeres', back: 'Se **desarrollan las mamas**, las **caderas se ensanchan** y llega la **primera menstruación** (menarquia), señal de que los ovarios empezaron a madurar óvulos.' },
+          prompt: 'Las hormonas contribuyen a cambios que siguen patrones generales, pero cada persona los vive de forma distinta. Toca las tarjetas.' },
+        { icon: 'Users', body: 'Los cambios llegan poco a poco durante varios años. Ningún cambio corporal determina los gustos, capacidades o forma de ser de una persona.', reveal: [
+          { icon: 'Users', front: 'Cambios muy comunes', back: 'Muchas personas tienen **estirón**, vello en axilas y pubis, más sudor y grasa en la piel. No aparecen al mismo tiempo ni con la misma intensidad.' },
+          { icon: 'Mic', front: 'Más testosterona', back: 'Suelen aparecer una voz más grave, vello facial y mayor masa muscular; los testículos empiezan a formar espermatozoides.' },
+          { icon: 'Flower', front: 'Ciclo ovárico', back: 'Suelen desarrollarse las mamas y puede llegar la **primera menstruación** (menarquia). Su fecha varía y no define la madurez de una persona.' },
         ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
           prompt: 'Clasifica cada cambio de la pubertad.',
-          hint: 'Revisa las tarjetas: ¿qué cambios les pasan a todos?',
-          explain: 'El estirón, el vello en las axilas y el sudor les pasan a todos. La voz grave es propia de los varones; la menstruación, de las mujeres.' },
+          hint: 'Revisa las tarjetas: distingue cambios muy comunes de los relacionados con ciertos órganos y hormonas.',
+          explain: 'El estirón, el vello axilar y el sudor son muy comunes. Una voz más grave suele relacionarse con mayor testosterona; la menstruación ocurre en personas con útero y ovarios. Hay variación normal.' },
         { buckets: [
-          { id: 'var', label: 'Sobre todo en varones', icon: 'Mic', color: 'var(--area-l1)' },
-          { id: 'muj', label: 'Sobre todo en mujeres', icon: 'Flower', color: 'var(--area-mat)' },
-          { id: 'tod', label: 'En todas las personas', icon: 'Users', color: 'var(--area-cnt)' },
+          { id: 'var', label: 'Común con más testosterona', icon: 'Mic', color: 'var(--area-l1)' },
+          { id: 'muj', label: 'Común en el ciclo ovárico', icon: 'Flower', color: 'var(--area-mat)' },
+          { id: 'tod', label: 'Muy común en la pubertad', icon: 'Users', color: 'var(--area-cnt)' },
         ], items: [
           { id: 'c1', text: 'La voz se vuelve más grave', bucket: 'var' },
           { id: 'c2', text: 'Primera menstruación', bucket: 'muj' },
@@ -107,7 +109,7 @@ export default [
           { id: 'c4', text: 'Vello en las axilas', bucket: 'tod' },
           { id: 'c5', text: 'Desarrollo de las mamas', bucket: 'muj' },
           { id: 'c6', text: 'Vello en la cara', bucket: 'var' },
-          { id: 'c7', text: 'Más sudor y granitos en la piel', bucket: 'tod', feedback: 'Las glándulas sudoríparas y sebáceas trabajan más en todas las personas.' },
+          { id: 'c7', text: 'Más sudor y granitos en la piel', bucket: 'tod', feedback: 'Las glándulas sudoríparas y sebáceas trabajan más en muchas personas durante la pubertad.' },
         ] },
       ),
       S.ejemplo(
@@ -183,14 +185,13 @@ export default [
     minutes: 15,
     gancho: 'La planta de maíz tiene una espiga arriba que suelta polen y un jilote con "pelo de elote" que lo recibe. Los seres humanos también tienen órganos para formar nuevas vidas. ¿Cuáles son?',
     objetivos: [
-      'Describir las estructuras del aparato reproductor masculino y su función',
-      'Diferenciar la espermatogénesis de la ovogénesis',
+      "Relacionar las estructuras del aparato reproductor masculino con la formación y el recorrido de los espermatozoides",
     ],
     resumen: [
       'Aparato reproductor masculino: testículos (con túbulos seminíferos donde se forman los espermatozoides), escroto, conductos eferentes, epidídimo, conductos deferentes, vesículas seminales, próstata, uretra y pene, cuyo extremo se llama glande.',
       'Recorrido de los espermatozoides: túbulos seminíferos → conductos eferentes → epidídimo → conducto deferente → uretra.',
-      'La espermatogénesis forma espermatozoides en los testículos, de forma continua desde la pubertad: de cada célula inicial salen 4.',
-      'La ovogénesis forma óvulos en los ovarios: empieza antes de nacer y, desde la pubertad, por lo general madura un óvulo en cada ciclo menstrual; de cada célula inicial sale 1 óvulo. Ambas células tienen 23 cromosomas.',
+      'En el modelo escolar de la espermatogénesis, la meiosis de una célula inicial produce cuatro espermatozoides funcionales.',
+      'La ovogénesis empieza antes de nacer y, desde la pubertad, suele madurar una célula reproductora por ciclo; la meiosis produce un óvulo funcional y cuerpos polares. Los gametos humanos maduros tienen 23 cromosomas.',
     ],
     media: {
       id: 's04-cnt-2-aparato', kind: 'diagram', title: 'Aparato reproductor masculino (esquema)', aspect: '4:3',
@@ -198,8 +199,12 @@ export default [
       brief: 'Diagrama escolar esquemático (no realista, sin sombreado de piel), vista de corte lateral en colores planos: testículos y escroto (naranja), recuadro ampliado de un testículo con los túbulos seminíferos enrollados y los conductos eferentes que salen hacia el epidídimo (amarillo), conducto deferente (línea azul que sube y rodea la vejiga), vesícula seminal y próstata (verde), uretra (azul claro) y pene con el glande señalado. Vejiga en gris como referencia. Etiquetas con líneas guía, tipografía grande. Estilo idéntico al de libros de Ciencias Naturales de primaria.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:3.1.1'], title: 'Idea central', prompt: 'Conocer la anatomía con lenguaje preciso ayuda a resolver dudas sin rumores ni vergüenza.' },
+        { icon: 'BookOpenCheck', body: "Aparato reproductor masculino: testículos (con túbulos seminíferos donde se forman los espermatozoides), escroto, conductos eferentes, epidídimo, conductos deferentes, vesículas seminales, próstata, uretra y pene, cuyo extremo se llama glande." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer',
           prompt: 'Hoy usarás **nombres científicos**, correctos y respetuosos. En la milpa, la **espiga** del maíz suelta polen y el **jilote** lo recibe por sus "pelos de elote". En los seres humanos, ¿qué células se unen para formar una nueva vida?',
           explain: 'Se unen el **óvulo** (célula reproductora femenina, formada en los **ovarios**; grande y sin movimiento propio) y el **espermatozoide** (célula reproductora masculina, formada en los **testículos**; muy pequeña y con una **cola** o flagelo para moverse). Hoy verás dónde y cómo se forman. Si tienes dudas, conversa con tu familia, tu docente o el personal de salud.' },
         { options: [
@@ -211,7 +216,7 @@ export default [
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer', title: 'Donde se forman los espermatozoides',
           prompt: 'Observa el esquema de la lección, empezando por los testículos. Toca cada tarjeta.' },
-        { icon: 'Circle', body: 'Los **testículos** son dos glándulas en forma de óvalo. Por dentro tienen tubitos enrollados muy finos.', reveal: [
+        { icon: 'Dna', body: 'Los **testículos** son dos glándulas en forma de óvalo. Por dentro tienen tubitos enrollados muy finos.', reveal: [
           { icon: 'Route', front: 'Túbulos seminíferos', back: 'Tubitos enrollados **dentro de los testículos**. En sus paredes se **forman los espermatozoides**.' },
           { icon: 'Thermometer', front: 'Escroto', back: 'Bolsa de piel que **protege** a los testículos y los mantiene **fuera del abdomen**, un poco más frescos: los espermatozoides necesitan una temperatura algo menor que la del resto del cuerpo.' },
           { icon: 'Link', front: 'Conductos eferentes', back: 'Pequeños conductos que **llevan los espermatozoides** desde los túbulos seminíferos hasta el epidídimo.' },
@@ -262,7 +267,7 @@ export default [
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.2.1'], ambito: 'conocer', title: 'Espermatogénesis y ovogénesis',
           prompt: 'La formación de células reproductoras se llama **gametogénesis**. Hay dos tipos. Toca las tarjetas.' },
         { icon: 'Dna', body: 'Recuerda la semana 2: las células reproductoras llevan **23 cromosomas**, la mitad que las demás células. Al unirse un óvulo y un espermatozoide, la nueva célula tiene 46.', reveal: [
-          { icon: 'Circle', front: 'Espermatogénesis', back: 'Formación de **espermatozoides** en los **túbulos seminíferos** de los testículos. Empieza en la **pubertad** y continúa toda la vida: se forman **millones cada día**.' },
+          { icon: 'Dna', front: 'Espermatogénesis', back: 'Formación de **espermatozoides** en los **túbulos seminíferos** de los testículos. Empieza en la **pubertad** y puede continuar durante la vida adulta.' },
           { icon: 'CircleDot', front: 'Ovogénesis', back: 'Formación de **óvulos** en los **ovarios**. **Empieza antes de nacer** y se pausa; desde la pubertad, por lo general **madura un óvulo en cada ciclo menstrual** (más o menos cada mes).' },
           { icon: 'Hash', front: '¿Cuántas salen?', back: 'De cada célula inicial, la espermatogénesis forma **4 espermatozoides**; la ovogénesis forma **1 óvulo** (y otras células pequeñas que no se usan).' },
           { icon: 'Egg', front: '¿Por qué el óvulo es grande?', back: 'Guarda **nutrientes** para los primeros días de una posible nueva vida. El espermatozoide es pequeño y ligero para **moverse**.' },
@@ -274,7 +279,7 @@ export default [
           hint: 'Piensa en el lugar (testículos u ovarios), cuándo empieza y cuántas células forma.',
           explain: 'Ambos procesos forman células con 23 cromosomas, pero se diferencian en el lugar, el momento y la cantidad.' },
         { buckets: [
-          { id: 'esp', label: 'Espermatogénesis', icon: 'Circle', color: 'var(--area-l1)' },
+          { id: 'esp', label: 'Espermatogénesis', icon: 'Dna', color: 'var(--area-l1)' },
           { id: 'ovo', label: 'Ovogénesis', icon: 'CircleDot', color: 'var(--area-mat)' },
           { id: 'amb', label: 'Ambas', icon: 'Copy', color: 'var(--area-cnt)' },
         ], items: [
@@ -346,15 +351,13 @@ export default [
     minutes: 17,
     gancho: 'Conocer cómo funciona el cuerpo viene con una pregunta importante: ¿cómo debemos tratar nuestro cuerpo y el de los demás?',
     objetivos: [
-      'Explicar qué es el pudor y cómo se practica',
-      'Reconocer las partes privadas del cuerpo y a quién pedir ayuda',
-      'Describir qué significa la paternidad responsable y por qué es una decisión de la edad adulta',
+      "Aplicar cuidado ético a la intimidad, la búsqueda de ayuda y la crianza responsable",
     ],
     resumen: [
       'La ética en la sexualidad significa tratar el propio cuerpo y el de los demás con respeto, cuidado y responsabilidad.',
       'El pudor es respetar la intimidad propia y la de otras personas: cambiarse en privado, tocar antes de entrar, no mirar, tocar, fotografiar ni compartir imágenes del cuerpo de nadie.',
-      'Tu cuerpo es tuyo. Nadie puede tocar tus partes privadas ni pedirte que las muestres o guardes secretos sobre eso. Si pasa, cuéntalo a una persona adulta de confianza.',
-      'La paternidad responsable es cuidar, proteger, educar, dar afecto y sostener a los hijos, compartiendo las tareas con la madre. Requiere madurez: es una decisión para la edad adulta.',
+      'Tu cuerpo es tuyo. Nadie debe pedirte mostrar o tocar partes privadas ni guardar secretos sobre eso. El cuidado de salud o higiene debe explicarse, respetar tu dignidad y contar con apoyo adulto apropiado.',
+      'La crianza responsable implica cuidar, proteger, educar, dar afecto y sostener a hijas e hijos; las personas responsables comparten esas tareas. Requiere madurez y corresponde a la edad adulta.',
     ],
     media: {
       id: 's04-cnt-3-cuidar', kind: 'image', title: 'Un papá que cuida', aspect: '4:3',
@@ -362,8 +365,12 @@ export default [
       brief: 'Ilustración cálida en una cocina sencilla guatemalteca: un padre joven prepara huevos y frijoles mientras escucha con atención a su hija de 7 años; en una mesa, su hijo hace la tarea y el padre le señala el cuaderno. Una madre llega del trabajo y se saludan. Mensaje visual de corresponsabilidad y afecto. Rótulo opcional: "Cuidar también es cosa de papás". Sin marcas, estilo de libro de texto.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:3.3.1'], title: 'Idea central', prompt: 'El cuidado ético respeta la intimidad, busca apoyo y comparte las responsabilidades.' },
+        { icon: 'BookOpenCheck', body: "La ética en la sexualidad significa tratar el propio cuerpo y el de los demás con respeto, cuidado y responsabilidad." },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:3.3.1'], ambito: 'ser',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.3.1'], ambito: 'ser',
           prompt: 'Piensa en un buen papá o un buen cuidador. ¿Qué hace? Elige **todo** lo que creas correcto.',
           explain: 'Un padre responsable **cuida, educa, da afecto, comparte las tareas** y también aporta para el sostén del hogar. Dar dinero es importante, pero no es suficiente por sí solo.' },
         { multiple: true, layout: 'grid', options: [
