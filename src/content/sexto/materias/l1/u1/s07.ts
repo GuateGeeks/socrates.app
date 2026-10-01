@@ -468,17 +468,18 @@ export default [
           prompt: 'Lee el **paquete de fuentes suministrado** sobre la calidad del agua. Aplica las cinco preguntas y responde.',
           hint: 'Fíjate en quién escribió cada texto, para qué y si explica de dónde saca lo que dice.',
           explain: 'La fuente A identifica su origen y explica procesos; la B intenta vender con promesas sin autor, fecha ni evidencia.' },
-        { genre: 'Dos fuentes simuladas para comparar', heading: '¿La apariencia demuestra que el agua es potable?', passage:
-          'FUENTE A. Guía escolar de salud, Equipo editorial escolar (material didáctico simulado), 2025; propósito: informar; referencias didácticas a normas de calidad.\n\n' +
+        { genre: 'Tres tarjetas didácticas para comparar', heading: '¿La apariencia demuestra que el agua es potable?', passage:
+          'FUENTE A. Tarjeta didáctica preparada para esta lección, responsable: equipo curricular de la aplicación, 2026; propósito: practicar la evaluación de afirmaciones; no representa a una autoridad de salud.\n\n' +
           '"El agua transparente no es automáticamente potable. Para decidir si es apta para beber se necesitan controles adecuados y registros del tratamiento, porque algunos contaminantes no se observan a simple vista. El origen del agua, por sí solo, tampoco permite asegurar su calidad."\n\n' +
           'FUENTE B. Anuncio simulado del paquete, autor desconocido, sin fecha ni pruebas; propósito: vender.\n\n' +
-          '"¡FILTRO MÁGICO! Vuelve potable cualquier agua para siempre. No necesita mantenimiento ni pruebas. Miles lo recomiendan. Últimas unidades a Q99. ¡Compra ya!"',
+          '"¡FILTRO MÁGICO! Vuelve potable cualquier agua para siempre. No necesita mantenimiento ni pruebas. Miles lo recomiendan. Últimas unidades a Q99. ¡Compra ya!"\n\n' +
+          'FUENTE C. Ficha técnica del caso simulado, responsable: equipo curricular de la aplicación, 2026; propósito: describir el sistema ficticio N1–T1. Evidencia incluida en la ficha: el tanque T1 tiene un registro de tratamiento fechado; ese registro solo informa sobre la fecha anotada y no demuestra el estado actual ni hechos de una comunidad real.',
           questions: [
             { q: '¿Quién escribió la Fuente A?', options: [
-              { id: 'a', text: 'La institución responsable de una guía escolar de salud' },
+            { id: 'a', text: 'El equipo curricular de la aplicación' },
               { id: 'b', text: 'No se sabe' },
               { id: 'c', text: 'La persona anónima del anuncio' },
-            ], correct: 'a', why: 'La Fuente A identifica una institución responsable, fecha y referencias.' },
+            ], correct: 'a', why: 'La Fuente A identifica responsable, fecha, propósito y su carácter didáctico.' },
             { q: '¿Cuál es la intención principal de la Fuente B?', options: [
               { id: 'a', text: 'Vender un producto' },
               { id: 'b', text: 'Explicar cómo se comprueba la calidad del agua' },
@@ -488,7 +489,7 @@ export default [
               { id: 'a', text: 'No tiene autor ni fecha, promete algo exagerado y no explica de dónde saca lo que dice' },
               { id: 'b', text: 'Está escrita con palabras difíciles' },
               { id: 'c', text: 'Es demasiado larga' },
-            ], correct: 'a', why: 'Faltan autor y fecha, hay promesas exageradas ("gratis para siempre") y ninguna prueba.' },
+            ], correct: 'a', why: 'Faltan autor y fecha, promete volver potable cualquier agua para siempre y no presenta pruebas.' },
             { q: 'Mateo necesita explicar **cómo se juzga si el agua es apta para beber**. ¿Qué debe hacer?', options: [
               { id: 'a', text: 'Usar la Fuente A y compararla con otra fuente confiable' },
               { id: 'b', text: 'Usar la Fuente B porque "miles de personas ya lo usan"' },
@@ -499,15 +500,15 @@ export default [
       S.ejemplo(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer', title: 'Ejemplo resuelto: revisar la Fuente A',
           prompt: 'Mira cómo Sofía evalúa una tarjeta incluida en el paquete de la lección.' },
-        { icon: 'Monitor', problem: 'FUENTE A · Guía escolar de salud · institución responsable identificada · edición didáctica 2025 · propósito: informar.',
+        { icon: 'Monitor', problem: 'FUENTE A · tarjeta didáctica · equipo curricular de la aplicación · 2026 · propósito: practicar la evaluación de afirmaciones.',
           steps: [
-            { text: '**¿Quién?** Al final de la página dice que lo publica una institución pública de salud. ✔' },
-            { text: '**¿Cuándo?** Tiene fecha de este año. ✔', why: 'Para consejos de salud conviene información actual.' },
-            { text: '**¿Para qué?** Explica y da consejos; no vende nada. ✔' },
-            { text: '**¿Datos?** Menciona recomendaciones de salud y explica por qué hay que hervir o clorar el agua. ✔' },
-            { text: '**¿Coincide?** La compara con la Fuente C del mismo paquete, una ficha técnica identificada: ambas exigen comprobar tratamiento y controles. ✔' },
+            { text: '**¿Quién?** La tarjeta nombra al equipo curricular de la aplicación. ✔' },
+            { text: '**¿Cuándo?** Indica 2026. ✔' },
+            { text: '**¿Para qué?** Sirve para practicar cómo evaluar afirmaciones y aclara que no representa a una autoridad de salud. ✔' },
+            { text: '**¿Datos?** Explica que la apariencia y el origen no bastan; hacen falta controles y registros pertinentes. ✔' },
+            { text: '**¿Coincide?** La Fuente C también limita lo que puede concluirse de un registro: solo informa sobre la fecha anotada. ✔' },
           ],
-          answer: 'El artículo pasa las cinco preguntas: Sofía puede usarlo como fuente y anotar sus datos.',
+          answer: 'La tarjeta permite responder las cinco preguntas y usar sus criterios dentro de la lección; no debe presentarse como recomendación de una autoridad pública.',
           tip: 'Si una fuente falla en "¿quién?" y "¿para qué?", busca otra.' },
       ),
       S.sort(
@@ -537,9 +538,9 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer',
-          prompt: 'Usa la **Fuente C suministrada**: "Ficha técnica didáctica del sistema", institución responsable: Equipo editorial escolar, fecha: 2025, propósito: describir un sistema simulado, evidencia: plano y registro anexos. Respóndele las **cinco preguntas** y decide para qué sirve.' },
+          prompt: 'Usa la **Fuente C suministrada en el paquete**. Respóndele las **cinco preguntas** y decide para qué sirve.' },
         { minWords: 35, placeholder: 'Fuente: …\n¿Quién? …\n¿Cuándo? …\n¿Para qué? …\n¿Datos? …\n¿Coincide? …\nConclusión: …',
-          model: 'Fuente C del paquete.\n¿Quién? Equipo editorial escolar.\n¿Cuándo? 2025.\n¿Para qué? Describir el sistema simulado.\n¿Datos? Plano y registro anexos.\n¿Coincide? El recorrido coincide con el plano suministrado.\nConclusión: sirve para el escenario, no demuestra hechos de una comunidad real.',
+          model: 'Fuente C del paquete.\n¿Quién? Equipo curricular de la aplicación.\n¿Cuándo? 2026.\n¿Para qué? Describir el sistema ficticio N1–T1.\n¿Datos? Un registro de tratamiento fechado.\n¿Coincide? Como la Fuente A, limita lo que puede concluirse de un registro.\nConclusión: sirve para analizar el caso simulado, no para afirmar el estado actual ni hechos de una comunidad real.',
           rubric: [
             'Nombré la fuente',
             'Respondí las cinco preguntas',

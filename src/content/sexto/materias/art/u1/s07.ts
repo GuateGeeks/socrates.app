@@ -1,10 +1,9 @@
 /**
- * Expresión Artística · Unidad 1 · Semana 7 — Volumen y movimiento en murales escolares multiculturales.
- * Progresión: luz, sombra, degradado y espacio (tamaño, superposición) para dar volumen y profundidad
- * → trazos (diagonales, curvas), repetición y composición para dar movimiento, y planificación
- * colectiva de un mural multicultural (boceto, cuadrícula, texturas de las semanas 5-6).
+ * Expresión Artística · Unidad 1 · Semana 7 — Volumen y movimiento del agua.
+ * Progresión: luz, sombra, degradado y espacio para dar volumen y profundidad
+ * → trazos, repetición y dirección visual para crear un boceto breve del agua.
  */
-import { lesson, S, cierre } from '../../../../dsl';
+import { lesson, S } from '../../../../dsl';
 
 export default [
   /* ───────────────────────── 1. Volumen y espacio ───────────────────────── */
@@ -136,136 +135,95 @@ export default [
     ],
   }),
 
-  /* ───────────────────────── 2. Movimiento y mural multicultural ───────────────────────── */
+  /* ───────────────────────── 2. Movimiento del agua ───────────────────────── */
   lesson({
     id: 's07-art-2',
-    title: 'Movimiento en el mural: trazos, repetición y composición',
+    title: 'Movimiento del agua con líneas y repetición',
     icon: 'Brush',
-    minutes: 15,
-    gancho: 'En un mural nada se mueve de verdad. Sin embargo, algunos parecen tener viento, danza y música. ¿Qué hicieron sus artistas?',
-    objetivos: [
-      'Diseñar una composición mural dinámica y respetuosa sobre el cuidado del agua',
-    ],
+    minutes: 13,
+    gancho: '¿Cómo puede un dibujo quieto hacer que el agua parezca correr?',
+    objetivos: ['Crear un boceto breve del agua que comunique movimiento mediante líneas y repetición'],
     resumen: [
-      'Las líneas transmiten sensaciones: horizontales = calma; verticales = firmeza; diagonales = acción; curvas y ondas = fluidez, danza, agua o viento.',
-      'La repetición de formas (notas, hojas, pájaros) crea un ritmo visual que guía la mirada. Las líneas de movimiento detrás de una forma sugieren que se desplaza.',
-      'Un mural se planifica en equipo: tema, boceto pequeño, cuadrícula para ampliarlo a la pared, reparto de secciones, paleta de colores común y dirección de la luz común.',
-      'Un mural multicultural representa a los pueblos maya, garífuna, xinka y ladino/mestizo con respeto: sin burlas ni estereotipos, investigando y preguntando a la comunidad.',
+      'Las curvas sugieren fluidez; las diagonales, rapidez o caída; las horizontales, calma.',
+      'Repetir ondas o gotas en una dirección crea ritmo visual y guía la mirada.',
     ],
     media: {
-      id: 's07-art-2-movimiento', kind: 'diagram', title: 'Trucos de movimiento', aspect: '16:9',
-      alt: 'Cuatro ejemplos de antes y después: una línea recta junto a una curva; un barrilete quieto junto a otro con la cola ondulada y líneas de viento; una fila de pájaros iguales junto a pájaros repetidos en diagonal; una bailarina rígida junto a otra con la falda en curvas.',
-      brief: 'Lámina didáctica horizontal 1600×900 en 4 recuadros "antes → después", estilo mural escolar con colores planos y contorno negro: línea horizontal a diagonal; barrilete con líneas de viento; pájaros repetidos en diagonal; figura con listones ondulados. Rótulos grandes: "diagonal", "curva", "repetición", "líneas de movimiento". Fondo claro, contraste alto y lectura de izquierda a derecha. Vestimenta genérica y respetuosa, sin atribuirla a una comunidad concreta.',
+      id: 's07-art-2-movimiento', kind: 'diagram', title: 'Líneas que mueven el agua', aspect: '16:9',
+      alt: 'Tres bocetos de agua muestran un estanque con horizontales, un arroyo con curvas repetidas y lluvia con diagonales.',
+      brief: 'Lámina didáctica horizontal 1600×900 en tres recuadros: ESTANQUE con líneas horizontales, ARROYO con curvas repetidas que guían la mirada y LLUVIA con diagonales. Usar trazos negros gruesos sobre fondo claro, agua azul y una flecha de dirección con patrón. Rótulos grandes, contraste alto, lectura de izquierda a derecha y sin respuestas de evaluación marcadas.',
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.7'], title: 'Movimiento con intención',
-          prompt: 'Líneas curvas y diagonales, repetición y dirección visual pueden guiar la mirada por una historia del agua.' },
-        { icon: 'Paintbrush', body: 'El boceto colectivo necesita tema, recorrido visual y representaciones culturales verificadas, sin estereotipos.' },
-      ),
-      S.choice(
-        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'conocer',
-          prompt: 'Observa la lámina. ¿Qué barrilete parece estar **volando con el viento**?',
-          explain: 'El que tiene la **cola ondulada** y **líneas de viento repetidas**. Las curvas y la repetición le dicen a nuestro ojo que algo se mueve.' },
-        { options: [
-          { id: 'a', text: 'El que tiene la cola recta y nada alrededor', feedback: 'Se ve quieto, como pegado al cielo.' },
-          { id: 'b', text: 'El que tiene la cola ondulada y líneas de viento', icon: 'Wind' },
-        ], correct: ['b'] },
+        { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.7'], title: 'Una línea puede sugerir movimiento',
+          prompt: 'Observa cómo cambia la sensación del agua según la dirección del trazo.' },
+        { icon: 'Waves', body: 'Una horizontal se siente estable; una curva conduce la mirada; una diagonal sugiere caída o rapidez.' },
       ),
       S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'conocer', title: 'Las líneas también hablan',
-          prompt: 'Los **trazos** que usas transmiten sensaciones de quietud o de movimiento. Toca cada tarjeta.' },
-        { icon: 'PenTool', body: 'Elige las líneas según lo que quieres que sienta quien mira tu mural.', reveal: [
-          { icon: 'Minus', front: 'Horizontales', back: '**Calma y descanso**: un lago en paz, el horizonte, una persona acostada.' },
-          { icon: 'AlignCenter', front: 'Verticales', back: '**Firmeza y fuerza**: árboles, columnas, una persona de pie.' },
-          { icon: 'TrendingUp', front: 'Diagonales', back: '**Acción y energía**: alguien que corre, una lluvia con viento, un salto.' },
-          { icon: 'Waves', front: 'Curvas y ondas', back: '**Fluidez**: agua, viento, humo, danza, música, el vuelo de un ave.' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'conocer', title: 'Repetición y líneas de movimiento',
-          prompt: 'Dos recursos más para "mover" un mural. Toca cada tarjeta.' },
-        { icon: 'Repeat', body: 'Así como en la música el **ritmo** es repetición organizada, en la pintura también hay **ritmo visual**.', reveal: [
-          { icon: 'Repeat', front: 'Repetición', back: 'Repite una forma (pájaros, hojas, notas musicales) en fila curva o diagonal, cambiando un poco el tamaño: la mirada la recorre como si avanzara.' },
-          { icon: 'Wind', front: 'Líneas de movimiento', back: 'Rayitas o curvas **detrás** de una forma sugieren que se desplaza o gira, como en las historietas.' },
-          { icon: 'Layers', front: 'Texturas', back: 'Arena, tela o papel arrugado pegados (como en la semana pasada) hacen que ciertas zonas "vibren" y llamen la atención.' },
+        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.7'], title: 'Trazo más ritmo visual',
+          prompt: 'Elige una línea por la sensación que necesitas y repite una forma para marcar el recorrido.' },
+        { icon: 'Repeat', body: 'La repetición no llena todo el dibujo: ordena tres o cuatro ondas o gotas para que el ojo siga una dirección.', reveal: [
+          { icon: 'Minus', front: 'Horizontal', back: 'Agua en calma.' },
+          { icon: 'Waves', front: 'Curva', back: 'Corriente que cambia de dirección.' },
+          { icon: 'TrendingDown', front: 'Diagonal', back: 'Lluvia o caída rápida.' },
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['art', 'mat'], cnb: ['art:3.2.7'], ambito: 'hacer', title: 'Ejemplo resuelto: del boceto a la pared con cuadrícula',
-          prompt: 'Para pasar un dibujo pequeño a una pared grande sin deformarlo, los muralistas usan una **cuadrícula**. Mira cómo lo hace el grado de Lucía.' },
-        { icon: 'Ruler', problem: 'El boceto del mural mide **30 cm de ancho y 15 cm de alto**. La pared disponible mide **3 m de ancho y 1.5 m de alto**. ¿Cómo lo amplían?',
+        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.7'], title: 'Modelo breve: un arroyo que avanza',
+          prompt: 'Mira cómo dos recursos bastan para comunicar movimiento.' },
+        { icon: 'Waves', problem: 'Representar un arroyo que baja entre dos piedras.',
           steps: [
-            { text: 'Dividen el boceto en cuadros de **5 cm**: quedan 30 ÷ 5 = **6 columnas** y 15 ÷ 5 = **3 filas** (18 cuadros).' },
-            { text: 'Dividen la pared en el **mismo número** de cuadros: 6 columnas y 3 filas. Cada cuadro mide 300 cm ÷ 6 = **50 cm**.', why: 'La pared es 10 veces más grande que el boceto (3 m = 300 cm = 10 × 30 cm).' },
-            { text: 'Marcan la cuadrícula en la pared con tiza o lápiz suave y numeran los cuadros igual que en el boceto.' },
-            { text: 'Cada estudiante copia **su cuadro** del boceto en el cuadro de la pared, fijándose dónde entra y sale cada línea.' },
+            { text: 'Trazo dos curvas largas desde la parte alta hasta la parte baja.' },
+            { text: 'Repito tres ondas pequeñas dentro del cauce, orientadas hacia abajo.' },
           ],
-          answer: 'Con una cuadrícula de **6 × 3** cuadros (5 cm en el boceto y 50 cm en la pared), el dibujo se amplía sin deformarse.',
-          tip: 'Antes de pintar, acuerden la paleta de colores y la dirección de la luz para que el mural se vea como una sola obra.' },
+          answer: 'Las curvas muestran el recorrido y las ondas repetidas crean ritmo visual.',
+          tip: 'Pocos trazos claros comunican mejor que muchos detalles sin dirección.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.7'], prompt: 'Quieres que la lluvia parezca caer con fuerza. ¿Qué trazo eliges?',
+          hint: 'Busca el trazo que sugiere caída rápida.', explain: 'Las diagonales orientadas hacia abajo comunican dirección y energía.' },
+        { options: [
+          { id: 'a', text: 'Horizontales separadas' },
+          { id: 'b', text: 'Diagonales repetidas hacia abajo' },
+          { id: 'c', text: 'Un punto inmóvil' },
+        ], correct: ['b'] },
       ),
       S.match(
-        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'hacer',
-          prompt: 'Une lo que quieres expresar con el trazo o recurso que conviene.',
-          hint: 'Repasa las tarjetas de las líneas y de la repetición.',
-          explain: 'Cada tipo de línea transmite una sensación distinta; la repetición crea ritmo visual.' },
-        { leftTitle: 'Quiero expresar…', rightTitle: 'Uso…', pairs: [
-          { id: 'c', left: 'Un lago en calma', right: 'Líneas horizontales' },
-          { id: 'd', left: 'Una niña corriendo', right: 'Líneas diagonales' },
-          { id: 'm', left: 'Música que sale de una marimba', right: 'Notas repetidas en curva' },
-          { id: 'f', left: 'Una ceiba firme y fuerte', right: 'Líneas verticales' },
-        ] },
-      ),
-      S.number(
-        { fase: 'aplicar', areas: ['art', 'mat'], cnb: ['art:3.2.7'], ambito: 'hacer',
-          prompt: 'Otro boceto mide **40 cm** de ancho y se dividió en **8 columnas** de 5 cm. La pared mide **4 m** (400 cm) de ancho. ¿Cuántos **centímetros** debe medir de ancho cada columna en la pared?',
-          explain: 'La pared también se divide en 8 columnas: 400 ÷ 8 = **50 cm**.' },
-        { answer: 50, unit: 'cm', misconceptions: [
-          { value: 5, msg: 'Esa es la medida en el boceto. En la pared los cuadros son más grandes.' },
-          { value: 10, msg: 'Revisa: divide el ancho de la pared (400 cm) entre las 8 columnas.' },
+        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.7'], prompt: 'Relaciona cada escena de agua con el recurso visual.',
+          hint: 'Piensa en calma, recorrido y caída.', explain: 'El tipo de línea responde a la sensación que se quiere comunicar.' },
+        { leftTitle: 'Escena', rightTitle: 'Recurso', pairs: [
+          { id: 'a', left: 'Estanque quieto', right: 'Horizontales' },
+          { id: 'b', left: 'Arroyo que gira', right: 'Curvas repetidas' },
+          { id: 'c', left: 'Lluvia intensa', right: 'Diagonales' },
         ] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['art', 'fc'], cnb: ['art:3.2.7'], ambito: 'convivir',
-          prompt: 'El mural se llama **"Somos muchos pueblos"**. ¿Qué propuesta muestra **respeto** por las culturas que representa?',
-          explain: 'Un mural multicultural se basa en investigar, preguntar y mostrar a cada pueblo con dignidad, en actividades reales y valiosas, sin caricaturas.' },
+        { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.7'], prompt: 'Para un boceto nuevo de una corriente que gira, ¿qué plan usa línea y repetición con intención?' },
         { options: [
-          { id: 'a', text: 'Preguntar a personas de la comunidad qué elementos (música, tejidos, cultivos, idiomas) quieren que se muestren y cómo' },
-          { id: 'b', text: 'Dibujar a las personas de un pueblo como caricaturas graciosas', feedback: 'Las caricaturas de un pueblo refuerzan estereotipos y ofenden.' },
-          { id: 'c', text: 'Mostrar solo a un pueblo porque es "más bonito"', feedback: 'Un mural multicultural valora a todos los pueblos por igual.' },
+          { id: 'a', text: 'Trazar curvas en la dirección del agua y repetir tres ondas a lo largo del recorrido' },
+          { id: 'b', text: 'Llenar el fondo con puntos sin dirección' },
+          { id: 'c', text: 'Dibujar un marco recto y omitir el agua' },
         ], correct: ['a'] },
-      ),
-      S.write(
-        { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'hacer',
-          prompt: 'Describe un boceto pequeño sobre el cuidado del agua: elemento central y un recurso de movimiento (línea, diagonal o repetición).' },
-        { minWords: 20, placeholder: 'Mi elemento central será… Mostraré movimiento con…',
-          model: 'En mi sección pintaré un tambor garífuna y una marimba tocando juntos en la playa. Para el volumen, la luz vendrá de la izquierda y sombrearé el lado derecho del tambor con un café más oscuro, con degradado en las teclas de la marimba. Para la profundidad, pondré el mar pequeño y azul pálido al fondo, y el tambor tapando parte de la marimba. Para el movimiento, dibujaré notas musicales repetidas en una curva que sube hacia unas aves. Pegaré arena en la base para la textura de la playa.',
-          rubric: ['Nombra un elemento relacionado con el agua', 'Explica un recurso de movimiento', 'La propuesta cabe en un boceto pequeño'] },
       ),
       S.project(
         { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'hacer',
-          prompt: 'Haz el boceto en el lienzo. Usa diagonales, curvas o repetición para dirigir la mirada hacia el agua.' },
-        { goal: 'Crear un boceto pequeño en la plantilla de la actividad.', steps: [{ title: 'Elemento', detail: 'Traza un elemento de agua reconocible.' }, { title: 'Movimiento', detail: 'Añade curvas, diagonales o repetición.' }], evidence: 'Un boceto breve con dirección visual.', rubric: ['Elemento de agua reconocible', 'Dirección visual clara', 'Repetición o línea de movimiento'] },
+          prompt: 'Haz un boceto pequeño de agua. Usa curvas o diagonales y repite tres formas para dirigir la mirada.' },
+        { goal: 'Crear un boceto pequeño en el lienzo de la actividad.', steps: [{ title: 'Recorrido', detail: 'Traza la dirección principal del agua.' }, { title: 'Ritmo', detail: 'Repite tres ondas o gotas.' }], evidence: 'Un boceto breve con agua y movimiento visibles.', rubric: ['Escena de agua reconocible', 'Dirección visual clara', 'Tres formas repetidas'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.7'], prompt: '¿Qué tipo de línea da sensación de **acción y energía**?' },
+        { fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.7'], prompt: '¿Qué recurso hace que la mirada recorra un arroyo dibujado?' },
         { options: [
-          { id: 'a', text: 'Horizontal' },
-          { id: 'b', text: 'Vertical' },
-          { id: 'c', text: 'Diagonal' },
-        ], correct: ['c'] },
+          { id: 'a', text: 'Curvas repetidas en la dirección del cauce' },
+          { id: 'b', text: 'Un marco sin relación con el agua' },
+          { id: 'c', text: 'Una sola forma sin dirección' },
+        ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.7'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.7'], prompt: 'Evalúa estas decisiones para un boceto nuevo.' },
         { statements: [
-          { text: 'Repetir una forma en una curva crea ritmo visual y sensación de movimiento.', answer: true },
-          { text: 'La cuadrícula sirve para ampliar un boceto a la pared sin deformarlo.', answer: true },
-          { text: 'En un mural colectivo cada quien debe usar una dirección de luz diferente.', answer: false, why: 'Todos deben usar la misma dirección de luz para que parezca una sola obra.' },
+          { text: 'Varias diagonales hacia abajo pueden sugerir lluvia rápida.', answer: true },
+          { text: 'Repetir gotas sin ninguna dirección siempre comunica un recorrido claro.', answer: false, why: 'La repetición necesita una dirección visible para guiar la mirada.' },
         ] },
       ),
-      cierre({ areas: ['art'], cnb: ['art:3.2.7'] },
-        ['Doy volumen con brillo, degradado y sombras', 'Creo profundidad con tamaño, superposición, posición y color', 'Doy movimiento con líneas y repetición, y planifico un mural con respeto'],
-        ['Usaré luz y sombra en un boceto breve', 'Probaré una línea de movimiento', 'Representaré el agua con respeto']),
     ],
   }),
 ];

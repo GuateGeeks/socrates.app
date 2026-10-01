@@ -1213,6 +1213,43 @@ function unsupportedCausality(value: unknown): boolean {
     || /sin (?:bosque|arboles?|raices).{0,80}(?:no se infiltra|el nacimiento se seca|se seca el nacimiento)/.test(text)
     || /(?:humo|exposicion al humo).{0,80}(?:causa|provoca).{0,40}(?:gripe|influenza)/.test(text);
 }
+
+function sourceSupportFailures(packet: unknown, model: unknown): string[] {
+  const serialize = (value: unknown) => normalizeFactText(typeof value === 'object' ? JSON.stringify(value) : value);
+  const packetText = serialize(packet);
+  const modelText = serialize(model);
+  const labels = (text: string) => new Set([...text.matchAll(/fuente\s+([a-c0-9])\b/g)].map((match) => match[1]));
+  const visibleLabels = labels(packetText);
+  const failures = [...labels(modelText)]
+    .filter((label) => !visibleLabels.has(label))
+    .map((label) => `fuente ${label} no suministrada`);
+  for (const claim of [
+    /institucion publica de salud/,
+    /(?:hervir|hervido)/,
+    /(?:clorar|cloracion|clorada)/,
+  ]) {
+    if (claim.test(modelText) && !claim.test(packetText)) failures.push(`afirmacion no sustentada: ${claim.source}`);
+  }
+  return failures;
+}
+
+function sharesConceptGroups(left: unknown, right: unknown, groups: RegExp[]): boolean {
+  const serialize = (value: unknown) => normalizeFactText(typeof value === 'object' ? JSON.stringify(value) : value);
+  const leftText = serialize(left);
+  const rightText = serialize(right);
+  return groups.every((group) => group.test(leftText) && group.test(rightText));
+}
+
+function semanticCnbFailures(step: Pick<StepBase, 'cnb' | 'prompt' | 'props'>): string[] {
+  const text = normalizeFactText(JSON.stringify({ prompt: step.prompt, props: step.props }));
+  const failures: string[] = [];
+  if (/(?:bosque|cobertura vegetal|erosion|infiltracion|caudal)/.test(text)
+    && step.cnb.some((ref) => ref.startsWith('cnt:'))
+    && !step.cnb.includes('cnt:6.3.1')) failures.push('relacion bosque-agua sin cnt:6.3.1');
+  if (/\b(?:xlix|numero romano)\b/.test(text) && !step.cnb.includes('mat:4.1.2')) failures.push('numeracion romana sin mat:4.1.2');
+  return failures;
+}
+
 function nestedGradedAssessments(values: unknown[]): Array<{ type: string; prompt?: string; areas: string[] }> {
   const found: Array<{ type: string; prompt?: string; areas: string[] }> = [];
   const visit = (value: unknown): void => {
@@ -3860,9 +3897,9 @@ test('Semana 7 preserva 27 lecciones, cobertura CNB y un resultado central por l
     ['cnt:6.1.1', { fromWeek: 6, reason: 'La morbilidad se interpreta junto con condiciones ambientales sin atribuir causalidad automática.' }],
     ['cnt:6.2.1', { fromWeek: 6, reason: 'El crecimiento poblacional se estudia en la lección de expansión urbana y áreas verdes.' }],
     ['cnt:6.3.1', { fromWeek: 6, reason: 'La relación bosque-agua se enseña con condiciones y límites de inferencia.' }],
-    ['ccss:6.6.6', { fromWeek: 6, reason: 'La cooperación regional se conecta con los procesos de paz americanos.' }],
-    ['ccss:6.7.1', { fromWeek: 6, reason: 'Los procesos de paz se relacionan con condiciones sociales y económicas.' }],
-    ['ccss:6.7.4', { fromWeek: 6, reason: 'La comparación de paz incluye avances y desafíos de apertura democrática.' }],
+    ['ccss:6.6.6', { fromWeek: 6, reason: 'La organización comunitaria se compara con redes de cooperación regional según su escala y participantes.' }],
+    ['ccss:6.7.1', { fromWeek: 6, reason: 'La mediación juvenil analiza condiciones sociales que influyen en el acceso y la convivencia.' }],
+    ['ccss:6.7.4', { fromWeek: 6, reason: 'La participación juvenil se estudia como práctica de apertura democrática con avances y desafíos.' }],
   ] as const);
   const unitPlan = plan.unidades.find((unit) => unit.unidad === 1);
   assert.ok(unitPlan);
@@ -3968,6 +4005,48 @@ test('L1-4 y L1-5 resuelven la investigacion con paquetes atribuidos y autosufic
   }
 });
 
+test('Los modelos de fuentes solo usan tarjetas y afirmaciones visibles en el paquete', () => {
+  assert.deepEqual(
+    sourceSupportFailures('FUENTE A. Equipo escolar, 2025.', 'FUENTE C. Institucion publica de salud: hervir o clorar.'),
+    [
+      'fuente c no suministrada',
+      'afirmacion no sustentada: institucion publica de salud',
+      'afirmacion no sustentada: (?:hervir|hervido)',
+      'afirmacion no sustentada: (?:clorar|cloracion|clorada)',
+    ],
+  );
+  const lesson = weekSeven.lessons.find((item) => item.id === 's07-l1-4');
+  assert.ok(lesson, 'Falta s07-l1-4');
+  const packet = lesson.steps.find((step) => step.type === 'reading'
+    && /tarjetas didacticas/.test(normalizeFactText((step.props as { genre?: string }).genre)))?.props;
+  const models = lesson.steps
+    .filter((step) => step.type === 'worked-example' || typeof (step.props as { model?: unknown }).model === 'string')
+    .map((step) => step.props);
+  assert.ok(packet && models.length >= 2, 'L1-4 necesita paquete y modelos resueltos');
+  assert.deepEqual(models.flatMap((model) => sourceSupportFailures(packet, model)), []);
+});
+
+test('Arte 2 alinea el modelo y el boceto breve con agua y movimiento', () => {
+  assert.equal(sharesConceptGroups(
+    'Dibuja agua con curvas repetidas.',
+    'Pintare tambores en la playa con arena.',
+    [/(?:agua|rio|arroyo|gota|corriente)/, /(?:curva|diagonal|repet|movimiento)/],
+  ), false);
+  const lesson = weekSeven.lessons.find((item) => item.id === 's07-art-2');
+  assert.ok(lesson, 'Falta s07-art-2');
+  const application = lesson.steps.filter((step) => step.fase === 'aplicar');
+  const drawing = application.find((step) => step.type === 'project');
+  const model = lesson.steps.find((step) => step.type === 'worked-example');
+  assert.ok(drawing && model, 'Arte 2 necesita un modelo breve y un boceto aplicable');
+  assert.equal(sharesConceptGroups(
+    drawing.prompt,
+    model.props,
+    [/(?:agua|rio|arroyo|gota|corriente)/, /(?:curva|diagonal|repet|movimiento)/],
+  ), true, 'El modelo no responde al boceto de agua y movimiento');
+  assert.ok(application.length <= 2, `Arte 2 acumula ${application.length} actividades de aplicacion`);
+  assert.doesNotMatch(normalizeFactText(JSON.stringify(lesson)), /cuadricula|pared grande|mural multicultural|preguntar a personas de la comunidad/);
+});
+
 test('PyD y CCSS1 alinean objetivo, aplicacion y salidas con evidencia semantica', () => {
   const pyd = weekSeven.lessons.find((item) => item.id === 's07-pyd-1');
   const ccss = weekSeven.lessons.find((item) => item.id === 's07-ccss-1');
@@ -3988,6 +4067,17 @@ test('PyD y CCSS1 alinean objetivo, aplicacion y salidas con evidencia semantica
     assert.match(ccssApplication, field, `CCSS1 aplicacion no compara ${field}`);
     assert.match(ccssExits, field, `CCSS1 salidas no comparan ${field}`);
   }
+});
+
+test('CCSS distribuye las transferencias sin cargar resultados ajenos en la comparacion de paz', () => {
+  const lessons = ['s07-ccss-1', 's07-ccss-2', 's07-ccss-3'].map((id) => weekSeven.lessons.find((item) => item.id === id));
+  assert.ok(lessons.every(Boolean), 'Faltan lecciones de CCSS');
+  const refs = lessons.map((lesson) => new Set(lesson!.steps.flatMap((step) => step.cnb)));
+  assert.deepEqual(refs[0], new Set(['ccss:7.2.1']), 'CCSS1 debe evaluar solo la comparacion de procesos de paz');
+  assert.deepEqual(refs[1], new Set(['ccss:7.1.2', 'ccss:7.2.5', 'ccss:6.7.1', 'ccss:6.7.4']));
+  assert.deepEqual(refs[2], new Set(['ccss:7.1.3', 'ccss:6.6.6']));
+  const firstText = normalizeFactText(JSON.stringify(lessons[0]));
+  assert.doesNotMatch(firstText, /\bsica\b|\boea\b|condiciones socioeconomicas|apertura democratica/);
 });
 
 test('Los mocks de Semana 7 tienen especificacion de formato, produccion y accesibilidad', () => {
@@ -4032,6 +4122,22 @@ test('Semana 7 construye un informe viable con preguntas, fuentes, hallazgos y a
   assert.match(text, /evidencia.{0,100}(?:no basta|limite|inferencia)|(?:no basta|limite).{0,100}evidencia/);
   assert.doesNotMatch(text, /investiga en tu comunidad|entrevista a|consulta (?:a|con)|mide (?:el|la)|visita (?:el|la)/);
   assert.equal(workshop.steps.at(-1)?.type, 'reflection');
+});
+
+test('Semana 7 asigna referencias CNB que corresponden a la evidencia evaluada', () => {
+  assert.deepEqual(
+    semanticCnbFailures({ cnb: ['cnt:6.4.1'], prompt: 'Compara cobertura vegetal, erosion e infiltracion.', props: {} }),
+    ['relacion bosque-agua sin cnt:6.3.1'],
+  );
+  assert.deepEqual(
+    semanticCnbFailures({ cnb: ['mat:4.1.3'], prompt: 'Que numero representa XLIX?', props: {} }),
+    ['numeracion romana sin mat:4.1.2'],
+  );
+  const workshop = weekSeven.lessons.find((lesson) => lesson.kind === 'taller');
+  assert.ok(workshop);
+  const failures = [...workshop.steps, ...weekSevenBank]
+    .flatMap((step) => semanticCnbFailures(step).map((failure) => `${step.prompt}: ${failure}`));
+  assert.deepEqual(failures, []);
 });
 
 test('Semana 7 evalua diez areas con contenido ensenado y payloads frescos', () => {

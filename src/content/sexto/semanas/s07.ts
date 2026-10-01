@@ -42,12 +42,12 @@ export default semana({
       },
       steps: [
         S.explain(
-          { fase: 'explorar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.2', 'cnt:6.4.1'], title: '1 min · Encargo y límites',
+          { fase: 'explorar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.2', 'cnt:6.3.1'], title: '1 min · Encargo y límites',
             prompt: 'Trabajarás con el **caso hipotético Las Flores** y datos de ejemplo. No son mediciones ni testimonios de una comunidad real.' },
           { icon: 'FileWarning', body: 'El informe dirá qué se sabe, qué se infiere y qué falta comprobar.' },
         ),
         S.reading(
-          { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:8.2.3', 'cnt:6.4.1'], title: '2 min · Lee el dossier',
+          { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:8.2.3', 'cnt:6.3.1'], title: '2 min · Lee el dossier',
             prompt: 'Lee las tres piezas del caso simulado y responde sin agregar hechos.',
             hint: 'Separa quién publica, qué fecha tiene y qué dato aporta cada pieza.',
             explain: 'La ficha y la tabla permiten rastrear datos; el mensaje anónimo necesita evidencia.' },
@@ -71,7 +71,7 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.sort(
-          { fase: 'construir', areas: ['cnt', 'l1'], cnb: ['cnt:6.4.1', 'l1:8.2.3'], title: '2 min · Evidencia o inferencia',
+          { fase: 'construir', areas: ['cnt', 'l1'], cnb: ['cnt:6.3.1', 'l1:8.2.3'], title: '2 min · Evidencia o inferencia',
             prompt: 'Clasifica cada enunciado.', hint: 'Observación: se registró. Inferencia: explica. Dato pendiente: hace falta.',
             explain: 'Atribuir el cambio solo al bosque sería una inferencia sin lluvia, extracción y geología.' },
           { buckets: [
@@ -111,7 +111,7 @@ export default semana({
           { minWords: 20, placeholder: 'Fuente A: es útil porque... Su límite es... Fuente B:...', model: 'La Fuente A identifica responsable y fecha, pero su control no prueba el estado posterior. La Fuente B no tiene autor, fecha ni evidencia verificable.', rubric: ['Usa criterios visibles', 'No decide por gusto', 'Declara un límite'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:6.4.1', 'l1:8.2.3'], title: '2 min · Dos hallazgos',
+          { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:6.3.1', 'l1:8.2.3'], title: '2 min · Dos hallazgos',
             prompt: 'Redacta un hallazgo observado y una inferencia calificada.' },
           { goal: 'Comunicar evidencia sin exagerarla.', steps: [
             { title: 'Hallazgo 1', detail: 'Describe un dato exacto del dossier.' },
@@ -133,7 +133,7 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.tf(
-          { fase: 'comprobar', areas: ['cnt', 'pyd'], cnb: ['cnt:6.4.1', 'pyd:5.3.2'], title: '1 min · Salida de evidencia',
+          { fase: 'comprobar', areas: ['cnt', 'pyd'], cnb: ['cnt:6.3.1', 'pyd:5.3.2'], title: '1 min · Salida de evidencia',
             prompt: 'Evalúa los límites del informe.' },
           { statements: [
             { text: 'La evidencia no basta para afirmar que el bosque explica por sí solo el cambio de caudal.', answer: true },
@@ -141,7 +141,7 @@ export default semana({
             { text: 'Una acción puede obtener el dato pendiente antes de intervenir.', answer: true },
           ] },
         ),
-        cierre({ areas: ['l1', 'cnt', 'fc', 'pyd'], cnb: ['l1:8.2.3', 'cnt:6.4.1', 'fc:4.2.2', 'pyd:5.3.2'] },
+        cierre({ areas: ['l1', 'cnt', 'fc', 'pyd'], cnb: ['l1:8.2.3', 'cnt:6.3.1', 'fc:4.2.2', 'pyd:5.3.2'] },
           ['Separo observaciones e inferencias', 'Juzgo fuentes con criterios', 'Propongo una acción factible'],
           ['Diré con claridad qué información falta']),
       ],
@@ -176,7 +176,7 @@ export default semana({
     }),
   ],
   bank: [
-    S.choice({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.1.3'], prompt: '¿Qué número representa **XLIX** en un rótulo de sección?' }, { options: [{ id: 'a', text: '49' }, { id: 'b', text: '41' }, { id: 'c', text: '59' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.1.2'], prompt: '¿Qué número representa **XLIX** en un rótulo de sección?' }, { options: [{ id: 'a', text: '49' }, { id: 'b', text: '41' }, { id: 'c', text: '59' }], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.2'], prompt: '¿Cuál pregunta está delimitada y no supone una respuesta?' }, { options: [{ id: 'a', text: '¿Cómo varió el uso del tanque entre lunes y viernes según el registro?' }, { id: 'b', text: '¿Por qué todos desperdician agua?' }, { id: 'c', text: '¿El agua?' }], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.1.1'], prompt: '¿Qué manifestación de energía está almacenada principalmente en una pila antes de encender un sensor?' }, { options: [{ id: 'a', text: 'Química' }, { id: 'b', text: 'Nuclear' }, { id: 'c', text: 'Sonora' }], correct: ['a'] }),
     S.match({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:7.1.3'], prompt: 'Relaciona cada parte del servicio comunitario con su ejemplo.' }, { pairs: [{ id: 'a', left: 'Responsabilidad', right: 'Dos estudiantes revisan los rótulos' }, { id: 'b', left: 'Recurso', right: 'Etiquetas reutilizables' }, { id: 'c', left: 'Verificación', right: 'Comparar registros' }] }),
