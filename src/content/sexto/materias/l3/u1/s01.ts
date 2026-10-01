@@ -60,7 +60,7 @@ export default [
           { icon: 'Pencil', front: 'pencil', back: 'lápiz · "pén-sil"' },
           { icon: 'Notebook', front: 'notebook', back: 'cuaderno · "nóut-buk"' },
           { icon: 'Backpack', front: 'backpack', back: 'mochila · "bák-pak"' },
-          { icon: 'Square', front: 'table', back: 'mesa · "téi-bol"' },
+          { icon: 'Table', front: 'table', back: 'mesa · "téi-bol"' },
           { icon: 'Package', front: 'box', back: 'caja · "boks"' },
           { icon: 'Armchair', front: 'chair', back: 'silla · "cher"' },
         ] },

@@ -72,7 +72,7 @@ const PRIMARY_ICON_FIELDS = new Set([
 ]);
 const SUPPORTING_ICON_FIELDS = new Set(['back', 'alt', 'brief']);
 
-const CONCRETE_OBJECT = /(?:^|[^\p{L}])(?:comidas?|alimentos?|mercados?|escuelas?|parques?|casas?|edificios?|tiendas?|hospital(?:es)?|iglesias?|calles?|puentes?|rivers?|r[ií]os?|monta(?:n|ñ)as?|volc[aá]n(?:es)?|[aá]rbol(?:es)?|fruits?|frutas?|pan(?:es)?|ma[ií](?:z|ces)|frijoles?|huevos?|tortillas?|ventanas?|panelas?|pozos?|canchas?|herramientas?)(?=$|[^\p{L}])/iu;
+const CONCRETE_OBJECT = /(?:^|[^\p{L}])(?:comidas?|alimentos?|mercados?|escuelas?|parques?|casas?|edificios?|tiendas?|hospital(?:es)?|iglesias?|calles?|puentes?|rivers?|r[ií]os?|monta(?:n|ñ)as?|volc[aá]n(?:es)?|[aá]rbol(?:es)?|fruits?|frutas?|pan(?:es)?|ma[ií](?:z|ces)|frijoles?|huevos?|tortillas?|ventanas?|panelas?|pozos?|canchas?|herramientas?|tables?|mesas?)(?=$|[^\p{L}])/iu;
 
 function inspectConcreteIcon(value: unknown, path: string, failures: string[]): void {
   if (Array.isArray(value)) {
@@ -262,6 +262,30 @@ test('Semana 1 evalúa las diez áreas primarias en reto y banco', () => {
   );
   assert.deepEqual(challengeAreas, PRIMARY_AREAS);
   assert.deepEqual(bankAreas, PRIMARY_AREAS);
+});
+
+test('Semana 1 evalúa composición de correo en L1 sin terminología retirada', () => {
+  const bankItem = weekOneBank.find((step) => step.areas[0] === 'l1');
+  assert.ok(bankItem, 'Semana 1 no tiene ítem de banco para L1');
+  const serialized = JSON.stringify(bankItem).toLocaleLowerCase('es');
+  assert.doesNotMatch(serialized, /lenguaje sonoro|nota de voz/);
+  assert.ok(bankItem.cnb.includes('l1:3.4.2'));
+  assert.equal(bankItem.hint, undefined);
+  assert.equal(bankItem.explain, undefined);
+  assert.equal(bankItem.type, 'choice', 'El banco debe pedir elegir un correo completo en contexto');
+
+  const props = bankItem.props as {
+    options?: Array<{ id: string; text: string }>;
+    correct?: string[];
+  };
+  const correct = (props.options ?? [])
+    .filter((option) => props.correct?.includes(option.id))
+    .map((option) => option.text)
+    .join(' ')
+    .toLocaleLowerCase('es');
+  for (const element of ['asunto', 'saludo', 'petición', 'firma']) {
+    assert.match(correct, new RegExp(element), `La respuesta correcta no incluye ${element}`);
+  }
 });
 
 test('Semana 1 no reutiliza payloads de práctica guiada en reto o banco', () => {

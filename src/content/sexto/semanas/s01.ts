@@ -279,12 +279,12 @@ export default semana({
         { id: 'b', text: 'Rectángulo' },
         { id: 'c', text: 'Rombo' },
       ], correct: ['a'] }),
-    S.tf({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.4.2'], prompt: 'Evalúa estos mensajes según su destinatario.' },
-      { statements: [
-        { text: 'Un correo al director debe incluir asunto, saludo, petición clara y firma.', answer: true },
-        { text: 'Escribir todo en mayúsculas hace que un mensaje formal sea más respetuoso.', answer: false, why: 'Las mayúsculas sostenidas pueden interpretarse como gritos.' },
-        { text: 'Una nota de voz comunica mediante lenguaje sonoro.', answer: true },
-      ] }),
+    S.choice({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.4.2'], prompt: 'Quieres pedir a la bibliotecaria una entrevista para una tarea. ¿Cuál correo está completo y usa un registro adecuado?' },
+      { options: [
+        { id: 'a', text: 'Asunto: Solicitud de entrevista · Saludo: Buenos días, señora bibliotecaria · Petición: ¿Podría concederme una entrevista sobre la historia de la biblioteca? · Firma: Elena López, 6.º grado' },
+        { id: 'b', text: 'Asunto: Hola · Oiga, necesito hablar con usted. Respóndame rápido.' },
+        { id: 'c', text: 'SIN ASUNTO · QUIERO HACERLE PREGUNTAS PARA MI TAREA' },
+      ], correct: ['a'] }),
     S.match({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.2.1'], prompt: 'Relaciona cada organelo con una tarea cotidiana equivalente.' },
       { leftTitle: 'Organelo', rightTitle: 'Tarea equivalente', pairs: [
         { id: 'n', left: 'Núcleo', right: 'Dirigir y guardar instrucciones' },
