@@ -101,11 +101,11 @@ export default [
       ),
       S.pulse(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.1.4', 'ef:4.1.8'], ambito: 'convivir',
-          prompt: '¡Partido con tarjeta verde! Jueguen un minipartido (fútbol, balonmano o "10 pases") con **árbitro rotativo**: cada 2 minutos, alguien distinto (niña o niño) arbitra. Regla especial: el árbitro puede dar **tarjeta verde** a quien muestre juego limpio (ayudar, pasar al mejor ubicado, reconocer una falta). Gana el equipo con más **goles + tarjetas verdes**. **Calentamiento:** trote y pases. **Poco espacio:** "10 pases" en parejas contra parejas. **Adaptación:** todos arbitran al menos una vez; las reglas se adaptan para que todos participen. **Al final:** saludo entre equipos, estiramiento y agua.' },
+          prompt: '¡Partido con tarjeta verde! Tras un minuto de calentamiento, jueguen **4 minutos** de fútbol, balonmano o "10 pases". Una persona arbitra los primeros 2 minutos y se realiza **un cambio de árbitro** para los últimos 2. El árbitro puede dar tarjeta verde por ayudar, pasar al mejor ubicado o reconocer una falta. **Poco espacio:** "10 pases". **Adaptación:** los dos turnos arbitrales pueden hacerse de pie o sentados; el resto tendrá otras oportunidades en clases futuras. **Al final:** saludo, estiramiento y agua.' },
         { seconds: 15, rounds: [
           { label: 'En reposo' },
           { label: 'Después del calentamiento', exercise: { name: 'Trote y pases', icon: 'Footprints', seconds: 60 } },
-          { label: 'Después del partido con árbitro rotativo', exercise: { name: 'Minipartido con tarjeta verde', icon: 'Flag', seconds: 120 } },
+          { label: 'Después del partido con una rotación arbitral', exercise: { name: 'Minipartido con tarjeta verde y cambio de árbitro', icon: 'Flag', seconds: 240 } },
         ] },
       ),
       S.dilemma(

@@ -114,9 +114,9 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'hacer',
-          prompt: 'Vuelve al tema de **tu mini-investigación** (semana 6). Escríbelo y pásalo por el embudo: aspecto, lugar, tiempo. Termina con tu **pregunta de investigación** abierta.' },
-        { minWords: 25, placeholder: 'Tema: …\nAspecto: …\nLugar: …\nTiempo: …\nMi pregunta: ¿…?',
-          model: 'Tema: el agua.\nAspecto: de dónde viene y cómo llega.\nLugar: mi escuela.\nTiempo: hoy en día.\nMi pregunta: ¿De dónde viene el agua que llega a nuestra escuela y cómo llega hasta los chorros?',
+          prompt: 'Usa el **caso de agua suministrado**: el mapa muestra nacimiento N1, tanque T1 y chorros escolares; la ficha indica que el recorrido actual debe investigarse. Pásalo por el embudo: aspecto, lugar y periodo. Termina con una pregunta abierta que pueda responderse con ese mapa y esa ficha.' },
+        { minWords: 25, placeholder: 'Tema: …\nAspecto: …\nLugar: …\nPeriodo del caso: …\nMi pregunta: ¿…?',
+          model: 'Tema: el agua.\nAspecto: recorrido desde N1 hasta T1.\nLugar: caso de la escuela.\nPeriodo: registro actual suministrado.\nMi pregunta: ¿Qué recorrido muestra el mapa entre N1, T1 y los chorros, y qué dato falta confirmar?',
           rubric: [
             'Escribí el tema y lo delimité con aspecto, lugar y tiempo',
             'Mi pregunta es abierta (no se responde con sí o no)',

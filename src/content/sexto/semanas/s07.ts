@@ -37,24 +37,24 @@ export default semana({
       ],
       media: {
         id: 's07-taller-dossier', kind: 'diagram', title: 'Dossier del caso Las Flores', aspect: '4:3',
-        alt: 'Mapa y fichas de un caso hipotético con una microcuenca, cobertura forestal parcial, un nacimiento, tubería, tanque y escuela; no muestra respuestas.',
-        brief: 'SVG 1200×900 accesible. Encabezado: CASO HIPOTÉTICO · DATOS DE EJEMPLO. Izquierda: mapa esquemático con norte, parte alta, parches de bosque, ladera con suelo expuesto, nacimiento N1, tubería, tanque T1 y escuela; leyenda con iconos TreePine, Mountain, Droplets, Pipe y School. Derecha: Fuente A, ficha técnica municipal de ejemplo con autor y fecha; Fuente B, mensaje reenviado sin autor; tabla de tres observaciones simuladas. Usar contraste alto, rótulos grandes y patrones además de color. No usar la transparencia como prueba de potabilidad ni revelar respuestas. Nota: el mapa no está a escala y no representa una comunidad real.',
+        alt: 'Mapa y fichas de un caso hipotético con cambio de área construida y verde, un nacimiento, tubería, tanque y escuela; no muestra respuestas.',
+        brief: 'SVG 1200×900 accesible. Encabezado: CASO HIPOTÉTICO · DATOS DE EJEMPLO. Izquierda: dos mapas comparables, 2015 y 2025, con norte, área construida, área verde, ladera, nacimiento N1, tubería, tanque T1 y escuela; leyenda con iconos House, TreePine, Mountain, Droplets, Pipe y School. Derecha: Fuente A fechada, Fuente B sin autor y tabla simulada. Usar contraste alto, rótulos grandes y patrones además de color. No usar transparencia como prueba de potabilidad ni revelar respuestas. Nota: no está a escala ni representa una comunidad real.',
       },
       steps: [
         S.explain(
-          { fase: 'explorar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.2', 'cnt:6.3.1'], title: '1 min · Encargo y límites',
+          { fase: 'explorar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.2', 'cnt:6.4.1'], title: '1 min · Encargo y límites',
             prompt: 'Trabajarás con el **caso hipotético Las Flores** y datos de ejemplo. No son mediciones ni testimonios de una comunidad real.' },
           { icon: 'FileWarning', body: 'El informe dirá qué se sabe, qué se infiere y qué falta comprobar.' },
         ),
         S.reading(
-          { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:8.2.3', 'cnt:6.3.1'], title: '2 min · Lee el dossier',
+          { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:8.2.3', 'cnt:6.4.1'], title: '2 min · Lee el dossier',
             prompt: 'Lee las tres piezas del caso simulado y responde sin agregar hechos.',
             hint: 'Separa quién publica, qué fecha tiene y qué dato aporta cada pieza.',
             explain: 'La ficha y la tabla permiten rastrear datos; el mensaje anónimo necesita evidencia.' },
           { genre: 'Dossier simulado', heading: 'Caso hipotético Las Flores', passage:
             'FUENTE A. Ficha técnica municipal de ejemplo, Unidad de Agua, 12 de mayo de 2025. “La tubería lleva agua desde N1 al tanque T1. El sistema aplica desinfección en el tanque. El último control incluido corresponde al 8 de mayo; para afirmar potabilidad en otra fecha se necesita el control vigente.”\n\n' +
             'FUENTE B. Mensaje reenviado, sin autor ni fecha: “El agua se ve clara, por eso siempre es potable. Compártelo.”\n\n' +
-            'OBSERVACIONES SIMULADAS. Parte alta: cobertura forestal parcial y dos surcos de erosión en suelo expuesto. N1: caudal de ejemplo 18 L/min en abril y 25 L/min en mayo. T1: registro de desinfección del 8 de mayo. No hay datos de lluvia, extracción ni análisis posteriores.',
+            'OBSERVACIONES SIMULADAS. Mapas comparables: entre 2015 y 2025 el área construida pasa de 12 a 18 hectáreas y el área verde de 20 a 14. Parte alta: cobertura forestal parcial y dos surcos de erosión en suelo expuesto. N1: caudal de ejemplo 18 L/min en abril y 25 L/min en mayo. T1: registro de desinfección del 8 de mayo. No hay datos de lluvia, extracción ni análisis posteriores.',
             questions: [
               { q: '¿Qué pieza identifica autor y fecha?', options: [{ id: 'a', text: 'Fuente A' }, { id: 'b', text: 'Fuente B' }], correct: 'a', why: 'La Fuente A identifica unidad responsable y fecha.' },
               { q: '¿Qué afirmación excede la evidencia?', options: [{ id: 'a', text: 'La tubería conecta N1 y T1' }, { id: 'b', text: 'El agua clara siempre es potable' }], correct: 'b', why: 'La apariencia no sustituye un control vigente.' },
@@ -71,7 +71,7 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.sort(
-          { fase: 'construir', areas: ['cnt', 'l1'], cnb: ['cnt:6.3.1', 'l1:8.2.3'], title: '2 min · Evidencia o inferencia',
+          { fase: 'construir', areas: ['cnt', 'l1'], cnb: ['cnt:6.4.1', 'l1:8.2.3'], title: '2 min · Evidencia o inferencia',
             prompt: 'Clasifica cada enunciado.', hint: 'Observación: se registró. Inferencia: explica. Dato pendiente: hace falta.',
             explain: 'Atribuir el cambio solo al bosque sería una inferencia sin lluvia, extracción y geología.' },
           { buckets: [
@@ -96,27 +96,25 @@ export default semana({
             { id: 'c', icon: 'MessageCircleOff', text: 'No volver a hablar', consequence: 'Los datos siguen pendientes.', values: ['Evasión'], constructive: false },
           ] },
         ),
-        S.project(
+        S.write(
           { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.2'], title: '2 min · Pregunta de investigación',
-            prompt: 'Escribe en la plantilla una **pregunta de investigación** abierta y delimitada para Las Flores.' },
-          { goal: 'Abrir el informe con una pregunta investigable.', steps: [
-            { title: 'Aspecto', detail: 'Elige erosión, caudal o control de calidad.' },
-            { title: 'Lugar', detail: 'Nombra N1, T1 o la parte alta del mapa.' },
-            { title: 'Límite', detail: 'Usa abril-mayo y los datos proporcionados.' },
-          ], evidence: 'Una pregunta que no presupone la respuesta.', rubric: ['Es abierta', 'Delimita aspecto, lugar y periodo', 'Puede responderse con evidencia'] },
+            prompt: 'Escribe una **pregunta de investigación** abierta y delimitada para el caso Las Flores. Elige erosión, cambio de cobertura o control de calidad; nombra N1, T1 o la parte alta y usa abril-mayo.' },
+          { minWords: 16, placeholder: 'Pregunta: ¿...?', model: '¿Qué relación muestran los datos suministrados entre el cambio de cobertura de la parte alta y los surcos observados entre abril y mayo, y qué información falta?', rubric: ['Es abierta', 'Delimita aspecto, lugar y periodo', 'Puede responderse con el dossier'] },
         ),
         S.write(
           { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], title: '2 min · Juicio de fuentes',
             prompt: 'Añade dos líneas: utilidad y límite de cada fuente.' },
           { minWords: 20, placeholder: 'Fuente A: es útil porque... Su límite es... Fuente B:...', model: 'La Fuente A identifica responsable y fecha, pero su control no prueba el estado posterior. La Fuente B no tiene autor, fecha ni evidencia verificable.', rubric: ['Usa criterios visibles', 'No decide por gusto', 'Declara un límite'] },
         ),
-        S.project(
-          { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:6.3.1', 'l1:8.2.3'], title: '2 min · Dos hallazgos',
-            prompt: 'Redacta un hallazgo observado y una inferencia calificada.' },
-          { goal: 'Comunicar evidencia sin exagerarla.', steps: [
-            { title: 'Hallazgo 1', detail: 'Describe un dato exacto del dossier.' },
-            { title: 'Hallazgo 2', detail: 'Usa “podría” y di qué dato falta.' },
-          ], evidence: 'Dos hallazgos con fuente o límite.', rubric: ['Distingue dato e inferencia', 'No afirma causalidad segura', 'Menciona evidencia pendiente'] },
+        S.choice(
+          { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:6.4.1', 'l1:8.2.3'], title: '1 min · Puente de evidencia',
+            prompt: 'Antes de redactar hallazgos, ¿qué afirmación separa dato e inferencia?' },
+          { options: [{ id: 'a', text: 'Dato: el área verde simulada bajó de 20 a 14 ha; inferencia: el cambio podría relacionarse con la expansión observada' }, { id: 'b', text: 'Dato: toda expansión causa erosión' }, { id: 'c', text: 'Inferencia: el mensaje anónimo demuestra potabilidad' }], correct: ['a'] },
+        ),
+        S.write(
+          { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:6.4.1', 'l1:8.2.3'], title: '2 min · Dos hallazgos',
+            prompt: 'Redacta un hallazgo observado y una inferencia calificada. Incluye un dato exacto del dossier; luego usa “podría” y di qué dato falta.' },
+          { minWords: 22, placeholder: 'Hallazgo observado:... Inferencia limitada:... Dato pendiente:...', model: 'Hallazgo observado: el escenario registra dos surcos en suelo expuesto. Inferencia limitada: el cambio de cobertura podría influir en la erosión. Dato pendiente: lluvia comparable del periodo.', rubric: ['Distingue dato e inferencia', 'No afirma causalidad segura', 'Menciona evidencia pendiente'] },
         ),
         S.write(
           { fase: 'aplicar', areas: ['fc', 'pyd'], cnb: ['fc:4.2.2', 'pyd:5.3.2'], title: '2 min · Acción factible',
@@ -133,7 +131,7 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.tf(
-          { fase: 'comprobar', areas: ['cnt', 'pyd'], cnb: ['cnt:6.3.1', 'pyd:5.3.2'], title: '1 min · Salida de evidencia',
+          { fase: 'comprobar', areas: ['cnt', 'pyd'], cnb: ['cnt:6.4.1', 'pyd:5.3.2'], title: '1 min · Salida de evidencia',
             prompt: 'Evalúa los límites del informe.' },
           { statements: [
             { text: 'La evidencia no basta para afirmar que el bosque explica por sí solo el cambio de caudal.', answer: true },
@@ -141,7 +139,7 @@ export default semana({
             { text: 'Una acción puede obtener el dato pendiente antes de intervenir.', answer: true },
           ] },
         ),
-        cierre({ areas: ['l1', 'cnt', 'fc', 'pyd'], cnb: ['l1:8.2.3', 'cnt:6.3.1', 'fc:4.2.2', 'pyd:5.3.2'] },
+        cierre({ areas: ['l1', 'cnt', 'fc', 'pyd'], cnb: ['l1:8.2.3', 'cnt:6.4.1', 'fc:4.2.2', 'pyd:5.3.2'] },
           ['Separo observaciones e inferencias', 'Juzgo fuentes con criterios', 'Propongo una acción factible'],
           ['Diré con claridad qué información falta']),
       ],
@@ -164,9 +162,9 @@ export default semana({
       steps: [
         S.number({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.4'], prompt: 'Un registro combina 4 puntos de observación con 2 fechas. ¿Cuántos pares punto-fecha contiene?' }, { answer: 8, unit: 'pares' }),
         S.choice({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.3'], prompt: '¿Qué fuente permite revisar mejor una afirmación sobre el agua?' }, { options: [{ id: 'a', text: 'Un informe fechado con método y responsable' }, { id: 'b', text: 'Un audio reenviado sin origen' }, { id: 'c', text: 'Un anuncio con promesas' }], correct: ['a'] }),
-        S.match({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.1.1'], prompt: 'Relaciona la evidencia del sistema con la manifestación de energía.' }, { pairs: [{ id: 'a', left: 'Cable que alimenta la bomba', right: 'Eléctrica' }, { id: 'b', left: 'Motor tibio', right: 'Térmica' }, { id: 'c', left: 'Luz del indicador', right: 'Luminosa' }] }),
+        S.tf({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.1.1'], prompt: 'Evalúa este modelo nuevo de calentamiento solar de agua.' }, { statements: [{ text: 'La radiación solar puede transferir energía y aumentar la temperatura del agua en una manguera oscura.', answer: true }, { text: 'El modelo necesita energía nuclear para calentar el agua.', answer: false }] }),
         S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:7.2.1'], prompt: '¿Qué comparación usa acuerdos, actores y participación?' }, { options: [{ id: 'a', text: 'Guatemala y Colombia incluyeron gobierno y grupo armado; variaron compromisos y formas de participación social' }, { id: 'b', text: 'Son iguales porque ambos están en América' }, { id: 'c', text: 'Solo se comparan sus fechas' }], correct: ['a'] }),
-        S.fill({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.8'], prompt: 'Completa la clasificación por sílaba tónica.' }, { text: 'La palabra **caudal** es [[aguda]] y **hídrico** es [[esdrújula]].', distractors: ['llana', 'monosílaba'] }),
+        S.fill({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.8'], prompt: 'Completa la clasificación de palabras nuevas del informe.' }, { text: '**Protección** es [[aguda]] y **cámara** es [[esdrújula]].', distractors: ['llana', 'monosílaba'] }),
         S.choice({ fase: 'comprobar', areas: ['l3'], cnb: ['l3:4.3.3'], prompt: 'Complete: “The students ___ the map when the meeting began.”' }, { options: [{ id: 'a', text: 'were checking' }, { id: 'b', text: 'was checking' }, { id: 'c', text: 'checking' }], correct: ['a'] }),
         S.match({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:4.2.2'], prompt: 'Relaciona cada acción durante un desacuerdo con su efecto.' }, { pairs: [{ id: 'a', left: 'Parafrasear la razón de la otra parte', right: 'Comprensión antes de proponer' }, { id: 'b', left: 'Anotar el compromiso y una fecha', right: 'Acuerdo que puede revisarse' }, { id: 'c', left: 'Interrumpir con burlas', right: 'Escalada del conflicto' }] }),
         S.choice({ fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.7'], prompt: 'Una gota recibe luz desde arriba a la derecha. ¿Dónde cae su sombra proyectada?' }, { options: [{ id: 'a', text: 'Abajo a la izquierda' }, { id: 'b', text: 'Sobre el lado iluminado' }, { id: 'c', text: 'Dentro del título' }], correct: ['a'] }),
@@ -177,13 +175,13 @@ export default semana({
   ],
   bank: [
     S.choice({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.1.2'], prompt: '¿Qué número representa **XLIX** en un rótulo de sección?' }, { options: [{ id: 'a', text: '49' }, { id: 'b', text: '41' }, { id: 'c', text: '59' }], correct: ['a'] }),
-    S.choice({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.2'], prompt: '¿Cuál pregunta está delimitada y no supone una respuesta?' }, { options: [{ id: 'a', text: '¿Cómo varió el uso del tanque entre lunes y viernes según el registro?' }, { id: 'b', text: '¿Por qué todos desperdician agua?' }, { id: 'c', text: '¿El agua?' }], correct: ['a'] }),
-    S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.1.1'], prompt: '¿Qué manifestación de energía está almacenada principalmente en una pila antes de encender un sensor?' }, { options: [{ id: 'a', text: 'Química' }, { id: 'b', text: 'Nuclear' }, { id: 'c', text: 'Sonora' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.2'], prompt: 'Para investigar un croquis fechado de tuberías, ¿qué pregunta abierta tiene un aspecto y una fuente disponibles?' }, { options: [{ id: 'a', text: '¿Qué cambios de recorrido aparecen entre las dos versiones del croquis?' }, { id: 'b', text: '¿Por qué la gente siempre hace mal las tuberías?' }, { id: 'c', text: '¿Son bonitas?' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.1.1'], prompt: 'Una resistencia eléctrica calienta agua en un modelo. ¿Qué transformación se observa principalmente?' }, { options: [{ id: 'a', text: 'De eléctrica a calorífica' }, { id: 'b', text: 'De nuclear a sonora' }, { id: 'c', text: 'De luminosa a química' }], correct: ['a'] }),
     S.match({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:7.1.3'], prompt: 'Relaciona cada parte del servicio comunitario con su ejemplo.' }, { pairs: [{ id: 'a', left: 'Responsabilidad', right: 'Dos estudiantes revisan los rótulos' }, { id: 'b', left: 'Recurso', right: 'Etiquetas reutilizables' }, { id: 'c', left: 'Verificación', right: 'Comparar registros' }] }),
-    S.sort({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.6'], prompt: 'Clasifica por cantidad de sílabas.' }, { buckets: [{ id: 'bi', label: 'Bisílaba' }, { id: 'tri', label: 'Trisílaba' }, { id: 'cua', label: 'Cuatro sílabas' }], items: [{ id: 'a', text: 'lluvia', bucket: 'bi' }, { id: 'b', text: 'arroyo', bucket: 'tri' }, { id: 'c', text: 'acuífero', bucket: 'cua' }] }),
+    S.sort({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.6'], prompt: 'Clasifica palabras nuevas del reporte por cantidad de sílabas.' }, { buckets: [{ id: 'bi', label: 'Bisílaba' }, { id: 'tri', label: 'Trisílaba' }, { id: 'cin', label: 'Cinco sílabas' }], items: [{ id: 'a', text: 'fuente', bucket: 'bi' }, { id: 'b', text: 'laguna', bucket: 'tri' }, { id: 'c', text: 'evaporación', bucket: 'cin' }] }),
     S.fill({ fase: 'comprobar', areas: ['l3'], cnb: ['l3:4.3.3'], prompt: 'Complete the past continuous sentence.' }, { text: 'I [[was]] taking notes while they [[were]] reading.', distractors: ['am', 'is', 'are'] }),
-    S.order({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:4.2.2'], prompt: 'Ordena una negociación pacífica.' }, { items: [{ id: 'a', text: 'Calmarse' }, { id: 'b', text: 'Escuchar necesidades' }, { id: 'c', text: 'Proponer alternativas' }, { id: 'd', text: 'Acordar seguimiento' }], labels: { start: 'Inicio', end: 'Cierre' } }),
-    S.choice({ fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.7'], prompt: '¿Qué recurso sugiere movimiento continuo del agua?' }, { options: [{ id: 'a', text: 'Curvas repetidas que guían la mirada' }, { id: 'b', text: 'Objetos sin dirección' }, { id: 'c', text: 'Una sola línea horizontal' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:4.2.2'], prompt: 'Dos grupos aceptan revisar una propuesta dentro de tres días. ¿Qué dato convierte la decisión en un acuerdo verificable?' }, { options: [{ id: 'a', text: 'Responsable, tarea y fecha de revisión' }, { id: 'b', text: 'Quién habló más fuerte' }, { id: 'c', text: 'Una promesa sin registro' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.7'], prompt: 'Una tubería dibujada tapa una parte del tanque. ¿Qué recurso espacial indica que la tubería está delante?' }, { options: [{ id: 'a', text: 'Superposición' }, { id: 'b', text: 'Rima' }, { id: 'c', text: 'Simetría numérica' }], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.1.4'], prompt: 'En un relevo, ¿qué decisión prioriza al equipo?' }, { options: [{ id: 'a', text: 'Ajustar el pase a quien recibe' }, { id: 'b', text: 'Retener siempre el objeto' }, { id: 'c', text: 'Excluir a quien necesita adaptación' }], correct: ['a'] }),
     S.sort({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.1.2'], prompt: 'Clasifica cada elemento del plan ambiental.' }, { buckets: [{ id: 'r', label: 'Recurso' }, { id: 'a', label: 'Acción' }, { id: 'i', label: 'Indicador' }], items: [{ id: 'x', text: 'Ficha de registro', bucket: 'r' }, { id: 'y', text: 'Revisar una fuga reportada', bucket: 'a' }, { id: 'z', text: 'Número de revisiones completadas', bucket: 'i' }] }),
   ],

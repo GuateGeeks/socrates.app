@@ -113,8 +113,8 @@ export default [
       ),
       S.project(
         { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'hacer',
-          prompt: 'En el lienzo, dibuja una fruta iluminada desde la izquierda: brillo, degradado, sombra propia, sombra proyectada y una flecha de luz.' },
-        { goal: 'Resolver un estudio breve en el lienzo de la actividad.', steps: [{ title: 'Traza', detail: 'Dibuja el contorno y marca con una flecha la luz.' }, { title: 'Modela', detail: 'Añade brillo, degradado y sombra proyectada.' }], evidence: 'Un dibujo breve con dirección de luz.', rubric: ['Brillo del lado de la luz', 'Degradado hacia la sombra', 'Sombra proyectada al lado contrario'] },
+          prompt: 'En una hoja o en tu cuaderno, crea una escena pequeña del agua: una gota cercana con volumen y un arroyo que se aleja para mostrar profundidad.' },
+        { goal: 'Crear en papel una escena breve que muestre volumen y profundidad.', steps: [{ title: 'Volumen', detail: 'Dibuja la gota con flecha de luz, brillo, degradado y sombra propia.' }, { title: 'Profundidad', detail: 'Haz que el arroyo sea ancho abajo y angosto arriba; superpone una piedra cercana.' }], evidence: 'La hoja o página del cuaderno con una escena de agua terminada; la lista solo verifica el proceso y no captura la imagen.', rubric: ['La gota muestra luz, degradado y sombra', 'El arroyo cambia de tamaño entre cerca y lejos', 'Una superposición refuerza la profundidad'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.7'], prompt: 'En un mural, ¿qué técnica da sensación de **volumen**?' },
@@ -207,7 +207,7 @@ export default [
       S.project(
         { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'hacer',
           prompt: 'Haz un boceto pequeño de agua. Usa curvas o diagonales y repite tres formas para dirigir la mirada.' },
-        { goal: 'Crear un boceto pequeño en el lienzo de la actividad.', steps: [{ title: 'Recorrido', detail: 'Traza la dirección principal del agua.' }, { title: 'Ritmo', detail: 'Repite tres ondas o gotas.' }], evidence: 'Un boceto breve con agua y movimiento visibles.', rubric: ['Escena de agua reconocible', 'Dirección visual clara', 'Tres formas repetidas'] },
+        { goal: 'Crear un boceto pequeño en una hoja o en el cuaderno.', steps: [{ title: 'Recorrido', detail: 'Traza la dirección principal del agua en papel.' }, { title: 'Ritmo', detail: 'Repite tres ondas o gotas.' }], evidence: 'La hoja o página del cuaderno con agua y movimiento visibles; la lista verifica pasos, no captura el dibujo.', rubric: ['Escena de agua reconocible', 'Dirección visual clara', 'Tres formas repetidas'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.7'], prompt: '¿Qué recurso hace que la mirada recorra un arroyo dibujado?' },

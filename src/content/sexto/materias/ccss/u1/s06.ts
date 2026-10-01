@@ -1,405 +1,62 @@
-/**
- * Ciencias Sociales · Unidad 1 · Semana 6 — Grandes cambios que conectaron y dividieron al mundo.
- * Progresión: los factores que llevaron a los europeos a América (Renacimiento, imprenta, navegación,
- * comercio) → causas y consecuencias de las dos Guerras Mundiales → la Guerra Fría y su relación con el
- * conflicto armado interno de Guatemala y su impacto en la población civil.
- * Tema sensible (conflicto armado): lenguaje respetuoso, sin detalles gráficos, con invitación a conversar.
- */
-import { lesson, S, cierre } from '../../../../dsl';
+/** Ciencias Sociales · Unidad 1 · Semana 6. */
+import { lesson, S } from '../../../../dsl';
 
 export default [
-  /* ───────────────────────── 1. ¿Por qué llegaron los europeos a América? ───────────────────────── */
   lesson({
-    id: 's06-ccss-1',
-    title: 'Por qué los europeos cruzaron el océano',
-    icon: 'Sailboat',
-    minutes: 15,
-    gancho: 'En 1492, tres barcos cruzaron el océano Atlántico y llegaron a unas islas del Caribe. ¿Por qué no pasó cien años antes? ¿Qué había cambiado en Europa?',
-    objetivos: [
-      'Identificar los factores que favorecieron los viajes europeos: Renacimiento, imprenta, comercio e innovaciones de navegación',
-    ],
-    resumen: [
-      'El Renacimiento (siglos XV y XVI) despertó en Europa el interés por observar, experimentar y explorar el mundo.',
-      'La imprenta de tipos móviles de Gutenberg (hacia 1450) permitió copiar rápido libros y mapas, y así se difundieron los conocimientos.',
-      'Europa quería especias, seda y oro de Asia; cuando las rutas por tierra se volvieron difíciles y caras, buscó rutas por mar. Portugal rodeó África y Castilla financió a Colón, que llegó a América en 1492.',
-      'Innovaciones como la brújula, el astrolabio, la carabela y mejores mapas hicieron posibles los viajes largos. Para los pueblos originarios, la llegada europea significó conquista, enfermedades y pérdida de tierras, pero también resistencia y el inicio de una nueva sociedad mestiza.',
-    ],
-    media: {
-      id: 's06-ccss-1-carabela', kind: 'image', title: 'A bordo de una carabela', aspect: '16:9',
-      alt: 'Ilustración en corte de una carabela del siglo XV con sus velas, la tripulación, un navegante que usa un astrolabio y una brújula sobre una mesa de mapas.',
-      brief: 'Ilustración en corte lateral de una carabela del siglo XV navegando en el Atlántico. Rótulos con flechas: "velas latinas triangulares: permiten navegar con viento de lado", "casco ligero y rápido", "bodega con agua, alimentos y mercancías". En cubierta, un navegante mide la altura del Sol con un astrolabio; junto a él, una mesa con una brújula y un mapa dibujado a mano. Personas genéricas, no retratos. Colores de madera y mar, estilo de libro de historia.',
-    },
+    id: 's06-ccss-1', title: 'Bloques americanos que cooperan', icon: 'Network', minutes: 14,
+    gancho: '¿Cómo se reconoce un esfuerzo regional y no solo el nombre de un bloque?',
+    objetivos: ['Organizar esfuerzos de integración y cooperación de bloques americanos en un esquema'],
+    resumen: ['Un bloque reúne países que coordinan objetivos.', 'Un esquema distingue participantes, preocupación, instrumento y esfuerzo.', 'CAN y CARICOM desarrollan instrumentos regionales relacionados con ambiente, clima y agua.'],
+    media: { id: 's06-ccss-1-bloques', kind: 'diagram', title: 'Cooperación regional', aspect: '16:9', alt: 'Mapa de América con la Comunidad Andina y CARICOM junto a una matriz de cooperación.', brief: 'Diagrama horizontal 1600×900. Señalar región andina y Caribe sin fronteras disputadas. Matriz legible con columnas bloque, participantes, preocupación, instrumento y esfuerzo. Alto contraste, texto grande y fuente institucional indicada.' },
     steps: [
-      S.ejemplo(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.4.4'], ambito: 'conocer', title: 'Modelo: relacionar factores y viajes',
-          prompt: 'Observa cómo una necesidad comercial se relaciona con una innovación de navegación.' },
-        { icon: 'Route', problem: 'Las especias de Asia eran valiosas en Europa, pero las rutas terrestres eran largas y costosas. ¿Cómo favoreció esto los viajes por mar?',
-          steps: [
-            { text: 'Identifico la necesidad: comerciantes y reyes buscaban una ruta más directa hacia Asia.' },
-            { text: 'Identifico los medios: carabelas, brújulas, astrolabios y mejores mapas.' },
-            { text: 'Relaciono los factores: el interés comercial impulsó viajes que las innovaciones hicieron posibles.' },
-          ],
-          answer: 'Los viajes europeos fueron favorecidos por comercio, nuevas ideas, difusión de mapas e innovaciones de navegación.' },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.4.4'], ambito: 'conocer', title: 'Cambios en Europa: ideas y libros',
-          prompt: 'Entre los siglos XV y XVI, Europa vivió cambios que la impulsaron a explorar. Toca cada tarjeta.' },
-        { icon: 'Lightbulb', body: 'Ningún hecho histórico tiene una sola causa. Los viajes fueron posibles por **varios factores** a la vez.', reveal: [
-          { icon: 'Palette', front: 'El Renacimiento', back: 'Movimiento que nació en **Italia**. Valoró la observación, la ciencia, el arte y la curiosidad. Artistas y sabios como **Leonardo da Vinci** estudiaban la naturaleza y dibujaban inventos.' },
-          { icon: 'BookOpen', front: 'La imprenta', back: 'Hacia **1450**, **Johannes Gutenberg** usó **tipos móviles** de metal para imprimir. Antes, cada libro se copiaba a mano. Ahora se imprimían cientos: libros de navegación y **mapas** llegaron a más gente.' },
-          { icon: 'Coins', front: 'Expansión comercial', back: 'Comerciantes y reyes querían **especias, seda y oro** de Asia. Las rutas por tierra eran largas, peligrosas y caras, con muchos intermediarios; sobre todo después de **1453**, cuando el Imperio otomano tomó Constantinopla.' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.4.4'], ambito: 'conocer', title: 'Innovaciones para navegar lejos',
-          prompt: 'Para cruzar océanos sin ver tierra por semanas hacían falta **nuevas herramientas**. Toca cada tarjeta.',
-          media: { id: 's06-ccss-1-instrumentos', kind: 'animation', title: 'Cómo se orientaba un navegante', aspect: '16:9', duration: 45,
-            alt: 'Animación que muestra una brújula que siempre apunta al norte y un astrolabio con el que se mide la altura del Sol para calcular la latitud.',
-            brief: 'Animación 2D de 45 s. (1) Una brújula sobre una mesa de barco: aunque el barco gire, la aguja sigue apuntando al norte; texto "La brújula indica la dirección". (2) Un navegante apunta un astrolabio al Sol del mediodía; una línea muestra el ángulo; un globo al lado marca una línea de latitud; texto "El astrolabio ayuda a calcular la latitud". (3) Una carabela con velas triangulares avanza con viento de lado. Narración en español con subtítulos. Recordar la lección de latitud de la semana 1.' } },
-        { icon: 'Compass', body: 'Recuerda la **latitud** que aprendiste en la semana 1: los navegantes la calculaban midiendo la altura del Sol o de las estrellas.', reveal: [
-          { icon: 'Compass', front: 'Brújula', back: 'Una aguja imantada que **siempre apunta al norte**. Se inventó en **China** y llegó a Europa. Permitía saber la dirección aun con el cielo nublado.' },
-          { icon: 'Sun', front: 'Astrolabio', back: 'Instrumento para medir la **altura del Sol o de las estrellas** sobre el horizonte y así calcular la **latitud**.' },
-          { icon: 'Sailboat', front: 'Carabela', back: 'Barco **ligero y rápido**, con velas triangulares que permitían navegar incluso con el viento de lado.' },
-          { icon: 'Map', front: 'Mejores mapas', back: 'Cartas de navegación con costas, puertos y rumbos, copiadas en la imprenta y mejoradas con cada viaje.' },
-        ] },
-      ),
-      S.match(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.4.4'], prompt: 'Une cada factor con lo que aportó a los viajes.',
-          hint: 'Piensa en para qué servía cada cosa: ideas, copiar libros, orientarse, calcular la latitud, navegar rápido.',
-          explain: 'Los viajes fueron posibles por la suma de ideas nuevas, tecnología y el deseo de comerciar.' },
-        { leftTitle: 'Factor', rightTitle: 'Aporte', pairs: [
-          { id: 'f1', left: 'Renacimiento', leftIcon: 'Palette', right: 'Curiosidad por explorar y observar el mundo' },
-          { id: 'f2', left: 'Imprenta', leftIcon: 'BookOpen', right: 'Difundir rápido libros y mapas' },
-          { id: 'f3', left: 'Brújula', leftIcon: 'Compass', right: 'Saber hacia dónde está el norte' },
-          { id: 'f4', left: 'Astrolabio', leftIcon: 'Sun', right: 'Calcular la latitud con los astros' },
-          { id: 'f5', left: 'Carabela', leftIcon: 'Sailboat', right: 'Navegar rápido y con viento de lado' },
-        ] },
-      ),
-      S.order(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.4.4'], ambito: 'conocer',
-          prompt: 'Ordena los hechos del **más antiguo al más reciente**.',
-          hint: 'Fíjate en los años: 1450, 1453, 1492, 1498, 1524.',
-          explain: 'Portugal buscó la ruta rodeando África (Vasco da Gama llegó a la India en 1498); Castilla apostó por navegar hacia el oeste con Colón (1492), sin saber que había un continente en medio.' },
-        { items: [
-          { id: 'o1', text: 'Hacia 1450 · Gutenberg imprime con tipos móviles' },
-          { id: 'o2', text: '1453 · El Imperio otomano toma Constantinopla' },
-          { id: 'o3', text: '1492 · Colón llega a una isla del Caribe' },
-          { id: 'o4', text: '1498 · Vasco da Gama llega a la India rodeando África' },
-          { id: 'o5', text: '1524 · Los españoles, con Pedro de Alvarado, entran al territorio de Guatemala' },
-        ], labels: { start: 'Más antiguo', end: 'Más reciente' } },
-      ),
-      S.reading(
-        { fase: 'aplicar', areas: ['ccss', 'l1'], cnb: ['ccss:6.4.4'], ambito: 'convivir', prompt: 'Un mismo hecho se puede mirar desde distintos lugares. Lee y responde.' },
-        { genre: 'Texto histórico', heading: 'Dos miradas sobre 1492', passage:
-          'Para muchos europeos de la época, el viaje de Colón fue un **"descubrimiento"**: encontraron tierras que no conocían y que pronto quisieron conquistar para obtener oro, tierras y personas que trabajaran para ellos.\n\nPero América no estaba vacía. Aquí vivían millones de personas de muchos pueblos, con ciudades, idiomas, calendarios y saberes propios, como los mayas en Guatemala. Para ellos, la llegada europea fue el inicio de la **conquista**: guerras, pérdida de tierras, trabajo forzado y enfermedades nuevas, como la viruela, que causaron muchísimas muertes. Pueblos como el k’iche’ y el kaqchikel **resistieron**.\n\nCon el tiempo, se mezclaron personas, idiomas, alimentos y costumbres de América, Europa y África. Por eso los historiadores hoy prefieren hablar de **encuentro y choque de culturas**, y escuchar todas las voces.',
-          questions: [
-            { q: '¿Por qué el texto dice que "América no estaba vacía"?', options: [
-              { id: 'a', text: 'Porque aquí ya vivían millones de personas con sus propias culturas' },
-              { id: 'b', text: 'Porque los europeos llevaban muchos animales' },
-              { id: 'c', text: 'Porque Colón llegó con muchas personas' },
-            ], correct: 'a' },
-            { q: 'Para los pueblos originarios, ¿qué significó la llegada europea?', options: [
-              { id: 'a', text: 'El inicio de la conquista, con guerras, pérdida de tierras y enfermedades' },
-              { id: 'b', text: 'Solo un intercambio de regalos' },
-              { id: 'c', text: 'No les afectó en nada' },
-            ], correct: 'a' },
-            { q: '¿Por qué es importante conocer las dos miradas?', options: [
-              { id: 'a', text: 'Para comprender la historia completa y respetar la experiencia de todos los pueblos' },
-              { id: 'b', text: 'Para decidir qué pueblo es mejor' },
-              { id: 'c', text: 'No es importante: basta con una' },
-            ], correct: 'a', why: 'Las Ciencias Sociales buscan comprender, escuchando varias fuentes y perspectivas.' },
-          ] },
-      ),
-      S.sort(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.4.4'], prompt: 'Clasifica: ¿es un factor de **ideas y conocimiento**, de **tecnología** o de **comercio y dinero**?',
-          explain: 'Ideas + tecnología + interés comercial: los tres juntos explican por qué los viajes ocurrieron en ese momento.' },
-        { buckets: [
-          { id: 'ide', label: 'Ideas y conocimiento', icon: 'Lightbulb', color: 'var(--area-ccss)' },
-          { id: 'tec', label: 'Tecnología', icon: 'Compass', color: 'var(--c-ok)' },
-          { id: 'com', label: 'Comercio y dinero', icon: 'Coins', color: 'var(--c-maiz-strong)' },
-        ], items: [
-          { id: 'k1', text: 'El Renacimiento valora la observación', bucket: 'ide' },
-          { id: 'k2', text: 'La carabela con velas triangulares', bucket: 'tec' },
-          { id: 'k3', text: 'El deseo de comprar especias más baratas', bucket: 'com' },
-          { id: 'k4', text: 'El astrolabio', bucket: 'tec' },
-          { id: 'k5', text: 'Reyes que financian viajes para obtener oro', bucket: 'com' },
-        ] },
-      ),
-      S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.4.4'], prompt: '¿Qué innovación permitió **difundir rápidamente** libros y mapas en Europa?' },
-        { options: [
-          { id: 'a', text: 'La imprenta de tipos móviles' },
-          { id: 'b', text: 'La brújula' },
-          { id: 'c', text: 'El papiro' },
-        ], correct: ['a'] },
-      ),
-      S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.4.4'], prompt: '¿Cuál fue una razón comercial de los viajes europeos?' },
-        { options: [
-          { id: 'a', text: 'Encontrar rutas por mar hacia Asia para conseguir especias y seda' },
-          { id: 'b', text: 'Vender computadoras en América' },
-          { id: 'c', text: 'Aprender idiomas mayas' },
-        ], correct: ['a'] },
-      ),
+      S.explain({ fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.6.6'], title: 'Cooperar es hacer algo en conjunto', prompt: 'Ubicar un bloque no explica su cooperación: hay que identificar participantes, instrumento y esfuerzo coordinado.' }, { icon: 'Network', body: 'Usaremos un esquema de cinco campos para comparar dos bloques del continente americano.' }),
+      S.ejemplo({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.6.6'], title: 'Modelo mínimo de esquema', prompt: 'Observa qué debe contener una relación de cooperación.' }, { icon: 'Workflow', problem: 'Bloque ficticio de dos países que protege una cuenca.', steps: [{ text: 'Participantes: los dos países.' }, { text: 'Instrumento: acuerdo de cuenca.' }, { text: 'Esfuerzo: intercambiar mediciones y coordinar alertas.' }], answer: 'El nombre y la ubicación no bastan: el esquema muestra instrumento y acción conjunta.' }),
+      S.reading({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.6.6'], prompt: 'Lee las tarjetas institucionales resumidas.', hint: 'Busca instrumento y acción conjunta.', explain: 'Las tarjetas aportan los cinco campos del esquema.' }, { genre: 'Fuentes institucionales resumidas', heading: 'CAN y CARICOM', passage: 'COMUNIDAD ANDINA (CAN). Participan Bolivia, Colombia, Ecuador y Perú. Preocupación compartida: gestión integrada de recursos hídricos. Instrumento: Estrategia Andina para la Gestión Integrada de los Recursos Hídricos, aprobada mediante la Decisión 763. Esfuerzos: coordinar planificación e intercambiar información y conocimientos.\n\nCOMUNIDAD DEL CARIBE (CARICOM). Reúne Estados y territorios del Caribe. Preocupación compartida: ambiente, agua y riesgos climáticos. Instrumentos: Marco de Política Ambiental y de Recursos Naturales y organismos regionales como la Organización Meteorológica del Caribe. Esfuerzos: armonizar orientación ambiental y coordinar información técnica sobre tiempo, clima y agua.\n\nFuente: síntesis didáctica de portales institucionales de CAN y CARICOM.', questions: [{ q: '¿Qué dato muestra cooperación efectiva?', options: [{ id: 'a', text: 'Coordinar planificación e intercambiar información mediante una estrategia' }, { id: 'b', text: 'Estar en una subregión' }, { id: 'c', text: 'Tener un nombre abreviado' }], correct: 'a' }] }),
+      S.explain({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.6.6'], title: 'Cinco campos', prompt: 'Un esquema comparable conserva el mismo orden.' }, { icon: 'TableProperties', body: 'BLOQUE → PARTICIPANTES → PREOCUPACIÓN → INSTRUMENTO → ESFUERZO. El instrumento organiza; el esfuerzo describe qué coordinan.' }),
+      S.ejemplo({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.6.6'], title: 'Modelo CAN', prompt: 'Completa la cadena con la primera tarjeta.' }, { icon: 'Workflow', problem: 'Esquematizar la cooperación andina.', steps: [{ text: 'Bloque: CAN.' }, { text: 'Participantes: cuatro países andinos.' }, { text: 'Preocupación e instrumento: agua; Estrategia Andina.' }, { text: 'Esfuerzo: planificación e intercambio de información.' }], answer: 'El esquema muestra quién coopera, sobre qué, con qué instrumento y mediante qué esfuerzo.' }),
+      S.sort({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.6.6'], prompt: 'Clasifica instrumentos y esfuerzos.', hint: 'Distingue la estrategia andina del marco caribeño.', explain: 'Cada bloque combina un instrumento con acciones coordinadas.' }, { buckets: [{ id: 'can', label: 'CAN' }, { id: 'car', label: 'CARICOM' }], items: [{ id: 'a', text: 'Estrategia Andina de recursos hídricos', bucket: 'can' }, { id: 'b', text: 'Intercambio de información hídrica', bucket: 'can' }, { id: 'c', text: 'Marco ambiental y de recursos naturales', bucket: 'car' }, { id: 'd', text: 'Coordinación meteorológica regional', bucket: 'car' }] }),
+      S.sort({ fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.6.6'], prompt: 'Organiza dos esquemas completos de cooperación regional.', explain: 'Cada ficha reúne participantes, preocupación, instrumento y esfuerzo.' }, { buckets: [{ id: 'can', label: 'Esquema CAN' }, { id: 'car', label: 'Esquema CARICOM' }], items: [{ id: 'a', text: 'Países andinos · agua · Decisión 763 · planificación conjunta', bucket: 'can' }, { id: 'b', text: 'Miembros caribeños · clima y agua · marco ambiental · información técnica', bucket: 'car' }, { id: 'c', text: 'Bolivia, Colombia, Ecuador y Perú · estrategia hídrica · intercambio de conocimientos', bucket: 'can' }, { id: 'd', text: 'Estados y territorios del Caribe · organismo meteorológico · coordinación regional', bucket: 'car' }] }),
+      S.choice({ fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.6.6'], prompt: '¿Qué comparación interpreta los esfuerzos, no solo los nombres?' }, { options: [{ id: 'a', text: 'Ambos coordinan países; CAN usa una estrategia hídrica y CARICOM combina un marco ambiental con coordinación meteorológica' }, { id: 'b', text: 'CAN significa Andes y CARICOM significa Caribe' }, { id: 'c', text: 'Ambos administran directamente cualquier servicio local' }], correct: ['a'] }),
+      S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.6.6'], prompt: '¿Cuál esquema organiza esfuerzos de dos bloques americanos por participantes, preocupación, instrumento y acción conjunta?' }, { options: [{ id: 'a', text: 'CAN → países andinos → agua → Estrategia Andina → planificación e intercambio; CARICOM → miembros caribeños → clima y agua → marco ambiental → coordinación técnica regional' }, { id: 'b', text: 'CAN → Andes; CARICOM → Caribe' }, { id: 'c', text: 'CAN y CARICOM → reparan directamente una llave escolar' }], correct: ['a'] }),
+      S.tf({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.6.6'], prompt: 'Comprueba la organización de esfuerzos.' }, { statements: [{ text: 'Un instrumento regional ayuda a coordinar acciones entre miembros.', answer: true }, { text: 'Nombrar la subregión basta para explicar un esfuerzo de cooperación.', answer: false }] }),
     ],
   }),
-
-  /* ───────────────────────── 2. Las Guerras Mundiales ───────────────────────── */
   lesson({
-    id: 's06-ccss-2',
-    title: 'Las Guerras Mundiales: causas y consecuencias',
-    icon: 'History',
-    minutes: 15,
-    gancho: 'En el siglo XX hubo dos guerras tan grandes que participaron países de casi todos los continentes. ¿Cómo empieza un conflicto así? ¿Qué aprendió el mundo después?',
-    objetivos: [
-      'Identificar las causas de la Primera y la Segunda Guerra Mundial',
-    ],
-    resumen: [
-      'Primera Guerra Mundial (1914-1918). Causas: rivalidad entre potencias europeas por territorios y colonias, alianzas militares, carrera de armamento y nacionalismo. Detonante: el asesinato del heredero al trono de Austria-Hungría en Sarajevo (1914).',
-      'Consecuencias de la Primera: millones de muertos, caída de imperios, nuevos países en Europa, el Tratado de Versalles (1919) y la Sociedad de Naciones.',
-      'Segunda Guerra Mundial (1939-1945). Causas: la crisis económica de 1929, el resentimiento por el Tratado de Versalles, gobiernos totalitarios (nazismo en Alemania, fascismo en Italia) y su expansión. Inició cuando Alemania invadió Polonia.',
-      'Consecuencias de la Segunda: decenas de millones de muertos, el Holocausto, las bombas atómicas sobre Hiroshima y Nagasaki, la creación de la ONU (1945), la Declaración Universal de los Derechos Humanos (1948) y el inicio de la Guerra Fría.',
-    ],
-    media: {
-      id: 's06-ccss-2-linea', kind: 'diagram', title: 'Dos guerras en el siglo XX', aspect: '16:9',
-      alt: 'Línea del tiempo de 1900 a 1950 con dos franjas marcadas: 1914-1918 y 1939-1945, y los hechos clave antes y después de cada guerra.',
-      brief: 'Línea del tiempo horizontal de 1900 a 1950. Dos franjas grises: "Primera Guerra Mundial 1914-1918" y "Segunda Guerra Mundial 1939-1945". Hechos marcados con íconos simples: 1914 Sarajevo (detonante), 1919 Tratado de Versalles y Sociedad de Naciones, 1929 crisis económica (gráfica que cae), 1939 invasión de Polonia, 1945 fin de la guerra y fundación de la ONU (logo genérico de una paloma, no el oficial), 1948 Declaración Universal de los Derechos Humanos (pergamino). Sin imágenes de armas, soldados ni violencia. Colores sobrios.',
-    },
+    id: 's06-ccss-2', title: 'Procesos históricos y condiciones', icon: 'Landmark', minutes: 14,
+    gancho: '¿Cómo se combinan ideas, tecnología, comercio y decisiones políticas para impulsar cambios históricos?',
+    objetivos: ['Relacionar condiciones económicas, tecnológicas y políticas con procesos históricos y condiciones de vida'],
+    resumen: ['El Renacimiento, la imprenta, la expansión comercial y las innovaciones de navegación favorecieron los viajes europeos hacia América.', 'Las guerras mundiales alteraron comercio, empleo y decisiones políticas en América.', 'Los procesos políticos pueden influir en las condiciones de vida, pero una relación histórica no significa una causa única ni una mejora automática.'],
+    media: { id: 's06-ccss-2-condiciones', kind: 'diagram', title: 'Procesos y condiciones históricas', aspect: '16:9', alt: 'Matriz histórica con factores de los viajes europeos, procesos políticos americanos, condiciones de vida y límites de inferencia.', brief: 'Diagrama horizontal 1600×900. Primera fila: Renacimiento, imprenta, expansión comercial y brújula, astrolabio o carabela convergen en viajes europeos por el Atlántico. Segunda fila: proceso político, decisión pública, condición económica o social y límite de inferencia. Incluir texto grande, alto contraste, lectura lineal y fuente didáctica visible.' },
     steps: [
-      S.explain(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'conocer', title: 'La Primera Guerra Mundial (1914-1918)',
-          prompt: 'A inicios del siglo XX, las grandes potencias de Europa competían por territorios, colonias y comercio. La tensión crecía. Toca cada tarjeta.' },
-        { icon: 'History', body: 'Se enfrentaron dos bandos: los **Aliados** (entre ellos Francia, Reino Unido, Rusia y, desde 1917, Estados Unidos) y las **Potencias Centrales** (Alemania, Austria-Hungría y el Imperio otomano, entre otros).', reveal: [
-          { icon: 'Link', front: 'Causas', back: '**Rivalidad** entre potencias por colonias y mercados, **alianzas** que obligaban a los países a apoyarse, **carrera de armamento** y **nacionalismo** extremo.' },
-          { icon: 'Zap', front: 'Detonante', back: 'En **1914**, en **Sarajevo**, fue asesinado el heredero al trono de Austria-Hungría. Por las alianzas, un conflicto entre dos países arrastró a muchos otros.' },
-          { icon: 'Flag', front: 'Consecuencias', back: '**Millones de muertos**, caída de imperios (el austrohúngaro, el ruso, el otomano, el alemán), nuevos países en el mapa, y el **Tratado de Versalles** (1919), que impuso duras condiciones a Alemania. Se creó la **Sociedad de Naciones** para evitar otra guerra.' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'conocer', title: 'La Segunda Guerra Mundial (1939-1945)',
-          prompt: 'Solo 21 años después empezó una guerra todavía más grande. Toca cada tarjeta. Es un tema serio: si algo te hace sentir mal, conversa con tu familia o tu maestra.' },
-        { icon: 'Globe', body: 'Se enfrentaron los **Aliados** (entre ellos Reino Unido, Francia, la Unión Soviética, Estados Unidos y China) contra el **Eje** (Alemania, Italia y Japón).', reveal: [
-          { icon: 'TrendingDown', front: 'Causas', back: 'La **crisis económica de 1929** dejó a millones sin trabajo; en Alemania creció el **resentimiento por el Tratado de Versalles**; surgieron gobiernos **totalitarios** que eliminaban libertades (el **nazismo** de Hitler en Alemania, el **fascismo** en Italia) y querían conquistar territorios.' },
-          { icon: 'Zap', front: 'Inicio', back: 'El 1 de septiembre de **1939**, Alemania invadió **Polonia**. Reino Unido y Francia le declararon la guerra.' },
-          { icon: 'Flower', front: 'Consecuencias humanas', back: '**Decenas de millones** de muertos, muchos de ellos civiles. En el **Holocausto**, el régimen nazi persiguió y asesinó a millones de judíos y a otros grupos. En 1945, Estados Unidos lanzó **bombas atómicas** sobre Hiroshima y Nagasaki, en Japón.' },
-          { icon: 'Handshake', front: 'Consecuencias para el mundo', back: 'En **1945** se fundó la **ONU** (Organización de las Naciones Unidas) para mantener la paz. En **1948** se aprobó la **Declaración Universal de los Derechos Humanos**. El mundo quedó dividido en dos bloques: empezó la **Guerra Fría**.' },
-        ] },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'hacer', title: 'Ejemplo: una cadena de causas',
-          prompt: 'Las consecuencias de una guerra pueden convertirse en causas de la siguiente. Mira cómo se encadenan.' },
-        { icon: 'Link', problem: '¿Cómo se relaciona la Primera Guerra Mundial con la Segunda?',
-          steps: [
-            { text: 'La Primera Guerra termina y el **Tratado de Versalles** (1919) impone a Alemania pagar grandes sumas y perder territorios. → **Consecuencia** de la Primera.' },
-            { text: 'Muchos alemanes sienten **resentimiento** y el país queda debilitado.' },
-            { text: 'Llega la **crisis económica de 1929**: desempleo y pobreza en muchos países.', why: 'Cuando la gente está desesperada, algunos líderes prometen soluciones rápidas y culpan a otros.' },
-            { text: 'Crece el **nazismo**, que elimina libertades y busca conquistar territorios. → **Causa** de la Segunda Guerra.' },
-          ],
-          answer: 'Una consecuencia de la Primera Guerra (el trato a Alemania en Versalles), junto con la crisis de 1929, se convirtió en **causa** de la Segunda.',
-          tip: 'Por eso la ONU buscó después resolver los conflictos con diálogo y no con castigos que dejen heridas abiertas.' },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'conocer',
-          prompt: 'Para entender la historia, hay que distinguir **causas** (por qué pasó) y **consecuencias** (qué pasó después). Practica con un caso cotidiano: en el recreo, dos grupos se pelearon por la cancha.',
-          explain: 'Las causas vienen **antes** y explican el hecho; las consecuencias vienen **después**. Con las guerras mundiales usaremos esta misma lupa.' },
-        { buckets: [
-          { id: 'ca', label: 'Causa', icon: 'ArrowRight', color: 'var(--c-maiz-strong)' },
-          { id: 'co', label: 'Consecuencia', icon: 'Flag', color: 'var(--area-ccss)' },
-        ], items: [
-          { id: 'e1', text: 'Los dos grupos querían la cancha a la misma hora', bucket: 'ca' },
-          { id: 'e2', text: 'La directora creó un horario para usar la cancha', bucket: 'co' },
-          { id: 'e3', text: 'Nadie habló antes para ponerse de acuerdo', bucket: 'ca' },
-          { id: 'e4', text: 'Dos niños terminaron en la enfermería', bucket: 'co' },
-        ] },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.1'], prompt: '¿Causa o consecuencia de las Guerras Mundiales?',
-          hint: 'Pregúntate: ¿esto ocurrió antes y ayudó a que empezara la guerra, o ocurrió después por culpa de la guerra?',
-          explain: 'La crisis de 1929 y las alianzas vinieron antes (causas); la ONU y la Declaración de los Derechos Humanos vinieron después (consecuencias).' },
-        { buckets: [
-          { id: 'ca', label: 'Causa', icon: 'Link', color: 'var(--c-maiz-strong)' },
-          { id: 'co', label: 'Consecuencia', icon: 'Flag', color: 'var(--area-ccss)' },
-        ], items: [
-          { id: 'g1', text: 'Alianzas militares entre potencias europeas', bucket: 'ca' },
-          { id: 'g2', text: 'Creación de la ONU en 1945', bucket: 'co' },
-          { id: 'g3', text: 'La crisis económica de 1929', bucket: 'ca' },
-          { id: 'g4', text: 'La Declaración Universal de los Derechos Humanos', bucket: 'co' },
-          { id: 'g5', text: 'Gobiernos totalitarios que querían conquistar territorios', bucket: 'ca' },
-          { id: 'g6', text: 'La caída de varios imperios', bucket: 'co', feedback: 'Al terminar la Primera Guerra desaparecieron los imperios austrohúngaro, ruso, otomano y alemán.' },
-        ] },
-      ),
-      S.order(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'conocer',
-          prompt: 'Ordena los hechos del **más antiguo al más reciente**.',
-          explain: '1914 → 1919 → 1929 → 1939 → 1945. Entre las dos guerras pasaron solo 21 años.' },
-        { items: [
-          { id: 't1', text: '1914 · Empieza la Primera Guerra Mundial' },
-          { id: 't2', text: '1919 · Tratado de Versalles' },
-          { id: 't3', text: '1929 · Crisis económica mundial' },
-          { id: 't4', text: '1939 · Alemania invade Polonia y empieza la Segunda Guerra' },
-          { id: 't5', text: '1945 · Termina la guerra y se funda la ONU' },
-        ], labels: { start: 'Más antiguo', end: 'Más reciente' } },
-      ),
-      S.choice(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'ser',
-          prompt: 'Después de dos guerras terribles, los países crearon la **ONU** y aprobaron la **Declaración Universal de los Derechos Humanos**. ¿Qué lección querían dejar?',
-          explain: 'La lección fue que los conflictos entre países deben resolverse con **diálogo y acuerdos**, y que **toda persona** tiene derechos que ningún gobierno puede quitarle.' },
-        { options: [
-          { id: 'a', text: 'Que los conflictos deben resolverse con diálogo y que todas las personas tienen derechos' },
-          { id: 'b', text: 'Que el país con más armas siempre tiene la razón', feedback: 'Precisamente, la ONU nació para que la fuerza no decida los conflictos.' },
-          { id: 'c', text: 'Que cada país debe aislarse de los demás', feedback: 'La ONU buscó lo contrario: que los países cooperen y dialoguen.' },
-        ], correct: ['a'] },
-      ),
-      S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.5.1'], prompt: '¿Qué organización se creó en 1945 para mantener la paz mundial?' },
-        { options: [
-          { id: 'a', text: 'La Organización de las Naciones Unidas (ONU)' },
-          { id: 'b', text: 'La Sociedad de Naciones' },
-          { id: 'c', text: 'El Imperio otomano' },
-        ], correct: ['a'] },
-      ),
-      S.tf(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.5.1'], prompt: '¿Verdadero o falso?' },
-        { statements: [
-          { text: 'La crisis económica de 1929 fue una de las causas de la Segunda Guerra Mundial.', answer: true },
-          { text: 'La Primera Guerra Mundial ocurrió entre 1939 y 1945.', answer: false, why: 'La Primera fue de 1914 a 1918; la Segunda, de 1939 a 1945.' },
-          { text: 'La Declaración Universal de los Derechos Humanos es una consecuencia de la Segunda Guerra Mundial.', answer: true },
-        ] },
-      ),
+      S.explain({ fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.4.4', 'ccss:6.5.1', 'ccss:6.7.1'], title: 'Relacionar sin simplificar', prompt: 'Los viajes europeos y los procesos políticos surgieron de condiciones combinadas, no de una sola causa.' }, { icon: 'GitBranch', body: 'El **Renacimiento**, la **imprenta**, la **expansión comercial** y las innovaciones de navegación como **brújula, astrolabio y carabela** favorecieron los viajes europeos y la llegada a América. Para otros procesos, la relación también se explica con evidencia, mecanismo y límites; no con promesas automáticas.' }),
+      S.ejemplo({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.7.1'], title: 'Modelo mínimo de relación', prompt: 'Observa una cadena histórica sin causa automática.' }, { icon: 'Workflow', problem: 'Un gobierno cambia su presupuesto educativo.', steps: [{ text: 'Proceso: cambio de prioridades públicas.' }, { text: 'Condición relacionada: acceso a escuelas.' }, { text: 'Límite: recursos, territorio e instituciones también influyen.' }], answer: 'El proceso puede influir en la condición, pero no la determina por sí solo.' }),
+      S.reading({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.4.4', 'ccss:6.5.1', 'ccss:6.7.1'], prompt: 'Lee tres escenarios históricos resumidos y localiza los factores o condiciones que intervienen.', hint: 'Busca factores combinados, proceso, condición y límite.', explain: 'Los casos muestran que los cambios históricos surgen de condiciones relacionadas, no de una sola causa automática.' }, { genre: 'Síntesis histórica', heading: 'Factores, procesos y condiciones', passage: 'CASO A. Entre los siglos XV y XVI, el Renacimiento impulsó observación y exploración; la imprenta difundió mapas y conocimientos; la expansión comercial motivó buscar rutas hacia Asia; y la brújula, el astrolabio y la carabela facilitaron viajes largos. Juntos, estos factores favorecieron que europeos cruzaran el Atlántico y llegaran a América.\n\nCASO B. Durante las guerras mundiales, el comercio y la demanda internacional cambiaron. Países americanos ajustaron producción y relaciones exteriores; los efectos sobre empleo e ingresos variaron entre regiones y grupos.\n\nCASO C. En varias transiciones latinoamericanas hacia gobiernos civiles, se ampliaron elecciones y espacios de participación. Persistieron desigualdad, exclusión y acceso desigual a servicios; la apertura permitió nuevas decisiones públicas, pero no garantizó mejoras económicas o sociales.', questions: [{ q: '¿Qué conclusión respeta los tres casos?', options: [{ id: 'a', text: 'Los procesos históricos combinan factores y pueden influir en condiciones sin producir resultados automáticos' }, { id: 'b', text: 'Cada proceso tiene una sola causa y el mismo resultado' }, { id: 'c', text: 'La tecnología o la política actúan sin condiciones económicas y sociales' }], correct: 'a' }] }),
+      S.explain({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.7.1'], title: 'Cadena de relación', prompt: 'Usa cuatro campos para sostener una relación histórica.' }, { icon: 'TableProperties', body: 'PROCESO → DECISIÓN O MECANISMO → CONDICIÓN DE VIDA → LÍMITE. El límite reconoce otros factores.' }),
+      S.ejemplo({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.7.1'], title: 'Modelo de relación', prompt: 'Analiza una transición a gobierno civil.' }, { icon: 'Workflow', problem: '¿Cómo puede relacionarse con servicios?', steps: [{ text: 'Proceso: elecciones competitivas.' }, { text: 'Mecanismo: cambia quién decide presupuestos.' }, { text: 'Condición: puede influir en acceso a servicios.' }, { text: 'Límite: no garantiza igualdad; también cuentan recursos e instituciones.' }], answer: 'La relación es posible y explicada, no automática.' }),
+      S.match({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.7.1'], prompt: 'Relaciona proceso y mecanismo.', hint: 'Busca cómo una decisión puede llegar a las condiciones.', explain: 'El mecanismo conecta política y vida cotidiana.' }, { pairs: [{ id: 'a', left: 'Cambio de gobierno', right: 'Puede modificar prioridades presupuestarias' }, { id: 'b', left: 'Participación legal', right: 'Puede abrir demandas sobre servicios' }, { id: 'c', left: 'Instituciones débiles', right: 'Pueden limitar la aplicación de políticas' }] }),
+      S.choice({ fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.7.1'], prompt: 'En un país de América Latina cambia el gobierno y aumenta la participación, pero persisten desempleo y acceso desigual al agua. ¿Qué análisis es válido?' }, { options: [{ id: 'a', text: 'El proceso puede cambiar decisiones públicas, pero no garantiza empleo ni servicios; deben revisarse políticas, recursos y otros factores' }, { id: 'b', text: 'La elección causó por sí sola todos los problemas' }, { id: 'c', text: 'Como persiste desigualdad, no ocurrió ningún cambio político' }], correct: ['a'] }),
+      S.sort({ fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.5.1', 'ccss:6.7.1'], prompt: 'Organiza evidencia y afirmaciones exageradas.', explain: 'Una relación histórica necesita mecanismo y límite.' }, { buckets: [{ id: 'e', label: 'Relación sustentada' }, { id: 'x', label: 'Afirmación automática' }], items: [{ id: 'a', text: 'Una guerra altera comercio y puede afectar empleos de manera desigual', bucket: 'e' }, { id: 'b', text: 'Una elección resuelve toda desigualdad de inmediato', bucket: 'x' }, { id: 'c', text: 'La participación puede influir en políticas de servicios', bucket: 'e' }] }),
+      S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.4.4'], prompt: '¿Qué opción relaciona condiciones económicas, tecnológicas y de ideas con el proceso histórico de los viajes europeos y la llegada a América?' }, { options: [{ id: 'a', text: 'Renacimiento y curiosidad; imprenta que difundió mapas; expansión comercial; e innovaciones de navegación como brújula, astrolabio y carabela' }, { id: 'b', text: 'Solo una carabela, sin cambios en ideas, comercio ni difusión de conocimientos' }, { id: 'c', text: 'Una elección latinoamericana del siglo XX' }], correct: ['a'] }),
+      S.tf({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.5.1', 'ccss:6.7.1'], prompt: 'Evalúa relaciones históricas del continente americano.' }, { statements: [{ text: 'Los conflictos mundiales tuvieron efectos variables sobre comercio y empleo en países americanos.', answer: true }, { text: 'En América Latina, una transición a gobierno civil puede influir en educación, empleo o acceso al agua, pero no garantiza por sí sola mejores condiciones.', answer: true }, { text: 'Un proceso político explica por sí solo todas las condiciones sociales.', answer: false }] }),
     ],
   }),
-
-  /* ───────────────────────── 3. Guerra Fría y conflicto armado interno ───────────────────────── */
   lesson({
-    id: 's06-ccss-3',
-    title: 'La Guerra Fría y el conflicto armado en Guatemala',
-    icon: 'Flower2',
-    minutes: 15,
-    gancho: '¿Has escuchado a tus abuelos hablar de "los tiempos del conflicto" o de "la violencia"? ¿Qué pasó en Guatemala y por qué es importante recordarlo?',
-    objetivos: [
-      'Relacionar la Guerra Fría con el conflicto armado guatemalteco',
-    ],
-    resumen: [
-      'La Guerra Fría (1945-1991) fue la rivalidad entre Estados Unidos (capitalismo) y la Unión Soviética (comunismo). No se enfrentaron directamente, pero apoyaron a gobiernos y grupos armados en otros países.',
-      'En ese contexto, en 1954 fue derrocado el gobierno de Jacobo Árbenz con apoyo de Estados Unidos, y en 1960 inició el conflicto armado interno. También hubo causas internas: la desigualdad en el acceso a la tierra, la exclusión de los pueblos indígenas y la falta de participación política.',
-      'Se enfrentaron el ejército del Estado y grupos guerrilleros, pero quienes más sufrieron fueron las personas civiles, sobre todo las comunidades mayas del área rural: muertes, desapariciones, desplazamiento y miedo.',
-      'El conflicto terminó con la firma del Acuerdo de Paz Firme y Duradera, el 29 de diciembre de 1996. La Comisión para el Esclarecimiento Histórico documentó lo sucedido. Recordar honra a las víctimas y ayuda a que no se repita.',
-    ],
-    media: {
-      id: 's06-ccss-3-linea', kind: 'diagram', title: 'Línea del tiempo: del mundo a Guatemala', aspect: '16:9',
-      alt: 'Línea del tiempo con dos carriles: arriba hechos mundiales de la Guerra Fría, abajo hechos de Guatemala hasta la firma de la paz en 1996.',
-      brief: 'Línea del tiempo horizontal de 1944 a 2000 con dos carriles. Carril "Mundo": 1945 fin de la Segunda Guerra Mundial e inicio de la Guerra Fría; 1991 disolución de la Unión Soviética. Carril "Guatemala": 1944 Revolución de Octubre; 1954 derrocamiento del gobierno de Jacobo Árbenz; 1960 inicio del conflicto armado interno; 1985 nueva Constitución; 1996 Acuerdo de Paz Firme y Duradera (con una paloma blanca estilizada); 1999 informe "Guatemala, memoria del silencio". Colores sobrios, sin imágenes de armas ni de violencia.',
-    },
+    id: 's06-ccss-3', title: 'Guerra Fría y apertura democrática', icon: 'Vote', minutes: 15,
+    gancho: '¿Qué avances y desafíos siguieron a los regímenes autoritarios y conflictos latinoamericanos?',
+    objetivos: ['Analizar avances y desafíos de la apertura democrática latinoamericana en su contexto histórico'],
+    resumen: ['La Guerra Fría influyó en conflictos y regímenes políticos latinoamericanos.', 'Guatemala vivió un conflicto armado interno hasta 1996.', 'Gobiernos civiles y elecciones fueron avances; desigualdad, violencia, exclusión e instituciones débiles siguieron como desafíos.'],
+    media: { id: 's06-ccss-3-apertura', kind: 'diagram', title: 'De la Guerra Fría a la apertura', aspect: '16:9', alt: 'Línea de tiempo latinoamericana con Guerra Fría, gobiernos civiles, elecciones, acuerdos y desafíos persistentes.', brief: 'Línea de tiempo horizontal 1600×900 con contexto de Guerra Fría, Guatemala 1985, 1986 y 1996, Chile 1988 y 1990. Separar avances democráticos de desafíos persistentes. Texto grande, alto contraste y nota de síntesis histórica.' },
     steps: [
-      S.ejemplo(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.5.5'], ambito: 'conocer', title: 'Modelo: reconocer una rivalidad indirecta',
-          prompt: 'Mira cómo se reconoce la relación central de la Guerra Fría.' },
-        { icon: 'Globe', problem: 'Dos potencias rivales no se enfrentan directamente, pero apoyan bandos opuestos en conflictos de otros países.',
-          steps: [
-            { text: 'Identifico a las potencias rivales: Estados Unidos y la Unión Soviética.' },
-            { text: 'Compruebo que no hubo una guerra directa entre ellas.' },
-            { text: 'Relaciono su competencia con apoyos políticos, económicos o militares en otros países.' },
-          ],
-          answer: 'Es una característica de la Guerra Fría: rivalidad mundial y conflictos indirectos entre 1945 y 1991.' },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.5'], ambito: 'conocer', title: 'Una guerra "fría"',
-          prompt: 'Después de la Segunda Guerra Mundial, el mundo quedó dividido en **dos bloques** que competían por su influencia. Toca cada tarjeta.',
-          media: { id: 's06-ccss-3-bloques', kind: 'image', title: 'El mundo en dos bloques', aspect: '16:9',
-            alt: 'Mapamundi con países coloreados en dos tonos: el bloque de Estados Unidos y el bloque de la Unión Soviética; los países no alineados en gris.',
-            brief: 'Mapamundi simplificado de la época de la Guerra Fría (hacia 1960) con dos colores suaves: azul para Estados Unidos y sus aliados, rojo claro para la Unión Soviética y sus aliados; países no alineados en gris. Leyenda sencilla con los dos bloques y "no alineados". Una flecha discreta señala Centroamérica. Sin banderas ni símbolos militares.' } },
-        { icon: 'Globe', body: 'Se llamó **"fría"** porque Estados Unidos y la Unión Soviética **no se enfrentaron directamente**, pero apoyaron a gobiernos y grupos armados en otros países, donde sí hubo guerras "calientes".', reveal: [
-          { icon: 'Calendar', front: '¿Cuándo?', back: 'Desde **1945** hasta **1991**, cuando se disolvió la Unión Soviética.' },
-          { icon: 'Users', front: '¿Quiénes?', back: '**Estados Unidos** (capitalismo: propiedad privada y libre mercado) y la **Unión Soviética** (comunismo: el Estado controla la economía), con sus aliados.' },
-          { icon: 'Map', front: '¿Dónde?', back: 'En muchos lugares: Corea, Vietnam, Cuba, Centroamérica y África. América Latina era vista por Estados Unidos como su **zona de influencia**.' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.5'], ambito: 'conocer', title: 'Guatemala en tiempos de la Guerra Fría',
-          prompt: 'El conflicto guatemalteco tuvo **causas internas** y un **contexto mundial**. Toca cada tarjeta, en orden.' },
-        { icon: 'MapPin', body: 'Un conflicto casi nunca tiene una sola causa. Los historiadores buscan **las internas** (del propio país) y **las externas** (del mundo).', reveal: [
-          { icon: 'Sprout', front: '1944-1954', back: 'Tras la **Revolución de Octubre de 1944**, hubo gobiernos electos que hicieron reformas. El gobierno de **Jacobo Árbenz** repartió tierras que no se cultivaban (reforma agraria).' },
-          { icon: 'Globe', front: '1954', back: 'Con apoyo de **Estados Unidos**, que temía la influencia comunista en plena Guerra Fría, fue **derrocado** el gobierno de Árbenz. Siguieron gobiernos, en su mayoría, militares.' },
-          { icon: 'Scale', front: 'Causas internas', back: '**Desigualdad** en el acceso a la tierra, **pobreza**, **exclusión** de los pueblos indígenas y **falta de participación política**: muchas personas no podían expresar sus demandas de forma pacífica.' },
-          { icon: 'CalendarDays', front: '1960-1996', back: 'Se formaron grupos **guerrilleros** que se enfrentaron al **ejército** del Estado. Fue el **conflicto armado interno**, que duró **36 años**.' },
-        ] },
-      ),
-      S.reading(
-        { fase: 'construir', areas: ['ccss', 'l1'], cnb: ['ccss:6.5.6', 'ccss:6.5.5'], ambito: 'conocer',
-          prompt: 'Lee con atención y respeto. Es un tema serio: si algo te hace sentir triste o tienes preguntas, conversa con tu familia o tu maestra.' },
-        { genre: 'Texto informativo', heading: 'Lo que dejó el conflicto armado', passage:
-          'Durante el conflicto armado interno se enfrentaron el ejército del Estado y grupos guerrilleros. Pero quienes más sufrieron fueron las personas que no participaban en la guerra: la **población civil**.\n\nMuchas familias perdieron a sus seres queridos; otras tuvieron que huir de sus comunidades y algunas se refugiaron en México. Aldeas enteras fueron destruidas. Las **comunidades mayas del área rural** fueron las más afectadas. También se perdió la confianza entre vecinos y muchas personas vivieron con miedo durante años.\n\nDespués de la firma de la paz, la **Comisión para el Esclarecimiento Histórico** escuchó a miles de testigos. En 1999 presentó su informe "Guatemala, memoria del silencio". Concluyó que hubo más de 200,000 personas muertas o desaparecidas, que la gran mayoría de las violaciones a los derechos humanos fueron cometidas por fuerzas del Estado, y que la guerrilla también cometió abusos.\n\nConocer esta historia no es para odiar a nadie. Es para **honrar a las víctimas**, entender el valor de los derechos humanos y aprender a resolver los conflictos con diálogo.',
-          questions: [
-            { q: '¿Quiénes fueron los más afectados por el conflicto, según el texto?', options: [
-              { id: 'a', text: 'La población civil, sobre todo las comunidades mayas del área rural' },
-              { id: 'b', text: 'Solo los soldados' },
-              { id: 'c', text: 'Los países de Europa' },
-            ], correct: 'a' },
-            { q: '¿Qué hizo la Comisión para el Esclarecimiento Histórico?', options: [
-              { id: 'a', text: 'Escuchó a testigos y escribió un informe sobre lo que pasó' },
-              { id: 'b', text: 'Organizó las elecciones de 1985' },
-              { id: 'c', text: 'Firmó un tratado con la Unión Soviética' },
-            ], correct: 'a' },
-            { q: 'Según el último párrafo, ¿para qué sirve conocer esta historia?', options: [
-              { id: 'a', text: 'Para honrar a las víctimas y aprender a resolver conflictos con diálogo' },
-              { id: 'b', text: 'Para buscar culpables entre los compañeros' },
-              { id: 'c', text: 'Para olvidar lo que pasó' },
-            ], correct: 'a', why: 'La memoria histórica ayuda a que estos hechos no se repitan.' },
-          ] },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.6'], ambito: 'conocer',
-          prompt: 'Evalúa el impacto: ¿cada situación fue un **efecto del conflicto en la sociedad civil** o un **paso hacia la paz y la memoria**?',
-          hint: 'Un efecto del conflicto es un daño que sufrió la población. Un paso hacia la paz busca reparar, recordar o dialogar.',
-          explain: 'Evaluar un conflicto es mirar sus daños y también lo que la sociedad hizo para salir de él.' },
-        { buckets: [
-          { id: 'ef', label: 'Efecto en la sociedad civil', icon: 'CloudRain', color: 'var(--c-maiz-strong)' },
-          { id: 'pz', label: 'Paso hacia la paz y la memoria', icon: 'Flower2', color: 'var(--c-ok)' },
-        ], items: [
-          { id: 'i1', text: 'Familias desplazadas que huyeron de sus aldeas', bucket: 'ef' },
-          { id: 'i2', text: 'La firma del Acuerdo de Paz Firme y Duradera en 1996', bucket: 'pz' },
-          { id: 'i3', text: 'Personas refugiadas en México', bucket: 'ef' },
-          { id: 'i4', text: 'Un informe que escucha a las víctimas y documenta lo ocurrido', bucket: 'pz' },
-          { id: 'i5', text: 'Miedo y desconfianza entre vecinos durante años', bucket: 'ef' },
-          { id: 'i6', text: 'Comunidades que construyen monumentos de la memoria', bucket: 'pz' },
-        ] },
-      ),
-      S.order(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.5.5'], ambito: 'conocer',
-          prompt: 'Ordena estos hechos del **más antiguo al más reciente**.',
-          explain: 'La Guerra Fría fue el contexto mundial (1945-1991); el conflicto guatemalteco (1960-1996) terminó con la firma de la paz.' },
-        { items: [
-          { id: 'h1', text: '1945 · Termina la Segunda Guerra Mundial y empieza la Guerra Fría' },
-          { id: 'h2', text: '1954 · Derrocan al gobierno de Jacobo Árbenz' },
-          { id: 'h3', text: '1960 · Inicia el conflicto armado interno' },
-          { id: 'h4', text: '1991 · Se disuelve la Unión Soviética' },
-          { id: 'h5', text: '1996 · Se firma el Acuerdo de Paz Firme y Duradera' },
-        ], labels: { start: 'Más antiguo', end: 'Más reciente' } },
-      ),
-      S.write(
-        { fase: 'aplicar', areas: ['ccss', 'l1'], cnb: ['ccss:6.5.6'], ambito: 'ser',
-          prompt: 'Evalúa con tus palabras: ¿la violencia armada resolvió los problemas de desigualdad y exclusión que había en Guatemala? Explica **por qué** y di **qué camino** crees que sí ayuda a resolver los problemas de un país.' },
-        { minWords: 30, placeholder: 'Yo creo que...', model: 'Yo creo que la violencia armada no resolvió los problemas, porque causó miles de muertes y desplazamientos, y la mayoría de las víctimas fueron personas civiles que no participaban en la guerra. Muchas comunidades quedaron más pobres y con miedo. El camino que sí ayuda es el diálogo, respetar los derechos humanos y que todas las personas puedan participar y opinar sin miedo.',
-          rubric: ['Doy una respuesta clara (sí o no)', 'Explico el impacto en la población civil', 'Propongo un camino pacífico', 'Escribo con respeto hacia las víctimas'] },
-      ),
-      S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.5.5', 'ccss:6.5.6'], prompt: '¿Cuál afirmación relaciona correctamente la Guerra Fría con el conflicto armado interno?' },
-        { options: [
-          { id: 'a', text: 'La rivalidad entre Estados Unidos y la Unión Soviética influyó en el conflicto, que tuvo también causas internas y afectó sobre todo a la población civil' },
-          { id: 'b', text: 'La Guerra Fría fue una batalla directa entre Guatemala y la Unión Soviética' },
-          { id: 'c', text: 'El conflicto armado interno terminó en 1945' },
-        ], correct: ['a'] },
-      ),
-      S.tf(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.5.5', 'ccss:6.5.6'], prompt: '¿Verdadero o falso?' },
-        { statements: [
-          { text: 'El conflicto armado interno de Guatemala duró de 1960 a 1996.', answer: true },
-          { text: 'La Guerra Fría se llamó así porque ocurrió en países con mucha nieve.', answer: false, why: 'Se llamó "fría" porque las dos potencias no se enfrentaron directamente.' },
-          { text: 'Las comunidades mayas del área rural fueron de las más afectadas por la violencia.', answer: true },
-        ] },
-      ),
-      cierre({ areas: ['ccss'], cnb: [] }, ['Explico qué factores llevaron a los europeos a América', 'Distingo causas y consecuencias de las Guerras Mundiales', 'Relaciono la Guerra Fría con el conflicto armado interno'],
-        ['Preguntaré con respeto a una persona mayor qué recuerda de la firma de la paz', 'Resolveré un desacuerdo esta semana con diálogo']),
+      S.explain({ fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.5.5', 'ccss:6.5.6', 'ccss:6.7.4'], title: 'Contexto, avance y desafío', prompt: 'La apertura democrática latinoamericana se estudia después de regímenes autoritarios y conflictos vinculados al contexto de Guerra Fría.' }, { icon: 'History', body: 'Un avance amplía derechos o competencia política; un desafío muestra un límite pendiente.' }),
+      S.ejemplo({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.7.4'], title: 'Modelo mínimo de apertura', prompt: 'Distingue avance y desafío antes de leer los casos.' }, { icon: 'Columns3', problem: 'Tras un régimen autoritario vuelven elecciones competitivas, pero persiste violencia política.', steps: [{ text: 'Avance: competencia electoral.' }, { text: 'Desafío: violencia que limita participación.' }], answer: 'La apertura puede tener avances reales y desafíos simultáneos.' }),
+      S.reading({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.5', 'ccss:6.5.6', 'ccss:6.7.4'], prompt: 'Lee las fichas históricas resumidas.', hint: 'Distingue contexto, avance y desafío.', explain: 'Las fechas ayudan a evitar mezclar transición política y fin de cada conflicto.' }, { genre: 'Fichas históricas', heading: 'Guatemala y Chile', passage: 'GUATEMALA. En el contexto de la Guerra Fría ocurrió un conflicto armado interno. La Constitución de 1985 y el gobierno civil electo de 1986 ampliaron la apertura política; el conflicto terminó con los Acuerdos de Paz de 1996. Persistieron exclusión, desigualdad, violencia y dificultades para cumplir acuerdos.\n\nCHILE. Tras un régimen autoritario, el plebiscito de 1988 abrió el camino a un gobierno civil electo que asumió en 1990. Volvieron elecciones competitivas, mientras persistieron desigualdades y debates sobre instituciones heredadas.', questions: [{ q: '¿Qué patrón comparten?', options: [{ id: 'a', text: 'Hubo avances electorales y desafíos sociales o institucionales persistentes' }, { id: 'b', text: 'La apertura eliminó de inmediato todo conflicto y desigualdad' }, { id: 'c', text: 'No hubo cambios políticos' }], correct: 'a' }] }),
+      S.explain({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.7.4'], title: 'Matriz de apertura', prompt: 'Analiza cada caso con tres campos.' }, { icon: 'Columns3', body: 'CONTEXTO HISTÓRICO → AVANCE DEMOCRÁTICO → DESAFÍO. No se llama fracaso a un avance incompleto ni solución total a una elección.' }),
+      S.ejemplo({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.6', 'ccss:6.7.4'], title: 'Modelo Guatemala', prompt: 'Completa la matriz histórica.' }, { icon: 'TableProperties', problem: 'Relacionar conflicto y apertura.', steps: [{ text: 'Contexto: conflicto armado interno durante la Guerra Fría.' }, { text: 'Avance: Constitución, gobierno civil y espacios electorales.' }, { text: 'Otro hito: Acuerdos de Paz de 1996.' }, { text: 'Desafío: cumplir acuerdos y enfrentar exclusión, desigualdad y violencia.' }], answer: 'La apertura fue un avance real con desafíos pendientes.' }),
+      S.sort({ fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.7.4'], prompt: 'Clasifica avances y desafíos.', hint: 'Avance amplía democracia; desafío señala un límite.', explain: 'Ambos pueden coexistir.' }, { buckets: [{ id: 'a', label: 'Avance democrático' }, { id: 'd', label: 'Desafío' }], items: [{ id: 'x', text: 'Elecciones competitivas', bucket: 'a' }, { id: 'y', text: 'Persistencia de violencia', bucket: 'd' }, { id: 'z', text: 'Gobierno civil electo', bucket: 'a' }, { id: 'w', text: 'Instituciones débiles y exclusión', bucket: 'd' }] }),
+      S.choice({ fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.5.5', 'ccss:6.7.4'], prompt: 'Tras un régimen autoritario latinoamericano regresan elecciones competitivas, pero persisten violencia y límites institucionales. ¿Qué análisis corresponde?' }, { options: [{ id: 'a', text: 'La apertura logró un avance electoral y conserva desafíos políticos y sociales' }, { id: 'b', text: 'Las elecciones eliminaron automáticamente todos los desafíos' }, { id: 'c', text: 'La persistencia de desafíos demuestra que no hubo ningún avance' }], correct: ['a'] }),
+      S.write({ fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.5.6', 'ccss:6.7.4'], prompt: 'Analiza el caso guatemalteco con contexto, un avance y un desafío.' }, { minWords: 22, placeholder: 'Contexto:... Avance:... Desafío:...', model: 'Contexto: conflicto armado interno influido por la Guerra Fría. Avance: gobierno civil y acuerdos de paz. Desafío: cumplir compromisos y reducir exclusión y violencia.', rubric: ['Ubico el contexto', 'Identifico un avance', 'Identifico un desafío sin prometer solución total'] }),
+      S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.7.4'], prompt: 'En América Latina, ¿cuál opción identifica avance y desafío de una apertura democrática?' }, { options: [{ id: 'a', text: 'Avance: elecciones competitivas; desafío: persistencia de exclusión o instituciones débiles' }, { id: 'b', text: 'Avance: desaparece la desigualdad; desafío: ya no hay elecciones' }, { id: 'c', text: 'Avance: menos derechos; desafío: más participación' }], correct: ['a'] }),
+      S.tf({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.5.5', 'ccss:6.5.6', 'ccss:6.7.4'], prompt: 'Comprueba el contexto histórico de la apertura democrática latinoamericana.' }, { statements: [{ text: 'La apertura democrática latinoamericana tuvo avances electorales y desafíos persistentes.', answer: true }, { text: 'El gobierno civil guatemalteco de 1986 significa que el conflicto terminó ese mismo año.', answer: false, why: 'El conflicto terminó con los Acuerdos de Paz de 1996.' }] }),
     ],
   }),
 ];

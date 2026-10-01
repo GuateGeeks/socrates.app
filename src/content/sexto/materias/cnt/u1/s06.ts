@@ -307,25 +307,15 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'ser', title: '¿Qué es un hábito nutricional?',
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:5.3.1', 'cnt:6.1.1'], ambito: 'ser', title: 'Hábitos y ambientes que influyen en la salud',
           prompt: 'Un **hábito** es una acción repetida. Los patrones alimentarios y la higiene pueden **reducir o aumentar riesgos**, pero no garantizan un resultado individual. Toca las tarjetas.' },
-        { icon: 'CalendarDays', body: 'Para evaluar un patrón se observa el conjunto de decisiones y las condiciones de acceso, no se juzga a una persona por una sola comida.', reveal: [
+        { icon: 'CalendarDays', body: 'Para evaluar un patrón se observa el conjunto de decisiones y las condiciones de acceso. Un ambiente sano protege agua y alimentos; uno contaminado presenta humo, basura, aguas residuales u otros riesgos.', reveal: [
           { icon: 'Sunrise', front: 'Regularidad', back: 'Tener opciones regulares de comida puede apoyar energía y atención; los horarios y necesidades varían.' },
           { icon: 'Salad', front: 'Variedad', back: 'Combinar grupos disponibles aumenta la probabilidad de cubrir distintos nutrientes.' },
           { icon: 'GlassWater', front: 'Agua segura', back: 'El agua segura hidrata sin añadir azúcares libres.' },
           { icon: 'Hand', front: 'Higiene', back: '**Lavarse las manos** y manipular alimentos de forma segura reduce el riesgo de infecciones transmitidas por alimentos.' },
+          { icon: 'Trees', front: 'Ambiente sano o contaminado', back: 'Un sitio limpio, ventilado y con agua manejada de forma segura reduce exposiciones; basura, humo o aguas residuales indican contaminación que debe atenderse.' },
           { icon: 'ShieldCheck', front: 'Riesgo, no garantía', back: 'Los patrones influyen en riesgos de caries, anemia o enfermedades crónicas junto con muchos otros factores.' },
-        ] },
-      ),
-      S.cards(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'conocer', title: 'La olla familiar',
-          prompt: 'Las **Guías Alimentarias para Guatemala** usan una **olla de barro** como orientación general, no como dieta individual. Se adapta a necesidades, cultura, disponibilidad, presupuesto y restricciones.' },
-        { cards: [
-          { icon: 'Wheat', front: 'Base: cereales, granos y tubérculos', back: 'Tortilla, frijol, arroz, papa, yuca. **Todos los días**, en cada tiempo de comida.' },
-          { icon: 'Carrot', front: 'Hierbas, verduras y frutas', back: 'Güisquil, zanahoria, chipilín, hierbamora, naranja, mango. **Todos los días**, de varios colores.' },
-          { icon: 'Egg', front: 'Leche, huevos y carnes', back: 'Leche, queso, huevo, pollo, pescado, carne, hígado. **Varias veces por semana**.' },
-          { icon: 'Candy', front: 'Arriba: azúcares y grasas', back: 'Azúcar, dulces, aceite, manteca. En **poca cantidad**: son la franja más pequeña.' },
-          { icon: 'Footprints', front: 'Fuera de la olla', back: 'El agua segura y el movimiento posible para cada persona forman parte de la orientación general.' },
         ] },
       ),
       S.explain(
@@ -380,22 +370,25 @@ export default [
           { id: 'o7', text: 'Manteca y frituras', bucket: 'poc' },
         ] },
       ),
-      S.chart(
-        { fase: 'aplicar', areas: ['cnt', 'mat'], cnb: ['cnt:5.3.1'], ambito: 'hacer',
-          prompt: 'Supongamos que **Yesenia** anotó cuántas **porciones de frutas y verduras** comió cada día. Construye la gráfica con sus datos: lunes 3, martes 2, miércoles 5, jueves 4, viernes 1.',
-          explain: 'La gráfica muestra que el viernes fue su día más bajo. Registrar lo que comes ayuda a darte cuenta de tus hábitos y a mejorarlos.' },
-        { source: 'Registro de Yesenia: porciones de frutas y verduras por día', unit: 'porciones', max: 6, step: 1,
-          categories: [
-            { id: 'lu', label: 'Lunes', icon: 'Apple' },
-            { id: 'ma', label: 'Martes', icon: 'Apple' },
-            { id: 'mi', label: 'Miércoles', icon: 'Apple' },
-            { id: 'ju', label: 'Jueves', icon: 'Apple' },
-            { id: 'vi', label: 'Viernes', icon: 'Apple' },
-          ], data: [3, 2, 5, 4, 1] },
+      S.explain(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:6.2.1', 'cnt:6.3.1'], title: 'Alimentos locales, expansión urbana y agua',
+          prompt: 'Cuando crece la población, la frontera urbana puede reemplazar bosque o usar espacios inadecuados para vivienda; ese cambio puede aumentar erosión y modificar infiltración según suelo, pendiente y lluvia.' },
+        { icon: 'Map', body: 'Conservar vegetación o reforestar sitios adecuados **puede contribuir** a proteger suelo y recursos hídricos, pero plantar árboles no garantiza caudal ni calidad: también influyen clima, geología, extracción, especies y mantenimiento.' },
       ),
       S.sort(
-        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'ser',
-          prompt: 'Clasifica el efecto probable del patrón descrito, sin prometer resultados individuales.',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:6.2.1', 'cnt:6.3.1'],
+          prompt: 'Clasifica relaciones entre crecimiento de la población, frontera urbana, bosque y protección del agua.',
+          hint: 'Distingue presión urbana, acción condicionada y garantía exagerada.',
+          explain: 'La expansión puede eliminar cobertura; una reforestación adecuada puede ayudar, sin garantizar resultados.' },
+        { buckets: [{ id: 'p', label: 'Presión sobre el territorio', icon: 'Construction' }, { id: 'c', label: 'Protección condicionada', icon: 'Trees' }, { id: 'x', label: 'Afirmación exagerada', icon: 'TriangleAlert' }], items: [
+          { id: 'a', text: 'Construir viviendas eliminando bosque y sin ordenar el uso del suelo', bucket: 'p' },
+          { id: 'b', text: 'Reforestar un sitio adecuado y dar seguimiento puede ayudar a reducir erosión', bucket: 'c' },
+          { id: 'd', text: 'Sembrar cualquier árbol garantiza que nunca faltará agua', bucket: 'x' },
+        ] },
+      ),
+      S.sort(
+        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.3.1', 'cnt:6.1.1'], ambito: 'ser',
+          prompt: 'Clasifica hábitos y condiciones de un ambiente sano o contaminado, sin prometer resultados individuales.',
           explain: 'Algunos patrones apoyan variedad o seguridad; otros añaden con frecuencia azúcares libres o sodio, omiten comidas o aumentan riesgos. El contexto también importa.' },
         { buckets: [
           { id: 'pre', label: 'Apoya variedad o seguridad', icon: 'ShieldCheck', color: 'var(--c-ok)' },
@@ -407,6 +400,7 @@ export default [
           { id: 'h4', text: 'Comer golosinas en lugar del almuerzo', bucket: 'rie' },
           { id: 'h5', text: 'Lavar las verduras antes de prepararlas', bucket: 'pre' },
           { id: 'h6', text: 'Agregar mucha sal a todas las comidas', bucket: 'rie' },
+          { id: 'h7', text: 'Preparar alimentos junto a aguas residuales y basura abierta', bucket: 'rie' },
         ] },
       ),
       S.write(
