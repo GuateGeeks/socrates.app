@@ -10,6 +10,7 @@ import { setStorageAdapter, recordLesson, getProgress, emptyProgress, nivel, typ
 import { parseDosificacion } from '../scripts/build-cnb.mjs';
 import { COURSE, evaluateBadges } from '../src/content/index';
 import { mediaReplacementSummary } from '../src/media/mockRegistry';
+import { isShortAnswerReady } from '../src/activities/short-answer';
 
 registerAll();
 
@@ -87,6 +88,42 @@ test('recordLesson: XP, estrellas, evidencia por indicador e insignias', () => {
   assert.ok(Object.keys(p.evidence).includes('mat:4.1'));
   assert.equal(nivel(p.evidence['mat:4.1']), 'destacado');
   assert.equal(p.streak.count, 1);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('respuesta escrita exige texto sustantivo y completar la rubrica', () => {
+  const props = { minWords: 8, model: 'Un modelo breve.', rubric: ['Inclui evidencia', 'Explique mi decision'] };
+  assert.equal(isShortAnswerReady(props, { text: 'agua agua agua agua agua agua agua agua', checks: [true, true], seen: true }), false);
+  assert.equal(isShortAnswerReady(props, { text: 'Compare dos fuentes y explique una diferencia clara', checks: [true, false], seen: true }), false);
+  assert.equal(isShortAnswerReady(props, { text: 'Compare dos fuentes y explique una diferencia clara', checks: [true, true], seen: true }), true);
+});
+
+test('respuesta escrita se guarda pendiente de revision sin acreditar dominio', () => {
+  let mem: Progress | null = null;
+  setStorageAdapter({ load: () => mem, save: (p) => { mem = p; } });
+  const mission = COURSE.missions[0];
+  const step = {
+    id: 'journal-fixture', type: 'short-answer', fase: 'aplicar' as const, areas: ['l1' as const],
+    cnb: ['l1:3.4.2'], prompt: 'Escribe una respuesta.',
+    props: { minWords: 6, model: 'Modelo.', rubric: ['Inclui evidencia', 'Revise claridad'] },
+  };
+  const lesson = { id: 'journal-lesson', title: 'Diario', minutes: 5, steps: [step] };
+  recordLesson(mission, lesson, [{
+    step, graded: false, correct: true, firstTry: true, score: 1,
+    value: { text: 'Esta respuesta incluye evidencia y una explicacion clara', checks: [true, true], seen: true },
+  }], () => []);
+
+  const progress = getProgress();
+  assert.equal(progress.evidence['l1:3.4'], undefined);
+  assert.equal(progress.contenidos?.['l1:3.4.2'], undefined);
+  assert.deepEqual(progress.journal['journal-lesson/journal-fixture'], {
+    stepId: 'journal-fixture',
+    value: JSON.stringify({ text: 'Esta respuesta incluye evidencia y una explicacion clara', checks: [true, true], seen: true }),
+    at: progress.lessons['journal-lesson'].completedAt,
+    status: 'pending-review',
+    cnb: ['l1:3.4.2'],
+    review: { criteria: ['Inclui evidencia', 'Revise claridad'], selfChecks: [true, true] },
+  });
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 

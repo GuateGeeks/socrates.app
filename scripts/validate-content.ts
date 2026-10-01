@@ -17,7 +17,7 @@
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { registerAll } from '../src/activities/index';
-import { getActivity, isDeclaredAssessmentEvidence } from '../src/core/registry';
+import { getActivity, isAutoGradedAssessmentEvidence, isPendingReviewEvidence } from '../src/core/registry';
 import { lookup, areaOf, getCatalog } from '../src/cnb/catalog';
 import { WEEKS, COURSE, missionAreas } from '../src/content/index';
 import { MATERIA_UNITS } from '../src/content/sexto/materias/index';
@@ -114,6 +114,14 @@ function checkStep(w: Mission, l: Lesson, s: StepBase, where: string, examMode: 
 }
 
 const TEACH = new Set(['explain', 'reading', 'worked-example']);
+function isDeclaredAssessmentEvidence(step: StepBase): boolean {
+  const area = step.areas[0];
+  return Boolean(area && (
+    isAutoGradedAssessmentEvidence(step, area)
+    || isPendingReviewEvidence(step, area)
+  ));
+}
+
 function checkMateria(w: Mission, l: Lesson, sid: string, where: string) {
   const a = l.area!;
   const same = w.lessons.filter((x) => x.kind === 'materia' && x.area === a);

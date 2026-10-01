@@ -80,7 +80,7 @@ export default semana({
             ] },
         ),
         S.match(
-          { fase: 'construir', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer',
+          { fase: 'construir', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'hacer',
             prompt: 'Recupera lo aprendido en **Comunicación y Lenguaje**: relaciona cada convención con su función.' },
           { leftTitle: 'Convención', rightTitle: 'Función', pairs: [
             { id: 'o', left: 'Orientación', right: 'La flecha N permite reconocer el norte' },
@@ -100,7 +100,7 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.match(
-          { fase: 'aplicar', areas: ['l1', 'ccss', 'fc'], cnb: ['l1:3.2.1', 'l1:3.3.1', 'ccss:1.2.1', 'ccss:1.3.1', 'fc:1.2.1', 'fc:1.1.2'], ambito: 'hacer',
+          { fase: 'aplicar', areas: ['l1', 'ccss', 'fc'], cnb: ['l1:3.4.2', 'ccss:1.2.1', 'ccss:1.3.1', 'fc:1.2.1', 'fc:1.1.2'], ambito: 'hacer',
             prompt: 'Selecciona las **cuatro anotaciones** que colocarás: una por categoría.' },
           { leftTitle: 'Categoría', rightTitle: 'Anotación', pairs: [
             { id: 'u', left: 'Ubicación o condición geográfica', right: 'A unos 2,000 m, Loma Linda es tierra fría' },
@@ -110,7 +110,7 @@ export default semana({
           ] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['l1', 'ccss', 'fc'], cnb: ['l1:3.2.1', 'l1:3.3.1', 'ccss:1.2.1', 'ccss:1.3.1', 'fc:1.2.1', 'fc:1.1.2'], ambito: 'hacer', title: 'Producto 1: mapa anotado · 7 min',
+          { fase: 'aplicar', areas: ['l1', 'ccss', 'fc'], cnb: ['l1:3.4.2', 'ccss:1.2.1', 'ccss:1.3.1', 'fc:1.2.1', 'fc:1.1.2'], ambito: 'hacer', title: 'Producto 1: mapa anotado · 7 min',
             prompt: 'Usa Loma Linda o datos equivalentes y comprobables de tu comunidad.' },
           { goal: 'Crear un mapa local legible que conecte cuatro evidencias con lugares.',
             steps: [
@@ -125,7 +125,7 @@ export default semana({
             ] },
         ),
         S.sort(
-          { fase: 'aplicar', areas: ['l1', 'fc'], cnb: ['l1:3.2.1', 'l1:3.3.1', 'fc:1.2.1'], ambito: 'hacer',
+          { fase: 'aplicar', areas: ['l1', 'fc'], cnb: ['l1:3.4.2', 'fc:1.2.1'], ambito: 'hacer',
             prompt: 'Haz una revisión rápida del mapa antes de presentarlo.',
             explain: 'Corrige afirmaciones no respaldadas y verifica que las cuatro anotaciones estén vinculadas.' },
           { buckets: [
@@ -162,7 +162,7 @@ export default semana({
               'La voz es clara y contiene una pausa',
             ] },
         ),
-        cierre({ areas: ['l1', 'ccss', 'fc'], cnb: ['l1:2.1.6', 'l1:3.2.1', 'l1:3.3.1', 'fc:1.2.1', 'fc:1.1.2'] },
+        cierre({ areas: ['l1', 'ccss', 'fc'], cnb: ['l1:2.1.6', 'l1:3.4.2', 'fc:1.2.1', 'fc:1.1.2'] },
           ['Construí un mapa legible con cuatro evidencias vinculadas', 'Juzgué una condición local sin afirmar más de lo que muestran los datos', 'Presenté una respuesta solidaria en 45 segundos'],
           ['Preguntaré antes de afirmar algo que el mapa no demuestra', 'Escucharé cómo otras familias viven las condiciones del lugar', 'Participaré en una acción solidaria realizable']),
       ],

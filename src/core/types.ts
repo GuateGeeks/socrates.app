@@ -168,6 +168,8 @@ export interface ActivityDefinition<P = any, A = any> {
   graded: boolean;
   /** La respuesta abierta se conserva como evidencia revisable, aunque no tenga clave automática. */
   recordsEvidence?: boolean;
+  /** Estado inicial de una evidencia abierta que no puede corregirse automáticamente. */
+  evidenceMode?: 'journal-pending-review';
   Component: ComponentType<ActivityProps<P, A>>;
   /** ¿puede el niño pulsar "Comprobar"? */
   isReady?(props: P, value: A | undefined): boolean;

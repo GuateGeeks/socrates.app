@@ -33,7 +33,28 @@ export function isAssessmentEvidence(step: StepBase, area: AreaId): boolean {
   const def = getActivity(step.type);
   return Boolean(
     step.areas[0] === area
-    && (def?.graded || def?.recordsEvidence)
+    && (def?.graded || def?.evidenceMode === 'journal-pending-review')
+    && step.cnb.some((ref) => ref.startsWith(`${area}:`)),
+  );
+}
+
+/** Evidencia con corrección automática; nunca incluye diarios pendientes de revisión. */
+export function isAutoGradedAssessmentEvidence(step: StepBase, area: AreaId): boolean {
+  const def = getActivity(step.type);
+  return Boolean(
+    step.areas[0] === area
+    && def?.graded
+    && step.cnb.some((ref) => ref.startsWith(`${area}:`)),
+  );
+}
+
+/** Producción guardada que requiere revisión humana antes de acreditar logro. */
+export function isPendingReviewEvidence(step: StepBase, area: AreaId): boolean {
+  const def = getActivity(step.type);
+  return Boolean(
+    step.areas[0] === area
+    && def?.recordsEvidence
+    && def.evidenceMode === 'journal-pending-review'
     && step.cnb.some((ref) => ref.startsWith(`${area}:`)),
   );
 }

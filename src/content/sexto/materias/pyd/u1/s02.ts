@@ -1,150 +1,73 @@
-/**
- * Productividad y Desarrollo · Unidad 1 · Semana 2 — Día de mercado en mi pueblo.
- * El perfil del emprendimiento (saberes, habilidades y actitudes) y cómo generar ideas de
- * proyectos productivos que mejoren la economía de familias con pocos recursos.
- */
+/** Productividad y Desarrollo · Unidad 1 · Semana 2. */
 import { cierre, lesson, S } from '../../../../dsl';
 
-export default [
-  lesson({
-    id: 's02-pyd-1',
-    title: 'Emprender en mi comunidad: perfil y buenas ideas',
-    icon: 'Store',
-    minutes: 15,
-    gancho: 'Doña Chepita vende atol de elote en el mercado desde hace veinte años y siempre se le acaba. ¿Qué sabe, qué sabe hacer y cómo es ella para que su negocio funcione?',
-    objetivos: [
-      'Explicar qué es emprender y qué es un proyecto productivo',
-      'Clasificar los saberes, habilidades y actitudes del perfil emprendedor',
-      'Generar una idea productiva que una una necesidad, un recurso y un saber de la comunidad',
-    ],
-    resumen: [
-      'Emprender es descubrir una necesidad u oportunidad y organizar recursos para ofrecer un producto o un servicio. Un proyecto productivo genera ingresos para una familia o un grupo.',
-      'El perfil emprendedor combina saberes (lo que conoces), habilidades (lo que sabes hacer) y actitudes (cómo actúas: responsabilidad, perseverancia, honestidad, creatividad, trabajo en equipo).',
-      'Fórmula para generar ideas: necesidad de la comunidad + recurso disponible + saber de la familia = idea productiva.',
-      'Una buena idea es útil, posible con lo que hay, cuida los recursos naturales y genera ingresos.',
-    ],
-    media: {
-      id: 's02-pyd-1-mercado-emprende', kind: 'image', title: 'Emprendimientos del mercado', aspect: '16:9',
-      alt: 'Un mercado de pueblo con distintos puestos: atol, tejidos, hortalizas, reparación de celulares y panadería, atendidos por mujeres y hombres de distintas edades.',
-      brief: 'Ilustración colorida de un día de mercado en un pueblo del altiplano. Cinco puestos con emprendedoras y emprendedores diversos: una señora con olla de atol de elote, una tejedora con cortes y servilletas, un joven que repara teléfonos, una familia con hortalizas en canastos, un panadero con canasto de pan dulce. Cada puesto con un globo pequeño con ícono (cazo, telar, llave, zanahoria, pan). Sin marcas comerciales ni textos legibles salvo precios en quetzales genéricos (Q5, Q10).',
-    },
-    steps: [
-      S.explain(
-        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:1.2.1'], ambito: 'conocer', title: '¿Qué es emprender?',
-          prompt: '**Emprender** es descubrir una **necesidad** u **oportunidad** y organizar recursos para ofrecer un **producto** o un **servicio**. Toca cada tarjeta.' },
-        { icon: 'Rocket', body: 'Emprender no es solo "tener negocio": también es emprender un proyecto en la escuela o en la comunidad.', reveal: [
-          { icon: 'Package', front: 'Producto', back: 'Algo que se **fabrica o cultiva** y se vende: tortillas, tejidos, hortalizas, muebles, miel.' },
-          { icon: 'Wrench', front: 'Servicio', back: 'Un **trabajo** que se hace para otra persona: reparar bicicletas, cortar el pelo, transportar carga, dar clases.' },
-          { icon: 'Sprout', front: 'Proyecto productivo', back: 'Un emprendimiento que **genera ingresos** para una familia o un grupo, por ejemplo una cooperativa de hortalizas.' },
-        ] },
-      ),
-      S.choice(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.2.1'], ambito: 'emprender',
-          prompt: '¿Por qué crees que el atol de doña Chepita **siempre se acaba**? Marca **todas** las razones que te parezcan importantes.',
-          explain: 'Todo cuenta: **sabe** preparar un buen atol y cuánto cobrar, **sabe hacer** bien su trabajo y **es** puntual y amable. Eso es un **perfil emprendedor**.' },
-        { multiple: true, options: [
-          { id: 'a', text: 'Conoce una buena receta y el precio justo', icon: 'Brain' },
-          { id: 'b', text: 'Prepara el atol rápido y lo sirve limpio', icon: 'Utensils' },
-          { id: 'c', text: 'Llega puntual cada día de mercado y trata bien a sus clientes', icon: 'Heart' },
-        ], correct: ['a', 'b', 'c'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.2.1'], ambito: 'conocer', title: 'El perfil emprendedor',
-          prompt: 'El **perfil** es el conjunto de cualidades que necesita quien emprende. Tiene tres partes. Toca cada tarjeta.' },
-        { icon: 'User', body: 'Nadie nace con el perfil completo: los saberes se **estudian**, las habilidades se **practican** y las actitudes se **eligen** cada día.', reveal: [
-          { icon: 'Brain', front: 'Saberes (conocer)', back: 'Lo que **conoces**: cómo se hace el producto, los precios del mercado, qué necesita la gente, cómo llevar cuentas.' },
-          { icon: 'Hammer', front: 'Habilidades (hacer)', back: 'Lo que **sabes hacer** con las manos y la mente: cocinar, tejer, medir, calcular, atender al cliente, explicar.' },
-          { icon: 'Heart', front: 'Actitudes (ser)', back: 'Cómo **actúas**: responsabilidad, perseverancia (no rendirse), honestidad, creatividad, trabajo en equipo, respeto.' },
-        ] },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.2.1'], prompt: 'Don Mario es carpintero y vende ventanas y mesas. Clasifica lo que necesita en **saberes**, **habilidades** y **actitudes**.',
-          hint: 'Saber = conocer algo. Habilidad = hacer algo bien. Actitud = forma de comportarse.',
-          explain: 'Todo emprendimiento combina lo que sabes, lo que sabes hacer y cómo actúas.' },
-        { buckets: [
-          { id: 'saber', label: 'Saberes (conocer)', icon: 'Brain', color: 'var(--area-l1)' },
-          { id: 'hab', label: 'Habilidades (hacer)', icon: 'Hammer', color: 'var(--area-pyd)' },
-          { id: 'act', label: 'Actitudes (ser)', icon: 'Heart', color: 'var(--c-ok)' },
-        ], items: [
-          { id: 'p1', text: 'Conocer los tipos de madera', bucket: 'saber' },
-          { id: 'p2', text: 'Conocer el precio de la madera en el aserradero', bucket: 'saber' },
-          { id: 'p3', text: 'Medir y cortar con precisión', bucket: 'hab' },
-          { id: 'p4', text: 'Calcular cuánto cobrar por una mesa', bucket: 'hab' },
-          { id: 'p5', text: 'Cumplir con las fechas de entrega', bucket: 'act' },
-          { id: 'p6', text: 'Tratar con respeto a sus clientes', bucket: 'act' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.4.4'], ambito: 'conocer', title: 'Cómo nace una buena idea productiva',
-          prompt: 'Las buenas ideas no caen del cielo: se **construyen** con tres ingredientes de tu propia comunidad. Toca cada uno.' },
-        { icon: 'Lightbulb', body: '**Necesidad + recurso + saber = idea productiva.** Luego se revisa con cuatro preguntas: ¿es útil?, ¿es posible con lo que hay?, ¿cuida la naturaleza?, ¿genera ingresos?', reveal: [
-          { icon: 'Search', front: '1. Una necesidad', back: '¿Qué hace falta o qué compra la gente fuera? Ejemplo: en la aldea no venden pan y hay que ir al pueblo.' },
-          { icon: 'Package', front: '2. Un recurso disponible', back: '¿Qué hay cerca? Tierra, agua de lluvia, frutas de temporada, lana, madera caída, un horno de la familia.' },
-          { icon: 'Brain', front: '3. Un saber de la familia', back: '¿Qué sabe hacer alguien de tu casa? Tejer, hornear, sembrar, criar gallinas, reparar.' },
-          { icon: 'ListChecks', front: 'Revisar la idea', back: '**Útil** (alguien la necesita), **posible** (con los recursos que hay), **cuida** la naturaleza y **genera ingresos**.' },
-        ] },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.4.4', 'pyd:1.2.1'], ambito: 'emprender', title: 'Ejemplo resuelto: de la necesidad a la idea',
-          prompt: 'Mira cómo la familia de Rosa, en una aldea de Sololá, generó una idea productiva.' },
-        { icon: 'Sprout', problem: 'La familia de Rosa tiene pocos ingresos. ¿Qué proyecto productivo podrían emprender con lo que tienen?',
-          steps: [
-            { text: '**Necesidad:** en el mercado del pueblo piden hierbas como cilantro, hierbabuena y chipilín, y a veces se acaban.' },
-            { text: '**Recurso:** tienen un patio con buen sol y pueden recoger agua de lluvia en toneles.' },
-            { text: '**Saber:** la abuela sabe sembrar hierbas y preparar abono con restos de cocina.', why: 'El saber de la abuela es parte del perfil emprendedor de la familia.' },
-            { text: '**Idea:** un huerto familiar de hierbas para vender manojos los días de mercado.' },
-            { text: '**Revisión:** útil (la gente las pide), posible (patio, agua, abono), cuida la naturaleza (abono orgánico, sin químicos fuertes) y genera ingresos (manojos cada semana).' },
-          ],
-          answer: 'Una idea productiva **realista**: une una necesidad del mercado, los recursos del patio y el saber de la abuela.',
-          tip: 'Necesidad + recurso + saber → idea → revisar con las 4 preguntas.' },
-      ),
-      S.match(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:1.4.4'], ambito: 'emprender', prompt: 'Une cada situación de una familia con la **idea productiva** que mejor aprovecha sus recursos.',
-          explain: 'Cada idea une una necesidad, un recurso y un saber que la familia ya tiene.' },
-        { leftTitle: 'Situación de la familia', rightTitle: 'Idea productiva', pairs: [
-          { id: 'i1', left: 'Tienen muchos árboles de jocote y mango que se pierden en temporada', leftIcon: 'Apple', right: 'Hacer y vender dulces y conservas de fruta' },
-          { id: 'i2', left: 'La mamá teje y en la aldea no hay quien venda servilletas', leftIcon: 'Scissors', right: 'Tejer servilletas y bolsas para vender en el mercado' },
-          { id: 'i3', left: 'Tienen un patio y el abuelo sabe criar gallinas', leftIcon: 'Egg', right: 'Vender huevos de gallinas criollas' },
-          { id: 'i4', left: 'El hijo mayor sabe reparar bicicletas y muchos vecinos las usan', leftIcon: 'Bike', right: 'Un taller de reparación de bicicletas' },
-        ] },
-      ),
-      S.choice(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:1.4.4'], ambito: 'emprender',
-          prompt: 'Una familia con pocos recursos, que vive cerca de un río y tiene una parcela pequeña, quiere mejorar sus ingresos. ¿Qué idea pasa **las cuatro preguntas** (útil, posible, cuida la naturaleza, genera ingresos)?',
-          explain: 'Las hortalizas con riego cuidadoso son útiles, posibles con la parcela y el agua, cuidan el río si no se contamina, y generan ingresos semanales.' },
-        { options: [
-          { id: 'a', text: 'Sembrar hortalizas con riego por goteo y abono orgánico para vender en el mercado' },
-          { id: 'b', text: 'Talar el bosque junto al río para vender la leña', feedback: 'Genera dinero una vez, pero daña el río y el bosque. No cuida la naturaleza.' },
-          { id: 'c', text: 'Abrir una fábrica de carros', feedback: 'No es posible con los recursos de una familia con una parcela pequeña.' },
-        ], correct: ['a'] },
-      ),
-      S.write(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:1.4.4', 'pyd:1.2.1'], ambito: 'emprender',
-          prompt: 'Piensa en tu comunidad y en tu familia. Propón **una idea de proyecto productivo** usando la fórmula (necesidad + recurso + saber) y di **una actitud** del perfil emprendedor que necesitarías.' },
-        { minWords: 40, placeholder: 'En mi comunidad hace falta… Tenemos… En mi familia saben…',
-          model: 'En mi comunidad hace falta pan porque hay que ir hasta el pueblo a comprarlo. Mi tía tiene un horno de leña y mi abuela sabe hacer pan dulce. Mi idea es hornear pan los sábados y venderlo casa por casa. La actitud que más necesitaríamos es la responsabilidad, para tener el pan listo cada sábado a la misma hora.',
-          rubric: ['Nombré una necesidad real de mi comunidad', 'Dije qué recurso disponible usaríamos', 'Nombré un saber de mi familia', 'Mencioné una actitud del perfil emprendedor'] },
-      ),
-      S.choice(
-        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:1.2.1'], prompt: '"No rendirse y seguir intentando cuando las ventas bajan" es, para una persona emprendedora…' },
-        { options: [
-          { id: 'a', text: 'Una actitud' },
-          { id: 'b', text: 'Un saber' },
-          { id: 'c', text: 'Un producto' },
-        ], correct: ['a'] },
-      ),
-      S.tf(
-        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:1.2.1', 'pyd:1.4.4'], prompt: '¿Verdadero o falso?' },
-        { statements: [
-          { text: 'Reparar bicicletas es un servicio.', answer: true },
-          { text: 'Conocer los precios del mercado es una habilidad de las manos.', answer: false, why: 'Es un saber: algo que conoces.' },
-          { text: 'Una buena idea productiva debe ser posible con los recursos disponibles.', answer: true },
-          { text: 'Una idea que da dinero pero destruye el río es una buena idea productiva.', answer: false, why: 'Una buena idea también cuida los recursos naturales.' },
-        ] },
-      ),
-      cierre({ areas: ['pyd'], cnb: ['pyd:1.2.1', 'pyd:1.4.4'] },
-        ['Explico qué es emprender y la diferencia entre producto y servicio', 'Reconozco saberes, habilidades y actitudes del perfil emprendedor', 'Genero una idea productiva con la fórmula necesidad + recurso + saber'],
-        ['Preguntaré en casa qué saberes tiene mi familia', 'Observaré en el mercado qué productos hacen falta']),
-    ],
-  }),
-];
+export default [lesson({
+  id: 's02-pyd-1', title: 'Información comunitaria para una idea productiva', icon: 'LibraryBig', minutes: 15,
+  gancho: 'En un mercado hay muchas ideas, pero la información está dispersa. ¿Cómo puede participar la comunidad para ordenarla y usarla?',
+  objetivos: ['Organizar una simulación de centro de información comunitaria que reúna aportes para generar una idea productiva familiar'],
+  resumen: [
+    'Un centro de información comunitaria organiza aportes identificados para que puedan consultarse y actualizarse.',
+    'La participación se promueve con roles seguros, una invitación clara, criterios de clasificación y devolución de resultados.',
+    'La información sobre necesidades, recursos y saberes ayuda a generar ideas productivas; los datos simulados no sustituyen una consulta real.',
+  ],
+  media: {
+    id: 's02-pyd-1-centro-informacion', kind: 'diagram', title: 'Rincón de información del mercado', aspect: '16:9',
+    alt: 'Mesa simulada con fichas de necesidades, recursos y saberes, junto a tarjetas de roles para organizar aportes comunitarios.',
+    brief: 'Diagrama horizontal 1600×900 rotulado SIMULACIÓN. Mostrar una mesa con tres archivadores: NECESIDADES, RECURSOS y SABERES; tarjetas de roles RECEPCIÓN, CLASIFICACIÓN y DEVOLUCIÓN; y una ficha con autor y fecha. Sin datos de una comunidad real ni respuestas del ejercicio. Texto grande, contraste alto y orden de lectura claro.',
+  },
+  steps: [
+    S.explain(
+      { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:1.3.2'], title: 'Participar para organizar información', prompt: 'En esta simulación, un centro de información comunitaria reúne aportes con procedencia y los organiza para que sean útiles.' },
+      { icon: 'LibraryBig', body: 'Promover participación significa explicar el propósito, invitar aportes voluntarios, asignar roles, cuidar los datos y devolver una síntesis. No significa inventar consultas que no ocurrieron.' },
+    ),
+    S.explain(
+      { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.4.4'], title: 'De la información a una idea', prompt: 'Una idea de proyecto productivo vincula una necesidad, un recurso y un saber para mejorar ingresos familiares.' },
+      { icon: 'Lightbulb', body: '**Necesidad + recurso comprobado + saber disponible = idea por evaluar.** También se revisan utilidad, posibilidad, cuidado ambiental e ingresos.' },
+    ),
+    S.reading(
+      { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.3.2', 'pyd:1.4.4'], prompt: 'Usa solo estas fichas simuladas del rincón de información.', hint: 'Cada ficha identifica tipo, procedencia didáctica y fecha.', explain: 'Las fichas permiten practicar organización y generación de ideas sin atribuir datos al mercado real.' },
+      { genre: 'Fichas simuladas', heading: 'Aportes para practicar', passage: 'FICHA 1 · Necesidad · Puesto didáctico A · 5 de febrero: “Faltan meriendas de fruta a precio accesible”.\n\nFICHA 2 · Recurso · Inventario simulado · 5 de febrero: “Hay fruta madura de temporada que debe usarse pronto”.\n\nFICHA 3 · Saber · Familia ficticia · 6 de febrero: “Saben lavar, cortar y conservar fruta siguiendo higiene”.', questions: [{ q: '¿Qué combinación puede estudiarse como idea productiva?', options: [{ id: 'a', text: 'Preparar porciones de fruta con higiene para venta local' }, { id: 'b', text: 'Abrir una fábrica de vehículos' }, { id: 'c', text: 'Afirmar que todo el mercado fue consultado' }], correct: 'a' }] },
+    ),
+    S.ejemplo(
+      { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.3.2', 'pyd:1.4.4'], title: 'Modelo de organización participativa', prompt: 'Observa cómo el centro simulado convierte aportes en una idea sin fingir participación externa.' },
+      { icon: 'Workflow', problem: 'Hay tres fichas y tres participantes en la práctica.', steps: [
+        { text: 'Recepción verifica que cada aporte tenga tipo y procedencia.' },
+        { text: 'Clasificación ubica las fichas en necesidad, recurso o saber.' },
+        { text: 'Síntesis conecta los aportes y formula una idea productiva provisional.' },
+        { text: 'Devolución comunica la síntesis y señala qué falta comprobar.' },
+      ], answer: 'La comunidad participa mediante aportes y roles; la idea se deriva de información organizada.' },
+    ),
+    S.sort(
+      { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.3.2'], prompt: 'Clasifica tareas para organizar con participación el centro de información comunitaria simulado.', hint: 'Recepción identifica; clasificación ordena; devolución comparte.', explain: 'Los roles hacen visible cómo aporta cada participante.' },
+      { buckets: [{ id: 'r', label: 'Recepción' }, { id: 'c', label: 'Clasificación' }, { id: 'd', label: 'Devolución' }], items: [
+        { id: '1', text: 'Revisar procedencia y fecha', bucket: 'r' }, { id: '2', text: 'Ubicar la ficha por tipo', bucket: 'c' },
+        { id: '3', text: 'Compartir síntesis y dato pendiente', bucket: 'd' },
+      ] },
+    ),
+    S.match(
+      { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.4.4'], prompt: 'Relaciona aportes del centro simulado con ideas productivas.', hint: 'La idea debe usar necesidad, recurso y saber.', explain: 'La información organizada permite descartar ideas que no corresponden al caso.' },
+      { pairs: [{ id: 'a', left: 'Fruta madura + higiene + merienda cercana', right: 'Porciones de fruta preparadas con higiene' }, { id: 'b', left: 'Bicicletas usadas + herramientas + reparación', right: 'Servicio básico de reparación' }, { id: 'c', left: 'Retazos + costura + bolsas reutilizables', right: 'Bolsas de tela para el mercado' }] },
+    ),
+    S.order(
+      { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:1.3.2', 'pyd:1.4.4'], prompt: 'Organiza la simulación del centro de información comunitaria para que la participación produzca una idea útil.' },
+      { items: [{ id: 'a', text: 'Invitar aportes con propósito y reglas claras' }, { id: 'b', text: 'Registrar procedencia y fecha' }, { id: 'c', text: 'Clasificar necesidades, recursos y saberes' }, { id: 'd', text: 'Generar una idea productiva provisional' }, { id: 'e', text: 'Devolver la síntesis y los datos pendientes' }], labels: { start: 'Primero', end: 'Al final' } },
+    ),
+    S.choice(
+      { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:1.3.2', 'pyd:1.4.4'], prompt: 'En la simulación, falta quien clasifique los aportes del centro de información comunitaria. ¿Qué coordinación mantiene la participación y permite generar la idea productiva?' },
+      { options: [{ id: 'a', text: 'Redistribuir el rol, registrar el cambio y continuar con criterios comunes' }, { id: 'b', text: 'Inventar que la clasificación ya ocurrió' }, { id: 'c', text: 'Excluir todos los aportes' }], correct: ['a'] },
+    ),
+    S.write(
+      { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:1.3.2', 'pyd:1.4.4'], prompt: 'Aporta a la simulación: escribe una invitación breve que indique qué ficha puede entregar la comunidad, cómo se organizará y para qué idea productiva servirá.' },
+      { minWords: 18, placeholder: 'Invitamos a aportar... Se clasificará en... Servirá para...', model: 'Invitamos a aportar una ficha de necesidad, recurso o saber con fecha. Se clasificará por tipo para estudiar una idea productiva familiar.', rubric: ['Invité un aporte concreto', 'Expliqué cómo se organiza', 'Nombré el uso productivo'] },
+    ),
+    S.choice(
+      { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:1.3.2', 'pyd:1.4.4'], prompt: '¿Qué opción promueve participación comunitaria en la organización de un centro de información y usa sus aportes para una idea productiva?' },
+      { options: [{ id: 'a', text: 'Invitar fichas identificadas, asignar roles, clasificarlas y conectar necesidad, recurso y saber' }, { id: 'b', text: 'Guardar información sin explicar propósito ni devolver resultados' }, { id: 'c', text: 'Elegir una idea sin aportes ni criterios' }], correct: ['a'] },
+    ),
+    S.tf(
+      { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:1.3.2', 'pyd:1.4.4'], prompt: 'Comprueba la organización participativa del centro de información comunitaria y su uso productivo.' },
+      { statements: [{ text: 'Asignar roles y devolver una síntesis favorece la participación.', answer: true }, { text: 'Una idea productiva puede ignorar necesidades, recursos y saberes registrados.', answer: false }, { text: 'Los datos de esta lección son simulados y no prueban una consulta real.', answer: true }] },
+    ),
+    cierre({ areas: ['pyd'], cnb: ['pyd:1.3.2', 'pyd:1.4.4'] }, ['Organicé aportes comunitarios simulados para generar una idea productiva'], ['Distinguiré una práctica simulada de una consulta real']),
+  ],
+})];

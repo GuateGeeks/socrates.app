@@ -2,6 +2,7 @@ import { useSyncExternalStore } from 'react';
 import type { Ambito, AreaId } from '@/cnb/model';
 import { areaOf, indicadorOf } from '@/cnb/catalog';
 import type { Lesson, Mission, StepBase } from './types';
+import { getActivity } from './registry';
 
 /* ============================================================================
  * Progreso del estudiante. Persistencia detrás de un adaptador (hoy localStorage;
@@ -23,6 +24,14 @@ export interface Settings {
 /** Caja de Leitner para repaso espaciado (1 = mañana, 2 = 3 días, 3 = 7 días, 4 = 16 días, 5 = dominado). */
 export interface ReviewCard { missionId: string; lessonId: string; stepId: string; box: number; due: string }
 export interface NoteEntry { text: string; lessonId: string; missionId: string; title: string; at: string }
+export interface JournalEntry {
+  stepId: string;
+  value: string;
+  at: string;
+  status: 'pending-review' | 'self-recorded';
+  cnb: string[];
+  review?: { criteria: string[]; selfChecks: boolean[] };
+}
 
 export interface Progress {
   version: 1;
@@ -35,7 +44,7 @@ export interface Progress {
   areasXp: Partial<Record<AreaId, number>>;
   badges: Record<string, string>;
   /** respuestas abiertas/reflexivas (visibles para el docente) */
-  journal: Record<string, { stepId: string; value: string; at: string }>;
+  journal: Record<string, JournalEntry>;
   daily: Record<string, number>;
   settings: Settings;
   /** evidencia por CONTENIDO (granularidad fina de la dosificación) */
@@ -148,6 +157,7 @@ export function recordLesson(mission: Mission, lesson: Lesson, outcomes: StepOut
   updateProgress((p) => {
     const n: Progress = structuredClone(p);
     for (const o of outcomes) {
+      const def = getActivity(o.step.type);
       const gain = o.graded ? (o.correct ? (o.firstTry ? XP.firstTry : XP.retry) : 2) : XP.open;
       xpGained += gain;
       const amb = o.step.ambito ?? (o.graded ? (o.step.fase === 'aplicar' ? 'hacer' : 'conocer') : 'ser');
@@ -157,12 +167,15 @@ export function recordLesson(mission: Mission, lesson: Lesson, outcomes: StepOut
         const ind = indicadorOf(ref);
         indicadores.add(ind);
         areas.add(areaOf(ind));
+        if (!o.graded && def?.evidenceMode === 'journal-pending-review') continue;
         const e = n.evidence[ind] ?? { ok: 0, total: 0, last: d };
-        // Actividades abiertas cuentan como evidencia de participación (actitudinal) y suman como logro.
         const credit = o.graded ? (o.firstTry && o.correct ? 1 : o.correct ? 0.5 : 0) : 1;
         n.evidence[ind] = { ok: e.ok + credit, total: e.total + 1, last: d };
         if (credit < 1) weak.add(ind);
-        if (o.graded) { const b = byIndicator[ind] ?? { ok: 0, total: 0 }; byIndicator[ind] = { ok: b.ok + (o.correct ? 1 : 0), total: b.total + 1 }; }
+        if (o.graded) {
+          const b = byIndicator[ind] ?? { ok: 0, total: 0 };
+          byIndicator[ind] = { ok: b.ok + (o.correct ? 1 : 0), total: b.total + 1 };
+        }
         if (ref.split(':')[1]?.split('.').length === 3) {
           n.contenidos ??= {};
           const c = n.contenidos[ref] ?? { ok: 0, total: 0, last: d };
@@ -175,7 +188,21 @@ export function recordLesson(mission: Mission, lesson: Lesson, outcomes: StepOut
         n.review ??= {};
         n.review[o.step.id] = { missionId: mission.id, lessonId: lesson.id, stepId: o.step.id, box: 1, due: addDays(d, 1) };
       }
-      if (!o.graded && o.value !== undefined) n.journal[`${lesson.id}/${o.step.id}`] = { stepId: o.step.id, value: typeof o.value === 'string' ? o.value : JSON.stringify(o.value), at: d };
+      if (!o.graded && o.value !== undefined) {
+        const value = typeof o.value === 'string' ? o.value : JSON.stringify(o.value);
+        const props = o.step.props as { rubric?: string[] };
+        const response = o.value as { checks?: boolean[] } | undefined;
+        n.journal[`${lesson.id}/${o.step.id}`] = {
+          stepId: o.step.id,
+          value,
+          at: d,
+          status: def?.evidenceMode === 'journal-pending-review' ? 'pending-review' : 'self-recorded',
+          cnb: [...o.step.cnb],
+          ...(def?.evidenceMode === 'journal-pending-review' && props.rubric
+            ? { review: { criteria: [...props.rubric], selfChecks: [...(response?.checks ?? [])] } }
+            : {}),
+        };
+      }
     }
     const prev = n.lessons[lesson.id];
     n.lessons[lesson.id] = {

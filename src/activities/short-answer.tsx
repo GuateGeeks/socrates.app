@@ -12,16 +12,25 @@ export interface ShortAnswerProps {
   rubric: string[];
   minWords?: number;
 }
-interface SAValue { text: string; checks: boolean[]; seen: boolean }
+export interface ShortAnswerValue { text: string; checks: boolean[]; seen: boolean }
 
 const words = (s: string) => s.trim().split(/\s+/).filter(Boolean).length;
 
-function ShortAnswer({ props, value, onChange, api }: ActivityProps<ShortAnswerProps, SAValue>) {
-  const v: SAValue = value ?? { text: '', checks: props.rubric.map(() => false), seen: false };
+export function isShortAnswerReady(props: ShortAnswerProps, value: ShortAnswerValue | undefined): boolean {
+  if (!value || !value.seen || value.checks.length !== props.rubric.length || !value.checks.every(Boolean)) return false;
+  const tokens = value.text.toLocaleLowerCase('es').match(/[a-záéíóúüñ0-9]+/g) ?? [];
+  const minWords = props.minWords ?? 8;
+  const requiredVariety = Math.min(4, Math.ceil(minWords / 3));
+  return tokens.length >= minWords && new Set(tokens.filter((token) => token.length >= 3)).size >= requiredVariety;
+}
+
+function ShortAnswer({ props, value, onChange, api }: ActivityProps<ShortAnswerProps, ShortAnswerValue>) {
+  const v: ShortAnswerValue = value ?? { text: '', checks: props.rubric.map(() => false), seen: false };
   const id = useId();
   const min = props.minWords ?? 8;
   const enough = words(v.text) >= min;
-  useEffect(() => { api.setReady(enough && v.seen); }, [enough, v.seen]); // eslint-disable-line react-hooks/exhaustive-deps
+  const ready = isShortAnswerReady(props, v);
+  useEffect(() => { api.setReady(ready); }, [ready]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="ds-stack">
       <label htmlFor={id} className="sr-only">Tu respuesta</label>
@@ -50,13 +59,15 @@ function ShortAnswer({ props, value, onChange, api }: ActivityProps<ShortAnswerP
   );
 }
 
-export default defineActivity<ShortAnswerProps, SAValue>({
+export default defineActivity<ShortAnswerProps, ShortAnswerValue>({
   type: 'short-answer',
   label: 'Respuesta escrita',
   icon: 'PenLine',
   description: 'Producción escrita breve con respuesta modelo y lista de cotejo para autoevaluarse (se guarda en el diario).',
   graded: false,
   recordsEvidence: true,
+  evidenceMode: 'journal-pending-review',
   Component: ShortAnswer,
+  isReady: isShortAnswerReady,
   validate: (p) => (!p.model || p.rubric.length === 0 ? ['requiere model y rubric'] : []),
 });

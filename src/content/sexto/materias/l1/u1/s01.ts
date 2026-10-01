@@ -190,7 +190,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6', 'l1:2.1.4'], ambito: 'conocer', title: 'Las cuatro perillas de tu voz',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer', title: 'Las cuatro perillas de tu voz',
           prompt: 'Imagina que tu voz tiene **cuatro perillas** que puedes mover. Toca cada una para saber cómo usarla.' },
         { icon: 'Mic', body: 'Una voz que siempre suena igual adormece. Una voz que **cambia con intención** mantiene despierto al público.', reveal: [
           { icon: 'Volume2', front: '1. Volumen', back: '**Proyecta la voz**: que te oiga la última persona sin que tengas que gritar. Truco: respira profundo, abre bien la boca y habla "hacia la pared del fondo".' },
@@ -210,7 +210,7 @@ export default [
         ], correct: ['c'] },
       ),
       S.match(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6', 'l1:2.1.4'], ambito: 'hacer', prompt: 'Une cada situación con la "perilla" de la voz que más conviene usar.',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer', prompt: 'Une cada situación con la "perilla" de la voz que más conviene usar.',
           hint: 'Piensa qué problema tiene cada situación: ¿no se oye?, ¿no se entiende?, ¿no hay emoción?',
           explain: 'Cada perilla resuelve un problema diferente: el volumen, que se oiga; la velocidad, que se entienda; la pausa, que se note lo importante; el cambio, que emocione.' },
         { leftTitle: 'Situación', rightTitle: 'Qué hago con la voz', pairs: [
@@ -268,14 +268,14 @@ export default [
           ] },
       ),
       S.fill(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6', 'l1:2.1.4'], ambito: 'hacer',
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer',
           prompt: 'Completa los consejos de un locutor de radio comunitaria.',
           explain: 'Proyectar no es gritar: es usar bien la respiración para que la voz llegue lejos sin lastimar la garganta.' },
         { text: 'Para que me oigan en el fondo, [[proyecto]] la voz sin gritar. En cada punto hago una [[pausa]] larga. Si voy muy rápido, nadie me entiende: por eso cuido la [[velocidad]]. Cuando cuento algo misterioso, [[bajo]] la voz.',
           distractors: ['grito', 'apago', 'prisa'] },
       ),
       S.tf(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6', 'l1:2.1.4'], prompt: '¿Verdadero o falso?',
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], prompt: '¿Verdadero o falso?',
           explain: 'Una voz variada, clara y con pausas es una voz que se escucha con gusto.' },
         { statements: [
           { text: 'Proyectar la voz significa gritar lo más fuerte posible.', answer: false, why: 'Se trata de que llegue lejos respirando bien, sin forzar la garganta.' },
@@ -293,7 +293,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:2.1.6', 'l1:2.1.4'], prompt: 'En un texto marcado para leer en voz alta, ¿qué significa **//**?' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:2.1.6'], prompt: 'En un texto marcado para leer en voz alta, ¿qué significa **//**?' },
         { options: [
           { id: 'a', text: 'Una pausa larga' },
           { id: 'b', text: 'Leer más rápido' },
@@ -465,8 +465,8 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'conocer', title: 'Cuatro convenciones para comunicar un lugar',
-          prompt: 'Un mapa combina lenguaje icónico y escrito. Cada parte cumple una función para que otras personas puedan interpretarlo.' },
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer', title: 'Lenguajes de un mapa en pantalla',
+          prompt: 'Un mapa presentado en un medio tecnológico combina lenguaje icónico y escrito. Cada parte cumple una función para que otras personas puedan interpretarlo.' },
         { icon: 'Map', body: 'Primero se establece la **orientación**; luego se colocan **símbolos**, se explican en una **clave** y se conectan **anotaciones** de evidencia con lugares precisos.', reveal: [
           { icon: 'Navigation', front: 'Orientación', back: 'Una flecha con la letra **N** indica el norte y permite reconocer las demás direcciones.' },
           { icon: 'MapPin', front: 'Símbolo y rótulo', back: 'Un signo sencillo representa un lugar y el rótulo confirma su nombre.' },
@@ -475,8 +475,8 @@ export default [
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer', title: 'Modelo: del croquis a la evidencia',
-          prompt: 'Observa cómo Ana construye un mapa que otra persona puede leer sin ayuda.' },
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'hacer', title: 'Modelo: lenguaje de un mapa digital',
+          prompt: 'Observa cómo Ana prepara en papel el lenguaje que luego puede comunicar un mapa en pantalla.' },
         { icon: 'Map', problem: 'Ana necesita representar la escuela, un nacimiento de agua y un barranco, y mostrar que la escuela está en terreno firme.',
           steps: [
             { text: 'Traza el camino principal y añade una flecha con **N** para orientar el mapa.' },
@@ -488,7 +488,7 @@ export default [
           tip: 'Comprueba que cada símbolo aparezca en la clave y que cada anotación señale un lugar concreto.' },
       ),
       S.sort(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'hacer',
           prompt: 'Ayuda a Ana a organizar las piezas antes de dibujar el mapa.',
           hint: 'En el mapa van la orientación y los lugares; la clave explica signos; la anotación comunica evidencia vinculada.',
           explain: 'La flecha N y los lugares se colocan en el mapa; la clave explica los símbolos; la anotación se une al lugar que aporta la evidencia.' },
@@ -504,8 +504,8 @@ export default [
         ] },
       ),
       S.project(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer', title: 'Transferencia: un mapa que se entiende solo',
-          prompt: 'Sin mirar el modelo, representa un trayecto corto de tu casa a un lugar conocido.' },
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'hacer', title: 'Transferencia: prototipo de mapa para pantalla',
+          prompt: 'Sin mirar el modelo, diseña en papel un prototipo de mapa para comunicar en un medio tecnológico un trayecto ficticio corto.' },
         { goal: 'Construir un croquis orientado que comunique lugares y una evidencia sin explicación oral.',
           steps: [
             { title: 'Base y clave', detail: 'Traza un camino, marca el norte, coloca dos lugares con símbolos y rótulos, y explica ambos símbolos en una clave.' },
@@ -519,7 +519,7 @@ export default [
           ] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer',
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'hacer',
           prompt: 'Luis dibujó un triángulo junto al camino, pero no lo incluyó en la clave. ¿Qué debe hacer para que el mapa sea interpretable?' },
         { options: [
           { id: 'a', text: 'Añadir el triángulo a la clave y explicar qué representa' },
@@ -528,7 +528,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.match(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'conocer',
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer',
           prompt: 'Relaciona cada problema del mapa con la corrección que necesita.' },
         { leftTitle: 'Problema', rightTitle: 'Corrección', pairs: [
           { id: 'p1', left: 'No se sabe hacia dónde queda el norte', right: 'Añadir una flecha N' },
@@ -537,7 +537,7 @@ export default [
         ] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], prompt: 'Evalúa estas decisiones de construcción cartográfica.' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.4.2'], prompt: 'Evalúa estas decisiones al comunicar un mapa en un medio tecnológico.' },
         { statements: [
           { text: 'La clave debe incluir los símbolos que aparecen en el mapa.', answer: true },
           { text: 'Una anotación puede quedar lejos y sin conexión porque su lugar se adivina.', answer: false, why: 'Debe señalar el lugar que aporta la evidencia.' },
@@ -545,7 +545,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], prompt: '¿Cuál mapa comunica mejor una observación sobre la cancha?' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.4.2'], prompt: '¿Cuál mapa en pantalla comunica mejor una observación sobre la cancha?' },
         { options: [
           { id: 'a', text: 'Tiene norte, cancha rotulada, símbolo explicado y la frase “Se inunda cuando llueve” unida a la cancha' },
           { id: 'b', text: 'Tiene varios dibujos decorativos sin clave ni rótulos' },

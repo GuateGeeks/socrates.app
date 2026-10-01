@@ -2,7 +2,13 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { registerAll } from '../src/activities/index';
-import { getActivity, isAssessmentEvidence, isDeclaredAssessmentEvidence } from '../src/core/registry';
+import {
+  getActivity,
+  isAssessmentEvidence,
+  isAutoGradedAssessmentEvidence,
+  isDeclaredAssessmentEvidence,
+  isPendingReviewEvidence,
+} from '../src/core/registry';
 import { WEEKS } from '../src/content/index';
 import type { Lesson, StepBase } from '../src/core/types';
 import { MEDIA_ASSETS } from '../src/media/assets';
@@ -1537,7 +1543,7 @@ test('Semana 1 no atribuye convenciones cartográficas locales a ccss:1.2.1', ()
   }
 });
 
-test('Semana 1 enseña las convenciones del mapa en L1 antes de recuperarlas en el taller', () => {
+test('Semana 1 aplica el lenguaje de mapas en medios tecnologicos antes de recuperarlo en el taller', () => {
   const week = unitWeeks.find((item) => item.semana === 1);
   assert.ok(week, 'Falta semana 1');
   const workshopIndex = week.lessons.findIndex((lesson) => lesson.kind === 'taller');
@@ -1549,8 +1555,7 @@ test('Semana 1 enseña las convenciones del mapa en L1 antes de recuperarlas en 
   const mapInstruction = JSON.stringify(
     l1Lessons.flatMap((lesson) => lesson.steps)
       .filter((step) => (
-        step.cnb.includes('l1:3.2.1')
-        && step.cnb.includes('l1:3.3.1')
+        step.cnb.includes('l1:3.4.2')
       )),
   ).toLocaleLowerCase('es');
   for (const convention of ['orientación', 'norte', 'símbolo', 'clave', 'anotación']) {
@@ -1563,8 +1568,7 @@ test('Semana 1 enseña las convenciones del mapa en L1 antes de recuperarlas en 
     && step.fase === 'construir'
     && step.areas.length === 1
     && step.areas[0] === 'l1'
-    && step.cnb.includes('l1:3.2.1')
-    && step.cnb.includes('l1:3.3.1')
+    && step.cnb.includes('l1:3.4.2')
   ));
   assert.ok(workshopReview, 'El taller no recupera las convenciones cartográficas desde L1');
   assert.match(workshopReview.prompt.toLocaleLowerCase('es'), /recupera.+comunicación y lenguaje/s);
@@ -1649,16 +1653,16 @@ test('Ciencias enseña pared y vacuola antes de evaluar la firmeza vegetal', () 
   assert.match(priorInstruction, /firme/);
 });
 
-test('Semana 1 guía la construcción de un mapa en L1 antes de una transferencia independiente', () => {
+test('Semana 1 guía el lenguaje de un mapa tecnologico antes de una transferencia independiente', () => {
   const mapLesson = weekOne.lessons.find((lesson) => (
     lesson.kind === 'materia'
     && lesson.area === 'l1'
-    && lesson.steps.some((step) => step.cnb.includes('l1:3.3.1'))
+    && lesson.steps.some((step) => step.cnb.includes('l1:3.4.2') && /mapa/i.test(JSON.stringify(step)))
   ));
   assert.ok(mapLesson, 'Falta la lección L1 de mapas');
 
   const underMapRefs = (step: typeof mapLesson.steps[number]) => (
-    step.cnb.includes('l1:3.2.1') && step.cnb.includes('l1:3.3.1')
+    step.cnb.includes('l1:3.4.2')
   );
   const modelIndex = mapLesson.steps.findIndex((step) => underMapRefs(step) && step.type === 'worked-example');
   const guidedIndex = mapLesson.steps.findIndex((step, index) => (
@@ -1937,8 +1941,8 @@ test('Semana 2 construye un puesto sano y respetuoso con alcance y evidencia fac
   assert.doesNotMatch(projectText, /distribuci[oó]n del puesto/);
 });
 
-test('Semana 2 evita absolutos inexactos sobre ADN y cromosomas', () => {
-  const genetics = weekTwo.lessons.find((lesson) => lesson.id === 's02-cnt-1');
+test('Semana 1 evita absolutos inexactos sobre ADN y cromosomas', () => {
+  const genetics = weekOne.lessons.find((lesson) => lesson.steps.some((step) => step.cnb.includes('cnt:1.4.1')));
   assert.ok(genetics, 'Falta la lección de genética');
   assert.ok(genetics.resumen, 'La lección de genética no tiene resumen');
   const summary = genetics.resumen.join(' ').toLocaleLowerCase('es');
@@ -3564,6 +3568,42 @@ function plannedRefsForAreas(weekNumber: number, areas: string[]): Set<string> {
   return new Set(areas.flatMap((area) => plannedWeek.contenidos[area] ?? []));
 }
 
+function plannedRefsForWeek(weekNumber: number): Set<string> {
+  const plan = JSON.parse(readFileSync('src/content/sexto/plan.json', 'utf8')) as {
+    unidades: Array<{ unidad: number; semanas: Array<{ semana: number; contenidos: Record<string, string[]> }> }>;
+  };
+  const plannedWeek = plan.unidades.find((unit) => unit.unidad === 1)?.semanas.find((week) => week.semana === weekNumber);
+  assert.ok(plannedWeek?.contenidos, `plan.json no contiene Unidad 1 Semana ${weekNumber}`);
+  return new Set(Object.values(plannedWeek.contenidos).flat());
+}
+
+function relatesChromosomesAndGenes(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  return /cromosom/.test(text) && /gen(?:es)?\b/.test(text)
+    && /(?:adn|contienen|segmentos|organizan|instrucciones|funcion)/.test(text);
+}
+
+function appliesEntrepreneurProfile(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  return /perfil emprendedor|saberes/.test(text) && /habilidad/.test(text)
+    && /(?:necesidad|desarrollo|productiv|proyecto)/.test(text);
+}
+
+function organizesCommunityInformationParticipation(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  return /centro de informacion|rincon de informacion/.test(text)
+    && /comunidad|comunitari/.test(text) && /particip/.test(text)
+    && /(?:organiza|rol|aporte|convoca|invita|clasifica)/.test(text);
+}
+
+function organizesSimulatedService(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  return /simulacion|simulada/.test(text) && /rol|responsable/.test(text)
+    && /secuencia|orden|primero|despues/.test(text)
+    && /restriccion|falta|ausente|tiempo|coordina/.test(text)
+    && /contribucion|instruccion|rotulo|mensaje/.test(text);
+}
+
 function teachesL2MessageProduction(value: unknown): boolean {
   const text = normalizeFactText(JSON.stringify(value));
   const threePurposes = /informativ/.test(text) && /expositiv/.test(text) && /argumentativ/.test(text);
@@ -3780,10 +3820,18 @@ test('La evidencia de evaluacion exige capacidad registrada y una referencia del
     prompt: 'Produce un mensaje.', props: { model: 'Modelo.', rubric: ['Produje el mensaje'] },
   };
   assert.equal(isAssessmentEvidence({ ...base, cnb: ['l2:1.2.2'] }, 'l2'), true);
+  assert.equal(isPendingReviewEvidence({ ...base, cnb: ['l2:1.2.2'] }, 'l2'), true);
+  assert.equal(isAutoGradedAssessmentEvidence({ ...base, cnb: ['l2:1.2.2'] }, 'l2'), false);
   assert.equal(isAssessmentEvidence({ ...base, cnb: [] }, 'l2'), false);
   assert.equal(isAssessmentEvidence({ ...base, cnb: ['ccss:3.1.1'] }, 'l2'), false);
   assert.equal(isAssessmentEvidence({ ...base, cnb: ['ccss:3.1.1'] }, 'ccss'), false);
   assert.equal(isAssessmentEvidence({ ...base, type: 'reflection', cnb: ['l2:1.2.2'], props: { statements: ['Lo hice'] } }, 'l2'), false);
+  const graded = {
+    ...base, type: 'choice', cnb: ['l2:1.2.2'],
+    props: { options: [{ id: 'a', text: 'A' }, { id: 'b', text: 'B' }], correct: ['a'] },
+  };
+  assert.equal(isAutoGradedAssessmentEvidence(graded, 'l2'), true);
+  assert.equal(isPendingReviewEvidence(graded, 'l2'), false);
 });
 
 test('Las salidas multiarea se evaluan con el area primaria declarada en cada paso', () => {
@@ -3802,6 +3850,29 @@ test('Las salidas multiarea se evaluan con el area primaria declarada en cada pa
 
   assert.deepEqual(exits.map(isDeclaredAssessmentEvidence), [true, true]);
   assert.equal(isAssessmentEvidence(exits[1], 'l2'), false);
+});
+
+test('Semanas 1 y 2 usan exactamente las asignaciones de todas las areas del plan', () => {
+  for (const week of [weekOne, weekTwo]) {
+    const actual = new Set(week.lessons
+      .filter((lesson) => lesson.kind === 'materia')
+      .flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb)));
+    assert.deepEqual(actual, plannedRefsForWeek(week.semana!));
+  }
+});
+
+test('Los contenidos trasladados de CNT y PyD se evidencian semanticamente en tres etapas', () => {
+  const cnt = weekOne.lessons.find((lesson) => lesson.area === 'cnt'
+    && lesson.steps.some((step) => step.cnb.includes('cnt:1.4.1')));
+  const pydOne = weekOne.lessons.find((lesson) => lesson.id === 's01-pyd-1');
+  const pydTwo = weekTwo.lessons.find((lesson) => lesson.id === 's02-pyd-1');
+  assert.ok(cnt && pydOne && pydTwo, 'Faltan lecciones restauradas de CNT o PyD');
+  assert.equal(hasIndicatorAtStages(cnt, 'cnt:1.4.1', relatesChromosomesAndGenes), true);
+  assert.equal(hasIndicatorAtStages(pydOne, 'pyd:1.2.1', appliesEntrepreneurProfile), true);
+  assert.equal(hasIndicatorAtStages(pydTwo, 'pyd:1.3.2', organizesCommunityInformationParticipation), true);
+  assert.equal(relatesChromosomesAndGenes({ prompt: 'El nucleo guarda ADN.' }), false);
+  assert.equal(appliesEntrepreneurProfile({ prompt: 'Una comunidad necesita agua.' }), false);
+  assert.equal(organizesCommunityInformationParticipation({ prompt: 'Imagina que una comunidad tiene un archivo.' }), false);
 });
 
 test('L2 Semana 1 usa exactamente su asignacion del plan y evidencia produccion y escucha en tres etapas', () => {
@@ -4544,15 +4615,24 @@ test('EF1 declara una rotacion arbitral realizable dentro de su practica', () =>
   assert.match(text, /una rotacion|dos turnos|dos arbitros|cambio de arbitro/);
 });
 
-test('CCSS3 evidencia participacion real y acotada en servicio dentro de la leccion', () => {
+test('CCSS3 organiza una simulacion de servicio con una contribucion ejecutada en la leccion', () => {
   const lesson = weekSeven.lessons.find((item) => item.id === 's07-ccss-3');
   assert.ok(lesson, 'Falta s07-ccss-3');
   const participation = lesson.steps.filter((step) => step.cnb.includes('ccss:7.1.3') && step.fase === 'aplicar');
-  assert.ok(participation.some((step) => step.type === 'short-answer'), 'Falta un aporte de servicio guardado');
+  assert.ok(participation.some((step) => step.type === 'short-answer'), 'Falta una contribucion util guardada');
+  assert.ok(participation.some((step) => step.type === 'order' || step.type === 'sort'), 'Falta organizar tareas o roles');
+  assert.ok(participation.some((step) => step.type === 'dilemma' || step.type === 'choice'), 'Falta resolver una restriccion de coordinacion');
   const text = normalizeFactText(JSON.stringify(participation));
-  assert.match(text, /microservicio|aporte|tarjeta|mensaje/);
-  assert.match(text, /dentro de la leccion|ahora/);
-  assert.doesNotMatch(text, /si participaras|podrias participar|promete participar|haras despues/);
+  assert.match(text, /simulacion|simulada/);
+  assert.match(text, /rol|responsable/);
+  assert.match(text, /secuencia|orden|primero|despues/);
+  assert.match(text, /restriccion|falta|ausente|tiempo|coordina/);
+  assert.match(text, /contribucion|instruccion|rotulo|mensaje/);
+  assert.doesNotMatch(text, /participacion real|microservicio real|ya fue colocad|se entrego|destinatario/);
+  assert.equal(organizesSimulatedService({
+    prompt: 'Redacta una tarjeta individual que tal vez se use despues.',
+  }), false);
+  assert.equal(organizesSimulatedService(participation), true);
 });
 
 test('L1-1 transfiere una pregunta usando solo el caso de agua suministrado', () => {
@@ -4597,7 +4677,7 @@ test('CCSS Semana 7 usa solo las asignaciones de plan.json', () => {
   assert.doesNotMatch(firstText, /\bsica\b|\boea\b|condiciones socioeconomicas|apertura democratica/);
 });
 
-test('CCSS2 practica cultura de paz juvenil y CCSS3 realiza un microservicio durante la leccion', () => {
+test('CCSS2 practica cultura de paz juvenil y CCSS3 organiza una simulacion de servicio', () => {
   const youthPeaceEvidence = (value: unknown) => {
     const text = normalizeFactText(JSON.stringify(value));
     return /juventud|jovenes/.test(text)
@@ -4622,9 +4702,11 @@ test('CCSS2 practica cultura de paz juvenil y CCSS3 realiza un microservicio dur
   assert.ok(peaceExits.some(youthPeaceEvidence), 'CCSS2 no comprueba el resultado central');
 
   const serviceText = normalizeFactText(JSON.stringify(serviceLesson));
+  const serviceOutcome = normalizeFactText((serviceLesson!.objetivos ?? []).join(' '));
   assert.doesNotMatch(serviceText, /comunidad andina|caricom|bloques? regionales?/);
-  assert.match(serviceText, /durante la leccion|ahora/);
-  assert.match(serviceText, /queda guardad|respuesta guardada/);
+  assert.ok(organizesSimulatedService(serviceLesson), 'CCSS3 no realiza una contribucion organizativa verificable');
+  assert.match(serviceText, /simulacion|practica simulada/);
+  assert.doesNotMatch(serviceOutcome, /servicio (?:realizado|completado)|entrega(?:do|da) a la comunidad/);
 });
 
 test('CCSS Semana 6 organiza los tres resultados planificados y evidencia cada indicador en tres etapas', () => {
@@ -4693,7 +4775,12 @@ test('Semana 7 construye un informe viable con preguntas, fuentes, hallazgos y a
     .flatMap((step) => step.areas));
   assert.deepEqual(contributors, new Set(['l1', 'cnt', 'fc', 'pyd']));
   const storedWriting = workshop.steps.filter((step) => step.fase === 'aplicar' && step.type === 'short-answer');
-  assert.ok(storedWriting.length >= 4, `El informe solo guarda ${storedWriting.length} componentes escritos`);
+  assert.ok(storedWriting.length >= 1 && storedWriting.length <= 2, `El informe usa ${storedWriting.length} ciclos de escritura`);
+  const authoredWords = storedWriting.reduce((sum, step) => sum + Number((step.props as { minWords?: number }).minWords ?? 0), 0);
+  const modelWords = storedWriting.reduce((sum, step) => sum
+    + (normalizeFactText(String((step.props as { model?: string }).model ?? '')).split(/\s+/).filter(Boolean).length), 0);
+  assert.ok(authoredWords <= 60, `El informe exige ${authoredWords} palabras`);
+  assert.ok(authoredWords + modelWords <= 125, `Escritura y modelos suman ${authoredWords + modelWords} palabras`);
   const storedText = normalizeFactText(JSON.stringify(storedWriting));
   for (const field of [/pregunta/, /fuente/, /hallazgo|inferencia/, /accion/]) {
     assert.match(storedText, field, `El informe no guarda ${field}`);
@@ -4711,6 +4798,17 @@ test('Semana 7 construye un informe viable con preguntas, fuentes, hallazgos y a
   assert.match(text, /evidencia.{0,100}(?:no basta|limite|inferencia)|(?:no basta|limite).{0,100}evidencia/);
   assert.doesNotMatch(text, /investiga en tu comunidad|entrevista a|consulta (?:a|con)|mide (?:el|la)|visita (?:el|la)/);
   assert.equal(workshop.steps.at(-1)?.type, 'reflection');
+});
+
+test('Arte Semana 2 practica contorno melodico sin materiales inseguros o inaccesibles', () => {
+  const lesson = weekTwo.lessons.find((item) => item.id === 's02-art-2');
+  assert.ok(lesson, 'Falta s02-art-2');
+  const application = normalizeFactText(JSON.stringify(lesson.steps.filter((step) => step.fase === 'aplicar')));
+  assert.match(application, /papel|cuaderno|digital|pantalla|lapiz/);
+  assert.match(application, /melodia|contorno/);
+  assert.doesNotMatch(application, /botellas?|frascos? de vidrio|cuchara de metal|golpea|en casa|pide ayuda a una persona adulta/);
+  const touchedUnit = normalizeFactText(JSON.stringify([weekOne, weekTwo, weekSeven]));
+  assert.doesNotMatch(touchedUnit, /(?:obligatori|debes|reune|consigue).{0,80}(?:vidrio|herramienta cortante|materiales de casa)/);
 });
 
 test('Semana 7 asigna referencias CNB que corresponden a la evidencia evaluada', () => {

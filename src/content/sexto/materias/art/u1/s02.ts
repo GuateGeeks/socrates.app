@@ -273,17 +273,15 @@ export default [
         { text: 'En el primer compás la melodía [[sube|asciende]] por [[salto|saltos]]. En el segundo compás la nota Sol se [[repite]]. Cada compás dura [[3]] tiempos.', distractors: ['baja', 'grado conjunto', '4'] },
       ),
       S.project(
-        { fase: 'aplicar', areas: ['art', 'cnt'], cnb: ['art:1.1.2'], ambito: 'hacer',
-          prompt: '**En casa:** construye un **xilófono de botellas** y toca melodías que suben, bajan y se repiten.' },
-        { goal: 'Afinar 5 botellas con agua y tocar en ellas una melodía ascendente, una descendente y una con repeticiones.',
+        { fase: 'aplicar', areas: ['art'], cnb: ['art:1.1.2'], ambito: 'hacer',
+          prompt: 'En una hoja o cuaderno, dibuja el **contorno melódico** de una secuencia nueva: Do · Mi · Re · Sol · Sol.' },
+        { goal: 'Representar con lápiz un contorno melódico que muestre ascensos, descensos, saltos y repetición.',
           steps: [
-            { title: 'Reúne materiales', detail: 'Cinco botellas o frascos de vidrio iguales, agua y una cuchara de metal o un palito. Pide ayuda a una persona adulta y trabaja sobre una mesa firme.' },
-            { title: 'Llena en escalera', detail: 'Pon muy poca agua en la primera y cada vez más en las siguientes. Golpea suavemente el cuello: la botella con **más agua suena más grave**.' },
-            { title: 'Ordénalas', detail: 'Colócalas de izquierda a derecha, de la más grave (más agua) a la más aguda (menos agua), como en la marimba. Ajusta el agua hasta que suenen parecido a Do-Re-Mi-Fa-Sol (no tiene que ser perfecto).' },
-            { title: 'Toca melodías', detail: 'Toca una melodía que suba, una que baje y el inicio del "Himno a la alegría" (Mi Mi Fa Sol · Sol Fa Mi Re).' },
+            { title: 'Coloca cinco puntos', detail: 'De izquierda a derecha, ubica cada nota más arriba o abajo según su altura.' },
+            { title: 'Une y rotula', detail: 'Une los puntos y escribe sobre cada tramo: sube, baja, salto o repetición.' },
           ],
-          evidence: 'Un dibujo de tu xilófono y el contorno de una melodía que inventaste, dibujado como línea de montañas sobre un pentagrama.',
-          rubric: ['Mis botellas van de grave a agudo', 'Toco una melodía que sube y otra que baja', 'Explico si mi melodía va por grado conjunto o por salto'] },
+          evidence: 'El dibujo queda en el papel o cuaderno; la lista solo verifica que se representaron las cinco notas y sus movimientos.',
+          rubric: ['La altura de los puntos corresponde a las notas', 'Distinguí ascenso, descenso, salto y repetición', 'El contorno se lee de izquierda a derecha'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['art'], cnb: ['art:1.1.2'], prompt: '¿Qué movimiento hace la melodía **La → Si → Do**?' },
@@ -304,7 +302,7 @@ export default [
       ),
       cierre({ areas: ['art'], cnb: ['art:1.1.2'] },
         ['Encuentro el acento y cuento compases de 2, 3 y 4', 'Reviso si un compás suma los tiempos de la cifra', 'Reconozco si una melodía sube, baja o se repite'],
-        ['Descubriré el compás de tres canciones', 'Tocaré melodías en mi xilófono de botellas', 'Cantaré con nombres de notas una melodía corta']),
+        ['Dibujaré otros contornos melódicos con lápiz y papel', 'Cantaré con nombres de notas una melodía corta']),
     ],
   }),
 ];
