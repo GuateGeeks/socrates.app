@@ -309,12 +309,13 @@ export default semana({
         { id: 'c', text: 'Mezclar pastel seco dentro del vaso de agua' },
       ], correct: ['a'] },
     ),
-    S.tf(
-      { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.1', 'ef:1.4.14'], prompt: 'Decide si cada acción mantiene un patrón de ocho tiempos.' },
-      { statements: [
-        { text: 'Repetir dos veces una secuencia de cuatro pulsos completa ocho tiempos.', answer: true },
-        { text: 'Cambiar el orden de los pasos en cada repetición conserva el mismo patrón.', answer: false },
-      ] },
+    S.choice(
+      { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.14'], prompt: 'Cuatro estudiantes avanzan al compás y empiezan juntos, pero uno queda demasiado cerca de quien va adelante. ¿Qué ajuste permite continuar con control?' },
+      { options: [
+        { id: 'a', text: 'Conservar distancia con quien va adelante sin dejar de seguir el compás' },
+        { id: 'b', text: 'Acelerar para colocarse justo detrás de sus talones' },
+        { id: 'c', text: 'Cerrar los ojos y copiar cualquier desplazamiento' },
+      ], correct: ['a'] },
     ),
     S.choice(
       { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:2.3.1', 'pyd:2.3.2'], prompt: '¿Qué acción corresponde a un círculo de calidad antes de elegir una solución?' },

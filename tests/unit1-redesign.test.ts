@@ -452,6 +452,17 @@ test('La comparación estructurada normaliza variantes sin firmas curriculares',
     helperSource,
     /cromosom|ene[aá]gono|que es un gen|46-cromosomas|biciclet|cautiousMovementCues|movimiento-cauteloso/i,
   );
+  const collisionConfigSource = [
+    JSON.stringify([...CUSTOM_STRUCTURED_PATHS]),
+    meaningfulCollisionTokens,
+    valuesAtStructuredPath,
+    customStructuredPayload,
+    repeatsStructuredFact,
+  ].map(String).join('\n');
+  assert.doesNotMatch(
+    collisionConfigSource,
+    /scenarioCollisionTokens|skillVocabulary|energ|nivel|movim|patro|pulso|ritmo|tiemp|traye|veloc/i,
+  );
 });
 
 test('La comparación estructurada detecta una respuesta parafraseada con contexto compartido', () => {
@@ -502,6 +513,36 @@ test('La comparación estructurada detecta reutilización desde un pulse-lab hac
   assert.equal(repeatsStructuredFact(reusedChoice, pulseLab), true);
 });
 
+test('La comparación estructurada conserva vocabulario significativo de campos personalizados', () => {
+  const pulseLab = {
+    type: 'pulse-lab',
+    prompt: 'Movimiento con nivel, trayectoria, velocidad, energía, pulso y ritmo durante un patrón de ocho tiempos.',
+    props: {
+      seconds: 15,
+      rounds: [
+        { label: 'Nivel bajo con ritmo lento' },
+        {
+          label: 'Nivel alto con ritmo rápido',
+          exercise: { name: 'Trayectoria curva con energía fuerte', icon: 'Activity', seconds: 60 },
+        },
+      ],
+    },
+  };
+  const reusedChoice = {
+    type: 'choice',
+    prompt: '¿Cuál opción muestra movimiento, nivel alto, ritmo rápido y trayectoria curva?',
+    props: {
+      options: [
+        { id: 'a', text: 'Una trayectoria curva con energía fuerte' },
+        { id: 'b', text: 'Una trayectoria recta con energía suave' },
+      ],
+      correct: ['a'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(reusedChoice, pulseLab), true);
+});
+
 test('La comparación estructurada permite el mismo tema cuando cambia la habilidad evaluada', () => {
   const pulseLab = {
     type: 'pulse-lab',
@@ -529,6 +570,33 @@ test('La comparación estructurada permite el mismo tema cuando cambia la habili
   assert.equal(repeatsStructuredFact(rhythmChoice, pulseLab), false);
 });
 
+test('La comparación estructurada distingue actividades personalizadas con escenarios diferentes', () => {
+  const firstLab = {
+    type: 'pulse-lab',
+    prompt: 'Representa una tormenta que empieza suave y termina con lluvia intensa.',
+    props: {
+      seconds: 15,
+      rounds: [
+        { label: 'Antes de la secuencia' },
+        { label: 'Después de la secuencia', exercise: { name: 'Secuencia expresiva', seconds: 60 } },
+      ],
+    },
+  };
+  const secondLab = {
+    type: 'pulse-lab',
+    prompt: 'Representa una puerta pesada que se abre y luego vuelve a cerrarse.',
+    props: {
+      seconds: 15,
+      rounds: [
+        { label: 'Antes de la secuencia' },
+        { label: 'Después de la secuencia', exercise: { name: 'Secuencia expresiva', seconds: 60 } },
+      ],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(secondLab, firstLab), false);
+});
+
 type StructuredFact = { context: Set<string>; values: string[]; role: 'answer' | 'support' };
 
 function normalizeFactText(value: unknown): string {
@@ -550,8 +618,8 @@ function factTokens(value: unknown): Set<string> {
     .map((token) => (token.length > 5 ? token.slice(0, 5) : token)));
 }
 
-const CUSTOM_STRUCTURED_TEXT_FIELDS = new Map<string, Set<string>>([
-  ['pulse-lab', new Set(['label', 'name'])],
+const CUSTOM_STRUCTURED_PATHS = new Map<string, string[]>([
+  ['pulse-lab', ['rounds.*.label', 'rounds.*.exercise.name']],
 ]);
 
 function meaningfulCollisionTokens(value: unknown): Set<string> {
@@ -562,32 +630,30 @@ function meaningfulCollisionTokens(value: unknown): Set<string> {
   return new Set([...factTokens(value)].filter((token) => !generic.has(token) && !/^\d+$/.test(token)));
 }
 
-function scenarioCollisionTokens(value: unknown): Set<string> {
-  const skillVocabulary = new Set(['energ', 'nivel', 'movim', 'patro', 'pulso', 'ritmo', 'tiemp', 'traye', 'veloc']);
-  return new Set([...meaningfulCollisionTokens(value)].filter((token) => !skillVocabulary.has(token)));
+function valuesAtStructuredPath(value: unknown, path: string[]): string[] {
+  if (path.length === 0) return typeof value === 'string' ? [value] : [];
+  const [segment, ...rest] = path;
+  if (segment === '*') {
+    return Array.isArray(value) ? value.flatMap((entry) => valuesAtStructuredPath(entry, rest)) : [];
+  }
+  if (!value || typeof value !== 'object') return [];
+  return valuesAtStructuredPath((value as Record<string, unknown>)[segment], rest);
 }
 
-function customStructuredPayload(value: unknown): { prompt: Set<string>; scenario: Set<string>; entries: Set<string> } | undefined {
+function customStructuredPayload(value: unknown): { prompt: Set<string>; fields: Map<string, Set<string>> } | undefined {
   if (!value || typeof value !== 'object') return undefined;
   const step = value as { type?: string; prompt?: string; props?: unknown };
-  const textFields = step.type ? CUSTOM_STRUCTURED_TEXT_FIELDS.get(step.type) : undefined;
-  if (!textFields) return undefined;
-  const entries: string[] = [];
-  const visit = (item: unknown, field?: string): void => {
-    if (typeof item === 'string') {
-      if (field && textFields.has(field)) entries.push(item);
-      return;
-    }
-    if (Array.isArray(item)) { item.forEach((entry) => visit(entry, field)); return; }
-    if (!item || typeof item !== 'object') return;
-    Object.entries(item as Record<string, unknown>).forEach(([key, entry]) => visit(entry, key));
-  };
-  visit(step.props);
-  if (entries.length === 0) return undefined;
+  const paths = step.type ? CUSTOM_STRUCTURED_PATHS.get(step.type) : undefined;
+  if (!paths) return undefined;
+  const fields = new Map<string, Set<string>>();
+  for (const path of paths) {
+    const tokens = meaningfulCollisionTokens(valuesAtStructuredPath(step.props, path.split('.')).join(' '));
+    if (tokens.size > 0) fields.set(path, tokens);
+  }
+  if (fields.size === 0) return undefined;
   return {
     prompt: meaningfulCollisionTokens(step.prompt),
-    scenario: scenarioCollisionTokens(step.prompt),
-    entries: meaningfulCollisionTokens(entries.join(' ')),
+    fields,
   };
 }
 
@@ -716,20 +782,32 @@ function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
   const customReuse = (
     assessmentValue: unknown,
     assessment: { prompt: Set<string>; facts: StructuredFact[] },
-    custom: { prompt: Set<string>; scenario: Set<string>; entries: Set<string> } | undefined,
+    custom: { prompt: Set<string>; fields: Map<string, Set<string>> } | undefined,
   ): boolean => {
     if (!custom) return false;
     const assessmentPrompt = (assessmentValue as { prompt?: string } | undefined)?.prompt;
+    const assessmentPromptTokens = meaningfulCollisionTokens(assessmentPrompt);
     const answerTokens = meaningfulCollisionTokens(
       assessment.facts
         .filter((fact) => fact.role === 'answer')
         .flatMap((fact) => fact.values)
         .join(' '),
     );
-    const customContent = new Set([...custom.prompt, ...custom.entries]);
-    const sharedPrompt = [...scenarioCollisionTokens(assessmentPrompt)].filter((token) => custom.scenario.has(token));
+    const fieldTokens = new Set([...custom.fields.values()].flatMap((tokens) => [...tokens]));
+    const customContent = new Set([...custom.prompt, ...fieldTokens]);
+    const sharedPrompt = [...assessmentPromptTokens].filter((token) => custom.prompt.has(token));
     const sharedAnswer = [...answerTokens].filter((token) => customContent.has(token));
-    return sharedPrompt.length >= 1 && sharedAnswer.length >= 2;
+    const sharedAnswerPrompt = [...answerTokens].filter((token) => custom.prompt.has(token)).length;
+    const sharedAnswerField = Math.max(
+      0,
+      ...[...custom.fields.values()].map((tokens) => (
+        [...answerTokens].filter((token) => tokens.has(token)).length
+      )),
+    );
+    const weightedAnswerOverlap = sharedAnswerPrompt + (2 * sharedAnswerField);
+    return sharedPrompt.length >= 1
+      && sharedAnswer.length >= 2
+      && (weightedAnswerOverlap >= 2 || sharedPrompt.length >= 2);
   };
   if (
     customReuse(candidate, left, customStructuredPayload(source))
