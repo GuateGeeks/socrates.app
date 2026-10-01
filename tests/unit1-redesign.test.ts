@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { registerAll } from '../src/activities/index';
-import { getActivity, isAssessmentEvidence } from '../src/core/registry';
+import { getActivity, isAssessmentEvidence, isDeclaredAssessmentEvidence } from '../src/core/registry';
 import { WEEKS } from '../src/content/index';
 import type { Lesson, StepBase } from '../src/core/types';
 import { MEDIA_ASSETS } from '../src/media/assets';
@@ -3782,7 +3782,26 @@ test('La evidencia de evaluacion exige capacidad registrada y una referencia del
   assert.equal(isAssessmentEvidence({ ...base, cnb: ['l2:1.2.2'] }, 'l2'), true);
   assert.equal(isAssessmentEvidence({ ...base, cnb: [] }, 'l2'), false);
   assert.equal(isAssessmentEvidence({ ...base, cnb: ['ccss:3.1.1'] }, 'l2'), false);
+  assert.equal(isAssessmentEvidence({ ...base, cnb: ['ccss:3.1.1'] }, 'ccss'), false);
   assert.equal(isAssessmentEvidence({ ...base, type: 'reflection', cnb: ['l2:1.2.2'], props: { statements: ['Lo hice'] } }, 'l2'), false);
+});
+
+test('Las salidas multiarea se evaluan con el area primaria declarada en cada paso', () => {
+  const exits: StepBase[] = [
+    {
+      id: 'fixture-l2-exit', type: 'choice', fase: 'comprobar', areas: ['l2', 'ccss'],
+      cnb: ['l2:1.2.6'], prompt: 'Selecciona la intencion.',
+      props: { options: [{ id: 'a', text: 'Informar' }, { id: 'b', text: 'Opinar' }], correct: ['a'] },
+    },
+    {
+      id: 'fixture-ccss-exit', type: 'choice', fase: 'comprobar', areas: ['ccss', 'l2'],
+      cnb: ['ccss:3.1.1'], prompt: 'Selecciona la conclusion respaldada.',
+      props: { options: [{ id: 'a', text: 'Conclusion A' }, { id: 'b', text: 'Conclusion B' }], correct: ['b'] },
+    },
+  ];
+
+  assert.deepEqual(exits.map(isDeclaredAssessmentEvidence), [true, true]);
+  assert.equal(isAssessmentEvidence(exits[1], 'l2'), false);
 });
 
 test('L2 Semana 1 usa exactamente su asignacion del plan y evidencia produccion y escucha en tres etapas', () => {

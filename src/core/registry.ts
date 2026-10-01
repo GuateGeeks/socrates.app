@@ -32,9 +32,16 @@ export function listActivities(): ActivityDefinition[] {
 export function isAssessmentEvidence(step: StepBase, area: AreaId): boolean {
   const def = getActivity(step.type);
   return Boolean(
-    (def?.graded || def?.recordsEvidence)
+    step.areas[0] === area
+    && (def?.graded || def?.recordsEvidence)
     && step.cnb.some((ref) => ref.startsWith(`${area}:`)),
   );
+}
+
+/** Valida evidencia contra el área primaria declarada por el propio paso. */
+export function isDeclaredAssessmentEvidence(step: StepBase): boolean {
+  const primaryArea = step.areas[0];
+  return Boolean(primaryArea && isAssessmentEvidence(step, primaryArea));
 }
 
 /** Helper tipado para autores de contenido: step('choice', {...}) */
