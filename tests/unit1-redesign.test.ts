@@ -3177,6 +3177,42 @@ test('Semana 6 usa lenguaje nutricional preciso, respetuoso y adaptable', () => 
   assert.doesNotMatch(text, /se consigue en (?:toda|cualquier) comunidad|todas las familias tienen/);
 });
 
+test('Semana 6 ensena funciones de micronutrientes sin prometer prevenir enfermedades', () => {
+  const scienceLessons = weekSix.lessons.filter((lesson) => lesson.area === 'cnt');
+  const scienceAssessments = [
+    ...weekSix.lessons.filter((lesson) => lesson.kind === 'reto').flatMap((lesson) => lesson.steps),
+    ...weekSixBank,
+  ].filter((step) => step.areas.includes('cnt'));
+  const text = normalizeFactText(JSON.stringify([...scienceLessons, ...scienceAssessments]));
+  assert.doesNotMatch(text, /para no enfermar|(?:evitar|prevenir) resfriados|vitaminas?.{0,80}(?:evitan?|previenen?|impiden?) (?:enfermedades?|resfriados?)/);
+  assert.match(text, /micronutrientes?|vitaminas? y minerales?.{0,120}(?:procesos|funcionamiento inmunitario|crecimiento|sangre|huesos|nervios)/);
+
+  const nutrientLesson = scienceLessons.find((lesson) => lesson.id === 's06-cnt-1');
+  assert.ok(nutrientLesson, 'Falta la leccion de nutrientes');
+  const scoredText = normalizeFactText(JSON.stringify(nutrientLesson.steps
+    .filter((step) => getActivity(step.type)?.graded)));
+  assert.match(scoredText, /funcionamiento normal del sistema inmunitario/);
+  assert.doesNotMatch(scoredText, /resfriados?|no enfermar/);
+});
+
+test('Semana 6 contextualiza la variedad escolar sin contradecir la lactancia exclusiva', () => {
+  const schoolAgeContent = [
+    ...weekSix.lessons.filter((lesson) => lesson.id === 's06-cnt-1' || lesson.id === 's06-cnt-3'),
+    ...weekSix.lessons.filter((lesson) => lesson.kind === 'taller' || lesson.kind === 'reto'),
+    ...weekSixBank,
+  ];
+  const schoolAgeText = normalizeFactText(JSON.stringify(schoolAgeContent));
+  assert.doesNotMatch(schoolAgeText, /ningun alimento (?:los )?tiene todos|un solo alimento tiene todos los nutrientes/);
+  assert.match(schoolAgeText, /(?:refaccion|menu|combinacion).{0,160}(?:ayuda|puede).{0,80}(?:cubrir|reunir).{0,80}(?:funciones|necesidades|nutrientes)/);
+  assert.match(schoolAgeText, /ningun (?:ingrediente|alimento) de (?:una|la) refaccion.{0,120}(?:por si solo|solo).{0,120}(?:todo|todas las necesidades)/);
+
+  const lactation = weekSix.lessons.find((lesson) => lesson.id === 's06-cnt-2');
+  assert.ok(lactation, 'Falta la leccion de lactancia');
+  const lactationText = normalizeFactText(JSON.stringify(lactation));
+  assert.match(lactationText, /lactancia materna exclusiva.{0,80}primeros 6 meses/);
+  assert.match(lactationText, /desde los 6 meses.{0,120}alimentos complementarios/);
+});
+
 test('Semana 6 construye los cuatro componentes del producto con prerrequisitos y tiempo realistas', () => {
   const workshop = weekSix.lessons.find((lesson) => lesson.kind === 'taller');
   assert.ok(workshop, 'Semana 6 sin taller');
