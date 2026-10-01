@@ -3,7 +3,7 @@
  * Progresión: la técnica del lanzamiento de objetos de mediano peso y cómo ajustar fuerza y
  * dirección para distintas distancias y alturas → cinco formas de lanzar (rodado, a dos manos de
  * pecho, por arriba del hombro, en suspensión y con pique), en movimiento y con cada mano.
- * (El contenido ef:1.4.14 —estructuras rítmicas sencillas— se trabajó en la semana 3.)
+ * La segunda lección usa una estructura rítmica sencilla para coordinar pases.
  */
 import { lesson, S, cierre } from '../../../../dsl';
 
@@ -142,7 +142,7 @@ export default [
     minutes: 15,
     gancho: 'En el recreo, para pasar la pelota a alguien cercano, a alguien lejos o por encima de un compañero alto, ¿usas siempre el mismo lanzamiento?',
     objetivos: [
-      "Elegir y ejecutar distintas formas de lanzamiento según la situación",
+      "Elegir y ejecutar distintas formas de lanzamiento en una estructura ritmica sencilla segun la situacion",
     ],
     resumen: [
       'Rodado: la pelota va por el suelo; es seguro y preciso para distancias cortas (como en el boliche).',
@@ -150,6 +150,7 @@ export default [
       'Por arriba del hombro (directo): con una mano, para distancias largas. En suspensión: el mismo lanzamiento pero saltando, para lanzar por encima de un defensor.',
       'Con pique: la pelota bota una vez en el suelo antes de llegar al compañero, más cerca de él que de ti; sirve para pasar por debajo de los brazos de un defensor.',
       'Lanzar en movimiento exige coordinar pasos y brazos; practicar con cada mano te hace más completo.',
+      'Una estructura ritmica sencilla de cuatro tiempos puede ordenar preparar, apuntar, lanzar y recibir.',
     ],
     media: {
       id: 's04-ef-2-cinco', kind: 'animation', title: 'Cinco lanzamientos', aspect: '16:9', duration: 60,
@@ -181,13 +182,14 @@ export default [
         ] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.3'], ambito: 'hacer', title: 'Dos lanzamientos para superar defensas',
-          prompt: 'En los juegos con defensores, estas dos formas son muy útiles. Toca cada tarjeta.' },
-        { icon: 'Shield', body: 'Elige según **dónde** tiene los brazos el defensor: si los tiene arriba, pasa por abajo; si los tiene abajo, pasa por arriba.', reveal: [
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.4.14', 'ef:2.1.3'], ambito: 'hacer', title: 'Defensas y ritmo para coordinar pases',
+          prompt: 'Elige una forma de lanzamiento y coordinala con una estructura ritmica sencilla. Toca cada tarjeta.' },
+        { icon: 'Shield', body: 'Segun los brazos del defensor, pasa por arriba o por abajo. Para coordinar cualquier forma, repite **cuatro tiempos**: 1 preparar, 2 apuntar, 3 lanzar y 4 recibir.', reveal: [
           { icon: 'ArrowDown', front: 'Con pique', back: 'Lanza la pelota hacia el suelo para que **bote una vez** y llegue a tu compañero a la altura de la cintura. El bote va **más cerca de quien recibe** (a unos dos tercios del camino). Puedes hacerlo a dos manos o a una mano.' },
           { icon: 'ArrowUp', front: 'En suspensión', back: 'Corre, **salta** con impulso y lanza por arriba del hombro en el **punto más alto** del salto. Así lanzas por encima de un defensor.' },
           { icon: 'Footprints', front: 'En movimiento', back: 'Lanzar mientras te desplazas exige coordinar pasos y brazo: primero camina, luego trota y al final corre.' },
           { icon: 'RefreshCw', front: 'Alternar manos', back: 'Practica cada lanzamiento de una mano con la **derecha** y con la **izquierda**: tendrás más opciones en el juego.' },
+          { icon: 'ListOrdered', front: 'Estructura de cuatro tiempos', back: '**1 preparar, 2 apuntar, 3 lanzar, 4 recibir.** Luego el patron comienza otra vez.' },
         ] },
       ),
       S.ejemplo(
@@ -204,21 +206,22 @@ export default [
           tip: 'Antes de lanzar, mira a tu compañero y al defensor: la decisión es parte de la técnica.' },
       ),
       S.match(
-        { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.3'], ambito: 'conocer',
-          prompt: 'Une cada lanzamiento con su descripción.',
-          hint: 'Recuerda dónde va la pelota: por el suelo, desde el pecho, por arriba, saltando o con un bote.',
-          explain: 'Rodado = por el suelo; pecho = empujar con dos manos; arriba del hombro = una mano, largo; suspensión = saltando; pique = con un bote.' },
-        { leftTitle: 'Lanzamiento', rightTitle: 'Cómo es', pairs: [
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.4.14', 'ef:2.1.3'], ambito: 'conocer',
+          prompt: 'Une cada lanzamiento o estructura ritmica con su descripcion.',
+          hint: 'Recuerda por donde va la pelota y que ocurre en los cuatro tiempos.',
+          explain: 'Cada forma resuelve una situacion; la estructura preparar, apuntar, lanzar y recibir coordina el pase.' },
+        { leftTitle: 'Forma o estructura', rightTitle: 'Cómo es', pairs: [
           { id: 'r', left: 'Rodado', right: 'La pelota va por el suelo' },
           { id: 'p', left: 'A dos manos de pecho', right: 'Se empuja desde el pecho estirando los brazos' },
           { id: 'h', left: 'Por arriba del hombro', right: 'Con una mano, para llegar lejos' },
           { id: 's', left: 'En suspensión', right: 'Se lanza en el punto más alto de un salto' },
           { id: 'q', left: 'Con pique', right: 'La pelota bota una vez antes de llegar' },
+          { id: 't', left: 'Cuatro tiempos', right: 'Preparar, apuntar, lanzar y recibir' },
         ] },
       ),
       S.pulse(
-        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:2.1.3'], ambito: 'hacer',
-          prompt: 'En pareja, despejen la zona y usen una pelota suave. **Calentamiento:** muevan hombros y muñecas sin pelota. Hagan **8 pases en total**: uno rodado, uno de pecho, uno por arriba del hombro, uno en suspensión sin carrera y uno con pique; luego repitan tres formas que la pareja elija para mejorar el control. Quien recibe pone una marca por pase controlado: ese es el registro. **Poco espacio:** trabajen contra una pared y omitan el salto. **Adaptación:** todas las formas pueden practicarse sentadas, salvo la suspensión, que se representa elevando el brazo. **Vuelta a la calma:** caminen, respiren y estiren los brazos.' },
+        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:1.4.14', 'ef:2.1.3'], ambito: 'hacer',
+          prompt: 'En pareja, despejen la zona y usen una pelota suave. **Calentamiento:** muevan hombros y muñecas sin pelota. Hagan **8 pases en total**, cada uno con cuatro tiempos: 1 preparar, 2 apuntar, 3 lanzar y 4 recibir. Incluyan uno rodado, uno de pecho, uno por arriba del hombro, uno en suspensión sin carrera y uno con pique; repitan tres formas que la pareja elija. Quien recibe pone una marca por pase controlado. **Poco espacio:** trabajen contra una pared y omitan el salto. **Adaptación:** practiquen sentados y representen la suspensión elevando el brazo. **Vuelta a la calma:** caminen, respiren y estiren los brazos.' },
         { seconds: 15, rounds: [
           { label: 'En reposo' },
           { label: 'Después del calentamiento', exercise: { name: 'Movilidad de hombros y muñecas', icon: 'RotateCw', seconds: 30 } },
@@ -236,17 +239,17 @@ export default [
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.3'], prompt: 'Para un pase **corto y seguro** a un compañero cercano y libre, ¿qué lanzamiento conviene?' },
+        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.14', 'ef:2.1.3'], prompt: 'En la estructura de cuatro tiempos, necesitas un pase corto y seguro hacia una companera cercana y libre. ¿Que accion corresponde al tiempo 3?' },
         { options: [
-          { id: 'a', text: 'A dos manos desde el pecho' },
+          { id: 'a', text: 'Lanzar a dos manos desde el pecho' },
           { id: 'b', text: 'En suspensión, con salto' },
           { id: 'c', text: 'Por arriba del hombro con toda la fuerza' },
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.3'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.14', 'ef:2.1.3'], prompt: 'Comprueba formas de lanzamiento y la estructura ritmica sencilla de cuatro tiempos.' },
         { statements: [
-          { text: 'En un lanzamiento con pique, la pelota bota una vez en el suelo antes de llegar al compañero.', answer: true },
+          { text: 'Preparar, apuntar, lanzar y recibir puede repetirse como estructura de cuatro tiempos.', answer: true },
           { text: 'El lanzamiento en suspensión se hace en el punto más alto de un salto.', answer: true },
           { text: 'El lanzamiento rodado es el mejor para pasar por encima de un defensor alto.', answer: false, why: 'El rodado va por el suelo; para superar a un defensor alto conviene el pique o, si tiene los brazos abajo, la suspensión.' },
         ] },

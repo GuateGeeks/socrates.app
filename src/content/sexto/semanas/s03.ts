@@ -177,16 +177,12 @@ export default semana({
             { id: 'c', text: 'Las lágrimas dejan de limpiar y proteger los ojos' },
           ], correct: ['a'] },
         ),
-        S.sort(
-          { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.1'], prompt: 'Clasifica el efecto principal de cada tecnología.' },
-          { buckets: [
-            { id: 'c', label: 'Cultura', icon: 'Languages' },
-            { id: 'e', label: 'Economía', icon: 'BadgeDollarSign' },
-            { id: 'v', label: 'Valores y convivencia', icon: 'Scale' },
-          ], items: [
-            { id: 'a', text: 'Una radio comunitaria difunde música en idiomas locales', bucket: 'c' },
-            { id: 'b', text: 'Una aplicación permite vender artesanías a otras regiones', bucket: 'e' },
-            { id: 'd', text: 'Un grupo acuerda verificar mensajes antes de reenviarlos', bucket: 'v' },
+        S.tf(
+          { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:4.1.1'], prompt: 'Fuente ficticia de una cosecha de café en Guatemala: jornada desde las 6, descanso bajo sombra cada dos horas, agua disponible, guantes y pago diario acordado. Evalúa qué permite analizar esta evidencia.' },
+          { statements: [
+            { text: 'Describe condiciones de horario, descanso, seguridad y pago dentro de una actividad agrícola.', answer: true },
+            { text: 'Representa por sí sola las condiciones de todos los empleos del país.', answer: false },
+            { text: 'Convierte la cosecha en una actividad del sector industrial.', answer: false },
           ] },
         ),
         S.choice(
@@ -310,11 +306,11 @@ export default semana({
       ], correct: ['a'] },
     ),
     S.choice(
-      { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.14'], prompt: 'Cuatro estudiantes avanzan al compás y empiezan juntos, pero uno queda demasiado cerca de quien va adelante. ¿Qué ajuste permite continuar con control?' },
+      { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.12'], prompt: 'Sin hablar y con el cuerpo quieto, una intérprete fija los ojos en una puerta imaginaria para dirigir allí la atención del público. ¿Qué recurso expresivo usa principalmente?' },
       { options: [
-        { id: 'a', text: 'Conservar distancia con quien va adelante sin dejar de seguir el compás' },
-        { id: 'b', text: 'Acelerar para colocarse justo detrás de sus talones' },
-        { id: 'c', text: 'Cerrar los ojos y copiar cualquier desplazamiento' },
+        { id: 'a', text: 'La mirada' },
+        { id: 'b', text: 'La trayectoria de carrera' },
+        { id: 'c', text: 'El pulso musical' },
       ], correct: ['a'] },
     ),
     S.choice(

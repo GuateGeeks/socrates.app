@@ -276,7 +276,7 @@ export default [
         ], correct: ['b'] },
       ),
       S.fill(
-        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:2.2.1', 'cnt:1.4.1'], ambito: 'conocer',
+        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:2.2.1'], ambito: 'conocer',
           prompt: 'Integra todo lo aprendido: completa el texto.',
           explain: 'ADN → genes → cromosomas; genes distintos = especies distintas; mezcla de genes y mutaciones = variación dentro de la especie.' },
         { text: 'El [[ADN]] guarda las instrucciones de la vida. Sus pedazos con instrucciones se llaman [[genes]], y el ADN enrollado forma los [[cromosomas]]. Las especies son distintas porque tienen genes distintos. Dentro de una especie, cada individuo es diferente por la [[mezcla]] de genes de sus progenitores y por pequeños cambios en el ADN llamados [[mutaciones]].',
@@ -436,7 +436,7 @@ export default [
       ),
       S.choice(
         { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:2.3.1', 'cnt:2.3.2'], ambito: 'conocer',
-          prompt: 'Al clasificar glándulas endocrinas, ¿qué diferencia funcional distingue las glándulas sexuales masculinas de las femeninas?',
+          prompt: 'Testículos y ovarios son glándulas endocrinas que liberan hormonas a la sangre. ¿Qué diferencia funcional distingue las glándulas sexuales masculinas de las femeninas?',
           explain: 'Ambas son endocrinas. Los testículos producen principalmente testosterona y forman espermatozoides; los ovarios producen principalmente estrógenos y progesterona y contienen ovocitos.' },
         { options: [
           { id: 'a', text: 'Testículos: testosterona y espermatozoides; ovarios: estrógenos, progesterona y ovocitos', icon: 'GitCompare' },
@@ -447,7 +447,7 @@ export default [
       S.choice(
         { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.1', 'cnt:2.3.2'], prompt: '¿Qué opción clasifica la vía endocrina y diferencia correctamente glándulas sexuales masculinas y femeninas?' },
         { options: [
-          { id: 'a', text: 'Liberan hormonas a la sangre; testículos y ovarios difieren en hormonas y células reproductoras relacionadas' },
+          { id: 'a', text: 'Liberan hormonas a la sangre; los testículos forman espermatozoides y los ovarios contienen ovocitos' },
           { id: 'b', text: 'Usan conductos hacia la piel y cumplen exactamente la misma función' },
           { id: 'c', text: 'Solo los ovarios son glándulas' },
         ], correct: ['a'] },

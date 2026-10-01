@@ -48,7 +48,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.4.3', 'ef:1.4.14'], ambito: 'hacer', title: 'Marcha y carrera con fondo musical',
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.4.3'], ambito: 'hacer', title: 'Marcha y carrera con fondo musical',
           prompt: 'La misma música sirve para **marchar** o para **trotar**. Cambia cuántos pasos das por pulso. Toca cada tarjeta y pruébalo con la pista de práctica, contando en voz alta.',
           media: {
             id: 's03-ef-1-pista', kind: 'audio', title: 'Pista para marchar y trotar', duration: 60,
@@ -63,7 +63,7 @@ export default [
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.4.1', 'ef:1.4.14'], ambito: 'hacer', title: 'Ejemplo resuelto: un patrón de 8 tiempos',
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.4.1'], ambito: 'hacer', title: 'Ejemplo resuelto: un patrón de 8 tiempos',
           prompt: 'Mira cómo el grupo de Ixchel arma un patrón para la clase de gimnasia rítmica.' },
         { icon: 'ListOrdered', problem: 'Deben crear un patrón de **8 tiempos** que combine marcha, palmas y un salto, y repetirlo 4 veces con la música.',
           steps: [
@@ -84,7 +84,7 @@ export default [
         { beats: 4, allowed: ['blanca', 'negra', 'corchea'], mustInclude: ['negra', 'corchea'], showFractions: true },
       ),
       S.pulse(
-        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:1.4.3', 'ef:1.4.14'], ambito: 'hacer',
+        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:1.4.3'], ambito: 'hacer',
           prompt: '¡Gimnasia rítmica! Pon una canción con pulso claro (marimba, son o cualquier música alegre) o cuenta en voz alta. **Calentamiento:** marcha en tu lugar 8 tiempos × 4, rotando hombros. **Parte principal:** marcha 8 tiempos adelante y 8 atrás; trota 8 tiempos (2 pasitos por pulso); repite tu patrón de 8 tiempos (paso, paso, paso, paso, palma, palma, salto, pausa) 4 veces. **Poco espacio:** todo en tu lugar. **Adaptación:** en silla de ruedas, marca el ritmo con brazos y palmas, y empuja las ruedas en los tiempos de desplazamiento. **Vuelta a la calma:** paso lento (1 paso cada 2 pulsos) y respiración profunda.' },
         { seconds: 15, rounds: [
           { label: 'En reposo' },
@@ -122,7 +122,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.3', 'ef:1.4.14'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.3'], prompt: '¿Verdadero o falso?' },
         { statements: [
           { text: 'Al marchar se da un paso en cada pulso de la música.', answer: true },
           { text: 'Al trotar con la música se dan dos pasitos por pulso.', answer: true },

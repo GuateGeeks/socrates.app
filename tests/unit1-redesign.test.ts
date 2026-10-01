@@ -1768,7 +1768,7 @@ test('Semana 2 preserva las lecciones y referencias CNB aprobadas', () => {
     'mat:1.1.6', 'mat:1.1.7', 'mat:1.1.8', 'mat:1.1.9', 'mat:1.1.10',
     'l1:4.2.1', 'l1:4.2.2',
     'cnt:1.4.1', 'cnt:2.1.1', 'cnt:1.5.1', 'cnt:1.5.2', 'cnt:1.5.3',
-    'ccss:2.3.1', 'ccss:2.1.1', 'ccss:3.1.1', 'ccss:3.2.5', 'ccss:3.2.6',
+    'ccss:2.3.1', 'ccss:2.1.1', 'ccss:3.1.1', 'ccss:3.2.1', 'ccss:3.2.5', 'ccss:3.2.6',
     'l2:1.3.1', 'l2:2.1.1', 'l3:1.1.2', 'fc:1.2.2', 'art:1.1.2',
     'ef:1.3.3', 'ef:1.3.5', 'ef:1.3.6', 'pyd:1.2.1', 'pyd:1.4.4',
   ]);
@@ -2021,16 +2021,7 @@ test('Semana 3 preserva las lecciones y referencias CNB aprobadas con una idea c
     ['mat', 5], ['l1', 5], ['cnt', 3], ['ccss', 3], ['l2', 2],
     ['l3', 2], ['fc', 2], ['art', 2], ['ef', 2], ['pyd', 1],
   ]);
-  const expectedCnb = new Set([
-    'mat:1.1.11', 'mat:1.2.1', 'mat:1.3.1', 'mat:1.3.2',
-    'l1:4.2.3', 'l1:5.1.7',
-    'cnt:1.4.1', 'cnt:2.1.2', 'cnt:2.2.1', 'cnt:2.3.1', 'cnt:2.3.2',
-    'ccss:3.2.1', 'ccss:3.3.1', 'ccss:3.4.1', 'ccss:4.1.1', 'ccss:4.1.5', 'ccss:4.2.2',
-    'l2:2.1.2', 'l2:2.1.3', 'l2:2.1.5',
-    'l3:1.3.3', 'fc:1.2.3', 'fc:2.1.1', 'art:2.2.1',
-    'ef:1.4.1', 'ef:1.4.2', 'ef:1.4.3', 'ef:1.4.12', 'ef:1.4.14',
-    'pyd:2.3.1', 'pyd:2.3.2',
-  ]);
+  const expectedCnb = plannedRefsForAreas(3, [...expectedLessonCounts.keys()]);
   const lessons = weekThree.lessons.filter((lesson) => lesson.kind === 'materia');
   const actualCounts = new Map<string, number>();
   const unfocused: string[] = [];
@@ -3585,8 +3576,33 @@ function plannedRefsForAreas(weekNumber: number, areas: string[]): Set<string> {
 function teachesL2MessageProduction(value: unknown): boolean {
   const text = normalizeFactText(JSON.stringify(value));
   const threePurposes = /informativ/.test(text) && /expositiv/.test(text) && /argumentativ/.test(text);
-  const production = /(?:produ(?:ce|cir|ccion)|elabora|redacta|escribe|crea|formula).{0,100}(?:mensaje|texto)|(?:mensaje|texto).{0,100}(?:produ(?:ce|cir|ccion)|elabora|redacta|escribe|crea|formula)/.test(text);
-  return threePurposes && production && /(?:lugar|mapa|ubicacion|ruta|comunidad)/.test(text);
+  return threePurposes && /(?:mensaje|texto)/.test(text) && /(?:lugar|mapa|ubicacion|ruta|comunidad)/.test(text);
+}
+
+function demandsL2MessageProduction(value: unknown): boolean {
+  if (!value || typeof value !== 'object') return false;
+  const step = value as Partial<StepBase>;
+  const text = normalizeFactText(`${step.prompt ?? ''} ${JSON.stringify(step.props ?? {})}`);
+  const demandsWriting = /(?:produce|redacta|escribe|crea|formula|elabora)/.test(text)
+    && /(?:mensaje|texto)/.test(text);
+  return step.type === 'short-answer' && demandsWriting
+    && /(?:informativ|expositiv|argumentativ)/.test(text)
+    && /(?:lugar|mapa|ubicacion|ruta|comunidad)/.test(text);
+}
+
+function hasL2MessageProductionAtStages(lesson: Lesson): boolean {
+  const tagged = (step: StepBase) => step.cnb.includes('l2:1.2.2');
+  const teaching = lesson.steps.some((step) => tagged(step)
+    && INSTRUCTION_TYPES.has(step.type) && teachesL2MessageProduction(step));
+  const application = lesson.steps.some((step) => tagged(step)
+    && step.fase === 'aplicar' && !step.hint && demandsL2MessageProduction(step)
+    && teachesL2MessageProduction(step));
+  const exits = lesson.steps.filter((step) => tagged(step)
+    && step.fase === 'comprobar' && !step.hint && !step.explain);
+  const exitText = normalizeFactText(JSON.stringify(exits));
+  return teaching && application && exits.length >= 2
+    && exits.every(demandsL2MessageProduction)
+    && /informativ/.test(exitText) && /expositiv/.test(exitText) && /argumentativ/.test(exitText);
 }
 
 function teachesListeningAnticipationAndIntent(value: unknown): boolean {
@@ -3646,8 +3662,49 @@ function teachesSocietyEvolution(value: unknown): boolean {
     && /(?:evolucion|cambio|transicion|paso gradual|compar|diferencia)/.test(text);
 }
 
+function distinguishesSexGlands(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  return /(?:endocrin|secrecion interna)/.test(text) && /sangre/.test(text)
+    && /testiculos/.test(text) && /espermatozoides/.test(text)
+    && /ovarios/.test(text) && /ovocitos/.test(text)
+    && /(?:diferencia|compara|distingue)/.test(text);
+}
+
+function connectsExchangeRoutesAcrossTime(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const ancient = /(?:maya|inca|egipto|mesopotamia)/.test(text)
+    && /(?:sacbe|canoa|camino|rio|mensajero|escritura)/.test(text);
+  const present = /centroamerica|centroamericana/.test(text)
+    && /(?:agricultura|industria|servicio|actividad productiva|producto)/.test(text)
+    && /(?:continente|america del norte|europa|asia)/.test(text);
+  return ancient && present && /(?:ruta|conexion)/.test(text)
+    && /(?:intercambio|comercio)/.test(text) && /(?:compara|continuidad|antes|hoy|actual)/.test(text);
+}
+
+function analyzesGuatemalaWorkConditions(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const activities = /guatemala/.test(text)
+    && /(?:agricultura|finca|fabrica|construccion|comercio|servicio|venta)/.test(text);
+  const conditions = /(?:condicion|empleo|trabajo)/.test(text)
+    && /contrato/.test(text) && /prestacion/.test(text) && /(?:ingreso|salario)/.test(text);
+  const informal = /economia informal|trabajo informal/.test(text)
+    && /(?:registro|sin contrato|no significa.*ilegal|no es.*ilegal)/.test(text);
+  return activities && conditions && informal && /(?:compara|clasifica|analiza|distingue|relaciona)/.test(text);
+}
+
+function comparesWomenRolesAcrossCultures(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  return /mujer/.test(text) && /(?:cultura|sociedad)/.test(text) && /(?:epoca|tiempo|antes|actual)/.test(text)
+    && /familia/.test(text) && /econom/.test(text) && /politic/.test(text)
+    && /(?:compara|cambio|continuidad|diferencia)/.test(text);
+}
+
 test('Los contratos semanticos rechazan identificacion, inserciones y volcados de cobertura', () => {
-  assert.equal(teachesL2MessageProduction({ prompt: 'Identifica si el mensaje es informativo, expositivo o argumentativo sobre un mapa.' }), false);
+  assert.equal(demandsL2MessageProduction({
+    type: 'choice',
+    prompt: 'Produce mensajes informativos, expositivos y argumentativos sobre un mapa de la comunidad.',
+    props: { options: [{ id: 'a', text: 'Mensaje informativo' }], correct: ['a'] },
+  }), false);
   assert.equal(teachesListeningAnticipationAndIntent({ prompt: 'Lee una opinion y marca su intencion.' }), false);
   assert.equal(teachesMaleReproductiveStructure({ prompt: 'La pubertad cambia el cuerpo; menciona los testiculos.' }), false);
   assert.equal(distinguishesGametogenesis({ prompt: 'El aparato masculino produce espermatozoides.' }), false);
@@ -3655,6 +3712,10 @@ test('Los contratos semanticos rechazan identificacion, inserciones y volcados d
   assert.equal(teachesSocialInquiry({ prompt: 'Historia, geografia y sociologia son Ciencias Sociales.' }), false);
   assert.equal(usesInformationGatheringTools({ prompt: 'Nombra observacion, entrevista y encuesta.' }), false);
   assert.equal(teachesSocietyEvolution({ prompt: 'Cazadores, recolectores y agricultores existieron.' }), false);
+  assert.equal(distinguishesSexGlands({ prompt: 'Las glandulas participan en cambios del cuerpo.' }), false);
+  assert.equal(connectsExchangeRoutesAcrossTime({ prompt: 'Los mayas usaron caminos; hoy Centroamerica exporta cafe.' }), false);
+  assert.equal(analyzesGuatemalaWorkConditions({ prompt: 'La tecnologia cambia el trabajo y las mujeres participan en la economia.' }), false);
+  assert.equal(comparesWomenRolesAcrossCultures({ prompt: 'La tecnologia y el ciberacoso afectan hoy a mujeres y hombres.' }), false);
 });
 
 test('L2 Semana 1 usa exactamente su asignacion del plan y evidencia produccion y escucha en tres etapas', () => {
@@ -3665,9 +3726,32 @@ test('L2 Semana 1 usa exactamente su asignacion del plan y evidencia produccion 
   assert.deepEqual(lessons.map((lesson) => new Set(lesson!.steps.flatMap((step) => step.cnb))), [
     new Set(['l2:1.2.2']), new Set(['l2:1.2.4', 'l2:1.2.6']),
   ]);
-  assert.equal(hasIndicatorAtStages(lessons[0]!, 'l2:1.2.2', teachesL2MessageProduction), true);
+  assert.equal(hasL2MessageProductionAtStages(lessons[0]!), true);
   assert.equal(hasIndicatorAtStages(lessons[1]!, 'l2:1.2.4', teachesListeningAnticipationAndIntent), true);
   assert.equal(hasIndicatorAtStages(lessons[1]!, 'l2:1.2.6', teachesListeningAnticipationAndIntent), true);
+});
+
+test('CNT y CCSS Semana 3 usan exactamente el plan y evidencian cada indicador en tres etapas', () => {
+  const science = weekThree.lessons.find((lesson) => lesson.id === 's03-cnt-3');
+  const social = ['s03-ccss-1', 's03-ccss-2', 's03-ccss-3']
+    .map((id) => weekThree.lessons.find((lesson) => lesson.id === id));
+  assert.ok(science && social.every(Boolean));
+  assert.deepEqual(
+    new Set(weekThree.lessons.filter((lesson) => lesson.kind === 'materia')
+      .flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb))),
+    plannedRefsForAreas(3, ['cnt', 'ccss', 'l1', 'l2', 'l3', 'ef', 'art', 'fc', 'mat', 'pyd']),
+  );
+  assert.deepEqual(social.map((lesson) => new Set(lesson!.steps.flatMap((step) => step.cnb))), [
+    new Set(['ccss:3.3.1', 'ccss:3.4.1']),
+    new Set(['ccss:4.1.1', 'ccss:4.1.5']),
+    new Set(['ccss:4.2.2']),
+  ]);
+  assert.equal(hasIndicatorAtStages(science, 'cnt:2.3.2', distinguishesSexGlands), true);
+  assert.equal(hasIndicatorAtStages(social[0]!, 'ccss:3.3.1', connectsExchangeRoutesAcrossTime), true);
+  assert.equal(hasIndicatorAtStages(social[0]!, 'ccss:3.4.1', connectsExchangeRoutesAcrossTime), true);
+  assert.equal(hasIndicatorAtStages(social[1]!, 'ccss:4.1.1', analyzesGuatemalaWorkConditions), true);
+  assert.equal(hasIndicatorAtStages(social[1]!, 'ccss:4.1.5', analyzesGuatemalaWorkConditions), true);
+  assert.equal(hasIndicatorAtStages(social[2]!, 'ccss:4.2.2', comparesWomenRolesAcrossCultures), true);
 });
 
 test('Cada evidencia auditiva calificada de L2 Semana 1 tiene un audio propio con ficha completa', () => {

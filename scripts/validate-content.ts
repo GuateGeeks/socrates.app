@@ -114,6 +114,7 @@ function checkStep(w: Mission, l: Lesson, s: StepBase, where: string, examMode: 
 }
 
 const TEACH = new Set(['explain', 'reading', 'worked-example']);
+const isAssessmentEvidence = (s: StepBase) => Boolean(getActivity(s.type)?.graded) || s.type === 'short-answer';
 function checkMateria(w: Mission, l: Lesson, sid: string, where: string) {
   const a = l.area!;
   const same = w.lessons.filter((x) => x.kind === 'materia' && x.area === a);
@@ -129,9 +130,9 @@ function checkMateria(w: Mission, l: Lesson, sid: string, where: string) {
   if (!fases.has('aplicar')) err(w, `${where} sin fase "aplicar" (práctica independiente)`);
   const comprobar = l.steps.filter((s) => s.fase === 'comprobar');
   if (comprobar.length < 2) err(w, `${where} el boleto de salida necesita ≥2 pasos "comprobar"`);
-  if (comprobar.some((s) => !getActivity(s.type)?.graded)) err(w, `${where} los pasos "comprobar" deben ser calificados`);
-  const graded = l.steps.filter((s) => getActivity(s.type)?.graded).length;
-  if (graded < 4) err(w, `${where} solo ${graded} pasos calificados (mínimo 4: práctica + boleto)`);
+  if (comprobar.some((s) => !isAssessmentEvidence(s))) err(w, `${where} los pasos "comprobar" deben ser calificados o guardar evidencia escrita`);
+  const assessed = l.steps.filter(isAssessmentEvidence).length;
+  if (assessed < 4) err(w, `${where} solo ${assessed} pasos con evidencia (mínimo 4: práctica + boleto)`);
   const foreign = l.steps.filter((s) => s.areas[0] !== a);
   if (foreign.length) err(w, `${where} ${foreign.length} pasos cuya área principal no es "${a}" (areas[0] debe ser la materia; otras áreas solo como secundarias)`);
   if (!l.steps.some((s) => s.cnb.some((c) => c.startsWith(`${a}:`)))) err(w, `${where} no referencia contenidos de ${a}`);
@@ -218,7 +219,7 @@ for (const w of [...WEEKS, ...COURSE.missions]) {
       for (const f of ['aplicar', 'comprobar', 'reflexionar'] as const) if (!fases.has(f)) err(w, `${where} sin fase "${f}"`);
       if (!fases.has('explorar')) err(w, `${where} no parte de "explorar"`);
       const comprobar = l.steps.filter((s) => s.fase === 'comprobar');
-      if (comprobar.some((s) => !getActivity(s.type)?.graded)) err(w, `${where} los pasos "comprobar" deben ser calificados`);
+      if (comprobar.some((s) => !isAssessmentEvidence(s))) err(w, `${where} los pasos "comprobar" deben ser calificados o guardar evidencia escrita`);
       if (new Set(l.steps.flatMap((s) => s.areas)).size < 2) warnings.push(`${where} lección de una sola área`);
     }
     if (l.kind === 'reto' && l.steps.filter((s) => getActivity(s.type)?.graded).length < 6) err(w, `${where} el reto necesita ≥6 ítems calificados`);

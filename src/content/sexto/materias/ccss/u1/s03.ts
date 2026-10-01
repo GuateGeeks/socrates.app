@@ -1,382 +1,168 @@
-/**
- * Ciencias Sociales · Unidad 1 · Semana 3 — Caminos, mensajes y comercio.
- * Progresión: cómo se comunicaban y transportaban las culturas antiguas → los cambios tecnológicos de
- * hoy y sus efectos en la cultura, la economía y los valores → qué producen los países de Centroamérica
- * y cómo se conectan con otros continentes.
- */
-import { lesson, S, cierre } from '../../../../dsl';
+/** Ciencias Sociales · Unidad 1 · Semana 3. */
+import { lesson, S } from '../../../../dsl';
 
 export default [
-  /* ───────────────────────── 1. Comunicación y transporte en culturas antiguas ───────────────────────── */
   lesson({
-    id: 's03-ccss-1',
-    title: 'Caminos y mensajes de las culturas antiguas',
-    icon: 'Route',
-    minutes: 14,
-    gancho: 'Hoy mandas un mensaje por celular y llega en un segundo. ¿Cómo avisaba un rey maya o inca algo urgente a una ciudad lejana, hace mil años?',
-    objetivos: ['Relacionar medios de transporte y comunicación de culturas antiguas con su geografía y necesidades'],
+    id: 's03-ccss-1', title: 'Rutas que conectan intercambios', icon: 'Route', minutes: 15,
+    gancho: 'Los caminos cambian, pero siguen conectando personas, productos e ideas.',
+    objetivos: ['Explicar como las rutas conectan intercambios antiguos y actividades productivas centroamericanas actuales con otros continentes'],
     resumen: [
-      'Los mayas construyeron sacbeob (caminos blancos) entre ciudades, navegaron en canoas por ríos y costas, y registraron su historia con escritura jeroglífica en estelas y códices.',
-      'Los incas tuvieron una enorme red de caminos, el Qhapaq Ñan; sus mensajeros, los chasquis, corrían por relevos, y registraban datos con quipus (cuerdas con nudos). Usaban llamas para cargar.',
-      'En Mesopotamia se inventó la rueda y la escritura cuneiforme; los egipcios navegaron el Nilo y escribieron en papiro; los romanos construyeron calzadas; la Ruta de la Seda unió China con Europa.',
-      'Cada cultura usó los medios que su geografía y sus recursos permitían. Comunicarse y transportarse permitió comerciar, gobernar e intercambiar ideas.',
+      'Mayas, incas, egipcios y mesopotamicos combinaron caminos, rios, canoas, mensajeros y escritura para comunicar y transportar.',
+      'Hoy las actividades productivas centroamericanas incluyen agricultura, industria y servicios.',
+      'Rutas terrestres y maritimas conectan productos y servicios de Centroamerica con America del Norte, Europa y Asia.',
+      'Comparar antes y hoy muestra una continuidad: las rutas facilitan intercambio, aunque cambien los medios, la escala y los productos.',
     ],
     media: {
-      id: 's03-ccss-1-sacbe', kind: 'image', title: 'Un sacbé maya', aspect: '16:9',
-      alt: 'Ilustración de un camino blanco elevado que atraviesa la selva entre dos ciudades mayas; personas caminan con cargas y un mensajero corre.',
-      brief: 'Ilustración en perspectiva de un sacbé: calzada blanca, recta y elevada, cubierta de estuco, que cruza la selva de Petén entre dos ciudades mayas con templos al fondo. Personas mayas antiguas caminan con cargas sujetas por mecapal; un mensajero corre adelante. No aparecen caballos, bueyes ni carretas con ruedas (no se usaban en Mesoamérica). Colores naturales, estilo educativo.',
+      id: 's03-ccss-1-rutas-tiempo', kind: 'diagram', title: 'Rutas e intercambio antes y hoy', aspect: '16:9',
+      alt: 'Dos escenas comparan un camino y una canoa antiguos con una carretera y un puerto centroamericanos actuales.',
+      brief: 'Diagrama comparativo 1600x900. A la izquierda, sacbe maya, mensajero a pie y canoa con cargas; a la derecha, finca de cafe, fabrica, camion y puerto con rutas hacia America del Norte, Europa y Asia. Flechas rotuladas intercambio de productos e ideas. No incluir caballos ni carretas en la escena maya. Texto grande, alto contraste, iconos ademas de color y orden de lectura accesible.',
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.3.1'], ambito: 'conocer', title: 'Los mayas: caminos blancos y libros pintados',
-          prompt: 'Los mayas vivieron en lo que hoy es Guatemala, el sur de México, Belice y parte de Honduras y El Salvador. Toca cada tarjeta.' },
-        { icon: 'Route', body: 'Comerciaban **jade** de la cuenca del Motagua, **obsidiana** del altiplano, **cacao**, **sal** y plumas de quetzal.', reveal: [
-          { icon: 'Route', front: 'Sacbé (plural: sacbeob)', back: 'Significa "camino blanco". Calzadas elevadas y cubiertas de estuco blanco que unían edificios y ciudades. En Petén se conocen sacbeob que conectan El Mirador con otras ciudades.' },
-          { icon: 'Sailboat', front: 'Canoas', back: 'Hechas de un tronco ahuecado. Navegaban ríos como el **Usumacinta** y el **Pasión**, y las costas del Caribe para comerciar.' },
-          { icon: 'ScrollText', front: 'Escritura jeroglífica', back: 'Combinaba signos de palabras y de sílabas. La tallaban en **estelas** de piedra y la pintaban en **códices**, libros de papel de corteza doblados como acordeón.' },
-          { icon: 'Footprints', front: 'Mensajeros y cargadores', back: 'Las noticias viajaban con **mensajeros a pie**. Las cargas iban en la espalda, sujetas con el **mecapal**, una técnica que aún se usa hoy.' },
-        ] },
-      ),
-      S.choice(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.3.1'], ambito: 'conocer',
-          prompt: 'En la antigua Mesoamérica **no había caballos, bueyes ni burros**. ¿Cómo crees que llevaban las cargas pesadas de una ciudad a otra?',
-          explain: 'Las llevaban **personas**, caminando con cargas sujetas por un **mecapal** (una banda en la frente), y por agua en **canoas**. Hoy verás cómo cada cultura resolvió este reto.' },
-        { options: [
-          { id: 'a', text: 'En carretas jaladas por caballos', icon: 'Truck', feedback: 'Los caballos llegaron a América con los europeos, en el siglo XVI.' },
-          { id: 'b', text: 'Cargándolas personas a pie y en canoas por ríos y costas', icon: 'Footprints' },
-          { id: 'c', text: 'No transportaban nada', icon: 'X', feedback: 'Sí comerciaban mucho: jade, cacao, obsidiana, sal, plumas y textiles viajaban grandes distancias.' },
-        ], correct: ['b'] },
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.3.1', 'ccss:3.4.1'], prompt: 'Compara como las rutas conectaron intercambio antes y hoy: medios de culturas antiguas y actividades productivas de Centroamerica vinculadas con otros continentes.' },
+        { icon: 'Route', body: 'Los **mayas** usaron sacbeob, canoas, mensajeros y escritura; los **incas**, caminos y chasquis; Egipto aprovecho el Nilo. Hoy **Centroamerica** conecta agricultura, industria y servicios con America del Norte, Europa y Asia mediante carreteras, puertos y rutas maritimas.' },
       ),
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.3.1'], ambito: 'conocer', title: 'Otras culturas, otras soluciones',
-          prompt: 'En otras partes del mundo, las culturas antiguas usaron medios distintos según su geografía. Toca cada tarjeta.',
-          media: { id: 's03-ccss-1-quipu', kind: 'image', title: 'Un chasqui con su quipu', aspect: '4:3',
-            alt: 'Ilustración de un joven mensajero inca que corre por un camino de piedra en la montaña, con un quipu de cuerdas de colores en la mano.',
-            brief: 'Ilustración de un chasqui (mensajero inca) corriendo por un tramo de camino empedrado del Qhapaq Ñan en los Andes, con montañas nevadas al fondo y una llama cargada a un lado. En su mano, un quipu: una cuerda principal de la que cuelgan cuerdas de colores con nudos. Un recuadro ampliado explica: "Cada nudo y cada color representa un dato". Estilo educativo, colores naturales.' } },
-        { icon: 'Globe', body: 'La **rueda** se inventó en Mesopotamia hace más de 5,000 años. En Mesoamérica se conocía en juguetes, pero no se usó para transportar: no había animales de tiro y el terreno era de selva y montaña.', reveal: [
-          { icon: 'Mountain', front: 'Incas (Andes)', back: 'Red de caminos **Qhapaq Ñan**. Los **chasquis** corrían por relevos llevando mensajes. Registraban datos en **quipus**. Las **llamas** cargaban bultos.' },
-          { icon: 'Landmark', front: 'Mesopotamia', back: 'Inventaron la **rueda** y la **escritura cuneiforme**, con marcas en forma de cuña sobre tablillas de arcilla.' },
-          { icon: 'Sailboat', front: 'Egipto', back: 'El **río Nilo** era su gran camino: barcos de vela y remo. Escribían **jeroglíficos** en **papiro**.' },
-          { icon: 'Route', front: 'Roma', back: 'Construyó miles de kilómetros de **calzadas** de piedra para mover ejércitos y comerciantes.' },
-          { icon: 'Package', front: 'China', back: 'La **Ruta de la Seda**: caminos de caravanas que llevaban seda, papel y especias hasta Europa. En China se inventó el **papel**.' },
-        ] },
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.3.1', 'ccss:3.4.1'], title: 'Un mismo problema, medios distintos', prompt: 'Relaciona rutas, comunicacion, transporte e intercambio en culturas antiguas y en la Centroamerica actual.' },
+        { icon: 'GitCompare', body: '**Antes:** un sacbe permitia caminar entre ciudades mayas; una canoa transportaba sal o cacao; un mensajero llevaba informacion. **Hoy:** cafe y cardamomo de la agricultura, textiles de la industria y servicios como transporte salen de Centroamerica hacia otros continentes. La continuidad es la conexion para intercambiar; cambian tecnologia, velocidad y escala.' },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.3.1', 'ccss:3.4.1'], title: 'Modelo de comparacion', prompt: 'Observa como explicar la continuidad entre una ruta antigua y una ruta productiva actual.' },
+        { icon: 'Ship', problem: 'Una canoa maya llevaba sal por la costa. Hoy un barco lleva cafe centroamericano hacia Europa.', steps: [{ text: 'Medio antiguo: canoa y ruta costera.' }, { text: 'Actividad actual: agricultura y comercio de cafe por puerto.' }, { text: 'Continuidad: ambas rutas conectan lugares para intercambiar productos.' }, { text: 'Cambio: el barco actual recorre otros continentes con mayor capacidad.' }], answer: 'Las rutas sostienen intercambio en ambos tiempos, con medios y escalas diferentes.' },
       ),
       S.match(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.3.1'], prompt: 'Une cada cultura con un medio de transporte o comunicación que usó.',
-          hint: 'Piensa en su geografía: montañas (incas), selva y ríos (mayas), un gran río en el desierto (Egipto).',
-          explain: 'Cada cultura aprovechó lo que tenía: el Nilo para Egipto, las montañas y las llamas para los incas, la selva y los ríos para los mayas.' },
-        { leftTitle: 'Cultura', rightTitle: 'Medio', pairs: [
-          { id: 'ma', left: 'Mayas', leftIcon: 'Sprout', right: 'Sacbeob y canoas' },
-          { id: 'in', left: 'Incas', leftIcon: 'Mountain', right: 'Chasquis y quipus' },
-          { id: 'eg', left: 'Egipcios', leftIcon: 'Sun', right: 'Barcos en el Nilo y papiro' },
-          { id: 'me', left: 'Mesopotamios', leftIcon: 'Landmark', right: 'La rueda y tablillas de arcilla' },
-        ] },
-      ),
-      S.sort(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:3.3.1'], prompt: 'Clasifica: ¿es un medio de **transporte** (mueve personas o cosas) o de **comunicación** (mueve mensajes e información)?',
-          explain: 'Algunos medios sirven para las dos cosas: un chasqui transportaba mensajes, y un sacbé servía para que pasaran mensajeros y comerciantes.' },
-        { buckets: [
-          { id: 'tr', label: 'Transporte', icon: 'Route', color: 'var(--c-maiz-strong)' },
-          { id: 'co', label: 'Comunicación', icon: 'MessageCircle', color: 'var(--area-ccss)' },
-        ], items: [
-          { id: 'x1', text: 'Canoa maya', bucket: 'tr' },
-          { id: 'x2', text: 'Estela con jeroglíficos', bucket: 'co' },
-          { id: 'x3', text: 'Llama cargada en los Andes', bucket: 'tr' },
-          { id: 'x4', text: 'Quipu inca', bucket: 'co' },
-          { id: 'x5', text: 'Calzada romana', bucket: 'tr' },
-          { id: 'x6', text: 'Códice maya', bucket: 'co' },
-        ] },
-      ),
-      S.order(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:3.3.1'], ambito: 'conocer',
-          prompt: 'Así funcionaba el sistema de relevos de los chasquis. Ordena los pasos.',
-          explain: 'Con relevos, ningún mensajero se cansaba demasiado y el mensaje avanzaba rápido, día y noche.' },
-        { items: [
-          { id: 'c1', text: 'Un funcionario entrega el mensaje o el quipu al primer chasqui' },
-          { id: 'c2', text: 'El chasqui corre un tramo corto del camino' },
-          { id: 'c3', text: 'Al llegar al siguiente puesto, repite el mensaje a un chasqui descansado' },
-          { id: 'c4', text: 'El nuevo chasqui sigue corriendo, y así hasta llegar al destino' },
-        ], labels: { start: 'Inicio', end: 'Final' } },
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.3.1', 'ccss:3.4.1'], prompt: 'Con ayuda, relaciona cada medio o actividad con la ruta que permite intercambio.', hint: 'Distingue culturas antiguas de actividades centroamericanas actuales.', explain: 'Los medios dependen del tiempo y la geografia, pero todos conectan intercambio.' },
+        { pairs: [{ id: 'a', left: 'Canoa maya con cacao', right: 'Rio o costa antigua' }, { id: 'b', left: 'Chasqui inca con mensaje', right: 'Camino andino antiguo' }, { id: 'c', left: 'Cafe de Guatemala hacia Europa', right: 'Carretera, puerto y ruta maritima actual' }, { id: 'd', left: 'Servicio del Canal de Panama', right: 'Conexion oceanica actual' }] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:3.3.1'], ambito: 'conocer',
-          prompt: 'Imagina que eres comerciante maya en Petén y debes llevar muchos costales de cacao a una ciudad lejana que está **río abajo**, a la orilla del gran río Usumacinta. ¿Qué medio te conviene más?',
-          explain: 'Por el río, una canoa lleva mucha más carga que una persona a pie y con menos esfuerzo. Por eso los ríos como el Usumacinta y el Pasión fueron grandes rutas de comercio maya.' },
-        { options: [
-          { id: 'a', text: 'Una canoa por el río, porque lleva más carga con menos esfuerzo', icon: 'Sailboat' },
-          { id: 'b', text: 'Una carreta con bueyes', icon: 'Truck', feedback: 'No había bueyes ni caballos en América antes de los europeos.' },
-          { id: 'c', text: 'Un chasqui inca', icon: 'Footprints', feedback: 'Los chasquis vivían en los Andes, en América del Sur, muy lejos de Petén.' },
-        ], correct: ['a'] },
-      ),
-      S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.3.1'], prompt: '¿Qué era un **sacbé**?' },
-        { options: [
-          { id: 'a', text: 'Un camino blanco y elevado que unía ciudades mayas' },
-          { id: 'b', text: 'Un barco egipcio de vela' },
-          { id: 'c', text: 'Una cuerda con nudos para registrar números' },
-        ], correct: ['a'] },
-      ),
-      S.tf(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.3.1'], prompt: '¿Verdadero o falso?' },
-        { statements: [
-          { text: 'Los incas usaban llamas para cargar bultos.', answer: true },
-          { text: 'Los mayas antiguos transportaban sus cargas en carretas jaladas por caballos.', answer: false, why: 'No había caballos en América antes de la llegada de los europeos.' },
-          { text: 'La escritura cuneiforme se hacía sobre tablillas de arcilla.', answer: true },
-        ] },
-      ),
-    ],
-  }),
-
-  /* ───────────────────────── 2. Cambios tecnológicos y sus efectos ───────────────────────── */
-  lesson({
-    id: 's03-ccss-2',
-    title: 'La tecnología cambia la vida de los pueblos',
-    icon: 'Smartphone',
-    minutes: 15,
-    gancho: 'Tus abuelos escribían cartas que tardaban semanas. Tú haces videollamadas. ¿Qué ganamos con ese cambio? ¿Y qué podríamos perder?',
-    objetivos: ['Comparar cambios en los roles familiares, económicos y políticos de las mujeres a través del tiempo y las culturas'],
-    resumen: [
-      'Un cambio tecnológico es una nueva herramienta o forma de hacer las cosas que transforma la vida de la gente: la imprenta, la electricidad, el automóvil, la radio, internet, el celular.',
-      'Efectos en la economía: nuevos trabajos, formas de comprar y vender, envíos de dinero; algunos oficios cambian o desaparecen.',
-      'Efectos en la cultura: nuevas formas de comunicarse, aprender y divertirse; las tradiciones pueden difundirse o debilitarse.',
-      'Efectos en los valores: la tecnología puede usarse con respeto y responsabilidad, o para dañar (ciberacoso, noticias falsas). La diferencia está en cómo la usamos.',
-      'Los roles de las mujeres han variado entre culturas y épocas: han participado en familias, agricultura, comercio, trabajo industrial, educación, movimientos sociales y política, aunque leyes y costumbres limitaron de manera desigual su reconocimiento y sus derechos.',
-    ],
-    media: {
-      id: 's03-ccss-2-linea', kind: 'animation', title: 'De la carta al celular', aspect: '16:9', duration: 45,
-      alt: 'Línea del tiempo animada con inventos que cambiaron la comunicación: imprenta, teléfono, radio, televisión, computadora, internet y teléfono inteligente.',
-      brief: 'Animación 2D de 45 s. Una línea del tiempo horizontal aparece de izquierda a derecha con íconos: imprenta de tipos móviles (hacia 1450), teléfono (siglo XIX), radio (inicios del siglo XX), televisión (mediados del siglo XX), computadora personal (años ochenta), internet para el público (años noventa), teléfono inteligente (siglo XXI). Debajo, una familia guatemalteca ilustrada cambia: una abuela escribe una carta, luego escucha la radio, y al final una niña hace videollamada con su tío que vive lejos. Narración en español con subtítulos. Sin marcas.',
-    },
-    steps: [
-      S.explain(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.2.1', 'ccss:4.2.2'], ambito: 'conocer', title: 'Tecnología y roles a través del tiempo',
-          prompt: 'Compara cómo distintas tecnologías y condiciones sociales se relacionaron con roles familiares, económicos y políticos de las mujeres en culturas y épocas diferentes.' },
-        { icon: 'Cpu', body: 'La comparación histórica evita afirmar que todas las mujeres vivieron lo mismo. Cambiaron las tareas, oportunidades y formas de participación, y también persistieron desigualdades.', reveal: [
-          { icon: 'Wheat', front: 'Sociedades agrícolas antiguas', back: 'Las mujeres participaron en agricultura, producción de alimentos, tejidos, comercio y vida familiar; su poder político y reconocimiento variaron entre culturas.' },
-          { icon: 'Factory', front: 'Industrialización', back: 'Muchas ingresaron al trabajo fabril remunerado y sostuvieron tareas familiares, a menudo con salarios y derechos desiguales.' },
-          { icon: 'Vote', front: 'Siglos XX y XXI', back: 'Movimientos de mujeres impulsaron acceso a educación, voto y cargos públicos; siguen desafíos de representación, cuidados y condiciones laborales.' },
-          { icon: 'Factory', front: 'Japón y Corea del Sur', back: 'Usan muchos **robots** en fábricas. Producen más rápido, pero algunos trabajos manuales se reducen y aparecen otros nuevos de programación y mantenimiento.' },
-          { icon: 'Smartphone', front: 'Kenia (África)', back: 'Millones de personas **envían y reciben dinero por el celular** sin tener cuenta de banco. Eso ayudó a pequeños comerciantes del campo.' },
-          { icon: 'Tractor', front: 'Estados Unidos y Europa', back: 'La **maquinaria agrícola** hace que pocas personas cultiven grandes extensiones; mucha gente dejó el campo para trabajar en ciudades.' },
-          { icon: 'Radio', front: 'Guatemala', back: 'Las **radios comunitarias** transmiten en idiomas mayas; hay clases por televisión y radio; las familias reciben **remesas** de parientes en el extranjero y se comunican por videollamada.' },
-        ] },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.1', 'ccss:4.2.2'], ambito: 'conocer',
-          prompt: 'Con ayuda, clasifica evidencias sobre cambios de roles familiares, económicos y políticos de las mujeres a través del tiempo.',
-          hint: 'Distingue trabajo y comercio, decisiones públicas y responsabilidades familiares.',
-          explain: 'Los roles se superponen y varían por cultura; la clasificación destaca el ámbito principal.' },
-        { buckets: [
-          { id: 'f', label: 'Familiar', icon: 'House', color: 'var(--c-maiz-strong)' },
-          { id: 'e', label: 'Económico', icon: 'Briefcase', color: 'var(--area-ccss)' },
-          { id: 'p', label: 'Político', icon: 'Vote', color: 'var(--c-ok)' },
-        ], items: [
-          { id: 't1', text: 'Trabajo de cuidado compartido en el hogar', bucket: 'f' },
-          { id: 't2', text: 'Participación en agricultura, fábricas y comercio', bucket: 'e' },
-          { id: 't3', text: 'Organización por el voto y acceso a cargos públicos', bucket: 'p' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.1'], ambito: 'conocer', title: 'Tres tipos de efectos',
-          prompt: 'Para analizar un cambio tecnológico, los científicos sociales se preguntan en qué aspectos de la vida influye. Toca cada tarjeta.' },
-        { icon: 'Layers', body: 'Un mismo invento puede tener efectos **positivos y negativos** a la vez.', reveal: [
-          { icon: 'Coins', front: 'En la economía', back: 'Cómo se produce, se compra, se vende y se trabaja. Ejemplo: un artesano de Totonicapán vende sus tejidos por internet a otros países.' },
-          { icon: 'Music', front: 'En la cultura', back: 'Idiomas, costumbres, música, formas de aprender y divertirse. Ejemplo: se graban cuentos en idiomas mayas para que no se olviden; también, música de otros países reemplaza a veces la local.' },
-          { icon: 'Scale', front: 'En los valores morales', back: 'Cómo nos tratamos. Ejemplo: respetar la privacidad, no difundir **noticias falsas**, no hacer **ciberacoso** (burlas o amenazas por internet).' },
-        ] },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.1'], prompt: 'Clasifica cada efecto de la tecnología: ¿es sobre todo **económico**, **cultural** o de **valores**?',
-          hint: 'Dinero y trabajo → economía. Costumbres, idioma y arte → cultura. Cómo tratamos a los demás → valores.',
-          explain: 'Separar los efectos ayuda a pensar con orden, aunque en la vida real se mezclan.' },
-        { buckets: [
-          { id: 'eco', label: 'Economía', icon: 'Coins', color: 'var(--c-maiz-strong)' },
-          { id: 'cul', label: 'Cultura', icon: 'Music', color: 'var(--area-ccss)' },
-          { id: 'val', label: 'Valores', icon: 'Scale', color: 'var(--c-ok)' },
-        ], items: [
-          { id: 'e1', text: 'Una tienda de barrio recibe pagos por el celular', bucket: 'eco' },
-          { id: 'e2', text: 'Jóvenes suben videos bailando son tradicional', bucket: 'cul' },
-          { id: 'e3', text: 'Alguien comparte una foto de un compañero sin permiso', bucket: 'val', feedback: 'Compartir fotos sin permiso irrespeta la privacidad: es un tema de valores.' },
-          { id: 'e4', text: 'Una fábrica usa máquinas y necesita menos obreros', bucket: 'eco' },
-          { id: 'e5', text: 'Una radio comunitaria transmite noticias en mam', bucket: 'cul' },
-          { id: 'e6', text: 'Un grupo decide verificar una noticia antes de reenviarla', bucket: 'val' },
-        ] },
-      ),
-      S.reading(
-        { fase: 'aplicar', areas: ['ccss', 'l1'], cnb: ['ccss:3.2.1'], ambito: 'conocer', prompt: 'Lee el caso y responde.' },
-        { genre: 'Caso', heading: 'El celular llegó a la aldea', passage:
-          'Supongamos que hace unos años llegó la señal de celular a la aldea de doña Marta, en Alta Verapaz. Antes, para saber el precio del cardamomo, ella tenía que viajar hasta el pueblo. Ahora pregunta por mensaje y decide mejor cuándo vender.\n\nSus nietos buscan información para sus tareas y hablan por videollamada con su papá, que trabaja lejos. Pero doña Marta también nota cambios que no le gustan: en la cena, a veces nadie conversa porque todos miran la pantalla, y los niños conocen más canciones de otros países que las de su comunidad.\n\nUn día, a su nieta le llegó un mensaje falso que decía que el agua del pozo estaba envenenada. Antes de reenviarlo, preguntó al comité de agua y descubrió que era mentira.',
-          questions: [
-            { q: '¿Qué efecto **económico** positivo tuvo el celular para doña Marta?', options: [
-              { id: 'a', text: 'Puede conocer el precio del cardamomo sin viajar y vender mejor' },
-              { id: 'b', text: 'Sus nietos conocen canciones de otros países' },
-              { id: 'c', text: 'En la cena nadie conversa' },
-            ], correct: 'a' },
-            { q: '¿Qué efecto **cultural** le preocupa a doña Marta?', options: [
-              { id: 'a', text: 'Que los niños conozcan menos las canciones de su comunidad' },
-              { id: 'b', text: 'Que el precio del cardamomo suba' },
-              { id: 'c', text: 'Que la señal sea muy rápida' },
-            ], correct: 'a' },
-            { q: '¿Qué **valor** practicó la nieta con el mensaje falso?', options: [
-              { id: 'a', text: 'La responsabilidad: verificó antes de reenviar' },
-              { id: 'b', text: 'La rapidez: lo reenvió a todos de inmediato' },
-              { id: 'c', text: 'La indiferencia: no le importó' },
-            ], correct: 'a', why: 'Reenviar mentiras puede asustar o dañar a otros. Verificar es usar la tecnología con responsabilidad.' },
-          ] },
-      ),
-      S.dilemma(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:3.2.1'], ambito: 'convivir', prompt: 'La tecnología también pone a prueba nuestros valores. ¿Qué harías tú?' },
-        { scene: { icon: 'Smartphone', text: 'En el chat del grado alguien sube una foto de un compañero dormido en el bus, con un apodo que se burla de él. Varios ya pusieron caritas de risa.' },
-          options: [
-            { id: 'a', icon: 'ShieldCheck', text: 'No reacciono con risa, escribo que eso lastima y pido que borren la foto', consequence: 'Otros se animan a apoyar al compañero y la foto se borra. Usaste la tecnología con respeto.', values: ['respeto', 'valentía', 'responsabilidad'], constructive: true },
-            { id: 'b', icon: 'MessageCircle', text: 'Le escribo en privado al compañero para apoyarlo y aviso a una persona adulta de confianza', consequence: 'El compañero no se siente solo y un adulto puede ayudar a detener el ciberacoso.', values: ['solidaridad', 'prudencia'], constructive: true },
-            { id: 'c', icon: 'Smile', text: 'Pongo una carita de risa, total es solo una broma', consequence: 'Cada reacción hace que la burla crezca. Para el compañero no es broma: es humillación.', values: [], constructive: false },
-            { id: 'd', icon: 'Share2', text: 'La reenvío a otro grupo', consequence: 'La foto se difunde más y el daño se multiplica. Compartir contenido sin permiso irrespeta la privacidad.', values: [], constructive: false },
-          ] },
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.3.1', 'ccss:3.4.1'], prompt: 'Compara un sacbe maya con una carretera que lleva productos centroamericanos a un puerto.', hint: 'Busca continuidad y cambio.', explain: 'Ambas rutas conectan intercambio; cambian los vehiculos, la capacidad y el alcance.' },
+        { options: [{ id: 'a', text: 'Ambas conectan lugares para intercambio, aunque cambian medios y escala' }, { id: 'b', text: 'Solo la carretera moderna conecta personas' }, { id: 'c', text: 'El sacbe llevaba barcos hasta Asia' }], correct: ['a'] },
       ),
       S.write(
-        { fase: 'aplicar', areas: ['ccss', 'l1'], cnb: ['ccss:3.2.1', 'ccss:4.2.2'], ambito: 'ser',
-          prompt: 'Compara roles de las mujeres en dos épocas o culturas: incluye un cambio familiar, uno económico y uno político, y evita afirmar que todas tuvieron la misma experiencia.' },
-        { minWords: 30, placeholder: 'En el primer contexto... En el segundo...', model: 'En sociedades agrícolas las mujeres participaron en familia y producción. Con la industrialización aumentó el trabajo fabril; movimientos posteriores ampliaron voto y cargos, aunque persistieron desigualdades.',
-          rubric: ['Comparo dos contextos', 'Incluyo los tres ámbitos', 'Reconozco diversidad y desigualdades'] },
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:3.3.1', 'ccss:3.4.1'], prompt: 'Explica de forma independiente una continuidad y un cambio: compara un medio maya, inca o egipcio con una ruta actual que conecta agricultura, industria o servicios de Centroamerica con America del Norte, Europa o Asia. Incluye el intercambio que permite.' },
+        { minWords: 24, placeholder: 'Antes... Hoy... Continuidad... Cambio...', model: 'Antes, una canoa maya movia sal por la costa. Hoy, rutas y puertos conectan cafe centroamericano con Europa. Ambas permiten intercambio; cambian alcance y capacidad.', rubric: ['Nombre un medio antiguo', 'Relacione actividad y continente actuales', 'Explique continuidad y cambio'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.1', 'ccss:4.2.2'], prompt: '¿Qué comparación reconoce cambios en roles familiares, económicos y políticos de las mujeres a través del tiempo?' },
-        { options: [
-          { id: 'a', text: 'Participaron en producción y familias desde épocas antiguas; luego ampliaron trabajo remunerado, educación, voto y cargos, con desigualdades persistentes' },
-          { id: 'b', text: 'Las mujeres nunca participaron en la economía antes del siglo XXI' },
-          { id: 'c', text: 'Todas las culturas asignaron exactamente los mismos roles' },
-        ], correct: ['a'] },
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:3.3.1', 'ccss:3.4.1'], prompt: 'Una ruta lleva textiles de una industria centroamericana por carretera y barco hasta America del Norte. ¿Que comparacion con los mensajeros incas es valida?' },
+        { options: [{ id: 'a', text: 'Ambas conexiones trasladan algo entre lugares; hoy cambian medio, carga y distancia' }, { id: 'b', text: 'Los chasquis transportaban contenedores por mar' }, { id: 'c', text: 'Las rutas antiguas no permitian intercambio' }], correct: ['a'] },
+      ),
+      S.choice(
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.3.1', 'ccss:3.4.1'], prompt: 'Salida: compara rutas e intercambio antes y hoy: un sacbe o canoa maya y una actividad productiva de Centroamerica conectada con Europa u otro continente.' },
+        { options: [{ id: 'a', text: 'Hay continuidad al conectar intercambio; agricultura, industria o servicios actuales usan rutas de mayor alcance' }, { id: 'b', text: 'Las culturas antiguas comerciaban por avion con Europa' }, { id: 'c', text: 'Centroamerica actual no intercambia productos con otros continentes' }], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.1', 'ccss:4.2.2'], prompt: 'Comprueba la evolución de roles familiares, económicos y políticos de las mujeres en culturas y épocas distintas.' },
-        { statements: [
-          { text: 'Las mujeres participaron en actividades económicas antes de obtener iguales derechos políticos.', answer: true },
-          { text: 'La ampliación del voto y la educación eliminó de inmediato toda desigualdad.', answer: false },
-          { text: 'Los roles variaron según época, cultura y condición social.', answer: true },
-        ] },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.3.1', 'ccss:3.4.1'], prompt: 'Salida nueva: compara la continuidad de rutas mayas e incas con conexiones actuales de actividades productivas centroamericanas hacia America del Norte, Europa y Asia.' },
+        { statements: [{ text: 'Caminos, canoas y mensajeros antiguos apoyaron comunicacion e intercambio.', answer: true }, { text: 'Agricultura, industria y servicios de Centroamerica pueden conectarse con otros continentes mediante rutas actuales.', answer: true }, { text: 'Comparar antes y hoy implica afirmar que medios y escala no cambiaron.', answer: false }] },
       ),
     ],
   }),
 
-  /* ───────────────────────── 3. Centroamérica y el mundo ───────────────────────── */
   lesson({
-    id: 's03-ccss-3',
-    title: 'Centroamérica produce y se conecta con el mundo',
-    icon: 'Ship',
-    minutes: 15,
-    gancho: 'El café que se cultiva en Huehuetenango puede terminar en una taza en Japón, y el celular de tu casa quizá se fabricó en Asia. ¿Cómo viajan los productos entre continentes?',
-    objetivos: ['Relacionar sectores productivos, actividades laborales y economía informal en Guatemala y Centroamérica'],
+    id: 's03-ccss-2', title: 'Actividades y condiciones de trabajo', icon: 'BriefcaseBusiness', minutes: 14,
+    gancho: 'Dos personas pueden trabajar en comercio y tener condiciones laborales muy distintas.',
+    objetivos: ['Analizar actividades y condiciones de trabajo en Guatemala mediante los rasgos de la economia informal'],
     resumen: [
-      'Sector primario: obtiene recursos de la naturaleza (agricultura, ganadería, pesca, minería). Secundario: transforma materias primas (industria, maquilas, construcción). Terciario: ofrece servicios (comercio, transporte, turismo, educación, salud).',
-      'Centroamérica exporta café, banano, azúcar, cardamomo, textiles y otros productos; Panamá ofrece el servicio de su canal y Costa Rica fabrica dispositivos médicos.',
-      'Exportar es vender a otros países; importar es comprarles. Guatemala importa combustibles, maquinaria, medicinas y aparatos electrónicos.',
-      'Los países firman tratados comerciales para facilitar ese intercambio. Estados Unidos es el principal socio comercial de Guatemala; también se comercia con México, Centroamérica, Europa y Asia.',
-      'En Guatemala hay trabajo agrícola, industrial, comercial y de servicios con condiciones diversas. La economía informal suele carecer de contrato, registro, prestaciones e ingresos estables; informal no significa necesariamente ilegal.',
+      'En Guatemala hay trabajo en agricultura, industria, construccion, comercio y servicios.',
+      'Las condiciones incluyen horario, seguridad, ingreso, contrato y prestaciones; varian incluso dentro de una misma actividad.',
+      'La economia informal suele operar sin registro o contrato laboral, con ingresos variables y sin prestaciones.',
+      'Informal no significa necesariamente ilegal ni deshonesto; describe condiciones economicas y laborales.',
     ],
     media: {
-      id: 's03-ccss-3-rutas', kind: 'diagram', title: 'Rutas del comercio centroamericano', aspect: '16:9',
-      alt: 'Mapamundi centrado en América con flechas que salen de Centroamérica hacia Norteamérica, Europa y Asia llevando café, banano y textiles, y flechas que llegan con combustibles, maquinaria y electrónicos.',
-      brief: 'Mapamundi centrado en América. Centroamérica resaltada. Flechas verdes de exportación salen hacia Estados Unidos (café, banano, textiles, azúcar), Europa (café, banano), Asia (café, azúcar) y el mundo árabe (cardamomo). Flechas azules de importación llegan desde Estados Unidos y Asia (combustibles, maquinaria, electrónicos, medicinas). Se marcan puertos: Puerto Quetzal y Santo Tomás de Castilla (Guatemala) y el Canal de Panamá con un barco portacontenedores. Leyenda "exportación" e "importación". Sin cifras ni marcas.',
+      id: 's03-ccss-2-trabajo', kind: 'diagram', title: 'Actividad y condicion laboral', aspect: '16:9',
+      alt: 'Cuatro escenas muestran agricultura, fabrica, construccion y venta, junto a criterios de contrato, seguridad, ingreso y prestaciones.',
+      brief: 'Diagrama 1600x900 ambientado en Guatemala con cuatro escenas respetuosas: trabajo agricola, fabrica, construccion y venta de mercado. Debajo, tabla de condiciones: contrato, registro, seguridad, ingreso y prestaciones. Aclarar que una imagen no basta para determinar formalidad. Texto grande, alto contraste e iconos ademas de color.',
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.4.1', 'ccss:4.1.1', 'ccss:4.1.5'], ambito: 'conocer', title: 'Sectores y condiciones de trabajo',
-          prompt: 'Las **actividades económicas** son las que realizan las personas para producir bienes y servicios. Se agrupan en tres sectores. Toca cada tarjeta.' },
-        { icon: 'Factory', body: 'Sigue un producto: el **café** se cultiva (primario), se tuesta y empaca (secundario) y se vende en una cafetería o se transporta (terciario).', reveal: [
-          { icon: 'Wheat', front: 'Primario', back: 'Obtiene recursos **de la naturaleza**: agricultura, ganadería, pesca, minería. Ejemplo: cortar café en la finca.' },
-          { icon: 'Factory', front: 'Secundario', back: '**Transforma** materias primas en productos: industria, maquilas de ropa, ingenios de azúcar, construcción.' },
-          { icon: 'Store', front: 'Terciario', back: 'Ofrece **servicios**: comercio, transporte, turismo, bancos, educación, salud, centros de llamadas.' },
-          { icon: 'FileText', front: 'Trabajo formal', back: 'Suele tener registro, contrato, salario acordado y prestaciones; las condiciones concretas varían por actividad.' },
-          { icon: 'ShoppingBasket', front: 'Economía informal', back: 'Suele operar sin contrato o registro, con ingresos variables y sin prestaciones. Es un rasgo de las condiciones, no sinónimo de delito.' },
-        ] },
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:4.1.1', 'ccss:4.1.5'], prompt: 'Analiza actividades y condiciones de trabajo en Guatemala y distingue rasgos de la economia informal.' },
+        { icon: 'BriefcaseBusiness', body: 'Agricultura, fabrica, construccion, comercio y servicios son **actividades**. Contrato, registro, seguridad, salario o ingreso y prestaciones son **condiciones**. En la economia informal suelen faltar registro, contrato y prestaciones, y el ingreso puede variar; informal no significa necesariamente ilegal.' },
       ),
-      S.choice(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.4.1'], ambito: 'conocer',
-          prompt: 'Guatemala es uno de los mayores productores de **cardamomo** del mundo, pero en Guatemala casi no se consume. ¿Qué crees que se hace con la mayor parte?',
-          explain: 'Se **exporta**: se vende a otros países, sobre todo del Oriente Medio y Asia, donde se usa mucho en el café y la comida. El comercio conecta a Alta Verapaz con otros continentes.' },
-        { options: [
-          { id: 'a', text: 'Se vende a otros países', icon: 'Ship' },
-          { id: 'b', text: 'Se guarda en bodegas para siempre', icon: 'Package', feedback: 'Guardarlo no daría ingresos a las familias productoras.' },
-          { id: 'c', text: 'Se tira porque no se usa', icon: 'Trash2', feedback: 'Al contrario: es un producto muy valioso para muchas familias de Alta Verapaz.' },
-        ], correct: ['a'] },
+      S.explain(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:4.1.1', 'ccss:4.1.5'], title: 'Dos preguntas diferentes', prompt: 'Distingue que trabajo se realiza y bajo que condiciones se realiza en Guatemala.' },
+        { icon: 'ListChecks', body: '**Actividad:** cultivar maiz, coser ropa, construir, vender o transportar. **Condiciones:** horario, riesgos, pago, contrato y prestaciones. Un puesto registrado puede ofrecer contrato y prestaciones; una venta informal puede no tener registro, contrato ni ingreso estable. Se analiza evidencia, no la apariencia de la persona.' },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:4.1.1', 'ccss:4.1.5'], title: 'Modelo con evidencia suministrada', prompt: 'Observa como analizar actividad, condiciones y economia informal sin juzgar a quien trabaja.' },
+        { icon: 'Store', problem: 'Caso ficticio: Elena vende fruta en Guatemala. Compra su mercaderia, no tiene contrato ni prestaciones y sus ingresos cambian cada dia.', steps: [{ text: 'Actividad: comercio.' }, { text: 'Condiciones: trabajo por cuenta propia, sin contrato ni prestaciones, con ingreso variable.' }, { text: 'Rasgos: corresponden a economia informal.' }, { text: 'Limite: informal no prueba ilegalidad ni falta de honradez.' }], answer: 'La clasificacion usa condiciones suministradas, no prejuicios.' },
       ),
       S.sort(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.4.1'], prompt: 'Clasifica cada actividad en su sector.',
-          hint: '¿Saca algo de la naturaleza, lo transforma o presta un servicio a las personas?',
-          explain: 'Un ingenio convierte la caña en azúcar (transforma: secundario). Un guía de Tikal no produce un objeto: ofrece un servicio (terciario).' },
-        { buckets: [
-          { id: 'p', label: 'Primario', icon: 'Wheat', color: 'var(--c-ok)' },
-          { id: 's', label: 'Secundario', icon: 'Factory', color: 'var(--c-maiz-strong)' },
-          { id: 't', label: 'Terciario', icon: 'Store', color: 'var(--area-ccss)' },
-        ], items: [
-          { id: 'a1', text: 'Sembrar banano en Izabal', bucket: 'p' },
-          { id: 'a2', text: 'Un ingenio que produce azúcar', bucket: 's' },
-          { id: 'a3', text: 'Una guía turística en Tikal', bucket: 't' },
-          { id: 'a4', text: 'Pescar camarón en el Pacífico', bucket: 'p' },
-          { id: 'a5', text: 'Una fábrica que cose ropa para exportar', bucket: 's' },
-          { id: 'a6', text: 'Un camión que lleva café al puerto', bucket: 't' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.4.1'], ambito: 'conocer', title: '¿Qué produce cada país de Centroamérica?',
-          prompt: 'Los siete países del istmo centroamericano tienen economías parecidas, pero cada uno tiene sus fortalezas. Toca cada tarjeta.' },
-        { icon: 'Map', body: 'Casi todos exportan productos **agrícolas**, pero hoy también venden **manufacturas** y **servicios**.', reveal: [
-          { icon: 'Coffee', front: 'Guatemala', back: 'Café, banano, azúcar, **cardamomo**, textiles y vestuario, frutas y verduras. También recibe muchas **remesas** y turismo.' },
-          { icon: 'Shirt', front: 'El Salvador y Honduras', back: 'Textiles de maquila, café; Honduras también banano, camarón y aceite de palma.' },
-          { icon: 'Stethoscope', front: 'Costa Rica', back: '**Dispositivos médicos**, piña, banano y turismo de naturaleza.' },
-          { icon: 'Ship', front: 'Panamá', back: 'El **Canal de Panamá** une los océanos Atlántico y Pacífico: cobra por el paso de barcos de todo el mundo. Es un servicio (sector terciario).' },
-          { icon: 'Beef', front: 'Nicaragua y Belice', back: 'Nicaragua: carne, café, oro. Belice: azúcar, cítricos y turismo en su arrecife.' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.4.1'], ambito: 'conocer', title: 'Exportar, importar y tratados',
-          prompt: 'Ningún país produce todo lo que necesita. Por eso **comercia** con otros. Toca cada tarjeta.' },
-        { icon: 'Handshake', body: 'Por los puertos de Guatemala (**Puerto Quetzal** en el Pacífico y **Santo Tomás de Castilla** en el Atlántico) salen y entran barcos de todo el mundo.', reveal: [
-          { icon: 'Upload', front: 'Exportar', back: '**Vender** productos a otros países. Trae dinero y empleos al país.' },
-          { icon: 'Download', front: 'Importar', back: '**Comprar** productos de otros países. Guatemala importa combustibles, maquinaria, medicinas y electrónicos.' },
-          { icon: 'ScrollText', front: 'Tratados comerciales', back: 'Acuerdos entre países para facilitar el comercio, por ejemplo bajando impuestos a los productos. Centroamérica tiene tratados con Estados Unidos, México, la Unión Europea y otros.' },
-          { icon: 'Earth', front: 'Socios principales', back: '**Estados Unidos** es el principal socio comercial de Guatemala. También son importantes México, los países centroamericanos, la Unión Europea y países de Asia como China.' },
-        ] },
-      ),
-      S.match(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:3.4.1'], prompt: 'Une cada país centroamericano con un producto o servicio que ofrece al mundo.',
-          explain: 'Cada país aprovecha su geografía: Panamá su posición entre dos océanos; Guatemala sus suelos y climas variados.' },
-        { leftTitle: 'País', rightTitle: 'Producto o servicio', pairs: [
-          { id: 'gt', left: 'Guatemala', leftIcon: 'Coffee', right: 'Cardamomo y café' },
-          { id: 'pa', left: 'Panamá', leftIcon: 'Ship', right: 'El paso de barcos por su canal' },
-          { id: 'cr', left: 'Costa Rica', leftIcon: 'Stethoscope', right: 'Dispositivos médicos y piña' },
-          { id: 'bz', left: 'Belice', leftIcon: 'Fish', right: 'Azúcar y turismo en su arrecife' },
-        ] },
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:4.1.1', 'ccss:4.1.5'], prompt: 'Con ayuda, clasifica datos de trabajo en Guatemala como actividad o condicion.', hint: 'Pregunta si dice que se hace o como se trabaja.', explain: 'Una actividad puede presentarse bajo condiciones distintas.' },
+        { buckets: [{ id: 'a', label: 'Actividad', icon: 'Hammer' }, { id: 'c', label: 'Condicion', icon: 'ClipboardCheck' }], items: [{ id: '1', text: 'Cultivar hortalizas', bucket: 'a' }, { id: '2', text: 'Tener contrato escrito', bucket: 'c' }, { id: '3', text: 'Vender en el mercado', bucket: 'a' }, { id: '4', text: 'Recibir prestaciones', bucket: 'c' }] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:3.4.1', 'ccss:4.1.1', 'ccss:4.1.5'], ambito: 'conocer',
-          prompt: 'Una vendedora compra fruta del sector primario y la ofrece sin contrato ni prestaciones, con ingresos que cambian cada día. ¿Cómo se relacionan actividad y condición laboral?',
-          explain: 'El comercio pertenece al sector terciario y los rasgos descritos corresponden a economía informal; eso no vuelve deshonesto el trabajo.' },
-        { options: [
-          { id: 'a', text: 'Sector terciario y economía informal por falta de contrato, prestaciones e ingreso estable' },
-          { id: 'b', text: 'Sector primario y trabajo formal por vender un producto agrícola' },
-          { id: 'c', text: 'Actividad ilegal únicamente porque el ingreso varía' },
-        ], correct: ['a'] },
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:4.1.1', 'ccss:4.1.5'], prompt: 'Un albanil trabaja por proyectos, sin contrato ni prestaciones y con ingreso variable. ¿Que analisis esta respaldado?', hint: 'Usa solo las condiciones descritas.', explain: 'El caso presenta rasgos frecuentes de economia informal; no demuestra ilegalidad.' },
+        { options: [{ id: 'a', text: 'Construccion con rasgos informales por contrato, prestaciones e ingreso' }, { id: 'b', text: 'Trabajo ilegal porque no tiene salario fijo' }, { id: 'c', text: 'Agricultura formal porque usa herramientas' }], correct: ['a'] },
+      ),
+      S.write(
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:4.1.1', 'ccss:4.1.5'], prompt: 'Analiza este caso ficticio de Guatemala: Tomas presta servicio de reparacion, trabaja sin registro ni contrato, no recibe prestaciones y su ingreso varia. Identifica actividad, condiciones y rasgos de economia informal; aclara por que informal no significa ilegal.' },
+        { minWords: 24, placeholder: 'Actividad... Condiciones... Economia informal... Limite...', model: 'La actividad es un servicio de reparacion. La falta de registro, contrato y prestaciones, junto con ingreso variable, son rasgos informales; no prueban ilegalidad.', rubric: ['Identifique la actividad', 'Use cuatro condiciones', 'Evite estigmatizar'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.4.1', 'ccss:4.1.1', 'ccss:4.1.5'], prompt: 'Una maquila registrada transforma tela, paga salario y exporta camisas. ¿Qué relación describe actividad y condición de trabajo?' },
-        { options: [
-          { id: 'a', text: 'Sector secundario, exportación y empleo con rasgos formales' },
-          { id: 'b', text: 'Sector primario, importación y economía informal' },
-          { id: 'c', text: 'Sector terciario porque toda fábrica presta servicios' },
-        ], correct: ['a'] },
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:4.1.1', 'ccss:4.1.5'], prompt: 'Compara dos trabajos en Guatemala: una trabajadora agricola con contrato, salario y prestaciones; y una venta de comida sin registro ni contrato, sin prestaciones y con ingreso variable. ¿Que analisis distingue actividad, condiciones y economia informal?' },
+        { options: [{ id: 'a', text: 'Agricultura con condiciones formales; comercio con rasgos informales, sin que informal signifique ilegal' }, { id: 'b', text: 'Ambas actividades son informales porque venden productos' }, { id: 'c', text: 'Tener prestaciones convierte la agricultura en un servicio' }], correct: ['a'] },
+      ),
+      S.choice(
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:4.1.1', 'ccss:4.1.5'], prompt: 'Salida: analiza en Guatemala una venta sin registro ni contrato, sin prestaciones y con ingreso variable; compara actividad y condiciones de economia informal.' },
+        { options: [{ id: 'a', text: 'Actividad comercial con rasgos informales; estos no prueban que el trabajo sea ilegal' }, { id: 'b', text: 'Actividad agricola formal porque hay productos' }, { id: 'c', text: 'Las condiciones no pueden analizarse' }], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.4.1', 'ccss:4.1.1', 'ccss:4.1.5'], prompt: 'Comprueba sectores productivos, actividades y condiciones de trabajo formal e informal.' },
-        { statements: [
-          { text: 'Agricultura, industria y servicios pueden tener condiciones laborales distintas.', answer: true },
-          { text: 'La economía informal suele carecer de contrato y prestaciones.', answer: true },
-          { text: 'Informal significa necesariamente delictivo.', answer: false },
-        ] },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:4.1.1', 'ccss:4.1.5'], prompt: 'Salida nueva: distingue actividades y condiciones de trabajo en Guatemala y analiza contrato, registro, prestaciones e ingreso en la economia informal.' },
+        { statements: [{ text: 'Agricultura, fabrica, construccion, comercio y servicios son actividades laborales.', answer: true }, { text: 'Falta de contrato, registro y prestaciones e ingreso variable son rasgos frecuentes del trabajo informal.', answer: true }, { text: 'Economia informal significa siempre actividad ilegal.', answer: false }] },
       ),
-      cierre({ areas: ['ccss'], cnb: [] }, ['Comparo los medios de comunicación y transporte de culturas antiguas', 'Analizo los efectos de la tecnología en la economía, la cultura y los valores', 'Explico qué produce Centroamérica y con quién comercia'],
-        ['Revisaré las etiquetas de tres productos de mi casa para ver de qué país vienen', 'Verificaré una noticia antes de compartirla']),
+    ],
+  }),
+
+  lesson({
+    id: 's03-ccss-3', title: 'Roles de las mujeres: cambios y continuidades', icon: 'Users', minutes: 14,
+    gancho: 'Las responsabilidades y oportunidades de las mujeres han variado entre sociedades y epocas.',
+    objetivos: ['Comparar roles de las mujeres en distintas culturas y epocas en los ambitos familiar, economico y politico'],
+    resumen: [
+      'Los roles de las mujeres no han sido iguales en todas las culturas, epocas ni grupos sociales.',
+      'El ambito familiar incluye cuidado y decisiones del hogar; el economico, produccion, comercio y trabajo remunerado; el politico, autoridad y participacion publica.',
+      'Las fuentes muestran tanto continuidades como cambios, pero un ejemplo no representa a todas las mujeres.',
+    ],
+    media: {
+      id: 's03-ccss-3-mujeres', kind: 'diagram', title: 'Roles en tres ambitos', aspect: '16:9',
+      alt: 'Una tabla compara roles familiares, economicos y politicos de mujeres en distintas culturas y epocas.',
+      brief: 'Diagrama comparativo 1600x900 con tres columnas: familiar, economico y politico. Filas con ejemplos historicos contextualizados y actuales: administracion de hogar, produccion y comercio, autoridad o participacion publica. Incluir nota: los roles variaron segun cultura, epoca y condicion social. Representacion diversa, no estereotipada, texto grande y alto contraste.',
+    },
+    steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:4.2.2'], prompt: 'Compara roles de las mujeres entre culturas y epocas en los ambitos familiar, economico y politico, reconociendo cambios y continuidades.' },
+        { icon: 'Users', body: 'En distintas sociedades, las mujeres han cuidado familias, producido alimentos, comerciado, trabajado y participado en decisiones. Las posibilidades cambiaron segun cultura, epoca y condicion social; ningun ejemplo describe a todas.' },
+      ),
+      S.explain(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:4.2.2'], title: 'Tres ambitos para comparar', prompt: 'Distingue roles familiares, economicos y politicos de las mujeres a traves del tiempo.' },
+        { icon: 'Columns3', body: '**Familiar:** cuidado, administracion y decisiones del hogar. **Economico:** agricultura, artesania, comercio, profesiones y trabajo remunerado. **Politico:** autoridad, organizacion y participacion publica. Comparar busca cambios y continuidades, no ordenar culturas como superiores.' },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:4.2.2'], title: 'Modelo con dos fichas', prompt: 'Observa una comparacion entre mujeres de culturas y epocas distintas en los tres ambitos.' },
+        { icon: 'GitCompare', problem: 'Ficha A: una comerciante maya participaba en produccion y mercado, cuidaba a su familia y podia influir en redes locales. Ficha B: una alcaldesa guatemalteca actual combina trabajo remunerado, responsabilidades familiares compartidas y autoridad politica.', steps: [{ text: 'Familiar: ambas participan, pero hoy puede destacarse responsabilidad compartida.' }, { text: 'Economico: ambas realizan trabajo productivo o comercial.' }, { text: 'Politico: cambia el acceso formal a un cargo electo.' }, { text: 'Limite: dos fichas no representan a todas las mujeres.' }], answer: 'Hay continuidad economica y cambios en formas de participacion politica y familiar.' },
+      ),
+      S.sort(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:4.2.2'], prompt: 'Con ayuda, organiza ejemplos de roles de mujeres de distintas culturas y epocas por ambito.', hint: 'Pregunta si corresponde al hogar, la produccion e intercambio o la decision publica.', explain: 'Un mismo rol puede relacionarse con mas de un ambito; aqui se usa su funcion principal en la ficha.' },
+        { buckets: [{ id: 'f', label: 'Familiar', icon: 'House' }, { id: 'e', label: 'Economico', icon: 'Store' }, { id: 'p', label: 'Politico', icon: 'Landmark' }], items: [{ id: '1', text: 'Administrar alimentos del hogar', bucket: 'f' }, { id: '2', text: 'Vender textiles en un mercado', bucket: 'e' }, { id: '3', text: 'Participar en un consejo comunitario', bucket: 'p' }] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:4.2.2'], prompt: 'Al comparar roles de mujeres entre culturas y epocas, ¿que conclusion es cuidadosa?', hint: 'Evita convertir un ejemplo en regla universal.', explain: 'Las fuentes permiten observar cambios y continuidades, con diferencias por cultura y condicion social.' },
+        { options: [{ id: 'a', text: 'Los roles familiares, economicos y politicos variaron y no fueron iguales para todas' }, { id: 'b', text: 'Todas las mujeres de una epoca tuvieron la misma vida' }, { id: 'c', text: 'Las mujeres nunca participaron en actividades economicas' }], correct: ['a'] },
+      ),
+      S.write(
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:4.2.2'], prompt: 'Compara de forma independiente los roles de mujeres de estas dos fichas: una artesana de una cultura antigua produce ceramica, administra alimentos familiares y no ocupa el consejo; una cooperativista actual comparte cuidados, vende productos y representa a su grupo ante el municipio. Explica cambio y continuidad familiar, economica y politica, sin generalizar.' },
+        { minWords: 27, placeholder: 'Familiar... Economico... Politico... Cambio y continuidad...', model: 'Ambas participan en familia y produccion. La cooperativista comparte cuidados y tiene representacion politica formal. Es un contraste entre fichas, no entre todas las mujeres.', rubric: ['Compare los tres ambitos', 'Explique cambio y continuidad', 'Evite generalizaciones'] },
+      ),
+      S.choice(
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:4.2.2'], prompt: 'Una fuente historica muestra agricultoras y comerciantes; una actual muestra mujeres en cargos publicos y trabajos diversos. ¿Que comparacion es valida?' },
+        { options: [{ id: 'a', text: 'Hay continuidad economica y cambios en oportunidades politicas, con variaciones entre culturas y personas' }, { id: 'b', text: 'La fuente prueba que todas tuvieron los mismos roles familiares' }, { id: 'c', text: 'Solo el presente tiene trabajo realizado por mujeres' }], correct: ['a'] },
+      ),
+      S.choice(
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:4.2.2'], prompt: 'Salida: compara roles de mujeres de distintas culturas y epocas en familia, economia y politica mediante cambios y continuidades.' },
+        { options: [{ id: 'a', text: 'El trabajo familiar y economico muestra continuidades; la participacion politica presenta cambios, sin representar igual a todas' }, { id: 'b', text: 'Una sola ficha demuestra que todas las culturas asignaron roles identicos' }, { id: 'c', text: 'Los roles economicos nunca se relacionaron con mujeres' }], correct: ['a'] },
+      ),
+      S.tf(
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:4.2.2'], prompt: 'Salida nueva: compara cambios y continuidades de roles de las mujeres entre culturas y tiempos en los ambitos familiar, economico y politico.' },
+        { statements: [{ text: 'Las mujeres han participado en actividades familiares y economicas en distintas sociedades.', answer: true }, { text: 'Las oportunidades de participacion politica han variado entre culturas y epocas.', answer: true }, { text: 'Un ejemplo permite generalizar la misma experiencia a todas las mujeres.', answer: false }] },
+      ),
     ],
   }),
 ];

@@ -267,16 +267,13 @@ export default [
     icon: 'Landmark',
     minutes: 15,
     gancho: 'Tikal, el Rabinal Achí, el güipil de tu abuela y la receta del tapado garífuna. ¿Qué tienen en común?',
-    objetivos: [
-      'Distinguir patrimonio cultural material, inmaterial y natural',
-      'Reconocer la diversidad étnica, cultural y lingüística de Guatemala',
-      'Proponer acciones para proteger el patrimonio y respetar las diferencias',
-    ],
+    objetivos: ['Analizar como se protege el patrimonio y la diversidad, incluidos los efectos culturales, economicos y eticos del uso de tecnologia'],
     resumen: [
       'El patrimonio es la herencia que recibimos del pasado y que debemos cuidar para el futuro.',
       'Patrimonio material: lo que se puede tocar (Tikal, Quiriguá, la Antigua Guatemala, tejidos, cerámica). Inmaterial: saberes y tradiciones vivas (idiomas, música, danzas, recetas, como el Rabinal Achí). Natural: paisajes y ecosistemas (lagos, volcanes, selvas).',
       'En Guatemala conviven cuatro pueblos: maya, garífuna, xinka y ladino o mestizo, y se hablan 25 idiomas: 22 mayas, el xinka, el garífuna y el español.',
       'Aceptar, tolerar y respetar las diferencias significa tratar a todos con dignidad, sin burlas ni discriminación, y valorar lo que cada cultura aporta.',
+      'La tecnologia puede documentar y difundir patrimonio, ampliar intercambios economicos o propagar burlas; sus efectos culturales, economicos y eticos dependen del uso.',
     ],
     media: {
       id: 's02-ccss-3-patrimonio', kind: 'image', title: 'El patrimonio de Guatemala', aspect: '16:9',
@@ -321,6 +318,15 @@ export default [
         ] },
       ),
       S.explain(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.1'], ambito: 'conocer', title: 'Tecnologia, cultura, economia y valores',
+          prompt: 'Analiza efectos de la tecnologia sobre el patrimonio y la diversidad en los ambitos cultural, economico y etico.' },
+        { icon: 'TabletSmartphone', body: 'Un archivo digital puede conservar copias y difundir una tradicion: efecto **cultural**. Una feria en linea puede conectar artesanias con compradores: efecto **economico**. Un mensaje puede promover respeto o difundir discriminacion: efecto sobre **valores y convivencia**. La tecnologia no produce un solo efecto automatico; depende de como se usa.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.1'], prompt: 'Una radio transmite relatos en idiomas locales y paga a narradoras de la comunidad. ¿Como se relacionan sus efectos tecnologicos?', hint: 'Busca mas de un ambito.', explain: 'Difunde expresiones culturales, genera una actividad economica y puede valorar las voces locales.' },
+        { options: [{ id: 'a', text: 'Cultura, economia y valores pueden relacionarse en un mismo uso' }, { id: 'b', text: 'Toda tecnologia tiene solamente un efecto economico' }, { id: 'c', text: 'Transmitir relatos elimina la diversidad cultural' }], correct: ['a'] },
+      ),
+      S.explain(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.6'], ambito: 'convivir', title: 'Un país de muchos pueblos e idiomas',
           prompt: 'Guatemala es un país **multiétnico, pluricultural y multilingüe**: aquí conviven varios pueblos, cada uno con su historia, idioma y costumbres. Toca cada tarjeta.',
           media: { id: 's02-ccss-3-idiomas', kind: 'audio', title: 'Saludos de Guatemala', duration: 40,
@@ -353,7 +359,7 @@ export default [
           ] },
       ),
       S.sort(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:3.2.5', 'ccss:3.2.6'], ambito: 'convivir',
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:3.2.1', 'ccss:3.2.5', 'ccss:3.2.6'], ambito: 'convivir',
           prompt: '¿Esta acción **protege** el patrimonio y la diversidad, o los **daña**?',
           explain: 'Proteger el patrimonio también es mantenerlo **vivo**: usar el idioma, aprender las danzas, comprar el trabajo artesanal a un precio justo.' },
         { buckets: [
@@ -366,22 +372,24 @@ export default [
           { id: 'a4', text: 'Burlarse del traje de un compañero', bucket: 'dan' },
           { id: 'a5', text: 'Grabar y escribir las historias que cuentan los ancianos', bucket: 'pro' },
           { id: 'a6', text: 'Tirar basura en el lago de Atitlán', bucket: 'dan', feedback: 'El lago es patrimonio natural: contaminarlo lo daña para todos.' },
+          { id: 'a7', text: 'Publicar una feria digital con autoria y pago justo para artesanas', bucket: 'pro' },
+          { id: 'a8', text: 'Compartir burlas sobre el idioma de una comunidad', bucket: 'dan' },
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.5'], prompt: '¿Cuál es un ejemplo de patrimonio **inmaterial**?' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.1', 'ccss:3.2.5'], prompt: 'Una comunidad digitaliza fotografías antiguas y publica un catálogo bilingüe con autorización. ¿Qué relación entre patrimonio y tecnología muestra?' },
         { options: [
-          { id: 'a', text: 'La música y la danza garífunas' },
-          { id: 'b', text: 'Las ruinas de Quiriguá' },
-          { id: 'c', text: 'El volcán de Agua' },
+          { id: 'a', text: 'Documenta patrimonio material y favorece un efecto cultural de acceso y difusión' },
+          { id: 'b', text: 'Convierte las fotografías en patrimonio natural' },
+          { id: 'c', text: 'Demuestra que toda publicación digital protege por sí sola' },
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.6'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.1', 'ccss:3.2.6'], prompt: 'Comprueba diversidad y efectos culturales, economicos y eticos de la tecnologia.' },
         { statements: [
           { text: 'En Guatemala se hablan 25 idiomas.', answer: true },
-          { text: 'Los cuatro pueblos de Guatemala son maya, garífuna, xinka y ladino o mestizo.', answer: true },
-          { text: 'Tolerar significa obligar a otros a hablar y vestir como uno.', answer: false, why: 'Tolerar es convivir con respeto con quien es distinto, sin obligarlo a cambiar.' },
+          { text: 'Una plataforma puede difundir cultura y apoyar ventas, pero sus efectos dependen del uso.', answer: true },
+          { text: 'Compartir discriminacion en linea expresa respeto por la diversidad.', answer: false, why: 'La tecnologia tambien puede amplificar dano; el uso responsable exige respeto.' },
         ] },
       ),
       cierre({ areas: ['ccss'], cnb: [] }, ['Clasifico recursos naturales y explico su relación con el desarrollo', 'Leo indicadores de población', 'Distingo tipos de patrimonio y respeto la diversidad'],
