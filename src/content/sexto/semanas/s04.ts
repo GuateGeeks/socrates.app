@@ -47,7 +47,7 @@ export default semana({
       },
       steps: [
         S.explain(
-          { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: 'Punto de partida · 1 min',
+          { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:3.3.1'], ambito: 'conocer', title: 'Punto de partida · 1 min',
             prompt: 'La campaña no diagnostica ni promete que todos los cuerpos cambian igual. Presenta información general, reconoce la variación normal y orienta a pedir ayuda cuando una duda preocupa.' },
           { icon: 'ShieldCheck', body: 'Una respuesta responsable combina un dato científico sencillo, lenguaje respetuoso y una fuente confiable.', reveal: [
             { icon: 'BookOpenCheck', front: 'Dato', back: 'Debe coincidir con lo estudiado en Ciencias y no convertir una variación normal en un problema.' },
@@ -56,7 +56,7 @@ export default semana({
           ] },
         ),
         S.project(
-          { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:2.3.2', 'fc:3.1.1'], ambito: 'convivir', title: 'Etapa 1: acuerdo compartido · 2 min',
+          { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1', 'fc:3.1.1'], ambito: 'convivir', title: 'Etapa 1: acuerdo compartido · 2 min',
             prompt: 'En pareja, escuchen dos propuestas y acuerden una sola duda para la campaña: ritmos de la pubertad, cuidado de la intimidad o información confiable. Elijan juntos quién preguntará y quién responderá.' },
           { goal: 'Negociar un mensaje y dos roles para una escena dramática informativa.',
             steps: [
@@ -67,7 +67,7 @@ export default semana({
             rubric: ['La decisión incorpora las voces de ambas personas', 'La escena tendrá una sola idea central'] },
         ),
         S.project(
-          { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2', 'cnt:3.3.1'], ambito: 'conocer', title: 'Etapa 2: verifica la ciencia · 2 min',
+          { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.3.1'], ambito: 'conocer', title: 'Etapa 2: verifica la ciencia · 2 min',
             prompt: 'Anota el dato científico que usarás y la fuente confiable que permite comprobarlo.' },
           { goal: 'Sostener la campaña informativa con información verificable.',
             steps: [
@@ -78,7 +78,7 @@ export default semana({
             rubric: ['El dato tiene exactitud científica', 'La fuente confiable se puede identificar'] },
         ),
         S.write(
-          { fase: 'aplicar', areas: ['l1', 'cnt'], cnb: ['l1:5.1.8', 'cnt:2.3.2'], ambito: 'hacer', title: 'Etapa 3: mensaje de la escena · 2 min',
+          { fase: 'aplicar', areas: ['l1', 'cnt'], cnb: ['l1:5.1.8', 'cnt:3.3.1'], ambito: 'hacer', title: 'Etapa 3: mensaje de la escena · 2 min',
             prompt: 'Escriban un mensaje de 18 a 24 palabras que pueda repartirse entre dos voces: dato científico, respeto y una orientación hacia una fuente confiable.' },
           { minWords: 18, placeholder: 'VOZ 1: Cada cuerpo...\nVOZ 2: Si algo te preocupa...',
             model: 'Cada cuerpo cambia a su ritmo. Si algo te preocupa, consulta una fuente confiable y habla con una persona adulta.',
@@ -101,7 +101,7 @@ export default semana({
             rubric: ['La razón usa carácter, intensidad o volumen', 'La elección apoya el mensaje y permite escuchar las voces'] },
         ),
         S.choice(
-          { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:2.3.2', 'l1:5.1.8'], ambito: 'conocer', title: 'Control de concisión · 1 min',
+          { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:3.3.1', 'l1:5.1.8'], ambito: 'conocer', title: 'Control de concisión · 1 min',
             prompt: 'Antes de ensayar, ¿qué debe conservar el mensaje breve?' },
           { options: [
             { id: 'a', text: 'Dejar la duda, un dato, una fuente confiable y la orientación final' },
@@ -121,7 +121,7 @@ export default semana({
             rubric: ['Ambas personas cumplen el rol acordado', 'La música se detiene antes de las voces', 'El mensaje se entiende sin hablar deprisa'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['cnt', 'l1', 'fc'], cnb: ['cnt:2.3.2', 'cnt:3.3.1', 'l1:5.1.8', 'fc:3.1.1'], ambito: 'convivir', title: 'Etapa 6: revisión entre pares · 2 min',
+          { fase: 'aplicar', areas: ['cnt', 'l1', 'fc'], cnb: ['cnt:3.3.1', 'l1:5.1.8', 'fc:3.1.1'], ambito: 'convivir', title: 'Etapa 6: revisión entre pares · 2 min',
             prompt: 'Otra pareja escucha la escena y marca solo dos criterios: exactitud científica y lenguaje respetuoso.' },
           { goal: 'Revisar la campaña informativa antes de presentarla.',
             steps: [
@@ -132,14 +132,14 @@ export default semana({
             rubric: ['La revisión comprueba exactitud científica', 'La revisión comprueba respeto'] },
         ),
         S.write(
-          { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:2.3.2', 'l1:5.1.8'], ambito: 'hacer', title: 'Etapa 7: revisión dirigida · 1 min',
+          { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:3.3.1', 'l1:5.1.8'], ambito: 'hacer', title: 'Etapa 7: revisión dirigida · 1 min',
             prompt: 'Corrige una sola frase según la observación recibida. Conserva el mensaje entre 18 y 24 palabras y encierra el cambio.' },
           { minWords: 18, placeholder: 'Versión corregida del mensaje...',
             model: 'Cada cuerpo cambia a su ritmo. Si algo te preocupa, consulta una fuente confiable y habla con una persona adulta.',
             rubric: ['La corrección dirigida responde a la observación', 'Mantiene exactitud científica y respeto', 'Conserva la fuente confiable'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['cnt', 'l1', 'fc'], cnb: ['cnt:2.3.2', 'l1:5.1.8', 'fc:3.1.1'], ambito: 'hacer', title: 'Etapa 8: presentación final · 1 min',
+          { fase: 'aplicar', areas: ['cnt', 'l1', 'fc'], cnb: ['cnt:3.3.1', 'l1:5.1.8', 'fc:3.1.1'], ambito: 'hacer', title: 'Etapa 8: presentación final · 1 min',
             prompt: 'Representen o lean la escena final de 30 segundos con los dos roles acordados.' },
           { goal: 'Presentar una escena dramática informativa breve y revisada.',
             steps: [
@@ -150,7 +150,7 @@ export default semana({
             rubric: ['Mantiene exactitud científica y fuente confiable', 'Usa lenguaje respetuoso', 'Ambas personas participan en la escena'] },
         ),
         S.reflect(
-          { fase: 'reflexionar', areas: ['cnt', 'l1', 'fc', 'art'], cnb: ['cnt:2.3.2', 'l1:5.1.8', 'fc:3.1.1', 'art:3.1.2'], ambito: 'ser',
+          { fase: 'reflexionar', areas: ['cnt', 'l1', 'fc', 'art'], cnb: ['cnt:3.3.1', 'l1:5.1.8', 'fc:3.1.1', 'art:3.1.2'], ambito: 'ser',
             prompt: 'Cierre · 1 min. Revisa tu aporte y elige un compromiso para comunicar cuidado.' },
           { statements: ['Comprobé la ciencia', 'Usé lenguaje respetuoso', 'Escuché al equipo', 'Mejoré el producto después de revisarlo'],
             commitments: ['Consultaré una fuente confiable antes de compartir información de salud', 'No haré bromas sobre los cambios del cuerpo', 'Pediré ayuda adulta o profesional ante una preocupación de salud'] },
@@ -185,16 +185,9 @@ export default semana({
             { id: 'c', text: '(PAULA respira hondo: voy a pedir ayuda.)' },
           ], correct: ['a'] },
         ),
-        S.sort(
-          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.2'], prompt: 'Clasifica cada afirmación sobre los cambios corporales.' },
-          { buckets: [
-            { id: 'c', label: 'Científicamente cuidadosa', icon: 'BadgeCheck' },
-            { id: 'r', label: 'Rumor o generalización', icon: 'MessageCircleWarning' },
-          ], items: [
-            { id: 'a', text: 'La pubertad no comienza a la misma edad en todas las personas', bucket: 'c' },
-            { id: 'b', text: 'La piel con acné demuestra que alguien no se baña', bucket: 'r' },
-            { id: 'd', text: 'Una duda personal de salud puede consultarse con un profesional', bucket: 'c' },
-          ] },
+        S.fill(
+          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:3.1.1'], prompt: 'Completa el análisis de una ruta anatómica nueva.' },
+          { text: 'Si el paso desde el epidídimo hacia las glándulas se interrumpe, la estructura de transporte afectada es el [[conducto deferente]].', distractors: ['uretra', 'próstata'] },
         ),
         S.choice(
           { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:5.1.1'], prompt: 'Un grupo investiga cómo participan estudiantes de distintas edades en el gobierno escolar. ¿Qué ciencia social estudia principalmente los grupos y sus relaciones?' },
@@ -267,11 +260,11 @@ export default semana({
       ] },
     ),
     S.choice(
-      { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:3.3.1'], prompt: 'Dos personas adultas cuidan a su bebé. ¿Qué decisión muestra paternidad y maternidad responsables?' },
+      { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:3.5.1'], prompt: 'Una estudiante evita compartir materiales con una persona que vive con VIH. ¿Qué respuesta aplica información científica y respeto?' },
       { options: [
-        { id: 'a', text: 'Compartir alimentación, citas de salud, afecto y cuidados según sus posibilidades' },
-        { id: 'b', text: 'Dejar todo el cuidado a una sola persona por costumbre' },
-        { id: 'c', text: 'Atender únicamente los gastos y no dedicar tiempo ni protección' },
+        { id: 'a', text: 'Pueden estudiar juntas: compartir pupitre y materiales no transmite VIH' },
+        { id: 'b', text: 'Debe mantener distancia porque toda convivencia transmite el virus' },
+        { id: 'c', text: 'La apariencia de una persona indica si puede participar' },
       ], correct: ['a'] },
     ),
     S.choice(

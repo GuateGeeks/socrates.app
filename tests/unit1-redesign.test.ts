@@ -2024,8 +2024,8 @@ test('Semana 3 preserva las lecciones y referencias CNB aprobadas con una idea c
   const expectedCnb = new Set([
     'mat:1.1.11', 'mat:1.2.1', 'mat:1.3.1', 'mat:1.3.2',
     'l1:4.2.3', 'l1:5.1.7',
-    'cnt:1.4.1', 'cnt:2.1.2', 'cnt:2.2.1', 'cnt:2.3.1',
-    'ccss:3.2.1', 'ccss:3.3.1', 'ccss:3.4.1',
+    'cnt:1.4.1', 'cnt:2.1.2', 'cnt:2.2.1', 'cnt:2.3.1', 'cnt:2.3.2',
+    'ccss:3.2.1', 'ccss:3.3.1', 'ccss:3.4.1', 'ccss:4.1.1', 'ccss:4.1.5', 'ccss:4.2.2',
     'l2:2.1.2', 'l2:2.1.3', 'l2:2.1.5',
     'l3:1.3.3', 'fc:1.2.3', 'fc:2.1.1', 'art:2.2.1',
     'ef:1.4.1', 'ef:1.4.2', 'ef:1.4.3', 'ef:1.4.12', 'ef:1.4.14',
@@ -2278,18 +2278,10 @@ test('Semana 3 evalúa las diez áreas con contenido enseñado y payloads fresco
   assert.deepEqual(reused, []);
 });
 
-test('Semana 4 preserva 27 lecciones, su cobertura CNB y una idea central por lección', () => {
+test('Semana 4 preserva 27 lecciones, la asignacion CNT-CCSS del plan y una idea central por leccion', () => {
   const expectedLessonCounts = new Map([
     ['mat', 5], ['l1', 5], ['cnt', 3], ['ccss', 3], ['l2', 2],
     ['l3', 2], ['fc', 2], ['art', 2], ['ef', 2], ['pyd', 1],
-  ]);
-  const expectedCnb = new Set([
-    'mat:1.3.3', 'mat:1.3.4', 'mat:1.3.5', 'mat:1.3.6', 'mat:1.3.7',
-    'l1:5.1.8', 'l1:5.1.9',
-    'cnt:2.3.2', 'cnt:3.1.1', 'cnt:3.2.1', 'cnt:3.3.1', 'cnt:3.5.1',
-    'ccss:4.1.1', 'ccss:4.1.5', 'ccss:4.2.2', 'ccss:5.1.1', 'ccss:5.1.4', 'ccss:5.3.1', 'ccss:6.2.1', 'ccss:8.1.1',
-    'l2:2.2.1', 'l2:2.2.2', 'l3:2.2.1', 'fc:3.1.1', 'art:3.1.2',
-    'ef:2.1.2', 'ef:2.1.3', 'pyd:2.5.3',
   ]);
   const lessons = weekFour.lessons.filter((lesson) => lesson.kind === 'materia');
   const actualCounts = new Map<string, number>();
@@ -2302,7 +2294,11 @@ test('Semana 4 preserva 27 lecciones, su cobertura CNB y una idea central por le
     if (lesson.steps.length < 9 || lesson.steps.length > 14) failures.push(`${lesson.id}: ${lesson.steps.length} pasos`);
   }
   assert.deepEqual(actualCounts, expectedLessonCounts);
-  assert.deepEqual(new Set(lessons.flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb))), expectedCnb);
+  const restored = lessons.filter((lesson) => lesson.area === 'cnt' || lesson.area === 'ccss');
+  assert.deepEqual(
+    new Set(restored.flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb))),
+    plannedRefsForAreas(4, ['cnt', 'ccss']),
+  );
   assert.deepEqual(failures, []);
 });
 
@@ -2603,9 +2599,8 @@ test('Semana 4 mantiene una carga estructurada razonable por lección', () => {
   assert.deepEqual(failures, []);
 });
 
-test('Las lecciones CNT de pubertad y reproducción caben en quince minutos', () => {
+test('Las lecciones CNT de estructura y gametogenesis caben en quince minutos', () => {
   const lessons = weekFour.lessons.filter((item) => item.area === 'cnt'
-    && item.minutes === 15
     && item.steps.some((step) => step.cnb.some((ref) => ['cnt:2.3.2', 'cnt:3.1.1', 'cnt:3.2.1'].includes(ref))));
   assert.equal(lessons.length, 2);
   const countItems = (value: unknown): number => {
@@ -2616,6 +2611,7 @@ test('Las lecciones CNT de pubertad y reproducción caben en quince minutos', ()
     ), 0);
   };
   for (const lesson of lessons) {
+    assert.ok(lesson.minutes <= 15, `${lesson.id}: declara ${lesson.minutes} minutos`);
     const nestedItems = lesson.steps.reduce((sum, step) => sum + countItems(step.props), 0);
     assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 11, `${lesson.id}: ${lesson.steps.length} pantallas`);
     assert.ok(nestedItems <= 34, `${lesson.id}: ${nestedItems} elementos simples`);
@@ -2630,10 +2626,11 @@ test('Las lecciones CNT de pubertad y reproducción caben en quince minutos', ()
   }
 });
 
-test('La lección CNT de cuidado cabe en 17 minutos sin perder modelado ni dos salidas', () => {
+test('La leccion CNT de cuidado cabe en quince minutos sin perder modelado ni dos salidas', () => {
   const lesson = weekFour.lessons.find((item) => item.area === 'cnt'
     && item.steps.some((step) => step.cnb.includes('cnt:3.3.1')));
   assert.ok(lesson, 'Falta la lección cnt:3.3.1');
+  assert.ok(lesson.minutes <= 15, `Declara ${lesson.minutes} minutos`);
   assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 11, `Tiene ${lesson.steps.length} pantallas`);
   assert.ok(lesson.steps.some((step) => step.type === 'worked-example'), 'Falta el modelo explícito');
   assert.ok(lesson.steps.some((step) => step.fase === 'construir' && getActivity(step.type)?.graded && step.hint), 'Falta práctica guiada');
@@ -3575,6 +3572,154 @@ function hasIndicatorAtStages(lesson: Lesson, ref: string, matcher: (value: unkn
     && exits.length >= 2
     && exits.every((step) => step.cnb.includes(ref) && matcher(step));
 }
+
+function plannedRefsForAreas(weekNumber: number, areas: string[]): Set<string> {
+  const plan = JSON.parse(readFileSync('src/content/sexto/plan.json', 'utf8')) as {
+    unidades: Array<{ unidad: number; semanas: Array<{ semana: number; contenidos: Record<string, string[]> }> }>;
+  };
+  const plannedWeek = plan.unidades.find((unit) => unit.unidad === 1)?.semanas.find((week) => week.semana === weekNumber);
+  assert.ok(plannedWeek?.contenidos, `plan.json no contiene Unidad 1 Semana ${weekNumber}`);
+  return new Set(areas.flatMap((area) => plannedWeek.contenidos[area] ?? []));
+}
+
+function teachesL2MessageProduction(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const threePurposes = /informativ/.test(text) && /expositiv/.test(text) && /argumentativ/.test(text);
+  const production = /(?:produ(?:ce|cir|ccion)|elabora|redacta|escribe|crea|formula).{0,100}(?:mensaje|texto)|(?:mensaje|texto).{0,100}(?:produ(?:ce|cir|ccion)|elabora|redacta|escribe|crea|formula)/.test(text);
+  return threePurposes && production && /(?:lugar|mapa|ubicacion|ruta|comunidad)/.test(text);
+}
+
+function teachesListeningAnticipationAndIntent(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  return /(?:escucha|mensaje oral|audio)/.test(text)
+    && /anticip/.test(text)
+    && /hecho/.test(text)
+    && /opinion/.test(text)
+    && /(?:intencion|proposito|informar|convencer)/.test(text);
+}
+
+function teachesMaleReproductiveStructure(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  return /testiculos/.test(text) && /epididimo/.test(text) && /conducto deferente/.test(text)
+    && /vesiculas seminales/.test(text) && /prostata/.test(text) && /uretra/.test(text) && /pene/.test(text)
+    && /(?:estructura|funcion|recorrido|trayecto|ubica)/.test(text);
+}
+
+function distinguishesGametogenesis(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  return /ovogenesis/.test(text) && /espermatogenesis/.test(text)
+    && /ovari/.test(text) && /testicul/.test(text)
+    && /ovocito|celula funcional grande/.test(text) && /espermatozoide/.test(text)
+    && /(?:diferencia|compara|distingue)/.test(text);
+}
+
+function teachesRespectfulCareAndHiv(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const care = /(?:conducta etica|decision responsable|respeto|consentimiento)/.test(text)
+    && /(?:paternidad responsable|responsabilidad compartida|crianza)/.test(text);
+  const hiv = /vih/.test(text) && /sida/.test(text)
+    && /virus/.test(text) && /(?:fase avanzada|sindrome|no son sinonimos|no significa)/.test(text);
+  return care && hiv;
+}
+
+function teachesSocialInquiry(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const disciplines = /historia/.test(text) && /geografia/.test(text) && /sociologia|antropologia/.test(text);
+  const research = /investigacion social/.test(text) && /pregunta/.test(text)
+    && /(?:personal|comunidad)/.test(text) && /nacional|pais/.test(text);
+  const attitude = /(?:valora|importancia|utilidad|fundamentar|decidir con evidencia)/.test(text);
+  return disciplines && research && attitude;
+}
+
+function usesInformationGatheringTools(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const tools = /observacion/.test(text) && /entrevista/.test(text) && /encuesta/.test(text);
+  const supplied = /suministrad/.test(text);
+  const actualUse = /(?:aplica|usar?|completa|registra|selecciona evidencia|organiza respuestas)/.test(text);
+  return tools && supplied && actualUse;
+}
+
+function teachesSocietyEvolution(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  return /cazador/.test(text) && /recolector/.test(text) && /agricult/.test(text)
+    && /(?:nomad|movilidad|campamento)/.test(text) && /(?:sedent|aldea|cultivo)/.test(text)
+    && /(?:evolucion|cambio|transicion|paso gradual|compar|diferencia)/.test(text);
+}
+
+test('Los contratos semanticos rechazan identificacion, inserciones y volcados de cobertura', () => {
+  assert.equal(teachesL2MessageProduction({ prompt: 'Identifica si el mensaje es informativo, expositivo o argumentativo sobre un mapa.' }), false);
+  assert.equal(teachesListeningAnticipationAndIntent({ prompt: 'Lee una opinion y marca su intencion.' }), false);
+  assert.equal(teachesMaleReproductiveStructure({ prompt: 'La pubertad cambia el cuerpo; menciona los testiculos.' }), false);
+  assert.equal(distinguishesGametogenesis({ prompt: 'El aparato masculino produce espermatozoides.' }), false);
+  assert.equal(teachesRespectfulCareAndHiv({ prompt: 'VIH y SIDA son temas de cuidado.' }), false);
+  assert.equal(teachesSocialInquiry({ prompt: 'Historia, geografia y sociologia son Ciencias Sociales.' }), false);
+  assert.equal(usesInformationGatheringTools({ prompt: 'Nombra observacion, entrevista y encuesta.' }), false);
+  assert.equal(teachesSocietyEvolution({ prompt: 'Cazadores, recolectores y agricultores existieron.' }), false);
+});
+
+test('L2 Semana 1 usa exactamente su asignacion del plan y evidencia produccion y escucha en tres etapas', () => {
+  const lessons = ['s01-l2-1', 's01-l2-2'].map((id) => weekOne.lessons.find((lesson) => lesson.id === id));
+  assert.ok(lessons.every(Boolean));
+  const actual = new Set(lessons.flatMap((lesson) => lesson!.steps.flatMap((step) => step.cnb)));
+  assert.deepEqual(actual, plannedRefsForAreas(1, ['l2']));
+  assert.deepEqual(lessons.map((lesson) => new Set(lesson!.steps.flatMap((step) => step.cnb))), [
+    new Set(['l2:1.2.2']), new Set(['l2:1.2.4', 'l2:1.2.6']),
+  ]);
+  assert.equal(hasIndicatorAtStages(lessons[0]!, 'l2:1.2.2', teachesL2MessageProduction), true);
+  assert.equal(hasIndicatorAtStages(lessons[1]!, 'l2:1.2.4', teachesListeningAnticipationAndIntent), true);
+  assert.equal(hasIndicatorAtStages(lessons[1]!, 'l2:1.2.6', teachesListeningAnticipationAndIntent), true);
+});
+
+test('Cada evidencia auditiva calificada de L2 Semana 1 tiene un audio propio con ficha completa', () => {
+  const lesson = weekOne.lessons.find((item) => item.id === 's01-l2-2');
+  assert.ok(lesson);
+  const failures: string[] = [];
+  const weeklyListening = [
+    ...weekOne.lessons.filter((item) => item.kind === 'reto').flatMap((item) => item.steps),
+    ...weekOneBank,
+  ].filter((item) => item.cnb.includes('l2:1.2.4') && getActivity(item.type)?.graded);
+  for (const step of [...lesson.steps.filter((item) => getActivity(item.type)?.graded), ...weeklyListening]) {
+    if (step.media?.kind !== 'audio') {
+      failures.push(`${step.id}: sin audio propio`);
+      continue;
+    }
+    const script = exactAudioScript(step);
+    if (!script) failures.push(`${step.id}: sin guion exacto`);
+    const visible = normalizeFactText(`${step.prompt} ${step.media.alt}`);
+    if (script && visible.includes(normalizeFactText(script))) failures.push(`${step.id}: revela el guion`);
+    const raw = step.media.brief;
+    const brief = normalizeFactText(raw);
+    for (const [label, pattern] of [
+      ['voz', /\bvoz\b/], ['acento', /espanol de guatemala|acento guatemalteco/],
+      ['ritmo', /ritmo|pausad/], ['pausa', /silencio|pausa/], ['duracion', /duracion/],
+      ['transcripcion', /transcripcion.{0,120}(?:despues de responder|docente|accesibilidad)/],
+      ['ruta', /public\/media\/[a-z0-9-]+\.mp3/i],
+    ] as const) if (!pattern.test(label === 'ruta' ? raw : brief)) failures.push(`${step.id}: ficha sin ${label}`);
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('CNT y CCSS Semana 4 usan exactamente su plan y evidencian cada indicador en tres etapas', () => {
+  const science = ['s04-cnt-1', 's04-cnt-2', 's04-cnt-3'].map((id) => weekFour.lessons.find((lesson) => lesson.id === id));
+  const social = ['s04-ccss-1', 's04-ccss-2', 's04-ccss-3'].map((id) => weekFour.lessons.find((lesson) => lesson.id === id));
+  assert.ok([...science, ...social].every(Boolean));
+  assert.deepEqual(new Set(science.flatMap((lesson) => lesson!.steps.flatMap((step) => step.cnb))), plannedRefsForAreas(4, ['cnt']));
+  assert.deepEqual(new Set(social.flatMap((lesson) => lesson!.steps.flatMap((step) => step.cnb))), plannedRefsForAreas(4, ['ccss']));
+  assert.deepEqual(science.map((lesson) => new Set(lesson!.steps.flatMap((step) => step.cnb))), [
+    new Set(['cnt:3.1.1']), new Set(['cnt:3.2.1']), new Set(['cnt:3.3.1', 'cnt:3.5.1']),
+  ]);
+  assert.deepEqual(social.map((lesson) => new Set(lesson!.steps.flatMap((step) => step.cnb))), [
+    new Set(['ccss:5.1.1', 'ccss:5.1.4']), new Set(['ccss:5.3.1']), new Set(['ccss:6.2.1']),
+  ]);
+  assert.equal(hasIndicatorAtStages(science[0]!, 'cnt:3.1.1', teachesMaleReproductiveStructure), true);
+  assert.equal(hasIndicatorAtStages(science[1]!, 'cnt:3.2.1', distinguishesGametogenesis), true);
+  assert.equal(hasIndicatorAtStages(science[2]!, 'cnt:3.3.1', teachesRespectfulCareAndHiv), true);
+  assert.equal(hasIndicatorAtStages(science[2]!, 'cnt:3.5.1', teachesRespectfulCareAndHiv), true);
+  assert.equal(hasIndicatorAtStages(social[0]!, 'ccss:5.1.1', teachesSocialInquiry), true);
+  assert.equal(hasIndicatorAtStages(social[0]!, 'ccss:5.1.4', teachesSocialInquiry), true);
+  assert.equal(hasIndicatorAtStages(social[1]!, 'ccss:5.3.1', usesInformationGatheringTools), true);
+  assert.equal(hasIndicatorAtStages(social[2]!, 'ccss:6.2.1', teachesSocietyEvolution), true);
+});
 
 test('CNT Semana 6 asigna un resultado coherente por leccion y evidencia cada indicador en tres etapas', () => {
   const nutrition = (value: unknown) => {

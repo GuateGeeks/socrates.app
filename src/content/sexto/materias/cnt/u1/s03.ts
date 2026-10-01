@@ -308,12 +308,13 @@ export default [
     icon: 'HeartPulse',
     minutes: 15,
     gancho: 'Antes de pasar al frente a leer, a Mariana le late rápido el corazón y le sudan las manos. ¿Quién da esa orden en su cuerpo?',
-    objetivos: ['Clasificar y ubicar glándulas endocrinas y exocrinas según dónde liberan sus sustancias'],
+    objetivos: ['Clasificar glándulas por su secreción y diferenciar glándulas sexuales masculinas y femeninas por su función'],
     resumen: [
       'Una glándula es un órgano que fabrica y libera sustancias.',
       'Las glándulas de secreción interna (endocrinas) liberan hormonas a la sangre: hipófisis (glándula maestra, en la base del cerebro), tiroides (cuello), suprarrenales (sobre los riñones) y páncreas.',
       'Las glándulas de secreción externa (exocrinas) sacan su producto por conductos hacia afuera del cuerpo o hacia una cavidad: sudoríparas, salivales, lagrimales, sebáceas y mamarias.',
       'El páncreas es mixto: produce insulina, que va a la sangre, y jugo digestivo, que va al intestino.',
+      'Los testículos y los ovarios son glándulas endocrinas: los testículos producen principalmente testosterona y forman espermatozoides; los ovarios producen principalmente estrógenos y progesterona y contienen ovocitos.',
     ],
     media: {
       id: 's03-cnt-3-glandulas', kind: 'diagram', title: 'Mapa de las glándulas del cuerpo', aspect: '3:4',
@@ -322,12 +323,14 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.3.1'], ambito: 'conocer', title: '¿Qué es una glándula?',
-          prompt: 'Una **glándula** es un órgano que **fabrica y libera** sustancias. Según **hacia dónde** las envía, hay dos tipos. Toca las tarjetas.' },
-        { icon: 'Factory', body: 'Liberar una sustancia se llama **secretar**, y la sustancia es la **secreción**.', reveal: [
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.3.1', 'cnt:2.3.2'], ambito: 'conocer', title: '¿Qué es una glándula?',
+          prompt: 'Una **glándula** fabrica y libera sustancias. Clasifica la vía de secreción y diferencia las glándulas sexuales masculinas y femeninas por su función.' },
+        { icon: 'Factory', body: 'Liberar una sustancia se llama **secretar**. Los testículos y ovarios son endocrinos, pero cumplen funciones diferentes.', reveal: [
           { icon: 'HeartPulse', front: 'Secreción interna (endocrinas)', back: 'Liberan **hormonas** directamente a la **sangre**. Las hormonas son **mensajeros químicos**: viajan por todo el cuerpo y dan órdenes a otros órganos.' },
           { icon: 'Droplets', front: 'Secreción externa (exocrinas)', back: 'Sacan su producto por **conductos** (tubitos) hacia **afuera del cuerpo** o hacia una cavidad, como la boca. Ejemplos: sudor, saliva, lágrimas.' },
           { icon: 'Copy', front: 'Glándula mixta', back: 'El **páncreas** hace las dos cosas: envía **insulina** a la sangre y **jugo digestivo** al intestino.' },
+          { icon: 'Dna', front: 'Testículos', back: 'Glándulas sexuales masculinas: producen principalmente **testosterona** y forman **espermatozoides**.' },
+          { icon: 'Microscope', front: 'Ovarios', back: 'Glándulas sexuales femeninas: producen principalmente **estrógenos y progesterona** y contienen **ovocitos**.' },
         ] },
       ),
       S.choice(
@@ -432,31 +435,29 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:2.3.1'], ambito: 'conocer',
-          prompt: '¿Por qué en muchas cocinas de Guatemala se usa **sal yodada**?',
-          explain: 'La **tiroides** necesita **yodo** para fabricar sus hormonas. Sin suficiente yodo, puede crecer demasiado (bocio) y no funcionar bien.' },
+        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:2.3.1', 'cnt:2.3.2'], ambito: 'conocer',
+          prompt: 'Al clasificar glándulas endocrinas, ¿qué diferencia funcional distingue las glándulas sexuales masculinas de las femeninas?',
+          explain: 'Ambas son endocrinas. Los testículos producen principalmente testosterona y forman espermatozoides; los ovarios producen principalmente estrógenos y progesterona y contienen ovocitos.' },
         { options: [
-          { id: 'a', text: 'Porque la tiroides necesita yodo para fabricar sus hormonas', icon: 'Thermometer' },
-          { id: 'b', text: 'Porque el yodo hace crecer el cabello', icon: 'Sparkles', feedback: 'El yodo es necesario para la tiroides, no para el cabello.' },
-          { id: 'c', text: 'Porque el yodo produce saliva', icon: 'Utensils', feedback: 'La saliva la producen las glándulas salivales; el yodo es para la tiroides.' },
+          { id: 'a', text: 'Testículos: testosterona y espermatozoides; ovarios: estrógenos, progesterona y ovocitos', icon: 'GitCompare' },
+          { id: 'b', text: 'Los ovarios producen sudor y los testículos producen lágrimas', icon: 'Droplets' },
+          { id: 'c', text: 'No existe diferencia funcional entre ambas glándulas', icon: 'Equal' },
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.1'], prompt: '¿Qué hace una glándula de **secreción interna** con las hormonas que produce?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.1', 'cnt:2.3.2'], prompt: '¿Qué opción clasifica la vía endocrina y diferencia correctamente glándulas sexuales masculinas y femeninas?' },
         { options: [
-          { id: 'a', text: 'Las saca por la piel' },
-          { id: 'b', text: 'Las libera a la sangre' },
-          { id: 'c', text: 'Las envía a la boca' },
-          { id: 'd', text: 'Las guarda para siempre' },
-        ], correct: ['b'] },
+          { id: 'a', text: 'Liberan hormonas a la sangre; testículos y ovarios difieren en hormonas y células reproductoras relacionadas' },
+          { id: 'b', text: 'Usan conductos hacia la piel y cumplen exactamente la misma función' },
+          { id: 'c', text: 'Solo los ovarios son glándulas' },
+        ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.1'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.1', 'cnt:2.3.2'], prompt: 'Comprueba la clasificación endocrina y la diferencia funcional entre glándulas sexuales masculinas y femeninas.' },
         { statements: [
-          { text: 'La hipófisis está en la base del cerebro y se llama glándula maestra.', answer: true },
-          { text: 'Las glándulas lagrimales son de secreción interna.', answer: false, why: 'Sacan las lágrimas por conductos hacia los ojos: son de secreción externa.' },
-          { text: 'La insulina la produce el páncreas.', answer: true },
-          { text: 'La adrenalina calma el corazón y lo hace latir más lento.', answer: false, why: 'La adrenalina acelera el corazón y la respiración.' },
+          { text: 'Testículos y ovarios liberan hormonas a la sangre.', answer: true },
+          { text: 'Los testículos forman espermatozoides y los ovarios contienen ovocitos.', answer: true },
+          { text: 'Las dos glándulas producen exactamente las mismas hormonas y células.', answer: false },
         ] },
       ),
       cierre({ areas: ['cnt'], cnb: [] },

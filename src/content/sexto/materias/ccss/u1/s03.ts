@@ -134,12 +134,13 @@ export default [
     icon: 'Smartphone',
     minutes: 15,
     gancho: 'Tus abuelos escribían cartas que tardaban semanas. Tú haces videollamadas. ¿Qué ganamos con ese cambio? ¿Y qué podríamos perder?',
-    objetivos: ['Analizar efectos culturales, económicos y éticos de un cambio tecnológico'],
+    objetivos: ['Comparar cambios en los roles familiares, económicos y políticos de las mujeres a través del tiempo y las culturas'],
     resumen: [
       'Un cambio tecnológico es una nueva herramienta o forma de hacer las cosas que transforma la vida de la gente: la imprenta, la electricidad, el automóvil, la radio, internet, el celular.',
       'Efectos en la economía: nuevos trabajos, formas de comprar y vender, envíos de dinero; algunos oficios cambian o desaparecen.',
       'Efectos en la cultura: nuevas formas de comunicarse, aprender y divertirse; las tradiciones pueden difundirse o debilitarse.',
       'Efectos en los valores: la tecnología puede usarse con respeto y responsabilidad, o para dañar (ciberacoso, noticias falsas). La diferencia está en cómo la usamos.',
+      'Los roles de las mujeres han variado entre culturas y épocas: han participado en familias, agricultura, comercio, trabajo industrial, educación, movimientos sociales y política, aunque leyes y costumbres limitaron de manera desigual su reconocimiento y sus derechos.',
     ],
     media: {
       id: 's03-ccss-2-linea', kind: 'animation', title: 'De la carta al celular', aspect: '16:9', duration: 45,
@@ -148,9 +149,12 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.2.1'], ambito: 'conocer', title: '¿Qué es un cambio tecnológico?',
-          prompt: 'Un **cambio tecnológico** ocurre cuando una nueva herramienta o técnica transforma la forma de trabajar, comunicarse o vivir. Cada país lo vive a su manera. Toca las tarjetas.' },
-        { icon: 'Cpu', body: 'La tecnología no llega igual a todas partes: en muchos lugares del mundo, y también en áreas rurales de Guatemala, todavía falta conexión a internet. A esa diferencia se le llama **brecha digital**.', reveal: [
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.2.1', 'ccss:4.2.2'], ambito: 'conocer', title: 'Tecnología y roles a través del tiempo',
+          prompt: 'Compara cómo distintas tecnologías y condiciones sociales se relacionaron con roles familiares, económicos y políticos de las mujeres en culturas y épocas diferentes.' },
+        { icon: 'Cpu', body: 'La comparación histórica evita afirmar que todas las mujeres vivieron lo mismo. Cambiaron las tareas, oportunidades y formas de participación, y también persistieron desigualdades.', reveal: [
+          { icon: 'Wheat', front: 'Sociedades agrícolas antiguas', back: 'Las mujeres participaron en agricultura, producción de alimentos, tejidos, comercio y vida familiar; su poder político y reconocimiento variaron entre culturas.' },
+          { icon: 'Factory', front: 'Industrialización', back: 'Muchas ingresaron al trabajo fabril remunerado y sostuvieron tareas familiares, a menudo con salarios y derechos desiguales.' },
+          { icon: 'Vote', front: 'Siglos XX y XXI', back: 'Movimientos de mujeres impulsaron acceso a educación, voto y cargos públicos; siguen desafíos de representación, cuidados y condiciones laborales.' },
           { icon: 'Factory', front: 'Japón y Corea del Sur', back: 'Usan muchos **robots** en fábricas. Producen más rápido, pero algunos trabajos manuales se reducen y aparecen otros nuevos de programación y mantenimiento.' },
           { icon: 'Smartphone', front: 'Kenia (África)', back: 'Millones de personas **envían y reciben dinero por el celular** sin tener cuenta de banco. Eso ayudó a pequeños comerciantes del campo.' },
           { icon: 'Tractor', front: 'Estados Unidos y Europa', back: 'La **maquinaria agrícola** hace que pocas personas cultiven grandes extensiones; mucha gente dejó el campo para trabajar en ciudades.' },
@@ -158,18 +162,18 @@ export default [
         ] },
       ),
       S.sort(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.1'], ambito: 'conocer',
-          prompt: 'Pregunta imaginaria a tu abuela: ¿qué existía cuando ella tenía tu edad y qué llegó después? Clasifica según lo que creas.',
-          explain: 'Muchas tecnologías que hoy parecen "de siempre" son muy recientes. Internet y el celular llegaron a la mayoría de las familias de Guatemala en las últimas décadas.' },
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.1', 'ccss:4.2.2'], ambito: 'conocer',
+          prompt: 'Con ayuda, clasifica evidencias sobre cambios de roles familiares, económicos y políticos de las mujeres a través del tiempo.',
+          hint: 'Distingue trabajo y comercio, decisiones públicas y responsabilidades familiares.',
+          explain: 'Los roles se superponen y varían por cultura; la clasificación destaca el ámbito principal.' },
         { buckets: [
-          { id: 'antes', label: 'Ya existía hace 60 años', icon: 'Radio', color: 'var(--c-maiz-strong)' },
-          { id: 'nuevo', label: 'Llegó después', icon: 'Smartphone', color: 'var(--area-ccss)' },
+          { id: 'f', label: 'Familiar', icon: 'House', color: 'var(--c-maiz-strong)' },
+          { id: 'e', label: 'Económico', icon: 'Briefcase', color: 'var(--area-ccss)' },
+          { id: 'p', label: 'Político', icon: 'Vote', color: 'var(--c-ok)' },
         ], items: [
-          { id: 't1', text: 'La radio', bucket: 'antes' },
-          { id: 't2', text: 'Las redes sociales', bucket: 'nuevo' },
-          { id: 't3', text: 'El correo con cartas', bucket: 'antes' },
-          { id: 't4', text: 'Pagar con el celular', bucket: 'nuevo' },
-          { id: 't5', text: 'Las videollamadas', bucket: 'nuevo' },
+          { id: 't1', text: 'Trabajo de cuidado compartido en el hogar', bucket: 'f' },
+          { id: 't2', text: 'Participación en agricultura, fábricas y comercio', bucket: 'e' },
+          { id: 't3', text: 'Organización por el voto y acceso a cargos públicos', bucket: 'p' },
         ] },
       ),
       S.explain(
@@ -231,25 +235,25 @@ export default [
           ] },
       ),
       S.write(
-        { fase: 'aplicar', areas: ['ccss', 'l1'], cnb: ['ccss:3.2.1'], ambito: 'ser',
-          prompt: 'Escribe tu opinión: ¿el celular e internet han mejorado la vida en tu comunidad? Da **un efecto positivo**, **uno negativo** y **una regla** que propondrías para usarlos bien.' },
-        { minWords: 30, placeholder: 'Yo pienso que...', model: 'Yo pienso que el celular ha mejorado la vida en mi comunidad, pero hay que usarlo con cuidado. Un efecto positivo es que mi familia puede hablar con mi tío que trabaja en otro departamento. Un efecto negativo es que a veces pasamos mucho tiempo en la pantalla y ya no platicamos. Mi regla sería: nada de celulares durante la comida.',
-          rubric: ['Doy mi opinión con claridad', 'Menciono un efecto positivo y uno negativo', 'Propongo una regla concreta', 'Uso ejemplos de mi comunidad'] },
+        { fase: 'aplicar', areas: ['ccss', 'l1'], cnb: ['ccss:3.2.1', 'ccss:4.2.2'], ambito: 'ser',
+          prompt: 'Compara roles de las mujeres en dos épocas o culturas: incluye un cambio familiar, uno económico y uno político, y evita afirmar que todas tuvieron la misma experiencia.' },
+        { minWords: 30, placeholder: 'En el primer contexto... En el segundo...', model: 'En sociedades agrícolas las mujeres participaron en familia y producción. Con la industrialización aumentó el trabajo fabril; movimientos posteriores ampliaron voto y cargos, aunque persistieron desigualdades.',
+          rubric: ['Comparo dos contextos', 'Incluyo los tres ámbitos', 'Reconozco diversidad y desigualdades'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.1'], prompt: '¿Cuál ejemplo muestra un efecto de la tecnología en la **economía**?' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.1', 'ccss:4.2.2'], prompt: '¿Qué comparación reconoce cambios en roles familiares, económicos y políticos de las mujeres a través del tiempo?' },
         { options: [
-          { id: 'a', text: 'Una tejedora vende sus güipiles por internet a compradores de otros países' },
-          { id: 'b', text: 'Un grupo de amigos se burla de alguien en un chat' },
-          { id: 'c', text: 'Una familia escucha marimba en la radio' },
+          { id: 'a', text: 'Participaron en producción y familias desde épocas antiguas; luego ampliaron trabajo remunerado, educación, voto y cargos, con desigualdades persistentes' },
+          { id: 'b', text: 'Las mujeres nunca participaron en la economía antes del siglo XXI' },
+          { id: 'c', text: 'Todas las culturas asignaron exactamente los mismos roles' },
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.1'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.1', 'ccss:4.2.2'], prompt: 'Comprueba la evolución de roles familiares, económicos y políticos de las mujeres en culturas y épocas distintas.' },
         { statements: [
-          { text: 'Un mismo cambio tecnológico puede tener efectos positivos y negativos.', answer: true },
-          { text: 'La tecnología llega igual y al mismo tiempo a todos los lugares del mundo.', answer: false, why: 'Existe una brecha digital entre países y entre áreas urbanas y rurales.' },
-          { text: 'El ciberacoso es un problema de valores relacionado con la tecnología.', answer: true },
+          { text: 'Las mujeres participaron en actividades económicas antes de obtener iguales derechos políticos.', answer: true },
+          { text: 'La ampliación del voto y la educación eliminó de inmediato toda desigualdad.', answer: false },
+          { text: 'Los roles variaron según época, cultura y condición social.', answer: true },
         ] },
       ),
     ],
@@ -262,12 +266,13 @@ export default [
     icon: 'Ship',
     minutes: 15,
     gancho: 'El café que se cultiva en Huehuetenango puede terminar en una taza en Japón, y el celular de tu casa quizá se fabricó en Asia. ¿Cómo viajan los productos entre continentes?',
-    objetivos: ['Explicar cómo los sectores productivos conectan a Centroamérica con otros continentes'],
+    objetivos: ['Relacionar sectores productivos, actividades laborales y economía informal en Guatemala y Centroamérica'],
     resumen: [
       'Sector primario: obtiene recursos de la naturaleza (agricultura, ganadería, pesca, minería). Secundario: transforma materias primas (industria, maquilas, construcción). Terciario: ofrece servicios (comercio, transporte, turismo, educación, salud).',
       'Centroamérica exporta café, banano, azúcar, cardamomo, textiles y otros productos; Panamá ofrece el servicio de su canal y Costa Rica fabrica dispositivos médicos.',
       'Exportar es vender a otros países; importar es comprarles. Guatemala importa combustibles, maquinaria, medicinas y aparatos electrónicos.',
       'Los países firman tratados comerciales para facilitar ese intercambio. Estados Unidos es el principal socio comercial de Guatemala; también se comercia con México, Centroamérica, Europa y Asia.',
+      'En Guatemala hay trabajo agrícola, industrial, comercial y de servicios con condiciones diversas. La economía informal suele carecer de contrato, registro, prestaciones e ingresos estables; informal no significa necesariamente ilegal.',
     ],
     media: {
       id: 's03-ccss-3-rutas', kind: 'diagram', title: 'Rutas del comercio centroamericano', aspect: '16:9',
@@ -276,12 +281,14 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.4.1'], ambito: 'conocer', title: 'Los tres sectores de la economía',
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.4.1', 'ccss:4.1.1', 'ccss:4.1.5'], ambito: 'conocer', title: 'Sectores y condiciones de trabajo',
           prompt: 'Las **actividades económicas** son las que realizan las personas para producir bienes y servicios. Se agrupan en tres sectores. Toca cada tarjeta.' },
         { icon: 'Factory', body: 'Sigue un producto: el **café** se cultiva (primario), se tuesta y empaca (secundario) y se vende en una cafetería o se transporta (terciario).', reveal: [
           { icon: 'Wheat', front: 'Primario', back: 'Obtiene recursos **de la naturaleza**: agricultura, ganadería, pesca, minería. Ejemplo: cortar café en la finca.' },
           { icon: 'Factory', front: 'Secundario', back: '**Transforma** materias primas en productos: industria, maquilas de ropa, ingenios de azúcar, construcción.' },
           { icon: 'Store', front: 'Terciario', back: 'Ofrece **servicios**: comercio, transporte, turismo, bancos, educación, salud, centros de llamadas.' },
+          { icon: 'FileText', front: 'Trabajo formal', back: 'Suele tener registro, contrato, salario acordado y prestaciones; las condiciones concretas varían por actividad.' },
+          { icon: 'ShoppingBasket', front: 'Economía informal', back: 'Suele operar sin contrato o registro, con ingresos variables y sin prestaciones. Es un rasgo de las condiciones, no sinónimo de delito.' },
         ] },
       ),
       S.choice(
@@ -343,29 +350,29 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:3.4.1'], ambito: 'conocer',
-          prompt: 'Guatemala casi no tiene refinerías de petróleo, pero necesita gasolina para los buses y camiones. ¿Qué hace?',
-          explain: 'La **importa**. Con el dinero de lo que exporta (café, banano, textiles…), el país compra lo que no produce. Así se conecta con otros continentes.' },
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:3.4.1', 'ccss:4.1.1', 'ccss:4.1.5'], ambito: 'conocer',
+          prompt: 'Una vendedora compra fruta del sector primario y la ofrece sin contrato ni prestaciones, con ingresos que cambian cada día. ¿Cómo se relacionan actividad y condición laboral?',
+          explain: 'El comercio pertenece al sector terciario y los rasgos descritos corresponden a economía informal; eso no vuelve deshonesto el trabajo.' },
         { options: [
-          { id: 'a', text: 'Importa combustibles de otros países' },
-          { id: 'b', text: 'Exporta gasolina a Estados Unidos', feedback: 'Exportar es vender. Guatemala compra (importa) la mayor parte de sus combustibles.' },
-          { id: 'c', text: 'Deja de usar vehículos', feedback: 'Eso no es posible: el país depende del transporte. Por eso compra combustible afuera.' },
+          { id: 'a', text: 'Sector terciario y economía informal por falta de contrato, prestaciones e ingreso estable' },
+          { id: 'b', text: 'Sector primario y trabajo formal por vender un producto agrícola' },
+          { id: 'c', text: 'Actividad ilegal únicamente porque el ingreso varía' },
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.4.1'], prompt: 'Una maquila de Chimaltenango cose camisas que se venden en Estados Unidos. ¿A qué sector pertenece y qué tipo de comercio es?' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.4.1', 'ccss:4.1.1', 'ccss:4.1.5'], prompt: 'Una maquila registrada transforma tela, paga salario y exporta camisas. ¿Qué relación describe actividad y condición de trabajo?' },
         { options: [
-          { id: 'a', text: 'Sector secundario; es una exportación' },
-          { id: 'b', text: 'Sector primario; es una importación' },
-          { id: 'c', text: 'Sector terciario; es una importación' },
+          { id: 'a', text: 'Sector secundario, exportación y empleo con rasgos formales' },
+          { id: 'b', text: 'Sector primario, importación y economía informal' },
+          { id: 'c', text: 'Sector terciario porque toda fábrica presta servicios' },
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.4.1'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.4.1', 'ccss:4.1.1', 'ccss:4.1.5'], prompt: 'Comprueba sectores productivos, actividades y condiciones de trabajo formal e informal.' },
         { statements: [
-          { text: 'El Canal de Panamá une el océano Atlántico con el Pacífico.', answer: true },
-          { text: 'Importar significa vender productos a otro país.', answer: false, why: 'Importar es comprar; exportar es vender.' },
-          { text: 'Estados Unidos es el principal socio comercial de Guatemala.', answer: true },
+          { text: 'Agricultura, industria y servicios pueden tener condiciones laborales distintas.', answer: true },
+          { text: 'La economía informal suele carecer de contrato y prestaciones.', answer: true },
+          { text: 'Informal significa necesariamente delictivo.', answer: false },
         ] },
       ),
       cierre({ areas: ['ccss'], cnb: [] }, ['Comparo los medios de comunicación y transporte de culturas antiguas', 'Analizo los efectos de la tecnología en la economía, la cultura y los valores', 'Explico qué produce Centroamérica y con quién comercia'],

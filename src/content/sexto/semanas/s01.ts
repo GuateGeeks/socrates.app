@@ -219,11 +219,16 @@ export default semana({
           ] },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.4'], prompt: 'Escuchas: “Busca una maceta, coloca tierra hasta la mitad y abre un hoyo pequeño…”. ¿Qué información es más probable que siga?' },
+          { fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.4', 'l2:1.2.6'], prompt: 'Escucha el aviso, anticipa qué información seguirá e identifica si la intención comunica un hecho o una opinión.',
+            media: {
+              id: 's01-reto-l2-aviso', kind: 'audio', title: 'Aviso sobre un desvío local', duration: 12,
+              alt: 'Audio breve de un aviso comunitario sobre una ruta; la transcripción se ofrece después de responder.',
+              brief: 'Audio MP3 de una voz adulta, acento guatemalteco y ritmo pausado. Texto exacto: "Según el mapa municipal, la calle del puente estará cerrada mañana... use la ruta junto al mercado." Dejar una pausa de 3 segundos después de "mañana" para anticipar y 2 segundos de silencio final. Duración: 12 s. Transcripción disponible después de responder o por mediación docente para accesibilidad. Reemplazo: public/media/s01-reto-l2-aviso.mp3.',
+            } },
           { options: [
-            { id: 'a', text: 'Los pasos para colocar y cuidar una semilla' },
-            { id: 'b', text: 'El resultado de un partido de fútbol' },
-            { id: 'c', text: 'Una leyenda sobre un volcán' },
+            { id: 'a', text: 'Seguirá una ruta alternativa; la intención es comunicar un hecho' },
+            { id: 'b', text: 'Seguirá un gusto sobre el puente; la intención es opinar' },
+            { id: 'c', text: 'Seguirá una receta; la intención es explicar una preferencia' },
           ], correct: ['a'] },
         ),
         S.fill(

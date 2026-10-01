@@ -1,300 +1,48 @@
-/**
- * L2 (español como segundo idioma) · Unidad 1 · Semana 1
- * Escuchar con intención: distinguir hechos de opiniones y anticipar lo que dirá un mensaje.
- */
+/** L2 (espanol como segundo idioma) · Unidad 1 · Semana 1. */
 import { lesson, S } from '../../../../dsl';
 
+const audio = (id: string, script: string, title: string) => ({
+  id, kind: 'audio' as const, title, duration: 12,
+  alt: 'Audio breve de un mensaje oral sobre un lugar de la comunidad; la transcripcion se ofrece despues de responder.',
+  brief: `Audio MP3 de una voz adulta, acento guatemalteco y ritmo pausado. Texto exacto: "${script}" Dejar una pausa de 3 segundos despues de la primera oracion para anticipar y 2 segundos de silencio final. Duracion: 12 s. Transcripcion disponible despues de responder o por mediacion docente para accesibilidad. Reemplazo: public/media/${id}.mp3.`,
+});
+
 export default [
-  // ───────────────────────────── Lección 1 ─────────────────────────────
   lesson({
-    id: 's01-l2-1',
-    title: '¿Hecho u opinión?',
-    icon: 'Scale',
-    minutes: 13,
-    gancho: 'Tu primo dice: "El volcán de Agua mide casi 3,800 metros". Tu tía dice: "Es el volcán más bonito de Guatemala". ¿Las dos frases son iguales?',
-    objetivos: [
-      'Explicar qué es un hecho y qué es una opinión',
-      'Reconocer las palabras que avisan que alguien está opinando',
-      'Clasificar mensajes que escuchas o lees como hechos u opiniones',
-      'Elaborar mensajes informativos, expositivos y argumentativos breves',
-    ],
-    resumen: [
-      'Un hecho es algo que se puede comprobar: se puede ver, medir, contar o consultar en una fuente confiable.',
-      'Una opinión es lo que una persona piensa o siente; otra persona puede pensar distinto.',
-      'Palabras pista de opinión: creo, pienso, me parece, en mi opinión, bonito, feo, mejor, peor, delicioso, aburrido.',
-      'Un mensaje puede mezclar hechos y opiniones: escucha con atención para separarlos.',
-    ],
-    media: {
-      id: 's01-l2-1-dos-frases', kind: 'animation', title: 'La lupa de los hechos', aspect: '16:9', duration: 45,
-      alt: 'Dos globos de diálogo salen de dos personas frente a un volcán. Una lupa pasa sobre cada globo: uno se marca "Se puede comprobar" y el otro "Es lo que alguien piensa".',
-      brief: 'Animación 2D de 45 s. Paisaje sencillo con un volcán cónico al fondo (sin rótulos de marcas). Un joven y una señora conversan. Globo 1: "El volcán mide casi 3,800 metros". Globo 2: "Es el volcán más bonito". Una lupa amarilla pasa sobre el globo 1 y aparece una cinta métrica y un libro con el texto "HECHO: se puede comprobar". Pasa sobre el globo 2 y aparece un corazón y el texto "OPINIÓN: es lo que alguien piensa". Cierre: las palabras "creo, me parece, bonito, mejor" brillan como pistas. Narración en español de Guatemala, pausada, con subtítulos.',
-    },
+    id: 's01-l2-1', title: 'Tres mensajes para orientar', icon: 'MessagesSquare', minutes: 14,
+    gancho: 'Un mismo mapa puede servir para informar, explicar o defender una propuesta.',
+    objetivos: ['Producir mensajes informativos, expositivos y argumentativos breves sobre el lugar local y su mapa'],
+    resumen: ['El informativo comunica datos verificables.', 'El expositivo explica como o por que.', 'El argumentativo presenta una postura con una razon.'],
+    media: { id: 's01-l2-1-mensajes', kind: 'diagram', title: 'Tres propositos en un mapa local', aspect: '16:9', alt: 'Mapa local con tres globos rotulados informar, explicar y argumentar.', brief: 'Diagrama 1600x900 de un mapa local ficticio con escuela, parque, mercado y puente. Tres globos: dato verificable, explicacion de una ruta y postura con razon. Texto grande, alto contraste, iconos ademas de color y lectura lineal accesible.' },
     steps: [
-      S.explain(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'conocer', title: 'Hechos y opiniones',
-          prompt: 'Cuando escuchas la radio, lees un anuncio o conversas, recibes **dos clases de mensajes**. Toca cada tarjeta.' },
-        { icon: 'Scale', body: 'La pregunta clave es: **¿se puede comprobar?** Si sí, es un hecho. Si depende de lo que alguien piensa o siente, es una opinión.', reveal: [
-          { icon: 'Ruler', front: 'Hecho', back: 'Algo que **se puede comprobar**: se ve, se mide, se cuenta o se consulta en una fuente confiable. Ejemplo: "El mercado abre los jueves".' },
-          { icon: 'Heart', front: 'Opinión', back: 'Lo que una persona **piensa o siente**. Otra persona puede pensar distinto. Ejemplo: "El mercado es muy divertido".' },
-          { icon: 'Search', front: 'Palabras pista', back: 'Avisan que es opinión: **creo, pienso, me parece, en mi opinión**, y adjetivos que juzgan: **bonito, feo, mejor, peor, delicioso, aburrido**.' },
-          { icon: 'Info', front: '¡Ojo!', back: 'Un hecho puede resultar **falso** al comprobarlo: "Guatemala tiene 50 departamentos" se puede revisar… y es falso (tiene 22). Sigue siendo una frase comprobable.' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.2'], ambito: 'hacer', title: 'Tres intenciones',
-          prompt: 'Antes de escribir, decide si el mensaje sera informativo, expositivo o argumentativo.' },
-        { icon: 'MessagesSquare', body: 'Un mensaje **informativo** comunica un dato comprobable; uno **expositivo** explica como o por que ocurre algo; uno **argumentativo** presenta una opinion y una razon para convencer. Los tres deben distinguir hechos de opiniones.' },
-      ),
-      S.choice(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'conocer',
-          prompt: 'Lee estas dos frases sobre el lago de Atitlán. ¿Cuál se puede **comprobar** consultando un mapa?',
-          explain: 'Cualquiera puede revisar un mapa y ver que Atitlán está en Sololá. En cambio, "el más bonito" depende de quién lo diga. Hoy aprenderás a separar estas dos clases de mensajes.' },
-        { options: [
-          { id: 'a', text: 'El lago de Atitlán está en el departamento de Sololá.', icon: 'MapPin' },
-          { id: 'b', text: 'El lago de Atitlán es el lugar más bonito del mundo.', icon: 'Heart', feedback: '¿Cómo lo comprobarías? A una persona le puede parecer el más bonito y a otra no. Eso es lo que alguien siente.' },
-        ], correct: ['a'] },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.6', 'l2:1.2.2'], ambito: 'hacer', title: 'Ejemplo resuelto',
-          prompt: 'Mira cómo se analiza un mensaje que **mezcla** hecho y opinión.' },
-        { icon: 'Radio', problem: 'En la radio dicen: _"En Chichicastenango hay mercado los jueves y los domingos. Creo que es el mercado más alegre del país."_ ¿Qué parte es hecho y qué parte es opinión?',
-          steps: [
-            { text: 'Separo el mensaje en dos oraciones.', why: 'Cada oración puede tener una intención distinta.' },
-            { text: 'Oración 1: "hay mercado los jueves y los domingos". ¿Se puede comprobar? Sí: basta ir o preguntar en el pueblo. → **Hecho**.' },
-            { text: 'Oración 2: empieza con **"Creo que"** y dice **"el más alegre"**. ¿Se puede medir la alegría de un mercado? No. → **Opinión**.', why: '"Creo" y "el más alegre" son palabras pista.' },
-          ],
-          answer: 'La primera oración es un **hecho**; la segunda es una **opinión**.',
-          tip: 'Pregúntate siempre: ¿cómo lo comprobaría? Si no hay forma, es una opinión.' },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'hacer',
-          prompt: 'Ahora tú, con ayuda: ¿cada oración es un **hecho** o una **opinión**?',
-          hint: 'Busca palabras pista como "creo", "mejor" o "delicioso". Si no hay, pregúntate: ¿cómo lo comprobaría?',
-          explain: 'Los hechos se pueden revisar (en un mapa, un calendario, con una medida). Las opiniones expresan gustos o juicios.' },
-        { buckets: [
-          { id: 'h', label: 'Hecho', icon: 'Ruler', color: 'var(--c-ok)' },
-          { id: 'o', label: 'Opinión', icon: 'Heart', color: 'var(--c-maiz-strong)' },
-        ], items: [
-          { id: 'x1', text: 'Guatemala tiene 22 departamentos.', bucket: 'h' },
-          { id: 'x2', text: 'El pepián es la comida más deliciosa.', bucket: 'o' },
-          { id: 'x3', text: 'El 15 de septiembre se celebra la Independencia.', bucket: 'h' },
-          { id: 'x4', text: 'Me parece que el fútbol es aburrido.', bucket: 'o' },
-          { id: 'x5', text: 'El quetzal es el ave nacional de Guatemala.', bucket: 'h' },
-          { id: 'x6', text: 'Las marimbas suenan mejor que las guitarras.', bucket: 'o', feedback: '"Mejor" es un juicio: depende del gusto de cada quien.' },
-        ] },
-      ),
-      S.highlight(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'hacer',
-          prompt: 'Toca las **palabras pista de opinión** que dice esta locutora.',
-          hint: 'Hay palabras que dicen "yo pienso" y adjetivos que juzgan (bonito, mejor…). Son 4.',
-          explain: '"Pienso", "hermoso", "mejor" y "me parece" muestran lo que la locutora siente. Lo demás (la fecha, el lugar, la hora) se puede comprobar.' },
-        { target: 'palabras pista', text: 'Buenos días, Cobán. El sábado habrá feria en el parque central, desde las 9 de la mañana. {Pienso} que será un día {hermoso}. Habrá venta de cardamomo y de café. Es la {mejor} feria del año, y {me parece} que nadie debe perdérsela.' },
-      ),
-      S.reading(
-        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'hacer', title: 'Lectura',
-          prompt: 'Lee este anuncio que se escuchó en la radio de la comunidad y responde.' },
-        { genre: 'Anuncio', heading: 'Feria del maíz en San Juan', passage:
-          '¡Atención, vecinos de San Juan! Este domingo 12 se realizará la Feria del Maíz en la cancha municipal. Empezará a las 8 de la mañana y terminará a las 4 de la tarde.\n\nHabrá venta de atol blanco, tamalitos de chipilín y elotes cocidos. La entrada es gratuita. Las familias pueden llevar sus propias semillas para intercambiarlas.\n\n¡No se la pierdan! Creemos que es la feria más sabrosa de todo el departamento, y los tamalitos de doña Chus son, sin duda, los mejores del mundo.',
-          questions: [
-            { q: '¿Cuál de estas frases del anuncio es un **hecho**?', options: [
-              { id: 'a', text: 'La entrada es gratuita.' },
-              { id: 'b', text: 'Es la feria más sabrosa del departamento.' },
-              { id: 'c', text: 'Los tamalitos de doña Chus son los mejores del mundo.' },
-            ], correct: 'a', why: 'Se puede comprobar al llegar a la feria: nadie cobra la entrada.' },
-            { q: '¿Qué palabras del último párrafo avisan que es una **opinión**?', options: [
-              { id: 'a', text: '"Creemos", "más sabrosa" y "los mejores"' },
-              { id: 'b', text: '"Domingo 12" y "cancha municipal"' },
-              { id: 'c', text: '"8 de la mañana" y "4 de la tarde"' },
-            ], correct: 'a', why: 'Son palabras pista: una expresa lo que piensan y las otras juzgan.' },
-            { q: '¿Por qué crees que el anuncio agrega opiniones al final?', options: [
-              { id: 'a', text: 'Para animar a la gente a ir a la feria' },
-              { id: 'b', text: 'Para dar la fecha exacta' },
-              { id: 'c', text: 'Para explicar cómo se cocina el maíz' },
-            ], correct: 'a', why: 'Los anuncios usan opiniones para convencer. Por eso conviene separar lo que se puede comprobar de lo que alguien quiere que pienses.' },
-          ] },
-      ),
-      S.choice(
-        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'hacer',
-          prompt: 'Tu compañera quiere dar **solo hechos** en su informe sobre el río de su comunidad. ¿Qué oración debe quitar?',
-          explain: '"Es el río más lindo" es un juicio personal. Las otras tres se pueden comprobar observando o midiendo.' },
-        { options: [
-          { id: 'a', text: 'El río pasa detrás de la escuela.', feedback: 'Esto se puede comprobar con solo mirar: es un hecho.' },
-          { id: 'b', text: 'En marzo el río lleva menos agua que en julio.', feedback: 'Se puede observar y medir en cada mes: es un hecho.' },
-          { id: 'c', text: 'Es el río más lindo que existe.' },
-          { id: 'd', text: 'Algunas familias lavan ropa en el río.', feedback: 'Se puede observar: es un hecho.' },
-        ], correct: ['c'] },
-      ),
-      S.write(
-        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.6', 'l2:1.2.2'], ambito: 'hacer',
-          prompt: 'Con el caso de la cancha, elabora tres mensajes breves: uno informativo con un hecho, uno expositivo que explique una causa y uno argumentativo con opinion y razon.' },
-        { minWords: 18, placeholder: 'Informativo: … Expositivo: … Argumentativo: …',
-          model: 'Informativo: la cancha abre a las ocho. Expositivo: abre temprano porque hay entrenamiento. Argumentativo: conviene limpiarla porque todas las familias la usan.',
-          rubric: ['Comunique un hecho en el informativo', 'Explique una causa en el expositivo', 'Inclui opinion y razon en el argumentativo'] },
-      ),
-      S.tf(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.6'], prompt: 'Boleto de salida: ¿verdadero o falso?' },
-        { statements: [
-          { text: '"El Tajumulco es el volcán más alto de Centroamérica" es un hecho, porque se puede comprobar con mediciones.', answer: true },
-          { text: '"Me parece que llueve demasiado" es un hecho.', answer: false, why: '"Me parece" y "demasiado" muestran lo que la persona siente: es opinión.' },
-          { text: 'Si un hecho resulta falso al comprobarlo, se convierte en opinión.', answer: false, why: 'Sigue siendo una afirmación comprobable; simplemente es falsa.' },
-        ] },
-      ),
-      S.choice(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.6', 'l2:1.2.2'], prompt: 'Escuchas: _"El recreo dura 30 minutos; deberia durar mas porque necesitamos movernos."_ ¿Que combina este mensaje argumentativo?' },
-        { options: [
-          { id: 'a', text: 'Solo hechos' },
-          { id: 'b', text: 'Solo opiniones' },
-          { id: 'c', text: 'Un hecho y una opinión' },
-        ], correct: ['c'] },
-      ),
+      S.explain({ fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.2'], prompt: 'Produce mensajes informativos, expositivos y argumentativos sobre un lugar o mapa segun el proposito.' }, { icon: 'Goal', body: '**Informativo:** da un dato. **Expositivo:** explica como o por que. **Argumentativo:** propone una postura y la apoya con una razon.' }),
+      S.explain({ fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.2'], title: 'Proposito y forma', prompt: 'Para redactar cada mensaje sobre la comunidad, elige primero su proposito.' }, { icon: 'ListTree', body: 'Informar: "La biblioteca esta al norte del parque". Exponer: "La flecha norte permite orientar la ruta". Argumentar: "Conviene senalar el cruce porque ayuda a caminar con seguridad".' }),
+      S.ejemplo({ fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.2'], title: 'Modelo de produccion', prompt: 'Observa como se producen tres mensajes distintos sobre el mismo mapa local.' }, { icon: 'Map', problem: 'El mapa muestra una escuela, un puente y un sendero.', steps: [{ text: 'Informativo: La escuela esta al este del puente.' }, { text: 'Expositivo: El sendero llega a la escuela porque conecta con el puente.' }, { text: 'Argumentativo: Debemos marcar el puente, pues es una referencia util.' }], answer: 'Cada mensaje mantiene el tema y cambia su forma segun el proposito.' }),
+      S.write({ fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.2'], prompt: 'Con ayuda, produce mensajes informativos, expositivos y argumentativos sobre el mapa de una comunidad: escuela al norte, parque al centro y mercado al sur.', hint: 'Usa dato; como o por que; postura mas razon.', explain: 'Los tres mensajes tratan el mapa, pero cumplen propositos diferentes.' }, { minWords: 21, placeholder: 'Informativo: ... Expositivo: ... Argumentativo: ...', model: 'Informativo: la escuela esta al norte. Expositivo: el parque orienta porque queda al centro. Argumentativo: conviene marcar el mercado porque guia la ruta.', rubric: ['Produje los tres mensajes', 'Ajuste cada forma al proposito', 'Mantuve el tema local'] }),
+      S.choice({ fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.2'], prompt: 'Para producir un mensaje informativo, otro expositivo y otro argumentativo sobre una ruta local, ¿que plan sirve mejor?', hint: 'Busca dato, explicacion y postura con razon.', explain: 'El plan A distingue los tres propositos y conserva el tema del mapa.' }, { options: [{ id: 'a', text: 'Dato de ubicacion; explicacion del recorrido; propuesta con una razon' }, { id: 'b', text: 'Tres opiniones sin evidencia' }, { id: 'c', text: 'Tres listas de nombres sin proposito' }], correct: ['a'] }),
+      S.write({ fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.2'], prompt: 'Produce de forma independiente un mensaje informativo, uno expositivo y uno argumentativo sobre una plaza, una parada y una calle representadas en un mapa local.' }, { minWords: 24, placeholder: 'Informativo: ... Expositivo: ... Argumentativo: ...', model: 'Informativo: la parada esta junto a la plaza. Expositivo: la calle une ambos puntos. Argumentativo: conviene marcar el cruce porque aclara el recorrido.', rubric: ['Inclui un dato', 'Explique una relacion', 'Defendi una propuesta con razon'] }),
+      S.choice({ fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.2'], prompt: 'Al producir mensajes informativos, expositivos y argumentativos sobre el mapa del barrio, ¿cual inicio corresponde al proposito argumentativo?' }, { options: [{ id: 'a', text: 'Propongo marcar la fuente porque ayuda a reconocer la plaza.' }, { id: 'b', text: 'La fuente esta frente al edificio municipal.' }, { id: 'c', text: 'La fuente orienta la ruta al funcionar como referencia.' }], correct: ['a'] }),
+      S.choice({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.2'], prompt: 'Para producir mensajes informativos, expositivos y argumentativos sobre un mapa local, elige la opcion expositiva.' }, { options: [{ id: 'a', text: 'El sendero aparece con linea punteada.' }, { id: 'b', text: 'La linea punteada permite distinguir el sendero de la calle.' }, { id: 'c', text: 'Deberiamos usar esa linea porque se entiende mejor.' }], correct: ['b'] }),
+      S.tf({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.2'], prompt: 'Para producir mensajes informativos, expositivos y argumentativos sobre la comunidad, comprueba cada decision de proposito.' }, { statements: [{ text: 'El informativo puede comunicar una ubicacion verificable.', answer: true }, { text: 'El expositivo explica como o por que.', answer: true }, { text: 'El argumentativo prescinde de razones.', answer: false }] }),
     ],
   }),
 
-  // ───────────────────────────── Lección 2 ─────────────────────────────
   lesson({
-    id: 's01-l2-2',
-    title: 'Escucho y anticipo',
-    icon: 'Ear',
-    minutes: 14,
-    gancho: 'Cuando alguien en el parlante de la aldea dice "¡Atención, vecinos!", ¿ya sabes más o menos qué va a pasar?',
-    objetivos: [
-      'Usar pistas del mensaje para anticipar lo que va a decir',
-      'Reconocer cómo empiezan distintos tipos de mensajes',
-      'Comprobar si tu predicción fue correcta',
-    ],
-    resumen: [
-      'Anticipar es imaginar lo que viene en un mensaje antes de escucharlo o leerlo completo.',
-      'Pistas para anticipar: quién habla y dónde, las primeras palabras, el tono de voz y lo que ya sabes del tema.',
-      'Cada tipo de mensaje tiene inicios típicos: "Había una vez…" (cuento), "Se les informa…" (aviso), "Ingredientes:" (receta).',
-      'Después de anticipar, sigue escuchando para comprobar o corregir tu idea.',
-    ],
-    media: {
-      id: 's01-l2-2-parlante', kind: 'audio', title: 'Avisos de la comunidad', duration: 50,
-      alt: 'Tres avisos grabados como si sonaran en el parlante de una aldea: uno sobre el agua, uno sobre vacunación y uno sobre la lluvia.',
-      brief: 'Audio de 50 s con efecto de parlante al aire libre (leve eco, gallos y perros lejanos, sin música comercial). Voz adulta clara, ritmo pausado, español de Guatemala. Aviso 1: "¡Atención, vecinos! Se les informa que mañana no habrá servicio de agua de 8 de la mañana a 2 de la tarde. Llenen sus toneles desde hoy." Pausa de 2 s. Aviso 2: "Se les recuerda a las mamás y papás que el jueves habrá jornada de vacunación en el puesto de salud. Traigan el carné de sus hijos." Pausa. Aviso 3: "Atención: el pronóstico anuncia lluvia fuerte esta tarde. Eviten cruzar el río." Incluir una versión con un silencio de 3 s después de la primera frase de cada aviso, para que el niño anticipe.',
-    },
+    id: 's01-l2-2', title: 'Escucho, anticipo e identifico la intencion', icon: 'Ear', minutes: 15,
+    gancho: 'Las primeras palabras y el tono pueden anunciar que viene y para que se dice.',
+    objetivos: ['Anticipar el contenido de un mensaje oral e identificar su intencion como hecho u opinion'],
+    resumen: ['Anticipar usa las primeras palabras, el tono y el tema.', 'Un hecho comunica algo comprobable; una opinion expresa una valoracion.', 'Despues de anticipar, se escucha el final para confirmar o corregir.'],
+    media: { id: 's01-l2-2-ruta-escucha', kind: 'diagram', title: 'Ruta para escuchar con intencion', aspect: '16:9', alt: 'Tres pasos: anticipar con pistas, escuchar el cierre e identificar hecho u opinion.', brief: 'Diagrama educativo 1600x900 con tres pasos numerados: pistas iniciales para anticipar, escucha completa para confirmar o corregir, e intencion de hecho comprobable u opinion valorativa. Usar ondas de audio e iconos descriptivos, texto grande, alto contraste, patrones ademas de color y orden de lectura accesible.' },
     steps: [
-      S.explain(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'conocer', title: '¿Qué es anticipar?',
-          prompt: '**Anticipar** es imaginar lo que viene en un mensaje **antes** de oírlo completo. Los buenos oyentes lo hacen todo el tiempo. Toca cada pista.' },
-        { icon: 'Ear', body: 'Anticipar te ayuda a **entender más rápido** y a **reaccionar a tiempo** (por ejemplo, ante un aviso de lluvia fuerte).', reveal: [
-          { icon: 'Radio', front: 'Quién habla y dónde', back: 'Un locutor del noticiero, la directora en la formación, el parlante de la aldea: cada uno suele hablar de ciertos temas.' },
-          { icon: 'MessageCircle', front: 'Las primeras palabras', back: '"Había una vez…" anuncia un cuento. "Se les informa…" anuncia un aviso. "Primero, lava…" anuncia instrucciones.' },
-          { icon: 'Volume2', front: 'El tono de voz', back: 'Una voz rápida y seria anuncia algo urgente. Una voz alegre anuncia una fiesta o una buena noticia.' },
-          { icon: 'Brain', front: 'Lo que ya sabes', back: 'Si sabes que es época de lluvia y oyes "pronóstico", ya imaginas qué vendrá.' },
-          { icon: 'CheckCircle', front: 'Comprobar', back: 'Después de anticipar, **sigue escuchando** para confirmar o corregir tu idea. Anticipar no es adivinar sin pistas.' },
-        ] },
-      ),
-      S.choice(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'conocer',
-          prompt: 'Escuchas por el parlante: _"¡Atención, vecinos! Se les informa que mañana no habrá servicio de agua de 8 de la mañana a…"_ Antes de que termine, ¿qué crees que dirá después?',
-          explain: 'Aunque el mensaje no había terminado, ya tenías pistas: "no habrá agua" y "de 8 de la mañana a…". Eso se llama **anticipar**, y hoy vas a practicarlo.' },
-        { options: [
-          { id: 'a', text: 'Una hora de regreso del agua y un consejo, como llenar toneles', icon: 'Droplets' },
-          { id: 'b', text: 'Un chiste sobre el agua', icon: 'Smile', feedback: 'Un aviso que empieza con "¡Atención, vecinos!" suele ser serio y útil, no un chiste.' },
-          { id: 'c', text: 'El resultado de un partido de fútbol', icon: 'Trophy', feedback: 'El mensaje habla del servicio de agua; es poco probable que cambie de tema.' },
-        ], correct: ['a'] },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'hacer', title: 'Ejemplo resuelto',
-          prompt: 'Mira cómo anticipa Ana mientras escucha a la directora en la formación del lunes.' },
-        { icon: 'School', problem: 'La directora empieza: _"Queridos estudiantes: este viernes no habrá clases normales, porque celebraremos…"_ ¿Qué dirá después?',
-          steps: [
-            { text: 'Pista 1: habla la **directora** en la formación. Suele dar avisos de la escuela.' },
-            { text: 'Pista 2: dice **"no habrá clases normales"** y **"celebraremos"**. Viene una actividad especial.', why: '"Celebrar" anuncia una fiesta o un acto, no un problema.' },
-            { text: 'Pista 3: Ana sabe que se acerca el Día del Niño (1 de octubre).', why: 'Lo que ya sabes también es una pista.' },
-            { text: 'Ana anticipa: "Dirá qué vamos a celebrar y qué debemos traer". Sigue escuchando y la directora dice: "…el Día del Niño. Traigan ropa cómoda y su refacción". ¡Acertó!' },
-          ],
-          answer: 'Ana usó **quién habla**, las **primeras palabras** y **lo que ya sabía** para anticipar, y luego **comprobó**.',
-          tip: 'Anticipa con pistas y luego escucha para comprobar.' },
-      ),
-      S.match(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'hacer',
-          prompt: 'Ahora tú, con ayuda: une cada **inicio de mensaje** con lo que probablemente viene después.',
-          hint: 'Fíjate en la primera palabra importante de cada inicio: "Había una vez", "Ingredientes", "Se busca"…',
-          explain: 'Cada tipo de mensaje tiene inicios típicos. Reconocerlos te permite anticipar su contenido.' },
-        { leftTitle: 'Empieza así…', rightTitle: 'Probablemente sigue…', pairs: [
-          { id: 'm1', left: '"Había una vez, en un pueblo junto al lago…"', leftIcon: 'BookOpen', right: 'Personajes y una aventura' },
-          { id: 'm2', left: '"Ingredientes: dos tazas de masa…"', leftIcon: 'Utensils', right: 'Los pasos para cocinar algo' },
-          { id: 'm3', left: '"Se busca perrito café, responde al nombre de Canelo…"', leftIcon: 'Dog', right: 'Dónde se perdió y un teléfono de contacto' },
-          { id: 'm4', left: '"Última hora: se registró un sismo…"', leftIcon: 'Newspaper', right: 'Dónde ocurrió y si hubo daños' },
-        ] },
-      ),
-      S.choice(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'hacer',
-          prompt: 'Escucha el aviso. En la radio dicen: _"Una depresión tropical se acerca a la costa del Pacífico y se espera lluvia fuerte durante tres días…"_ ¿Qué es más probable que digan a continuación?',
-          hint: 'Cuando un aviso anuncia un peligro, ¿qué suele venir después?',
-          explain: 'Después de anunciar un peligro, los avisos casi siempre dan **recomendaciones de seguridad**.',
-          media: { id: 's01-l2-2-pronostico', kind: 'audio', title: 'Pronóstico en la radio', duration: 25,
-            alt: 'Voz de locutora que lee un pronóstico del tiempo y se detiene antes de las recomendaciones.',
-            brief: 'Audio de 25 s. Locutora adulta, tono serio pero tranquilo, español de Guatemala. Texto exacto: "Buenas tardes. Una depresión tropical se acerca a la costa del Pacífico y se espera lluvia fuerte durante tres días en Escuintla, Retalhuleu y San Marcos…". Termina con 3 s de silencio (para que el niño anticipe). Versión 2 que continúa: "…Se recomienda no cruzar ríos crecidos y tener lista una mochila de emergencia." Sonido suave de lluvia al fondo, sin música.' } },
-        { options: [
-          { id: 'a', text: 'Recomendaciones: no cruzar ríos crecidos y preparar una mochila de emergencia', icon: 'ShieldAlert' },
-          { id: 'b', text: 'Que ya no lloverá nunca más en la costa', icon: 'Sun', feedback: 'Eso contradice lo que acaba de decir: se espera lluvia fuerte.' },
-          { id: 'c', text: 'Una receta de atol de elote', icon: 'Utensils', feedback: 'El tema es el clima y la seguridad; no hay pistas de cocina.' },
-        ], correct: ['a'] },
-      ),
-      S.order(
-        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'hacer',
-          prompt: 'Los avisos de radio casi siempre siguen el mismo orden. Si lo conoces, sabes qué viene después. Ordena las partes de este aviso.',
-          explain: 'Saludo → aviso principal → detalles → recomendación → despedida. Conocer esta estructura te permite anticipar cada parte.' },
-        { labels: { start: 'Empieza', end: 'Termina' }, items: [
-          { id: 'o1', text: '"Buenos días, comunidad de Santa Cruz."', icon: 'Radio' },
-          { id: 'o2', text: '"Se les informa que el jueves habrá jornada de vacunación."', icon: 'Megaphone' },
-          { id: 'o3', text: '"Será en el puesto de salud, de 8 a 12 del mediodía."', icon: 'Clock' },
-          { id: 'o4', text: '"Traigan el carné de vacunación de sus hijos."', icon: 'ClipboardList' },
-          { id: 'o5', text: '"Muchas gracias por su atención."', icon: 'Handshake' },
-        ] },
-      ),
-      S.reading(
-        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'hacer', title: 'Lectura con pausa',
-          prompt: 'Lee este cuento. Se detiene en un momento importante. Usa las pistas para **anticipar** lo que pasará.' },
-        { genre: 'Cuento', heading: 'La tormenta de Rosita', passage:
-          'Rosita cuidaba las ovejas de su abuelo en el cerro. Esa tarde, el cielo se puso gris oscuro y el viento empezó a soplar muy fuerte. Las ovejas se juntaron, nerviosas.\n\nDesde lejos, Rosita oyó un trueno. Recordó lo que siempre le decía su abuelo: "Cuando truena en el cerro, no te quedes bajo un árbol solo; baja por el camino y busca la casa".\n\nRosita tomó su vara, llamó a las ovejas por su nombre y…',
-          questions: [
-            { q: '¿Qué es más probable que haga Rosita?', options: [
-              { id: 'a', text: 'Bajar con las ovejas por el camino hacia la casa' },
-              { id: 'b', text: 'Quedarse dormida debajo de un árbol' },
-              { id: 'c', text: 'Irse a jugar al río' },
-            ], correct: 'a', why: 'Las pistas son el consejo del abuelo y que tomó su vara y llamó a las ovejas: se prepara para bajar.' },
-            { q: '¿Qué pista del texto te ayudó **más** a anticipar?', options: [
-              { id: 'a', text: 'El consejo del abuelo que Rosita recordó' },
-              { id: 'b', text: 'Que las ovejas eran del abuelo' },
-              { id: 'c', text: 'Que el cuento se llama "La tormenta de Rosita"' },
-            ], correct: 'a', why: 'El título ayuda a saber que habrá tormenta, pero el consejo dice exactamente qué debe hacer.' },
-          ] },
-      ),
-      S.choice(
-        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.4', 'l2:1.2.6'], ambito: 'hacer',
-          prompt: 'Un vendedor dice con voz alegre: _"¡Pásele, pásele! Hoy tenemos oferta…"_ ¿Qué anticipas y qué tipo de mensaje escucharás?',
-          explain: 'La voz alegre y "oferta" anuncian un mensaje para **vender**: precios y opiniones que buscan convencerte ("¡la mejor fruta!"). Recuerda separar hechos de opiniones.' },
-        { options: [
-          { id: 'a', text: 'Precios bajos y frases como "¡la fruta más dulce!", que son opiniones para convencerme' },
-          { id: 'b', text: 'Un aviso de emergencia por un incendio', feedback: 'El tono alegre y la palabra "oferta" no anuncian una emergencia.' },
-          { id: 'c', text: 'Instrucciones para vacunar a los perros', feedback: 'No hay pistas de ese tema: el vendedor habla de ofertas.' },
-        ], correct: ['a'] },
-      ),
-      S.choice(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.4'], prompt: 'Boleto de salida: escuchas _"Primero, lava bien las manzanas. Después, córtalas en trocitos…"_ ¿Qué vendrá después?' },
-        { options: [
-          { id: 'a', text: 'Más pasos para preparar algo con las manzanas' },
-          { id: 'b', text: 'La historia de un príncipe' },
-          { id: 'c', text: 'El resultado de una elección' },
-        ], correct: ['a'] },
-      ),
-      S.tf(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.4'], prompt: '¿Verdadero o falso?' },
-        { statements: [
-          { text: 'Anticipar es imaginar lo que viene en un mensaje usando pistas.', answer: true },
-          { text: 'El tono de voz no da ninguna pista sobre el mensaje.', answer: false, why: 'Una voz urgente o alegre ya te dice mucho de lo que viene.' },
-          { text: 'Después de anticipar, conviene seguir escuchando para comprobar.', answer: true },
-        ] },
-      ),
-      S.reflect(
-        { fase: 'reflexionar', areas: ['l2'], cnb: [], ambito: 'ser', prompt: '¿Cómo te fue esta semana?' },
-        { statements: ['Distingo un hecho de una opinión', 'Reconozco palabras pista de opinión', 'Anticipo lo que dirá un mensaje usando pistas'],
-          commitments: ['Esta semana escucharé un aviso o noticia y separaré hechos de opiniones', 'Intentaré anticipar cómo termina un mensaje antes de oírlo completo', 'Le explicaré a alguien de mi familia qué es una opinión'] },
-      ),
+      S.explain({ fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.4', 'l2:1.2.6'], prompt: 'Al escuchar un mensaje oral, anticipa que seguira e identifica si su intencion comunica un hecho o una opinion.' }, { icon: 'Ear', body: 'Usa inicio, tono y tema para **anticipar**. Luego pregunta: ¿la intencion es informar un **hecho comprobable** o expresar una **opinion**? Escucha el final para verificar.' }),
+      S.explain({ fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.4', 'l2:1.2.6'], title: 'Dos decisiones al escuchar', prompt: 'Anticipa el contenido del mensaje oral y reconoce su intencion como hecho u opinion.' }, { icon: 'GitCompare', body: '"El mapa registra..." suele continuar con un dato: hecho. "Me parece que este camino..." anuncia una valoracion: opinion. La anticipacion es provisional y puede corregirse.' }),
+      S.ejemplo({ fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.4', 'l2:1.2.6'], title: 'Modelo auditivo', prompt: 'Observa como anticipar un mensaje oral e identificar su intencion de comunicar hecho u opinion.' }, { icon: 'Radio', problem: 'Se oye: "Segun el mapa, la clinica queda..."', steps: [{ text: '"Segun el mapa" permite anticipar una ubicacion.' }, { text: 'El cierre "al oeste de la plaza" confirma el dato.' }, { text: 'Su intencion es informar un hecho comprobable, no una opinion.' }], answer: 'Anticipacion: ubicacion. Intencion: hecho.' }),
+      S.choice({ fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.4', 'l2:1.2.6'], prompt: 'Escucha, anticipa que completara el mensaje oral e identifica si su intencion es comunicar un hecho o una opinion.', hint: 'Atiende al inicio y decide si el cierre puede comprobarse.', explain: 'El inicio anuncia una ubicacion verificable en el mapa.', media: audio('s01-l2-2-guia', 'En el mapa de San Lucas, el puesto de salud aparece... al norte del mercado.', 'Ubicacion en San Lucas') }, { options: [{ id: 'a', text: 'Una ubicacion; intencion de comunicar un hecho' }, { id: 'b', text: 'Un gusto; intencion de expresar una opinion' }, { id: 'c', text: 'Una receta; intencion de ordenar pasos' }], correct: ['a'] }),
+      S.tf({ fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.4', 'l2:1.2.6'], prompt: 'Escucha otro mensaje oral, anticipa su cierre e identifica la intencion como hecho u opinion.', hint: 'Una expresion de preferencia anuncia una valoracion.', explain: '"Para mi" orienta hacia una opinion, aunque el lugar exista.', media: audio('s01-l2-2-guia-opinion', 'Para mi, la ruta junto al parque es... la mas agradable del pueblo.', 'Opinion sobre una ruta') }, { statements: [{ text: 'Se anticipa una valoracion.', answer: true }, { text: 'La intencion es expresar una opinion.', answer: true }, { text: 'El cierre comunica una medida comprobable.', answer: false }] }),
+      S.choice({ fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.4', 'l2:1.2.6'], prompt: 'Sin pista, escucha el mensaje oral, anticipa la informacion final e identifica su intencion como hecho u opinion.', media: audio('s01-l2-2-aplica', 'El registro de la alcaldia indica que el puente mide... doce metros de largo.', 'Dato sobre un puente') }, { options: [{ id: 'a', text: 'Una medida comprobable; hecho' }, { id: 'b', text: 'Un gusto personal; opinion' }, { id: 'c', text: 'Una invitacion; opinion' }], correct: ['a'] }),
+      S.tf({ fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.4', 'l2:1.2.6'], prompt: 'Escucha de forma independiente, anticipa el cierre del mensaje oral e identifica su intencion como hecho u opinion.', media: audio('s01-l2-2-aplica-opinion', 'Creo que la plaza central es... el sitio mas acogedor para reunirse.', 'Valoracion sobre la plaza') }, { statements: [{ text: 'El inicio permite anticipar una valoracion.', answer: true }, { text: 'La intencion es expresar una opinion.', answer: true }, { text: 'El cierre es una coordenada comprobable.', answer: false }] }),
+      S.choice({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.4', 'l2:1.2.6'], prompt: 'Salida: escucha, anticipa el final del mensaje oral e identifica su intencion como hecho u opinion.', media: audio('s01-l2-2-salida-a', 'La clave del mapa usa una cruz para representar... el centro de salud.', 'Simbolo de un mapa') }, { options: [{ id: 'a', text: 'El significado de un simbolo; hecho' }, { id: 'b', text: 'El lugar mas bonito; opinion' }, { id: 'c', text: 'Una preferencia de color; opinion' }], correct: ['a'] }),
+      S.tf({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.4', 'l2:1.2.6'], prompt: 'Salida nueva: escucha, anticipa el cierre del mensaje oral e identifica su intencion como hecho u opinion.', media: audio('s01-l2-2-salida-b', 'En mi opinion, el mirador del cerro es... la mejor parada del recorrido.', 'Valoracion sobre un mirador') }, { statements: [{ text: 'Se anticipa una valoracion del mirador.', answer: true }, { text: 'La intencion es expresar una opinion.', answer: true }, { text: 'El cierre aporta una cantidad medible.', answer: false }] }),
     ],
   }),
 ];
