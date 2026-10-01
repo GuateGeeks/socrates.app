@@ -1,76 +1,76 @@
 /**
  * Productividad y Desarrollo · Unidad 1 · Semana 6
- * Planificación breve de un proyecto escolar en un canvas preparado.
+ * Presentación y mejora de un proyecto escolar en una mini feria.
  */
 import { cierre, lesson, S } from '../../../../dsl';
 
 export default [
   lesson({
     id: 's06-pyd-1',
-    title: 'Un proyecto claro en una página',
+    title: 'Presentar, escuchar y mejorar un proyecto',
     icon: 'ClipboardList',
     minutes: 15,
-    gancho: 'Una idea se vuelve proyecto cuando dice qué logrará, qué se hará, quién lo hará, cuándo y con qué recursos.',
+    gancho: 'En una feria interactiva, una explicación breve y una pregunta útil pueden mejorar un proyecto antes de realizarlo.',
     objetivos: [
-      'Planificar un proyecto escolar sencillo en un canvas',
+      'Presentar y mejorar un proyecto sencillo mediante retroalimentación en una mini feria',
     ],
     resumen: [
-      'Un proyecto reúne un objetivo, actividades, responsables, fechas y recursos para atender una necesidad.',
-      'El objetivo empieza con un verbo y expresa un resultado alcanzable.',
-      'Un presupuesto pequeño multiplica cantidad por precio y suma los subtotales.',
-      'Un canvas de una página permite revisar y explicar el plan con claridad.',
+      'El canvas preparado reúne objetivo, dos actividades, responsables, fechas y un presupuesto pequeño.',
+      'En la mini feria, la persona expositora presenta objetivo, acciones y costo total en 20 segundos.',
+      'La persona visitante escucha y formula una pregunta relevante o un comentario basado en un criterio.',
+      'La persona expositora registra la retroalimentación y revisa un campo para mejorar el plan.',
     ],
     media: {
       id: 's06-pyd-1-canvas', kind: 'diagram', title: 'Canvas de proyecto de una página', aspect: '4:3',
-      alt: 'Plantilla de una página con espacios breves para objetivo, dos actividades con responsables y fechas, presupuesto, etiqueta visual y revisión.',
-      brief: 'Mock honesto de un canvas preparado e impreso de una página. Incluir campos vacíos y compactos: nombre, objetivo, actividad 1 con responsable y fecha, actividad 2 con responsable y fecha, presupuesto de dos rubros con cantidad, precio, subtotal y total, etiqueta visual, y una lista de cotejo para una explicación de 20 segundos. No mostrar respuestas estudiantiles ni productos terminados.',
+      alt: 'Plantilla de una página con objetivo, dos actividades, presupuesto, etiqueta visual y espacios breves para retroalimentación y revisión.',
+      brief: 'Mock honesto de un canvas preparado e impreso de una página. Incluir campos compactos: nombre, objetivo, actividad 1 con responsable y fecha, actividad 2 con responsable y fecha, presupuesto de dos rubros con cantidad, precio, subtotal y total, etiqueta visual, una línea para retroalimentación y una casilla para marcar el campo revisado. Añadir una lista de cotejo para presentar objetivo, acciones y costo total en 20 segundos. No mostrar respuestas estudiantiles ni productos terminados.',
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:4.1.1'], ambito: 'conocer', title: 'Las partes que hacen viable un proyecto',
-          prompt: 'Usarán un **canvas preparado de una página**. Cada campo responde una pregunta necesaria.' },
-        { icon: 'ListChecks', body: 'Un plan breve puede ser completo si conecta todas sus partes.', reveal: [
-          { icon: 'Target', front: 'Objetivo', back: '¿Qué resultado alcanzable queremos lograr?' },
-          { icon: 'ListOrdered', front: 'Dos actividades', back: '¿Qué dos acciones permiten alcanzar el objetivo?' },
-          { icon: 'Users', front: 'Responsables y fechas', back: '¿Quién hará cada actividad y cuándo?' },
-          { icon: 'Coins', front: 'Presupuesto', back: '¿Qué recursos se necesitan y cuánto cuestan en total?' },
+        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:4.1.1', 'pyd:4.3.1'], ambito: 'conocer', title: 'Canvas y protocolo de mini feria',
+          prompt: 'Usarán un **canvas preparado de una página** y un intercambio breve con una persona visitante.' },
+        { icon: 'MessagesSquare', body: 'Participar en una feria es presentar, escuchar con respeto y usar la retroalimentación para mejorar.', reveal: [
+          { icon: 'Presentation', front: 'Presentar', back: 'Explica objetivo, dos acciones y costo total en 20 segundos.' },
+          { icon: 'MessageCircleQuestion', front: 'Escuchar', back: 'La persona visitante hace una pregunta relevante o comenta un criterio: claridad, viabilidad o costo.' },
+          { icon: 'NotebookPen', front: 'Registrar', back: 'Anota una frase breve sin discutir ni descalificar.' },
+          { icon: 'RefreshCw', front: 'Mejorar', back: 'Agradece y revisa un campo del canvas cuando el comentario ayuda al proyecto.' },
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:4.1.1', 'pyd:4.3.1'], ambito: 'hacer', title: 'Modelo breve: completar el canvas',
-          prompt: 'Observa cómo las partes de un proyecto pequeño se conectan.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:4.1.1', 'pyd:4.3.1'], ambito: 'hacer', title: 'Modelo breve: presentar, escuchar y revisar',
+          prompt: 'Observa cómo un proyecto preparado se presenta y mejora durante una mini feria.' },
         { icon: 'ClipboardCheck', problem: 'Proyecto: organizar una caja de intercambio de libros para el grado.',
           steps: [
-            { text: '**Objetivo:** habilitar una caja con 20 libros disponibles para intercambio el viernes.' },
-            { text: '**Actividad 1:** reunir y registrar libros; responsable: comisión de lectura; fecha: miércoles.' },
-            { text: '**Actividad 2:** ordenar la caja y presentar las reglas; responsable: Ana y Luis; fecha: viernes.' },
-            { text: '**Presupuesto ilustrativo:** 1 caja reutilizable × Q0 = Q0; 2 rótulos × Q2 = Q4; total Q4.' },
+            { text: '**Canvas preparado:** objetivo, dos actividades con responsables y fechas, y presupuesto ilustrativo total de Q4.' },
+            { text: '**Presentación de 20 segundos:** “Organizaremos 20 libros. Primero los registramos; después preparamos la caja. El costo total es Q4”.' },
+            { text: '**Visitante:** pregunta con respeto y criterio de viabilidad: “¿Quién revisará que cada libro quede registrado?”' },
+            { text: '**Presentadora:** responde “Gracias”, registra el comentario y revisa un campo: agrega “comisión de lectura” como responsable de la actividad 1.' },
           ],
-          answer: 'El objetivo, las dos actividades, las responsabilidades, las fechas y el presupuesto describen un mismo proyecto realizable.' },
+          answer: 'La interacción es útil porque la visitante pregunta por un dato del plan y la presentadora usa esa retroalimentación para revisar un campo.' },
       ),
       S.choice(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:4.1.1'], ambito: 'emprender',
-          prompt: 'Con ayuda: ¿cuál objetivo cabe en un canvas y se puede comprobar?',
-          hint: 'Busca un verbo, un resultado concreto y una fecha.',
-          explain: '“Organizar 20 libros para intercambio el viernes” indica acción, cantidad y fecha.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:4.3.1'], ambito: 'emprender',
+          prompt: 'Con ayuda: el canvas dice “comprar materiales”, pero no indica cuáles. ¿Qué comentario de visitante ayuda a mejorarlo?',
+          hint: 'Un comentario respetuoso se refiere a un criterio del plan y propone precisar, no califica a la persona.',
+          explain: 'Pedir que se nombren los materiales usa el criterio de claridad y permite revisar ese campo.' },
         { options: [
-          { id: 'a', text: 'Organizar 20 libros para intercambio el viernes' },
-          { id: 'b', text: 'Hacer algo bonito algún día', feedback: 'No permite comprobar qué se logrará ni cuándo.' },
-          { id: 'c', text: 'Que todas las personas lean siempre', feedback: 'Es demasiado amplio para este proyecto breve.' },
+          { id: 'a', text: '¿Podrías nombrar los materiales para que el presupuesto sea claro?' },
+          { id: 'b', text: 'Tu proyecto está mal.', feedback: 'Descalifica sin señalar un criterio ni una mejora posible.' },
+          { id: 'c', text: 'Me gusta el color.', feedback: 'No ayuda a revisar la claridad o viabilidad del plan.' },
         ], correct: ['a'] },
       ),
       S.project(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.1.1', 'pyd:4.3.1'], ambito: 'emprender',
+        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.1.1'], ambito: 'emprender',
           prompt: 'Completa tu **canvas preparado de una página** para un proyecto pequeño de la escuela o comunidad.' },
         { goal: 'Producir un plan breve cuyas partes se apoyen entre sí.',
           steps: [
             { title: 'Objetivo', detail: 'Escribe un objetivo con verbo y un resultado alcanzable.' },
             { title: 'Actividad 1 y actividad 2', detail: 'Anota dos actividades; junto a cada una escribe un responsable y una fecha.' },
             { title: 'Presupuesto pequeño', detail: 'Completa dos rubros con cantidad, precio, subtotal y total. Usa precios ilustrativos o Q0 para un recurso reutilizado.' },
-            { title: 'Chequeo oral', detail: 'Usa la lista de cotejo y explica en 20 segundos: objetivo, dos acciones y costo total.' },
+            { title: 'Etiqueta visual', detail: 'Reserva el espacio para una etiqueta breve que identifique el proyecto.' },
           ],
           evidence: 'Un solo canvas de proyecto completo y revisable.',
-          rubric: ['El objetivo y las dos actividades se relacionan', 'Cada actividad tiene responsable y fecha', 'El presupuesto muestra subtotales y total', 'La explicación de 20 segundos sigue la lista de cotejo'] },
+          rubric: ['El objetivo y las dos actividades se relacionan', 'Cada actividad tiene responsable y fecha', 'El presupuesto muestra subtotales y total', 'El canvas cabe en la plantilla preparada'] },
       ),
       S.write(
         { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.3.1'], ambito: 'hacer', title: 'Etiqueta visual concisa',
@@ -79,34 +79,47 @@ export default [
           model: 'Semillas locales para nuestro huerto escolar',
           rubric: ['Nombra el proyecto con claridad', 'Tiene entre 5 y 8 palabras'] },
       ),
+      S.project(
+        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.3.1'], ambito: 'emprender', title: 'Mini feria: una interacción y una mejora',
+          prompt: 'Realicen una mini feria por parejas. Participen con respeto y mantengan la evidencia en el mismo canvas.' },
+        { goal: 'Presentar el proyecto, recibir retroalimentación útil y mejorar un campo.',
+          steps: [
+            { title: 'Presentar', detail: 'La persona expositora usa 20 segundos para decir objetivo, dos acciones y costo total.' },
+            { title: 'Visitar', detail: 'La persona visitante escucha y hace una pregunta relevante o un comentario basado en claridad, viabilidad o costo.' },
+            { title: 'Registrar y revisar', detail: 'La persona expositora agradece, anota una frase de retroalimentación y revisa un campo del canvas.' },
+            { title: 'Cambiar roles', detail: 'Cambien roles y repitan una vez; cada estudiante presenta, visita y mejora su propio canvas.' },
+          ],
+          evidence: 'Una frase de retroalimentación y un campo revisado en cada canvas.',
+          rubric: ['Presenté en 20 segundos', 'Mi intervención como visitante fue relevante y respetuosa', 'Registré una frase', 'Revisé un campo a partir de la retroalimentación'] },
+      ),
       S.choice(
         { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.3.1'], ambito: 'emprender',
-          prompt: 'Antes de la explicación de **20 segundos**, ¿qué lista de cotejo permite comunicar el canvas con claridad?' },
+          prompt: 'Transferencia independiente: en una mini feria, una visitante señala que la actividad 2 no tiene fecha. ¿Qué evidencia demuestra que la retroalimentación mejoró el proyecto?' },
         { options: [
-          { id: 'a', text: 'Objetivo, dos actividades y costo total' },
-          { id: 'b', text: 'Solo el nombre y muchos adornos' },
-          { id: 'c', text: 'Toda la historia del problema sin explicar el plan' },
+          { id: 'a', text: 'La observación quedó anotada y la actividad 2 ahora indica “viernes”' },
+          { id: 'b', text: 'La presentación duró más tiempo, pero el canvas quedó igual' },
+          { id: 'c', text: 'La persona expositora agradeció, pero borró la actividad 2' },
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:4.1.1'], prompt: 'Boleto de salida: ¿qué dato hace verificable una actividad del proyecto?' },
+        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:4.3.1'], prompt: 'Boleto de salida: una visitante pregunta quién hará la segunda actividad. ¿Qué acción muestra que la presentación ayudó a mejorar el proyecto?' },
         { options: [
-          { id: 'a', text: 'Un responsable y una fecha' },
-          { id: 'b', text: 'Un color favorito' },
-          { id: 'c', text: 'Una promesa sin plazo' },
+          { id: 'a', text: 'Anotar la pregunta y precisar el responsable en el canvas' },
+          { id: 'b', text: 'Cambiar el color del título sin revisar el plan' },
+          { id: 'c', text: 'Ignorar la pregunta porque la exposición ya terminó' },
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:4.1.1', 'pyd:4.3.1'], prompt: 'Comprueba las partes del proyecto en el canvas.' },
+        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:4.3.1'], prompt: 'Evalúa la conducta de una persona visitante durante un turno breve.' },
         { statements: [
-          { text: 'Las actividades deben contribuir al objetivo.', answer: true },
-          { text: 'Dos unidades a Q3 cada una tienen un subtotal de Q6.', answer: true },
-          { text: 'El presupuesto puede omitir el total.', answer: false, why: 'El total permite saber cuánto requiere el proyecto.' },
+          { text: 'Escucha sin interrumpir hasta que termina la explicación.', answer: true },
+          { text: 'Pregunta por un dato del canvas con lenguaje respetuoso.', answer: true },
+          { text: 'Cambia por su cuenta lo escrito en el canvas ajeno.', answer: false, why: 'La persona visitante aporta una pregunta o comentario; quien presenta decide y realiza la revisión.' },
         ] },
       ),
       cierre({ areas: ['pyd'], cnb: ['pyd:4.1.1', 'pyd:4.3.1'] },
-        ['Completo un canvas de proyecto', 'Relaciono objetivo, actividades, responsables y fechas', 'Calculo un presupuesto pequeño'],
-        ['Revisaré que cada actividad ayude al objetivo', 'Actualizaré los precios ilustrativos antes de usar el plan'])
+        ['Presento un proyecto en 20 segundos', 'Doy retroalimentación respetuosa basada en un criterio', 'Mejoro un campo después de escuchar'],
+        ['Haré preguntas que ayuden a precisar el plan', 'Registraré la retroalimentación antes de decidir una revisión'])
     ],
   }),
 ];

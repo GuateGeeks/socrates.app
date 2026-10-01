@@ -3264,6 +3264,58 @@ test('PyD Semana 6 completa un solo canvas de proyecto dentro de quince minutos'
   assert.ok(lesson.steps.findIndex((step) => step.type === 'project') <= 3, 'El canvas empieza demasiado tarde');
 });
 
+test('PyD Semana 6 modela y evalua una mini feria con retroalimentacion y revision acotadas', () => {
+  const lesson = weekSix.lessons.find((item) => item.id === 's06-pyd-1');
+  assert.ok(lesson, 'Falta s06-pyd-1');
+  assert.ok(lesson.minutes <= 15 && lesson.steps.length >= 9 && lesson.steps.length <= 10);
+  assert.match(normalizeFactText((lesson.objetivos ?? []).join(' ')), /presentar.{0,80}mejorar|mejorar.{0,80}presentar/);
+
+  const modelIndex = lesson.steps.findIndex((step) => step.type === 'worked-example'
+    && step.cnb.includes('pyd:4.3.1'));
+  assert.ok(modelIndex >= 0, 'Falta un modelo de participacion en feria');
+  const modelText = normalizeFactText(JSON.stringify(lesson.steps[modelIndex]));
+  assert.match(modelText, /20 segundos/);
+  assert.match(modelText, /visitante.{0,120}(?:pregunta|comentario)/);
+  assert.match(modelText, /(?:criterio|respetuos)/);
+  assert.match(modelText, /(?:registra|anota).{0,100}(?:retroalimentacion|comentario)/);
+  assert.match(modelText, /revis[ao].{0,80}(?:campo|actividad|fecha|presupuesto|objetivo)/);
+
+  const guidedIndex = lesson.steps.findIndex((step) => step.cnb.includes('pyd:4.3.1')
+    && Boolean(step.hint) && Boolean(step.explain));
+  assert.ok(guidedIndex > modelIndex, 'Falta practica guiada de retroalimentacion despues del modelo');
+  const fairIndex = lesson.steps.findIndex((step) => step.fase === 'aplicar'
+    && step.cnb.includes('pyd:4.3.1')
+    && /mini feria|visitante/.test(normalizeFactText(JSON.stringify(step))));
+  assert.ok(fairIndex > guidedIndex, 'La mini feria debe ocurrir despues del modelo y la guia');
+  const fairText = normalizeFactText(JSON.stringify(lesson.steps[fairIndex]));
+  assert.match(fairText, /20 segundos/);
+  assert.match(fairText, /un(?:a)? (?:pregunta|comentario)/);
+  assert.match(fairText, /(?:registra|anota).{0,100}(?:retroalimentacion|comentario)/);
+  assert.match(fairText, /revisa un campo|corrige un campo|mejora un campo/);
+  assert.match(fairText, /cambien roles|roles cambian|una ronda evaluada/);
+  assert.doesNotMatch(fairText, /un minuto|dos minutos|cartel|stand|demostracion/);
+  assert.ok((fairText.match(/20 segundos/g) ?? []).length <= 2, 'La exposicion oral se multiplica');
+  assert.ok((fairText.match(/\b(?:anota|registra|escribe)\b/g) ?? []).length <= 2,
+    'La mini feria exige demasiada escritura');
+
+  const firstScored43 = lesson.steps.findIndex((step) => step.cnb.includes('pyd:4.3.1')
+    && (step.fase === 'aplicar' || step.fase === 'comprobar')
+    && Boolean(getActivity(step.type)?.graded));
+  assert.ok(firstScored43 > guidedIndex, 'No se debe calificar 4.3.1 antes del modelo y la guia');
+  const exits = lesson.steps.filter((step) => step.fase === 'comprobar'
+    && step.cnb.includes('pyd:4.3.1') && Boolean(getActivity(step.type)?.graded));
+  assert.equal(exits.length, 2, 'La participacion en feria necesita dos salidas');
+  assert.ok(exits.every((step) => !step.hint && !step.explain));
+  assert.match(normalizeFactText(JSON.stringify(exits)), /retroalimentacion|comentario|pregunta/);
+
+  const bankItem = weekSixBank.find((step) => step.areas.includes('pyd'));
+  assert.ok(bankItem, 'Falta item PyD del banco');
+  const bankText = normalizeFactText(JSON.stringify(bankItem));
+  assert.match(bankText, /presentar y recoger comentarios/);
+  assert.ok(exits.every((step) => !normalizeFactText(JSON.stringify(step)).includes('presentar y recoger comentarios')),
+    'Las salidas no deben copiar la respuesta del banco');
+});
+
 test('Semana 6 usa lenguaje nutricional preciso, respetuoso y adaptable', () => {
   assert.equal(weekSix.title, 'Una refacción nutritiva con recursos locales');
   assert.equal(weekSix.temaGenerador, 'Una refacción nutritiva con recursos locales');
