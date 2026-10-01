@@ -29,15 +29,6 @@ export default [
       brief: 'Animación 2D de 45 s. Paisaje sencillo con un volcán cónico al fondo (sin rótulos de marcas). Un joven y una señora conversan. Globo 1: "El volcán mide casi 3,800 metros". Globo 2: "Es el volcán más bonito". Una lupa amarilla pasa sobre el globo 1 y aparece una cinta métrica y un libro con el texto "HECHO: se puede comprobar". Pasa sobre el globo 2 y aparece un corazón y el texto "OPINIÓN: es lo que alguien piensa". Cierre: las palabras "creo, me parece, bonito, mejor" brillan como pistas. Narración en español de Guatemala, pausada, con subtítulos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'conocer',
-          prompt: 'Lee estas dos frases sobre el lago de Atitlán. ¿Cuál se puede **comprobar** consultando un mapa?',
-          explain: 'Cualquiera puede revisar un mapa y ver que Atitlán está en Sololá. En cambio, "el más bonito" depende de quién lo diga. Hoy aprenderás a separar estas dos clases de mensajes.' },
-        { options: [
-          { id: 'a', text: 'El lago de Atitlán está en el departamento de Sololá.', icon: 'MapPin' },
-          { id: 'b', text: 'El lago de Atitlán es el lugar más bonito del mundo.', icon: 'Heart', feedback: '¿Cómo lo comprobarías? A una persona le puede parecer el más bonito y a otra no. Eso es lo que alguien siente.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'conocer', title: 'Hechos y opiniones',
           prompt: 'Cuando escuchas la radio, lees un anuncio o conversas, recibes **dos clases de mensajes**. Toca cada tarjeta.' },
@@ -47,6 +38,15 @@ export default [
           { icon: 'Search', front: 'Palabras pista', back: 'Avisan que es opinión: **creo, pienso, me parece, en mi opinión**, y adjetivos que juzgan: **bonito, feo, mejor, peor, delicioso, aburrido**.' },
           { icon: 'Info', front: '¡Ojo!', back: 'Un hecho puede resultar **falso** al comprobarlo: "Guatemala tiene 50 departamentos" se puede revisar… y es falso (tiene 22). Sigue siendo una frase comprobable.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'conocer',
+          prompt: 'Lee estas dos frases sobre el lago de Atitlán. ¿Cuál se puede **comprobar** consultando un mapa?',
+          explain: 'Cualquiera puede revisar un mapa y ver que Atitlán está en Sololá. En cambio, "el más bonito" depende de quién lo diga. Hoy aprenderás a separar estas dos clases de mensajes.' },
+        { options: [
+          { id: 'a', text: 'El lago de Atitlán está en el departamento de Sololá.', icon: 'MapPin' },
+          { id: 'b', text: 'El lago de Atitlán es el lugar más bonito del mundo.', icon: 'Heart', feedback: '¿Cómo lo comprobarías? A una persona le puede parecer el más bonito y a otra no. Eso es lo que alguien siente.' },
+        ], correct: ['a'] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'hacer', title: 'Ejemplo resuelto',
@@ -168,16 +168,6 @@ export default [
       brief: 'Audio de 50 s con efecto de parlante al aire libre (leve eco, gallos y perros lejanos, sin música comercial). Voz adulta clara, ritmo pausado, español de Guatemala. Aviso 1: "¡Atención, vecinos! Se les informa que mañana no habrá servicio de agua de 8 de la mañana a 2 de la tarde. Llenen sus toneles desde hoy." Pausa de 2 s. Aviso 2: "Se les recuerda a las mamás y papás que el jueves habrá jornada de vacunación en el puesto de salud. Traigan el carné de sus hijos." Pausa. Aviso 3: "Atención: el pronóstico anuncia lluvia fuerte esta tarde. Eviten cruzar el río." Incluir una versión con un silencio de 3 s después de la primera frase de cada aviso, para que el niño anticipe.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'conocer',
-          prompt: 'Escuchas por el parlante: _"¡Atención, vecinos! Se les informa que mañana no habrá servicio de agua de 8 de la mañana a…"_ Antes de que termine, ¿qué crees que dirá después?',
-          explain: 'Aunque el mensaje no había terminado, ya tenías pistas: "no habrá agua" y "de 8 de la mañana a…". Eso se llama **anticipar**, y hoy vas a practicarlo.' },
-        { options: [
-          { id: 'a', text: 'Una hora de regreso del agua y un consejo, como llenar toneles', icon: 'Droplets' },
-          { id: 'b', text: 'Un chiste sobre el agua', icon: 'Smile', feedback: 'Un aviso que empieza con "¡Atención, vecinos!" suele ser serio y útil, no un chiste.' },
-          { id: 'c', text: 'El resultado de un partido de fútbol', icon: 'Trophy', feedback: 'El mensaje habla del servicio de agua; es poco probable que cambie de tema.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'conocer', title: '¿Qué es anticipar?',
           prompt: '**Anticipar** es imaginar lo que viene en un mensaje **antes** de oírlo completo. Los buenos oyentes lo hacen todo el tiempo. Toca cada pista.' },
@@ -188,6 +178,16 @@ export default [
           { icon: 'Brain', front: 'Lo que ya sabes', back: 'Si sabes que es época de lluvia y oyes "pronóstico", ya imaginas qué vendrá.' },
           { icon: 'CheckCircle', front: 'Comprobar', back: 'Después de anticipar, **sigue escuchando** para confirmar o corregir tu idea. Anticipar no es adivinar sin pistas.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'conocer',
+          prompt: 'Escuchas por el parlante: _"¡Atención, vecinos! Se les informa que mañana no habrá servicio de agua de 8 de la mañana a…"_ Antes de que termine, ¿qué crees que dirá después?',
+          explain: 'Aunque el mensaje no había terminado, ya tenías pistas: "no habrá agua" y "de 8 de la mañana a…". Eso se llama **anticipar**, y hoy vas a practicarlo.' },
+        { options: [
+          { id: 'a', text: 'Una hora de regreso del agua y un consejo, como llenar toneles', icon: 'Droplets' },
+          { id: 'b', text: 'Un chiste sobre el agua', icon: 'Smile', feedback: 'Un aviso que empieza con "¡Atención, vecinos!" suele ser serio y útil, no un chiste.' },
+          { id: 'c', text: 'El resultado de un partido de fútbol', icon: 'Trophy', feedback: 'El mensaje habla del servicio de agua; es poco probable que cambie de tema.' },
+        ], correct: ['a'] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'hacer', title: 'Ejemplo resuelto',

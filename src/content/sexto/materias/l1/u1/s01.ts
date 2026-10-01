@@ -30,6 +30,15 @@ export default [
       brief: 'Video de 60 s en un aula guatemalteca (paredes con carteles, pupitres de madera). Parte 1 (25 s): un niño expone sobre el lago de Atitlán leyendo una hoja, voz baja y monótona, sin mirar al grupo; se ve a compañeros distraídos. Parte 2 (25 s): una niña expone el mismo tema; empieza con la pregunta "¿Sabían que el lago se formó dentro de un volcán gigante?", muestra una foto, hace una pausa, camina un paso hacia el grupo y mira a distintas personas; el grupo se inclina para escuchar. Cierre (10 s): texto en pantalla "Voz · Cuerpo · Contenido". Niñas y niños con rasgos diversos (maya, ladino, garífuna), uniformes sin logotipos. Sin marcas.',
     },
     steps: [
+      S.explain(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer', title: 'Tres tipos de recursos',
+          prompt: 'Cuando hablas frente a un grupo, tienes **tres herramientas** para que te escuchen. Toca cada tarjeta.' },
+        { icon: 'Megaphone', body: 'Los recursos para **mantener la atención** son todo lo que haces para que tu público no se distraiga y quiera seguir escuchando.', reveal: [
+          { icon: 'Volume2', front: 'La voz', back: '**Volumen** (que se oiga hasta el fondo), **velocidad** (ni muy rápido ni muy lento), **pausas** antes de algo importante y **cambios sorpresivos**: bajar la voz para crear suspenso o subirla para mostrar emoción.' },
+          { icon: 'Hand', front: 'El cuerpo', back: '**Gestos** con las manos y la cara, **mirada** repartida entre todas las personas, **postura** firme y **movimientos** con intención, como acercarte al público.' },
+          { icon: 'Lightbulb', front: 'El contenido', back: 'Una **pregunta** al público, un **dato curioso**, un **ejemplo cercano** a su vida, un **objeto** o imagen, una historia corta.' },
+        ] },
+      ),
       S.choice(
         { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer',
           prompt: 'Dos compañeros van a exponer sobre **los volcanes de Guatemala**. Lee cómo empieza cada uno. ¿Con cuál pondrías más atención?',
@@ -62,15 +71,6 @@ export default [
               { id: 'c', text: 'Que solo los cuentos se pueden exponer' },
             ], correct: 'a', why: 'Mantener la atención es mantener viva la curiosidad de quien escucha.' },
           ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer', title: 'Tres tipos de recursos',
-          prompt: 'Cuando hablas frente a un grupo, tienes **tres herramientas** para que te escuchen. Toca cada tarjeta.' },
-        { icon: 'Megaphone', body: 'Los recursos para **mantener la atención** son todo lo que haces para que tu público no se distraiga y quiera seguir escuchando.', reveal: [
-          { icon: 'Volume2', front: 'La voz', back: '**Volumen** (que se oiga hasta el fondo), **velocidad** (ni muy rápido ni muy lento), **pausas** antes de algo importante y **cambios sorpresivos**: bajar la voz para crear suspenso o subirla para mostrar emoción.' },
-          { icon: 'Hand', front: 'El cuerpo', back: '**Gestos** con las manos y la cara, **mirada** repartida entre todas las personas, **postura** firme y **movimientos** con intención, como acercarte al público.' },
-          { icon: 'Lightbulb', front: 'El contenido', back: 'Una **pregunta** al público, un **dato curioso**, un **ejemplo cercano** a su vida, un **objeto** o imagen, una historia corta.' },
-        ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer', prompt: 'Clasifica lo que hizo Ixchel según el tipo de recurso.',
@@ -189,16 +189,6 @@ export default [
       brief: 'Audio de 40 s grabado por una voz adulta cálida, español de Guatemala. Locución: "Escucha la misma frase dicha de tres maneras." Versión 1: "Y en ese momento, la puerta se abrió" dicha rápida y sin cambios. Versión 2: con volumen medio y pausa en la coma. Versión 3: bajando a casi susurro, con pausa larga antes de "se abrió" y un leve rechinido de puerta de fondo. Cierre: "¿Cuál te dio más ganas de saber qué pasó?". Sin música de fondo durante las frases.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer',
-          prompt: 'Escucha el audio: la misma frase dicha de **tres maneras**. ¿Cuál crea más **suspenso**?',
-          explain: 'La tercera versión baja el volumen y hace una pausa larga. Tu voz puede cambiar el efecto de las mismas palabras. ¡Hoy aprenderás a controlarla!' },
-        { options: [
-          { id: 'a', text: 'La primera: rápida y sin cambios', icon: 'FastForward', feedback: 'Al decirla rápido y plano, la frase pasa sin que nadie la note.' },
-          { id: 'b', text: 'La segunda: volumen normal con una pausa corta', icon: 'Volume1', feedback: 'Se entiende bien, pero no crea tanta expectativa.' },
-          { id: 'c', text: 'La tercera: voz baja y una pausa larga antes del final', icon: 'VolumeX' },
-        ], correct: ['c'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6', 'l1:2.1.4'], ambito: 'conocer', title: 'Las cuatro perillas de tu voz',
           prompt: 'Imagina que tu voz tiene **cuatro perillas** que puedes mover. Toca cada una para saber cómo usarla.' },
@@ -208,6 +198,16 @@ export default [
           { icon: 'Pause', front: '3. Pausas', back: 'Una **pausa corta** en cada coma y una **más larga** en cada punto. Antes de un dato importante, una pausa de uno o dos segundos hace que todos pongan atención.' },
           { icon: 'Zap', front: '4. Cambio sorpresivo', back: 'Bajar la voz casi a un susurro crea **suspenso**; subirla con energía muestra **emoción**. Úsalo pocas veces: si lo haces siempre, deja de sorprender.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer',
+          prompt: 'Escucha el audio: la misma frase dicha de **tres maneras**. ¿Cuál crea más **suspenso**?',
+          explain: 'La tercera versión baja el volumen y hace una pausa larga. Tu voz puede cambiar el efecto de las mismas palabras. ¡Hoy aprenderás a controlarla!' },
+        { options: [
+          { id: 'a', text: 'La primera: rápida y sin cambios', icon: 'FastForward', feedback: 'Al decirla rápido y plano, la frase pasa sin que nadie la note.' },
+          { id: 'b', text: 'La segunda: volumen normal con una pausa corta', icon: 'Volume1', feedback: 'Se entiende bien, pero no crea tanta expectativa.' },
+          { id: 'c', text: 'La tercera: voz baja y una pausa larga antes del final', icon: 'VolumeX' },
+        ], correct: ['c'] },
       ),
       S.match(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6', 'l1:2.1.4'], ambito: 'hacer', prompt: 'Une cada situación con la "perilla" de la voz que más conviene usar.',
@@ -327,16 +327,6 @@ export default [
       brief: 'Ilustración plana en dos paneles. Panel izquierdo con etiqueta "Distrae": niña de 12 años con brazos cruzados, vista al suelo, un pie cruzado detrás del otro, flechas que indican balanceo. Panel derecho con etiqueta "Comunica": la misma niña con postura erguida, pies separados al ancho de los hombros, mano abierta señalando un mapa de su municipio, mirada hacia el público; líneas punteadas desde sus ojos hacia distintos compañeros. Fondo de aula guatemalteca sencilla. Colores cálidos, sin texto adicional.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer',
-          prompt: 'Observa la imagen. La niña de la izquierda dice exactamente las mismas palabras que la de la derecha. ¿Qué **te comunica** su cuerpo?',
-          explain: 'Aunque las palabras sean iguales, los brazos cruzados, la vista al suelo y el balanceo transmiten nervios o desinterés. El cuerpo habla, ¡aunque no queramos!' },
-        { options: [
-          { id: 'a', text: 'Que está segura y entusiasmada con su tema', feedback: 'Fíjate en los brazos y en hacia dónde mira: dicen otra cosa.' },
-          { id: 'b', text: 'Que está nerviosa o que no le interesa mucho su tema' },
-          { id: 'c', text: 'Nada: el cuerpo no comunica', feedback: 'Siempre comunica. Por eso conviene usarlo a nuestro favor.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer', title: 'Cuatro formas en que habla tu cuerpo',
           prompt: 'Toca cada tarjeta y descubre cómo usar tu cuerpo al exponer.' },
@@ -346,6 +336,16 @@ export default [
           { icon: 'PersonStanding', front: 'Postura', back: 'Párate **firme**, con los pies separados al ancho de los hombros y la espalda recta. Evita balancearte o esconder las manos en los bolsillos.' },
           { icon: 'Footprints', front: 'Movimientos', back: 'Muévete **con intención**: da un paso hacia el público para decir algo importante o acércate al cartel para señalarlo. No camines de un lado a otro sin razón.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer',
+          prompt: 'Observa la imagen. La niña de la izquierda dice exactamente las mismas palabras que la de la derecha. ¿Qué **te comunica** su cuerpo?',
+          explain: 'Aunque las palabras sean iguales, los brazos cruzados, la vista al suelo y el balanceo transmiten nervios o desinterés. El cuerpo habla, ¡aunque no queramos!' },
+        { options: [
+          { id: 'a', text: 'Que está segura y entusiasmada con su tema', feedback: 'Fíjate en los brazos y en hacia dónde mira: dicen otra cosa.' },
+          { id: 'b', text: 'Que está nerviosa o que no le interesa mucho su tema' },
+          { id: 'c', text: 'Nada: el cuerpo no comunica', feedback: 'Siempre comunica. Por eso conviene usarlo a nuestro favor.' },
+        ], correct: ['b'] },
       ),
       S.sort(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer', prompt: '¿Esto **ayuda** a comunicar o **distrae** al público?',
@@ -443,129 +443,113 @@ export default [
   // ───────────────────────────── Lección 4 ─────────────────────────────
   lesson({
     id: 's01-l1-4',
-    title: 'Lenguajes icónicos: pantallas y mapas',
-    icon: 'Smartphone',
-    minutes: 13,
-    gancho: 'En una pantalla y en un mapa hay dibujos que entiendes sin una oración completa: una lupa, una flecha N, un símbolo de escuela. ¿Cómo sabes lo que significan?',
+    title: 'Construir y leer un mapa anotado',
+    icon: 'Map',
+    minutes: 14,
+    gancho: 'Un mapa pequeño puede decir dónde está un lugar, qué significa cada signo y qué evidencia encontramos allí. ¿Cómo logramos que otra persona lo entienda sin explicaciones extra?',
     objetivos: [
-      'Reconocer los lenguajes que se usan en los medios tecnológicos: escrito, icónico y audiovisual',
-      'Interpretar la orientación, los símbolos, la clave y las anotaciones de un mapa',
-      'Elegir el lenguaje adecuado según a quién le escribes',
+      'Interpretar la orientación, los símbolos y la clave de un mapa',
+      'Construir un mapa sencillo con símbolos explicados',
+      'Vincular una anotación de evidencia con el lugar correspondiente',
     ],
     resumen: [
-      'En los medios tecnológicos se combinan varios lenguajes: el escrito (palabras), el icónico (íconos, emojis, símbolos) y el audiovisual (audio, video, notas de voz).',
-      'Los íconos y símbolos comunican con dibujos. En un mapa, la orientación señala el norte, la clave explica los símbolos y las anotaciones conectan evidencia con un lugar.',
-      'Los emojis y abreviaturas sirven en mensajes informales con personas de confianza, pero pueden malinterpretarse. Con adultos o instituciones se escribe completo y con cortesía.',
-      'Escribir TODO EN MAYÚSCULAS en un mensaje se entiende como gritar.',
+      'La flecha N orienta el mapa y permite reconocer el norte.',
+      'Los símbolos representan lugares; la clave explica qué significa cada símbolo.',
+      'Los rótulos nombran los lugares y las anotaciones conectan una evidencia con un lugar mediante una línea.',
+      'Un mapa claro permite que otra persona ubique, interprete y compruebe la información.',
     ],
     media: {
-      id: 's01-l1-4-iconos', kind: 'diagram', title: 'Íconos que hablan', aspect: '4:3',
-      alt: 'Pantalla de una tableta con seis íconos rotulados: lupa (buscar), sobre (correo), clip (adjuntar), flecha curva (responder), engranaje (configuración) y bote de basura (eliminar).',
-      brief: 'Diagrama limpio de una pantalla de tableta genérica (sin marcas ni logotipos reales). Seis íconos grandes en cuadrícula de 3 × 2, cada uno con su rótulo debajo: lupa = Buscar, sobre = Correo, clip = Adjuntar, flecha curva hacia la izquierda = Responder, engranaje = Configuración, bote de basura = Eliminar. Estilo de línea simple, colores planos, fondo claro. Título superior: "El lenguaje icónico".',
+      id: 's01-l1-4-mapa-anotado', kind: 'diagram', title: 'Cómo se construye un mapa anotado', aspect: '4:3',
+      alt: 'Croquis sencillo con flecha norte, camino, escuela, nacimiento de agua y barranco; una clave explica tres símbolos y una anotación está unida a la escuela.',
+      brief: 'Diagrama escolar de un croquis visto desde arriba. Incluye una flecha N, un camino principal, tres lugares rotulados (escuela, nacimiento de agua y barranco), tres símbolos simples repetidos en una clave y una anotación breve unida mediante una línea a la escuela. Fondo claro, trazo grueso y rótulos legibles en celular.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer',
-          prompt: 'Estás escribiendo un trabajo en una computadora y quieres **guardarlo** para no perderlo. Ninguno de los botones tiene palabras. ¿Cuál tocarías?',
-          explain: 'El ícono de guardar suele ser un cuadrito con una flecha hacia abajo o un pequeño disco. Entendemos estos dibujos sin palabras porque forman un **lenguaje**: el lenguaje icónico.' },
-        { options: [
-          { id: 'a', text: 'Un bote de basura', icon: 'Trash2', feedback: '¡Cuidado! El bote de basura significa eliminar.' },
-          { id: 'b', text: 'Un cuadrito con una flecha hacia abajo', icon: 'Download' },
-          { id: 'c', text: 'Una lupa', icon: 'Search', feedback: 'La lupa sirve para buscar.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer', title: 'Tres lenguajes en una pantalla',
-          prompt: 'Cuando usas un teléfono, una tableta o una computadora, combinas **varios lenguajes** a la vez. Toca cada tarjeta.' },
-        { icon: 'Monitor', body: 'Un **lenguaje** es un sistema de signos que sirve para comunicar. No solo las palabras son lenguaje: también los dibujos, los sonidos y las imágenes en movimiento.', reveal: [
-          { icon: 'Type', front: 'Lenguaje escrito', back: 'Las **palabras**: mensajes, correos, textos de una página, títulos de un video.' },
-          { icon: 'Smile', front: 'Lenguaje icónico', back: 'Los **dibujos y símbolos** que representan algo: íconos de botones, emojis, señales. Un ícono dice mucho en poco espacio.' },
-          { icon: 'Video', front: 'Lenguaje audiovisual', back: '**Sonido e imagen**: notas de voz, videos, videollamadas, música. Aquí también comunican el tono de voz y los gestos.' },
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'conocer', title: 'Cuatro convenciones para comunicar un lugar',
+          prompt: 'Un mapa combina lenguaje icónico y escrito. Cada parte cumple una función para que otras personas puedan interpretarlo.' },
+        { icon: 'Map', body: 'Primero se establece la **orientación**; luego se colocan **símbolos**, se explican en una **clave** y se conectan **anotaciones** de evidencia con lugares precisos.', reveal: [
+          { icon: 'Navigation', front: 'Orientación', back: 'Una flecha con la letra **N** indica el norte y permite reconocer las demás direcciones.' },
+          { icon: 'MapPin', front: 'Símbolo y rótulo', back: 'Un signo sencillo representa un lugar y el rótulo confirma su nombre.' },
+          { icon: 'List', front: 'Clave', back: 'Repite cada símbolo y explica su significado. El mismo signo puede significar cosas distintas en mapas diferentes.' },
+          { icon: 'MessageSquareText', front: 'Anotación de evidencia', back: 'Una frase breve se une con una línea al lugar que aporta la evidencia: por ejemplo, “La escuela está en terreno firme”.' },
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer', title: 'Ejemplo resuelto: leer un mapa anotado',
-          prompt: 'Un mapa es un texto icónico: combina símbolos y palabras para comunicar información de un lugar.' },
-        { icon: 'Map', problem: '¿Cómo lee Ana un croquis de su comunidad sin que otra persona tenga que explicárselo?',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer', title: 'Modelo: del croquis a la evidencia',
+          prompt: 'Observa cómo Ana construye un mapa que otra persona puede leer sin ayuda.' },
+        { icon: 'Map', problem: 'Ana necesita representar la escuela, un nacimiento de agua y un barranco, y mostrar que la escuela está en terreno firme.',
           steps: [
-            { text: '**Orientación:** busca la flecha con la letra **N** para reconocer el norte y las demás direcciones.' },
-            { text: '**Símbolos:** identifica los signos que representan lugares, como una escuela, un nacimiento de agua o un barranco.' },
-            { text: '**Clave:** consulta el recuadro que explica qué significa cada símbolo; un signo sin clave puede ser ambiguo.' },
-            { text: '**Rótulos:** comprueba el nombre y la ubicación de cada lugar antes de sacar conclusiones.' },
-            { text: '**Anotación con evidencia:** sigue la línea que une “La escuela está en terreno firme” con la escuela. La anotación conecta evidencia, lugar y significado.' },
+            { text: 'Traza el camino principal y añade una flecha con **N** para orientar el mapa.' },
+            { text: 'Coloca tres símbolos sencillos donde están los lugares y escribe sus rótulos.' },
+            { text: 'Copia los tres símbolos en una **clave** y escribe qué significa cada uno.' },
+            { text: 'Escribe “La escuela está en terreno firme” y la une con una línea al símbolo de la escuela.', why: 'La línea muestra qué lugar respalda la anotación.' },
           ],
-          answer: 'Ana interpreta la orientación, consulta la clave, ubica los símbolos y relaciona cada anotación con el lugar que aporta la evidencia.',
-          tip: 'Lee primero la orientación y la clave; después interpreta los detalles y las anotaciones.' },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer', title: 'Emojis, abreviaturas y mayúsculas',
-          prompt: 'En los mensajes de texto usamos atajos. Son útiles, pero hay que saber **cuándo** usarlos. Toca cada tarjeta.' },
-        { icon: 'MessageCircle', body: 'La regla de oro: **piensa en quién va a leer tu mensaje**. No se le escribe igual a un amigo que a la directora.', reveal: [
-          { icon: 'Smile', front: 'Emojis', back: 'Muestran emociones que en un texto no se ven. Pero pueden **malinterpretarse**: un emoji puede significar una cosa para ti y otra para quien lo recibe. En mensajes formales, mejor no usarlos.' },
-          { icon: 'Scissors', front: 'Abreviaturas', back: '"q" por "que", "xq" por "porque", "tmb" por "también". Se usan entre amigos para ir rápido, pero en tareas, correos a adultos o solicitudes **se escribe completo**.' },
-          { icon: 'Megaphone', front: 'MAYÚSCULAS', back: 'Escribir TODO EN MAYÚSCULAS en un mensaje se lee como si estuvieras **gritando**. Úsalas solo al inicio de oración y en nombres propios.' },
-          { icon: 'Mic', front: 'Notas de voz', back: 'Transmiten tu tono. Antes de enviar una, piensa si el lugar es adecuado y si la persona puede escucharla en ese momento.' },
-        ] },
+          answer: 'El mapa queda orientado, sus símbolos se entienden por la clave y la anotación está vinculada a la escuela.',
+          tip: 'Comprueba que cada símbolo aparezca en la clave y que cada anotación señale un lugar concreto.' },
       ),
       S.sort(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'hacer', prompt: '¿Dónde es adecuado cada mensaje? Clasifícalo.',
-          hint: 'Si el mensaje tiene abreviaturas o emojis, es para alguien de mucha confianza.',
-          explain: 'Con personas de confianza podemos ser informales. Con docentes, autoridades o personas que no conocemos, usamos un lenguaje completo y respetuoso.' },
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer',
+          prompt: 'Ayuda a Ana a organizar las piezas antes de dibujar el mapa.',
+          hint: 'En el mapa van la orientación y los lugares; la clave explica signos; la anotación comunica evidencia vinculada.',
+          explain: 'La flecha N y los lugares se colocan en el mapa; la clave explica los símbolos; la anotación se une al lugar que aporta la evidencia.' },
         { buckets: [
-          { id: 'inf', label: 'Chat con un amigo', icon: 'MessageCircle', color: 'var(--c-maiz-strong)' },
-          { id: 'for', label: 'Mensaje a la directora', icon: 'School', color: 'var(--area-l1)' },
+          { id: 'mapa', label: 'Colocar en el mapa', icon: 'Map' },
+          { id: 'clave', label: 'Explicar en la clave', icon: 'List' },
+          { id: 'anotacion', label: 'Vincular como anotación', icon: 'MessageSquareText' },
         ], items: [
-          { id: 'e1', text: '"Q onda, ¿vamos al partido? ⚽"', bucket: 'inf' },
-          { id: 'e2', text: '"Buenos días, señora directora. Le escribo para solicitarle…"', bucket: 'for' },
-          { id: 'e3', text: '"Jajaja xq no me dijiste 😂"', bucket: 'inf' },
-          { id: 'e4', text: '"Muchas gracias por su atención. Atentamente, Lucía Pérez, 6.º grado."', bucket: 'for' },
-          { id: 'e5', text: '"tmb llevo las tortillas 👍"', bucket: 'inf' },
+          { id: 'g1', text: 'Flecha con la letra N', bucket: 'mapa' },
+          { id: 'g2', text: 'Símbolo de la escuela en su ubicación', bucket: 'mapa' },
+          { id: 'g3', text: 'El mismo símbolo junto a la palabra “Escuela”', bucket: 'clave' },
+          { id: 'g4', text: '“La escuela está en terreno firme”, unida con una línea a la escuela', bucket: 'anotacion' },
         ] },
       ),
-      S.reading(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'convivir',
-          prompt: 'Lee esta conversación del grupo de chat de un grado y responde.' },
-        { genre: 'Conversación en chat', heading: 'Grupo "Sexto B – tareas"', passage:
-          'Diego: Alguien sabe para cuándo es la maqueta?\n\nFernanda: ES PARA EL VIERNES, YA LO DIJO LA SEÑO TRES VECES.\n\nDiego: ok… perdón 😕\n\nKevin: Tranquilos 🙂 Diego, es para el viernes y se hace en parejas. ¿Quieres hacerla conmigo?\n\nDiego: ¡Sí! Gracias, Kevin 🙌',
-          questions: [
-            { q: '¿Por qué Diego responde "ok… perdón" con un emoji triste?', options: [
-              { id: 'a', text: 'Porque sintió que Fernanda le gritó al escribir en mayúsculas' },
-              { id: 'b', text: 'Porque perdió su maqueta' },
-              { id: 'c', text: 'Porque Kevin lo regañó' },
-            ], correct: 'a', why: 'Las mayúsculas se leen como gritos. Aunque Fernanda quizá no quiso ofender, Diego se sintió mal.' },
-            { q: '¿Qué hizo Kevin para mejorar la conversación?', options: [
-              { id: 'a', text: 'Respondió con calma, dio la información y ofreció ayuda' },
-              { id: 'b', text: 'Escribió también en mayúsculas' },
-              { id: 'c', text: 'Ignoró la pregunta de Diego' },
-            ], correct: 'a', why: 'Su tono amable, el emoji sonriente y la información completa cambiaron el ambiente del chat.' },
-            { q: '¿Cómo pudo escribir Fernanda la misma información sin hacer sentir mal a Diego?', options: [
-              { id: 'a', text: '"Es para el viernes, Diego. La seño lo anotó en el pizarrón."' },
-              { id: 'b', text: '"¡¡¡YA LO DIJERON!!!"' },
-              { id: 'c', text: 'No responder nada' },
-            ], correct: 'a', why: 'La misma información, con minúsculas y un tono tranquilo, llega sin herir.' },
+      S.project(
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer', title: 'Transferencia: un mapa que se entiende solo',
+          prompt: 'Sin mirar el modelo, representa un trayecto corto de tu casa a un lugar conocido.' },
+        { goal: 'Construir un croquis orientado que comunique lugares y una evidencia sin explicación oral.',
+          steps: [
+            { title: 'Base y clave', detail: 'Traza un camino, marca el norte, coloca dos lugares con símbolos y rótulos, y explica ambos símbolos en una clave.' },
+            { title: 'Evidencia vinculada', detail: 'Escribe una observación comprobable y únela con una línea al lugar correspondiente.' },
+          ],
+          evidence: 'Un croquis con norte, dos lugares rotulados, una clave de dos símbolos y una anotación vinculada.',
+          rubric: [
+            'La flecha N orienta el mapa',
+            'Los dos símbolos aparecen explicados en la clave',
+            'La anotación expresa evidencia y señala un lugar concreto',
           ] },
       ),
-      S.fill(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'hacer',
-          prompt: 'Sofía quiere mandarle a su maestra un mensaje que escribió como si fuera para una amiga: "_hola seño xq no vine ayer tmb mañana no voy q pena_". Ayúdale a escribirlo completo y con cortesía.',
-          explain: 'Saludo formal, palabras completas y una despedida hacen que el mensaje sea claro y respetuoso.' },
-        { text: '[[Buenos días]], maestra. Le escribo para contarle [[por qué]] no asistí a clases ayer: estaba enferma. [[También]] quiero avisarle que mañana tengo cita en el centro de salud. [[Muchas gracias]] por su comprensión. Sofía.',
-          distractors: ['xq', 'Q onda', 'tmb'] },
+      S.choice(
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer',
+          prompt: 'Luis dibujó un triángulo junto al camino, pero no lo incluyó en la clave. ¿Qué debe hacer para que el mapa sea interpretable?' },
+        { options: [
+          { id: 'a', text: 'Añadir el triángulo a la clave y explicar qué representa' },
+          { id: 'b', text: 'Cambiar el triángulo de color sin explicar nada' },
+          { id: 'c', text: 'Borrar la flecha norte' },
+        ], correct: ['a'] },
+      ),
+      S.match(
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'conocer',
+          prompt: 'Relaciona cada problema del mapa con la corrección que necesita.' },
+        { leftTitle: 'Problema', rightTitle: 'Corrección', pairs: [
+          { id: 'p1', left: 'No se sabe hacia dónde queda el norte', right: 'Añadir una flecha N' },
+          { id: 'p2', left: 'Un símbolo no se entiende', right: 'Explicarlo en la clave' },
+          { id: 'p3', left: 'Una evidencia parece estar suelta', right: 'Unirla con una línea al lugar' },
+        ] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], prompt: 'Evalúa cómo se interpreta un mapa anotado.' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], prompt: 'Evalúa estas decisiones de construcción cartográfica.' },
         { statements: [
-          { text: 'La flecha N permite reconocer la orientación del mapa.', answer: true },
-          { text: 'Un triángulo significa lo mismo en cualquier mapa, aunque no haya clave.', answer: false, why: 'La clave establece qué significa cada símbolo en ese mapa.' },
-          { text: 'Una frase unida con una línea a la escuela puede aportar evidencia sobre ese lugar.', answer: true },
+          { text: 'La clave debe incluir los símbolos que aparecen en el mapa.', answer: true },
+          { text: 'Una anotación puede quedar lejos y sin conexión porque su lugar se adivina.', answer: false, why: 'Debe señalar el lugar que aporta la evidencia.' },
+          { text: 'La orientación y los rótulos ayudan a ubicar e interpretar los lugares.', answer: true },
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.4.2'], prompt: 'Quieres pedirle al director permiso para usar el salón de computación. ¿Cuál mensaje es el adecuado?' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], prompt: '¿Cuál mapa comunica mejor una observación sobre la cancha?' },
         { options: [
-          { id: 'a', text: '"Buenas tardes, señor director. Le solicito permiso para usar el salón de computación el jueves. Gracias. Marta, 6.º A."' },
-          { id: 'b', text: '"PROFE PRESTEME LA COMPU"' },
-          { id: 'c', text: '"hola q tal me presta el salon el jue 😎"' },
+          { id: 'a', text: 'Tiene norte, cancha rotulada, símbolo explicado y la frase “Se inunda cuando llueve” unida a la cancha' },
+          { id: 'b', text: 'Tiene varios dibujos decorativos sin clave ni rótulos' },
+          { id: 'c', text: 'Tiene la frase “Hay un problema” sin señalar ningún lugar' },
         ], correct: ['a'] },
       ),
     ],
@@ -595,16 +579,6 @@ export default [
       brief: 'Diagrama de una ventana de correo genérica (sin marca real). Campos rotulados con flechas de colores: "Para" (correo inventado biblioteca@ejemplo.org), "Asunto: Solicitud de libros sobre volcanes", saludo "Buenos días:", cuerpo de tres líneas, despedida "Atentamente,", firma "Julio Tzoc, 6.º grado, Escuela Oficial Rural Mixta" y el ícono de clip con la etiqueta "Adjuntar". Estilo plano, colores suaves, letra grande legible en teléfono.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer',
-          prompt: 'La directora recibe muchos correos al día. ¿Cuál de estos **asuntos** le ayuda a saber de qué trata el mensaje antes de abrirlo?',
-          explain: 'Un buen asunto es corto y dice exactamente de qué trata el correo. Así la persona sabe si es urgente y lo encuentra fácilmente después.' },
-        { options: [
-          { id: 'a', text: '"Hola"', icon: 'Mail', feedback: '"Hola" no dice nada sobre el tema del correo.' },
-          { id: 'b', text: '"Solicitud de permiso para la feria de ciencias"', icon: 'MailCheck' },
-          { id: 'c', text: '"URGENTE!!!!!"', icon: 'Megaphone', feedback: 'Las mayúsculas y los signos repetidos parecen gritos, y no dicen el tema.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer', title: 'Las partes de un correo',
           prompt: 'Observa el diagrama y toca cada tarjeta para conocer las partes de un correo electrónico.' },
@@ -615,6 +589,16 @@ export default [
           { icon: 'AlignJustify', front: 'Cuerpo', back: 'El mensaje: **quién eres**, **qué necesitas o quieres contar** y **para qué**. Párrafos cortos y palabras completas.' },
           { icon: 'PenLine', front: 'Despedida y firma', back: 'Despedida: "Atentamente," / "Muchas gracias," / "Un abrazo,". Firma: tu nombre y, si es formal, tu grado y escuela.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer',
+          prompt: 'La directora recibe muchos correos al día. ¿Cuál de estos **asuntos** le ayuda a saber de qué trata el mensaje antes de abrirlo?',
+          explain: 'Un buen asunto es corto y dice exactamente de qué trata el correo. Así la persona sabe si es urgente y lo encuentra fácilmente después.' },
+        { options: [
+          { id: 'a', text: '"Hola"', icon: 'Mail', feedback: '"Hola" no dice nada sobre el tema del correo.' },
+          { id: 'b', text: '"Solicitud de permiso para la feria de ciencias"', icon: 'MailCheck' },
+          { id: 'c', text: '"URGENTE!!!!!"', icon: 'Megaphone', feedback: 'Las mayúsculas y los signos repetidos parecen gritos, y no dicen el tema.' },
+        ], correct: ['b'] },
       ),
       S.order(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'hacer', prompt: 'Ordena las partes del correo de Julio, de arriba hacia abajo.',

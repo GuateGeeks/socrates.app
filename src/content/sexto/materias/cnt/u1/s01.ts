@@ -30,6 +30,15 @@ export default [
       brief: 'Ilustración horizontal en tres paneles con el mismo estilo cálido de libro infantil. Panel 1 "Génesis": luz que se abre sobre aguas, luego tierra con plantas, Sol, Luna y estrellas, aves y peces (sin representar a Dios con rostro). Panel 2 "Popol Vuh": montañas de Guatemala, figuras sencillas de barro, de madera y de maíz amarillo y blanco, en colores tierra. Panel 3 "Ciencia": nube de gas y polvo girando que forma el Sol y planetas pequeños, con la Tierra aún roja y caliente. Rótulos breves en cada panel. Respeto total a cada tradición; nada caricaturesco.',
     },
     steps: [
+      S.explain(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.1.1'], ambito: 'conocer', title: 'Relatos y explicaciones',
+          prompt: 'Antes de conocer los relatos, aprende tres palabras clave. Toca cada tarjeta.' },
+        { icon: 'Globe', body: 'Preguntar **"¿de dónde venimos?"** es muy humano. Las respuestas dependen de **para qué** se hace la pregunta.', reveal: [
+          { icon: 'Eye', front: 'Cosmovisión', back: 'La **manera en que un pueblo entiende el mundo**: su origen, la naturaleza, lo sagrado y el lugar del ser humano.' },
+          { icon: 'BookOpen', front: 'Relato de origen', back: 'Una narración de **fe o de cultura** que explica el comienzo del mundo y enseña **valores**: gratitud, respeto, cuidado de la vida. Se transmite de generación en generación.' },
+          { icon: 'Microscope', front: 'Explicación científica', back: 'Una explicación que se construye con **observaciones, mediciones y pruebas**, y que **cambia** si aparecen pruebas nuevas.' },
+        ] },
+      ),
       S.choice(
         { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.1.1'], ambito: 'conocer',
           prompt: 'Las personas se preguntan desde hace miles de años **cómo empezó el mundo**. ¿Cuántas explicaciones crees que existen?',
@@ -39,15 +48,6 @@ export default [
           { id: 'b', text: 'Varias: cada pueblo tiene la suya, y la ciencia tiene otra', icon: 'Layers' },
           { id: 'c', text: 'Ninguna: nadie se lo ha preguntado', icon: 'X', feedback: 'Es una de las preguntas más antiguas de la humanidad.' },
         ], correct: ['b'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.1.1'], ambito: 'conocer', title: 'Relatos y explicaciones',
-          prompt: 'Antes de conocer los relatos, aprende tres palabras clave. Toca cada tarjeta.' },
-        { icon: 'Globe', body: 'Preguntar **"¿de dónde venimos?"** es muy humano. Las respuestas dependen de **para qué** se hace la pregunta.', reveal: [
-          { icon: 'Eye', front: 'Cosmovisión', back: 'La **manera en que un pueblo entiende el mundo**: su origen, la naturaleza, lo sagrado y el lugar del ser humano.' },
-          { icon: 'BookOpen', front: 'Relato de origen', back: 'Una narración de **fe o de cultura** que explica el comienzo del mundo y enseña **valores**: gratitud, respeto, cuidado de la vida. Se transmite de generación en generación.' },
-          { icon: 'Microscope', front: 'Explicación científica', back: 'Una explicación que se construye con **observaciones, mediciones y pruebas**, y que **cambia** si aparecen pruebas nuevas.' },
-        ] },
       ),
       S.reading(
         { fase: 'construir', areas: ['cnt', 'l1'], cnb: ['cnt:1.1.1'], ambito: 'conocer', title: 'El relato judeocristiano',
@@ -194,6 +194,15 @@ export default [
       brief: 'Diagrama escolar en colores planos de una célula animal de forma redondeada e irregular, vista en corte. Rotular con líneas guía y letra grande: membrana celular (borde fino azul), citoplasma (celeste claro), núcleo (morado, con nucléolo y ADN como hilos), mitocondrias (naranja, forma de frijol con pliegues), ribosomas (puntitos negros), retículo endoplasmático (pliegues rosados junto al núcleo), aparato de Golgi (sacos amarillos apilados), lisosomas (círculos verdes pequeños), vacuolas pequeñas y par de centriolos. Fondo blanco. Estilo de libro de texto de primaria, sin exceso de detalle.',
     },
     steps: [
+      S.explain(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.2.1'], ambito: 'conocer', title: '¿Qué es una célula?',
+          prompt: 'La **célula** es la unidad más pequeña que tiene vida: se alimenta, crece, responde y se reproduce. Toca cada tarjeta.' },
+        { icon: 'Microscope', body: 'La mayoría de las células mide **menos de una décima de milímetro**: por eso necesitamos un **microscopio** para verlas. Tu cuerpo tiene **billones** de ellas (millones de millones).', reveal: [
+          { icon: 'Blocks', front: 'Unidad de la vida', back: '**Todos** los seres vivos están formados por células: algunos por una sola, otros, como tú, por billones.' },
+          { icon: 'Copy', front: 'Viene de otra célula', back: 'Toda célula nace de **otra célula** que se divide en dos. Así creces y así se reparan tus heridas.' },
+          { icon: 'Layers', front: 'Tres partes principales', back: '**Membrana** (el borde), **citoplasma** (el interior) y **núcleo** (el centro de mando).' },
+        ] },
+      ),
       S.choice(
         { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.2.1'], ambito: 'conocer',
           prompt: '¿Qué tienen en común un **jaguar**, una **hormiga** y **tú**?',
@@ -203,15 +212,6 @@ export default [
           { id: 'b', text: 'Todos están formados por células', icon: 'Microscope' },
           { id: 'c', text: 'Todos tienen pelo', icon: 'Cat', feedback: 'Ni la hormiga ni tú tienen el cuerpo cubierto de pelo como el jaguar.' },
         ], correct: ['b'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.2.1'], ambito: 'conocer', title: '¿Qué es una célula?',
-          prompt: 'La **célula** es la unidad más pequeña que tiene vida: se alimenta, crece, responde y se reproduce. Toca cada tarjeta.' },
-        { icon: 'Microscope', body: 'La mayoría de las células mide **menos de una décima de milímetro**: por eso necesitamos un **microscopio** para verlas. Tu cuerpo tiene **billones** de ellas (millones de millones).', reveal: [
-          { icon: 'Blocks', front: 'Unidad de la vida', back: '**Todos** los seres vivos están formados por células: algunos por una sola, otros, como tú, por billones.' },
-          { icon: 'Copy', front: 'Viene de otra célula', back: 'Toda célula nace de **otra célula** que se divide en dos. Así creces y así se reparan tus heridas.' },
-          { icon: 'Layers', front: 'Tres partes principales', back: '**Membrana** (el borde), **citoplasma** (el interior) y **núcleo** (el centro de mando).' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.2.1'], ambito: 'conocer', title: 'Las partes principales',
@@ -349,16 +349,6 @@ export default [
       brief: 'Diagrama escolar comparativo en colores planos. Izquierda: célula animal redondeada (membrana, citoplasma, núcleo, mitocondrias, ribosomas, retículo, Golgi, lisosomas, centriolos). Derecha: célula vegetal con forma de ladrillo: pared celular gruesa verde oscuro por fuera de la membrana, varios cloroplastos verdes ovalados, vacuola central grande celeste que empuja el núcleo hacia un lado, mitocondrias. Estructuras compartidas con el mismo color en ambas células; las exclusivas con un borde de estrella y rótulo en negrita ("solo vegetal", "solo animal"). Letra grande, fondo blanco.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer',
-          prompt: 'Haz una predicción: ¿por qué una hoja de lechuga fresca se mantiene **firme** y cruje?',
-          explain: '¡Buena pista! Las células vegetales tienen una **pared celular** rígida y una **vacuola** llena de agua que empuja hacia afuera. Hoy verás cómo funciona.' },
-        { options: [
-          { id: 'a', text: 'Porque sus células tienen una cubierta rígida y mucha agua adentro', icon: 'Droplets' },
-          { id: 'b', text: 'Porque tiene huesos muy pequeños', icon: 'Bone', feedback: 'Las plantas no tienen huesos. La firmeza viene de sus células.' },
-          { id: 'c', text: 'Porque está fría', icon: 'Snowflake', feedback: 'El frío ayuda a conservarla, pero la firmeza viene de la estructura de sus células.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer', title: 'Lo que comparten',
           prompt: 'Las células de plantas y de animales son **parecidas por dentro**. Toca las tarjetas.' },
@@ -368,6 +358,16 @@ export default [
           { icon: 'Zap', front: 'Mitocondrias', back: '¡Ojo! Las plantas **también** tienen mitocondrias: necesitan energía para crecer, igual que tú.' },
           { icon: 'Package', front: 'Ribosomas, retículo y Golgi', back: 'Ambas fabrican, transportan y empacan sustancias con los mismos organelos.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer',
+          prompt: 'Haz una predicción: ¿por qué una hoja de lechuga fresca se mantiene **firme** y cruje?',
+          explain: '¡Buena pista! Las células vegetales tienen una **pared celular** rígida y una **vacuola** llena de agua que empuja hacia afuera. Hoy verás cómo funciona.' },
+        { options: [
+          { id: 'a', text: 'Porque sus células tienen una cubierta rígida y mucha agua adentro', icon: 'Droplets' },
+          { id: 'b', text: 'Porque tiene huesos muy pequeños', icon: 'Bone', feedback: 'Las plantas no tienen huesos. La firmeza viene de sus células.' },
+          { id: 'c', text: 'Porque está fría', icon: 'Snowflake', feedback: 'El frío ayuda a conservarla, pero la firmeza viene de la estructura de sus células.' },
+        ], correct: ['a'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer', title: 'Lo que las hace diferentes',

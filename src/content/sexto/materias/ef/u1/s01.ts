@@ -31,16 +31,6 @@ export default [
       brief: 'Animación 2D anatómica sencilla, estilo libro escolar, 50 s. (1) Brazo de una niña levantando un canasto pequeño; vista transparente con húmero, radio y cúbito en beige, bíceps rojo delante y tríceps rojo detrás. (2) Flexión del codo: el bíceps se engrosa y acorta (rótulo "se contrae"), el tríceps se alarga ("se relaja"); flecha "flexión". (3) Extensión: al revés; flecha "extensión". (4) Zoom al codo: tendones en blanco uniendo músculo-hueso (rótulo "tendón"), bandas que unen hueso-hueso (rótulo "ligamento"). (5) Giro de la muñeca: "rotación". Narración en español, subtítulos. Sin sangre ni detalles gráficos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.1.6'], ambito: 'conocer',
-          prompt: 'Dobla tu brazo como mostrando tu "fuerza" y toca con la otra mano la parte de adelante del brazo. ¿Qué sientes?',
-          explain: 'Sientes el **bíceps** endurecerse y abultarse: se **contrae** (se acorta) y jala el hueso del antebrazo hacia arriba. Así funcionan todos los músculos que mueven el esqueleto.' },
-        { options: [
-          { id: 'a', text: 'Se pone duro y abultado', icon: 'Dumbbell' },
-          { id: 'b', text: 'Se queda igual de blando', icon: 'Minus', feedback: 'Prueba de nuevo apretando el puño: el músculo de adelante se endurece al doblar el codo.' },
-          { id: 'c', text: 'Se siente el hueso moviéndose solo', icon: 'Bone', feedback: 'Los huesos no se mueven solos: los músculos los jalan.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['ef', 'cnt'], cnb: ['ef:1.1.6'], ambito: 'conocer', title: 'El equipo del movimiento',
           prompt: 'Cada movimiento que haces es trabajo en equipo. Toca cada tarjeta para conocer a los integrantes.' },
@@ -50,6 +40,16 @@ export default [
           { icon: 'Link', front: 'Tendones', back: 'Cordones fuertes que **unen el músculo con el hueso**. El más grueso es el tendón de Aquiles, en el talón.' },
           { icon: 'Link2', front: 'Ligamentos', back: 'Bandas que **unen un hueso con otro** en las **articulaciones** (rodilla, tobillo, codo) y las mantienen firmes.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.1.6'], ambito: 'conocer',
+          prompt: 'Dobla tu brazo como mostrando tu "fuerza" y toca con la otra mano la parte de adelante del brazo. ¿Qué sientes?',
+          explain: 'Sientes el **bíceps** endurecerse y abultarse: se **contrae** (se acorta) y jala el hueso del antebrazo hacia arriba. Así funcionan todos los músculos que mueven el esqueleto.' },
+        { options: [
+          { id: 'a', text: 'Se pone duro y abultado', icon: 'Dumbbell' },
+          { id: 'b', text: 'Se queda igual de blando', icon: 'Minus', feedback: 'Prueba de nuevo apretando el puño: el músculo de adelante se endurece al doblar el codo.' },
+          { id: 'c', text: 'Se siente el hueso moviéndose solo', icon: 'Bone', feedback: 'Los huesos no se mueven solos: los músculos los jalan.' },
+        ], correct: ['a'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:1.1.2'], ambito: 'hacer', title: 'Tres movimientos básicos',
@@ -171,16 +171,6 @@ export default [
       brief: 'Video vertical de 45 s en un patio o salón. Parte 1 "Equilibrio estático": una niña (ropa deportiva, rostro no protagonista) se para en un pie, primero con brazos pegados (se tambalea) y luego con brazos abiertos y mirada fija en un punto (se estabiliza); rótulos "brazos abiertos", "mira un punto". Parte 2 "Equilibrio dinámico": camina sobre una línea de yeso o cinta, de talón a punta, con un cuaderno sobre la cabeza. Parte 3: un niño en silla de ruedas hace equilibrio del tronco con una pelota sobre las piernas. Aviso "Hazlo en suelo plano y despejado".',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.2.1'], ambito: 'conocer',
-          prompt: 'Haz una prueba rápida: **lanza una bolita de papel** a un bote con una mano y luego con la otra, 3 veces cada una. Casi todas las personas aciertan más con una mano. ¿Por qué crees que pasa?',
-          explain: 'Acertamos más con la mano **dominante**: la que el cerebro prefiere y ha entrenado más. Hoy vas a ejercitarla y también a darle práctica a la otra.' },
-        { options: [
-          { id: 'a', text: 'Porque es la mano que preferimos y más hemos practicado', icon: 'Target' },
-          { id: 'b', text: 'Porque esa mano tiene más huesos', icon: 'Bone', feedback: 'Las dos manos tienen los mismos huesos. La diferencia está en la práctica y en la preferencia del cerebro.' },
-          { id: 'c', text: 'Por pura suerte', icon: 'Sparkles', feedback: 'Si repites la prueba muchas veces, casi siempre gana la misma mano: no es suerte.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:1.2.1'], ambito: 'conocer', title: 'La lateralidad',
           prompt: 'Nuestro cuerpo tiene dos lados, pero casi siempre **preferimos uno**. Toca cada tarjeta.' },
@@ -190,6 +180,16 @@ export default [
           { icon: 'Target', front: 'Reforzar la dominante', back: 'Practicar lanzamientos, botes y agarres con tu mano dominante mejora tu **precisión** en juegos y deportes.' },
           { icon: 'RefreshCw', front: 'Entrenar la otra', back: 'Practicar también con la mano no dominante te da **más opciones** en el juego y equilibra tu cuerpo.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.2.1'], ambito: 'conocer',
+          prompt: 'Haz una prueba rápida: **lanza una bolita de papel** a un bote con una mano y luego con la otra, 3 veces cada una. Casi todas las personas aciertan más con una mano. ¿Por qué crees que pasa?',
+          explain: 'Acertamos más con la mano **dominante**: la que el cerebro prefiere y ha entrenado más. Hoy vas a ejercitarla y también a darle práctica a la otra.' },
+        { options: [
+          { id: 'a', text: 'Porque es la mano que preferimos y más hemos practicado', icon: 'Target' },
+          { id: 'b', text: 'Porque esa mano tiene más huesos', icon: 'Bone', feedback: 'Las dos manos tienen los mismos huesos. La diferencia está en la práctica y en la preferencia del cerebro.' },
+          { id: 'c', text: 'Por pura suerte', icon: 'Sparkles', feedback: 'Si repites la prueba muchas veces, casi siempre gana la misma mano: no es suerte.' },
+        ], correct: ['a'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:1.2.4'], ambito: 'conocer', title: 'Dos tipos de equilibrio',

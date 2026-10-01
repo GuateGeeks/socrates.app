@@ -29,16 +29,6 @@ export default [
       brief: 'Diagrama ilustrado de un árbol de ceiba. Raíces etiquetadas: "Ambiente sano", "Participación". Tronco: "Trabajo digno e ingresos". Cinco ramas con íconos: plato (Alimentación), estetoscopio (Salud), libro (Educación), casa (Vivienda), gota (Agua y saneamiento). En la copa, familias diversas de Guatemala. Título "El desarrollo es para todas las personas". Colores verdes y cálidos, letra grande, sin marcas.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:1.1.1'], ambito: 'conocer',
-          prompt: '¿Qué crees que hace que una comunidad sea **desarrollada**?',
-          explain: 'El desarrollo no se mide por edificios bonitos, sino por **cómo viven todas las personas**: si comen bien, tienen salud, estudian, tienen agua, vivienda y trabajo digno.' },
-        { options: [
-          { id: 'a', text: 'Que tenga un centro comercial grande', icon: 'ShoppingCart', feedback: 'Un centro comercial puede dar empleo, pero no dice si todas las personas tienen salud, agua o escuela.' },
-          { id: 'b', text: 'Que todas las personas tengan salud, educación, agua y trabajo digno', icon: 'Users' },
-          { id: 'c', text: 'Que unas pocas familias sean muy ricas', icon: 'Coins', feedback: 'Si solo unos pocos viven bien y los demás no, hay desigualdad, no desarrollo.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.1.1'], ambito: 'conocer', title: '¿Qué es el desarrollo?',
           prompt: 'El **desarrollo** es el proceso por el que **todas** las personas de una comunidad mejoran sus condiciones de vida. Tiene varios **elementos**. Toca cada tarjeta.' },
@@ -49,6 +39,16 @@ export default [
           { icon: 'Briefcase', front: 'Trabajo digno e ingresos', back: 'Empleo o negocio que pague lo justo y permita cubrir las necesidades de la familia.' },
           { icon: 'Trees', front: 'Ambiente sano y participación', back: 'Bosques, ríos y suelos cuidados; y que la gente **participe** en las decisiones de su comunidad.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:1.1.1'], ambito: 'conocer',
+          prompt: '¿Qué crees que hace que una comunidad sea **desarrollada**?',
+          explain: 'El desarrollo no se mide por edificios bonitos, sino por **cómo viven todas las personas**: si comen bien, tienen salud, estudian, tienen agua, vivienda y trabajo digno.' },
+        { options: [
+          { id: 'a', text: 'Que tenga un centro comercial grande', icon: 'ShoppingCart', feedback: 'Un centro comercial puede dar empleo, pero no dice si todas las personas tienen salud, agua o escuela.' },
+          { id: 'b', text: 'Que todas las personas tengan salud, educación, agua y trabajo digno', icon: 'Users' },
+          { id: 'c', text: 'Que unas pocas familias sean muy ricas', icon: 'Coins', feedback: 'Si solo unos pocos viven bien y los demás no, hay desigualdad, no desarrollo.' },
+        ], correct: ['b'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.1.1'], ambito: 'conocer', title: '¿Qué es la pobreza y qué la determina?',

@@ -30,16 +30,6 @@ export default [
       brief: 'Animación 2D de 45 s. Un globo terráqueo gira despacio. (1) Aparece el ecuador en azul con la etiqueta "Ecuador 0°" y luego otros paralelos cada 30° (30° N, 60° N, 30° S, 60° S). (2) Aparece el meridiano de Greenwich en naranja "0°" y meridianos cada 30° hacia el este y el oeste. (3) Una lupa se acerca a Centroamérica y un punto marca Guatemala con la leyenda "aprox. 15° N, 90° O". Narración en español: "Latitud: cuánto al norte o al sur. Longitud: cuánto al este o al oeste." Subtítulos. Colores planos, sin banderas.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer',
-          prompt: 'En una sala de cine, tu boleto dice **"Fila F, asiento 12"**. ¿Por qué necesitas **dos** datos para encontrar tu lugar?',
-          explain: 'Con un solo dato habría muchos lugares posibles. Con **dos datos que se cruzan** hay un solo lugar. La Tierra funciona igual: usamos **latitud** y **longitud**.' },
-        { options: [
-          { id: 'a', text: 'Porque la fila dice qué tan adelante y el asiento dice qué tan a un lado: juntos marcan un solo lugar', icon: 'Target' },
-          { id: 'b', text: 'Porque así el boleto se ve más bonito', icon: 'Sparkles', feedback: 'No es por adorno: con solo "fila F" habría muchos asientos posibles.' },
-          { id: 'c', text: 'No hace falta: con la fila es suficiente', icon: 'X', feedback: 'En la fila F hay muchos asientos. Necesitas el número para saber cuál es el tuyo.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer', title: 'Líneas que no se ven, pero sirven',
           prompt: 'Para ubicar lugares, los geógrafos dibujan sobre la Tierra una **red de líneas imaginarias**. No existen en el suelo: están en mapas y globos. Toca cada tarjeta.',
@@ -52,6 +42,16 @@ export default [
           { icon: 'Slash', front: 'Meridianos', back: 'Semicírculos que van **de polo a polo**. Todos se juntan en el Polo Norte y en el Polo Sur.' },
           { icon: 'MapPin', front: 'Meridiano de Greenwich', back: 'Es el meridiano **0°**. Pasa por Greenwich, en Londres (Inglaterra), y divide la Tierra en **este** y **oeste**.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer',
+          prompt: 'En una sala de cine, tu boleto dice **"Fila F, asiento 12"**. ¿Por qué necesitas **dos** datos para encontrar tu lugar?',
+          explain: 'Con un solo dato habría muchos lugares posibles. Con **dos datos que se cruzan** hay un solo lugar. La Tierra funciona igual: usamos **latitud** y **longitud**.' },
+        { options: [
+          { id: 'a', text: 'Porque la fila dice qué tan adelante y el asiento dice qué tan a un lado: juntos marcan un solo lugar', icon: 'Target' },
+          { id: 'b', text: 'Porque así el boleto se ve más bonito', icon: 'Sparkles', feedback: 'No es por adorno: con solo "fila F" habría muchos asientos posibles.' },
+          { id: 'c', text: 'No hace falta: con la fila es suficiente', icon: 'X', feedback: 'En la fila F hay muchos asientos. Necesitas el número para saber cuál es el tuyo.' },
+        ], correct: ['a'] },
       ),
       S.sort(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], prompt: 'Clasifica cada descripción: ¿habla de un **paralelo** o de un **meridiano**?',
@@ -164,6 +164,15 @@ export default [
       brief: 'Diagrama de un globo terráqueo de frente con franjas horizontales coloreadas: zona cálida o tropical (naranja) entre el Trópico de Cáncer (23.5° N) y el Trópico de Capricornio (23.5° S); zonas templadas (verde) entre los trópicos y los círculos polares (66.5°); zonas frías o polares (azul claro) más allá de los círculos polares. Rotular cada línea con su nombre y latitud. Rayos de Sol entrando casi verticales en el ecuador y muy inclinados en los polos. Un punto marca Guatemala dentro de la zona cálida.',
     },
     steps: [
+      S.explain(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer', title: 'La latitud y las zonas climáticas',
+          prompt: 'La Tierra es redonda, así que los rayos del Sol **no llegan igual** a todas partes. Cerca del ecuador llegan casi directos y calientan más; cerca de los polos llegan inclinados y calientan menos. Toca cada tarjeta.' },
+        { icon: 'Sun', body: 'Dos paralelos marcan la zona más cálida: el **Trópico de Cáncer** (unos 23.5° N) y el **Trópico de Capricornio** (unos 23.5° S).', reveal: [
+          { icon: 'Sun', front: 'Zona cálida o tropical', back: 'Entre los dos trópicos. Hace calor casi todo el año. Guatemala está aquí, por eso no tenemos invierno con nieve: tenemos **época seca** y **época lluviosa**.' },
+          { icon: 'Leaf', front: 'Zonas templadas', back: 'Entre los trópicos y los círculos polares. Tienen **cuatro estaciones**: primavera, verano, otoño e invierno. Ejemplo: gran parte de Europa.' },
+          { icon: 'Snowflake', front: 'Zonas frías o polares', back: 'Más allá de los círculos polares (unos 66.5°). Muy frías casi todo el año. Ejemplo: la Antártida.' },
+        ] },
+      ),
       S.choice(
         { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer',
           prompt: 'Dos lugares de Guatemala están a una latitud parecida: **Puerto San José** (a la orilla del mar) y **Quetzaltenango** (en las montañas, a más de 2,300 m). ¿Cuál crees que es más frío?',
@@ -173,15 +182,6 @@ export default [
           { id: 'b', text: 'Puerto San José, porque está junto al mar', icon: 'Waves', feedback: 'Puerto San José está al nivel del mar y es de clima cálido. ¡Sigue la lección para ver por qué!' },
           { id: 'c', text: 'Los dos tienen el mismo clima', icon: 'Equal', feedback: 'Tienen latitud parecida, pero hay algo más que influye mucho: la altura.' },
         ], correct: ['a'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer', title: 'La latitud y las zonas climáticas',
-          prompt: 'La Tierra es redonda, así que los rayos del Sol **no llegan igual** a todas partes. Cerca del ecuador llegan casi directos y calientan más; cerca de los polos llegan inclinados y calientan menos. Toca cada tarjeta.' },
-        { icon: 'Sun', body: 'Dos paralelos marcan la zona más cálida: el **Trópico de Cáncer** (unos 23.5° N) y el **Trópico de Capricornio** (unos 23.5° S).', reveal: [
-          { icon: 'Sun', front: 'Zona cálida o tropical', back: 'Entre los dos trópicos. Hace calor casi todo el año. Guatemala está aquí, por eso no tenemos invierno con nieve: tenemos **época seca** y **época lluviosa**.' },
-          { icon: 'Leaf', front: 'Zonas templadas', back: 'Entre los trópicos y los círculos polares. Tienen **cuatro estaciones**: primavera, verano, otoño e invierno. Ejemplo: gran parte de Europa.' },
-          { icon: 'Snowflake', front: 'Zonas frías o polares', back: 'Más allá de los círculos polares (unos 66.5°). Muy frías casi todo el año. Ejemplo: la Antártida.' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer', title: 'La altitud: más alto, más frío',
@@ -292,6 +292,15 @@ export default [
       brief: 'Animación 2D de 50 s. Mapa de Centroamérica visto desde arriba. Tres placas con colores suaves y rotuladas: Placa de Norteamérica, Placa del Caribe y Placa de Cocos. Flechas muestran que la placa de Cocos se mete debajo de la del Caribe frente a la costa del Pacífico; aparecen triángulos de volcanes a lo largo del altiplano. Luego se resalta la falla del Motagua entre Norteamérica y Caribe. Un sismógrafo dibuja una línea que tiembla. Narración en español: "Guatemala está donde se juntan tres placas: por eso tenemos temblores y volcanes." Sin escenas de destrucción ni personas heridas.',
     },
     steps: [
+      S.explain(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.3.1'], ambito: 'conocer', title: 'Fenómenos que nacen dentro de la Tierra',
+          prompt: 'La capa exterior de la Tierra está partida en enormes piezas llamadas **placas tectónicas**, que se mueven muy despacio. Cuando chocan o se rozan, liberan energía. Toca cada tarjeta.' },
+        { icon: 'Mountain', body: 'Guatemala está donde se juntan **tres placas**: Norteamérica, Caribe y Cocos. También forma parte del **Cinturón de Fuego del Pacífico**, una franja con muchos volcanes y sismos alrededor del océano Pacífico.', reveal: [
+          { icon: 'Activity', front: 'Terremoto o sismo', back: 'Movimiento brusco del suelo cuando las placas liberan energía. El 4 de febrero de **1976** un fuerte terremoto, originado en la **falla del Motagua**, causó grandes daños en Guatemala.' },
+          { icon: 'Flame', front: 'Erupción volcánica', back: 'Salida de lava, ceniza y gases por un volcán. En Guatemala hay volcanes activos como el de **Fuego**, el **Pacaya** y el **Santiaguito**.' },
+          { icon: 'Waves', front: 'Tsunami', back: 'Olas gigantes causadas por un terremoto bajo el mar. En 2004, un tsunami en el océano Índico afectó a varios países de Asia.' },
+        ] },
+      ),
       S.sort(
         { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.3.1'], ambito: 'conocer',
           prompt: 'Antes de aprender, clasifica según lo que ya sabes: ¿este fenómeno viene **de dentro de la Tierra** o **del agua y el aire**?',
@@ -305,15 +314,6 @@ export default [
           { id: 'f3', text: 'Erupción volcánica', bucket: 'geo' },
           { id: 'f4', text: 'Depresión tropical', bucket: 'hid' },
           { id: 'f5', text: 'Sequía', bucket: 'hid' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.3.1'], ambito: 'conocer', title: 'Fenómenos que nacen dentro de la Tierra',
-          prompt: 'La capa exterior de la Tierra está partida en enormes piezas llamadas **placas tectónicas**, que se mueven muy despacio. Cuando chocan o se rozan, liberan energía. Toca cada tarjeta.' },
-        { icon: 'Mountain', body: 'Guatemala está donde se juntan **tres placas**: Norteamérica, Caribe y Cocos. También forma parte del **Cinturón de Fuego del Pacífico**, una franja con muchos volcanes y sismos alrededor del océano Pacífico.', reveal: [
-          { icon: 'Activity', front: 'Terremoto o sismo', back: 'Movimiento brusco del suelo cuando las placas liberan energía. El 4 de febrero de **1976** un fuerte terremoto, originado en la **falla del Motagua**, causó grandes daños en Guatemala.' },
-          { icon: 'Flame', front: 'Erupción volcánica', back: 'Salida de lava, ceniza y gases por un volcán. En Guatemala hay volcanes activos como el de **Fuego**, el **Pacaya** y el **Santiaguito**.' },
-          { icon: 'Waves', front: 'Tsunami', back: 'Olas gigantes causadas por un terremoto bajo el mar. En 2004, un tsunami en el océano Índico afectó a varios países de Asia.' },
         ] },
       ),
       S.explain(

@@ -30,16 +30,6 @@ export default [
       brief: 'Ilustración plana y cálida de un patio escolar en Guatemala, a media mañana. Escenas pequeñas: (1) una niña con traje maya comparte su refacción con un niño nuevo; (2) dos niños ayudan a un compañero con muletas a subir un escalón; (3) un grupo mixto juega con una pelota; (4) una niña garífuna y un niño ladino conversan sonriendo. Paleta de colores vivos, sin textos ni marcas. Evitar estereotipos: niñas y niños en roles activos por igual.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.1.2'], ambito: 'convivir',
-          prompt: 'Una tormenta tumbó la milpa de la familia de Tomás. Al día siguiente, varios vecinos llegaron con sus azadones a ayudar a resembrar, sin cobrar nada. ¿Cómo se llama esa actitud?',
-          explain: 'Ayudar a quien lo necesita, sin esperar pago, es **solidaridad**. Hoy aprenderás este valor y otro que lo acompaña: la **tolerancia**.' },
-        { options: [
-          { id: 'a', text: 'Solidaridad', icon: 'HeartHandshake' },
-          { id: 'b', text: 'Competencia', icon: 'Trophy', feedback: 'En una competencia cada quien busca ganar. Aquí los vecinos trabajan juntos para ayudar.' },
-          { id: 'c', text: 'Indiferencia', icon: 'EyeOff', feedback: 'La indiferencia es no hacer nada ante el problema de otro. Los vecinos hicieron lo contrario.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['fc'], cnb: ['fc:1.1.2'], ambito: 'conocer', title: 'Dos valores para vivir juntos',
           prompt: 'Todos los días **convivimos**: compartimos la casa, el aula, la camioneta, el mercado. Para que la convivencia sea buena necesitamos valores. Toca cada tarjeta.' },
@@ -49,6 +39,16 @@ export default [
           { icon: 'Handshake', front: 'Tolerancia', back: 'Respetar a las personas y sus **ideas, idiomas, costumbres o creencias** aunque sean distintas de las mías. Ejemplo: escuchar con atención a quien piensa diferente.' },
           { icon: 'ShieldCheck', front: 'Lo que la tolerancia NO es', back: 'Tolerar **no** es aguantar golpes, insultos o abusos. Ante un abuso, lo correcto es pedir ayuda a una persona adulta de confianza.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.1.2'], ambito: 'convivir',
+          prompt: 'Una tormenta tumbó la milpa de la familia de Tomás. Al día siguiente, varios vecinos llegaron con sus azadones a ayudar a resembrar, sin cobrar nada. ¿Cómo se llama esa actitud?',
+          explain: 'Ayudar a quien lo necesita, sin esperar pago, es **solidaridad**. Hoy aprenderás este valor y otro que lo acompaña: la **tolerancia**.' },
+        { options: [
+          { id: 'a', text: 'Solidaridad', icon: 'HeartHandshake' },
+          { id: 'b', text: 'Competencia', icon: 'Trophy', feedback: 'En una competencia cada quien busca ganar. Aquí los vecinos trabajan juntos para ayudar.' },
+          { id: 'c', text: 'Indiferencia', icon: 'EyeOff', feedback: 'La indiferencia es no hacer nada ante el problema de otro. Los vecinos hicieron lo contrario.' },
+        ], correct: ['a'] },
       ),
       S.sort(
         { fase: 'construir', areas: ['fc'], cnb: ['fc:1.1.2'], prompt: 'Clasifica cada acción: ¿muestra sobre todo **solidaridad** o **tolerancia**?',
@@ -168,15 +168,6 @@ export default [
       brief: 'Animación 2D de 50 s. Vista aérea ilustrada de una aldea guatemalteca con milpas, casas de block y lámina, un río y una carretera de terracería. Aparecen, uno a uno, íconos sobre lugares concretos: chorro de agua → "Derecho al agua y a la salud", escuela → "Derecho a la educación", centro de salud → "Derecho a la salud", mercado y parcela → "Derecho a la alimentación y al trabajo". Luego un lugar sin chorro se marca con un signo de pregunta: "¿Se cumple este derecho aquí?". Narración: "Los derechos humanos se viven en lugares concretos". Subtítulos. Colores planos, sin textos largos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.2.1'], ambito: 'conocer',
-          prompt: 'Supongamos que en una aldea las niñas y los niños caminan **dos horas** cada mañana para traer agua del río. ¿A qué más crees que afecta esa situación, además de la sed?',
-          explain: '¡Muy bien pensado! La falta de agua afecta la salud, el tiempo para estudiar y hasta el juego. Hoy verás que detrás de cada condición de un lugar hay **derechos humanos**.' },
-        { options: [
-          { id: 'a', text: 'A la salud, al tiempo para estudiar y al descanso', icon: 'Droplets' },
-          { id: 'b', text: 'A nada más: solo es un poco de cansancio', icon: 'X', feedback: 'Piensa: si pasas dos horas acarreando agua, ¿a qué hora estudias o juegas? ¿Y si el agua del río no es limpia?' },
-        ], correct: ['a'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['fc'], cnb: ['fc:1.2.1'], ambito: 'conocer', title: '¿Qué son los derechos humanos?',
           prompt: 'Los **derechos humanos** son lo que toda persona necesita y merece para vivir con **dignidad**, solo por ser persona. Toca cada tarjeta.' },
@@ -187,6 +178,15 @@ export default [
           { icon: 'ScrollText', front: 'Declaración Universal', back: 'Las **Naciones Unidas** la aprobaron el **10 de diciembre de 1948**. Por eso ese día es el Día de los Derechos Humanos.' },
           { icon: 'Landmark', front: 'En Guatemala', back: 'La **Constitución Política de la República** (1985) reconoce derechos como la vida, la libertad, la igualdad, la educación y la salud.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.2.1'], ambito: 'conocer',
+          prompt: 'Supongamos que en una aldea las niñas y los niños caminan **dos horas** cada mañana para traer agua del río. ¿A qué más crees que afecta esa situación, además de la sed?',
+          explain: '¡Muy bien pensado! La falta de agua afecta la salud, el tiempo para estudiar y hasta el juego. Hoy verás que detrás de cada condición de un lugar hay **derechos humanos**.' },
+        { options: [
+          { id: 'a', text: 'A la salud, al tiempo para estudiar y al descanso', icon: 'Droplets' },
+          { id: 'b', text: 'A nada más: solo es un poco de cansancio', icon: 'X', feedback: 'Piensa: si pasas dos horas acarreando agua, ¿a qué hora estudias o juegas? ¿Y si el agua del río no es limpia?' },
+        ], correct: ['a'] },
       ),
       S.tf(
         { fase: 'construir', areas: ['fc'], cnb: ['fc:1.2.1'], prompt: 'Comprueba lo que aprendiste. ¿Verdadero o falso?',

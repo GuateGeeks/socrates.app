@@ -30,6 +30,15 @@ export default [
       brief: 'Audio de 40 s. Voz adulta con inglés claro y pausado (acento estadounidense o británico estándar), sin música. Cada palabra dos veces con 1 s de pausa: "book", "pencil", "notebook", "backpack", "table", "chair", "box". Luego, oraciones con 2 s de pausa: "The book is on the table." "The pencil is in the box." "The backpack is under the chair." "Where is the notebook? It\'s in the backpack."',
     },
     steps: [
+      S.explain(
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer', title: 'Prepositions of place: in, on, under',
+          prompt: 'Las **preposiciones de lugar** dicen **dónde** está algo. Toca cada tarjeta.' },
+        { icon: 'MapPin', body: 'Cuidado: en español decimos "en la mesa" y "en la caja" con la misma palabra, pero en inglés son **distintas**. We say: **"The book is on the table"**, not "in the table".', reveal: [
+          { icon: 'Package', front: 'in', back: '**Dentro de.** _The pencil is **in** the box._ (El lápiz está dentro de la caja.)' },
+          { icon: 'ArrowUp', front: 'on', back: '**Sobre, encima de** (tocando la superficie). _The book is **on** the table._ (El libro está sobre la mesa.)' },
+          { icon: 'ArrowDown', front: 'under', back: '**Debajo de.** _The backpack is **under** the chair._ (La mochila está debajo de la silla.)' },
+        ] },
+      ),
       S.choice(
         { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer',
           prompt: 'Observa la imagen y lee: _"The cat is **on** the box."_ ¿Dónde está el gato?',
@@ -54,15 +63,6 @@ export default [
           { icon: 'Square', front: 'table', back: 'mesa · "téi-bol"' },
           { icon: 'Package', front: 'box', back: 'caja · "boks"' },
           { icon: 'Armchair', front: 'chair', back: 'silla · "cher"' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer', title: 'Prepositions of place: in, on, under',
-          prompt: 'Las **preposiciones de lugar** dicen **dónde** está algo. Toca cada tarjeta.' },
-        { icon: 'MapPin', body: 'Cuidado: en español decimos "en la mesa" y "en la caja" con la misma palabra, pero en inglés son **distintas**. We say: **"The book is on the table"**, not "in the table".', reveal: [
-          { icon: 'Package', front: 'in', back: '**Dentro de.** _The pencil is **in** the box._ (El lápiz está dentro de la caja.)' },
-          { icon: 'ArrowUp', front: 'on', back: '**Sobre, encima de** (tocando la superficie). _The book is **on** the table._ (El libro está sobre la mesa.)' },
-          { icon: 'ArrowDown', front: 'under', back: '**Debajo de.** _The backpack is **under** the chair._ (La mochila está debajo de la silla.)' },
         ] },
       ),
       S.ejemplo(
@@ -177,6 +177,16 @@ export default [
       brief: 'Mapa ilustrado, vista desde arriba con edificios en perspectiva ligera, estilo amable. Una calle principal horizontal. Arriba de la calle, de izquierda a derecha: "school", "store", "park". El "park" tiene árboles y una fuente. Frente al parque, al otro lado de la calle (abajo): "church". Detrás de la escuela (más arriba): "market" con toldos de colores. A la par de la iglesia, a su derecha: "bus stop" con una camioneta. Una "house" pequeña a la izquierda de la iglesia. Rótulos grandes en inglés, en minúscula. Sin marcas comerciales.',
     },
     steps: [
+      S.explain(
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer', title: 'More prepositions of place',
+          prompt: 'Estas preposiciones sirven para ubicar lugares y personas. Toca cada tarjeta y compara con el mapa.' },
+        { icon: 'MapPin', body: 'Fíjate: **in front of** y **next to** tienen varias palabras, pero funcionan como una sola.', reveal: [
+          { icon: 'ArrowLeftRight', front: 'next to', back: '**A la par de, al lado de.** _The bus stop is **next to** the church._' },
+          { icon: 'ArrowUpFromLine', front: 'behind', back: '**Detrás de.** _The market is **behind** the school._' },
+          { icon: 'ArrowDownToLine', front: 'in front of', back: '**Enfrente de.** _The church is **in front of** the park._' },
+          { icon: 'Columns', front: 'between', back: '**Entre** dos cosas, unidas con **and**. _The store is **between** the school **and** the park._' },
+        ] },
+      ),
       S.choice(
         { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer',
           prompt: 'Mira el mapa de la lección. Lee: _"The store is **between** the school and the park."_ ¿Qué crees que significa **between**?',
@@ -200,16 +210,6 @@ export default [
           { icon: 'Church', front: 'church', back: 'iglesia · "cherch"' },
           { icon: 'ShoppingBasket', front: 'store', back: 'tienda · "stor"' },
           { icon: 'Bus', front: 'bus stop', back: 'parada de bus · "bas stop"' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer', title: 'More prepositions of place',
-          prompt: 'Estas preposiciones sirven para ubicar lugares y personas. Toca cada tarjeta y compara con el mapa.' },
-        { icon: 'MapPin', body: 'Fíjate: **in front of** y **next to** tienen varias palabras, pero funcionan como una sola.', reveal: [
-          { icon: 'ArrowLeftRight', front: 'next to', back: '**A la par de, al lado de.** _The bus stop is **next to** the church._' },
-          { icon: 'ArrowUpFromLine', front: 'behind', back: '**Detrás de.** _The market is **behind** the school._' },
-          { icon: 'ArrowDownToLine', front: 'in front of', back: '**Enfrente de.** _The church is **in front of** the park._' },
-          { icon: 'Columns', front: 'between', back: '**Entre** dos cosas, unidas con **and**. _The store is **between** the school **and** the park._' },
         ] },
       ),
       S.ejemplo(

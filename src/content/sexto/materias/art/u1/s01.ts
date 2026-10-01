@@ -30,6 +30,16 @@ export default [
       brief: 'Animación 2D de 50 s. Arriba, un metrónomo sencillo (sin marca) marca 4 pulsos con un punto que salta. Abajo, una "regla" de 4 casillas iguales rotuladas 1-2-3-4. Aparece la redonda y ocupa las 4 casillas mientras suena una nota larga de marimba; luego dos blancas (2 casillas cada una), cuatro negras (1 casilla) y ocho corcheas (media casilla). Cada figura se dibuja grande en negro sobre fondo crema, con su nombre y su duración ("4 tiempos", "2", "1", "½"). Narración en español neutro, voz cálida; subtítulos.',
     },
     steps: [
+      S.explain(
+        { fase: 'construir', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer', title: 'Las cuatro cualidades del sonido',
+          prompt: 'Todo sonido tiene cuatro **cualidades**. Toca cada tarjeta.' },
+        { icon: 'Ear', body: 'Los músicos escriben **partituras** para que otras personas toquen una canción igual, aunque nunca la hayan escuchado. Para eso anotan las cualidades del sonido.', reveal: [
+          { icon: 'ArrowUpDown', front: 'Altura', back: 'Si el sonido es **grave** (grueso, como un tambor grande) o **agudo** (delgado, como el canto de un pajarito).' },
+          { icon: 'Hourglass', front: 'Duración', back: 'Si el sonido es **largo** o **corto**. Hoy aprenderás a escribirla con **figuras musicales**.' },
+          { icon: 'Volume2', front: 'Intensidad', back: 'Si el sonido es **fuerte** o **suave**. No es lo mismo que la altura: un sonido agudo puede ser suave.' },
+          { icon: 'Guitar', front: 'Timbre', back: 'La "voz" propia de cada instrumento o persona. Por el timbre distingues una marimba de una guitarra aunque toquen la misma nota.' },
+        ] },
+      ),
       S.choice(
         { fase: 'explorar', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer',
           prompt: 'Escucha los dos sonidos de marimba. Tienen la misma nota y el mismo volumen. ¿En qué se diferencian?',
@@ -44,16 +54,6 @@ export default [
           { id: 'b', text: 'Uno dura más que el otro', icon: 'Hourglass' },
           { id: 'c', text: 'Uno es de otro instrumento', icon: 'Guitar', feedback: 'Los dos son de marimba: tienen el mismo timbre.' },
         ], correct: ['b'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer', title: 'Las cuatro cualidades del sonido',
-          prompt: 'Todo sonido tiene cuatro **cualidades**. Toca cada tarjeta.' },
-        { icon: 'Ear', body: 'Los músicos escriben **partituras** para que otras personas toquen una canción igual, aunque nunca la hayan escuchado. Para eso anotan las cualidades del sonido.', reveal: [
-          { icon: 'ArrowUpDown', front: 'Altura', back: 'Si el sonido es **grave** (grueso, como un tambor grande) o **agudo** (delgado, como el canto de un pajarito).' },
-          { icon: 'Hourglass', front: 'Duración', back: 'Si el sonido es **largo** o **corto**. Hoy aprenderás a escribirla con **figuras musicales**.' },
-          { icon: 'Volume2', front: 'Intensidad', back: 'Si el sonido es **fuerte** o **suave**. No es lo mismo que la altura: un sonido agudo puede ser suave.' },
-          { icon: 'Guitar', front: 'Timbre', back: 'La "voz" propia de cada instrumento o persona. Por el timbre distingues una marimba de una guitarra aunque toquen la misma nota.' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer', title: 'El pulso y las figuras',
@@ -178,6 +178,15 @@ export default [
       brief: 'Video de 45 s. Pantalla dividida: arriba, plano cenital de una marimba de madera (sin marcas) donde unas baquetas tocan Do, Re, Mi, Fa, Sol, La, Si, Do (una nota por segundo) de la tecla larga a la corta; abajo, un pentagrama en clave de sol donde cada nota se ilumina al sonar, con su nombre debajo. Luego la escala descendente. Cierre: rótulo "Más arriba en el pentagrama = más agudo". Narración breve en español, subtítulos.',
     },
     steps: [
+      S.explain(
+        { fase: 'construir', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer', title: 'Las siete notas',
+          prompt: 'Para nombrar la altura de los sonidos usamos **siete notas**. Se cantan en orden, de la más grave a la más aguda.' },
+        { icon: 'Music', body: '**Do · Re · Mi · Fa · Sol · La · Si** … y otra vez **Do**, pero más agudo. Ese nuevo Do está a una **octava** del primero (ocho notas contando las dos puntas). Esta serie ordenada se llama **escala de Do**.', reveal: [
+          { icon: 'ArrowUpRight', front: 'Escala ascendente', back: 'Do, Re, Mi, Fa, Sol, La, Si, Do: cada nota es **un poco más aguda** que la anterior.' },
+          { icon: 'Repeat', front: 'La octava', back: 'El Do agudo "se parece" al Do grave: suenan como la misma nota en una voz más delgada. Por eso la escala vuelve a empezar.' },
+          { icon: 'Piano', front: 'En los instrumentos', back: 'En la marimba y el piano, hacia la **derecha** las notas se vuelven más agudas (teclas más cortas o más a la derecha).' },
+        ] },
+      ),
       S.sort(
         { fase: 'explorar', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer',
           prompt: 'Antes de leer notas, entrena tu oído. Clasifica cada sonido como **grave** (grueso) o **agudo** (delgado).',
@@ -192,15 +201,6 @@ export default [
           { id: 'x4', text: 'Un silbato', bucket: 'a' },
           { id: 'x5', text: 'El trueno a lo lejos', icon: 'CloudRain', bucket: 'g' },
           { id: 'x6', text: 'Las teclas más cortas de la marimba', bucket: 'a' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer', title: 'Las siete notas',
-          prompt: 'Para nombrar la altura de los sonidos usamos **siete notas**. Se cantan en orden, de la más grave a la más aguda.' },
-        { icon: 'Music', body: '**Do · Re · Mi · Fa · Sol · La · Si** … y otra vez **Do**, pero más agudo. Ese nuevo Do está a una **octava** del primero (ocho notas contando las dos puntas). Esta serie ordenada se llama **escala de Do**.', reveal: [
-          { icon: 'ArrowUpRight', front: 'Escala ascendente', back: 'Do, Re, Mi, Fa, Sol, La, Si, Do: cada nota es **un poco más aguda** que la anterior.' },
-          { icon: 'Repeat', front: 'La octava', back: 'El Do agudo "se parece" al Do grave: suenan como la misma nota en una voz más delgada. Por eso la escala vuelve a empezar.' },
-          { icon: 'Piano', front: 'En los instrumentos', back: 'En la marimba y el piano, hacia la **derecha** las notas se vuelven más agudas (teclas más cortas o más a la derecha).' },
         ] },
       ),
       S.order(

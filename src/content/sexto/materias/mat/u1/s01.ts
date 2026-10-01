@@ -29,16 +29,6 @@ export default [
       brief: 'Animación 2D de 40 s sobre fondo cuadriculado claro. Un triángulo con un vértice arrastrable: su ángulo mayor se colorea verde si es menor de 90°, azul con un cuadradito si mide 90° y naranja si pasa de 90°; la etiqueta cambia entre "acutángulo", "rectángulo" y "obtusángulo". Cierra con los tres tipos lado a lado junto a objetos reales: una señal de tránsito triangular, una escuadra de carpintero y un techo muy abierto. Narración en español neutro, subtítulos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer',
-          prompt: 'Mira las esquinas de estos objetos. ¿Cuál tiene una esquina **igual a la de una hoja de cuaderno**?',
-          explain: 'La esquina de una hoja forma un **ángulo recto** (90°). Hoy la usaremos como "regla" para comparar todos los ángulos.' },
-        { layout: 'grid', options: [
-          { id: 'a', text: 'La punta de un machete', icon: 'Sword', feedback: 'La punta del machete es más cerrada que la esquina de una hoja.' },
-          { id: 'b', text: 'La esquina de un pizarrón', icon: 'Square' },
-          { id: 'c', text: 'Un abanico muy abierto', icon: 'Wind', feedback: 'Un abanico muy abierto forma una abertura más grande que la esquina de la hoja.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer', title: 'Tres tipos de ángulo',
           prompt: 'Un **ángulo** es la abertura entre dos lados que se juntan en un punto, el **vértice**. Se mide en **grados (°)**. Toca cada tarjeta.',
@@ -50,6 +40,16 @@ export default [
           { icon: 'Square', front: 'Recto', back: 'Mide **exactamente 90°**. Se marca con un cuadradito en el vértice.' },
           { icon: 'ChevronsLeftRight', front: 'Obtuso', back: 'Mide **más de 90° y menos de 180°**: es más abierto que la esquina de la hoja. Ejemplos: 100°, 135°, 170°.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer',
+          prompt: 'Mira las esquinas de estos objetos. ¿Cuál tiene una esquina **igual a la de una hoja de cuaderno**?',
+          explain: 'La esquina de una hoja forma un **ángulo recto** (90°). Hoy la usaremos como "regla" para comparar todos los ángulos.' },
+        { layout: 'grid', options: [
+          { id: 'a', text: 'La punta de un machete', icon: 'Sword', feedback: 'La punta del machete es más cerrada que la esquina de una hoja.' },
+          { id: 'b', text: 'La esquina de un pizarrón', icon: 'Square' },
+          { id: 'c', text: 'Un abanico muy abierto', icon: 'Wind', feedback: 'Un abanico muy abierto forma una abertura más grande que la esquina de la hoja.' },
+        ], correct: ['b'] },
       ),
       S.sort(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.1'], prompt: 'Clasifica cada medida en su tipo de ángulo.',
@@ -175,6 +175,15 @@ export default [
       brief: 'Video de 50 s en mesa de madera, plano cenital. Unas manos de niña o niño dibujan un triángulo cualquiera en papel de color, pintan cada esquina de un color (rojo, azul, amarillo), lo recortan con tijeras de punta redonda, arrancan las tres esquinas con los dedos y las juntan con los vértices en un mismo punto: se forma una línea recta. Aparece el texto "180°". Se repite rápido con un triángulo muy distinto (largo y delgado) con el mismo resultado. Narración en español: "¡Siempre suman 180 grados!". Sin marcas.',
     },
     steps: [
+      S.explain(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer', title: 'La regla de los 180°',
+          prompt: 'Los tres ángulos de **cualquier** triángulo suman **180°**. Grande o pequeño, acutángulo u obtusángulo: siempre 180°. Toca cada tarjeta.' },
+        { icon: 'Triangle', body: 'Ángulo 1 + ángulo 2 + ángulo 3 = **180°**', reveal: [
+          { icon: 'Scissors', front: 'Compruébalo en casa', back: 'Dibuja un triángulo, colorea sus esquinas, recórtalo y junta las tres esquinas: formarán una línea recta (180°).' },
+          { icon: 'Calculator', front: 'El ángulo que falta', back: 'Si conoces dos ángulos, súmalos y **resta** el resultado a 180°.' },
+          { icon: 'Lightbulb', front: '¿Por qué solo un ángulo grande?', back: 'Dos ángulos rectos ya suman 90° + 90° = 180° y no quedaría nada para el tercero. Por eso un triángulo tiene como máximo un ángulo recto u obtuso.' },
+        ] },
+      ),
       S.choice(
         { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer',
           prompt: 'Recortas un triángulo de papel, arrancas sus **tres esquinas** y las juntas con las puntas en un mismo lugar. ¿Qué crees que se forma?',
@@ -184,15 +193,6 @@ export default [
           { id: 'b', text: 'Una línea recta (media vuelta)', icon: 'Minus' },
           { id: 'c', text: 'Una esquina de hoja (90°)', icon: 'Square', feedback: 'Juntas son más abiertas que la esquina de una hoja: llegan a formar una línea recta.' },
         ], correct: ['b'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer', title: 'La regla de los 180°',
-          prompt: 'Los tres ángulos de **cualquier** triángulo suman **180°**. Grande o pequeño, acutángulo u obtusángulo: siempre 180°. Toca cada tarjeta.' },
-        { icon: 'Triangle', body: 'Ángulo 1 + ángulo 2 + ángulo 3 = **180°**', reveal: [
-          { icon: 'Scissors', front: 'Compruébalo en casa', back: 'Dibuja un triángulo, colorea sus esquinas, recórtalo y junta las tres esquinas: formarán una línea recta (180°).' },
-          { icon: 'Calculator', front: 'El ángulo que falta', back: 'Si conoces dos ángulos, súmalos y **resta** el resultado a 180°.' },
-          { icon: 'Lightbulb', front: '¿Por qué solo un ángulo grande?', back: 'Dos ángulos rectos ya suman 90° + 90° = 180° y no quedaría nada para el tercero. Por eso un triángulo tiene como máximo un ángulo recto u obtuso.' },
-        ] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'hacer', title: 'Ejemplo resuelto',
@@ -300,6 +300,15 @@ export default [
       brief: 'Diagrama en árbol, fondo claro. Arriba "Cuadriláteros (4 lados)". Tres ramas: "Paralelogramos (2 pares de lados paralelos)", "Trapecios (1 par)" y "Trapezoides (ningún par)". De paralelogramos salen cuatro figuras dibujadas con marcas: rectángulo (cuadraditos en las 4 esquinas), cuadrado (cuadraditos y rayitas iguales en los lados), rombo (rayitas iguales, sin cuadraditos) y romboide. Lados paralelos marcados con flechitas del mismo color. Líneas limpias, colores suaves.',
     },
     steps: [
+      S.explain(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'conocer', title: 'Paralelas y perpendiculares',
+          prompt: 'Para entender los paralelogramos necesitas dos palabras. Toca cada tarjeta.' },
+        { icon: 'Ruler', body: 'Un **cuadrilátero** es una figura de 4 lados. Un **paralelogramo** es un cuadrilátero con **dos pares de lados paralelos**.', reveal: [
+          { icon: 'Pause', front: 'Paralelas', back: 'Van siempre a la misma distancia y **nunca se juntan**. Ejemplo: los bordes largos de una regla.' },
+          { icon: 'Plus', front: 'Perpendiculares', back: 'Se cruzan formando **ángulos rectos** (90°). Ejemplo: las líneas de una cruz o la esquina de una ventana.' },
+          { icon: 'X', front: 'Contraejemplo: trapecio', back: 'Tiene **solo un par** de lados paralelos. Por eso **no** es paralelogramo.' },
+        ] },
+      ),
       S.choice(
         { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'conocer',
           prompt: 'Imagina que alargas estas líneas muchísimo. ¿Cuál par **nunca** se juntaría?',
@@ -309,15 +318,6 @@ export default [
           { id: 'b', text: 'Las dos manecillas de un reloj', icon: 'Clock', feedback: 'Las manecillas se unen en el centro del reloj.' },
           { id: 'c', text: 'Las dos orillas de una carretera que se angosta', icon: 'Route', feedback: 'Si el camino se angosta, sus orillas se van acercando y terminarían juntándose.' },
         ], correct: ['a'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'conocer', title: 'Paralelas y perpendiculares',
-          prompt: 'Para entender los paralelogramos necesitas dos palabras. Toca cada tarjeta.' },
-        { icon: 'Ruler', body: 'Un **cuadrilátero** es una figura de 4 lados. Un **paralelogramo** es un cuadrilátero con **dos pares de lados paralelos**.', reveal: [
-          { icon: 'Pause', front: 'Paralelas', back: 'Van siempre a la misma distancia y **nunca se juntan**. Ejemplo: los bordes largos de una regla.' },
-          { icon: 'Plus', front: 'Perpendiculares', back: 'Se cruzan formando **ángulos rectos** (90°). Ejemplo: las líneas de una cruz o la esquina de una ventana.' },
-          { icon: 'X', front: 'Contraejemplo: trapecio', back: 'Tiene **solo un par** de lados paralelos. Por eso **no** es paralelogramo.' },
-        ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.2'], prompt: '¿Es paralelogramo o no? Clasifica cada figura según su descripción.',
@@ -443,16 +443,6 @@ export default [
       brief: 'Animación 2D de 60 s, vista de una hoja cuadriculada con lápiz y regla. (1) Rectángulo de 6×3 cuadritos: se cuentan los cuadritos en voz alta. (2) Cuadrado de 4×4. (3) Romboide: base de 5 cuadritos, 3 cuadritos arriba se traza otra línea de 5 corrida 2 cuadritos a la derecha, se unen extremos. (4) Rombo: una diagonal horizontal de 6 cuadritos y una vertical de 4 que se cruzan en su punto medio; se unen las cuatro puntas. Los lados paralelos se iluminan del mismo color. Narración en español, subtítulos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'conocer',
-          prompt: 'Una tejedora dibuja su diseño en **papel cuadriculado** antes de tejer. ¿Por qué le ayuda la cuadrícula?',
-          explain: 'Las líneas de la cuadrícula ya son **paralelas** y se cruzan en **ángulos rectos**; contar cuadritos permite trazar lados exactos y repetir el diseño.' },
-        { options: [
-          { id: 'a', text: 'Porque puede contar cuadritos y hacer lados exactos', icon: 'Ruler' },
-          { id: 'b', text: 'Porque así el diseño sale de más colores', icon: 'Palette', feedback: 'Los colores los elige ella; la cuadrícula ayuda con las medidas.' },
-          { id: 'c', text: 'Porque el papel cuadriculado es más resistente', icon: 'FileText', feedback: 'No se trata de la resistencia del papel, sino de sus líneas.' },
-        ], correct: ['a'] },
-      ),
       S.ejemplo(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'hacer', title: 'Trazar un rectángulo y un romboide',
           prompt: 'Sigue los pasos. Si tienes cuaderno cuadriculado, hazlo a la par.' },
@@ -465,6 +455,16 @@ export default [
           ],
           answer: 'Obtienes un rectángulo (con 4 rectos) y un romboide "empujado" hacia la derecha.',
           tip: 'Si corres la línea de arriba, la figura se inclina, pero sigue siendo paralelogramo.' },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'conocer',
+          prompt: 'Una tejedora dibuja su diseño en **papel cuadriculado** antes de tejer. ¿Por qué le ayuda la cuadrícula?',
+          explain: 'Las líneas de la cuadrícula ya son **paralelas** y se cruzan en **ángulos rectos**; contar cuadritos permite trazar lados exactos y repetir el diseño.' },
+        { options: [
+          { id: 'a', text: 'Porque puede contar cuadritos y hacer lados exactos', icon: 'Ruler' },
+          { id: 'b', text: 'Porque así el diseño sale de más colores', icon: 'Palette', feedback: 'Los colores los elige ella; la cuadrícula ayuda con las medidas.' },
+          { id: 'c', text: 'Porque el papel cuadriculado es más resistente', icon: 'FileText', feedback: 'No se trata de la resistencia del papel, sino de sus líneas.' },
+        ], correct: ['a'] },
       ),
       S.order(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.2'], prompt: 'Para trazar un **rombo** se usan sus diagonales. Ordena los pasos.',
@@ -571,16 +571,6 @@ export default [
       brief: 'Ilustración de un corredor de casa antigua de Antigua Guatemala con piso de baldosas cuadradas en dos colores (rojo barro y crema). En primer plano, una baldosa aparece levantada y colocada encima de otra, con una línea punteada mostrando que coinciden en todos sus bordes; texto pequeño: "congruentes". A un lado, una baldosa más pequeña con el mismo dibujo, con una X suave y la etiqueta "misma forma, otro tamaño". Estilo plano cálido, sin personas.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.4'], ambito: 'conocer',
-          prompt: 'Tienes dos tortillas hechas con el mismo molde y una tortillita pequeña. ¿Cuáles **encajarían exactamente** una sobre otra?',
-          explain: 'Las dos del mismo molde tienen la misma forma **y** el mismo tamaño. La pequeña tiene la misma forma, pero no el mismo tamaño.' },
-        { options: [
-          { id: 'a', text: 'Las dos tortillas del mismo molde', icon: 'Pizza' },
-          { id: 'b', text: 'Una tortilla del molde y la tortillita', icon: 'CircleDot', feedback: 'Son redondas las dos, pero de distinto tamaño: no encajan exactamente.' },
-          { id: 'c', text: 'Todas, porque todas son redondas', icon: 'Layers', feedback: 'Ser redondas no basta: también deben ser del mismo tamaño.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.4'], ambito: 'conocer', title: '¿Qué significa congruente?',
           prompt: 'Dos figuras son **congruentes** cuando tienen **la misma forma y el mismo tamaño**. Toca cada tarjeta.' },
@@ -590,6 +580,16 @@ export default [
           { icon: 'RotateCw', front: 'Posición', back: 'No importa si una está **girada**, **volteada** o en otro lugar, ni de qué color es.' },
           { icon: 'X', front: 'Contraejemplo', back: 'Un cuadrado de 3 cm y uno de 5 cm tienen la misma forma, pero **no** son congruentes: su tamaño es distinto.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.4'], ambito: 'conocer',
+          prompt: 'Tienes dos tortillas hechas con el mismo molde y una tortillita pequeña. ¿Cuáles **encajarían exactamente** una sobre otra?',
+          explain: 'Las dos del mismo molde tienen la misma forma **y** el mismo tamaño. La pequeña tiene la misma forma, pero no el mismo tamaño.' },
+        { options: [
+          { id: 'a', text: 'Las dos tortillas del mismo molde', icon: 'Pizza' },
+          { id: 'b', text: 'Una tortilla del molde y la tortillita', icon: 'CircleDot', feedback: 'Son redondas las dos, pero de distinto tamaño: no encajan exactamente.' },
+          { id: 'c', text: 'Todas, porque todas son redondas', icon: 'Layers', feedback: 'Ser redondas no basta: también deben ser del mismo tamaño.' },
+        ], correct: ['a'] },
       ),
       S.choice(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.4'], prompt: 'El triángulo A tiene lados de **3, 4 y 5 cm**. ¿Cuál de estos triángulos es **congruente** con A?',
