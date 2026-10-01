@@ -370,24 +370,14 @@ export default [
         { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:3.3.1'], title: 'Idea central', prompt: 'El cuidado ético respeta la intimidad, busca apoyo y comparte las responsabilidades.' },
         { icon: 'BookOpenCheck', body: "La ética en la sexualidad significa tratar el propio cuerpo y el de los demás con respeto, cuidado y responsabilidad." },
       ),
-      S.choice(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.3.1'], ambito: 'ser',
-          prompt: 'Piensa en un buen papá o un buen cuidador. ¿Qué hace? Elige **todo** lo que creas correcto.',
-          explain: 'Un padre responsable **cuida, educa, da afecto, comparte las tareas** y también aporta para el sostén del hogar. Dar dinero es importante, pero no es suficiente por sí solo.' },
-        { multiple: true, layout: 'grid', options: [
-          { id: 'a', text: 'Cuida a sus hijos cuando están enfermos', icon: 'Stethoscope' },
-          { id: 'b', text: 'Juega y conversa con ellos', icon: 'MessageCircle' },
-          { id: 'c', text: 'Solo da dinero y no convive', icon: 'Banknote', feedback: 'Aportar económicamente es parte de la responsabilidad, pero los hijos también necesitan cuidado, tiempo y afecto.' },
-          { id: 'd', text: 'Les ayuda con las tareas de la escuela', icon: 'BookOpen' },
-        ], correct: ['a', 'b', 'd'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'ser', title: '¿Qué es el pudor?',
           prompt: 'La **ética en la sexualidad** es tratar el propio cuerpo y el de los demás con **respeto**. Una forma de hacerlo es el **pudor**. Toca las tarjetas.' },
-        { icon: 'Lock', body: 'El **pudor** es respetar la **intimidad**: la propia y la de otras personas. La intimidad es aquello que es privado y que cada quien decide con quién compartir.', reveal: [
+        { icon: 'Lock', body: 'El **pudor** es respetar la **intimidad** propia y ajena. Tu cuerpo merece cuidado: una revisión de salud debe explicarse, proteger tu dignidad y contar con apoyo adulto apropiado.', reveal: [
           { icon: 'Home', front: 'Mi privacidad', back: 'Me cambio de ropa y uso el baño **en privado**, cierro la puerta y cuido mi cuerpo.' },
           { icon: 'EyeOff', front: 'La privacidad de otros', back: '**Toco antes de entrar**, no miro a quien se está cambiando y no hago bromas sobre el cuerpo de nadie.' },
-          { icon: 'Smartphone', front: 'Imágenes y celular', back: '**Nunca** tomo, pido ni comparto fotos o videos del cuerpo de otra persona sin ropa. Tampoco envío fotos así de mí.' },
+          { icon: 'Smartphone', front: 'Imágenes y secretos', back: 'No tomo, pido, envío ni comparto imágenes íntimas. Si alguien lo pide o solicita guardar un secreto sobre tocar el cuerpo, digo no, me alejo y se lo cuento a una persona adulta de confianza.' },
+          { icon: 'Stethoscope', front: 'Ayuda segura', back: 'Ante una preocupación, hablo con una persona adulta de confianza o un profesional de salud; pedir ayuda nunca es culpa de quien la necesita.' },
         ] },
       ),
       S.sort(
@@ -405,16 +395,6 @@ export default [
           { id: 'p4', text: 'Reenviar en un grupo la foto íntima de alguien', bucket: 'no', feedback: 'Compartir imágenes íntimas de otra persona es una falta grave de respeto y puede ser un delito.' },
           { id: 'p5', text: 'No burlarse de los cambios del cuerpo de un compañero', bucket: 'si' },
           { id: 'p6', text: 'Hacer chistes sobre el cuerpo de una compañera', bucket: 'no' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'ser', title: 'Mi cuerpo es mío',
-          prompt: 'El respeto también te protege. Lee con calma cada tarjeta.' },
-        { icon: 'Hand', body: 'Las **partes privadas** son las que cubre la ropa interior. Nadie tiene derecho a tocarlas, mirarlas ni pedir fotos de ellas.', reveal: [
-          { icon: 'Hand', front: 'Puedo decir NO', back: 'Si alguien me toca de una forma que me incomoda, puedo decir **"¡No!"**, alejarme y **pedir ayuda**, aunque sea una persona conocida.' },
-          { icon: 'Lock', front: 'Secretos que no se guardan', back: 'Si alguien me pide guardar un **secreto** sobre tocarme o mostrarme el cuerpo, **no** lo guardo: se lo cuento a una persona adulta de confianza.' },
-          { icon: 'Stethoscope', front: 'En el centro de salud', back: 'Un médico o enfermera puede revisar el cuerpo **para cuidar la salud**, con explicación y con un familiar presente.' },
-          { icon: 'Users', front: 'Mis personas de confianza', back: 'Piensa en al menos **dos adultos** a quienes les contarías algo difícil: alguien de tu familia, tu docente, la directora u orientador.' },
         ] },
       ),
       S.choice(
@@ -451,37 +431,22 @@ export default [
           answer: 'Ser padre exige cuidado, tiempo y recursos por muchos años; por eso es una decisión **responsable de la edad adulta**.',
           tip: 'Ahora es tiempo de estudiar, cuidar tu cuerpo y construir tu proyecto de vida.' },
       ),
-      S.sort(
-        { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'ser',
-          prompt: '¿Es un ejemplo de paternidad **responsable** o **no responsable**?',
-          explain: 'La paternidad responsable incluye afecto, cuidado, educación, sostén y compartir las tareas del hogar.' },
-        { buckets: [
-          { id: 'si', label: 'Responsable', icon: 'HeartHandshake', color: 'var(--c-ok)' },
-          { id: 'no', label: 'No responsable', icon: 'X', color: 'var(--c-bad)' },
-        ], items: [
-          { id: 'r1', text: 'Don Julio lleva a su hija a vacunar', bucket: 'si' },
-          { id: 'r2', text: 'Un padre se va y no vuelve a saber de su hijo', bucket: 'no' },
-          { id: 'r3', text: 'Don Esteban cambia pañales y prepara la comida', bucket: 'si' },
-          { id: 'r4', text: 'Un padre grita y golpea para "educar"', bucket: 'no', feedback: 'Educar es poner límites con cariño y respeto, nunca con violencia.' },
-          { id: 'r5', text: 'Don Aurelio escucha a su hijo cuando está triste', bucket: 'si' },
-          { id: 'r6', text: 'Un padre dice que criar es "cosa solo de mujeres"', bucket: 'no' },
-        ] },
-      ),
-      S.dilemma(
-        { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'convivir', prompt: '¿Qué harías tú?' },
-        { scene: { icon: 'Smartphone', text: 'Después de Educación Física, **Brandon** saca un celular en el vestidor y quiere tomar una foto a un compañero mientras se cambia, "para reírse en el grupo".' }, options: [
-          { id: 'a', icon: 'EyeOff', text: 'Reírme y no decir nada', consequence: 'El compañero se siente humillado. Tomar o compartir imágenes íntimas de otra persona es una falta grave de respeto y puede ser un delito.', values: ['Indiferencia'], constructive: false },
-          { id: 'b', icon: 'Hand', text: 'Decirle a Brandon que no lo haga porque viola la intimidad de su compañero', consequence: 'Brandon guarda el celular. Tu compañero se siente protegido.', values: ['Pudor', 'Respeto', 'Valentía'], constructive: true },
-          { id: 'c', icon: 'Megaphone', text: 'Avisar al docente para que hablen con el grupo sobre la privacidad', consequence: 'El docente conversa con todos sobre el respeto a la intimidad y el uso responsable del celular.', values: ['Responsabilidad', 'Cuidado'], constructive: true },
-        ] },
+      S.choice(
+        { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'convivir',
+          prompt: 'Después de Educación Física, alguien quiere fotografiar a un compañero mientras se cambia. ¿Qué acción protege mejor su intimidad de inmediato?' },
+        { options: [
+          { id: 'a', icon: 'EyeOff', text: 'Reírse y no intervenir', feedback: 'La burla no protege a la persona ni detiene la fotografía.' },
+          { id: 'b', icon: 'ShieldCheck', text: 'Pedir que guarde el celular y avisar enseguida a una persona adulta responsable' },
+          { id: 'c', icon: 'Smartphone', text: 'Esperar a que tome la foto y después pedir que la borre', feedback: 'La prioridad es impedir la fotografía y buscar apoyo adulto antes de que ocurra.' },
+        ], correct: ['b'] },
       ),
       S.write(
-        { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:3.3.1'], ambito: 'ser', title: 'Una persona que cuida',
-          prompt: 'Piensa en un hombre adulto que cuide a niñas o niños con responsabilidad (tu papá, abuelo, tío, un vecino o un personaje). Escribe **qué hace** y **por qué** eso muestra paternidad responsable.' },
-        { placeholder: 'La persona que admiro es… Él… Eso es paternidad responsable porque…',
-          model: 'Admiro a mi tío Rigoberto. Todos los días lleva a mis primos a la escuela, les ayuda con las tareas y les prepara la refacción. Cuando mi prima se enfermó, la llevó al centro de salud y la cuidó toda la noche. También comparte los oficios de la casa con mi tía. Eso es paternidad responsable porque no solo trabaja para mantenerlos: les da tiempo, afecto y cuidado.',
-          rubric: ['Describe al menos tres acciones concretas de cuidado', 'Incluye afecto o tiempo, no solo dinero', 'Explica por qué eso es paternidad responsable'],
-          minWords: 35 },
+        { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:3.3.1'], ambito: 'ser', title: 'Una regla de cuidado',
+          prompt: 'Escribe de 12 a 18 palabras: una acción de crianza responsable y por qué cuida a niñas o niños.' },
+        { placeholder: 'Compartir la crianza significa… porque…',
+          model: 'Compartir la alimentación, la escucha y la educación protege a niñas y niños y demuestra responsabilidad.',
+          rubric: ['Nombra una acción concreta de cuidado', 'Explica su beneficio', 'Evita estereotipos sobre quién debe criar'],
+          minWords: 12 },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:3.3.1'], prompt: '¿Qué significa **pudor**?' },
@@ -502,7 +467,7 @@ export default [
         ] },
       ),
       cierre({ areas: ['cnt', 'fc'], cnb: [] },
-        ['Explico cómo las glándulas sexuales producen los cambios de la pubertad', 'Nombro las estructuras del aparato reproductor masculino y su función', 'Diferencio espermatogénesis y ovogénesis', 'Explico qué es el pudor y la paternidad responsable'],
+        ['Explico qué significa cuidar la intimidad', 'Sé cómo pedir ayuda ante una situación incómoda', 'Reconozco que la crianza responsable comparte cuidado, educación, afecto y sostén'],
         ['Respetaré la intimidad de mis compañeros', 'Identificaré a dos adultos de confianza', 'Conversaré con mi familia sobre lo que aprendí']),
     ],
   }),

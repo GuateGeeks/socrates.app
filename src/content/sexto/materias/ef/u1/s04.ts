@@ -36,7 +36,7 @@ export default [
       ),
       S.choice(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.2'], ambito: 'conocer',
-          prompt: 'Prueba a lanzar una bolsita de frijol (o calcetín enrollado) **solo con el brazo**, sin mover los pies. Luego lánzala dando un paso adelante y girando el cuerpo. ¿Cuándo llega más lejos?',
+          prompt: 'En el video, compara un lanzamiento hecho solo con el brazo y otro con paso y giro del cuerpo. ¿Cuál llega más lejos?',
           explain: 'Llega más lejos cuando usas **todo el cuerpo**: piernas, tronco y brazo trabajan en cadena. El brazo solo tiene poca fuerza.' },
         { options: [
           { id: 'a', text: 'Solo con el brazo', icon: 'Hand', feedback: 'El brazo solo aporta poca fuerza: le falta el impulso de las piernas y del tronco.' },
@@ -78,7 +78,7 @@ export default [
             { text: '**A 2 pasos** se le pasa porque usa demasiada fuerza. Acorta el movimiento: brazo menos atrás y casi sin giro de tronco.', why: 'De cerca importa más el control que la fuerza.' },
             { text: '**A 4 pasos** usa el paso adelante y un giro medio; la bolsita sale en diagonal suave.' },
             { text: '**A 6 pasos** no llegaba porque lanzaba "plano". Ahora usa la técnica completa: pie contrario adelante, peso atrás → adelante, giro fuerte y salida **en diagonal hacia arriba**.', why: 'Una salida más alta da más tiempo de vuelo para recorrer más distancia.' },
-            { text: 'Anota cuántos aciertos tiene de 5 intentos en cada distancia para ver su progreso.' },
+            { text: 'Registra cada intento con una marca de acierto o todavía no; así puede comparar sin hacer una gráfica.' },
           ],
           answer: 'Lucía ajusta la **fuerza** (menos de cerca, más de lejos) y la **dirección de salida** (más diagonal para distancias largas).',
           tip: 'Cambia una sola cosa por intento: así sabes qué funcionó.' },
@@ -98,22 +98,12 @@ export default [
       ),
       S.pulse(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:2.1.2'], ambito: 'hacer',
-          prompt: '¡Tiro a la troje! Usa una bolsita de frijol o arena bien cerrada, o una pelota de trapo, y un canasto, bote o llanta como meta. **Calentamiento:** rotación de hombros, brazos y muñecas, y 10 lanzamientos suaves a una pared. **Parte principal:** 5 lanzamientos desde 2 pasos, 5 desde 4 y 5 desde 6; anota tus aciertos. Luego lanza por encima de una cuerda o palo a la altura de tu cabeza (lanzamiento alto). **Seguridad:** nadie frente a ti; recogen todos juntos. **Poco espacio:** usa distancias de 1, 2 y 3 pasos y una bola de papel. **Adaptación:** se puede lanzar sentado; acerca la meta si lo necesitas. **Vuelta a la calma:** estira brazos y hombros.' },
+          prompt: '¡Tiro a la troje! Usa una bolsita bien cerrada o una pelota de trapo y un canasto como meta. **Calentamiento:** rota hombros, brazos y muñecas sin lanzar. **Prueba:** haz **8 lanzamientos en total**: 2 cercanos con poca fuerza, 3 lejanos con paso y giro, y 3 altos hacia el canasto sin usar obstáculos. Tu pareja anota una marca por intento y encierra los aciertos. **Seguridad:** nadie frente a ti y todos recogen al recibir la señal. **Poco espacio:** acerca la meta y usa una bola de papel. **Adaptación:** lanza sentado o acerca la meta. **Vuelta a la calma:** respira, estira brazos y hombros y toma agua.' },
         { seconds: 15, rounds: [
           { label: 'En reposo' },
-          { label: 'Después del calentamiento', exercise: { name: 'Hombros, brazos y lanzamientos suaves', icon: 'RotateCw', seconds: 60 } },
-          { label: 'Después del tiro a la troje', exercise: { name: 'Lanzar a 2, 4 y 6 pasos', icon: 'Target', seconds: 90 } },
+          { label: 'Después del calentamiento', exercise: { name: 'Movilidad de hombros y muñecas', icon: 'RotateCw', seconds: 30 } },
+          { label: 'Después de los 8 lanzamientos', exercise: { name: 'Prueba breve con registro de marcas', icon: 'Target', seconds: 120 } },
         ] },
-      ),
-      S.chart(
-        { fase: 'aplicar', areas: ['ef', 'mat'], cnb: ['ef:2.1.2'], ambito: 'hacer',
-          prompt: 'Registrar resultados ayuda a mejorar. **Supongamos** que Lucía acertó 5 de 5 a 2 pasos, 3 de 5 a 4 pasos y 1 de 5 a 6 pasos. Construye su gráfica de barras.',
-          explain: 'La gráfica muestra que Lucía necesita practicar más a 6 pasos: ahí debe usar la técnica completa y una salida más diagonal.' },
-        { categories: [
-          { id: 'd2', label: '2 pasos', icon: 'Target' },
-          { id: 'd4', label: '4 pasos', icon: 'Target' },
-          { id: 'd6', label: '6 pasos', icon: 'Target' },
-        ], data: [5, 3, 1], max: 5, step: 1, unit: 'aciertos', source: 'Aciertos de Lucía (de 5 intentos)' },
       ),
       S.choice(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:2.1.2'], ambito: 'hacer',
@@ -228,27 +218,11 @@ export default [
       ),
       S.pulse(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:2.1.3'], ambito: 'hacer',
-          prompt: '¡Estaciones de lanzamiento! En parejas (o contra una pared) con una pelota que bote. **Calentamiento:** hombros, muñecas y 10 botes con cada mano. **Estación 1:** 10 rodados y 10 pases de pecho a 3 pasos. **Estación 2:** 10 pases con pique a 4 pasos (bote cerca de quien recibe) y 10 por arriba del hombro a 6 pasos, **5 con cada mano**. **Estación 3 (en movimiento):** caminen en paralelo pasándose la pelota de pecho; luego trotando. Si hay espacio, 5 lanzamientos en suspensión a un aro o una caja. **Poco espacio:** contra una pared, más cerca y con pelota suave. **Adaptación:** todos los pases se pueden hacer sentado. **Vuelta a la calma:** estira brazos y toma agua.' },
+          prompt: 'En pareja, despejen la zona y usen una pelota suave. **Calentamiento:** muevan hombros y muñecas sin pelota. Hagan **8 pases en total**: uno rodado, uno de pecho, uno por arriba del hombro, uno en suspensión sin carrera y uno con pique; luego repitan tres formas que la pareja elija para mejorar el control. Quien recibe pone una marca por pase controlado: ese es el registro. **Poco espacio:** trabajen contra una pared y omitan el salto. **Adaptación:** todas las formas pueden practicarse sentadas, salvo la suspensión, que se representa elevando el brazo. **Vuelta a la calma:** caminen, respiren y estiren los brazos.' },
         { seconds: 15, rounds: [
           { label: 'En reposo' },
-          { label: 'Después de las estaciones 1 y 2', exercise: { name: 'Rodado, pecho, pique y arriba del hombro', icon: 'Target', seconds: 90 } },
-          { label: 'Después de lanzar en movimiento', exercise: { name: 'Pases caminando y trotando', icon: 'Footprints', seconds: 60 } },
-        ] },
-      ),
-      S.sort(
-        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:2.1.3'], ambito: 'hacer',
-          prompt: '¿Qué lanzamiento conviene en cada situación? Clasifica.',
-          explain: 'Corto y libre → pecho; defensor con brazos arriba → pique; lejos → por arriba del hombro.' },
-        { buckets: [
-          { id: 'p', label: 'De pecho', icon: 'Hand', color: 'var(--area-ef)' },
-          { id: 'q', label: 'Con pique', icon: 'ArrowDown', color: 'var(--c-maiz-strong)' },
-          { id: 'h', label: 'Por arriba del hombro', icon: 'ArrowUpRight', color: 'var(--c-ok)' },
-        ], items: [
-          { id: 'x1', text: 'Pase corto a una compañera libre a 3 pasos', bucket: 'p' },
-          { id: 'x2', text: 'Un defensor con los brazos arriba está entre ustedes', bucket: 'q' },
-          { id: 'x3', text: 'Tu compañero está libre al otro lado de la cancha', bucket: 'h' },
-          { id: 'x4', text: 'Pase rápido a alguien cercano mientras caminan juntos', bucket: 'p' },
-          { id: 'x5', text: 'Pasar por debajo de los brazos de quien marca', bucket: 'q' },
+          { label: 'Después del calentamiento', exercise: { name: 'Movilidad de hombros y muñecas', icon: 'RotateCw', seconds: 30 } },
+          { label: 'Después de los 8 pases', exercise: { name: 'Cinco formas con registro de control', icon: 'Target', seconds: 120 } },
         ] },
       ),
       S.choice(

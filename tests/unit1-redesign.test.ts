@@ -1963,13 +1963,35 @@ test('El reto L3 de Semana 4 transfiere solo palabras y patrones enseñados', ()
   assert.match(assessmentText, /ee|ea|oo|sh|th|silent|muda|spelling|correctly spelled/);
 });
 
+test('Semana 4 enseña ea, oo y las dos voces de th como patrones con excepciones', () => {
+  const l3 = weekFour.lessons.filter((lesson) => lesson.area === 'l3');
+  const phonicsLesson = l3.find((lesson) => normalizeFactText(JSON.stringify(lesson)).includes('mother'));
+  assert.ok(phonicsLesson, 'Falta la lección de patrones de pronunciación');
+  const text = normalizeFactText(JSON.stringify(phonicsLesson));
+  assert.match(text, /(?:en estas|en las) palabras|palabras (?:seleccionadas|aprendidas|estudiadas)/);
+  assert.match(text, /excepciones|no siempre/);
+  assert.match(text, /th.{0,100}(?:sin vibracion|no vibra).{0,100}(?:three|thank)/);
+  assert.match(text, /th.{0,100}(?:con vibracion|vibra).{0,100}mother/);
+  assert.doesNotMatch(text, /ee y ea suenan como una i larga|oo suena como u/);
+
+  const sheepOptions = phonicsLesson.steps.flatMap((step) => {
+    const props = step.props as { options?: Array<{ text?: string; icon?: string }> } | undefined;
+    return props?.options ?? [];
+  }).filter((option) => normalizeFactText(option.text ?? '').includes('sheep'));
+  assert.ok(sheepOptions.length > 0, 'Falta el ejemplo sheep');
+  assert.ok(sheepOptions.every((option) => option.icon === 'PawPrint'), 'Sheep debe usar un icono semántico de animal');
+});
+
 test('s04-mat-5 ensambla cuatro sólidos con un kit preparado dentro de quince minutos', () => {
   const lesson = weekFour.lessons.find((item) => item.id === 's04-mat-5');
   assert.ok(lesson, 'Falta s04-mat-5');
   assert.ok(lesson.minutes >= 10 && lesson.minutes <= 15);
-  assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 14);
+  assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 10, `La lección tiene ${lesson.steps.length} pantallas`);
   const lessonText = normalizeFactText(JSON.stringify(lesson));
   assert.match(lessonText, /plantillas?.{0,80}(?:preparadas?|precortadas?)|kit.{0,80}(?:preparado|precortado)/);
+  assert.match(lessonText, /autoadhesiv|peel.?and.?stick|encastre|autoajustable/);
+  assert.match(lessonText, /bases? (?:circulares|curvas).{0,120}(?:autoadhesiv|encastre)|(?:autoadhesiv|encastre).{0,120}bases? (?:circulares|curvas)/);
+  assert.doesNotMatch(lessonText, /tiras? (?:cortas? )?de cinta|trozos? (?:cortos? )?de cinta/);
   assert.doesNotMatch(lessonText, /(?:estudiante|alumno|tu).{0,60}(?:traza|recorta|corta)|(?:traza|recorta|corta).{0,60}(?:estudiante|alumno|tu)/);
 
   const projects = lesson.steps.filter((step) => step.type === 'project');
@@ -1978,7 +2000,7 @@ test('s04-mat-5 ensambla cuatro sólidos con un kit preparado dentro de quince m
     props: { steps?: Array<{ title: string; detail: string }> };
   };
   const projectIndex = lesson.steps.indexOf(project);
-  assert.ok(projectIndex >= 4, 'Debe enseñar y modelar las convenciones antes del proyecto');
+  assert.ok(projectIndex >= 3 && projectIndex <= 4, 'Debe enseñar, modelar y comenzar el armado sin demora');
   const preparation = normalizeFactText(JSON.stringify(lesson.steps.slice(0, projectIndex)));
   assert.match(preparation, /linea punteada|doblez/);
   assert.match(preparation, /pestana/);
@@ -1994,12 +2016,18 @@ test('s04-mat-5 ensambla cuatro sólidos con un kit preparado dentro de quince m
   assert.ok(stages.length >= 3 && stages.length <= 5, `El proyecto tiene ${stages.length} etapas`);
   const stageMinutes = stages.map((stage) => Number(`${stage.title} ${stage.detail}`.match(/(\d+) min/i)?.[1] ?? 0));
   assert.ok(stageMinutes.every((minutes) => minutes > 0), 'Cada etapa manual debe declarar minutos');
-  assert.ok(stageMinutes.reduce((sum, minutes) => sum + minutes, 0) <= 10, 'El ensamblaje excede diez minutos');
+  const assemblyMinutes = stageMinutes.reduce((sum, minutes) => sum + minutes, 0);
+  assert.ok(assemblyMinutes >= 8 && assemblyMinutes <= 9, `El ensamblaje recibe ${assemblyMinutes} minutos`);
   const manualOperations = stages.reduce((total, stage) => total
     + (normalizeFactText(stage.detail).match(/\b(?:dobla|enrolla|une|cierra|fija|presiona|coloca|rotula|compara)\b/g)?.length ?? 0), 0);
-  assert.ok(manualOperations <= 12, `El producto exige ${manualOperations} operaciones manuales`);
-  assert.match(production, /cinta|autoadhesiv/);
+  assert.ok(manualOperations <= 10, `El producto exige ${manualOperations} operaciones manuales`);
+  assert.match(production, /autoadhesiv|encastre|autoajustable/);
   assert.match(production, /etiqueta|rotul|compara/);
+
+  const postProject = lesson.steps.slice(projectIndex + 1);
+  const exits = postProject.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
+  assert.equal(exits.length, 2, 'Después del armado solo deben quedar dos salidas calificadas');
+  assert.ok(postProject.length <= 4, `Quedan ${postProject.length} pantallas después del producto`);
 });
 
 test('Semana 4 construye una campaña dramática breve con cuatro áreas ya enseñadas', () => {
@@ -2015,7 +2043,7 @@ test('Semana 4 construye una campaña dramática breve con cuatro áreas ya ense
     return match ? Number(match[1]) : 0;
   });
   assert.ok(minuteLabels.every((minutes) => minutes > 0), 'Cada paso debe indicar minutos');
-  assert.ok(minuteLabels.reduce((sum, minutes) => sum + minutes, 0) <= workshop.minutes, 'La agenda excede el tiempo disponible');
+  assert.ok(minuteLabels.reduce((sum, minutes) => sum + minutes, 0) <= 18, 'La agenda no reserva tiempo para leer y navegar');
 
   const contributors = new Set(workshop.steps
     .filter((step) => step.fase === 'construir' || step.fase === 'aplicar')
@@ -2031,16 +2059,91 @@ test('Semana 4 construye una campaña dramática breve con cuatro áreas ya ense
   const firstProject = workshop.steps.findIndex((step) => step.type === 'project');
   assert.ok(firstProject >= 0 && firstProject <= 2, 'La producción comienza demasiado tarde');
   assert.ok(projects.length >= 3, 'La campaña debe producirse por etapas');
+  const preProductItems = workshop.steps.slice(0, firstProject).reduce((total, step) => {
+    const props = step.props as Record<string, unknown> | undefined;
+    return total + Object.values(props ?? {}).reduce<number>((count, value) => count + (Array.isArray(value) ? value.length : 0), 0);
+  }, 0);
+  assert.ok(preProductItems <= 3, `Hay ${preProductItems} elementos antes de producir`);
   const productText = normalizeFactText(JSON.stringify(projects));
   assert.match(productText, /escena dramatica|campana informativa/);
   assert.match(productText, /exactitud cientifica|cientificamente correcto/);
   assert.match(productText, /lenguaje respetuoso|respeto/);
   assert.match(productText, /fuente confiable/);
+  assert.doesNotMatch(productText, /sonido|musica|reformatea|pasa el dialogo a formato/);
+
+  const script = workshop.steps.find((step) => step.type === 'short-answer');
+  assert.ok(script, 'Falta redactar el mensaje breve');
+  const scriptProps = script.props as { minWords?: number; model?: string };
+  const modelWords = (scriptProps.model ?? '').match(/[\p{L}\p{N}]+/gu)?.length ?? 0;
+  assert.ok((scriptProps.minWords ?? 0) >= 18 && (scriptProps.minWords ?? 0) <= 24, 'El mensaje debe pedir entre 18 y 24 palabras');
+  assert.ok(modelWords >= 18 && modelWords <= 24, `El modelo tiene ${modelWords} palabras`);
+
+  const enactedDecision = projects.find((step) => step.areas.includes('fc')
+    && /acuerd|negoci|decid.*junt|elijan.*junt/.test(normalizeFactText(JSON.stringify(step)))
+    && /mensaje|rol/.test(normalizeFactText(JSON.stringify(step))));
+  assert.ok(enactedDecision, 'FC debe vivirse al acordar un mensaje o rol compartido');
+  const rehearsal = projects.find((step) => /ensay|lectura en voz alta|represent/.test(normalizeFactText(`${step.title ?? ''} ${step.prompt}`)));
+  assert.ok(rehearsal, 'Falta un ensayo o lectura real del mensaje');
   const review = workshop.steps.find((step) => /revision|revis/i.test(`${step.title ?? ''} ${step.prompt}`));
   assert.ok(review, 'Falta revisión del producto');
   assert.match(normalizeFactText(JSON.stringify(review)), /exactitud cientifica/);
   assert.match(normalizeFactText(JSON.stringify(review)), /respeto/);
+  const revision = workshop.steps.find((step) => /revision dirigida|correccion dirigida|mejora dirigida|corrige una/.test(normalizeFactText(JSON.stringify(step))));
+  assert.ok(revision, 'Falta una revisión dirigida del producto');
+  const artProjects = projects.filter((step) => step.areas.includes('art'));
+  assert.equal(artProjects.length, 1, 'Arte debe aportar un solo apoyo visual sencillo');
   assert.equal(workshop.steps.at(-1)?.type, 'reflection');
+});
+
+test('Semana 4 mantiene una carga estructurada razonable por lección', () => {
+  const countItems = (value: unknown): number => {
+    if (!value || typeof value !== 'object') return 0;
+    if (Array.isArray(value)) return value.reduce((sum, item) => sum + countItems(item), 0);
+    return Object.entries(value as Record<string, unknown>).reduce((sum, [key, item]) => {
+      if (['options', 'items', 'pairs', 'statements', 'questions', 'reveal', 'steps', 'rounds'].includes(key) && Array.isArray(item)) {
+        return sum + item.length;
+      }
+      return sum;
+    }, 0);
+  };
+  const failures: string[] = [];
+  for (const lesson of weekFour.lessons.filter((item) => item.kind === 'materia')) {
+    const nestedItems = lesson.steps.reduce((sum, step) => sum + countItems(step.props), 0);
+    const longResponse = lesson.steps.find((step) => step.type === 'short-answer'
+      && Number((step.props as { minWords?: number }).minWords ?? 0) > lesson.minutes * 3);
+    if (lesson.steps.length > 14 || nestedItems > lesson.minutes * 4 || longResponse) {
+      failures.push(`${lesson.id}: pantallas=${lesson.steps.length}, elementos=${nestedItems}, respuestaLarga=${Boolean(longResponse)}`);
+    }
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('La lección CNT de cuidado cabe en 17 minutos sin perder modelado ni dos salidas', () => {
+  const lesson = weekFour.lessons.find((item) => item.area === 'cnt'
+    && item.steps.some((step) => step.cnb.includes('cnt:3.3.1')));
+  assert.ok(lesson, 'Falta la lección cnt:3.3.1');
+  assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 11, `Tiene ${lesson.steps.length} pantallas`);
+  assert.ok(lesson.steps.some((step) => step.type === 'worked-example'), 'Falta el modelo explícito');
+  assert.ok(lesson.steps.some((step) => step.fase === 'construir' && getActivity(step.type)?.graded && step.hint), 'Falta práctica guiada');
+  assert.ok(lesson.steps.some((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded && !step.hint), 'Falta transferencia independiente');
+  assert.equal(lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded).length, 2);
+  const responses = lesson.steps.filter((step) => step.type === 'short-answer');
+  assert.ok(responses.every((step) => Number((step.props as { minWords?: number }).minWords ?? 0) <= 18));
+  assert.match(normalizeFactText(JSON.stringify(lesson)), /intimidad|respeto/);
+});
+
+test('Educación Física limita la práctica a ocho lanzamientos o pases registrados', () => {
+  const lessons = weekFour.lessons.filter((lesson) => lesson.area === 'ef');
+  assert.ok(lessons.length > 0);
+  for (const lesson of lessons) {
+    const text = normalizeFactText(JSON.stringify(lesson));
+    assert.ok(lesson.steps.length <= 11, `${lesson.id}: ${lesson.steps.length} pantallas`);
+    assert.match(text, /8 (?:lanzamientos|pases).{0,30}(?:en total|totales)|(?:en total|total de) 8 (?:lanzamientos|pases)/);
+    assert.match(text, /registro|anota|marcas|tanteo/);
+    assert.match(text, /vuelta a la calma|enfriamiento/);
+    assert.doesNotMatch(text, /10 (?:botes|rodados|pases|lanzamientos)|5 con cada mano/);
+    assert.ok(!lesson.steps.some((step) => step.type === 'chart-builder'), `${lesson.id}: la gráfica no cabe en la práctica`);
+  }
 });
 
 test('Semana 4 evalúa contenido enseñado en diez áreas con payloads frescos', () => {

@@ -531,14 +531,14 @@ export default [
     ],
     resumen: [
       'El kit preparado incluye cuatro plantillas mini precortadas y premarcadas: prisma triangular recto, pirámide cuadrangular recta, cilindro y cono.',
-      'Línea punteada significa doblar; números iguales indican bordes que se unen; las pestañas quedan por dentro y se fijan con tiras de cinta ya preparadas.',
+      'Línea punteada significa doblar; números iguales indican bordes que se unen; las pestañas autoadhesivas quedan por dentro y se cierran al retirar su protector.',
       'Prisma y pirámide se forman al doblar caras planas. Cilindro y cono se forman al enrollar una superficie curva y colocar su base o sus bases.',
-      'Las piezas y las tiras de cinta ya vienen precortadas: no se usan tijeras, cuchillas ni grapas.',
+      'Las piezas ya vienen precortadas, premarcadas y con uniones de despegar y pegar: no se usan tijeras, cuchillas, grapas ni cinta suelta.',
     ],
     media: {
       id: 's04-mat-5-kit', kind: 'diagram', title: 'Kit mini de cuatro sólidos', aspect: '4:3',
       alt: 'Cuatro plantillas pequeñas, precortadas y premarcadas, para armar un prisma triangular recto, una pirámide cuadrangular recta, un cilindro y un cono.',
-      brief: 'Lámina imprimible en tamaño carta al 100 %, fondo blanco y trazos negros gruesos. Incluye cuatro plantillas mini separadas y rotuladas: 1) prisma triangular recto, tira de tres rectángulos con dos triángulos congruentes; 2) pirámide cuadrangular recta, cuadrado con cuatro triángulos congruentes; 3) cilindro, rectángulo con pestaña lateral y dos círculos con pestañas radiales anchas; 4) cono, sector circular con pestaña lateral y un círculo-base con pestañas radiales anchas. Contorno exterior continuo para que una persona adulta prepare el kit; dobleces punteados ya marcados; pestañas grises; bordes que se unen llevan números iguales. Añadir una leyenda: "punteada = doblar · números iguales = unir". Las piezas deben medir entre 4 y 6 cm armadas y admitir cinta adhesiva escolar. Nota de preparación docente: entregar las cuatro piezas ya recortadas y premarcadas, junto con suficientes tiras cortas de cinta precortada. Reemplazar el mock con PDF/SVG accesible listo para impresión y una miniatura PNG.',
+      brief: 'Lámina imprimible en tamaño carta al 100 %, fondo blanco y trazos negros gruesos. Incluye cuatro plantillas mini separadas y rotuladas: 1) prisma triangular recto, tira de tres rectángulos con dos triángulos congruentes; 2) pirámide cuadrangular recta, cuadrado con cuatro triángulos congruentes; 3) cilindro, rectángulo con pestaña lateral y dos círculos con pestañas radiales anchas; 4) cono, sector circular con pestaña lateral y un círculo-base con pestañas radiales anchas. Contorno exterior continuo para preparación adulta; dobleces punteados premarcados; pestañas grises autoadhesivas con protector desprendible; bordes que se unen llevan números iguales. Las bases circulares del cilindro y el cono deben incluir un aro de pestañas radiales anchas, premarcadas y autoadhesivas, para fijarlas sin cinta suelta. Añadir la leyenda "punteada = doblar · números iguales = unir · gris = despegar y pegar". Las piezas deben medir entre 4 y 6 cm armadas. Nota docente: entregar las cuatro piezas ya recortadas, premarcadas y con los protectores aún puestos; comprobar antes que las uniones curvas cierren. Reemplazar el mock con PDF/SVG accesible listo para impresión y una miniatura PNG.',
     },
     steps: [
       S.explain(
@@ -547,12 +547,12 @@ export default [
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.7'], ambito: 'conocer', title: 'Lee el kit antes de armar',
-          prompt: 'Cada pareja recibe cuatro plantillas mini precortadas y premarcadas, tiras cortas de cinta ya preparadas, cuatro etiquetas y un lápiz.' },
-        { icon: 'PackageOpen', body: 'Las piezas ya están listas: **no se usan tijeras, cuchillas ni grapas**.', reveal: [
+          prompt: 'Cada pareja recibe cuatro plantillas mini precortadas y premarcadas, con pestañas autoadhesivas protegidas, cuatro etiquetas y un lápiz.' },
+          { icon: 'PackageOpen', body: 'Las piezas ya están listas: **no se usan tijeras, cuchillas, grapas ni cinta suelta**.', reveal: [
           { icon: 'FoldHorizontal', front: 'Línea punteada', back: 'Haz el **doblez** hacia adentro y presiónalo una vez.' },
           { icon: 'ListOrdered', front: 'Números iguales', back: 'Los bordes con el mismo número deben quedar juntos.' },
-          { icon: 'Paperclip', front: 'Pestaña gris', back: 'Queda por dentro; un trozo corto de **cinta** mantiene la unión.' },
-          { icon: 'Rotate3D', front: 'Curva', back: 'El rectángulo del cilindro y el sector del cono se **enrollan** antes de cerrar.' },
+          { icon: 'Sticker', front: 'Pestaña gris', back: 'Queda por dentro: retira el protector, une los números iguales y **presiona**.' },
+          { icon: 'Rotate3D', front: 'Curva', back: 'El rectángulo del cilindro y el sector del cono se **enrollan**; sus bases circulares ya tienen pestañas autoadhesivas radiales.' },
         ] },
       ),
       S.ejemplo(
@@ -562,7 +562,7 @@ export default [
           steps: [
             { text: 'Repasa con los dedos las líneas punteadas para levantar las caras.' },
             { text: 'Junta los bordes con números iguales; las pestañas quedan dentro.' },
-            { text: 'Coloca un trozo corto de cinta en cada unión y presiona.', why: 'No hace falta cinta en los dobleces que ya unen dos caras.' },
+            { text: 'Retira el protector de una pestaña, une los números iguales y presiona.', why: 'Las pestañas autoadhesivas evitan buscar y cortar cinta durante el armado.' },
           ],
           answer: 'Queda un prisma recto cerrado, con **dos bases triangulares** y **tres caras laterales rectangulares**.',
           tip: 'Primero da forma; después fija. Así puedes corregir una unión antes de cerrarla.' },
@@ -570,33 +570,11 @@ export default [
       S.choice(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.7'], prompt: 'En una plantilla preparada, ¿qué haces con dos bordes marcados con el número 3?',
           hint: 'Revisa la convención de los números iguales.',
-          explain: 'Los números iguales señalan bordes que deben encontrarse; se juntan y se fijan con un trozo corto de cinta.' },
+          explain: 'Los números iguales señalan bordes que deben encontrarse; se juntan con la pestaña autoadhesiva y se presionan.' },
         { options: [
-          { id: 'a', text: 'Los unes y fijas con cinta', icon: 'Link' },
+          { id: 'a', text: 'Los unes con la pestaña autoadhesiva y presionas', icon: 'Link' },
           { id: 'b', text: 'Los dejas en lados opuestos', icon: 'MoveHorizontal', feedback: 'El mismo número indica que forman una unión.' },
           { id: 'c', text: 'Los arrancas', icon: 'X', feedback: 'El kit ya tiene la forma necesaria; no se quitan bordes.' },
-        ], correct: ['a'] },
-      ),
-      S.order(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.7'], prompt: 'Ordena la rutina de ensamblaje.',
-          hint: 'Primero reconoce la pieza; fija las uniones después de darle forma.',
-          explain: 'Identificar → doblar o enrollar → unir números iguales → fijar → comprobar.' },
-        { items: [
-          { id: 'a', text: 'Identificar el sólido y sus bases' },
-          { id: 'b', text: 'Doblar líneas punteadas o enrollar la superficie curva' },
-          { id: 'c', text: 'Juntar bordes con números iguales' },
-          { id: 'd', text: 'Fijar las pestañas con cinta' },
-          { id: 'e', text: 'Comprobar que el modelo cierre' },
-        ], labels: { start: 'Primero', end: 'Al final' } },
-      ),
-      S.choice(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.7'], prompt: '¿Qué diferencia el inicio del cilindro y del cono?',
-          hint: 'Mira la forma de la superficie que se enrolla.',
-          explain: 'Para el cilindro se enrolla un rectángulo; para el cono se enrolla un sector circular, parecido a un abanico.' },
-        { options: [
-          { id: 'a', text: 'Cilindro: rectángulo; cono: sector circular', icon: 'Cylinder' },
-          { id: 'b', text: 'Cilindro: triángulo; cono: cuadrado', icon: 'Shapes', feedback: 'Esas formas no producen sus superficies curvas.' },
-          { id: 'c', text: 'Los dos empiezan con cuatro triángulos', icon: 'Triangle', feedback: 'Cuatro triángulos corresponden a una pirámide cuadrangular.' },
         ], correct: ['a'] },
       ),
       S.project(
@@ -604,9 +582,9 @@ export default [
           prompt: 'Ensambla el **kit preparado de cuatro sólidos** con tu pareja. Trabajen en paralelo: cada integrante arma un modelo plano y uno curvo; luego intercambien para comprobar las uniones.' },
         { goal: 'Obtener cuatro modelos terminados: un prisma recto, una pirámide recta, un cilindro y un cono.',
           steps: [
-            { title: '1 min · Organiza el kit', detail: 'Separa las cuatro plantillas precortadas, las etiquetas y los trozos de cinta; identifica las bases de cada sólido.' },
-            { title: '2 min · Prisma y pirámide', detail: 'En paralelo, dobla las líneas punteadas, presiona las pestañas hacia dentro y une los bordes con números iguales usando cinta.' },
-            { title: '2 min · Cilindro y cono', detail: 'En paralelo, enrolla cada superficie curva, fija la unión lateral con cinta y coloca la base o las bases preparadas.' },
+            { title: '1 min · Organiza el kit', detail: 'Separa las cuatro plantillas precortadas y las etiquetas; identifica las bases sin retirar aún los protectores.' },
+            { title: '3 min · Prisma y pirámide', detail: 'En paralelo, dobla las líneas punteadas, retira los protectores necesarios, une números iguales y presiona las pestañas autoadhesivas.' },
+            { title: '4 min · Cilindro y cono', detail: 'En paralelo, enrolla el rectángulo y el sector, cierra sus uniones autoadhesivas y presiona las bases circulares sobre las pestañas radiales preparadas.' },
             { title: '1 min · Etiqueta y compara', detail: 'Rotula cada modelo con su nombre. Compara cuáles tienen vértices y cuáles tienen superficie curva.' },
           ],
           evidence: 'Cuatro modelos armados y de pie, cada uno con su etiqueta: prisma recto, pirámide recta, cilindro y cono.',
@@ -623,16 +601,6 @@ export default [
           { id: 'b', text: 'Pirámide recta', bucket: 'p' },
           { id: 'c', text: 'Cilindro', bucket: 'c' },
           { id: 'd', text: 'Cono', bucket: 'c' },
-        ] },
-      ),
-      S.tf(
-        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.3.7', 'mat:1.3.4'], prompt: 'Compara los modelos que acabas de armar.',
-          explain: 'Las bases y superficies permiten comprobar si cada modelo quedó bien ensamblado.' },
-        { statements: [
-          { text: 'El prisma recto armado tiene dos bases congruentes.', answer: true },
-          { text: 'La pirámide recta armada termina en una cúspide.', answer: true },
-          { text: 'El cilindro armado tiene un vértice.', answer: false, why: 'Tiene dos bases circulares y una superficie curva, pero no vértices.' },
-          { text: 'El cono armado tiene una base circular.', answer: true },
         ] },
       ),
       S.choice(
@@ -653,7 +621,7 @@ export default [
         ] },
       ),
       cierre({ areas: ['mat'], cnb: [] },
-        ['Construí un prisma recto y una pirámide recta', 'Construí un cilindro y un cono', 'Usé dobleces, rollos, pestañas y cinta', 'Comparé caras, bases, vértices y superficies'],
+        ['Construí un prisma recto y una pirámide recta', 'Construí un cilindro y un cono', 'Usé dobleces, rollos y pestañas autoadhesivas', 'Comparé caras, bases, vértices y superficies'],
         ['Guardaré los cuatro modelos para explicar sus diferencias', 'Pediré ayuda si una plantilla preparada se daña', 'Usaré solo los materiales indicados para cada construcción']),
     ],
   }),

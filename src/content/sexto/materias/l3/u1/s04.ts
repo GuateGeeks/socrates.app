@@ -18,14 +18,15 @@ export default [
     ],
     resumen: [
       'En inglés muchas palabras no se pronuncian como se escriben: hay que aprender juntas su forma escrita, su sonido y su significado.',
-      'ee y ea suenan como una i larga (tree, eat). oo suena como u (food, school). sh suena como "sh" (fish). th se dice con la lengua entre los dientes (three).',
+      'En las palabras estudiadas, ee y ea representan una i larga (tree, eat), y oo representa u (food, school). Son patrones útiles, pero el inglés tiene excepciones: se aprende también la pronunciación de cada palabra.',
+      'En three y thank, th es /θ/: sale aire y la garganta no vibra. En mother, th es /ð/: la lengua ocupa la misma posición, pero la garganta vibra.',
       'Letras mudas: la k de knife y know, la w de write, la gh de night y light.',
-      'E mágica: la e final no suena y hace que la vocal anterior "diga su nombre": cake ("keik"), bike ("baik"), home ("jóum").',
+      'En las palabras estudiadas cake, bike y home, la e final no suena y la vocal anterior dice su nombre. Esta pista tampoco funciona en todas las palabras inglesas.',
     ],
     media: {
       id: 's04-l3-1-sounds', kind: 'audio', title: 'Spelling and sounds', duration: 50,
       alt: 'Una voz en inglés lee grupos de palabras con el mismo patrón de letras.',
-      brief: 'Audio de 50 s. Voz adulta, inglés claro y pausado, sin música. Grupos con 1 s entre palabras y 2 s entre grupos, anunciando el patrón en español antes de cada grupo (voz en español de Guatemala): "ee y ea": "tree, green, eat, tea". "oo": "food, school, moon". "sh": "fish, shop, sheep". "th": "three, thank you, mother". "letras mudas": "knife, know, write, night, light". "e mágica": "cake, bike, home, cute". Al final, par contrastado dos veces: "ship – sheep".',
+      brief: 'Audio de 50 s. Voz adulta, inglés claro y pausado, sin música. Grupos con 1 s entre palabras y 2 s entre grupos, anunciando que son patrones de estas palabras y que hay excepciones. "ee y ea": "tree, green, eat, tea". "oo": "food, school, moon". "sh": "fish, shop, sheep". "th sin vibración, /θ/": "three, thank you". "th con vibración, /ð/": "mother". "letras mudas": "knife, know, write, night, light". "e final en estas palabras": "cake, bike, home". Al final, par contrastado dos veces: "ship – sheep".',
     },
     steps: [
       S.explain(
@@ -44,12 +45,13 @@ export default [
       ),
       S.explain(
         { fase: 'construir', areas: ['l3'], cnb: ['l3:2.2.1'], ambito: 'conocer', title: 'Letter teams',
-          prompt: 'Algunas letras se juntan en equipo y hacen **un solo sonido**. Escucha el audio de la lección, repite y toca cada tarjeta.' },
-        { icon: 'Users', body: 'Cuando veas estos equipos de letras, **no las leas por separado**.', reveal: [
-          { icon: 'TreePine', front: 'ee / ea', back: 'Suenan como una **i larga**: tr**ee** ("tri"), gr**ee**n, **ea**t ("it"), t**ea** ("ti").' },
-          { icon: 'Moon', front: 'oo', back: 'Suena como **u**: f**oo**d ("fud"), sch**oo**l ("skul"), m**oo**n ("mun").' },
+          prompt: 'Algunas combinaciones representan sonidos en palabras concretas. Escucha el audio, repite y aprende cada palabra: en inglés hay **excepciones**.' },
+        { icon: 'Users', body: 'Usa el patrón como pista en las palabras aprendidas; **no siempre** tendrá el mismo sonido en otras palabras.', reveal: [
+          { icon: 'TreePine', front: 'ee / ea', back: 'En estas palabras representan una **i larga**: tr**ee** ("tri"), gr**ee**n, **ea**t ("it"), t**ea** ("ti").' },
+          { icon: 'Moon', front: 'oo', back: 'En estas palabras representa **u**: f**oo**d ("fud"), sch**oo**l ("skul"), m**oo**n ("mun").' },
           { icon: 'Fish', front: 'sh', back: 'Suena como cuando pides silencio, **"shhh"**: fi**sh**, **sh**op, **sh**eep.' },
-          { icon: 'Smile', front: 'th', back: 'Pon la **lengua entre los dientes** y sopla: **th**ree, **th**ank you, mo**th**er.' },
+          { icon: 'Wind', front: 'th /θ/ sin vibración', back: 'Pon la lengua suavemente entre los dientes y deja salir aire; la garganta no vibra: **th**ree, **th**ank you.' },
+          { icon: 'MessageCircle', front: 'th /ð/ con vibración', back: 'Mantén la lengua en la misma posición y haz vibrar la garganta: mo**th**er.' },
         ] },
       ),
       S.explain(
@@ -59,7 +61,7 @@ export default [
           { icon: 'VolumeX', front: 'k muda', back: 'Antes de n: **k**nife ("náif"), **k**now ("nóu"). ' },
           { icon: 'VolumeX', front: 'w muda', back: 'Antes de r: **w**rite ("ráit").' },
           { icon: 'VolumeX', front: 'gh muda', back: 'En -igh: ni**gh**t ("náit"), li**gh**t ("láit").' },
-          { icon: 'Sparkles', front: 'La e mágica', back: 'La e final no suena y hace que la vocal anterior diga **su nombre en inglés**: cak**e** ("keik"), bik**e** ("baik"), hom**e** ("jóum"). Compara: **cap** ("kap", gorra) / **cape** ("keip", capa).' },
+          { icon: 'Sparkles', front: 'E final en estas palabras', back: 'En cak**e** ("keik"), bik**e** ("baik") y hom**e** ("jóum"), la e final no suena y la vocal anterior dice su nombre. Hay excepciones; aprende cada palabra.' },
         ] },
       ),
       S.ejemplo(
@@ -79,7 +81,7 @@ export default [
         { fase: 'construir', areas: ['l3'], cnb: ['l3:2.2.1'], ambito: 'hacer',
           prompt: 'Ahora tú, con ayuda: une cada palabra escrita con **cómo suena** y lo que significa.',
           hint: 'Busca los equipos (oo, ee, th) y las letras mudas (k, gh).',
-          explain: 'Moon suena "mun" (oo = u). Green, "griin" (ee = i). Know, "nóu" (k muda). Night, "náit" (gh muda). Three, "thri" con la lengua entre los dientes.' },
+          explain: 'En estas palabras: moon suena "mun"; green, "griin"; know, "nóu"; night, "náit". En three, th es /θ/: sale aire y la garganta no vibra.' },
         { leftTitle: 'Se escribe', rightTitle: 'Suena · significa', pairs: [
           { id: 'm1', left: 'moon', right: '"mun" · luna' },
           { id: 'm2', left: 'green', right: '"griin" · verde' },
@@ -96,7 +98,7 @@ export default [
             alt: 'Una voz en inglés dice: "Look at the sheep."',
             brief: 'Audio de 10 s. Voz adulta, inglés claro, sin música. Texto exacto: "Look at the sheep." (alargar claramente la i larga de sheep). Repetir dos veces con 2 s de pausa.' } },
         { options: [
-          { id: 'a', text: 'sheep (oveja)', icon: 'Cloud' },
+          { id: 'a', text: 'sheep (oveja)', icon: 'PawPrint' },
           { id: 'b', text: 'ship (barco)', icon: 'Ship', feedback: 'Ship tiene una i corta. Lo que se oye es una i larga, "shiip": se escribe con ee.' },
         ], correct: ['a'] },
       ),
@@ -134,7 +136,7 @@ export default [
       S.tf(
         { fase: 'comprobar', areas: ['l3'], cnb: ['l3:2.2.1'], prompt: '¿Verdadero o falso?' },
         { statements: [
-          { text: 'En "food", la oo suena como u.', answer: true },
+          { text: 'En la palabra "food", las letras oo representan el sonido u.', answer: true },
           { text: 'En "cake", la e final se pronuncia fuerte.', answer: false, why: 'Es una e mágica: no suena, pero hace que la a diga "ei".' },
           { text: '"Sheep" y "ship" significan lo mismo.', answer: false, why: 'Sheep es oveja y ship es barco: la i larga o corta cambia el significado.' },
         ] },
