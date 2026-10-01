@@ -443,18 +443,18 @@ export default [
   // ───────────────────────────── Lección 4 ─────────────────────────────
   lesson({
     id: 's01-l1-4',
-    title: 'Los lenguajes de los medios tecnológicos',
+    title: 'Lenguajes icónicos: pantallas y mapas',
     icon: 'Smartphone',
     minutes: 13,
-    gancho: 'En un teléfono o una computadora hay dibujitos que entiendes sin leer: una lupa, un sobre, un bote de basura. ¿Cómo sabes lo que significan?',
+    gancho: 'En una pantalla y en un mapa hay dibujos que entiendes sin una oración completa: una lupa, una flecha N, un símbolo de escuela. ¿Cómo sabes lo que significan?',
     objetivos: [
       'Reconocer los lenguajes que se usan en los medios tecnológicos: escrito, icónico y audiovisual',
-      'Interpretar íconos y emojis comunes',
+      'Interpretar la orientación, los símbolos, la clave y las anotaciones de un mapa',
       'Elegir el lenguaje adecuado según a quién le escribes',
     ],
     resumen: [
       'En los medios tecnológicos se combinan varios lenguajes: el escrito (palabras), el icónico (íconos, emojis, símbolos) y el audiovisual (audio, video, notas de voz).',
-      'Un ícono es un dibujo pequeño que representa una acción: la lupa es buscar, el sobre es correo, el clip es adjuntar.',
+      'Los íconos y símbolos comunican con dibujos. En un mapa, la orientación señala el norte, la clave explica los símbolos y las anotaciones conectan evidencia con un lugar.',
       'Los emojis y abreviaturas sirven en mensajes informales con personas de confianza, pero pueden malinterpretarse. Con adultos o instituciones se escribe completo y con cortesía.',
       'Escribir TODO EN MAYÚSCULAS en un mensaje se entiende como gritar.',
     ],
@@ -483,22 +483,19 @@ export default [
           { icon: 'Video', front: 'Lenguaje audiovisual', back: '**Sonido e imagen**: notas de voz, videos, videollamadas, música. Aquí también comunican el tono de voz y los gestos.' },
         ] },
       ),
-      S.match(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'hacer', prompt: 'Observa el diagrama y une cada ícono con la acción que representa.',
-          hint: 'Piensa en el objeto real que dibuja el ícono: ¿para qué sirve ese objeto en la vida diaria?',
-          explain: 'Los íconos imitan objetos de la vida real: con una lupa se busca, en un sobre se manda una carta, con un clip se unen papeles.',
-          media: {
-            id: 's01-l1-4-iconos-detalle', kind: 'diagram', title: 'Seis íconos comunes', aspect: '1:1',
-            alt: 'Seis íconos en blanco y negro sin rótulo: lupa, sobre, clip, flecha curva, engranaje y bote de basura.',
-            brief: 'Los mismos seis íconos del diagrama principal, pero sin rótulos, en cuadrícula de 3 × 2 numerados del 1 al 6 para la actividad de unir. Trazo negro grueso sobre fondo blanco, tamaño grande para leerse en teléfono. Sin marcas.',
-          } },
-        { leftTitle: 'Ícono', rightTitle: 'Acción', pairs: [
-          { id: 'i1', left: 'Lupa', right: 'Buscar', leftIcon: 'Search' },
-          { id: 'i2', left: 'Sobre', right: 'Correo o mensajes', leftIcon: 'Mail' },
-          { id: 'i3', left: 'Clip', right: 'Adjuntar un archivo', leftIcon: 'Paperclip' },
-          { id: 'i4', left: 'Engranaje', right: 'Configuración', leftIcon: 'Settings' },
-          { id: 'i5', left: 'Bote de basura', right: 'Eliminar', leftIcon: 'Trash2' },
-        ] },
+      S.ejemplo(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer', title: 'Ejemplo resuelto: leer un mapa anotado',
+          prompt: 'Un mapa es un texto icónico: combina símbolos y palabras para comunicar información de un lugar.' },
+        { icon: 'Map', problem: '¿Cómo lee Ana un croquis de su comunidad sin que otra persona tenga que explicárselo?',
+          steps: [
+            { text: '**Orientación:** busca la flecha con la letra **N** para reconocer el norte y las demás direcciones.' },
+            { text: '**Símbolos:** identifica los signos que representan lugares, como una escuela, un nacimiento de agua o un barranco.' },
+            { text: '**Clave:** consulta el recuadro que explica qué significa cada símbolo; un signo sin clave puede ser ambiguo.' },
+            { text: '**Rótulos:** comprueba el nombre y la ubicación de cada lugar antes de sacar conclusiones.' },
+            { text: '**Anotación con evidencia:** sigue la línea que une “La escuela está en terreno firme” con la escuela. La anotación conecta evidencia, lugar y significado.' },
+          ],
+          answer: 'Ana interpreta la orientación, consulta la clave, ubica los símbolos y relaciona cada anotación con el lugar que aporta la evidencia.',
+          tip: 'Lee primero la orientación y la clave; después interpreta los detalles y las anotaciones.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer', title: 'Emojis, abreviaturas y mayúsculas',
@@ -555,13 +552,13 @@ export default [
         { text: '[[Buenos días]], maestra. Le escribo para contarle [[por qué]] no asistí a clases ayer: estaba enferma. [[También]] quiero avisarle que mañana tengo cita en el centro de salud. [[Muchas gracias]] por su comprensión. Sofía.',
           distractors: ['xq', 'Q onda', 'tmb'] },
       ),
-      S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.4.2'], prompt: '¿Qué lenguaje estás usando cuando mandas una **nota de voz**?' },
-        { options: [
-          { id: 'a', text: 'Audiovisual (sonido)' },
-          { id: 'b', text: 'Icónico' },
-          { id: 'c', text: 'Escrito' },
-        ], correct: ['a'] },
+      S.tf(
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], prompt: 'Evalúa cómo se interpreta un mapa anotado.' },
+        { statements: [
+          { text: 'La flecha N permite reconocer la orientación del mapa.', answer: true },
+          { text: 'Un triángulo significa lo mismo en cualquier mapa, aunque no haya clave.', answer: false, why: 'La clave establece qué significa cada símbolo en ese mapa.' },
+          { text: 'Una frase unida con una línea a la escuela puede aportar evidencia sobre ese lugar.', answer: true },
+        ] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['l1'], cnb: ['l1:3.4.2'], prompt: 'Quieres pedirle al director permiso para usar el salón de computación. ¿Cuál mensaje es el adecuado?' },

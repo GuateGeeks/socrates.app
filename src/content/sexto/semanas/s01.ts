@@ -59,7 +59,7 @@ export default semana({
           { icon: 'Map', body: 'No aprenderás temas nuevos: vas a **integrar** lo que ya practicaste esta semana.', reveal: [
             { icon: 'Globe', front: 'Sociales', back: 'Ubicación, condiciones geográficas y prevención.' },
             { icon: 'Scale', front: 'Formación Ciudadana', back: 'Una condición local, el derecho relacionado y una respuesta solidaria.' },
-            { icon: 'Mic', front: 'Comunicación y Lenguaje', back: 'Un inicio, dos ideas apoyadas en el mapa y un cierre.' },
+            { icon: 'Mic', front: 'Comunicación y Lenguaje', back: 'Orientación, símbolos, clave y anotaciones del mapa; además, un inicio, dos ideas y un cierre oral.' },
           ] },
         ),
         S.reading(
@@ -81,8 +81,8 @@ export default semana({
             ] },
         ),
         S.match(
-          { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'hacer',
-            prompt: 'Recupera lo que aprendiste en **Ciencias Sociales**: une cada convención del mapa con su función.' },
+          { fase: 'construir', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer',
+            prompt: 'Recupera lo que aprendiste en **Comunicación y Lenguaje**: une cada convención del mapa con su función.' },
           { leftTitle: 'Convención', rightTitle: 'Función', pairs: [
             { id: 'o', left: 'Orientación', right: 'La flecha N permite reconocer el norte' },
             { id: 's', left: 'Símbolo', right: 'Representa un lugar o elemento con un signo sencillo' },
@@ -91,7 +91,7 @@ export default semana({
           ] },
         ),
         S.sort(
-          { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'hacer',
+          { fase: 'aplicar', areas: ['l1'], cnb: ['l1:3.2.1', 'l1:3.3.1'], ambito: 'hacer',
             prompt: 'Revisa el borrador del mapa de Ana. Clasifica lo que ya comunica con claridad y lo que debe corregir.',
             explain: 'Un mapa legible necesita orientación, símbolos explicados en una clave, rótulos y anotaciones conectadas a lugares.' },
           { buckets: [
@@ -105,7 +105,7 @@ export default semana({
           ] },
         ),
         S.choice(
-          { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'hacer',
+          { fase: 'aplicar', areas: ['l1', 'ccss'], cnb: ['l1:3.2.1', 'l1:3.3.1', 'ccss:1.3.1'], ambito: 'hacer',
             prompt: '¿Cuál opción convierte un dato de la ficha en una anotación bien ubicada?',
             explain: 'Una anotación conecta un dato comprobable con el lugar donde ocurre y explica su significado.' },
           { options: [
@@ -125,7 +125,7 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.match(
-          { fase: 'aplicar', areas: ['ccss', 'fc'], cnb: ['ccss:1.2.1', 'ccss:1.3.1', 'fc:1.2.1', 'fc:1.1.2'], ambito: 'hacer',
+          { fase: 'aplicar', areas: ['l1', 'ccss', 'fc'], cnb: ['l1:3.2.1', 'l1:3.3.1', 'ccss:1.2.1', 'ccss:1.3.1', 'fc:1.2.1', 'fc:1.1.2'], ambito: 'hacer',
             prompt: 'Antes de dibujar, une cada una de las **cuatro categorías** con una anotación respaldada por la ficha.' },
           { leftTitle: 'Categoría', rightTitle: 'Anotación', pairs: [
             { id: 'u', left: 'Ubicación o condición geográfica', right: 'Loma Linda está a unos 2,000 m: es tierra fría' },
@@ -146,7 +146,7 @@ export default semana({
           ], labels: { start: 'Primero', end: 'Al final' } },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['l1', 'ccss', 'fc'], cnb: ['l1:2.1.6', 'ccss:1.2.1', 'ccss:1.3.1', 'fc:1.2.1', 'fc:1.1.2'], ambito: 'hacer', title: 'Producto: mapa anotado y presentación oral',
+          { fase: 'aplicar', areas: ['l1', 'ccss', 'fc'], cnb: ['l1:2.1.6', 'l1:3.2.1', 'l1:3.3.1', 'ccss:1.2.1', 'ccss:1.3.1', 'fc:1.2.1', 'fc:1.1.2'], ambito: 'hacer', title: 'Producto: mapa anotado y presentación oral',
             prompt: 'Crea **Mapa y voz de nuestro lugar** sobre tu comunidad, o usa Loma Linda si te faltan datos locales. Dispones de nueve minutos: seis para el mapa, dos para el plan oral y uno para presentarlo.' },
           { goal: 'Elaborar un **mapa local anotado** y usarlo para realizar una **presentación oral de 45 segundos** sobre evidencias, derechos y cuidado comunitario.',
             steps: [
@@ -164,7 +164,7 @@ export default semana({
               'Propuse una respuesta solidaria realizable y la expliqué con inicio, dos ideas, cierre, voz clara y una pausa',
             ] },
         ),
-        cierre({ areas: ['l1', 'ccss', 'fc'], cnb: ['l1:2.1.6', 'fc:1.2.1', 'fc:1.1.2'] },
+        cierre({ areas: ['l1', 'ccss', 'fc'], cnb: ['l1:2.1.6', 'l1:3.2.1', 'l1:3.3.1', 'fc:1.2.1', 'fc:1.1.2'] },
           ['Conecto evidencias con lugares mediante símbolos y anotaciones', 'Relaciono una condición local con un derecho y juzgo su cumplimiento', 'Presento una respuesta solidaria apoyándome en el mapa'],
           ['Preguntaré antes de afirmar algo que el mapa no demuestra', 'Escucharé cómo otras familias viven las condiciones del lugar', 'Participaré en una acción solidaria que podamos realizar juntos']),
       ],

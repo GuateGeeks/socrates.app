@@ -91,7 +91,7 @@ test('Semana 1 mantiene el taller entre diez y catorce pasos', () => {
   );
 });
 
-test('Semana 1 enseña las convenciones del mapa en CCSS antes de recuperarlas en el taller', () => {
+test('Semana 1 no atribuye convenciones cartográficas locales a ccss:1.2.1', () => {
   const week = unitWeeks.find((item) => item.semana === 1);
   assert.ok(week, 'Falta semana 1');
   const workshopIndex = week.lessons.findIndex((lesson) => lesson.kind === 'taller');
@@ -100,17 +100,46 @@ test('Semana 1 enseña las convenciones del mapa en CCSS antes de recuperarlas e
   const ccssLessons = week.lessons
     .slice(0, workshopIndex)
     .filter((lesson) => lesson.area === 'ccss');
-  const mapInstruction = JSON.stringify(
+  const ccssInstruction = JSON.stringify(
     ccssLessons.flatMap((lesson) => lesson.steps)
       .filter((step) => step.cnb.includes('ccss:1.2.1')),
   ).toLocaleLowerCase('es');
+  for (const convention of ['orientación', 'símbolo', 'clave', 'anotación']) {
+    assert.ok(
+      !ccssInstruction.includes(convention),
+      `ccss:1.2.1 no respalda la convención "${convention}"`,
+    );
+  }
+});
+
+test('Semana 1 enseña las convenciones del mapa en L1 antes de recuperarlas en el taller', () => {
+  const week = unitWeeks.find((item) => item.semana === 1);
+  assert.ok(week, 'Falta semana 1');
+  const workshopIndex = week.lessons.findIndex((lesson) => lesson.kind === 'taller');
+  assert.notEqual(workshopIndex, -1, 'Semana 1 sin taller');
+
+  const l1Lessons = week.lessons
+    .slice(0, workshopIndex)
+    .filter((lesson) => lesson.area === 'l1');
+  const mapInstruction = JSON.stringify(
+    l1Lessons.flatMap((lesson) => lesson.steps)
+      .filter((step) => (
+        step.cnb.includes('l1:3.2.1')
+        && step.cnb.includes('l1:3.3.1')
+      )),
+  ).toLocaleLowerCase('es');
   for (const convention of ['orientación', 'norte', 'símbolo', 'clave', 'anotación']) {
-    assert.ok(mapInstruction.includes(convention), `CCSS no enseña la convención "${convention}"`);
+    assert.ok(mapInstruction.includes(convention), `L1 no enseña la convención "${convention}"`);
   }
 
   const workshop = week.lessons[workshopIndex];
-  const workshopText = JSON.stringify(workshop.steps).toLocaleLowerCase('es');
-  assert.match(workshopText, /recupera.+aprendiste.+ciencias sociales/s);
+  const workshopReview = JSON.stringify(
+    workshop.steps.filter((step) => (
+      step.cnb.includes('l1:3.2.1')
+      && step.cnb.includes('l1:3.3.1')
+    )),
+  ).toLocaleLowerCase('es');
+  assert.match(workshopReview, /recupera.+aprendiste.+comunicación y lenguaje/s);
 });
 
 test('Unidad 1 no repite una interacción tres veces seguidas', () => {
