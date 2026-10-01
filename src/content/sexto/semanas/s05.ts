@@ -203,14 +203,12 @@ export default semana({
             { id: 'b', text: 'Dejar a cada estudiante sin opciones ni espacios compartidos' },
             { id: 'c', text: 'Ofrecer sustancias para soportar el cansancio' },
           ], correct: ['a'] }),
-        S.order({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.2.1'], prompt: 'Ordena el cambio histórico desde grupos móviles hasta aldeas con oficios.' },
-          { items: [
-            { id: 'a', text: 'Caza y recolección en grupos móviles' },
-            { id: 'b', text: 'Domesticación de plantas y animales' },
-            { id: 'c', text: 'Producción y almacenamiento de excedentes' },
-            { id: 'd', text: 'Especialización de oficios en aldeas' },
+        S.match({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.5.1'], prompt: 'Relaciona cada ficha temporal con su interpretación histórica.' },
+          { pairs: [
+            { id: 'a', left: '1914: una crisis activa compromisos entre alianzas rivales', right: 'Una tensión localizada puede extenderse entre varios Estados' },
+            { id: 'b', left: '1945: representantes redactan la carta de una nueva organización internacional', right: 'Respuesta institucional orientada a la cooperación posterior' },
           ] }),
-        S.choice({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.2', 'l2:3.3.4'], prompt: '¿Qué mensaje argumenta con una razón comprobable?' },
+        S.choice({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:3.3.4'], prompt: '¿Qué mensaje argumenta con una razón comprobable?' },
           { options: [
             { id: 'a', text: 'Propongo reparar el pasamanos porque la inspección registró dos soportes flojos' },
             { id: 'b', text: 'El pasamanos está junto a la pared' },
@@ -260,13 +258,13 @@ export default semana({
         { id: 'b', text: 'Un anuncio repite una promesa sin mostrar actividad ni resultados' },
         { id: 'c', text: 'Una lista enumera sustancias sin relacionarlas con decisiones saludables' },
       ], correct: ['a'] }),
-    S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.3.1'], prompt: '¿Qué obra permitió llevar agua a cultivos en Egipto y Mesopotamia?' },
+    S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.4.4'], prompt: 'En un puerto europeo circulan mapas impresos, crece el comercio y se usan instrumentos para orientarse. ¿Qué conclusión explica mejor los viajes de larga distancia?' },
       { options: [
-        { id: 'a', text: 'Canales de riego' },
-        { id: 'b', text: 'Vías de ferrocarril' },
-        { id: 'c', text: 'Torres de radio' },
+        { id: 'a', text: 'La difusión de información, los intereses comerciales y las técnicas de navegación actuaron de manera combinada' },
+        { id: 'b', text: 'Los mapas impresos hicieron innecesaria toda experiencia de navegación' },
+        { id: 'c', text: 'El comercio impidió buscar rutas marítimas' },
       ], correct: ['a'] }),
-    S.sort({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.2'], prompt: 'Clasifica la intención principal de cada mensaje escolar.' },
+    S.sort({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:3.3.4'], prompt: 'Clasifica la intención principal de cada mensaje escolar.' },
       { buckets: [
         { id: 'i', label: 'Informar', icon: 'Info' },
         { id: 'e', label: 'Explicar', icon: 'ListOrdered' },

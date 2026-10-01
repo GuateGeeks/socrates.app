@@ -181,12 +181,12 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.2'], ambito: 'conocer',
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:3.3.4'], ambito: 'conocer',
           prompt: 'Distingue una opinión de las razones que pueden sostenerla.' },
         { icon: 'Scale', body: 'Un mensaje persuasivo presenta una postura y razones pertinentes. Para proponer una mejora escolar, conviene explicar qué barrera existe, a quién afecta y cómo la propuesta ayudaría.' },
       ),
       S.choice(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:3.3.4'], ambito: 'conocer',
           prompt: 'Dos compañeros le piden a la directora un huerto escolar. ¿Qué mensaje la **convencerá** más?',
           explain: 'Las **razones** dan fuerza a una opinión. Hoy aprenderás a construir mensajes que convencen y a justificar lo que dices.' },
         { options: [
@@ -195,7 +195,7 @@ export default [
         ], correct: ['b'] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.2'], ambito: 'conocer', title: 'Tres intenciones de un mensaje',
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:3.3.4'], ambito: 'conocer', title: 'Tres intenciones de un mensaje',
           prompt: 'Antes de hablar o escribir, pregúntate: **¿para qué es mi mensaje?** Toca cada intención.' },
         { icon: 'Target', body: 'La intención decide qué incluyes: datos, pasos y causas, o razones.', reveal: [
           { icon: 'Newspaper', front: 'Informar', back: 'Dar a conocer **hechos o datos**: qué, quién, cuándo, dónde. Ejemplo: "El jueves habrá vacunación en el puesto de salud, de 8 a 12".' },
@@ -204,7 +204,7 @@ export default [
         ] },
       ),
       S.sort(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.2'], ambito: 'hacer',
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:3.3.4'], ambito: 'hacer',
           prompt: 'Ahora tú, con ayuda: ¿cuál es la intención de cada mensaje?',
           hint: '¿Da datos? → informa. ¿Dice cómo o por qué? → explica. ¿Quiere que pienses o hagas algo? → argumenta.',
           explain: 'Reconocer la intención te ayuda a escuchar con atención y a no dejarte convencer sin razones.' },
@@ -222,7 +222,7 @@ export default [
         ] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.2', 'l2:3.3.4'], ambito: 'conocer', title: 'Cómo se construye un mensaje que convence',
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:3.3.4'], ambito: 'conocer', title: 'Cómo se construye un mensaje que convence',
           prompt: 'Un **mensaje argumentativo** tiene tres partes. Lo más importante son las razones y la **información que las justifica**.' },
         { icon: 'Blocks', body: 'Justificar = mostrar **en qué te basas**. Una buena justificación viene de información **relacionada con el tema**, **comprobable** y de una **fuente confiable**.', reveal: [
           { icon: 'Flag', front: '1. Opinión', back: 'Lo que piensas, dicho con claridad: "Creo que la escuela necesita un huerto".' },
@@ -255,7 +255,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.reading(
-        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.2', 'l2:3.3.4'], ambito: 'hacer', title: 'Lectura',
+        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:3.3.4'], ambito: 'hacer', title: 'Lectura',
           prompt: 'Lee la carta que el grado de sexto escribió a la directora y responde.' },
         { genre: 'Carta', heading: 'Carta a la directora', passage:
           'Estimada Licda. Tzul:\n\nLos estudiantes de sexto grado creemos que la escuela necesita botes para separar la basura.\n\nDurante una semana contamos lo que quedaba en el patio después del recreo: encontramos 120 botellas plásticas y muchas bolsas de golosinas. Además, en Ciencias Naturales aprendimos que el plástico tarda muchísimos años en descomponerse. Por último, don Julio, el señor que recoge la basura, nos contó que separar los materiales le ayuda a trabajar más rápido.\n\nPor eso le pedimos que nos permita colocar tres botes con rótulos: orgánico, plástico y papel. Nosotros podemos pintarlos.\n\nAtentamente,\nEstudiantes de sexto grado',
@@ -278,14 +278,14 @@ export default [
           ] },
       ),
       S.write(
-        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.2', 'l2:3.3.4'], ambito: 'hacer',
+        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:3.3.4'], ambito: 'hacer',
           prompt: 'Imagina que te postulas para el gobierno escolar. Escribe **una propuesta** para mejorar tu escuela: tu **opinión**, **dos razones** con información que las justifique y un **cierre**.' },
         { minWords: 35, placeholder: 'Propongo que… porque…',
           model: 'Propongo que abramos un rincón de lectura en el corredor. Primero, porque en la biblioteca solo caben diez estudiantes a la vez, y así más compañeros podrían leer en el recreo. Además, la maestra de Comunicación nos explicó que leer un rato cada día mejora la comprensión. ¡Votemos por un recreo con libros!',
           rubric: ['Escribí una opinión clara', 'Di dos razones', 'Cada razón se apoya en información relacionada y comprobable', 'Terminé con un cierre que invita a actuar'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.2'], prompt: 'Boleto de salida: _"Debemos sembrar árboles en la orilla del río, porque sus raíces sostienen la tierra y evitan derrumbes."_ ¿Qué intención tiene este mensaje?' },
+        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:3.3.4'], prompt: 'Boleto de salida: _"Debemos sembrar árboles en la orilla del río, porque sus raíces sostienen la tierra y evitan derrumbes."_ ¿Qué intención tiene este mensaje?' },
         { options: [
           { id: 'a', text: 'Argumentar: convencer con una razón' },
           { id: 'b', text: 'Informar una fecha' },

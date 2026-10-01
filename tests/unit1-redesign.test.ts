@@ -2286,8 +2286,8 @@ test('Semana 4 preserva 27 lecciones, su cobertura CNB y una idea central por le
   const expectedCnb = new Set([
     'mat:1.3.3', 'mat:1.3.4', 'mat:1.3.5', 'mat:1.3.6', 'mat:1.3.7',
     'l1:5.1.8', 'l1:5.1.9',
-    'cnt:2.3.2', 'cnt:3.1.1', 'cnt:3.2.1', 'cnt:3.3.1',
-    'ccss:4.1.1', 'ccss:4.1.5', 'ccss:4.2.2', 'ccss:5.1.1', 'ccss:5.1.4', 'ccss:8.1.1',
+    'cnt:2.3.2', 'cnt:3.1.1', 'cnt:3.2.1', 'cnt:3.3.1', 'cnt:3.5.1',
+    'ccss:4.1.1', 'ccss:4.1.5', 'ccss:4.2.2', 'ccss:5.1.1', 'ccss:5.1.4', 'ccss:5.3.1', 'ccss:6.2.1', 'ccss:8.1.1',
     'l2:2.2.1', 'l2:2.2.2', 'l3:2.2.1', 'fc:3.1.1', 'art:3.1.2',
     'ef:2.1.2', 'ef:2.1.3', 'pyd:2.5.3',
   ]);
@@ -2700,15 +2700,12 @@ test('Semana 5 preserva 27 lecciones, cobertura CNB y una idea central por lecci
     ['mat', 5], ['l1', 5], ['cnt', 3], ['ccss', 3], ['l2', 2],
     ['l3', 2], ['fc', 2], ['art', 2], ['ef', 2], ['pyd', 1],
   ]);
-  const expectedCnb = new Set([
-    'mat:1.5.1', 'mat:1.5.2', 'mat:1.5.3', 'mat:2.1.1', 'mat:2.1.2',
-    'l1:5.2.2', 'l1:7.1.2',
-    'cnt:3.5.1', 'cnt:4.1.1', 'cnt:4.2.1', 'cnt:5.1.1', 'cnt:5.2.1',
-    'ccss:5.1.4', 'ccss:5.3.1', 'ccss:6.2.1', 'ccss:6.3.1', 'ccss:6.3.5', 'ccss:6.4.4',
-    'l2:1.2.2', 'l2:2.2.3', 'l2:2.2.5', 'l2:3.3.4', 'l3:2.2.3',
-    'fc:3.2.1', 'fc:3.2.2', 'art:3.2.1',
-    'ef:2.1.5', 'ef:2.1.9', 'ef:2.1.13', 'pyd:3.2.3', 'pyd:3.2.4',
-  ]);
+  const plan = JSON.parse(readFileSync('src/content/sexto/plan.json', 'utf8')) as {
+    unidades: Array<{ unidad: number; semanas: Array<{ semana: number; contenidos?: Record<string, string[]> }> }>;
+  };
+  const plannedWeek = plan.unidades.find((unit) => unit.unidad === 1)?.semanas.find((week) => week.semana === 5);
+  assert.ok(plannedWeek?.contenidos, 'plan.json no contiene Unidad 1 Semana 5');
+  const expectedCnb = new Set(Object.values(plannedWeek.contenidos).flat());
   const lessons = weekFive.lessons.filter((lesson) => lesson.kind === 'materia');
   const actualCounts = new Map<string, number>();
   const failures: string[] = [];
@@ -2722,6 +2719,87 @@ test('Semana 5 preserva 27 lecciones, cobertura CNB y una idea central por lecci
   assert.deepEqual(actualCounts, expectedLessonCounts);
   assert.deepEqual(new Set(lessons.flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb))), expectedCnb);
   assert.deepEqual(failures, []);
+});
+
+test('CNT Semana 5 conserva tres resultados coherentes y evidencia cada indicador planificado', () => {
+  const drugTypes = (value: unknown) => {
+    const text = normalizeFactText(JSON.stringify(value));
+    return /droga|sustancia/.test(text)
+      && /depresora/.test(text) && /estimulante/.test(text) && /perturbadora|alucinogena/.test(text)
+      && /clasific|diferenc|tipo|efecto/.test(text);
+  };
+  const healthyPractices = (value: unknown) => {
+    const text = normalizeFactText(JSON.stringify(value));
+    return /deporte/.test(text) && /juego/.test(text) && /actividad social|convivencia/.test(text)
+      && /recreacion|recreativa/.test(text) && /sin consumo|libre de drogas/.test(text)
+      && /usar|ilustr|plan|practica/.test(text);
+  };
+  const earlyNutrition = (value: unknown) => {
+    const text = normalizeFactText(JSON.stringify(value));
+    const foodClassification = /nutriente/.test(text) && /alimento/.test(text)
+      && /carbohidrato/.test(text) && /proteina/.test(text)
+      && /grasa|vitamina|mineral/.test(text) && /clasific/.test(text);
+    const breastfeedingBenefits = /lactancia|leche materna/.test(text)
+      && /nutric|alimenta/.test(text) && /defensa|inmun/.test(text)
+      && /desarrollo|crecimiento|vinculo/.test(text) && /beneficio|aporta|favorece/.test(text);
+    return foodClassification && breastfeedingBenefits;
+  };
+  const previousCoverageDump = {
+    prompt: 'Evalua un plan que combine VIH, lactancia, funciones nutritivas y proteccion ante drogas.',
+    props: { options: [{ text: 'Tratamiento, leche materna, deporte y una refaccion.' }] },
+  };
+  assert.equal(earlyNutrition(previousCoverageDump), false);
+
+  const lessons = ['s05-cnt-1', 's05-cnt-2', 's05-cnt-3'].map((id) => weekFive.lessons.find((lesson) => lesson.id === id));
+  assert.ok(lessons.every(Boolean), 'Faltan lecciones CNT de Semana 5');
+  assert.deepEqual(lessons.map((lesson) => new Set(lesson!.steps.flatMap((step) => step.cnb))), [
+    new Set(['cnt:4.1.1']), new Set(['cnt:4.2.1']), new Set(['cnt:5.1.1', 'cnt:5.2.1']),
+  ]);
+  assert.equal(hasIndicatorAtStages(lessons[0]!, 'cnt:4.1.1', drugTypes), true);
+  assert.equal(hasIndicatorAtStages(lessons[1]!, 'cnt:4.2.1', healthyPractices), true);
+  assert.equal(hasIndicatorAtStages(lessons[2]!, 'cnt:5.1.1', earlyNutrition), true);
+  assert.equal(hasIndicatorAtStages(lessons[2]!, 'cnt:5.2.1', earlyNutrition), true);
+  assert.doesNotMatch(normalizeFactText(JSON.stringify(lessons[2])), /\bvih\b|sida|antirretroviral|droga|sustancia adictiva/);
+});
+
+test('CCSS Semana 5 conserva tres resultados historicos coherentes y evidencia cada indicador planificado', () => {
+  const riverCivilizations = (value: unknown) => {
+    const text = normalizeFactText(JSON.stringify(value));
+    return /egipto/.test(text) && /mesopotamia/.test(text)
+      && /agricultura|riego/.test(text) && /tecnolog/.test(text)
+      && /politic/.test(text) && /economic/.test(text) && /cultural/.test(text)
+      && /esquema|organiza|clasific/.test(text);
+  };
+  const europeanArrival = (value: unknown) => {
+    const text = normalizeFactText(JSON.stringify(value));
+    return /renacimiento/.test(text) && /imprenta/.test(text)
+      && /expansion (?:maritima|comercial)|comercio/.test(text)
+      && /navegacion|brujula|astrolabio|carabela/.test(text)
+      && /llegada|viaje/.test(text) && /america|otros pueblos/.test(text);
+  };
+  const worldWars = (value: unknown) => {
+    const text = normalizeFactText(JSON.stringify(value));
+    return /primera guerra mundial/.test(text) && /segunda guerra mundial/.test(text)
+      && /causa|factor/.test(text) && /consecuencia|impacto/.test(text)
+      && /varias causas|multiples factores|no (?:hubo|fue) una sola causa|no se explica por una sola causa/.test(text);
+  };
+  const previousCoverageDump = {
+    prompt: 'Compara Egipto y Mesopotamia y luego explica los viajes europeos.',
+    props: { options: [{ text: 'Riego, escritura, Renacimiento, imprenta y carabela.' }] },
+  };
+  assert.equal(riverCivilizations(previousCoverageDump), false);
+  assert.equal(europeanArrival(previousCoverageDump), false);
+
+  const lessons = ['s05-ccss-1', 's05-ccss-2', 's05-ccss-3'].map((id) => weekFive.lessons.find((lesson) => lesson.id === id));
+  assert.ok(lessons.every(Boolean), 'Faltan lecciones CCSS de Semana 5');
+  assert.deepEqual(lessons.map((lesson) => new Set(lesson!.steps.flatMap((step) => step.cnb))), [
+    new Set(['ccss:6.3.1', 'ccss:6.3.5']), new Set(['ccss:6.4.4']), new Set(['ccss:6.5.1']),
+  ]);
+  assert.equal(hasIndicatorAtStages(lessons[0]!, 'ccss:6.3.1', riverCivilizations), true);
+  assert.equal(hasIndicatorAtStages(lessons[0]!, 'ccss:6.3.5', riverCivilizations), true);
+  assert.equal(hasIndicatorAtStages(lessons[1]!, 'ccss:6.4.4', europeanArrival), true);
+  assert.equal(hasIndicatorAtStages(lessons[2]!, 'ccss:6.5.1', worldWars), true);
+  assert.doesNotMatch(normalizeFactText(JSON.stringify(lessons[0])), /renacimiento|imprenta|carabela|llegada europea/);
 });
 
 test('Semana 5 expresa un resultado central y lo sostiene desde la ensenanza hasta las salidas', () => {
@@ -2952,39 +3030,6 @@ test('EF 2 ensena y evalua la secuencia reglada de avance, pase y finalizacion',
   assert.match(normalizeFactText(JSON.stringify(exit)), /3 pasos/);
   assert.match(normalizeFactText(JSON.stringify(exit)), /bote|botar|drible/);
   assert.match(normalizeFactText(JSON.stringify(exit)), /finalizacion|directa|suspension|pique/);
-});
-
-test('CCSS 1 valora la investigacion para responder preocupaciones colectivas', () => {
-  const lesson = weekFive.lessons.find((item) => item.id === 's05-ccss-1');
-  assert.ok(lesson, 'Falta s05-ccss-1');
-  const objective = normalizeFactText((lesson.objetivos ?? []).join(' '));
-  assert.match(objective, /seleccionar/);
-  assert.match(objective, /justificar/);
-  assert.match(objective, /tecnica|herramienta/);
-  assert.match(objective, /preocupacion colectiva|problema colectivo/);
-
-  const tagged = lesson.steps.filter((step) => step.cnb.includes('ccss:5.1.4'));
-  assert.ok(tagged.length >= 4, 'ccss:5.1.4 debe recorrer ensenanza y evaluacion');
-  const text = normalizeFactText(JSON.stringify(tagged));
-  assert.match(text, /preocupacion|problema|necesidad/);
-  assert.match(text, /comunitaria|comunidad|colectiva/);
-  assert.match(text, /nacional|pais/);
-  assert.match(text, /evidencia|datos/);
-  assert.match(text, /decision|decidir|propuesta/);
-
-  const model = tagged.find((step) => step.type === 'worked-example');
-  const guided = tagged.find((step) => step.fase === 'construir'
-    && getActivity(step.type)?.graded && step.hint && step.explain);
-  const transfer = tagged.find((step) => step.fase === 'aplicar'
-    && getActivity(step.type)?.graded && !step.hint);
-  const exit = tagged.find((step) => step.fase === 'comprobar'
-    && getActivity(step.type)?.graded && !step.hint && !step.explain);
-  assert.ok(model, 'Falta modelo de como la investigacion responde una preocupacion');
-  assert.ok(guided, 'Falta juicio guiado sobre el valor de la investigacion');
-  assert.ok(transfer, 'Falta aplicacion independiente de ccss:5.1.4');
-  assert.ok(exit, 'Falta salida sin pistas de ccss:5.1.4');
-  assert.match(normalizeFactText(JSON.stringify(exit)), /evidencia|datos/);
-  assert.match(normalizeFactText(JSON.stringify(exit)), /decision|preocupacion|problema/);
 });
 
 test('Productividad ensena el rodillo y el taller lo usa con evidencia de tecnica segura', () => {

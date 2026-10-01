@@ -95,6 +95,11 @@ export default [
           { id: 'f6', text: 'Reciben la señal de la hipófisis', bucket: 'amb' },
         ] },
       ),
+      S.explain(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.5.1'], ambito: 'conocer', title: 'VIH y SIDA no significan lo mismo',
+          prompt: 'Usar los terminos correctos tambien es una forma de cuidado y respeto.' },
+        { icon: 'ShieldCheck', body: 'El **VIH** es un virus que afecta el sistema inmunitario. El **SIDA** es la etapa avanzada de la infeccion por VIH cuando las defensas estan muy debilitadas. Una persona puede vivir con VIH sin desarrollar SIDA, especialmente con diagnostico y tratamiento. La convivencia cotidiana no transmite el VIH.' },
+      ),
       S.choice(
         { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:2.3.2'], ambito: 'ser',
           prompt: 'Kevin tiene 12 años. A sus amigos ya les cambió la voz, pero a él no, y está preocupado. ¿Qué le dirías?',
@@ -316,17 +321,6 @@ export default [
           { id: 'p6', text: 'Hacer chistes sobre el cuerpo de una compañera', bucket: 'no' },
         ] },
       ),
-      S.choice(
-        { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'ser',
-          prompt: 'Una persona le pide a Lucía que le envíe una foto sin ropa y que "no le diga a nadie". ¿Qué debe hacer Lucía?',
-          hint: 'Recuerda la tarjeta de los secretos que no se guardan.',
-          explain: 'Lucía **no** debe enviar nada y **debe contarlo** a una persona adulta de confianza. No es su culpa, y pedir ayuda es lo correcto.' },
-        { options: [
-          { id: 'a', text: 'Enviarla para no quedar mal', icon: 'Smartphone', feedback: 'Nunca. Esa foto podría compartirse y hacerle mucho daño. Nadie tiene derecho a pedirla.' },
-          { id: 'b', text: 'No enviarla y contarlo a una persona adulta de confianza', icon: 'ShieldCheck' },
-          { id: 'c', text: 'No enviarla, pero guardar el secreto', icon: 'Lock', feedback: 'No enviarla es correcto, pero este es un secreto que **no** se guarda: hay que contarlo para que un adulto la proteja.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.3.1'], ambito: 'ser', title: 'Paternidad responsable',
           prompt: 'Ser padre o madre es mucho más que tener un hijo. Mira la imagen de la lección y toca las tarjetas.' },
@@ -359,6 +353,15 @@ export default [
           { id: 'c', icon: 'Smartphone', text: 'Esperar a que tome la foto y después pedir que la borre', feedback: 'La prioridad es impedir la fotografía y buscar apoyo adulto antes de que ocurra.' },
         ], correct: ['b'] },
       ),
+      S.choice(
+        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:3.5.1'], ambito: 'conocer',
+          prompt: 'En una conversacion alguien afirma que VIH y SIDA son dos nombres de la misma enfermedad. ¿Que respuesta cientifica y respetuosa corresponde?' },
+        { options: [
+          { id: 'a', text: 'El VIH es el virus; el SIDA es una etapa avanzada que puede prevenirse con diagnostico y tratamiento' },
+          { id: 'b', text: 'Son sinonimos y se reconocen por la apariencia de una persona' },
+          { id: 'c', text: 'La convivencia diaria transmite ambos' },
+        ], correct: ['a'] },
+      ),
       S.write(
         { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:3.3.1'], ambito: 'ser', title: 'Una regla de cuidado',
           prompt: 'Escribe de 12 a 18 palabras: una acción de crianza responsable y por qué cuida a niñas o niños.' },
@@ -377,12 +380,14 @@ export default [
         ], correct: ['b'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:3.3.1'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:3.3.1', 'cnt:3.5.1'], prompt: '¿Verdadero o falso sobre cuidado etico, VIH y SIDA?' },
         { statements: [
           { text: 'La paternidad responsable incluye cuidar, educar y dar afecto a los hijos.', answer: true },
           { text: 'Si alguien me pide guardar un secreto sobre tocar mi cuerpo, debo guardarlo.', answer: false, why: 'Ese secreto no se guarda: hay que contarlo a una persona adulta de confianza.' },
           { text: 'Criar a los hijos es tarea solo de las madres.', answer: false, why: 'Es una responsabilidad compartida entre padre y madre.' },
           { text: 'Tocar la puerta antes de entrar al baño es una forma de respetar el pudor.', answer: true },
+          { text: 'El VIH es el virus y el SIDA es una etapa avanzada de la infeccion.', answer: true },
+          { text: 'Compartir el aula o la comida transmite el VIH.', answer: false, why: 'La convivencia cotidiana no transmite el VIH.' },
         ] },
       ),
       cierre({ areas: ['cnt', 'fc'], cnb: [] },

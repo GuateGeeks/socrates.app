@@ -16,6 +16,7 @@ export default [
       'Explicar qué es un hecho y qué es una opinión',
       'Reconocer las palabras que avisan que alguien está opinando',
       'Clasificar mensajes que escuchas o lees como hechos u opiniones',
+      'Elaborar mensajes informativos, expositivos y argumentativos breves',
     ],
     resumen: [
       'Un hecho es algo que se puede comprobar: se puede ver, medir, contar o consultar en una fuente confiable.',
@@ -39,6 +40,11 @@ export default [
           { icon: 'Info', front: '¡Ojo!', back: 'Un hecho puede resultar **falso** al comprobarlo: "Guatemala tiene 50 departamentos" se puede revisar… y es falso (tiene 22). Sigue siendo una frase comprobable.' },
         ] },
       ),
+      S.explain(
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.2'], ambito: 'hacer', title: 'Tres intenciones',
+          prompt: 'Antes de escribir, decide si el mensaje sera informativo, expositivo o argumentativo.' },
+        { icon: 'MessagesSquare', body: 'Un mensaje **informativo** comunica un dato comprobable; uno **expositivo** explica como o por que ocurre algo; uno **argumentativo** presenta una opinion y una razon para convencer. Los tres deben distinguir hechos de opiniones.' },
+      ),
       S.choice(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'conocer',
           prompt: 'Lee estas dos frases sobre el lago de Atitlán. ¿Cuál se puede **comprobar** consultando un mapa?',
@@ -49,7 +55,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'hacer', title: 'Ejemplo resuelto',
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.6', 'l2:1.2.2'], ambito: 'hacer', title: 'Ejemplo resuelto',
           prompt: 'Mira cómo se analiza un mensaje que **mezcla** hecho y opinión.' },
         { icon: 'Radio', problem: 'En la radio dicen: _"En Chichicastenango hay mercado los jueves y los domingos. Creo que es el mercado más alegre del país."_ ¿Qué parte es hecho y qué parte es opinión?',
           steps: [
@@ -119,11 +125,11 @@ export default [
         ], correct: ['c'] },
       ),
       S.write(
-        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'hacer',
-          prompt: 'Piensa en un lugar de tu comunidad (el parque, el mercado, la cancha…). Escribe **un hecho** y **una opinión** sobre ese lugar. Marca tu opinión con una palabra pista.' },
-        { minWords: 14, placeholder: 'Hecho: … Opinión: …',
-          model: 'Hecho: la cancha de mi aldea está al lado de la iglesia y tiene dos porterías. Opinión: creo que es el mejor lugar para jugar con mis amigos.',
-          rubric: ['Escribí un hecho que se puede comprobar', 'Escribí una opinión con una palabra pista (creo, me parece, mejor…)', 'Las dos oraciones hablan del mismo lugar'] },
+        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.2.6', 'l2:1.2.2'], ambito: 'hacer',
+          prompt: 'Con el caso de la cancha, elabora tres mensajes breves: uno informativo con un hecho, uno expositivo que explique una causa y uno argumentativo con opinion y razon.' },
+        { minWords: 18, placeholder: 'Informativo: … Expositivo: … Argumentativo: …',
+          model: 'Informativo: la cancha abre a las ocho. Expositivo: abre temprano porque hay entrenamiento. Argumentativo: conviene limpiarla porque todas las familias la usan.',
+          rubric: ['Comunique un hecho en el informativo', 'Explique una causa en el expositivo', 'Inclui opinion y razon en el argumentativo'] },
       ),
       S.tf(
         { fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.6'], prompt: 'Boleto de salida: ¿verdadero o falso?' },
@@ -134,7 +140,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.6'], prompt: 'Escuchas en la escuela: _"El recreo dura 30 minutos, pero yo creo que debería durar más."_ ¿Qué tiene este mensaje?' },
+        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.2.6', 'l2:1.2.2'], prompt: 'Escuchas: _"El recreo dura 30 minutos; deberia durar mas porque necesitamos movernos."_ ¿Que combina este mensaje argumentativo?' },
         { options: [
           { id: 'a', text: 'Solo hechos' },
           { id: 'b', text: 'Solo opiniones' },
