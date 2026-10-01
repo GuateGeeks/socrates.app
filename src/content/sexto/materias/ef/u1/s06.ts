@@ -6,57 +6,9 @@
  */
 import { lesson, S, cierre } from '../../../../dsl';
 
-function preparedLesson(draft: Parameters<typeof lesson>[0]) {
-  const first = draft.steps[0];
-  const objective = draft.objetivos?.[0] ?? draft.title;
-  const firstIdea = draft.resumen?.[0] ?? objective;
-  const secondIdea = draft.resumen?.[1] ?? firstIdea;
-  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
-  const normalized = draft.steps.map((step) => (
-    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
-  ));
-  const construction = normalized.filter((step) => step.fase === 'construir');
-  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
-  const guided = construction.find((step) => !ungraded.has(step.type));
-  let building = construction.slice(0, 4);
-  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
-  building = building.map((step) => step === guided ? {
-    ...step,
-    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
-    explain: step.explain ?? firstIdea,
-  } : step);
-  const compact = [
-    ...building,
-    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
-    ...normalized.filter((step) => step.fase === 'comprobar'),
-    ...normalized.filter((step) => step.fase === 'reflexionar'),
-  ];
-  return lesson({
-    ...draft,
-    objetivos: [objective],
-    steps: [
-      S.explain(
-        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
-          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
-        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
-          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
-        { icon: draft.icon, problem: firstIdea, steps: [
-          { text: `Identifica el criterio central: **${objective}**.` },
-          { text: secondIdea },
-        ], answer: secondIdea,
-          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
-      ),
-      ...compact,
-    ],
-  });
-}
-
 export default [
   /* ───────────────────────── 1. Pases con el pie ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-ef-1',
     title: 'Pases con el pie: parte interna y externa',
     icon: 'Footprints',
@@ -64,8 +16,6 @@ export default [
     gancho: 'En una chamusca, algunos pases salen rectos y precisos y otros se curvan hacia un lado. ¿Con qué parte del pie se golpea el balón en cada caso?',
     objetivos: [
       'Pasar el balón con la parte interna y con la parte externa de cada pie',
-      'Ajustar el pase a distintas distancias, alturas y direcciones',
-      'Organizarse en grupos, filas y cruces para practicar en orden',
     ],
     resumen: [
       'Parte interna (el lado de adentro del pie): pie de apoyo al lado del balón apuntando al objetivo, tobillo firme y pie de golpeo girado hacia afuera. El pase sale recto y preciso; ideal para pases cortos y medios.',
@@ -79,18 +29,8 @@ export default [
       brief: 'Video vertical de 50 s en cancha de tierra o grama. Parte 1 "Parte interna": primer plano a ras de suelo; pie de apoyo junto al balón apuntando al objetivo, pie de golpeo girado, contacto con el borde interno en el centro del balón; toma cenital con flecha recta. Parte 2 "Parte externa": punta del pie hacia adentro, contacto con el borde externo, balón en diagonal; flecha curva. Parte 3 "Altura": golpe al centro (rasante) vs. golpe abajo (elevado). Parte 4: dos filas enfrentadas haciendo cruces (paso y voy al final de la otra fila). Participantes niñas y niños con ropa deportiva, rostros no protagonistas.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:2.1.17'], ambito: 'conocer',
-          prompt: 'Quieres pasar el balón a un compañero a 5 pasos, **recto y preciso**. ¿Con qué parte del pie lo golpeas?',
-          explain: 'Con la **parte interna** del pie: es la superficie más **ancha y plana**, así que el balón sale recto. La **punta** es muy pequeña y el balón sale sin control.' },
-        { options: [
-          { id: 'a', text: 'Con la punta del pie', icon: 'ArrowUp', feedback: 'La punta es pequeña: el balón sale fuerte pero sin precisión.' },
-          { id: 'b', text: 'Con la parte interna del pie', icon: 'Footprints' },
-          { id: 'c', text: 'Con el talón', icon: 'ArrowDown', feedback: 'El talón se usa en jugadas especiales hacia atrás, no para un pase recto.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.17'], ambito: 'hacer', title: 'Dos superficies de contacto',
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:2.1.17'], ambito: 'hacer', title: 'Dos superficies de contacto',
           prompt: 'Mira el video y toca cada tarjeta. Practica el movimiento **sin balón** primero, con cada pie.' },
         { icon: 'Footprints', body: 'El **pie de apoyo** (el que no golpea) es el "timón": se coloca **al lado del balón** y apunta hacia donde quieres pasar.', reveal: [
           { icon: 'ArrowRight', front: 'Parte interna', back: 'Gira el pie de golpeo **hacia afuera**, tobillo firme, y golpea el **centro** del balón con el lado de adentro. Sale **recto y preciso**. Para pases cortos y medios.' },
@@ -99,25 +39,13 @@ export default [
           { icon: 'RefreshCw', front: 'Con los dos pies', back: 'Practica con el pie **derecho** y con el **izquierdo**. En el juego, el balón no siempre llega a tu pie favorito.' },
         ] },
       ),
-      S.explain(
+      S.cards(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.17'], ambito: 'conocer', title: 'Distancia, altura y dirección',
-          prompt: 'Un buen pase llega **a donde quieres**, **a la altura justa** y **con la fuerza justa**. Toca cada tarjeta.' },
-        { icon: 'Target', body: 'Tres "controles" del pase: la **fuerza**, el **punto del balón** que golpeas y la **orientación** de tu cuerpo.', reveal: [
+          prompt: 'Un buen pase combina tres controles: **fuerza**, **punto de contacto** y **orientación**. Revisa cada tarjeta.' },
+        { cards: [
           { icon: 'MoveHorizontal', front: 'Distancia', back: 'Más cerca = golpe **suave**. Más lejos = pierna más atrás y golpe **más fuerte**.' },
           { icon: 'ArrowUp', front: 'Altura', back: 'Golpea el **centro** del balón para que vaya **rasante** (por el suelo). Golpea la **parte de abajo** para **elevarlo** por encima de un obstáculo.' },
           { icon: 'Compass', front: 'Dirección', back: 'El **pie de apoyo** y el **pecho** apuntan hacia tu compañero. Con la parte externa puedes enviar hacia un lado sin girarte.' },
-        ] },
-      ),
-      S.match(
-        { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.17'], ambito: 'hacer',
-          prompt: 'Une lo que quieres lograr con lo que haces.',
-          hint: 'Repasa las tarjetas de superficies y de distancia, altura y dirección.',
-          explain: 'Recto y preciso → interna; hacia un lado sin girar → externa; por encima de un obstáculo → golpear abajo; rasante → golpear al centro.' },
-        { leftTitle: 'Quiero…', rightTitle: 'Hago…', pairs: [
-          { id: 'r', left: 'Un pase corto, recto y preciso', right: 'Golpeo con la parte interna' },
-          { id: 'l', left: 'Pasar hacia un lado sin girar el cuerpo', right: 'Golpeo con la parte externa' },
-          { id: 'a', left: 'Elevar el balón sobre un obstáculo', right: 'Golpeo la parte baja del balón' },
-          { id: 'z', left: 'Que el balón vaya por el suelo', right: 'Golpeo el centro del balón' },
         ] },
       ),
       S.explain(
@@ -143,6 +71,28 @@ export default [
           ],
           answer: 'Con **filas enfrentadas y cruces**, 10 personas practican pases con **ambas superficies** y **ambos pies**, siempre en movimiento.',
           tip: 'Quien espera en la fila también participa: anima y dice el nombre de quien va a recibir.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.17'], ambito: 'conocer',
+          prompt: 'Quieres pasar el balón a un compañero a 5 pasos, **recto y preciso**. ¿Con qué parte del pie lo golpeas?',
+          explain: 'Con la **parte interna** del pie: es la superficie más **ancha y plana**, así que el balón sale recto. La **punta** es muy pequeña y el balón sale sin control.' },
+        { options: [
+          { id: 'a', text: 'Con la punta del pie', icon: 'ArrowUp', feedback: 'La punta es pequeña: el balón sale fuerte pero sin precisión.' },
+          { id: 'b', text: 'Con la parte interna del pie', icon: 'Footprints' },
+          { id: 'c', text: 'Con el talón', icon: 'ArrowDown', feedback: 'El talón se usa en jugadas especiales hacia atrás, no para un pase recto.' },
+        ], correct: ['b'] },
+      ),
+      S.match(
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.17'], ambito: 'hacer',
+          prompt: 'Une lo que quieres lograr con lo que haces.',
+          hint: 'Repasa las tarjetas de superficies y de distancia, altura y dirección.',
+          explain: 'Recto y preciso → interna; hacia un lado sin girar → externa; por encima de un obstáculo → golpear abajo; rasante → golpear al centro.' },
+        { leftTitle: 'Quiero…', rightTitle: 'Hago…', pairs: [
+          { id: 'r', left: 'Un pase corto, recto y preciso', right: 'Golpeo con la parte interna' },
+          { id: 'l', left: 'Pasar hacia un lado sin girar el cuerpo', right: 'Golpeo con la parte externa' },
+          { id: 'a', left: 'Elevar el balón sobre un obstáculo', right: 'Golpeo la parte baja del balón' },
+          { id: 'z', left: 'Que el balón vaya por el suelo', right: 'Golpeo el centro del balón' },
+        ] },
       ),
       S.pulse(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:2.1.17', 'ef:2.2.4'], ambito: 'hacer',
@@ -197,7 +147,7 @@ export default [
   }),
 
   /* ───────────────────────── 2. Vestuario, respiración y calma ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-ef-2',
     title: 'Preparado y en calma: vestuario, respiración y relajación',
     icon: 'Wind',
@@ -205,8 +155,6 @@ export default [
     gancho: '¿Has intentado correr con zapatos de vestir o con los cordones sueltos? ¿Y te ha pasado que antes de un partido o un examen el corazón te late muy rápido?',
     objetivos: [
       'Aplicar preparación y recuperación seguras en la actividad física',
-      'Practicar la respiración abdominal lenta para recuperar la calma',
-      'Usar la relajación de tensión y soltura para el equilibrio emocional',
     ],
     resumen: [
       'Vestuario para la actividad física: ropa cómoda y fresca que deje mover el cuerpo, calzado deportivo con suela antideslizante y bien amarrado, cabello recogido y sin aretes, collares ni objetos en los bolsillos.',
@@ -220,18 +168,8 @@ export default [
       brief: 'Animación 2D tranquila de 60 s, colores suaves. (1) Una niña acostada boca arriba en un petate con un peluche sobre el abdomen. (2) Un globo dibujado dentro del abdomen se infla al inhalar por la nariz (contador 1-2-3-4) y se desinfla al exhalar por la boca (contador 1-2-3-4-5-6); el peluche sube y baja. (3) Un corazón en una esquina late rápido al inicio y más lento al final (sin cifras). (4) Texto final: "Inhala 4 · Exhala 6". Voz narradora calmada en español, subtítulos. Música ambiental muy suave.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:3.1.6'], ambito: 'conocer',
-          prompt: 'Mañana hay clase de Educación Física en la cancha, a pleno sol. ¿Qué te pondrías?',
-          explain: 'Ropa **cómoda y fresca**, **tenis bien amarrados** y **gorra**. El vestuario adecuado te protege y te deja moverte con libertad.' },
-        { options: [
-          { id: 'a', text: 'Ropa cómoda y fresca, tenis bien amarrados y gorra', icon: 'Shirt' },
-          { id: 'b', text: 'Pantalón de vestir, zapatos lustrados y reloj', icon: 'Briefcase', feedback: 'Esa ropa limita el movimiento y los zapatos de vestir resbalan.' },
-          { id: 'c', text: 'Chancletas para ir más fresco', icon: 'Footprints', feedback: 'Las chancletas se salen y no protegen los pies: aumentan el riesgo de golpes y torceduras.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['ef'], cnb: ['ef:3.1.6'], ambito: 'conocer', title: 'El vestuario adecuado',
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:3.1.6'], ambito: 'conocer', title: 'El vestuario adecuado',
           prompt: 'La ropa correcta depende de **qué actividad** harás, **dónde** y con **qué clima**. Mira la ilustración y toca cada tarjeta.',
           media: {
             id: 's06-ef-2-vestuario', kind: 'image', title: 'Vestidos para cada actividad', aspect: '16:9',
@@ -270,6 +208,16 @@ export default [
           ],
           answer: 'Tensar **5 s** y soltar **10 s** cada grupo de músculos, con respiraciones lentas al inicio y al final, ayuda a recuperar la calma.',
           tip: 'Aprieta con fuerza, pero sin dolor. Si algo duele, no lo tenses tanto.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:3.1.6'], ambito: 'conocer',
+          prompt: 'Mañana hay clase de Educación Física en la cancha, a pleno sol. ¿Qué te pondrías?',
+          explain: 'Ropa **cómoda y fresca**, **tenis bien amarrados** y **gorra**. El vestuario adecuado te protege y te deja moverte con libertad.' },
+        { options: [
+          { id: 'a', text: 'Ropa cómoda y fresca, tenis bien amarrados y gorra', icon: 'Shirt' },
+          { id: 'b', text: 'Pantalón de vestir, zapatos lustrados y reloj', icon: 'Briefcase', feedback: 'Esa ropa limita el movimiento y los zapatos de vestir resbalan.' },
+          { id: 'c', text: 'Chancletas para ir más fresco', icon: 'Footprints', feedback: 'Las chancletas se salen y no protegen los pies: aumentan el riesgo de golpes y torceduras.' },
+        ], correct: ['a'] },
       ),
       S.sort(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:3.1.6'], ambito: 'conocer',
@@ -336,7 +284,7 @@ export default [
       ),
       cierre({ areas: ['ef'], cnb: ['ef:3.1.2'] },
         ['Paso el balón con la parte interna y externa de cada pie', 'Elijo el vestuario adecuado para cada actividad', 'Uso la respiración y la relajación para calmarme'],
-        ['Revisaré mi ropa y mis cordones antes de cada clase', 'Practicaré 5 respiraciones lentas antes de dormir', 'Usaré la respiración cuando sienta nervios o enojo']),
+        ['Revisaré mi ropa y mis cordones antes de cada clase', 'Practicaré 5 respiraciones lentas antes de dormir', 'Usaré la respiración cuando sienta nervios o enojo'])
     ],
   }),
 ];

@@ -5,56 +5,8 @@
  */
 import { cierre, lesson, S } from '../../../../dsl';
 
-function preparedLesson(draft: Parameters<typeof lesson>[0]) {
-  const first = draft.steps[0];
-  const objective = draft.objetivos?.[0] ?? draft.title;
-  const firstIdea = draft.resumen?.[0] ?? objective;
-  const secondIdea = draft.resumen?.[1] ?? firstIdea;
-  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
-  const normalized = draft.steps.map((step) => (
-    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
-  ));
-  const construction = normalized.filter((step) => step.fase === 'construir');
-  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
-  const guided = construction.find((step) => !ungraded.has(step.type));
-  let building = construction.slice(0, 4);
-  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
-  building = building.map((step) => step === guided ? {
-    ...step,
-    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
-    explain: step.explain ?? firstIdea,
-  } : step);
-  const compact = [
-    ...building,
-    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
-    ...normalized.filter((step) => step.fase === 'comprobar'),
-    ...normalized.filter((step) => step.fase === 'reflexionar'),
-  ];
-  return lesson({
-    ...draft,
-    objetivos: [objective],
-    steps: [
-      S.explain(
-        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
-          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
-        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
-          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
-        { icon: draft.icon, problem: firstIdea, steps: [
-          { text: `Identifica el criterio central: **${objective}**.` },
-          { text: secondIdea },
-        ], answer: secondIdea,
-          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
-      ),
-      ...compact,
-    ],
-  });
-}
-
 export default [
-  preparedLesson({
+  lesson({
     id: 's06-pyd-1',
     title: 'Construir un proyecto escolar y presentarlo en la feria',
     icon: 'ClipboardList',
@@ -62,8 +14,6 @@ export default [
     gancho: '"Sembremos árboles" es una buena idea. Pero, ¿cuántos?, ¿dónde?, ¿quién?, ¿con qué dinero? Una idea se vuelve proyecto cuando responde esas preguntas.',
     objetivos: [
       'Explicar qué es un proyecto y sus partes',
-      'Elegir un proyecto con datos y calcular su presupuesto',
-      'Planificar un proyecto personal y prepararlo para una feria escolar',
     ],
     resumen: [
       'Un proyecto es un conjunto de actividades planificadas para lograr un objetivo, en un tiempo definido y con recursos. Puede ser hacia dentro de la escuela, hacia la comunidad o para mejorar los ingresos de familias con pocos recursos.',
@@ -77,18 +27,8 @@ export default [
       brief: 'Video animado de 60 s en el patio de una escuela rural guatemalteca decorado con papel de china. Cuatro stands de estudiantes (grupos mixtos): (1) vivero de arbolitos en bolsas, (2) cosecha de agua de lluvia con un tonel y canaleta, (3) huerto en llantas recicladas, (4) rincón de lectura con cajas. En cada stand: cartel con nombre y objetivo, una demostración, y un estudiante que explica en 30 segundos. Familias y vecinos preguntan y dejan comentarios en tarjetas. Narración: "Un proyecto se planifica, se hace y se comparte". Subtítulos, sin marcas.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:4.1.1'], ambito: 'emprender',
-          prompt: '¿Cuál de estas es un **proyecto** y no solo una idea?',
-          explain: 'Un proyecto dice **qué**, **cuánto**, **dónde**, **quién**, **cuándo** y **con qué**. Por eso se puede hacer y se puede evaluar.' },
-        { options: [
-          { id: 'a', text: '"Hay que cuidar el ambiente."', icon: 'Leaf', feedback: 'Es un buen deseo, pero no dice qué se hará ni cómo.' },
-          { id: 'b', text: '"Sembraremos 50 árboles en la orilla del río en junio; cada grado cuida 10; pediremos los arbolitos a la municipalidad."', icon: 'TreePine' },
-          { id: 'c', text: '"Algún día haremos algo por el río."', icon: 'Waves', feedback: 'No dice qué, cuándo ni quién. Todavía es solo una idea.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:4.1.1'], ambito: 'conocer', title: '¿Qué es un proyecto?',
+        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:4.1.1'], ambito: 'conocer', title: '¿Qué es un proyecto?',
           prompt: 'Un **proyecto** es un conjunto de **actividades planificadas** para lograr un **objetivo**, en un **tiempo** definido y con **recursos**. Según a quién beneficia, hay varios tipos. Toca cada uno.' },
         { icon: 'ClipboardList', body: 'Un buen proyecto escolar puede empezar dentro de la escuela y **proyectarse** hacia la comunidad.', reveal: [
           { icon: 'School', front: 'Hacia dentro de la escuela', back: 'Mejora la escuela: un rincón de lectura, turnos de limpieza, un botiquín.' },
@@ -107,6 +47,30 @@ export default [
           { icon: 'CalendarDays', front: 'Cronograma', back: '¿**Cuándo**? Qué se hace cada semana o cada mes.' },
           { icon: 'ClipboardCheck', front: 'Evaluación', back: '¿**Cómo sabremos** si funcionó? Por ejemplo: contar cuántos arbolitos sobrevivieron.' },
         ] },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:4.1.1'], ambito: 'hacer', title: 'Ejemplo resuelto: el presupuesto del vivero',
+          prompt: 'El **presupuesto** dice cuánto cuesta el proyecto. Mira cómo se calcula (precios supuestos).' },
+        { icon: 'Calculator', problem: 'Para el vivero se necesitan **200 bolsas** a **Q0.50** cada una, **semillas** por **Q35** y **abono** por **Q40**. ¿Cuánto cuesta el proyecto?',
+          steps: [
+            { text: '**Bolsas:** cantidad × precio = 200 × Q0.50 = **Q100**.', why: 'Medio quetzal por bolsa: 2 bolsas cuestan Q1, así que 200 bolsas cuestan Q100.' },
+            { text: '**Semillas:** Q35 (un solo paquete).' },
+            { text: '**Abono:** Q40.' },
+            { text: '**Total:** Q100 + Q35 + Q40 = **Q175**.' },
+            { text: '**¿De dónde saldrá el dinero?** Venta de refacciones Q100 y donación de la cooperativa Q75. Q100 + Q75 = Q175. ✔' },
+          ],
+          answer: 'El vivero cuesta **Q175** y el grado ya sabe **de dónde** obtendrá ese dinero.',
+          tip: 'Cantidad × precio de cada recurso → sumar todo → decir de dónde saldrá el dinero.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:4.1.1'], ambito: 'emprender',
+          prompt: '¿Cuál de estas es un **proyecto** y no solo una idea?',
+          explain: 'Un proyecto dice **qué**, **cuánto**, **dónde**, **quién**, **cuándo** y **con qué**. Por eso se puede hacer y se puede evaluar.' },
+        { options: [
+          { id: 'a', text: '"Hay que cuidar el ambiente."', icon: 'Leaf', feedback: 'Es un buen deseo, pero no dice qué se hará ni cómo.' },
+          { id: 'b', text: '"Sembraremos 50 árboles en la orilla del río en junio; cada grado cuida 10; pediremos los arbolitos a la municipalidad."', icon: 'TreePine' },
+          { id: 'c', text: '"Algún día haremos algo por el río."', icon: 'Waves', feedback: 'No dice qué, cuándo ni quién. Todavía es solo una idea.' },
+        ], correct: ['b'] },
       ),
       S.match(
         { fase: 'construir', areas: ['pyd'], cnb: ['pyd:4.1.1'], prompt: 'Une cada parte del proyecto "Vivero escolar" con lo que dice.',
@@ -131,20 +95,6 @@ export default [
           { id: 'rec', label: 'Centro de reciclaje', icon: 'Recycle', color: 'var(--area-cnt)' },
           { id: 'lec', label: 'Rincón de lectura', icon: 'BookOpen', color: 'var(--area-l1)' },
         ], data: [12, 8, 6, 4] },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:4.1.1'], ambito: 'hacer', title: 'Ejemplo resuelto: el presupuesto del vivero',
-          prompt: 'El **presupuesto** dice cuánto cuesta el proyecto. Mira cómo se calcula (precios supuestos).' },
-        { icon: 'Calculator', problem: 'Para el vivero se necesitan **200 bolsas** a **Q0.50** cada una, **semillas** por **Q35** y **abono** por **Q40**. ¿Cuánto cuesta el proyecto?',
-          steps: [
-            { text: '**Bolsas:** cantidad × precio = 200 × Q0.50 = **Q100**.', why: 'Medio quetzal por bolsa: 2 bolsas cuestan Q1, así que 200 bolsas cuestan Q100.' },
-            { text: '**Semillas:** Q35 (un solo paquete).' },
-            { text: '**Abono:** Q40.' },
-            { text: '**Total:** Q100 + Q35 + Q40 = **Q175**.' },
-            { text: '**¿De dónde saldrá el dinero?** Venta de refacciones Q100 y donación de la cooperativa Q75. Q100 + Q75 = Q175. ✔' },
-          ],
-          answer: 'El vivero cuesta **Q175** y el grado ya sabe **de dónde** obtendrá ese dinero.',
-          tip: 'Cantidad × precio de cada recurso → sumar todo → decir de dónde saldrá el dinero.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['pyd'], cnb: ['pyd:4.3.1'], ambito: 'conocer', title: 'La feria escolar interactiva',
@@ -198,7 +148,7 @@ export default [
       ),
       cierre({ areas: ['pyd'], cnb: ['pyd:4.1.1', 'pyd:4.3.1'] },
         ['Nombro las partes de un proyecto', 'Calculo el presupuesto de un proyecto sencillo', 'Planifico mi proyecto personal para la feria'],
-        ['Terminaré la ficha de mi proyecto personal esta semana', 'Practicaré mi explicación de un minuto con mi familia']),
+        ['Terminaré la ficha de mi proyecto personal esta semana', 'Practicaré mi explicación de un minuto con mi familia'])
     ],
   }),
 ];

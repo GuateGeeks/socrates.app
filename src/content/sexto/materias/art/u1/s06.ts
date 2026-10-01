@@ -6,57 +6,9 @@
  */
 import { lesson, S, cierre } from '../../../../dsl';
 
-function preparedLesson(draft: Parameters<typeof lesson>[0]) {
-  const first = draft.steps[0];
-  const objective = draft.objetivos?.[0] ?? draft.title;
-  const firstIdea = draft.resumen?.[0] ?? objective;
-  const secondIdea = draft.resumen?.[1] ?? firstIdea;
-  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
-  const normalized = draft.steps.map((step) => (
-    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
-  ));
-  const construction = normalized.filter((step) => step.fase === 'construir');
-  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
-  const guided = construction.find((step) => !ungraded.has(step.type));
-  let building = construction.slice(0, 4);
-  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
-  building = building.map((step) => step === guided ? {
-    ...step,
-    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
-    explain: step.explain ?? firstIdea,
-  } : step);
-  const compact = [
-    ...building,
-    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
-    ...normalized.filter((step) => step.fase === 'comprobar'),
-    ...normalized.filter((step) => step.fase === 'reflexionar'),
-  ];
-  return lesson({
-    ...draft,
-    objetivos: [objective],
-    steps: [
-      S.explain(
-        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
-          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
-        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
-          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
-        { icon: draft.icon, problem: firstIdea, steps: [
-          { text: `Identifica el criterio central: **${objective}**.` },
-          { text: secondIdea },
-        ], answer: secondIdea,
-          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
-      ),
-      ...compact,
-    ],
-  });
-}
-
 export default [
   /* ───────────────────────── 1. Texturas dibujadas ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-art-1',
     title: 'Texturas dibujadas: puntos, líneas y tramas',
     icon: 'PenTool',
@@ -64,8 +16,6 @@ export default [
     gancho: 'Con un solo lápiz, ¿podrías dibujar algo que parezca peludo como un perro, duro como una piedra o áspero como la corteza de una ceiba?',
     objetivos: [
       'Crear texturas visuales con puntos, líneas y tramas',
-      'Usar la cercanía de las marcas para lograr zonas claras y oscuras',
-      'Elegir la marca adecuada para representar distintos materiales',
     ],
     resumen: [
       'Una textura visual se puede crear repitiendo marcas: puntos, líneas rectas, líneas curvas, círculos o tramas.',
@@ -79,18 +29,8 @@ export default [
       brief: 'Lámina en blanco y negro, dibujada a mano con lápiz o tinta, cuadrícula 4×2. Cada cuadro muestra una marca repetida, con su nombre debajo: punteado, rayado, trama cruzada, ondas, espirales, pelitos (líneas cortas curvas), círculos, escamas. En la fila de abajo, tres cuadros muestran degradado de claro a oscuro con punteado, rayado y trama cruzada (las marcas se juntan hacia la derecha). Trazo firme, legible en celular.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.4'], ambito: 'conocer',
-          prompt: 'Observa el catálogo de marcas. ¿Cuál usarías para dibujar el **pelo de un perro**?',
-          explain: 'Las **líneas cortas y curvas** repetidas en la misma dirección parecen pelitos. Cada marca sugiere una textura distinta: hoy aprenderás a **crearlas** tú.' },
-        { options: [
-          { id: 'a', text: 'Líneas cortas y curvas (pelitos)', icon: 'Dog' },
-          { id: 'b', text: 'Puntos muy separados', icon: 'CircleDot', feedback: 'Los puntos sugieren arena o piedra, no pelo.' },
-          { id: 'c', text: 'Escamas', icon: 'Fish', feedback: 'Las escamas sugieren pescados o reptiles.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.4'], ambito: 'conocer', title: 'Marcas que crean texturas',
+        { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.4'], ambito: 'conocer', title: 'Marcas que crean texturas',
           prompt: 'Una **textura visual** se crea **repitiendo una marca** muchas veces. Toca cada tarjeta para conocer las principales.' },
         { icon: 'PenTool', body: 'Sirven con lápiz, lapicero, marcador o tinta. Lo importante es **repetir con paciencia**.', reveal: [
           { icon: 'CircleDot', front: 'Punteado', back: 'Muchos **puntos**. Sugiere arena, piedra, tierra o piel. Se hace tocando el papel con la punta, sin arrastrar.' },
@@ -121,6 +61,16 @@ export default [
           ],
           answer: 'Con **punteado** y cambios de **densidad**, la tinaja parece **de barro** y **redonda**, usando un solo lapicero.',
           tip: 'Paciencia: el punteado es lento, pero el resultado es muy fino. Trabaja por zonas pequeñas.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.4'], ambito: 'conocer',
+          prompt: 'Observa el catálogo de marcas. ¿Cuál usarías para dibujar el **pelo de un perro**?',
+          explain: 'Las **líneas cortas y curvas** repetidas en la misma dirección parecen pelitos. Cada marca sugiere una textura distinta: hoy aprenderás a **crearlas** tú.' },
+        { options: [
+          { id: 'a', text: 'Líneas cortas y curvas (pelitos)', icon: 'Dog' },
+          { id: 'b', text: 'Puntos muy separados', icon: 'CircleDot', feedback: 'Los puntos sugieren arena o piedra, no pelo.' },
+          { id: 'c', text: 'Escamas', icon: 'Fish', feedback: 'Las escamas sugieren pescados o reptiles.' },
+        ], correct: ['a'] },
       ),
       S.match(
         { fase: 'construir', areas: ['art'], cnb: ['art:3.2.4'], ambito: 'hacer',
@@ -188,7 +138,7 @@ export default [
   }),
 
   /* ───────────────────────── 2. Texturas con materiales ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-art-2',
     title: 'Texturas con materiales: el cuadro en relieve',
     icon: 'Layers',
@@ -196,8 +146,6 @@ export default [
     gancho: 'Una tapita, un puñado de aserrín, un pedazo de tela vieja y una hoja seca. Para muchos es basura; para una artista, son texturas esperando una obra. ¿Qué harías tú con ellos?',
     objetivos: [
       'Crear texturas táctiles transformando materiales: pegar, arrugar, rasgar, enrollar, estampar y modelar',
-      'Planificar un cuadro en relieve con texturas bien distintas',
-      'Trabajar con materiales reciclados de forma segura y ordenada',
     ],
     resumen: [
       'Una textura táctil se crea con materiales y técnicas: pegar granos o semillas, arrugar o rasgar papel, enrollar tiras, pegar hilos, estampar con objetos y marcar plastilina o masa de papel con herramientas.',
@@ -211,24 +159,8 @@ export default [
       brief: 'Video vertical de 60 s, plano cenital sobre una mesa cubierta con periódico. Muestra en secuencias cortas: (1) boceto a lápiz de un volcán, un lago y un cielo sobre cartón; (2) goma blanca y arena volcánica espolvoreada en el volcán, se sacude el sobrante; (3) papel de china arrugado para las nubes; (4) tiras de papel enrolladas y pegadas en ondas para el lago; (5) frijoles o semillas en la orilla; (6) estampado con una hoja pintada; (7) plastilina marcada con un tenedor de plástico para una casita. Rótulos: pegar, arrugar, enrollar, estampar, marcar. Cierre: una mano con los ojos tapados recorre el cuadro. Música suave, sin marcas.',
     },
     steps: [
-      S.sort(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.4'], ambito: 'conocer',
-          prompt: 'Un mismo papel puede sentirse muy distinto. Clasifica cada forma de transformarlo según la textura que crees que da.',
-          explain: 'Al **transformar** un material cambias su textura. Arrugar da relieve irregular; enrollar da cilindros ordenados; rasgar deja bordes con pelusa.' },
-        { buckets: [
-          { id: 'irr', label: 'Relieve irregular', icon: 'Mountain', color: 'var(--area-art)' },
-          { id: 'ord', label: 'Relieve ordenado', icon: 'AlignJustify', color: 'var(--area-l1)' },
-          { id: 'lis', label: 'Liso', icon: 'Square', color: 'var(--c-ok)' },
-        ], items: [
-          { id: 'x1', text: 'Papel arrugado y vuelto a estirar', bucket: 'irr' },
-          { id: 'x2', text: 'Tiras de papel enrolladas, pegadas en fila', bucket: 'ord' },
-          { id: 'x3', text: 'Papel pegado plano y sin arrugas', bucket: 'lis' },
-          { id: 'x4', text: 'Papel doblado en acordeón', bucket: 'ord' },
-          { id: 'x5', text: 'Bolitas de papel de distintos tamaños', bucket: 'irr' },
-        ] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.4'], ambito: 'conocer', title: 'Seis técnicas para crear texturas',
+        { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.4'], ambito: 'conocer', title: 'Seis técnicas para crear texturas',
           prompt: 'Estas técnicas convierten materiales sencillos en texturas. Toca cada una.' },
         { icon: 'Layers', body: 'Muchas obras de **técnica mixta** combinan varias de ellas. Todas se pueden hacer con materiales reciclados.', reveal: [
           { icon: 'Droplet', front: 'Pegar granos', back: 'Unta goma y espolvorea **arena, aserrín, café molido usado o semillas**. Sacude el sobrante cuando seque. Da textura granulosa.' },
@@ -251,6 +183,22 @@ export default [
           ],
           answer: 'Un cuadro con **cinco texturas táctiles** bien distintas, creadas con **cuatro técnicas**: pegar granos (arena en el volcán y frijoles en la orilla), arrugar, enrollar y modelar.',
           tip: 'Usa poca goma en cada zona: si pones mucha, el cartón se moja y se deforma.' },
+      ),
+      S.sort(
+        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.4'], ambito: 'conocer',
+          prompt: 'Un mismo papel puede sentirse muy distinto. Clasifica cada forma de transformarlo según la textura que crees que da.',
+          explain: 'Al **transformar** un material cambias su textura. Arrugar da relieve irregular; enrollar da cilindros ordenados; rasgar deja bordes con pelusa.' },
+        { buckets: [
+          { id: 'irr', label: 'Relieve irregular', icon: 'Mountain', color: 'var(--area-art)' },
+          { id: 'ord', label: 'Relieve ordenado', icon: 'AlignJustify', color: 'var(--area-l1)' },
+          { id: 'lis', label: 'Liso', icon: 'Square', color: 'var(--c-ok)' },
+        ], items: [
+          { id: 'x1', text: 'Papel arrugado y vuelto a estirar', bucket: 'irr' },
+          { id: 'x2', text: 'Tiras de papel enrolladas, pegadas en fila', bucket: 'ord' },
+          { id: 'x3', text: 'Papel pegado plano y sin arrugas', bucket: 'lis' },
+          { id: 'x4', text: 'Papel doblado en acordeón', bucket: 'ord' },
+          { id: 'x5', text: 'Bolitas de papel de distintos tamaños', bucket: 'irr' },
+        ] },
       ),
       S.match(
         { fase: 'construir', areas: ['art'], cnb: ['art:3.2.4'], ambito: 'hacer',
@@ -328,7 +276,7 @@ export default [
       ),
       cierre({ areas: ['art'], cnb: ['art:3.2.4'] },
         ['Creo texturas visuales con puntos, líneas y tramas', 'Creo texturas táctiles pegando, arrugando, enrollando, estampando y modelando', 'Trabajo con materiales reciclados de forma segura'],
-        ['Terminaré mi animal dibujado con texturas', 'Haré mi cuadro en relieve', 'Guardaré materiales reciclados para futuras obras']),
+        ['Terminaré mi animal dibujado con texturas', 'Haré mi cuadro en relieve', 'Guardaré materiales reciclados para futuras obras'])
     ],
   }),
 ];

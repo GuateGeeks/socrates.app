@@ -5,57 +5,9 @@
  */
 import { lesson, S } from '../../../../dsl';
 
-function preparedLesson(draft: Parameters<typeof lesson>[0]) {
-  const first = draft.steps[0];
-  const objective = draft.objetivos?.[0] ?? draft.title;
-  const firstIdea = draft.resumen?.[0] ?? objective;
-  const secondIdea = draft.resumen?.[1] ?? firstIdea;
-  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
-  const normalized = draft.steps.map((step) => (
-    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
-  ));
-  const construction = normalized.filter((step) => step.fase === 'construir');
-  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
-  const guided = construction.find((step) => !ungraded.has(step.type));
-  let building = construction.slice(0, 4);
-  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
-  building = building.map((step) => step === guided ? {
-    ...step,
-    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
-    explain: step.explain ?? firstIdea,
-  } : step);
-  const compact = [
-    ...building,
-    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
-    ...normalized.filter((step) => step.fase === 'comprobar'),
-    ...normalized.filter((step) => step.fase === 'reflexionar'),
-  ];
-  return lesson({
-    ...draft,
-    objetivos: [objective],
-    steps: [
-      S.explain(
-        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
-          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
-        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
-          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
-        { icon: draft.icon, problem: firstIdea, steps: [
-          { text: `Identifica el criterio central: **${objective}**.` },
-          { text: secondIdea },
-        ], answer: secondIdea,
-          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
-      ),
-      ...compact,
-    ],
-  });
-}
-
 export default [
   // ───────────────────────────── Lección 1 ─────────────────────────────
-  preparedLesson({
+  lesson({
     id: 's06-l3-1',
     title: 'First, then, finally: reading instructions',
     icon: 'ListOrdered',
@@ -63,8 +15,6 @@ export default [
     gancho: 'En el baño de un hotel en Antigua hay un cartel: "Please turn off the light." ¿Sabrías qué hacer?',
     objetivos: [
       'Interpretar instrucciones y carteles en inglés',
-      'Usar palabras de secuencia: first, next, then, after that, finally',
-      'Seguir instrucciones escritas en inglés paso a paso',
     ],
     resumen: [
       'Las instrucciones empiezan con un verbo y no llevan pronombre: Cut the paper. Draw a circle.',
@@ -78,18 +28,8 @@ export default [
       brief: 'Ilustración de un pasillo escolar con cuatro carteles claros, cada uno con un pictograma y texto en inglés: (1) lavamanos con gotas: "Wash your hands"; (2) puerta: "Please close the door"; (3) niño corriendo tachado en rojo: "Don\'t run"; (4) foco con interruptor: "Turn off the light". Letras grandes, fondo claro, sin marcas.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:3.3.1'], ambito: 'conocer',
-          prompt: 'Mira los carteles de la lección. El cartel con el niño tachado dice: _"**Don\'t run**."_ ¿Qué te pide?',
-          explain: '**Don\'t run** = No corras. Las instrucciones en inglés empiezan con un verbo (run = correr) y **Don\'t** las vuelve prohibición. Hoy aprenderás a leerlas y seguirlas.' },
-        { options: [
-          { id: 'a', text: 'Que no corras', icon: 'Footprints' },
-          { id: 'b', text: 'Que corras rápido', icon: 'Rabbit', feedback: '"Don\'t" significa "no": es una prohibición.' },
-          { id: 'c', text: 'Que cierres la puerta', icon: 'DoorClosed', feedback: 'Ese es otro cartel: "Please close the door".' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l3'], cnb: ['l3:3.3.1'], ambito: 'conocer', title: 'Instructions start with a verb',
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:3.3.1'], ambito: 'conocer', title: 'Instructions start with a verb',
           prompt: 'Las instrucciones (el **imperativo**) tienen una forma muy sencilla. Toca cada tarjeta.' },
         { icon: 'ClipboardList', body: 'En instrucciones **no** se escribe "you": el verbo va primero. Español: "Corta el papel". Inglés: "**Cut** the paper".', reveal: [
           { icon: 'Zap', front: 'Verbo primero', back: '**Cut** the paper. **Draw** a circle. **Open** your book.' },
@@ -135,6 +75,16 @@ export default [
           ],
           answer: 'Un **círculo grande amarillo** con un **cuadrado pequeño azul debajo**.',
           tip: 'Subraya el verbo de cada paso (draw, color, draw) y los detalles (big, yellow, under).' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:3.3.1'], ambito: 'conocer',
+          prompt: 'Mira los carteles de la lección. El cartel con el niño tachado dice: _"**Don\'t run**."_ ¿Qué te pide?',
+          explain: '**Don\'t run** = No corras. Las instrucciones en inglés empiezan con un verbo (run = correr) y **Don\'t** las vuelve prohibición. Hoy aprenderás a leerlas y seguirlas.' },
+        { options: [
+          { id: 'a', text: 'Que no corras', icon: 'Footprints' },
+          { id: 'b', text: 'Que corras rápido', icon: 'Rabbit', feedback: '"Don\'t" significa "no": es una prohibición.' },
+          { id: 'c', text: 'Que cierres la puerta', icon: 'DoorClosed', feedback: 'Ese es otro cartel: "Please close the door".' },
+        ], correct: ['a'] },
       ),
       S.match(
         { fase: 'construir', areas: ['l3'], cnb: ['l3:3.3.1'], ambito: 'hacer',
@@ -198,7 +148,7 @@ export default [
   }),
 
   // ───────────────────────────── Lección 2 ─────────────────────────────
-  preparedLesson({
+  lesson({
     id: 's06-l3-2',
     title: 'Let\'s play and make: lotería and a mini kite',
     icon: 'Wind',
@@ -206,8 +156,6 @@ export default [
     gancho: 'En la feria del pueblo se juega lotería, y en noviembre el cielo se llena de barriletes. ¿Te animas a jugar y construir siguiendo instrucciones en inglés?',
     objetivos: [
       'Interpretar instrucciones y partes de un manual en inglés',
-      'Reconocer las partes de un manual: materiales, pasos y avisos de seguridad',
-      'Construir un objeto sencillo siguiendo instrucciones escritas',
     ],
     resumen: [
       'Las instrucciones de un juego dicen qué necesitas, cómo se juega y quién gana.',
@@ -221,15 +169,16 @@ export default [
       brief: 'Ilustración cálida de una familia guatemalteca (abuelo, mamá, niña y niño) jugando lotería en una mesa de madera. Cada uno tiene un tablero de 4 × 4 con dibujos sencillos (sol, luna, gallo, árbol, estrella, mano…) y frijoles negros sobre algunas casillas. La niña sostiene una baraja y muestra una carta con un sol. Rótulos pequeños en inglés señalando: "board", "card", "beans", "caller", "row". Sin marcas ni diseños de lotería comerciales.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:3.3.1'], ambito: 'conocer',
-          prompt: 'Mira la imagen de la lección. ¿Qué crees que significa **beans** en el juego?',
-          explain: '**Beans** = frijoles. En la lotería se usan frijoles para marcar las casillas del tablero (board). Hoy leerás las reglas en inglés.' },
-        { options: [
-          { id: 'a', text: 'Los frijoles para marcar', icon: 'CircleDot' },
-          { id: 'b', text: 'El tablero', icon: 'Square', feedback: 'El tablero se llama "board".' },
-          { id: 'c', text: 'La persona que canta las cartas', icon: 'Megaphone', feedback: 'Esa persona es el "caller".' },
-        ], correct: ['a'] },
+      S.ejemplo(
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:3.3.1'], ambito: 'conocer', title: 'Model: read an instruction',
+          prompt: 'Observa cómo interpretar una instrucción breve antes de responder.' },
+        { icon: 'ListChecks', problem: 'Instruction: “Cover the sun with a bean.”',
+          steps: [
+            { text: 'Busco el verbo inicial: **cover** significa cubrir.' },
+            { text: 'Identifico el objeto: **the sun** es la figura del sol.' },
+            { text: 'Leo el material: **with a bean** significa con un frijol.' },
+          ],
+          answer: 'La instrucción pide cubrir la figura del sol con un frijol. **Bean** significa frijol.' },
       ),
       S.reading(
         { fase: 'construir', areas: ['l3'], cnb: ['l3:3.3.1'], ambito: 'hacer', title: 'Game instructions',

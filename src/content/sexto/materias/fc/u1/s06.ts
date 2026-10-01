@@ -6,57 +6,9 @@
  */
 import { cierre, lesson, S } from '../../../../dsl';
 
-function preparedLesson(draft: Parameters<typeof lesson>[0]) {
-  const first = draft.steps[0];
-  const objective = draft.objetivos?.[0] ?? draft.title;
-  const firstIdea = draft.resumen?.[0] ?? objective;
-  const secondIdea = draft.resumen?.[1] ?? firstIdea;
-  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
-  const normalized = draft.steps.map((step) => (
-    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
-  ));
-  const construction = normalized.filter((step) => step.fase === 'construir');
-  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
-  const guided = construction.find((step) => !ungraded.has(step.type));
-  let building = construction.slice(0, 4);
-  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
-  building = building.map((step) => step === guided ? {
-    ...step,
-    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
-    explain: step.explain ?? firstIdea,
-  } : step);
-  const compact = [
-    ...building,
-    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
-    ...normalized.filter((step) => step.fase === 'comprobar'),
-    ...normalized.filter((step) => step.fase === 'reflexionar'),
-  ];
-  return lesson({
-    ...draft,
-    objetivos: [objective],
-    steps: [
-      S.explain(
-        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
-          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
-        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
-          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
-        { icon: draft.icon, problem: firstIdea, steps: [
-          { text: `Identifica el criterio central: **${objective}**.` },
-          { text: secondIdea },
-        ], answer: secondIdea,
-          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
-      ),
-      ...compact,
-    ],
-  });
-}
-
 export default [
   /* ───────────────────────── 1. Paz y violencia en los espacios cotidianos ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-fc-1',
     title: 'Cultura de paz y cultura de violencia a mi alrededor',
     icon: 'Search',
@@ -64,8 +16,6 @@ export default [
     gancho: 'Un apodo feo, un empujón en la fila, un grupo que no deja jugar a alguien… ¿Todo eso es violencia, o solo los golpes?',
     objetivos: [
       'Explicar qué son la cultura de paz y la cultura de violencia',
-      'Reconocer cinco formas de violencia: física, verbal, emocional, exclusión y digital',
-      'Describir situaciones de tu casa, escuela y comunidad con la lupa de la paz',
     ],
     resumen: [
       'Una cultura es una forma de actuar que se aprende y se repite. La violencia y la paz se aprenden… y por eso también se pueden cambiar.',
@@ -79,18 +29,8 @@ export default [
       brief: 'Ilustración plana en dos mitades con el mismo patio escolar guatemalteco (cancha de cemento, árbol de jocote, tienda escolar). Izquierda, tonos grises: un niño empuja en la fila de la refacción, dos se ríen señalando a un compañero, una niña sola a un lado. Derecha, colores cálidos: la fila ordenada, dos niños conversan tras un choque de pelota, un grupo mixto invita a la niña a jugar. Personajes diversos (trajes mayas, garífuna, mestizos). Sin sangre ni golpes explícitos, sin textos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:4.2.1'], ambito: 'convivir',
-          prompt: '¿Cuáles de estas situaciones crees que son **violencia**? Marca todas las que pienses.',
-          explain: '¡Las tres son violencia! Muchas personas creen que solo los golpes cuentan, pero las palabras que hieren y dejar a alguien fuera **también hacen daño**.' },
-        { multiple: true, options: [
-          { id: 'a', text: 'Empujar a un compañero en la fila de la refacción', icon: 'Hand' },
-          { id: 'b', text: 'Ponerle un apodo feo a alguien y repetirlo todos los días', icon: 'MessageCircle' },
-          { id: 'c', text: 'Decir "vos no jugás" siempre a la misma niña', icon: 'Users' },
-        ], correct: ['a', 'b', 'c'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:4.2.1'], ambito: 'conocer', title: 'Dos culturas que se aprenden',
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:4.2.1'], ambito: 'conocer', title: 'Dos culturas que se aprenden',
           prompt: 'Una **cultura** es una forma de pensar y actuar que un grupo **aprende y repite**. Hay una cultura de violencia y una cultura de paz. Toca cada tarjeta.' },
         { icon: 'Scale', body: 'Si la violencia se aprende, **también se puede desaprender**. Y la paz se puede enseñar y practicar.', reveal: [
           { icon: 'Zap', front: 'Cultura de violencia', back: 'Usar la **fuerza, el miedo, la burla o la amenaza** para ganar o imponerse. Se vuelve peligrosa cuando se ve como **normal**: "así ha sido siempre", "es solo una broma".' },
@@ -98,33 +38,15 @@ export default [
           { icon: 'Home', front: '¿Dónde se aprenden?', back: 'En la **casa**, la **escuela**, la **calle**, la **cancha** y también en la **televisión y las redes sociales**. Lo que vemos repetido, tendemos a copiarlo.' },
         ] },
       ),
-      S.explain(
+      S.cards(
         { fase: 'construir', areas: ['fc'], cnb: ['fc:4.2.1'], ambito: 'conocer', title: 'Cinco formas de violencia',
-          prompt: 'La violencia tiene muchas caras. Aprende a reconocerlas: toca cada tarjeta.' },
-        { icon: 'Eye', body: 'Nombrar bien lo que pasa es el primer paso para cambiarlo. **Ninguna** forma de violencia es culpa de quien la sufre.', reveal: [
+          prompt: 'La violencia tiene muchas caras. Nombrar bien lo que pasa ayuda a pedir apoyo; **ninguna** forma de violencia es culpa de quien la sufre.' },
+        { cards: [
           { icon: 'Hand', front: 'Física', back: 'Daña el cuerpo: **empujar, golpear, patear, jalar el pelo**, esconder o romper las cosas de alguien.' },
           { icon: 'Megaphone', front: 'Verbal', back: 'Daña con palabras: **insultos, apodos ofensivos, gritos, burlas** por la forma de hablar, vestir o ser.' },
           { icon: 'Brain', front: 'Emocional', back: 'Daña los sentimientos y la confianza: **amenazas, humillaciones**, hacer sentir a alguien que no vale, obligarlo con miedo.' },
           { icon: 'Users', front: 'Exclusión', back: 'Dejar fuera a propósito: **no dejar jugar**, no hablarle a alguien, inventar rumores para que nadie se le acerque.' },
           { icon: 'Smartphone', front: 'Digital', back: 'Por teléfono o internet: **mensajes hirientes, memes para burlarse, compartir fotos sin permiso**, sacar a alguien de un grupo para humillarlo.' },
-        ] },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:4.2.1'], prompt: '¿Qué forma de violencia hay en cada situación?',
-          hint: 'Pregúntate: ¿se dañó el cuerpo, se usaron palabras, se dejó fuera a alguien o pasó por el teléfono?',
-          explain: 'Reconocer el tipo de violencia ayuda a describir bien lo que pasa y a pedir la ayuda correcta.' },
-        { buckets: [
-          { id: 'fis', label: 'Física', icon: 'Hand', color: 'var(--c-bad)' },
-          { id: 'ver', label: 'Verbal', icon: 'Megaphone', color: 'var(--c-maiz-strong)' },
-          { id: 'exc', label: 'Exclusión', icon: 'Users', color: 'var(--area-fc)' },
-          { id: 'dig', label: 'Digital', icon: 'Smartphone', color: 'var(--area-ccss)' },
-        ], items: [
-          { id: 'v1', text: 'Le patean la mochila a Josué cada vez que pasa', bucket: 'fis' },
-          { id: 'v2', text: 'Le gritan "¡indio!" a un compañero como insulto', bucket: 'ver', feedback: 'Usar el origen de alguien como insulto es violencia verbal y además discriminación.' },
-          { id: 'v3', text: 'Nadie deja que Marta se siente con el grupo en la refacción', bucket: 'exc' },
-          { id: 'v4', text: 'Publican una foto de Kevin dormido en clase para que se burlen', bucket: 'dig' },
-          { id: 'v5', text: 'Se burlan de Rosa por su forma de hablar', bucket: 'ver' },
-          { id: 'v6', text: 'Hacen un meme con la cara de Andrés y lo mandan a varios chats', bucket: 'dig', feedback: 'Pasa por el teléfono y llega a muchas personas: es violencia digital.' },
         ] },
       ),
       S.explain(
@@ -229,7 +151,7 @@ export default [
   }),
 
   /* ───────────────────────── 2. Acoso escolar, ciberacoso y pedir ayuda ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-fc-2',
     title: 'Cuando la violencia se repite: acoso y ciberacoso',
     icon: 'ShieldCheck',
@@ -237,8 +159,6 @@ export default [
     gancho: 'Una pelea de un día y una burla que se repite todos los días durante meses, ¿son lo mismo?',
     objetivos: [
       'Diferenciar un conflicto entre iguales del acoso escolar',
-      'Reconocer el ciberacoso y qué hacer si te pasa',
-      'Explicar cómo los testigos pueden detener la violencia y a quién pedir ayuda',
     ],
     resumen: [
       'Un conflicto es un desacuerdo entre personas; se puede resolver hablando. El acoso escolar es violencia que se repite, a propósito, contra alguien que tiene menos poder para defenderse.',
@@ -252,39 +172,14 @@ export default [
       brief: 'Animación 2D de 50 s, trazos suaves. Corredor de una escuela guatemalteca. Un niño es rodeado por dos compañeros que se burlan; alrededor, seis testigos (niñas y niños de distintos pueblos) ríen y graban con un teléfono. Una voz explica: "La mayoría no agrede… pero mira". Una testigo baja el teléfono, otro deja de reír, dos se acercan al niño y le dicen "vení con nosotros"; una niña va por la maestra. Los agresores se quedan sin público. Cierre en texto: "Sin público, el acoso pierde fuerza". Sin golpes visibles; narración en español, subtítulos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:4.2.1'], ambito: 'convivir',
-          prompt: 'Desde hace tres meses, dos compañeros esconden la refacción de Pablo, que es el más pequeño del grado, y se ríen cuando él la busca. ¿Qué crees que es?',
-          explain: 'Es **acoso escolar**: se repite, es a propósito y Pablo tiene menos poder para defenderse. Hoy aprenderás a distinguirlo de un simple conflicto.' },
-        { options: [
-          { id: 'a', text: 'Un juego sin importancia', icon: 'Smile', feedback: 'Un juego es divertido para todos. Aquí solo se ríen quienes esconden la refacción.' },
-          { id: 'b', text: 'Algo más serio que se repite y hace daño', icon: 'ShieldCheck' },
-          { id: 'c', text: 'Culpa de Pablo por ser pequeño', icon: 'User', feedback: 'Nunca es culpa de quien sufre la violencia.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:4.2.1'], ambito: 'conocer', title: 'Conflicto no es lo mismo que acoso',
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:4.2.1'], ambito: 'conocer', title: 'Conflicto no es lo mismo que acoso',
           prompt: 'Los **conflictos** (desacuerdos) son normales entre personas y se pueden resolver hablando. El **acoso escolar** es distinto: tiene **tres señales**. Toca cada tarjeta.' },
         { icon: 'ShieldCheck', body: 'Si ves las tres señales juntas, no basta con "arreglarse entre ellos": se necesita la **ayuda de un adulto**.', reveal: [
           { icon: 'RefreshCw', front: '1. Se repite', back: 'No es una vez: pasa **muchas veces**, durante semanas o meses.' },
           { icon: 'Target', front: '2. Es a propósito', back: 'Quien agrede **quiere** hacer daño, humillar o dar miedo. No es un accidente.' },
           { icon: 'Scale', front: '3. Hay desigualdad de poder', back: 'Quien sufre tiene **menos fuerza o apoyo**: es más pequeño, está solo, es nuevo o el grupo está en su contra.' },
           { icon: 'MessagesSquare', front: 'En cambio, un conflicto…', back: 'Es un desacuerdo **entre iguales** (por un turno, un lápiz, una regla del juego) que se puede resolver con diálogo.' },
-        ] },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:4.2.1'], prompt: 'Clasifica: ¿es un **conflicto** que se puede resolver hablando, o es **acoso** que necesita ayuda de un adulto?',
-          hint: 'Busca las tres señales: ¿se repite?, ¿es a propósito?, ¿uno tiene menos poder?',
-          explain: 'Los conflictos entre iguales se resuelven con diálogo. El acoso, con sus tres señales, necesita que intervenga un adulto.' },
-        { buckets: [
-          { id: 'con', label: 'Conflicto', icon: 'MessagesSquare', color: 'var(--c-ok)' },
-          { id: 'aco', label: 'Acoso', icon: 'ShieldCheck', color: 'var(--c-bad)' },
-        ], items: [
-          { id: 'k1', text: 'Dos amigas discuten un día porque las dos querían ser capitanas', bucket: 'con' },
-          { id: 'k2', text: 'Un grupo de sexto le quita el dinero de la refacción a un niño de segundo cada semana', bucket: 'aco' },
-          { id: 'k3', text: 'Dos equipos no se ponen de acuerdo sobre si fue gol', bucket: 'con' },
-          { id: 'k4', text: 'Desde que llegó, a Lesbia le imitan su forma de hablar todos los días', bucket: 'aco', feedback: 'Se repite, es a propósito y ella es nueva: tiene las tres señales.' },
-          { id: 'k5', text: 'Dos compañeros discuten por quién usa primero la computadora', bucket: 'con' },
         ] },
       ),
       S.explain(
@@ -310,6 +205,31 @@ export default [
           ],
           answer: 'Ana se protegió y **pidió ayuda**; Luis usó su poder de **testigo**. Juntos, con los adultos, detuvieron el ciberacoso.',
           tip: 'No respondo → guardo evidencia → bloqueo o reporto → se lo cuento a un adulto de confianza.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:4.2.1'], ambito: 'convivir',
+          prompt: 'Desde hace tres meses, dos compañeros esconden la refacción de Pablo, que es el más pequeño del grado, y se ríen cuando él la busca. ¿Qué crees que es?',
+          explain: 'Es **acoso escolar**: se repite, es a propósito y Pablo tiene menos poder para defenderse. Hoy aprenderás a distinguirlo de un simple conflicto.' },
+        { options: [
+          { id: 'a', text: 'Un juego sin importancia', icon: 'Smile', feedback: 'Un juego es divertido para todos. Aquí solo se ríen quienes esconden la refacción.' },
+          { id: 'b', text: 'Algo más serio que se repite y hace daño', icon: 'ShieldCheck' },
+          { id: 'c', text: 'Culpa de Pablo por ser pequeño', icon: 'User', feedback: 'Nunca es culpa de quien sufre la violencia.' },
+        ], correct: ['b'] },
+      ),
+      S.sort(
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:4.2.1'], prompt: 'Clasifica: ¿es un **conflicto** que se puede resolver hablando, o es **acoso** que necesita ayuda de un adulto?',
+          hint: 'Busca las tres señales: ¿se repite?, ¿es a propósito?, ¿uno tiene menos poder?',
+          explain: 'Los conflictos entre iguales se resuelven con diálogo. El acoso, con sus tres señales, necesita que intervenga un adulto.' },
+        { buckets: [
+          { id: 'con', label: 'Conflicto', icon: 'MessagesSquare', color: 'var(--c-ok)' },
+          { id: 'aco', label: 'Acoso', icon: 'ShieldCheck', color: 'var(--c-bad)' },
+        ], items: [
+          { id: 'k1', text: 'Dos amigas discuten un día porque las dos querían ser capitanas', bucket: 'con' },
+          { id: 'k2', text: 'Un grupo de sexto le quita el dinero de la refacción a un niño de segundo cada semana', bucket: 'aco' },
+          { id: 'k3', text: 'Dos equipos no se ponen de acuerdo sobre si fue gol', bucket: 'con' },
+          { id: 'k4', text: 'Desde que llegó, a Lesbia le imitan su forma de hablar todos los días', bucket: 'aco', feedback: 'Se repite, es a propósito y ella es nueva: tiene las tres señales.' },
+          { id: 'k5', text: 'Dos compañeros discuten por quién usa primero la computadora', bucket: 'con' },
+        ] },
       ),
       S.order(
         { fase: 'construir', areas: ['fc'], cnb: ['fc:4.2.1'], prompt: 'Ordena lo que conviene hacer si **te pasa** ciberacoso.',
@@ -362,7 +282,7 @@ export default [
       ),
       cierre({ areas: ['fc'], cnb: ['fc:4.2.1'] },
         ['Reconozco la cultura de paz y la de violencia en mi casa, escuela y comunidad', 'Distingo un conflicto del acoso escolar', 'Sé qué hacer y a quién pedir ayuda ante el acoso y el ciberacoso'],
-        ['No reenviaré nada que se burle de otra persona', 'Llamaré a mis compañeros por su nombre, no por apodos', 'Si veo acoso, acompañaré a quien lo sufre y avisaré a un adulto']),
+        ['No reenviaré nada que se burle de otra persona', 'Llamaré a mis compañeros por su nombre, no por apodos', 'Si veo acoso, acompañaré a quien lo sufre y avisaré a un adulto'])
     ],
   }),
 ];

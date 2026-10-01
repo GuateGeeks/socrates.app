@@ -8,66 +8,16 @@
  */
 import { lesson, S } from '../../../../dsl';
 
-function preparedLesson(draft: Parameters<typeof lesson>[0]) {
-  const first = draft.steps[0];
-  const objective = draft.objetivos?.[0] ?? draft.title;
-  const firstIdea = draft.resumen?.[0] ?? objective;
-  const secondIdea = draft.resumen?.[1] ?? firstIdea;
-  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
-  const normalized = draft.steps.map((step) => (
-    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
-  ));
-  const construction = normalized.filter((step) => step.fase === 'construir');
-  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
-  const guided = construction.find((step) => !ungraded.has(step.type));
-  let building = construction.slice(0, 4);
-  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
-  building = building.map((step) => step === guided ? {
-    ...step,
-    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
-    explain: step.explain ?? firstIdea,
-  } : step);
-  const compact = [
-    ...building,
-    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
-    ...normalized.filter((step) => step.fase === 'comprobar'),
-    ...normalized.filter((step) => step.fase === 'reflexionar'),
-  ];
-  return lesson({
-    ...draft,
-    objetivos: [objective],
-    steps: [
-      S.explain(
-        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
-          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
-        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
-          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
-        { icon: draft.icon, problem: firstIdea, steps: [
-          { text: `Identifica el criterio central: **${objective}**.` },
-          { text: secondIdea },
-        ], answer: secondIdea,
-          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
-      ),
-      ...compact,
-    ],
-  });
-}
-
 export default [
   // ───────────────────────────── Lección 1 ─────────────────────────────
-  preparedLesson({
+  lesson({
     id: 's06-l1-1',
     title: 'La oración: unimembre y bimembre',
     icon: 'AlignJustify',
     minutes: 14,
     gancho: '"¡Buenos días!" y "Las raíces sostienen la tierra" son oraciones. ¿Por qué una se puede partir en dos y la otra no?',
     objetivos: [
-      'Distinguir oraciones por sentido, tipo o parte',
-      'Distinguir oraciones unimembres y bimembres',
-      'Separar una oración bimembre en sujeto y predicado',
+      'Analizar la estructura de oraciones unimembres y bimembres',
     ],
     resumen: [
       'Una oración es una palabra o grupo de palabras con sentido completo. Empieza con mayúscula y termina con punto (o con signos de interrogación o exclamación).',
@@ -81,18 +31,8 @@ export default [
       brief: 'Diagrama ilustrado de una ceiba con raíces grandes. La oración "Las raíces de la ceiba sostienen la tierra del barranco" está dividida: la parte "Las raíces de la ceiba" escrita sobre las raíces con la etiqueta SUJETO (color azul); "sostienen la tierra del barranco" escrita en el tronco y la copa con la etiqueta PREDICADO (color verde); la palabra "sostienen" resaltada en amarillo con la etiqueta "núcleo: verbo". Una línea vertical separa ambas partes. Letra grande, fondo claro.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer',
-          prompt: '¿Cuál de estos grupos de palabras **tiene sentido completo**, es decir, se entiende sin que falte nada?',
-          explain: '"Las raíces sostienen la tierra" dice algo completo: sabemos de qué se habla y qué se dice de ello. Las otras opciones dejan la idea a medias.' },
-        { options: [
-          { id: 'a', text: 'Las raíces de la ceiba', feedback: 'Sabemos de qué se habla, pero no qué pasa con las raíces: está incompleto.' },
-          { id: 'b', text: 'Las raíces sostienen la tierra.' },
-          { id: 'c', text: 'sostienen la tierra del', feedback: 'Falta saber quién sostiene y "del" queda colgando.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer', title: 'Dos clases de oraciones',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer', title: 'Dos clases de oraciones',
           prompt: 'Una **oración** es una palabra o un grupo de palabras con **sentido completo**. Hay oraciones que se pueden partir en dos y otras que no. Toca cada tarjeta.' },
         { icon: 'AlignJustify', body: 'Por escrito, la oración empieza con **mayúscula** y termina con **punto**, o con **signos** de interrogación (¿?) o exclamación (¡!).', reveal: [
           { icon: 'Circle', front: 'Unimembre', back: 'Tiene **un solo miembro**: no se puede dividir en sujeto y predicado. Saludos, exclamaciones y fenómenos del clima: _¡Buenos días!, ¡Qué frío!, Llueve., Gracias._' },
@@ -114,9 +54,20 @@ export default [
           answer: '**Sujeto:** Las raíces de la ceiba | **Predicado:** sostienen la tierra del barranco.',
           tip: 'Primero el verbo, después la pregunta ¿quién? o ¿qué?' },
       ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer',
+          prompt: '¿Cuál de estos grupos de palabras **tiene sentido completo**, es decir, se entiende sin que falte nada?',
+          explain: '"Las raíces sostienen la tierra" dice algo completo: sabemos de qué se habla y qué se dice de ello. Las otras opciones dejan la idea a medias.' },
+        { options: [
+          { id: 'a', text: 'Las raíces de la ceiba', feedback: 'Sabemos de qué se habla, pero no qué pasa con las raíces: está incompleto.' },
+          { id: 'b', text: 'Las raíces sostienen la tierra.' },
+          { id: 'c', text: 'sostienen la tierra del', feedback: 'Falta saber quién sostiene y "del" queda colgando.' },
+        ], correct: ['b'] },
+      ),
       S.sort(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], prompt: 'Clasifica cada oración: ¿unimembre o bimembre?',
-          hint: 'Pregunta: ¿hay alguien o algo de quien se dice una acción? Si sí, es bimembre. Saludos, exclamaciones y "llueve" o "amanece" son unimembres.' },
+          hint: 'Pregunta: ¿hay alguien o algo de quien se dice una acción? Si sí, es bimembre. Saludos, exclamaciones y "llueve" o "amanece" son unimembres.',
+          explain: 'Las bimembres se separan en sujeto y predicado; las unimembres expresan sentido completo sin esa división.' },
         { buckets: [
           { id: 'uni', label: 'Unimembre', icon: 'Circle', color: 'var(--c-maiz-strong)' },
           { id: 'bi', label: 'Bimembre', icon: 'SplitSquareHorizontal', color: 'var(--area-l1)' },
@@ -203,7 +154,7 @@ export default [
   }),
 
   // ───────────────────────────── Lección 2 ─────────────────────────────
-  preparedLesson({
+  lesson({
     id: 's06-l1-2',
     title: 'Detectives del sujeto',
     icon: 'Search',
@@ -211,8 +162,6 @@ export default [
     gancho: 'En "Mañana regará el vivero doña Juana", ¿quién riega? El sujeto a veces se esconde al final… o ni siquiera aparece.',
     objetivos: [
       'Encontrar el sujeto preguntando ¿quién? o ¿qué? al verbo',
-      'Reconocer el sujeto al inicio, en medio o al final de la oración',
-      'Identificar el sujeto tácito y el núcleo del sujeto',
     ],
     resumen: [
       'Para encontrar el sujeto: busca el verbo y pregúntale ¿quién? o ¿qué? Comprueba cambiando el número: si cambia el verbo, encontraste el sujeto.',
@@ -226,31 +175,14 @@ export default [
       brief: 'Animación 2D de 45 s con una lupa detective. Oración 1: "Mañana regará el vivero doña Juana." La lupa se detiene en "regará" (resaltado amarillo), aparece un globo "¿Quién regará?" y una flecha va hasta "doña Juana" (resaltado azul, etiqueta SUJETO). Luego la prueba: cambia a "doña Juana y don Pedro" y "regará" se transforma en "regarán". Oración 2: "Sembramos pinos." Aparece en gris un "(nosotros)" fantasma con la etiqueta SUJETO TÁCITO. Narración en español, subtítulos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer',
-          prompt: 'Lee: "**Mañana regará el vivero doña Juana.**" ¿Quién va a regar?',
-          explain: 'Doña Juana es quien riega, aunque esté al final. El sujeto no siempre va al inicio: por eso necesitamos un método para encontrarlo.' },
-        { options: [
-          { id: 'a', text: 'doña Juana' },
-          { id: 'b', text: 'el vivero', feedback: 'El vivero no riega: es lo que se riega.' },
-          { id: 'c', text: 'Mañana', feedback: '"Mañana" dice cuándo, no quién.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer', title: 'El método del detective',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer', title: 'El método del detective',
           prompt: 'Sigue siempre estos tres pasos. Toca cada tarjeta.' },
         { icon: 'Search', body: 'El sujeto y el verbo **concuerdan** en número y persona: esa es la pista más segura.', reveal: [
           { icon: 'Zap', front: '1. Encuentra el verbo', back: 'La palabra que dice la acción o el estado: _regará, crecen, está, sembraron_.' },
           { icon: 'HelpCircle', front: '2. Pregunta ¿quién? o ¿qué?', back: '"¿**Quién** regará?" → doña Juana. "¿**Qué** crece?" → el maíz. La respuesta es el sujeto.' },
           { icon: 'RefreshCw', front: '3. Comprueba', back: 'Cambia el sujeto a plural o singular. Si el **verbo cambia** también, ¡lo encontraste! _doña Juana regará → doña Juana y don Pedro regarán_.' },
         ] },
-      ),
-      S.highlight(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'hacer',
-          prompt: 'Toca el **sujeto** de cada oración. Cada sujeto cuenta como un solo bloque.',
-          hint: 'Busca primero el verbo (sembraron, guardan, regará, protege) y pregúntale "¿quién?" o "¿qué?".',
-          explain: 'En la tercera y la cuarta oración el sujeto está al final: "doña Juana" riega y "el bosque comunal" protege.' },
-        { target: 'sujetos', text: '{Los estudiantes de sexto} sembraron cien pinos. {Las raíces} guardan el agua de la lluvia. Mañana regará el vivero {doña Juana}. Protege el nacimiento {el bosque comunal}.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer', title: 'El sujeto escondido y el núcleo',
@@ -273,6 +205,23 @@ export default [
           ],
           answer: 'Sujeto: **las familias de la aldea** (núcleo: familias). Predicado: **Cada sábado riegan los arbolitos**.',
           tip: 'El predicado puede quedar partido en dos pedazos alrededor del sujeto. ¡Es normal!' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer',
+          prompt: 'Lee: "**Mañana regará el vivero doña Juana.**" ¿Quién va a regar?',
+          explain: 'Doña Juana es quien riega, aunque esté al final. El sujeto no siempre va al inicio: por eso necesitamos un método para encontrarlo.' },
+        { options: [
+          { id: 'a', text: 'doña Juana' },
+          { id: 'b', text: 'el vivero', feedback: 'El vivero no riega: es lo que se riega.' },
+          { id: 'c', text: 'Mañana', feedback: '"Mañana" dice cuándo, no quién.' },
+        ], correct: ['a'] },
+      ),
+      S.highlight(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'hacer',
+          prompt: 'Toca el **sujeto** de cada oración. Cada sujeto cuenta como un solo bloque.',
+          hint: 'Busca primero el verbo (sembraron, guardan, regará, protege) y pregúntale "¿quién?" o "¿qué?".',
+          explain: 'En la tercera y la cuarta oración el sujeto está al final: "doña Juana" riega y "el bosque comunal" protege.' },
+        { target: 'sujetos', text: '{Los estudiantes de sexto} sembraron cien pinos. {Las raíces} guardan el agua de la lluvia. Mañana regará el vivero {doña Juana}. Protege el nacimiento {el bosque comunal}.' },
       ),
       S.choice(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'hacer',
@@ -321,7 +270,7 @@ export default [
   }),
 
   // ───────────────────────────── Lección 3 ─────────────────────────────
-  preparedLesson({
+  lesson({
     id: 's06-l1-3',
     title: 'El predicado: el verbo y lo que lo acompaña',
     icon: 'Zap',
@@ -329,8 +278,6 @@ export default [
     gancho: '"El niño corre." Es una oración completa… pero ¿no te dan ganas de saber dónde, cuándo y por qué corre?',
     objetivos: [
       'Reconocer el verbo como núcleo del predicado',
-      'Ampliar el predicado con información de qué, dónde, cuándo y cómo',
-      'Escribir oraciones completas y ricas con sujeto y predicado',
     ],
     resumen: [
       'El predicado es todo lo que se dice del sujeto. Su núcleo es el verbo conjugado: siembra, corrían, está.',
@@ -344,27 +291,14 @@ export default [
       brief: 'Animación tipográfica de 40 s. Empieza con "El niño | corre." (sujeto azul, predicado verde, verbo amarillo). Van entrando bloques con una etiqueta: "de la aldea" se pega al sujeto (¿cuál niño?); luego al predicado "por el camino de tierra" (¿dónde?), "cada mañana" (¿cuándo?), "con su mochila al hombro" (¿cómo?), "para llegar a la escuela" (¿para qué?). Al final se lee la oración completa. Narración en español, subtítulos.',
     },
     steps: [
-      S.highlight(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer',
-          prompt: 'Toca la palabra que dice **la acción** en cada oración.',
-          explain: 'Esas palabras son **verbos**: el corazón del predicado. Sin verbo, no hay predicado.' },
-        { target: 'verbos', text: 'El maíz {crece} alto. Mi tío {vende} café en Cobán. Las nubes {cubren} el volcán.' },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer', title: 'El predicado y su núcleo',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer', title: 'El predicado y su núcleo',
           prompt: 'El **predicado** es todo lo que se dice del sujeto. Toca cada tarjeta.' },
         { icon: 'Zap', body: 'Para encontrar el predicado: primero localiza el **sujeto**; todo lo demás es predicado.', reveal: [
           { icon: 'Target', front: 'Núcleo: el verbo', back: 'El núcleo del predicado es el **verbo conjugado**: la palabra que cambia con la persona y el tiempo (_siembro, siembras, sembraron, sembrará_).' },
           { icon: 'Plus', front: 'Lo que lo acompaña', back: 'Palabras que completan la acción y responden a: **¿qué?** (vende _café_), **¿dónde?** (_en Cobán_), **¿cuándo?** (_los sábados_), **¿cómo?** (_con alegría_), **¿para qué?** (_para ayudar a su familia_).' },
           { icon: 'Link', front: 'Concordancia', back: 'El verbo concuerda con el núcleo del sujeto: "**El** maíz **crece**", "**Los** maíces **crecen**".' },
         ] },
-      ),
-      S.highlight(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'hacer',
-          prompt: 'Toca el **predicado completo** de cada oración (cada predicado es un solo bloque).',
-          hint: 'Primero encuentra el sujeto con la pregunta ¿quién? o ¿qué?; el resto es el predicado.',
-          explain: 'Predicados: "vende tamales los domingos", "llegó tarde por la lluvia" y "pintan un mural en la escuela".' },
-        { target: 'predicados', text: 'Doña Irma {vende tamales los domingos}. El bus de la aldea {llegó tarde por la lluvia}. Los jóvenes del pueblo {pintan un mural en la escuela}.' },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'hacer', title: 'Ejemplo resuelto: hacer crecer una oración',
@@ -378,6 +312,19 @@ export default [
           ],
           answer: '"**El niño de la aldea** | **corre por el camino de tierra cada mañana para llegar a tiempo a la escuela.**"',
           tip: 'No agregues bloques por agregar: cada uno debe decir algo que el lector necesita saber.' },
+      ),
+      S.highlight(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer',
+          prompt: 'Toca la palabra que dice **la acción** en cada oración.',
+          explain: 'Esas palabras son **verbos**: el corazón del predicado. Sin verbo, no hay predicado.' },
+        { target: 'verbos', text: 'El maíz {crece} alto. Mi tío {vende} café en Cobán. Las nubes {cubren} el volcán.' },
+      ),
+      S.highlight(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'hacer',
+          prompt: 'Toca el **predicado completo** de cada oración (cada predicado es un solo bloque).',
+          hint: 'Primero encuentra el sujeto con la pregunta ¿quién? o ¿qué?; el resto es el predicado.',
+          explain: 'Predicados: "vende tamales los domingos", "llegó tarde por la lluvia" y "pintan un mural en la escuela".' },
+        { target: 'predicados', text: 'Doña Irma {vende tamales los domingos}. El bus de la aldea {llegó tarde por la lluvia}. Los jóvenes del pueblo {pintan un mural en la escuela}.' },
       ),
       S.match(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'hacer', prompt: 'Une cada parte del predicado con la pregunta que responde.',
@@ -436,7 +383,7 @@ export default [
   }),
 
   // ───────────────────────────── Lección 4 ─────────────────────────────
-  preparedLesson({
+  lesson({
     id: 's06-l1-4',
     title: 'Planificar antes de trabajar',
     icon: 'ClipboardList',
@@ -444,8 +391,6 @@ export default [
     gancho: 'Te dejan un trabajo para dentro de tres semanas. ¿Empiezas hoy, la próxima semana… o la noche antes?',
     objetivos: [
       'Explicar por qué conviene planificar un trabajo',
-      'Reconocer los pasos de un plan de trabajo',
-      'Escribir un objetivo claro y dividir una tarea grande en actividades pequeñas',
     ],
     resumen: [
       'Planificar es decidir antes de empezar qué vas a hacer, cómo, con qué, quién y cuándo.',
@@ -459,8 +404,34 @@ export default [
       brief: 'Ilustración dividida en dos. Izquierda: Mateo, de noche, con una lámpara, cara de angustia, hojas en desorden y un reloj que marca las 11:00. Derecha: Sofía, de día, tranquila, marcando con un cheque la tercera actividad de una tabla titulada "Mi plan" con columnas Actividad / Fecha / Materiales. Estilo cálido de libro de texto, sin marcas comerciales.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.1'], ambito: 'conocer', title: 'Los pasos de un plan de trabajo',
+          prompt: '**Planificar** es decidir, antes de empezar, qué harás, cómo, con qué, quién y cuándo. Toca cada paso.' },
+        { icon: 'ClipboardList', body: 'Un plan no es un adorno: es un **mapa** que te dice dónde estás y cuánto falta.', reveal: [
+          { icon: 'BookOpen', front: '1. Entender la tarea', back: '¿Qué me piden exactamente? ¿Para cuándo? ¿Cómo se entrega? Subraya las palabras clave de las instrucciones.' },
+          { icon: 'Target', front: '2. Escribir el objetivo', back: 'Una oración que empieza con un **verbo**: "**Explicar** de dónde viene el agua de la escuela".' },
+          { icon: 'ListOrdered', front: '3. Dividir en actividades', back: 'Pasos pequeños y concretos: hacer preguntas, buscar información, entrevistar, escribir, revisar.' },
+          { icon: 'Package', front: '4. Listar recursos', back: '¿Qué necesito? Cuaderno, libros, una persona a quien entrevistar, colores, hojas.' },
+          { icon: 'CalendarDays', front: '5. Fechas y responsables', back: 'Una fecha para cada actividad y, si es en grupo, **quién** la hará.' },
+          { icon: 'ListChecks', front: '6. Revisar el avance', back: 'Marca lo que terminaste. Si te atrasas, ajusta el plan a tiempo.' },
+        ] },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.1'], ambito: 'hacer', title: 'Ejemplo resuelto: el plan de Sofía',
+          prompt: 'Así convirtió Sofía las instrucciones en un plan.' },
+        { icon: 'ClipboardCheck', problem: 'Tarea: informe de dos páginas con dibujo y fuentes sobre "¿De dónde viene el agua que llega a nuestra escuela?". Entrega: en tres semanas.',
+          steps: [
+            { text: '**Entender**: subrayo "dos páginas", "un dibujo", "lista de fuentes", "en tres semanas".' },
+            { text: '**Objetivo**: "Explicar de dónde viene el agua de la escuela y cómo llega hasta los chorros".', why: 'Empieza con un verbo y dice qué quiero lograr.' },
+            { text: '**Actividades**: 1) escribir preguntas, 2) entrevistar al conserje, 3) visitar el tanque, 4) leer sobre el ciclo del agua, 5) escribir el borrador, 6) hacer el dibujo, 7) revisar y pasar en limpio.' },
+            { text: '**Recursos**: cuaderno, lápiz, libro de Ciencias, colores, permiso para ver el tanque.' },
+            { text: '**Fechas**: semana 1 → actividades 1 a 3; semana 2 → 4 a 6; semana 3 → revisar y entregar.', why: 'Deja la última semana para revisar: siempre surge algo.' },
+          ],
+          answer: 'Un plan de una página que dice qué hacer cada semana. Sofía solo tiene que seguirlo y marcar lo que termina.',
+          tip: 'Si una actividad parece enorme, divídela otra vez.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.1'], ambito: 'conocer',
           prompt: 'La maestra pide un informe para dentro de **tres semanas**. ¿Qué es lo **primero** que conviene hacer?',
           explain: 'Antes de buscar información o escribir, hay que **entender bien la tarea** y hacer un plan. Si no, podrías trabajar mucho… en lo que no te pidieron.' },
         { options: [
@@ -500,32 +471,6 @@ export default [
               { id: 'c', text: 'Es injusta con Mateo' },
             ], correct: 'a', why: 'En un trabajo en pareja, un plan compartido deja claro qué hace cada quien y cuándo.' },
           ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.1'], ambito: 'conocer', title: 'Los pasos de un plan de trabajo',
-          prompt: '**Planificar** es decidir, antes de empezar, qué harás, cómo, con qué, quién y cuándo. Toca cada paso.' },
-        { icon: 'ClipboardList', body: 'Un plan no es un adorno: es un **mapa** que te dice dónde estás y cuánto falta.', reveal: [
-          { icon: 'BookOpen', front: '1. Entender la tarea', back: '¿Qué me piden exactamente? ¿Para cuándo? ¿Cómo se entrega? Subraya las palabras clave de las instrucciones.' },
-          { icon: 'Target', front: '2. Escribir el objetivo', back: 'Una oración que empieza con un **verbo**: "**Explicar** de dónde viene el agua de la escuela".' },
-          { icon: 'ListOrdered', front: '3. Dividir en actividades', back: 'Pasos pequeños y concretos: hacer preguntas, buscar información, entrevistar, escribir, revisar.' },
-          { icon: 'Package', front: '4. Listar recursos', back: '¿Qué necesito? Cuaderno, libros, una persona a quien entrevistar, colores, hojas.' },
-          { icon: 'CalendarDays', front: '5. Fechas y responsables', back: 'Una fecha para cada actividad y, si es en grupo, **quién** la hará.' },
-          { icon: 'ListChecks', front: '6. Revisar el avance', back: 'Marca lo que terminaste. Si te atrasas, ajusta el plan a tiempo.' },
-        ] },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.1'], ambito: 'hacer', title: 'Ejemplo resuelto: el plan de Sofía',
-          prompt: 'Así convirtió Sofía las instrucciones en un plan.' },
-        { icon: 'ClipboardCheck', problem: 'Tarea: informe de dos páginas con dibujo y fuentes sobre "¿De dónde viene el agua que llega a nuestra escuela?". Entrega: en tres semanas.',
-          steps: [
-            { text: '**Entender**: subrayo "dos páginas", "un dibujo", "lista de fuentes", "en tres semanas".' },
-            { text: '**Objetivo**: "Explicar de dónde viene el agua de la escuela y cómo llega hasta los chorros".', why: 'Empieza con un verbo y dice qué quiero lograr.' },
-            { text: '**Actividades**: 1) escribir preguntas, 2) entrevistar al conserje, 3) visitar el tanque, 4) leer sobre el ciclo del agua, 5) escribir el borrador, 6) hacer el dibujo, 7) revisar y pasar en limpio.' },
-            { text: '**Recursos**: cuaderno, lápiz, libro de Ciencias, colores, permiso para ver el tanque.' },
-            { text: '**Fechas**: semana 1 → actividades 1 a 3; semana 2 → 4 a 6; semana 3 → revisar y entregar.', why: 'Deja la última semana para revisar: siempre surge algo.' },
-          ],
-          answer: 'Un plan de una página que dice qué hacer cada semana. Sofía solo tiene que seguirlo y marcar lo que termina.',
-          tip: 'Si una actividad parece enorme, divídela otra vez.' },
       ),
       S.choice(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.1'], ambito: 'hacer',
@@ -597,7 +542,7 @@ export default [
   }),
 
   // ───────────────────────────── Lección 5 ─────────────────────────────
-  preparedLesson({
+  lesson({
     id: 's06-l1-5',
     title: 'El cronograma y el plan de mi investigación',
     icon: 'CalendarDays',
@@ -605,8 +550,6 @@ export default [
     gancho: 'Si tienes que entregar el viernes de la semana 3, ¿qué día debes terminar el borrador? Un cronograma te lo dice.',
     objetivos: [
       'Organizar las actividades de un trabajo en un cronograma',
-      'Planificar hacia atrás desde la fecha de entrega',
-      'Escribir el plan de la mini-investigación de la unidad',
     ],
     resumen: [
       'Un cronograma es una tabla que muestra qué actividad se hace en cada fecha o semana.',
@@ -620,18 +563,8 @@ export default [
       brief: 'Diagrama de un cronograma sencillo tipo tabla. Filas: "Escribir preguntas", "Buscar fuentes", "Entrevistar", "Tomar notas", "Escribir borrador", "Revisar y corregir", "Redacción final". Columnas: Semana 1, Semana 2, Semana 3. Casillas coloreadas en verde (semana 1: preguntas, fuentes; semana 2: entrevistar, notas, borrador; semana 3: revisar, redacción final). Una bandera roja con "Entrega" al final de la semana 3 y una flecha curva hacia atrás con el texto "Planifica desde la entrega hacia atrás". Letra grande.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.1'], ambito: 'conocer',
-          prompt: 'Tu informe se entrega el **viernes**. Necesitas **un día** para revisar y **un día** para pasarlo en limpio. ¿Cuándo debes tener listo el **borrador**, a más tardar?',
-          explain: 'Contando hacia atrás: viernes = entrega; jueves = pasar en limpio; miércoles = revisar. El borrador debe estar listo el **martes**. Planificar hacia atrás evita sorpresas.' },
-        { options: [
-          { id: 'a', text: 'El martes' },
-          { id: 'b', text: 'El jueves', feedback: 'Si terminas el borrador el jueves, no te quedan días para revisar y pasar en limpio.' },
-          { id: 'c', text: 'El viernes en la mañana', feedback: '¡Ese día ya se entrega!' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.1'], ambito: 'conocer', title: '¿Qué es un cronograma?',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.1'], ambito: 'conocer', title: '¿Qué es un cronograma?',
           prompt: 'Un **cronograma** es una tabla que muestra **qué** actividad se hace **cuándo**. Observa el diagrama y toca cada tarjeta.' },
         { icon: 'CalendarDays', body: 'La palabra viene del griego: _cronos_ (tiempo) y _grama_ (escrito). Es "el tiempo escrito".', reveal: [
           { icon: 'List', front: 'Filas: actividades', back: 'Cada fila es una actividad concreta: "Entrevistar al conserje", no "hacer cosas".' },
@@ -652,6 +585,16 @@ export default [
           ],
           answer: 'Semana 1: preguntas y fuentes · Semana 2: entrevista, notas y borrador · Semana 3: revisión y redacción final.',
           tip: 'Si una actividad depende de otra, ponla después.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.1'], ambito: 'conocer',
+          prompt: 'Tu informe se entrega el **viernes**. Necesitas **un día** para revisar y **un día** para pasarlo en limpio. ¿Cuándo debes tener listo el **borrador**, a más tardar?',
+          explain: 'Contando hacia atrás: viernes = entrega; jueves = pasar en limpio; miércoles = revisar. El borrador debe estar listo el **martes**. Planificar hacia atrás evita sorpresas.' },
+        { options: [
+          { id: 'a', text: 'El martes' },
+          { id: 'b', text: 'El jueves', feedback: 'Si terminas el borrador el jueves, no te quedan días para revisar y pasar en limpio.' },
+          { id: 'c', text: 'El viernes en la mañana', feedback: '¡Ese día ya se entrega!' },
+        ], correct: ['a'] },
       ),
       S.order(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.1'], ambito: 'hacer',

@@ -7,57 +7,9 @@
  */
 import { lesson, S, cierre } from '../../../../dsl';
 
-function preparedLesson(draft: Parameters<typeof lesson>[0]) {
-  const first = draft.steps[0];
-  const objective = draft.objetivos?.[0] ?? draft.title;
-  const firstIdea = draft.resumen?.[0] ?? objective;
-  const secondIdea = draft.resumen?.[1] ?? firstIdea;
-  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
-  const normalized = draft.steps.map((step) => (
-    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
-  ));
-  const construction = normalized.filter((step) => step.fase === 'construir');
-  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
-  const guided = construction.find((step) => !ungraded.has(step.type));
-  let building = construction.slice(0, 4);
-  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
-  building = building.map((step) => step === guided ? {
-    ...step,
-    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
-    explain: step.explain ?? firstIdea,
-  } : step);
-  const compact = [
-    ...building,
-    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
-    ...normalized.filter((step) => step.fase === 'comprobar'),
-    ...normalized.filter((step) => step.fase === 'reflexionar'),
-  ];
-  return lesson({
-    ...draft,
-    objetivos: [objective],
-    steps: [
-      S.explain(
-        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
-          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
-        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
-          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
-        { icon: draft.icon, problem: firstIdea, steps: [
-          { text: `Identifica el criterio central: **${objective}**.` },
-          { text: secondIdea },
-        ], answer: secondIdea,
-          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
-      ),
-      ...compact,
-    ],
-  });
-}
-
 export default [
   /* ───────────────────────── 1. ¿Por qué llegaron los europeos a América? ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-ccss-1',
     title: 'Por qué los europeos cruzaron el océano',
     icon: 'Sailboat',
@@ -65,8 +17,6 @@ export default [
     gancho: 'En 1492, tres barcos cruzaron el océano Atlántico y llegaron a unas islas del Caribe. ¿Por qué no pasó cien años antes? ¿Qué había cambiado en Europa?',
     objetivos: [
       'Identificar los factores que favorecieron los viajes europeos: Renacimiento, imprenta, comercio e innovaciones de navegación',
-      'Explicar la relación entre la búsqueda de rutas comerciales y la llegada a América',
-      'Reconocer que este hecho tiene distintas miradas según los pueblos que lo vivieron',
     ],
     resumen: [
       'El Renacimiento (siglos XV y XVI) despertó en Europa el interés por observar, experimentar y explorar el mundo.',
@@ -80,15 +30,16 @@ export default [
       brief: 'Ilustración en corte lateral de una carabela del siglo XV navegando en el Atlántico. Rótulos con flechas: "velas latinas triangulares: permiten navegar con viento de lado", "casco ligero y rápido", "bodega con agua, alimentos y mercancías". En cubierta, un navegante mide la altura del Sol con un astrolabio; junto a él, una mesa con una brújula y un mapa dibujado a mano. Personas genéricas, no retratos. Colores de madera y mar, estilo de libro de historia.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.4.4'], ambito: 'conocer',
-          prompt: 'Hace 600 años, en Europa, la **pimienta** y la **canela** valían tanto que a veces se usaban casi como dinero. Venían de Asia, muy lejos. ¿Qué crees que querían los comerciantes europeos?',
-          explain: 'Querían **llegar directamente a Asia** para comprar especias más baratas y ganar más. Esa búsqueda de rutas es una de las causas de los grandes viajes por mar.' },
-        { options: [
-          { id: 'a', text: 'Encontrar un camino propio y más directo hasta Asia', icon: 'Route' },
-          { id: 'b', text: 'Dejar de comer especias', icon: 'X', feedback: 'Al contrario: las especias eran muy deseadas para dar sabor y conservar alimentos.' },
-          { id: 'c', text: 'Sembrar especias en la nieve de Europa', icon: 'Snowflake', feedback: 'La pimienta y la canela necesitan climas tropicales. Europa tenía que traerlas de lejos.' },
-        ], correct: ['a'] },
+      S.ejemplo(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.4.4'], ambito: 'conocer', title: 'Modelo: relacionar factores y viajes',
+          prompt: 'Observa cómo una necesidad comercial se relaciona con una innovación de navegación.' },
+        { icon: 'Route', problem: 'Las especias de Asia eran valiosas en Europa, pero las rutas terrestres eran largas y costosas. ¿Cómo favoreció esto los viajes por mar?',
+          steps: [
+            { text: 'Identifico la necesidad: comerciantes y reyes buscaban una ruta más directa hacia Asia.' },
+            { text: 'Identifico los medios: carabelas, brújulas, astrolabios y mejores mapas.' },
+            { text: 'Relaciono los factores: el interés comercial impulsó viajes que las innovaciones hicieron posibles.' },
+          ],
+          answer: 'Los viajes europeos fueron favorecidos por comercio, nuevas ideas, difusión de mapas e innovaciones de navegación.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.4.4'], ambito: 'conocer', title: 'Cambios en Europa: ideas y libros',
@@ -194,7 +145,7 @@ export default [
   }),
 
   /* ───────────────────────── 2. Las Guerras Mundiales ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-ccss-2',
     title: 'Las Guerras Mundiales: causas y consecuencias',
     icon: 'History',
@@ -202,8 +153,6 @@ export default [
     gancho: 'En el siglo XX hubo dos guerras tan grandes que participaron países de casi todos los continentes. ¿Cómo empieza un conflicto así? ¿Qué aprendió el mundo después?',
     objetivos: [
       'Identificar las causas de la Primera y la Segunda Guerra Mundial',
-      'Reconocer sus principales consecuencias',
-      'Distinguir entre causa y consecuencia de un hecho histórico',
     ],
     resumen: [
       'Primera Guerra Mundial (1914-1918). Causas: rivalidad entre potencias europeas por territorios y colonias, alianzas militares, carrera de armamento y nacionalismo. Detonante: el asesinato del heredero al trono de Austria-Hungría en Sarajevo (1914).',
@@ -217,22 +166,8 @@ export default [
       brief: 'Línea del tiempo horizontal de 1900 a 1950. Dos franjas grises: "Primera Guerra Mundial 1914-1918" y "Segunda Guerra Mundial 1939-1945". Hechos marcados con íconos simples: 1914 Sarajevo (detonante), 1919 Tratado de Versalles y Sociedad de Naciones, 1929 crisis económica (gráfica que cae), 1939 invasión de Polonia, 1945 fin de la guerra y fundación de la ONU (logo genérico de una paloma, no el oficial), 1948 Declaración Universal de los Derechos Humanos (pergamino). Sin imágenes de armas, soldados ni violencia. Colores sobrios.',
     },
     steps: [
-      S.sort(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'conocer',
-          prompt: 'Para entender la historia, hay que distinguir **causas** (por qué pasó) y **consecuencias** (qué pasó después). Practica con un caso cotidiano: en el recreo, dos grupos se pelearon por la cancha.',
-          explain: 'Las causas vienen **antes** y explican el hecho; las consecuencias vienen **después**. Con las guerras mundiales usaremos esta misma lupa.' },
-        { buckets: [
-          { id: 'ca', label: 'Causa', icon: 'ArrowRight', color: 'var(--c-maiz-strong)' },
-          { id: 'co', label: 'Consecuencia', icon: 'Flag', color: 'var(--area-ccss)' },
-        ], items: [
-          { id: 'e1', text: 'Los dos grupos querían la cancha a la misma hora', bucket: 'ca' },
-          { id: 'e2', text: 'La directora creó un horario para usar la cancha', bucket: 'co' },
-          { id: 'e3', text: 'Nadie habló antes para ponerse de acuerdo', bucket: 'ca' },
-          { id: 'e4', text: 'Dos niños terminaron en la enfermería', bucket: 'co' },
-        ] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'conocer', title: 'La Primera Guerra Mundial (1914-1918)',
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'conocer', title: 'La Primera Guerra Mundial (1914-1918)',
           prompt: 'A inicios del siglo XX, las grandes potencias de Europa competían por territorios, colonias y comercio. La tensión crecía. Toca cada tarjeta.' },
         { icon: 'History', body: 'Se enfrentaron dos bandos: los **Aliados** (entre ellos Francia, Reino Unido, Rusia y, desde 1917, Estados Unidos) y las **Potencias Centrales** (Alemania, Austria-Hungría y el Imperio otomano, entre otros).', reveal: [
           { icon: 'Link', front: 'Causas', back: '**Rivalidad** entre potencias por colonias y mercados, **alianzas** que obligaban a los países a apoyarse, **carrera de armamento** y **nacionalismo** extremo.' },
@@ -250,6 +185,33 @@ export default [
           { icon: 'Handshake', front: 'Consecuencias para el mundo', back: 'En **1945** se fundó la **ONU** (Organización de las Naciones Unidas) para mantener la paz. En **1948** se aprobó la **Declaración Universal de los Derechos Humanos**. El mundo quedó dividido en dos bloques: empezó la **Guerra Fría**.' },
         ] },
       ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'hacer', title: 'Ejemplo: una cadena de causas',
+          prompt: 'Las consecuencias de una guerra pueden convertirse en causas de la siguiente. Mira cómo se encadenan.' },
+        { icon: 'Link', problem: '¿Cómo se relaciona la Primera Guerra Mundial con la Segunda?',
+          steps: [
+            { text: 'La Primera Guerra termina y el **Tratado de Versalles** (1919) impone a Alemania pagar grandes sumas y perder territorios. → **Consecuencia** de la Primera.' },
+            { text: 'Muchos alemanes sienten **resentimiento** y el país queda debilitado.' },
+            { text: 'Llega la **crisis económica de 1929**: desempleo y pobreza en muchos países.', why: 'Cuando la gente está desesperada, algunos líderes prometen soluciones rápidas y culpan a otros.' },
+            { text: 'Crece el **nazismo**, que elimina libertades y busca conquistar territorios. → **Causa** de la Segunda Guerra.' },
+          ],
+          answer: 'Una consecuencia de la Primera Guerra (el trato a Alemania en Versalles), junto con la crisis de 1929, se convirtió en **causa** de la Segunda.',
+          tip: 'Por eso la ONU buscó después resolver los conflictos con diálogo y no con castigos que dejen heridas abiertas.' },
+      ),
+      S.sort(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'conocer',
+          prompt: 'Para entender la historia, hay que distinguir **causas** (por qué pasó) y **consecuencias** (qué pasó después). Practica con un caso cotidiano: en el recreo, dos grupos se pelearon por la cancha.',
+          explain: 'Las causas vienen **antes** y explican el hecho; las consecuencias vienen **después**. Con las guerras mundiales usaremos esta misma lupa.' },
+        { buckets: [
+          { id: 'ca', label: 'Causa', icon: 'ArrowRight', color: 'var(--c-maiz-strong)' },
+          { id: 'co', label: 'Consecuencia', icon: 'Flag', color: 'var(--area-ccss)' },
+        ], items: [
+          { id: 'e1', text: 'Los dos grupos querían la cancha a la misma hora', bucket: 'ca' },
+          { id: 'e2', text: 'La directora creó un horario para usar la cancha', bucket: 'co' },
+          { id: 'e3', text: 'Nadie habló antes para ponerse de acuerdo', bucket: 'ca' },
+          { id: 'e4', text: 'Dos niños terminaron en la enfermería', bucket: 'co' },
+        ] },
+      ),
       S.sort(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.1'], prompt: '¿Causa o consecuencia de las Guerras Mundiales?',
           hint: 'Pregúntate: ¿esto ocurrió antes y ayudó a que empezara la guerra, o ocurrió después por culpa de la guerra?',
@@ -265,19 +227,6 @@ export default [
           { id: 'g5', text: 'Gobiernos totalitarios que querían conquistar territorios', bucket: 'ca' },
           { id: 'g6', text: 'La caída de varios imperios', bucket: 'co', feedback: 'Al terminar la Primera Guerra desaparecieron los imperios austrohúngaro, ruso, otomano y alemán.' },
         ] },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'hacer', title: 'Ejemplo: una cadena de causas',
-          prompt: 'Las consecuencias de una guerra pueden convertirse en causas de la siguiente. Mira cómo se encadenan.' },
-        { icon: 'Link', problem: '¿Cómo se relaciona la Primera Guerra Mundial con la Segunda?',
-          steps: [
-            { text: 'La Primera Guerra termina y el **Tratado de Versalles** (1919) impone a Alemania pagar grandes sumas y perder territorios. → **Consecuencia** de la Primera.' },
-            { text: 'Muchos alemanes sienten **resentimiento** y el país queda debilitado.' },
-            { text: 'Llega la **crisis económica de 1929**: desempleo y pobreza en muchos países.', why: 'Cuando la gente está desesperada, algunos líderes prometen soluciones rápidas y culpan a otros.' },
-            { text: 'Crece el **nazismo**, que elimina libertades y busca conquistar territorios. → **Causa** de la Segunda Guerra.' },
-          ],
-          answer: 'Una consecuencia de la Primera Guerra (el trato a Alemania en Versalles), junto con la crisis de 1929, se convirtió en **causa** de la Segunda.',
-          tip: 'Por eso la ONU buscó después resolver los conflictos con diálogo y no con castigos que dejen heridas abiertas.' },
       ),
       S.order(
         { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.5.1'], ambito: 'conocer',
@@ -321,16 +270,14 @@ export default [
   }),
 
   /* ───────────────────────── 3. Guerra Fría y conflicto armado interno ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-ccss-3',
     title: 'La Guerra Fría y el conflicto armado en Guatemala',
     icon: 'Flower2',
     minutes: 15,
     gancho: '¿Has escuchado a tus abuelos hablar de "los tiempos del conflicto" o de "la violencia"? ¿Qué pasó en Guatemala y por qué es importante recordarlo?',
     objetivos: [
-      'Explicar qué fue la Guerra Fría',
-      'Relacionar la Guerra Fría con el conflicto armado interno de Guatemala',
-      'Evaluar el impacto de los movimientos armados en la población civil',
+      'Relacionar la Guerra Fría con el conflicto armado guatemalteco',
     ],
     resumen: [
       'La Guerra Fría (1945-1991) fue la rivalidad entre Estados Unidos (capitalismo) y la Unión Soviética (comunismo). No se enfrentaron directamente, pero apoyaron a gobiernos y grupos armados en otros países.',
@@ -344,15 +291,16 @@ export default [
       brief: 'Línea del tiempo horizontal de 1944 a 2000 con dos carriles. Carril "Mundo": 1945 fin de la Segunda Guerra Mundial e inicio de la Guerra Fría; 1991 disolución de la Unión Soviética. Carril "Guatemala": 1944 Revolución de Octubre; 1954 derrocamiento del gobierno de Jacobo Árbenz; 1960 inicio del conflicto armado interno; 1985 nueva Constitución; 1996 Acuerdo de Paz Firme y Duradera (con una paloma blanca estilizada); 1999 informe "Guatemala, memoria del silencio". Colores sobrios, sin imágenes de armas ni de violencia.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.5.5'], ambito: 'conocer',
-          prompt: 'Imagina dos vecinos muy poderosos que se tienen desconfianza. No pelean entre ellos, pero cada uno apoya a distintas familias de la cuadra cuando estas discuten. ¿Qué pasa con los conflictos de esas familias?',
-          explain: 'Los conflictos se vuelven **más grandes y largos**, porque hay alguien poderoso detrás de cada lado. Algo así ocurrió en el mundo durante la **Guerra Fría**.' },
-        { options: [
-          { id: 'a', text: 'Se hacen más grandes y difíciles de resolver', icon: 'TrendingUp' },
-          { id: 'b', text: 'Se resuelven solos enseguida', icon: 'Check', feedback: 'Con apoyos poderosos de cada lado, los conflictos suelen crecer y durar más.' },
-          { id: 'c', text: 'No cambian nada', icon: 'Minus', feedback: 'El apoyo de alguien poderoso sí cambia un conflicto: da más recursos a cada lado.' },
-        ], correct: ['a'] },
+      S.ejemplo(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.5.5'], ambito: 'conocer', title: 'Modelo: reconocer una rivalidad indirecta',
+          prompt: 'Mira cómo se reconoce la relación central de la Guerra Fría.' },
+        { icon: 'Globe', problem: 'Dos potencias rivales no se enfrentan directamente, pero apoyan bandos opuestos en conflictos de otros países.',
+          steps: [
+            { text: 'Identifico a las potencias rivales: Estados Unidos y la Unión Soviética.' },
+            { text: 'Compruebo que no hubo una guerra directa entre ellas.' },
+            { text: 'Relaciono su competencia con apoyos políticos, económicos o militares en otros países.' },
+          ],
+          answer: 'Es una característica de la Guerra Fría: rivalidad mundial y conflictos indirectos entre 1945 y 1991.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.5.5'], ambito: 'conocer', title: 'Una guerra "fría"',

@@ -6,57 +6,9 @@
  */
 import { lesson, S, cierre } from '../../../../dsl';
 
-function preparedLesson(draft: Parameters<typeof lesson>[0]) {
-  const first = draft.steps[0];
-  const objective = draft.objetivos?.[0] ?? draft.title;
-  const firstIdea = draft.resumen?.[0] ?? objective;
-  const secondIdea = draft.resumen?.[1] ?? firstIdea;
-  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
-  const normalized = draft.steps.map((step) => (
-    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
-  ));
-  const construction = normalized.filter((step) => step.fase === 'construir');
-  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
-  const guided = construction.find((step) => !ungraded.has(step.type));
-  let building = construction.slice(0, 4);
-  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
-  building = building.map((step) => step === guided ? {
-    ...step,
-    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
-    explain: step.explain ?? firstIdea,
-  } : step);
-  const compact = [
-    ...building,
-    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
-    ...normalized.filter((step) => step.fase === 'comprobar'),
-    ...normalized.filter((step) => step.fase === 'reflexionar'),
-  ];
-  return lesson({
-    ...draft,
-    objetivos: [objective],
-    steps: [
-      S.explain(
-        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
-          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
-        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
-          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
-        { icon: draft.icon, problem: firstIdea, steps: [
-          { text: `Identifica el criterio central: **${objective}**.` },
-          { text: secondIdea },
-        ], answer: secondIdea,
-          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
-      ),
-      ...compact,
-    ],
-  });
-}
-
 export default [
   /* ───────────────────────── 1. Conjuntos y subconjuntos ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-mat-1',
     title: 'Conjuntos, elementos y subconjuntos',
     icon: 'Shapes',
@@ -64,8 +16,6 @@ export default [
     gancho: 'En la milpa crecen juntos el maíz, el frijol y el ayote. Si los agrupas, formas un conjunto. ¿Y si solo tomas el maíz y el frijol?',
     objetivos: [
       'Resolver conjuntos y subconjuntos',
-      'Usar los símbolos ∈ (pertenece) y ∉ (no pertenece)',
-      'Identificar cuándo un conjunto es subconjunto de otro',
     ],
     resumen: [
       'Un conjunto es una colección de objetos bien definida; cada objeto es un elemento. Se escribe con llaves: M = {maíz, frijol, ayote}.',
@@ -79,18 +29,8 @@ export default [
       brief: 'Ilustración de una milpa guatemalteca vista desde arriba: matas de maíz, enredaderas de frijol y plantas de ayote con flores amarillas. Una cuerda de color forma un óvalo grande que las encierra a las tres (rotulado "M"). Dentro, una cuerda de otro color forma un óvalo pequeño que encierra solo maíz y frijol (rotulado "B"). Fuera del óvalo grande, una planta de chile. Estilo plano, colores tierra, sin más texto.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.1.1'], ambito: 'conocer',
-          prompt: '¿Cuál de estas colecciones está **bien definida**, es decir, cualquiera puede decir sin dudar qué va dentro?',
-          explain: '"Los días de la semana" está bien definido: todas las personas estarían de acuerdo en cuáles son. "Las frutas más ricas" depende del gusto de cada quien. En matemáticas, un **conjunto** debe estar bien definido.' },
-        { options: [
-          { id: 'a', text: 'Las frutas más ricas', icon: 'Apple', feedback: 'Lo que es "rico" cambia de persona a persona: no está bien definido.' },
-          { id: 'b', text: 'Los días de la semana', icon: 'CalendarDays' },
-          { id: 'c', text: 'Los estudiantes altos del grado', icon: 'Ruler', feedback: '¿Desde cuántos centímetros alguien es "alto"? No está claro.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.1.1'], ambito: 'conocer', title: '¿Qué es un conjunto?',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.1.1'], ambito: 'conocer', title: '¿Qué es un conjunto?',
           prompt: 'Un **conjunto** es una colección de objetos bien definida. Cada objeto es un **elemento**. Toca cada tarjeta.' },
         { icon: 'Shapes', body: 'Los conjuntos se nombran con **letra mayúscula** y sus elementos se escriben entre **llaves { }**, separados por comas.', reveal: [
           { icon: 'Braces', front: 'Por extensión', back: 'M = {maíz, frijol, ayote}. Se escriben todos los elementos.' },
@@ -98,17 +38,6 @@ export default [
           { icon: 'CopyX', front: 'No se repiten', back: 'Las letras de la palabra MAMÁ forman el conjunto {m, a}: cada elemento se escribe **una sola vez**.' },
           { icon: 'Check', front: '∈ y ∉', back: 'frijol **∈** M se lee "frijol pertenece a M". chile **∉** M: "chile no pertenece a M".' },
           { icon: 'Circle', front: 'Conjunto vacío', back: 'El conjunto sin elementos se escribe **∅** o { }. Ejemplo: los meses con 40 días.' },
-        ] },
-      ),
-      S.tf(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.1.1'], prompt: 'Sea M = {maíz, frijol, ayote}. ¿Verdadero o falso?',
-          hint: 'Revisa elemento por elemento qué hay dentro de las llaves.',
-          explain: 'El orden no cambia un conjunto, y chile no está en M.' },
-        { statements: [
-          { text: 'ayote ∈ M', answer: true },
-          { text: 'chile ∈ M', answer: false, why: 'Chile no está en la lista de M: chile ∉ M.' },
-          { text: '{frijol, ayote, maíz} es el mismo conjunto que M.', answer: true },
-          { text: 'M tiene 4 elementos.', answer: false, why: 'M tiene 3 elementos: maíz, frijol y ayote.' },
         ] },
       ),
       S.explain(
@@ -133,6 +62,27 @@ export default [
           ],
           answer: '{cebolla, cilantro} ⊂ H, pero {tomate, ajo} no es subconjunto de H.',
           tip: 'Error frecuente: pensar que basta con que "algunos" elementos estén en el conjunto grande. Tienen que estar TODOS.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.1.1'], ambito: 'conocer',
+          prompt: '¿Cuál de estas colecciones está **bien definida**, es decir, cualquiera puede decir sin dudar qué va dentro?',
+          explain: '"Los días de la semana" está bien definido: todas las personas estarían de acuerdo en cuáles son. "Las frutas más ricas" depende del gusto de cada quien. En matemáticas, un **conjunto** debe estar bien definido.' },
+        { options: [
+          { id: 'a', text: 'Las frutas más ricas', icon: 'Apple', feedback: 'Lo que es "rico" cambia de persona a persona: no está bien definido.' },
+          { id: 'b', text: 'Los días de la semana', icon: 'CalendarDays' },
+          { id: 'c', text: 'Los estudiantes altos del grado', icon: 'Ruler', feedback: '¿Desde cuántos centímetros alguien es "alto"? No está claro.' },
+        ], correct: ['b'] },
+      ),
+      S.tf(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.1.1'], prompt: 'Sea M = {maíz, frijol, ayote}. ¿Verdadero o falso?',
+          hint: 'Revisa elemento por elemento qué hay dentro de las llaves.',
+          explain: 'El orden no cambia un conjunto, y chile no está en M.' },
+        { statements: [
+          { text: 'ayote ∈ M', answer: true },
+          { text: 'chile ∈ M', answer: false, why: 'Chile no está en la lista de M: chile ∉ M.' },
+          { text: '{frijol, ayote, maíz} es el mismo conjunto que M.', answer: true },
+          { text: 'M tiene 4 elementos.', answer: false, why: 'M tiene 3 elementos: maíz, frijol y ayote.' },
+        ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:3.1.1'], prompt: 'H = {tomate, cebolla, chile, cilantro}. ¿Cuáles son subconjuntos de H?',
@@ -190,7 +140,7 @@ export default [
   }),
 
   /* ───────────────────────── 2. Todos los subconjuntos ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-mat-2',
     title: 'Encontrar todos los subconjuntos',
     icon: 'ListTree',
@@ -198,7 +148,6 @@ export default [
     gancho: 'Con maíz, frijol y ayote, ¿de cuántas maneras distintas puedes llenar tu canasta, si también cuenta la canasta vacía?',
     objetivos: [
       'Hacer la lista completa de subconjuntos de un conjunto de 3 a 5 elementos, de forma ordenada',
-      'Descubrir y usar la regla: cada elemento nuevo duplica el número de subconjuntos',
     ],
     resumen: [
       'Para no olvidar ninguno, ordena los subconjuntos por tamaño: de 0 elementos (∅), de 1, de 2, … hasta el conjunto completo.',
@@ -212,18 +161,8 @@ export default [
       brief: 'Ilustración horizontal de ocho canastas tejidas guatemaltecas en fila, agrupadas por tamaño con separaciones: 1) una canasta vacía rotulada "∅"; 2) tres canastas con un solo producto cada una (mazorca, frijoles, ayote); 3) tres canastas con dos productos (maíz y frijol, maíz y ayote, frijol y ayote); 4) una canasta con los tres. Debajo de cada grupo, el número 1, 3, 3, 1 y al final "= 8". Estilo plano, colores cálidos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.1.1'], ambito: 'conocer',
-          prompt: 'M = {maíz, frijol, ayote}. ¿Cuántos **subconjuntos** crees que tiene M? (Recuerda: ∅ y el mismo M también cuentan.)',
-          explain: 'Tiene **8**. Muchos piensan en 3 o en 6, pero al hacer una lista ordenada aparecen todos. ¡Vamos a comprobarlo!' },
-        { options: [
-          { id: 'a', text: '3', feedback: 'Esos serían solo los de un elemento.' },
-          { id: 'b', text: '6', feedback: 'Te faltan algunos: ¿contaste el vacío y el conjunto completo?' },
-          { id: 'c', text: '8' },
-        ], correct: ['c'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.1.1'], ambito: 'conocer', title: 'La lista ordenada por tamaño',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.1.1'], ambito: 'conocer', title: 'La lista ordenada por tamaño',
           prompt: 'El secreto para no olvidar ningún subconjunto es **ordenarlos por tamaño**. Toca cada grupo.' },
         { icon: 'ListOrdered', body: 'Empieza por el más pequeño (el vacío) y termina con el más grande (el conjunto completo).', reveal: [
           { icon: 'Circle', front: '0 elementos', back: '∅ → **1** subconjunto.' },
@@ -232,20 +171,6 @@ export default [
           { icon: 'Layers', front: '3 elementos', back: '{maíz, frijol, ayote} → **1** subconjunto.' },
           { icon: 'Sigma', front: 'Total', back: '1 + 3 + 3 + 1 = **8** subconjuntos.' },
         ] },
-      ),
-      S.choice(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.1.1'],
-          prompt: 'C = {rojo, azul, verde}. Marca **todos** los subconjuntos de C que tienen **exactamente 2 elementos**.',
-          hint: 'Junta rojo con cada color que sigue; luego azul con el que sigue. Deben salir 3.',
-          explain: 'Los de 2 elementos son {rojo, azul}, {rojo, verde} y {azul, verde}.' },
-        { multiple: true, options: [
-          { id: 'a', text: '{rojo, azul}' },
-          { id: 'b', text: '{rojo, verde}' },
-          { id: 'c', text: '{azul, verde}' },
-          { id: 'd', text: '{rojo}', feedback: 'Tiene un solo elemento.' },
-          { id: 'e', text: '{azul, amarillo}', feedback: 'El amarillo no está en C: no es subconjunto.' },
-          { id: 'f', text: '{rojo, azul, verde}', feedback: 'Tiene 3 elementos.' },
-        ], correct: ['a', 'b', 'c'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:3.1.1'], ambito: 'conocer', title: 'Cada elemento nuevo duplica',
@@ -272,6 +197,30 @@ export default [
           ],
           answer: '1 + 4 + 6 + 4 + 1 = **16** subconjuntos, igual que dice la regla 2 × 2 × 2 × 2.',
           tip: 'Los de 3 elementos se encuentran rápido "quitando uno" a H.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.1.1'], ambito: 'conocer',
+          prompt: 'M = {maíz, frijol, ayote}. ¿Cuántos **subconjuntos** crees que tiene M? (Recuerda: ∅ y el mismo M también cuentan.)',
+          explain: 'Tiene **8**. Muchos piensan en 3 o en 6, pero al hacer una lista ordenada aparecen todos. ¡Vamos a comprobarlo!' },
+        { options: [
+          { id: 'a', text: '3', feedback: 'Esos serían solo los de un elemento.' },
+          { id: 'b', text: '6', feedback: 'Te faltan algunos: ¿contaste el vacío y el conjunto completo?' },
+          { id: 'c', text: '8' },
+        ], correct: ['c'] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.1.1'],
+          prompt: 'C = {rojo, azul, verde}. Marca **todos** los subconjuntos de C que tienen **exactamente 2 elementos**.',
+          hint: 'Junta rojo con cada color que sigue; luego azul con el que sigue. Deben salir 3.',
+          explain: 'Los de 2 elementos son {rojo, azul}, {rojo, verde} y {azul, verde}.' },
+        { multiple: true, options: [
+          { id: 'a', text: '{rojo, azul}' },
+          { id: 'b', text: '{rojo, verde}' },
+          { id: 'c', text: '{azul, verde}' },
+          { id: 'd', text: '{rojo}', feedback: 'Tiene un solo elemento.' },
+          { id: 'e', text: '{azul, amarillo}', feedback: 'El amarillo no está en C: no es subconjunto.' },
+          { id: 'f', text: '{rojo, azul, verde}', feedback: 'Tiene 3 elementos.' },
+        ], correct: ['a', 'b', 'c'] },
       ),
       S.number(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:3.1.1'], prompt: '¿Cuántos subconjuntos tiene un conjunto de **5 elementos**, como {lunes, martes, miércoles, jueves, viernes}?',
@@ -324,7 +273,7 @@ export default [
   }),
 
   /* ───────────────────────── 3. Unión e intersección ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-mat-3',
     title: 'Unión e intersección con diagramas de Venn',
     icon: 'Combine',
@@ -332,7 +281,6 @@ export default [
     gancho: 'Dos grupos siembran árboles en el vivero escolar. ¿Qué especies sembraron entre los dos? ¿Cuáles sembraron ambos?',
     objetivos: [
       'Resolver unión e intersección de conjuntos',
-      'Encontrar la unión (∪) y la intersección (∩) por enumeración y con el diagrama',
     ],
     resumen: [
       'Un diagrama de Venn dibuja cada conjunto como un óvalo; los elementos comunes van en la parte donde los óvalos se cruzan.',
@@ -346,18 +294,8 @@ export default [
       brief: 'Ilustración de un vivero escolar al aire libre en Guatemala: hileras de bolsitas negras con arbolitos. A la izquierda, el grupo de Ana con un rótulo "A: pino, aliso, aguacate"; a la derecha, el grupo de Luis con un rótulo "B: aguacate, jocote, aliso, ciprés". En el centro, una maestra señala un pizarrón con dos óvalos cruzados. Estudiantes diversos, colores verdes y tierra, estilo plano.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.2.1'], ambito: 'conocer',
-          prompt: 'El grupo de Ana siembra A = {pino, aliso, aguacate}. El de Luis siembra B = {aguacate, jocote, aliso, ciprés}. ¿Qué especies siembran **los dos grupos**?',
-          explain: 'Aliso y aguacate están en las dos listas. Ese es el conjunto **intersección**. Hoy aprenderás a encontrarlo con un dibujo.' },
-        { options: [
-          { id: 'a', text: 'Aliso y aguacate' },
-          { id: 'b', text: 'Pino y ciprés', feedback: 'El pino solo lo siembra Ana y el ciprés solo Luis.' },
-          { id: 'c', text: 'Todas las especies', feedback: 'Eso sería juntar las dos listas. Busca las que se repiten.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.1'], ambito: 'conocer', title: 'Diagrama de Venn, unión e intersección',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.2.1'], ambito: 'conocer', title: 'Diagrama de Venn, unión e intersección',
           prompt: 'Un **diagrama de Venn** dibuja cada conjunto como un óvalo. Los óvalos se cruzan si tienen elementos en común. Toca cada tarjeta.',
           media: { id: 's06-mat-3-venn2', kind: 'diagram', title: 'Venn de dos conjuntos', aspect: '16:9',
             alt: 'Dos óvalos cruzados, A y B. Solo en A: pino. En el cruce: aliso y aguacate. Solo en B: jocote y ciprés. Debajo, dos copias: una con todo sombreado (A ∪ B) y otra con solo el cruce sombreado (A ∩ B).',
@@ -381,6 +319,16 @@ export default [
           ],
           answer: 'A ∩ B tiene 2 elementos y A ∪ B tiene 5.',
           tip: 'Comprueba: 3 elementos de A + 4 de B = 7, pero los 2 comunes se contaron dos veces: 7 − 2 = 5.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.1'], ambito: 'conocer',
+          prompt: 'El grupo de Ana siembra A = {pino, aliso, aguacate}. El de Luis siembra B = {aguacate, jocote, aliso, ciprés}. ¿Qué especies siembran **los dos grupos**?',
+          explain: 'Aliso y aguacate están en las dos listas. Ese es el conjunto **intersección**. Hoy aprenderás a encontrarlo con un dibujo.' },
+        { options: [
+          { id: 'a', text: 'Aliso y aguacate' },
+          { id: 'b', text: 'Pino y ciprés', feedback: 'El pino solo lo siembra Ana y el ciprés solo Luis.' },
+          { id: 'c', text: 'Todas las especies', feedback: 'Eso sería juntar las dos listas. Busca las que se repiten.' },
+        ], correct: ['a'] },
       ),
       S.sort(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.1'],
@@ -461,7 +409,7 @@ export default [
   }),
 
   /* ───────────────────────── 4. Diferencia y diferencia simétrica ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-mat-4',
     title: 'Diferencia y diferencia simétrica',
     icon: 'SquareSplitHorizontal',
@@ -469,8 +417,6 @@ export default [
     gancho: 'Ana y Luis comparan sus canastas de fruta. ¿Qué tiene Ana que Luis no tiene? ¿Y qué frutas tiene solo uno de los dos?',
     objetivos: [
       'Resolver diferencias entre conjuntos',
-      'Encontrar la diferencia simétrica A Δ B',
-      'Representar ambas operaciones en un diagrama de Venn',
     ],
     resumen: [
       'Diferencia A − B: los elementos de A que NO están en B. En el Venn, es la parte "solo A".',
@@ -484,18 +430,8 @@ export default [
       brief: 'Ilustración en un mercado guatemalteco: una niña (Ana) y un niño (Luis) muestran sus canastas. Canasta de Ana: mango, piña, banano, papaya. Canasta de Luis: piña, papaya, naranja. Entre ambos, flotando, un diagrama de Venn sencillo con esas frutas dibujadas en sus regiones (piña y papaya en el cruce). Estilo plano, colores vivos, sin texto adicional.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.2.1'], ambito: 'conocer',
-          prompt: 'Canasta de Ana: A = {mango, piña, banano, papaya}. Canasta de Luis: B = {piña, papaya, naranja}. ¿Qué frutas tiene Ana que Luis **no** tiene?',
-          explain: 'Mango y banano. A esto se le llama **diferencia**: A − B = {mango, banano}.' },
-        { options: [
-          { id: 'a', text: 'Mango y banano' },
-          { id: 'b', text: 'Piña y papaya', feedback: 'Esas las tienen los dos.' },
-          { id: 'c', text: 'Naranja', feedback: 'La naranja la tiene Luis, no Ana.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.1'], ambito: 'conocer', title: 'La diferencia A − B',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.2.1'], ambito: 'conocer', title: 'La diferencia A − B',
           prompt: 'La **diferencia A − B** (se lee "A menos B") es el conjunto de elementos que están en A pero **no** en B. Toca cada tarjeta.' },
         { icon: 'Minus', body: 'Al conjunto A se le "quitan" los elementos que comparte con B.', reveal: [
           { icon: 'CircleDot', front: 'En el Venn', back: 'A − B es la parte de A que **no** toca a B: la zona "solo A".' },
@@ -514,6 +450,16 @@ export default [
           ],
           answer: 'A − B = {1, 2, 3} y B − A = {6, 7}.',
           tip: 'Lee la operación en voz alta: "lo que está en A y no en B".' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.1'], ambito: 'conocer',
+          prompt: 'Canasta de Ana: A = {mango, piña, banano, papaya}. Canasta de Luis: B = {piña, papaya, naranja}. ¿Qué frutas tiene Ana que Luis **no** tiene?',
+          explain: 'Mango y banano. A esto se le llama **diferencia**: A − B = {mango, banano}.' },
+        { options: [
+          { id: 'a', text: 'Mango y banano' },
+          { id: 'b', text: 'Piña y papaya', feedback: 'Esas las tienen los dos.' },
+          { id: 'c', text: 'Naranja', feedback: 'La naranja la tiene Luis, no Ana.' },
+        ], correct: ['a'] },
       ),
       S.choice(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.1'], prompt: 'J = {lunes, martes, miércoles} y K = {martes, jueves}. ¿Cuál es **J − K**?',
@@ -570,7 +516,7 @@ export default [
       ),
       S.choice(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:3.2.3'],
-          prompt: 'Supongamos una encuesta en el grado. A quienes les gusta el **atol de elote**: E = {Sara, Tito, Uriel, Vilma}. A quienes les gusta el **atol de plátano**: P = {Uriel, Vilma, Wendy}. ¿Qué conjunto responde "¿a quiénes les gusta **solo uno** de los dos atoles?"',
+          prompt: 'Transfiere la **diferencia simétrica**. En una encuesta, a quienes les gusta el **atol de elote**: E = {Sara, Tito, Uriel, Vilma}. A quienes les gusta el **atol de plátano**: P = {Uriel, Vilma, Wendy}. ¿Cuál es **E Δ P**, las personas a quienes les gusta solo uno de los dos atoles?',
           explain: 'Les gusta solo uno de los dos: E Δ P = {Sara, Tito, Wendy}. Uriel y Vilma disfrutan los dos.' },
         { options: [
           { id: 'a', text: 'E ∩ P = {Uriel, Vilma}', feedback: 'Esos son a quienes les gustan los dos.' },
@@ -603,7 +549,7 @@ export default [
   }),
 
   /* ───────────────────────── 5. Operaciones combinadas ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-mat-5',
     title: 'Operaciones combinadas con conjuntos',
     icon: 'Braces',
@@ -611,8 +557,6 @@ export default [
     gancho: 'Tres comisiones de la escuela: limpieza, huerto y reciclaje. ¿Quiénes están en limpieza y huerto, pero no en reciclaje? Para responder hay que combinar operaciones.',
     objetivos: [
       'Resolver operaciones combinadas de conjuntos',
-      'Respetar el orden que indican los paréntesis',
-      'Repasar subconjuntos, enteros y plano cartesiano',
     ],
     resumen: [
       'En una operación combinada, primero se resuelve lo que está entre paréntesis, igual que en aritmética.',
@@ -626,18 +570,8 @@ export default [
       brief: 'Ilustración de una escuela rural guatemalteca con tres escenas: la comisión de limpieza barre el patio, la de huerto riega hortalizas y la de reciclaje separa botellas y papel en recipientes de colores. Algunos niños aparecen en dos escenas (con la misma ropa) para sugerir que están en más de una comisión. Estilo plano, alegre, sin texto.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.2.2'], ambito: 'conocer',
-          prompt: 'En aritmética, en (2 + 3) × 4 se resuelve primero el paréntesis. En **(A ∩ B) ∪ C**, ¿qué harías primero?',
-          explain: 'Igual que en aritmética: primero lo que está **entre paréntesis**, A ∩ B. Después, la unión con C.' },
-        { options: [
-          { id: 'a', text: 'A ∩ B' },
-          { id: 'b', text: 'B ∪ C', feedback: 'B ∪ C no está entre paréntesis. El paréntesis manda.' },
-          { id: 'c', text: 'Da igual el orden', feedback: 'El orden sí cambia el resultado, como verás hoy.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.2'], ambito: 'conocer', title: 'Cómo resolver operaciones combinadas',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.2.2'], ambito: 'conocer', title: 'Cómo resolver operaciones combinadas',
           prompt: 'Una **operación combinada** usa dos o más operaciones con conjuntos. Sigue estos pasos. Toca cada tarjeta.' },
         { icon: 'ListOrdered', body: 'Trabaja por partes y escribe cada resultado intermedio.', reveal: [
           { icon: 'Parentheses', front: '1. Paréntesis', back: 'Resuelve primero lo que está entre paréntesis. Anota el resultado con un nombre, por ejemplo X.' },
@@ -657,6 +591,16 @@ export default [
           ],
           answer: '(A ∩ B) ∪ C = {3, 4, 5, 6}.',
           tip: 'Escribir el resultado del paréntesis evita confundirse en el segundo paso.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.2'], ambito: 'conocer',
+          prompt: 'En aritmética, en (2 + 3) × 4 se resuelve primero el paréntesis. En **(A ∩ B) ∪ C**, ¿qué harías primero?',
+          explain: 'Igual que en aritmética: primero lo que está **entre paréntesis**, A ∩ B. Después, la unión con C.' },
+        { options: [
+          { id: 'a', text: 'A ∩ B' },
+          { id: 'b', text: 'B ∪ C', feedback: 'B ∪ C no está entre paréntesis. El paréntesis manda.' },
+          { id: 'c', text: 'Da igual el orden', feedback: 'El orden sí cambia el resultado, como verás hoy.' },
+        ], correct: ['a'] },
       ),
       S.number(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.2'], prompt: 'Resuelve la operación combinada de conjuntos: con A = {1, 2, 3, 4}, B = {3, 4, 5} y C = {4, 5, 6}, ¿cuántos elementos tiene **(A ∪ B) − C**?',
@@ -729,7 +673,7 @@ export default [
       ),
       cierre({ areas: ['mat'], cnb: [] },
         ['Escribo conjuntos y reconozco subconjuntos', 'Encuentro todos los subconjuntos de un conjunto', 'Uso el diagrama de Venn para la unión, la intersección y las diferencias', 'Resuelvo operaciones combinadas respetando los paréntesis'],
-        ['Haré un diagrama de Venn con los gustos de mi familia', 'Contaré de cuántas formas puedo combinar los ingredientes de mi refacción', 'Explicaré a alguien la diferencia entre ∪ y ∩']),
+        ['Haré un diagrama de Venn con los gustos de mi familia', 'Contaré de cuántas formas puedo combinar los ingredientes de mi refacción', 'Explicaré a alguien la diferencia entre ∪ y ∩'])
     ],
   }),
 ];

@@ -5,57 +5,9 @@
  */
 import { lesson, S, cierre } from '../../../../dsl';
 
-function preparedLesson(draft: Parameters<typeof lesson>[0]) {
-  const first = draft.steps[0];
-  const objective = draft.objetivos?.[0] ?? draft.title;
-  const firstIdea = draft.resumen?.[0] ?? objective;
-  const secondIdea = draft.resumen?.[1] ?? firstIdea;
-  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
-  const normalized = draft.steps.map((step) => (
-    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
-  ));
-  const construction = normalized.filter((step) => step.fase === 'construir');
-  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
-  const guided = construction.find((step) => !ungraded.has(step.type));
-  let building = construction.slice(0, 4);
-  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
-  building = building.map((step) => step === guided ? {
-    ...step,
-    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
-    explain: step.explain ?? firstIdea,
-  } : step);
-  const compact = [
-    ...building,
-    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
-    ...normalized.filter((step) => step.fase === 'comprobar'),
-    ...normalized.filter((step) => step.fase === 'reflexionar'),
-  ];
-  return lesson({
-    ...draft,
-    objetivos: [objective],
-    steps: [
-      S.explain(
-        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
-          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
-        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
-          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
-        { icon: draft.icon, problem: firstIdea, steps: [
-          { text: `Identifica el criterio central: **${objective}**.` },
-          { text: secondIdea },
-        ], answer: secondIdea,
-          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
-      ),
-      ...compact,
-    ],
-  });
-}
-
 export default [
   /* ───────────────────────── 1. Los nutrientes ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-cnt-1',
     title: 'Los nutrientes de los alimentos',
     icon: 'Salad',
@@ -63,8 +15,6 @@ export default [
     gancho: 'Las tortillas son deliciosas y nos dan energía. Pero, ¿qué pasaría si todo el día comieras solo tortillas?',
     objetivos: [
       'Diferenciar alimento de nutriente',
-      'Clasificar los nutrientes (carbohidratos, proteínas, grasas, vitaminas, minerales y agua) y describir su función',
-      'Reconocer los nutrientes presentes en comidas guatemaltecas',
     ],
     resumen: [
       'Un alimento es lo que comemos; un nutriente es una sustancia del alimento que el cuerpo usa para vivir.',
@@ -78,18 +28,8 @@ export default [
       brief: 'Ilustración cenital de una mesa guatemalteca sobre un mantel típico. Alimentos agrupados con un aro de color y rótulo: amarillo "Carbohidratos: energía" (tortillas, arroz, papa, pan, elote); rojo "Proteínas: construyen" (frijol negro, huevo, pollo, pescado, queso fresco); verde oscuro "Grasas: energía de reserva" (aguacate, manías, un poco de aceite); naranja y verde claro "Vitaminas y minerales: apoyan procesos normales" (naranja, mango, guayaba, zanahoria, güisquil, chipilín, hierbamora); azul "Agua". Colores alegres, sin marcas.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer',
-          prompt: '¿Por qué combinar la **tortilla** con otros alimentos disponibles puede ampliar los nutrientes de una comida?',
-          explain: 'La tortilla aporta carbohidratos y, cuando es nixtamalizada, también calcio, entre otros nutrientes. Otros alimentos pueden sumar proteína, fibra, vitaminas o minerales en cantidades diferentes.' },
-        { options: [
-          { id: 'a', text: 'Porque otros alimentos pueden sumar nutrientes en cantidades diferentes', icon: 'Salad' },
-          { id: 'b', text: 'Porque la tortilla no aporta ningún nutriente', icon: 'X', feedback: 'Sí aporta, entre otros, carbohidratos y calcio cuando es nixtamalizada.' },
-          { id: 'c', text: 'Porque todos los alimentos aportan exactamente lo mismo', icon: 'CopyX', feedback: 'Los aportes y sus cantidades varían entre alimentos.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer', title: 'Alimentos y nutrientes',
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer', title: 'Alimentos y nutrientes',
           prompt: 'No es lo mismo un **alimento** que un **nutriente**. Toca las tarjetas.' },
         { icon: 'Utensils', body: 'Los nutrientes se agrupan según su **función**: dar energía, construir el cuerpo o regularlo.', reveal: [
           { icon: 'Carrot', front: 'Alimento', back: 'Lo que comemos o bebemos: una tortilla, un huevo, una naranja.' },
@@ -110,6 +50,19 @@ export default [
           { icon: 'Gem', front: 'Minerales', back: '**Hierro** participa en la formación normal de glóbulos rojos; **calcio**, en huesos, dientes, músculos y nervios; **yodo**, en el funcionamiento normal de la tiroides. Sus fuentes y cantidades varían.' },
           { icon: 'Droplets', front: 'Agua', back: 'Más de la mitad de tu cuerpo es agua. Transporta nutrientes, elimina desechos y regula la temperatura.' },
         ] },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'hacer', title: 'Ejemplo: los nutrientes de un caldo',
+          prompt: 'Mira cómo analizar los nutrientes de una comida completa.' },
+        { icon: 'Utensils', problem: 'El almuerzo de la familia de Juana es **caldo de res** con güisquil, zanahoria, papa y elote, **tortillas** y una **naranja** de postre. ¿Qué nutrientes tiene?',
+          steps: [
+            { text: 'La **carne de res** aporta **proteínas** (y hierro y algo de grasa).' },
+            { text: 'La **papa**, el **elote** y las **tortillas** aportan **carbohidratos**.' },
+            { text: 'El **güisquil**, la **zanahoria** y la **naranja** aportan **vitaminas y minerales** (vitamina A en la zanahoria, vitamina C en la naranja).' },
+            { text: 'El caldo aporta **agua**.', why: 'Revisa si están todos los grupos: energía, construcción y regulación.' },
+          ],
+          answer: 'Es un almuerzo **variado**: tiene proteínas, carbohidratos, vitaminas, minerales, agua y un poco de grasa.',
+          tip: 'Un plato con muchos colores suele tener más variedad de nutrientes.' },
       ),
       S.sort(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer',
@@ -141,23 +94,10 @@ export default [
           { id: 'c', left: 'Carbohidratos', leftIcon: 'Wheat', right: 'Dan energía rápida' },
           { id: 'p', left: 'Proteínas', leftIcon: 'Egg', right: 'Construyen y reparan el cuerpo' },
           { id: 'g', left: 'Grasas', leftIcon: 'Droplet', right: 'Guardan energía de reserva' },
-          { id: 'v', left: 'Vitamina C', leftIcon: 'Apple', right: 'Participa en funciones del sistema inmunitario' },
+          { id: 'v', left: 'Vitamina C', leftIcon: 'Apple', right: 'Participa en el funcionamiento normal del sistema inmunitario' },
           { id: 'k', left: 'Calcio', leftIcon: 'Bone', right: 'Participa en la formación y el mantenimiento normal de huesos y dientes' },
           { id: 'w', left: 'Agua', leftIcon: 'Droplets', right: 'Transporta nutrientes y regula la temperatura' },
         ] },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'hacer', title: 'Ejemplo: los nutrientes de un caldo',
-          prompt: 'Mira cómo analizar los nutrientes de una comida completa.' },
-        { icon: 'Utensils', problem: 'El almuerzo de la familia de Juana es **caldo de res** con güisquil, zanahoria, papa y elote, **tortillas** y una **naranja** de postre. ¿Qué nutrientes tiene?',
-          steps: [
-            { text: 'La **carne de res** aporta **proteínas** (y hierro y algo de grasa).' },
-            { text: 'La **papa**, el **elote** y las **tortillas** aportan **carbohidratos**.' },
-            { text: 'El **güisquil**, la **zanahoria** y la **naranja** aportan **vitaminas y minerales** (vitamina A en la zanahoria, vitamina C en la naranja).' },
-            { text: 'El caldo aporta **agua**.', why: 'Revisa si están todos los grupos: energía, construcción y regulación.' },
-          ],
-          answer: 'Es un almuerzo **variado**: tiene proteínas, carbohidratos, vitaminas, minerales, agua y un poco de grasa.',
-          tip: 'Un plato con muchos colores suele tener más variedad de nutrientes.' },
       ),
       S.choice(
         { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer',
@@ -169,32 +109,11 @@ export default [
           { id: 'c', text: 'Porque esa combinación aporta exactamente lo mismo a todas las personas', icon: 'X', feedback: 'Las necesidades, cantidades y demás alimentos disponibles varían.' },
         ], correct: ['a'] },
       ),
-      S.sort(
+      S.fill(
         { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer',
-          prompt: 'Clasifica cada función según el **aporte destacado en esta actividad**.',
-          explain: 'Carbohidratos y grasas aportan energía; las proteínas participan en la formación y reparación de tejidos; vitaminas y minerales apoyan procesos normales como el funcionamiento inmunitario, el crecimiento y las funciones de la sangre, los huesos y los nervios. No garantizan evitar enfermedades.' },
-        { buckets: [
-          { id: 'ene', label: 'Energía (carbohidratos y grasas)', icon: 'Zap', color: 'var(--c-maiz-strong)' },
-          { id: 'con', label: 'Formación y reparación de tejidos (proteínas)', icon: 'Hammer', color: 'var(--c-bad)' },
-          { id: 'reg', label: 'Procesos normales (vitaminas y minerales)', icon: 'Shield', color: 'var(--c-ok)' },
-        ], items: [
-          { id: 's1', text: 'Aportar combustible para la actividad física', bucket: 'ene' },
-          { id: 's2', text: 'Formar y reparar tejidos del cuerpo', bucket: 'con' },
-          { id: 's3', text: 'Apoyar el funcionamiento normal del sistema inmunitario', bucket: 'reg' },
-          { id: 's4', text: 'Contribuir a la formación normal de glóbulos rojos', bucket: 'reg' },
-          { id: 's5', text: 'Aportar energía de reserva', bucket: 'ene' },
-          { id: 's6', text: 'Participar en la visión normal', bucket: 'reg', feedback: 'La vitamina A participa en el proceso normal de la visión.' },
-        ] },
-      ),
-      S.choice(
-        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer',
-          prompt: 'Pedro está **pálido y se cansa** muy rápido. El personal de salud le dice que tiene **anemia**. Casi no come frijol ni hojas verdes. ¿Qué mineral le falta probablemente?',
-          explain: 'El **hierro** forma parte de la sangre que lleva oxígeno. Sin hierro suficiente aparece la anemia. ¿Recuerdas la uncinaria de la semana 2? También causa anemia.' },
-        { options: [
-          { id: 'a', text: 'Hierro', icon: 'Gem' },
-          { id: 'b', text: 'Yodo', icon: 'Thermometer', feedback: 'El yodo es para la tiroides. La anemia se relaciona con el hierro.' },
-          { id: 'c', text: 'Grasas', icon: 'Droplet', feedback: 'Las grasas no son minerales, y no son la causa de la anemia.' },
-        ], correct: ['a'] },
+          prompt: 'El personal de salud estudia una anemia y pregunta por la alimentación de Pedro. Completa con el mineral que participa en la hemoglobina y el transporte de oxígeno.',
+          explain: 'El **hierro** es necesario para formar hemoglobina. Una deficiencia puede contribuir a ciertos tipos de anemia, pero el personal de salud debe identificar la causa.' },
+        { text: 'El mineral es el [[hierro]].', distractors: ['yodo', 'calcio'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:5.1.1'], prompt: '¿Qué nutriente principal aportan el **frijol** y el **huevo**?' },
@@ -218,7 +137,7 @@ export default [
   }),
 
   /* ───────────────────────── 2. Lactancia materna ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-cnt-2',
     title: 'La leche materna: el primer alimento',
     icon: 'Baby',
@@ -226,8 +145,6 @@ export default [
     gancho: 'En la semana 3 aprendiste que los mamíferos alimentan a sus crías con leche. ¿Qué tiene de especial la leche materna para un bebé humano?',
     objetivos: [
       'Describir el valor nutritivo de la leche materna y del calostro',
-      'Explicar los beneficios de la lactancia para el bebé, la madre, la familia y el ambiente',
-      'Calcular el valor económico de la lactancia en un caso hipotético',
     ],
     resumen: [
       'La leche materna aporta agua, macronutrientes, micronutrientes y anticuerpos; su composición cambia durante la toma y a medida que el bebé crece. El calostro es la primera leche y concentra componentes inmunitarios.',
@@ -241,18 +158,8 @@ export default [
       brief: 'Ilustración cálida y respetuosa, sin desnudez explícita: una madre guatemalteca con traje (huipil y corte) sentada en su casa, con el bebé en brazos cubierto parcialmente por un perraje mientras lo amamanta; el padre se acerca con un vaso de agua y una refacción, mostrando apoyo. Colores suaves. Rótulo opcional: "Leche materna: alimento, defensa y amor".',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:5.2.1'], ambito: 'conocer',
-          prompt: '¿Qué alimento producen las glándulas mamarias después del parto para alimentar a las crías de los mamíferos?',
-          explain: 'La **leche**. En los seres humanos, la leche materna cambia con el tiempo y aporta nutrición y componentes inmunitarios al bebé.' },
-        { options: [
-          { id: 'a', text: 'Agua con azúcar', icon: 'Droplet', feedback: 'No es leche ni sustituye una alimentación infantil indicada de forma segura.' },
-          { id: 'b', text: 'La leche de su madre', icon: 'Milk' },
-          { id: 'c', text: 'Atol de maíz', icon: 'Wheat', feedback: 'No es la sustancia que producen las glándulas mamarias.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.2.1'], ambito: 'conocer', title: 'Un alimento completo y vivo',
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:5.2.1'], ambito: 'conocer', title: 'Un alimento completo y vivo',
           prompt: 'La leche materna no es un alimento cualquiera. Toca las tarjetas.' },
         { icon: 'Milk', body: 'La leche materna aporta energía y nutrientes durante los primeros meses y su composición **cambia** durante la toma y con la edad del bebé.', reveal: [
           { icon: 'Salad', front: 'Composición', back: 'Contiene **agua**, proteínas, grasas, lactosa, vitaminas y minerales en proporciones que cambian con el tiempo.' },
@@ -260,6 +167,28 @@ export default [
           { icon: 'Sunrise', front: 'El calostro', back: 'Es la **primera leche**, espesa y amarillenta, de los primeros días; concentra anticuerpos y otros componentes protectores.' },
           { icon: 'Droplets', front: 'Lactancia exclusiva', back: 'La recomendación general de la OMS para los primeros 6 meses es solo leche materna, sin agua adicional, salvo indicación clínica.' },
         ] },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['cnt', 'mat'], cnb: ['cnt:5.2.1'], ambito: 'hacer', title: 'Ejemplo: el valor económico de la lactancia',
+          prompt: 'Calcula cuánto ahorra una familia. Los precios son **hipotéticos**: cambian según el lugar y el año.' },
+        { icon: 'PiggyBank', problem: 'Supongamos que una lata de fórmula cuesta **Q125** y a un bebé le dura **5 días**. ¿Cuánto costaría alimentarlo con fórmula durante **180 días** (unos 6 meses)?',
+          steps: [
+            { text: 'Latas necesarias: 180 ÷ 5 = **36 latas**.' },
+            { text: 'Costo de la fórmula: 36 × Q125 = **Q4,500**.', why: '36 × 100 = 3,600 y 36 × 25 = 900; 3,600 + 900 = 4,500.' },
+            { text: 'También puede haber costos de **pachas**, agua segura y combustible, según la forma de preparación.' },
+          ],
+          answer: 'En este escenario, comprar la fórmula costaría **Q4,500** en 6 meses, sin contar otros insumos. Los costos y las decisiones reales varían.',
+          tip: 'Una comparación económica debe indicar sus supuestos y respetar las necesidades de cada familia.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.2.1'], ambito: 'conocer',
+          prompt: '¿Qué alimento producen las glándulas mamarias después del parto para alimentar a las crías de los mamíferos?',
+          explain: 'La **leche**. En los seres humanos, la leche materna cambia con el tiempo y aporta nutrición y componentes inmunitarios al bebé.' },
+        { options: [
+          { id: 'a', text: 'Agua con azúcar', icon: 'Droplet', feedback: 'No es leche ni sustituye una alimentación infantil indicada de forma segura.' },
+          { id: 'b', text: 'La leche de su madre', icon: 'Milk' },
+          { id: 'c', text: 'Atol de maíz', icon: 'Wheat', feedback: 'No es la sustancia que producen las glándulas mamarias.' },
+        ], correct: ['b'] },
       ),
       S.reading(
         { fase: 'construir', areas: ['cnt', 'l1'], cnb: ['cnt:5.2.1'], ambito: 'conocer', title: 'Lectura',
@@ -301,18 +230,6 @@ export default [
           { id: 'e2', left: 'Hasta los 6 meses', right: 'Solo leche materna' },
           { id: 'e3', left: 'De 6 meses a 2 años o más', right: 'Leche materna y otros alimentos' },
         ] },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: ['cnt', 'mat'], cnb: ['cnt:5.2.1'], ambito: 'hacer', title: 'Ejemplo: el valor económico de la lactancia',
-          prompt: 'Calcula cuánto ahorra una familia. Los precios son **hipotéticos**: cambian según el lugar y el año.' },
-        { icon: 'PiggyBank', problem: 'Supongamos que una lata de fórmula cuesta **Q125** y a un bebé le dura **5 días**. ¿Cuánto costaría alimentarlo con fórmula durante **180 días** (unos 6 meses)?',
-          steps: [
-            { text: 'Latas necesarias: 180 ÷ 5 = **36 latas**.' },
-            { text: 'Costo de la fórmula: 36 × Q125 = **Q4,500**.', why: '36 × 100 = 3,600 y 36 × 25 = 900; 3,600 + 900 = 4,500.' },
-            { text: 'También puede haber costos de **pachas**, agua segura y combustible, según la forma de preparación.' },
-          ],
-          answer: 'En este escenario, comprar la fórmula costaría **Q4,500** en 6 meses, sin contar otros insumos. Los costos y las decisiones reales varían.',
-          tip: 'Una comparación económica debe indicar sus supuestos y respetar las necesidades de cada familia.' },
       ),
       S.number(
         { fase: 'aplicar', areas: ['cnt', 'mat'], cnb: ['cnt:5.2.1'], ambito: 'hacer',
@@ -363,7 +280,7 @@ export default [
   }),
 
   /* ───────────────────────── 3. Hábitos nutricionales ───────────────────────── */
-  preparedLesson({
+  lesson({
     id: 's06-cnt-3',
     title: 'Variedad, higiene y decisiones alimentarias',
     icon: 'Apple',
@@ -371,8 +288,6 @@ export default [
     gancho: 'Las opciones de refacción cambian según lo disponible. ¿Qué criterios permiten comparar variedad, agua segura, higiene y cantidad de azúcar o sal?',
     objetivos: [
       'Evaluar alimentos y hábitos para una alimentación variada',
-      'Explicar cómo algunos patrones alimentarios influyen en riesgos de salud',
-      'Proponer criterios adaptables para comparar opciones',
     ],
     resumen: [
       'Los patrones de alimentación, la higiene y el acceso influyen en la nutrición y en el riesgo de caries, anemia, malnutrición y enfermedades crónicas; una sola comida no define la salud de una persona.',
@@ -385,18 +300,8 @@ export default [
       brief: 'Ilustración de una olla de barro tradicional vista de frente, dividida en franjas horizontales de distinto tamaño, como en las Guías Alimentarias para Guatemala: base ancha "Cereales, granos y tubérculos" (tortillas, frijol, arroz, papa, yuca); siguiente "Hierbas, verduras y frutas" (güisquil, zanahoria, chipilín, naranja, mango); luego "Leche y derivados, huevos" y "Carnes"; y la franja superior, la más angosta, "Azúcares" y "Grasas". Al costado, un vaso de agua y una persona caminando (actividad física). Rótulos grandes; colores de barro y alimentos reales.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'ser',
-          prompt: '¿Cuál opción del escenario ofrece **más variedad de aportes** sin afirmar que sea la única elección posible?',
-          explain: 'La tortilla con frijol y mandarina reúne carbohidratos, proteína vegetal, fibra y micronutrientes. La elección real también depende de disponibilidad, porciones, restricciones y preferencias.' },
-        { layout: 'grid', options: [
-          { id: 'a', text: 'Frituras de bolsita y una gaseosa', icon: 'CupSoda', feedback: 'Puede aportar energía, además de bastante sodio, grasa o azúcares libres, pero ofrece menos variedad en este ejemplo.' },
-          { id: 'b', text: 'Tortilla con frijol y una mandarina', icon: 'Apple' },
-          { id: 'c', text: 'Solo dulces', icon: 'Candy', feedback: 'Aporta energía y azúcares libres, pero menos variedad de nutrientes en este ejemplo.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'ser', title: '¿Qué es un hábito nutricional?',
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'ser', title: '¿Qué es un hábito nutricional?',
           prompt: 'Un **hábito** es una acción repetida. Los patrones alimentarios y la higiene pueden **reducir o aumentar riesgos**, pero no garantizan un resultado individual. Toca las tarjetas.' },
         { icon: 'CalendarDays', body: 'Para evaluar un patrón se observa el conjunto de decisiones y las condiciones de acceso, no se juzga a una persona por una sola comida.', reveal: [
           { icon: 'Sunrise', front: 'Regularidad', back: 'Tener opciones regulares de comida puede apoyar energía y atención; los horarios y necesidades varían.' },
@@ -406,34 +311,15 @@ export default [
           { icon: 'ShieldCheck', front: 'Riesgo, no garantía', back: 'Los patrones influyen en riesgos de caries, anemia o enfermedades crónicas junto con muchos otros factores.' },
         ] },
       ),
-      S.explain(
+      S.cards(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'conocer', title: 'La olla familiar',
-          prompt: 'Las **Guías Alimentarias para Guatemala** usan una **olla de barro** para mostrar cómo combinar los alimentos. Observa el diagrama de la lección y toca las tarjetas, de abajo hacia arriba.' },
-        { icon: 'CookingPot', body: 'Las franjas resumen una **orientación general de frecuencia**, no una dieta individual. Se adapta a necesidades, cultura, disponibilidad, presupuesto y restricciones.', reveal: [
+          prompt: 'Las **Guías Alimentarias para Guatemala** usan una **olla de barro** como orientación general, no como dieta individual. Se adapta a necesidades, cultura, disponibilidad, presupuesto y restricciones.' },
+        { cards: [
           { icon: 'Wheat', front: 'Base: cereales, granos y tubérculos', back: 'Tortilla, frijol, arroz, papa, yuca. **Todos los días**, en cada tiempo de comida.' },
           { icon: 'Carrot', front: 'Hierbas, verduras y frutas', back: 'Güisquil, zanahoria, chipilín, hierbamora, naranja, mango. **Todos los días**, de varios colores.' },
           { icon: 'Egg', front: 'Leche, huevos y carnes', back: 'Leche, queso, huevo, pollo, pescado, carne, hígado. **Varias veces por semana**.' },
           { icon: 'Candy', front: 'Arriba: azúcares y grasas', back: 'Azúcar, dulces, aceite, manteca. En **poca cantidad**: son la franja más pequeña.' },
           { icon: 'Footprints', front: 'Fuera de la olla', back: 'El agua segura y el movimiento posible para cada persona forman parte de la orientación general.' },
-        ] },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'conocer',
-          prompt: 'Según la representación general de la olla familiar, ¿en qué franja aparece cada alimento?',
-          hint: 'Base de la olla y verduras: todos los días. Leche, huevo y carnes: varias veces por semana. La punta: poca cantidad.',
-          explain: 'La actividad recupera las franjas de la guía. No prescribe el menú de una persona ni supone que todas las opciones estén disponibles.' },
-        { buckets: [
-          { id: 'dia', label: 'Todos los días', icon: 'Sun', color: 'var(--c-ok)' },
-          { id: 'sem', label: 'Varias veces por semana', icon: 'CalendarDays', color: 'var(--area-cnt)' },
-          { id: 'poc', label: 'En poca cantidad', icon: 'Minus', color: 'var(--c-bad)' },
-        ], items: [
-          { id: 'o1', text: 'Tortillas y frijol', bucket: 'dia' },
-          { id: 'o2', text: 'Güisquil, zanahoria y hojas verdes', bucket: 'dia' },
-          { id: 'o3', text: 'Huevo', bucket: 'sem' },
-          { id: 'o4', text: 'Pollo o pescado', bucket: 'sem' },
-          { id: 'o5', text: 'Dulces y gaseosas', bucket: 'poc' },
-          { id: 'o6', text: 'Frutas como papaya o naranja', bucket: 'dia' },
-          { id: 'o7', text: 'Manteca y frituras', bucket: 'poc' },
         ] },
       ),
       S.explain(
@@ -458,6 +344,35 @@ export default [
           ],
           answer: 'Con cambios pequeños, Byron come **variado**, con menos azúcar y más proteína, vitaminas y minerales.',
           tip: 'No se trata de comer caro, sino de **combinar bien** lo que hay en casa.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'ser',
+          prompt: '¿Cuál opción del escenario ofrece **más variedad de aportes** sin afirmar que sea la única elección posible?',
+          explain: 'La tortilla con frijol y mandarina reúne carbohidratos, proteína vegetal, fibra y micronutrientes. La elección real también depende de disponibilidad, porciones, restricciones y preferencias.' },
+        { layout: 'grid', options: [
+          { id: 'a', text: 'Frituras de bolsita y una gaseosa', icon: 'CupSoda', feedback: 'Puede aportar energía, además de bastante sodio, grasa o azúcares libres, pero ofrece menos variedad en este ejemplo.' },
+          { id: 'b', text: 'Tortilla con frijol y una mandarina', icon: 'Apple' },
+          { id: 'c', text: 'Solo dulces', icon: 'Candy', feedback: 'Aporta energía y azúcares libres, pero menos variedad de nutrientes en este ejemplo.' },
+        ], correct: ['b'] },
+      ),
+      S.sort(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'conocer',
+          prompt: 'Según la representación general de la olla familiar, ¿en qué franja aparece cada alimento?',
+          hint: 'Base de la olla y verduras: todos los días. Leche, huevo y carnes: varias veces por semana. La punta: poca cantidad.',
+          explain: 'La actividad recupera las franjas de la guía. No prescribe el menú de una persona ni supone que todas las opciones estén disponibles.' },
+        { buckets: [
+          { id: 'dia', label: 'Todos los días', icon: 'Sun', color: 'var(--c-ok)' },
+          { id: 'sem', label: 'Varias veces por semana', icon: 'CalendarDays', color: 'var(--area-cnt)' },
+          { id: 'poc', label: 'En poca cantidad', icon: 'Minus', color: 'var(--c-bad)' },
+        ], items: [
+          { id: 'o1', text: 'Tortillas y frijol', bucket: 'dia' },
+          { id: 'o2', text: 'Güisquil, zanahoria y hojas verdes', bucket: 'dia' },
+          { id: 'o3', text: 'Huevo', bucket: 'sem' },
+          { id: 'o4', text: 'Pollo o pescado', bucket: 'sem' },
+          { id: 'o5', text: 'Dulces y gaseosas', bucket: 'poc' },
+          { id: 'o6', text: 'Frutas como papaya o naranja', bucket: 'dia' },
+          { id: 'o7', text: 'Manteca y frituras', bucket: 'poc' },
+        ] },
       ),
       S.chart(
         { fase: 'aplicar', areas: ['cnt', 'mat'], cnb: ['cnt:5.3.1'], ambito: 'hacer',
@@ -516,7 +431,7 @@ export default [
       ),
       cierre({ areas: ['cnt'], cnb: [] },
         ['Clasifico los nutrientes y explico su función', 'Explico los beneficios de la lactancia materna', 'Uso la olla familiar para elegir mejor lo que como'],
-        ['Preguntaré por disponibilidad y restricciones antes de proponer cambios', 'Explicaré que la olla familiar ofrece una orientación general adaptable']),
+        ['Preguntaré por disponibilidad y restricciones antes de proponer cambios', 'Explicaré que la olla familiar ofrece una orientación general adaptable'])
     ],
   }),
 ];

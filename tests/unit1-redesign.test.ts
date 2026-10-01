@@ -3061,6 +3061,20 @@ test('Semana 6 preserva 27 lecciones, cobertura CNB y un resultado central por l
   assert.deepEqual(failures, []);
 });
 
+test('Semana 6 declara lecciones autoradas sin preparedLesson ni modelos genericos', () => {
+  const areas = ['art', 'ccss', 'cnt', 'ef', 'fc', 'l1', 'l2', 'l3', 'mat', 'pyd'];
+  for (const area of areas) {
+    const source = readFileSync(`src/content/sexto/materias/${area}/u1/s06.ts`, 'utf8');
+    assert.doesNotMatch(source, /preparedLesson|compactConstruct|firstIdea|secondIdea/,
+      `${area}/s06 conserva el selector generico`);
+  }
+  for (const lesson of weekSix.lessons.filter((item) => item.kind === 'materia')) {
+    const generic = lesson.steps.filter((step) => /activa lo que sabes|enfoque y modelo|criterio central/i
+      .test(`${step.title ?? ''} ${step.prompt} ${JSON.stringify(step.props)}`));
+    assert.deepEqual(generic, [], `${lesson.id} conserva pasos generados`);
+  }
+});
+
 test('Semana 6 sostiene el resultado central en modelo, guia, transferencia y salidas', () => {
   const actionVerbs = /(?:aplicar|calcular|caracterizar|clasificar|combinar|comparar|completar|comunicar|construir|crear|describir|diferenciar|disenar|distinguir|elegir|ejecutar|escribir|evaluar|explicar|formar|identificar|organizar|ordenar|planificar|practicar|reconocer|registrar|relacionar|representar|resolver|seleccionar|seguir|transferir|ubicar|usar)/;
   const actionStems = new Set([...factTokens(actionVerbs.source)]);
@@ -3074,21 +3088,63 @@ test('Semana 6 sostiene el resultado central en modelo, guia, transferencia y sa
     if (compound) failures.push(`${lesson.id}: objetivo compuesto`);
     const concepts = new Set([...meaningfulCollisionTokens(objective)]
       .filter((token) => !actionStems.has(token) && token.length >= 4));
-    const sharesConcept = (steps: typeof lesson.steps): boolean => {
+    const matchingConcepts = (steps: typeof lesson.steps): Set<string> => {
       const tokens = meaningfulCollisionTokens(JSON.stringify(steps));
-      return [...concepts].some((token) => tokens.has(token));
+      return new Set([...concepts].filter((token) => tokens.has(token)));
     };
+    const sharesConcept = (steps: typeof lesson.steps): boolean => {
+      const required = Math.min(2, concepts.size);
+      return matchingConcepts(steps).size >= required;
+    };
+    const sharesAnyConcept = (steps: typeof lesson.steps): boolean => matchingConcepts(steps).size >= 1;
     const teaching = lesson.steps.filter((step) => step.fase === 'construir' && INSTRUCTION_TYPES.has(step.type));
     const guided = lesson.steps.filter((step) => step.fase === 'construir' && getActivity(step.type)?.graded && step.hint && step.explain);
     const transfer = lesson.steps.filter((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded && !step.hint);
     const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
+    const outcomeBreadth = sharesConcept([...teaching, ...guided, ...transfer, ...exits]);
+    const exitPairSharesOutcome = exits.every((step) => sharesAnyConcept([step]));
     const missingStages = [
-      [concepts.size === 0, 'concepto'], [!sharesConcept(teaching), 'modelo'], [!sharesConcept(guided), 'guia'],
-      [!sharesConcept(transfer), 'transferencia'], [exits.length < 2 || exits.some((step) => !sharesConcept([step])), 'salidas'],
+      [concepts.size === 0 || !outcomeBreadth, 'concepto'], [!sharesAnyConcept(teaching), 'modelo'], [!sharesAnyConcept(guided), 'guia'],
+      [!sharesAnyConcept(transfer), 'transferencia'], [exits.length < 2 || !exitPairSharesOutcome, 'salidas'],
     ].filter(([missing]) => missing).map(([, stage]) => stage);
     if (missingStages.length > 0) failures.push(`${lesson.id}: falta ${missingStages.join(', ')}`);
   }
   assert.deepEqual(failures, []);
+});
+
+test('Semana 6 ensena diferencia simetrica antes de guia, transferencia y salidas', () => {
+  const lesson = weekSix.lessons.find((item) => item.id === 's06-mat-4');
+  assert.ok(lesson, 'Falta s06-mat-4');
+  const mentionsSymmetricDifference = (step: typeof lesson.steps[number]) => (
+    /diferencia simetrica|a delta b|a Δ b/.test(normalizeFactText(JSON.stringify(step)))
+  );
+  const teaching = lesson.steps.findIndex((step) => step.fase === 'construir'
+    && INSTRUCTION_TYPES.has(step.type) && mentionsSymmetricDifference(step));
+  const model = lesson.steps.findIndex((step) => step.fase === 'construir'
+    && step.type === 'worked-example' && mentionsSymmetricDifference(step));
+  const guide = lesson.steps.findIndex((step) => step.fase === 'construir'
+    && Boolean(getActivity(step.type)?.graded) && step.hint && step.explain && mentionsSymmetricDifference(step));
+  const transfer = lesson.steps.findIndex((step) => step.fase === 'aplicar'
+    && Boolean(getActivity(step.type)?.graded) && mentionsSymmetricDifference(step));
+  const exits = lesson.steps
+    .map((step, index) => ({ step, index }))
+    .filter(({ step }) => step.fase === 'comprobar' && mentionsSymmetricDifference(step));
+  assert.ok(teaching >= 0 && model > teaching && guide > model && transfer > guide,
+    `orden simetrico: ensenanza=${teaching}, modelo=${model}, guia=${guide}, transferencia=${transfer}`);
+  assert.ok(exits.length >= 1 && exits.every(({ index }) => index > transfer), 'La salida simetrica debe seguir la transferencia');
+});
+
+test('Semana 6 no concentra todas las referencias CNB en pasos genericos', () => {
+  for (const lesson of weekSix.lessons.filter((item) => item.kind === 'materia')) {
+    const lessonRefs = new Set(lesson.steps.flatMap((step) => step.cnb));
+    for (const step of lesson.steps) {
+      const text = normalizeFactText(`${step.title ?? ''} ${step.prompt}`);
+      const generic = /activa lo que sabes|enfoque y modelo|recuerda una experiencia|criterio central/.test(text);
+      const stepRefs = new Set(step.cnb);
+      assert.ok(!generic || stepRefs.size < lessonRefs.size,
+        `${lesson.id}/${step.id} concentra todas las referencias en un paso generico`);
+    }
+  }
 });
 
 test('Semana 6 ensena antes de calificar, reserva explorar y mantiene fases monotonicas', () => {
@@ -3098,9 +3154,11 @@ test('Semana 6 ensena antes de calificar, reserva explorar y mantiene fases mono
   const failures: string[] = [];
   for (const lesson of weekSix.lessons.filter((item) => item.kind === 'materia')) {
     const firstInstruction = lesson.steps.findIndex((step) => INSTRUCTION_TYPES.has(step.type));
+    const firstModel = lesson.steps.findIndex((step) => step.type === 'worked-example');
     const firstGraded = lesson.steps.findIndex((step) => getActivity(step.type)?.graded);
-    if (firstInstruction < 0 || firstGraded < 0 || firstInstruction > firstGraded) {
-      failures.push(`${lesson.id}: instruccion=${firstInstruction + 1}, calificada=${firstGraded + 1}`);
+    if (firstInstruction < 0 || firstModel < 0 || firstGraded < 0
+      || firstInstruction > firstModel || firstModel > firstGraded) {
+      failures.push(`${lesson.id}: instruccion=${firstInstruction + 1}, modelo=${firstModel + 1}, calificada=${firstGraded + 1}`);
     }
     lesson.steps.forEach((step, index) => {
       if (step.fase === 'explorar' && getActivity(step.type)?.graded) failures.push(`${lesson.id}: explorar calificado`);
@@ -3218,13 +3276,15 @@ test('Semana 6 construye los cuatro componentes del producto con prerrequisitos 
   assert.ok(workshop, 'Semana 6 sin taller');
   assert.equal(workshop.title, 'Una refacción local que nutre');
   assert.ok(workshop.minutes <= 20, `Taller declara ${workshop.minutes} minutos`);
-  assert.ok(workshop.steps.length >= 10 && workshop.steps.length <= 14, `Taller tiene ${workshop.steps.length} pasos`);
+  assert.ok(workshop.steps.length >= 10 && workshop.steps.length <= 12, `Taller tiene ${workshop.steps.length} pasos`);
   const minuteLabels = workshop.steps.map((step) => {
     const match = `${step.title ?? ''} ${step.prompt}`.match(/(?:^|\D)(\d+)\s*min(?:uto)?s?/i);
     return match ? Number(match[1]) : 0;
   });
   assert.ok(minuteLabels.every((minutes) => minutes > 0), 'Cada paso del taller debe declarar su tiempo');
-  assert.ok(minuteLabels.reduce((sum, minutes) => sum + minutes, 0) <= workshop.minutes, 'La agenda excede el tiempo del taller');
+  const labeledMinutes = minuteLabels.reduce((sum, minutes) => sum + minutes, 0);
+  assert.ok(labeledMinutes >= 17 && labeledMinutes <= 18, `La agenda etiqueta ${labeledMinutes} minutos`);
+  assert.ok(workshop.minutes - labeledMinutes >= 2, 'El taller no deja margen real para transiciones');
   const contributors = new Set(workshop.steps
     .filter((step) => step.fase === 'construir' || step.fase === 'aplicar')
     .flatMap((step) => step.areas));
@@ -3242,10 +3302,46 @@ test('Semana 6 construye los cuatro componentes del producto con prerrequisitos 
   assert.match(text, /precios? (?:del escenario|ilustrativos?|supuestos?)/);
   assert.match(text, /cantidad.{0,30}precio.{0,40}subtotal|subtotal.{0,40}total/);
   assert.match(text, /revision|revisa|verifica|comprueba/);
+  assert.match(text, /plantilla (?:preparada|impresa) de una pagina|plantilla de una pagina (?:preparada|impresa)/);
+  assert.doesNotMatch(text, /dividan la ficha|dibujen la plantilla|rotulen (?:la|las|cuatro)/);
   assert.equal(workshop.steps.at(-1)?.type, 'reflection');
   const projects = workshop.steps.filter((step) => step.type === 'project');
   assert.ok(projects.length >= 3, 'El producto debe construirse y revisarse en pasos de proyecto');
-  assert.ok(workshop.steps.findIndex((step) => step.type === 'project') <= 3, 'El taller debe empezar a producir pronto');
+  assert.ok(workshop.steps.findIndex((step) => step.type === 'project') <= 1, 'El taller debe empezar a producir tras el encargo');
+});
+
+test('El taller de Semana 6 limita escritura, calculos, campos y revision entre pares', () => {
+  const workshop = weekSix.lessons.find((lesson) => lesson.kind === 'taller');
+  assert.ok(workshop, 'Semana 6 sin taller');
+  const writes = workshop.steps.filter((step) => step.type === 'short-answer');
+  const calculations = workshop.steps.filter((step) => step.type === 'number-input');
+  const peerSteps = workshop.steps.filter((step) => /\b(?:par|pares|intercamb\w*)\b/.test(normalizeFactText(`${step.title ?? ''} ${step.prompt}`)));
+  assert.equal(writes.length, 1, 'Debe haber una sola propuesta breve');
+  assert.ok(Number((writes[0].props as { minWords?: number }).minWords) >= 14
+    && Number((writes[0].props as { minWords?: number }).minWords) <= 18, 'La propuesta debe pedir 14-18 palabras');
+  assert.equal(calculations.length, 1, 'El producto usa un solo calculo de presupuesto');
+  assert.equal(peerSteps.length, 1, 'Debe haber una sola tarea entre pares');
+  const peerText = normalizeFactText(JSON.stringify(peerSteps[0]));
+  assert.match(peerText, /un criterio|una revision|una correccion/);
+  const outline = workshop.steps.find((step) => step.type === 'project'
+    && /esquema|proyecto/.test(normalizeFactText(`${step.title ?? ''} ${step.prompt}`)));
+  assert.ok(outline, 'Falta el esquema conciso del proyecto');
+  const outlineText = normalizeFactText(JSON.stringify(outline));
+  for (const field of [/objetivo/, /actividad 1/, /actividad 2/, /responsable/, /fecha/, /revision/]) assert.match(outlineText, field);
+});
+
+test('El conjunto P del taller usa una regla de clasificacion y una interseccion coherente', () => {
+  const workshop = weekSix.lessons.find((lesson) => lesson.kind === 'taller');
+  assert.ok(workshop, 'Semana 6 sin taller');
+  const setStep = workshop.steps.find((step) => step.areas.includes('mat')
+    && /l .* p|interseccion|l ∩ p/.test(normalizeFactText(step.prompt)));
+  assert.ok(setStep, 'Falta una comparacion de conjuntos L y P');
+  const text = normalizeFactText(JSON.stringify(setStep));
+  assert.match(text, /p .*clasificad.{0,80}(?:grupo|categoria).{0,40}proteina/);
+  assert.match(text, /pueden contener|pueden aportar.{0,80}varios nutrientes/);
+  assert.match(text, /l .*tortilla.*frijol.*banano.*papaya/);
+  assert.match(text, /p .*frijol.*huevo.*queso.*pepitoria/);
+  assert.match(text, /l ∩ p.*frijol|interseccion.*frijol/);
 });
 
 test('El presupuesto del taller usa precios ilustrativos y aritmetica internamente consistente', () => {
@@ -3292,6 +3388,40 @@ test('Semana 6 evalua diez areas con contenido ensenado y payloads frescos', () 
     }
   }
   assert.deepEqual(reused, []);
+});
+
+test('El reto CCSS de Semana 6 evalua una relacion historica ensenada, no aritmetica', () => {
+  const challenge = weekSix.lessons.find((lesson) => lesson.kind === 'reto');
+  assert.ok(challenge, 'Semana 6 sin reto');
+  const item = challenge.steps.find((step) => step.areas[0] === 'ccss');
+  assert.ok(item, 'Reto sin CCSS');
+  assert.equal(item.type, 'choice');
+  assert.ok(item.cnb.includes('ccss:6.5.1'));
+  const prompt = normalizeFactText(item.prompt);
+  assert.match(prompt, /causa|consecuencia|relacion/);
+  assert.doesNotMatch(prompt, /cuantos anos|resta|diferencia entre fechas/);
+  const props = item.props as { options?: Array<{ id: string; text: string }>; correct?: string[] };
+  assert.equal(props.correct?.length, 1);
+  assert.ok((props.options?.length ?? 0) >= 3);
+  assert.equal(new Set(props.options?.map((option) => normalizeFactText(option.text))).size, props.options?.length);
+});
+
+test('El banco L3 de Semana 6 da una secuencia completa con un solo conector valido', () => {
+  const item = weekSixBank.find((step) => step.areas[0] === 'l3');
+  assert.ok(item, 'Banco sin L3');
+  const text = normalizeFactText(JSON.stringify(item));
+  assert.match(text, /first/);
+  assert.match(text, /then|next/);
+  assert.match(text, /finally/);
+  assert.match(text, /wash|add|serve|clean|prepare/);
+  if (item.type === 'fill-blank') {
+    const props = item.props as { text?: string; distractors?: string[] };
+    assert.equal([...(props.text ?? '').matchAll(/\[\[([^\]]+)\]\]/g)].length, 1);
+    assert.ok((props.distractors?.length ?? 0) >= 2);
+  } else if (item.type === 'choice') {
+    const props = item.props as { correct?: string[] };
+    assert.equal(props.correct?.length, 1);
+  } else assert.fail(`Tipo L3 no verificable: ${item.type}`);
 });
 
 test('Semana 6 usa iconos descriptivos para objetos concretos', () => {

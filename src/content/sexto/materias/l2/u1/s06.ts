@@ -5,57 +5,9 @@
  */
 import { lesson, S } from '../../../../dsl';
 
-function preparedLesson(draft: Parameters<typeof lesson>[0]) {
-  const first = draft.steps[0];
-  const objective = draft.objetivos?.[0] ?? draft.title;
-  const firstIdea = draft.resumen?.[0] ?? objective;
-  const secondIdea = draft.resumen?.[1] ?? firstIdea;
-  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
-  const normalized = draft.steps.map((step) => (
-    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
-  ));
-  const construction = normalized.filter((step) => step.fase === 'construir');
-  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
-  const guided = construction.find((step) => !ungraded.has(step.type));
-  let building = construction.slice(0, 4);
-  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
-  building = building.map((step) => step === guided ? {
-    ...step,
-    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
-    explain: step.explain ?? firstIdea,
-  } : step);
-  const compact = [
-    ...building,
-    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
-    ...normalized.filter((step) => step.fase === 'comprobar'),
-    ...normalized.filter((step) => step.fase === 'reflexionar'),
-  ];
-  return lesson({
-    ...draft,
-    objetivos: [objective],
-    steps: [
-      S.explain(
-        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
-          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
-        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
-          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
-        { icon: draft.icon, problem: firstIdea, steps: [
-          { text: `Identifica el criterio central: **${objective}**.` },
-          { text: secondIdea },
-        ], answer: secondIdea,
-          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
-      ),
-      ...compact,
-    ],
-  });
-}
-
 export default [
   // ───────────────────────────── Lección 1 ─────────────────────────────
-  preparedLesson({
+  lesson({
     id: 's06-l2-1',
     title: 'La r suave y la r fuerte',
     icon: 'AudioLines',
@@ -63,8 +15,6 @@ export default [
     gancho: '"Pero" y "perro" se parecen muchísimo… pero uno es una palabra que une ideas y el otro ¡ladra! ¿Qué las hace diferentes al oído?',
     objetivos: [
       'Pronunciar la r suave y la r fuerte del español',
-      'Aplicar las reglas para saber cuándo la r suena fuerte',
-      'Distinguir al oído palabras que solo cambian por la r',
     ],
     resumen: [
       'El español tiene dos sonidos de r: la r suave (la lengua toca una vez detrás de los dientes de arriba) y la r fuerte (la lengua vibra varias veces).',
@@ -78,20 +28,8 @@ export default [
       brief: 'Animación 2D de 40 s con vista lateral simplificada de la boca (labios, dientes, paladar y lengua en colores suaves, sin realismo médico). Parte 1: se escucha "pero" y la punta de la lengua da UN toque rápido detrás de los dientes superiores; aparece el rótulo "r suave: 1 toque". Parte 2: se escucha "perro" y la lengua vibra 3-4 veces con líneas de movimiento; rótulo "r fuerte: vibra". Parte 3: se repite con "caro / carro" y "cero / cerro". Voz de adulto, pronunciación clara de español de Guatemala.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:4.1.2'], ambito: 'conocer',
-          prompt: 'Escucha: _"Mi abuela compró un **carro**."_ ¿Qué compró la abuela?',
-          explain: '"Carro" (con r fuerte) es un vehículo; "caro" (con r suave) significa que cuesta mucho. Un solo sonido cambia la palabra. Hoy aprenderás a pronunciar y distinguir las dos r.',
-          media: { id: 's06-l2-1-carro', kind: 'audio', title: 'Caro o carro', duration: 10,
-            alt: 'Una voz dice: "Mi abuela compró un carro."',
-            brief: 'Audio de 10 s. Voz adulta femenina, clara y pausada, español de Guatemala. Texto exacto: "Mi abuela compró un carro." Pronunciar la rr con vibración múltiple bien marcada. Repetir la oración dos veces con 2 s de pausa.' } },
-        { options: [
-          { id: 'a', text: 'Un vehículo', icon: 'Car' },
-          { id: 'b', text: 'Algo que costó mucho dinero', icon: 'Coins', feedback: 'Eso sería "caro", con r suave. Escucha: en "carro" la lengua vibra varias veces.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.1'], ambito: 'conocer', title: 'Dos sonidos de r',
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:4.1.1'], ambito: 'conocer', title: 'Dos sonidos de r',
           prompt: 'El español tiene **dos sonidos** de r. En muchos idiomas solo hay uno, por eso vale la pena practicarlos. Toca cada tarjeta y di las palabras en voz alta.' },
         { icon: 'AudioLines', body: 'Pon la punta de la lengua detrás de los dientes de arriba. La diferencia está en **cuántas veces** toca.', reveal: [
           { icon: 'Circle', front: 'r suave', back: 'La lengua **toca una sola vez**, rápido. Di: **pero, cara, loro, mar**.' },
@@ -111,6 +49,18 @@ export default [
           ],
           answer: 'Fuerte: **rosa, carro, Enrique**. Suave: **pero**.',
           tip: 'Fuerte: al inicio, con rr, o después de n, l, s. En los demás casos, suave.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.2'], ambito: 'conocer',
+          prompt: 'Escucha: _"Mi abuela compró un **carro**."_ ¿Qué compró la abuela?',
+          explain: '"Carro" (con r fuerte) es un vehículo; "caro" (con r suave) significa que cuesta mucho. Un solo sonido cambia la palabra. Hoy aprenderás a pronunciar y distinguir las dos r.',
+          media: { id: 's06-l2-1-carro', kind: 'audio', title: 'Caro o carro', duration: 10,
+            alt: 'Una voz dice: "Mi abuela compró un carro."',
+            brief: 'Audio de 10 s. Voz adulta femenina, clara y pausada, español de Guatemala. Texto exacto: "Mi abuela compró un carro." Pronunciar la rr con vibración múltiple bien marcada. Repetir la oración dos veces con 2 s de pausa.' } },
+        { options: [
+          { id: 'a', text: 'Un vehículo', icon: 'Car' },
+          { id: 'b', text: 'Algo que costó mucho dinero', icon: 'Coins', feedback: 'Eso sería "caro", con r suave. Escucha: en "carro" la lengua vibra varias veces.' },
+        ], correct: ['a'] },
       ),
       S.sort(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.1'], ambito: 'hacer',
@@ -188,7 +138,7 @@ export default [
   }),
 
   // ───────────────────────────── Lección 2 ─────────────────────────────
-  preparedLesson({
+  lesson({
     id: 's06-l2-2',
     title: 'Escucho con atención: palabras que se parecen',
     icon: 'Ear',
@@ -196,8 +146,6 @@ export default [
     gancho: 'Si alguien dice "Mi tía tiene tos" muy rápido, ¿podrías confundirlo con "Mi día tiene dos"? ¿Cómo sabes qué dijo?',
     objetivos: [
       'Distinguir palabras que cambian por un solo sonido',
-      'Saber qué letras distintas suenan igual en español',
-      'Usar el contexto para reconocer la palabra que escuchas',
     ],
     resumen: [
       'Pares mínimos: palabras que solo cambian por un sonido y significan cosas distintas: mesa/misa, peso/piso, tos/dos, casa/gasa, oso/uso.',
@@ -210,17 +158,8 @@ export default [
       brief: 'Audio de 45 s. Voz adulta femenina, muy clara, ritmo lento, español de Guatemala. Leer cada par dos veces con 1 s entre palabras y 2 s entre pares: "mesa – misa", "peso – piso", "oso – uso", "tos – dos", "casa – gasa", "coma – goma", "tía – día". Después, oraciones: "Pon los platos en la mesa." / "El domingo vamos a misa." / "Mi tía tiene tos." Sin música de fondo.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:4.1.2'], ambito: 'conocer',
-          prompt: 'Escucha la oración: _"La niña tiene **tos**."_ ¿Qué le pasa a la niña?',
-          explain: '"Tos" y "dos" solo cambian por un sonido (t/d). Además, "tiene tos" tiene sentido: el **contexto** te ayuda. Hoy aprenderás a escuchar palabras que se parecen.' },
-        { options: [
-          { id: 'a', text: 'Está enferma: tose', icon: 'Thermometer' },
-          { id: 'b', text: 'Tiene dos cosas', icon: 'Blocks', feedback: 'Eso sería "tiene dos…", y faltaría decir dos qué. Escucha: la palabra empieza con t.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.2', 'l2:4.1.1'], ambito: 'conocer', title: 'Pares mínimos',
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:4.1.2', 'l2:4.1.1'], ambito: 'conocer', title: 'Pares mínimos',
           prompt: 'Un **par mínimo** son dos palabras que cambian **por un solo sonido** y significan cosas distintas. Escucha el audio de la lección y repite cada par, exagerando la diferencia.' },
         { icon: 'Ear', body: 'Para distinguirlas, fíjate en el sonido que cambia y en **cómo se mueve tu boca**.', reveal: [
           { icon: 'Smile', front: 'e / i', back: '**mesa / misa**, **peso / piso**. Para la i, estira más los labios hacia los lados.' },
@@ -250,6 +189,15 @@ export default [
           ],
           answer: 'La palabra es **tuvo**: "Mi hermano tuvo fiebre ayer".',
           tip: 'Si dos palabras suenan igual, pregúntate cuál tiene sentido en la oración.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.2'], ambito: 'conocer',
+          prompt: 'Escucha la oración: _"La niña tiene **tos**."_ ¿Qué le pasa a la niña?',
+          explain: '"Tos" y "dos" solo cambian por un sonido (t/d). Además, "tiene tos" tiene sentido: el **contexto** te ayuda. Hoy aprenderás a escuchar palabras que se parecen.' },
+        { options: [
+          { id: 'a', text: 'Está enferma: tose', icon: 'Thermometer' },
+          { id: 'b', text: 'Tiene dos cosas', icon: 'Blocks', feedback: 'Eso sería "tiene dos…", y faltaría decir dos qué. Escucha: la palabra empieza con t.' },
+        ], correct: ['a'] },
       ),
       S.choice(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.2'], ambito: 'hacer',
