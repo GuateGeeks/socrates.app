@@ -93,6 +93,40 @@ function comparableEntries(value: unknown): string[] {
   return [];
 }
 
+function semanticAssessmentFacts(value: unknown): string[] {
+  const text = JSON.stringify(value)
+    .toLocaleLowerCase('es')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[*]+/g, '');
+  const facts: string[] = [];
+  if (/cromosom/.test(text) && /\b46\b/.test(text) && /\b23\b/.test(text) && /par(?:es)?/.test(text)) {
+    facts.push('46-cromosomas-en-23-pares');
+  }
+  if (/eneagono/.test(text) && /lado/.test(text) && /(?:"answer":9|"text":"9")/.test(text)) {
+    facts.push('eneagono-tiene-9-lados');
+  }
+  if (/que es un gen/.test(text) && /adn/.test(text) && /instruccion|caracteristica/.test(text)) {
+    facts.push('definicion-directa-de-gen');
+  }
+  return facts;
+}
+
+test('Las firmas de frescura reconocen hechos repetidos aunque cambie el formato', () => {
+  const directGeneDefinition = {
+    type: 'choice',
+    prompt: '¿Qué es un **gen**?',
+    props: {
+      options: [{ id: 'a', text: 'Un pedazo de ADN con la instrucción para una característica' }],
+      correct: ['a'],
+    },
+  };
+  assert.ok(
+    semanticAssessmentFacts(directGeneDefinition).includes('definicion-directa-de-gen'),
+    'La firma debe ignorar el énfasis Markdown del concepto',
+  );
+});
+
 const PRIMARY_ICON_FIELDS = new Set([
   'text',
   'title',
@@ -105,6 +139,7 @@ const PRIMARY_ICON_FIELDS = new Set([
 const SUPPORTING_ICON_FIELDS = new Set(['back', 'alt', 'brief']);
 
 const CONCRETE_OBJECT = /(?:^|[^\p{L}])(?:comidas?|alimentos?|mercados?|escuelas?|parques?|casas?|edificios?|tiendas?|hospital(?:es)?|iglesias?|calles?|puentes?|rivers?|r[ií]os?|monta(?:n|ñ)as?|volc[aá]n(?:es)?|[aá]rbol(?:es)?|fruits?|frutas?|pan(?:es)?|ma[ií](?:z|ces)|frijoles?|huevos?|tortillas?|ventanas?|panelas?|pozos?|canchas?|herramientas?|tables?|mesas?)(?=$|[^\p{L}])/iu;
+const WEEK_TWO_CONCRETE_OBJECT = /(?:^|[^\p{L}])(?:c[eé]lulas?|oranges?|naranjas?)(?=$|[^\p{L}])/iu;
 
 function inspectConcreteIcon(value: unknown, path: string, failures: string[]): void {
   if (Array.isArray(value)) {
@@ -122,7 +157,10 @@ function inspectConcreteIcon(value: unknown, path: string, failures: string[]): 
     .filter(([key, item]) => SUPPORTING_ICON_FIELDS.has(key) && typeof item === 'string' && item.trim())
     .map(([, item]) => item)
     .join(' ');
-  if ((icon === 'Circle' || icon === 'Square') && CONCRETE_OBJECT.test(words)) {
+  if (
+    (icon === 'Circle' || icon === 'Square')
+    && (CONCRETE_OBJECT.test(words) || (path.startsWith('s02.') && WEEK_TWO_CONCRETE_OBJECT.test(words)))
+  ) {
     failures.push(`${path}: ${icon} representa "${words}"`);
   }
   Object.entries(record).forEach(([key, item]) => inspectConcreteIcon(item, `${path}.${key}`, failures));
@@ -528,6 +566,40 @@ test('Semana 2 ofrece guía, aplicación independiente y dos salidas sin pistas 
   assert.deepEqual(failures, []);
 });
 
+test('Semana 2 modela y guía el procedimiento de higiene antes del taller', () => {
+  const workshopIndex = weekTwo.lessons.findIndex((lesson) => lesson.kind === 'taller');
+  assert.ok(workshopIndex > 0, 'Semana 2 no ubica el taller después de las materias');
+  const priorSteps = weekTwo.lessons
+    .slice(0, workshopIndex)
+    .filter((lesson) => lesson.kind === 'materia')
+    .flatMap((lesson) => lesson.steps);
+  const usesHygieneRefs = (step: (typeof priorSteps)[number]) => (
+    step.cnb.includes('l2:2.1.1') && step.cnb.includes('cnt:1.5.3')
+  );
+  const model = priorSteps.find((step) => step.type === 'worked-example' && usesHygieneRefs(step));
+  const guided = priorSteps.find((step) => (
+    step.fase === 'construir'
+    && Boolean(getActivity(step.type)?.graded)
+    && Boolean(step.hint)
+    && Boolean(step.explain)
+    && usesHygieneRefs(step)
+  ));
+  assert.ok(model, 'Falta modelar el procedimiento seguro con L2 y CNT');
+  assert.ok(guided, 'Falta practicar con guía el procedimiento seguro con L2 y CNT');
+
+  const prerequisiteText = JSON.stringify([model, guided]).toLocaleLowerCase('es');
+  assert.match(prerequisiteText, /persona adulta.+(?:cort|cuchillo)|(?:cort|cuchillo).+persona adulta/s);
+  assert.match(prerequisiteText, /(?:tap|cubr|prote).+moscas|moscas.+(?:tap|cubr|prote)/s);
+  assert.match(prerequisiteText, /dinero.+(?:separ|lejos).+(?:comida|alimento)|(?:comida|alimento).+(?:separ|lejos).+dinero/s);
+  assert.match(prerequisiteText, /(?:cobr|dinero).+(?:lav|limpi).+manos|(?:lav|limpi).+manos.+(?:cobr|dinero)/s);
+
+  const workshop = weekTwo.lessons[workshopIndex];
+  const retrievalText = JSON.stringify(workshop.steps).toLocaleLowerCase('es');
+  assert.match(retrievalText, /recupera|retoma|aplica.+procedimiento/s);
+  assert.match(retrievalText, /l2:2\.1\.1/);
+  assert.match(retrievalText, /cnt:1\.5\.3/);
+});
+
 test('Semana 2 construye un puesto sano y respetuoso con alcance y evidencia factibles', () => {
   const workshop = weekTwo.lessons.find((lesson) => lesson.kind === 'taller');
   assert.ok(workshop, 'Semana 2 sin taller');
@@ -553,12 +625,29 @@ test('Semana 2 construye un puesto sano y respetuoso con alcance y evidencia fac
   );
   assert.ok(workshop.steps.every((step) => step.cnb.every((ref) => priorCnb.has(ref))), 'El taller introduce CNB no enseñado');
 
-  const projectText = JSON.stringify(workshop.steps.filter((step) => step.type === 'project')).toLocaleLowerCase('es');
+  const projects = workshop.steps.filter((step) => step.type === 'project');
+  assert.equal(projects.length, 1, 'El taller debe producir un solo plan integrado');
+  const project = projects[0] as typeof projects[number] & {
+    props: { steps?: unknown[]; rubric?: unknown[]; evidence?: string };
+  };
+  assert.equal(project.props.steps?.length, 3, 'El producto debe tener tres componentes realizables');
+  assert.equal(project.props.rubric?.length, 3, 'La rúbrica debe corresponder a los tres componentes');
+  const projectText = JSON.stringify(project).toLocaleLowerCase('es');
   assert.match(projectText, /plan.+puesto|puesto.+plan/s);
   assert.match(projectText, /procedimiento.+higiene|higiene.+procedimiento/s);
   assert.match(projectText, /primero/);
   assert.match(projectText, /respeto|respetuos/);
   assert.match(projectText, /oferta/);
+  assert.doesNotMatch(projectText, /distribuci[oó]n del puesto/);
+});
+
+test('Semana 2 evita absolutos inexactos sobre ADN y cromosomas', () => {
+  const genetics = weekTwo.lessons.find((lesson) => lesson.id === 's02-cnt-1');
+  assert.ok(genetics, 'Falta la lección de genética');
+  assert.ok(genetics.resumen, 'La lección de genética no tiene resumen');
+  const summary = genetics.resumen.join(' ').toLocaleLowerCase('es');
+  assert.doesNotMatch(summary, /(?:adn.+)?n[uú]cleo de (?:cada|todas?) (?:las? )?c[eé]lulas?/);
+  assert.doesNotMatch(summary, /46 cromosomas en (?:cada|todas?) (?:las? )?c[eé]lulas?/);
 });
 
 test('Semana 2 evalúa contenido enseñado, sin pistas y con payloads frescos', () => {
@@ -588,6 +677,22 @@ test('Semana 2 evalúa contenido enseñado, sin pistas y con payloads frescos', 
         if (entries.every((entry) => practiceEntries.has(entry))) {
           reused.push(`${source}/${assessment.areas[0]}/${assessment.type}`);
           break;
+        }
+      }
+    }
+  }
+
+  for (const [source, steps] of [['reto', challenge.steps], ['banco', weekTwoBank]] as const) {
+    for (const assessment of steps.filter((step) => getActivity(step.type)?.graded)) {
+      const assessmentFacts = semanticAssessmentFacts(assessment);
+      if (assessmentFacts.length === 0) continue;
+      for (const practice of subjectSteps.filter((step) => getActivity(step.type)?.graded)) {
+        if (practice.areas[0] !== assessment.areas[0]) continue;
+        const practiceFacts = new Set(semanticAssessmentFacts(practice));
+        for (const fact of assessmentFacts) {
+          if (practiceFacts.has(fact)) {
+            reused.push(`${source}/${assessment.areas[0]}/hecho:${fact}`);
+          }
         }
       }
     }

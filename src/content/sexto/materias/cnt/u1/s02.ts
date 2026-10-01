@@ -18,8 +18,8 @@ export default [
       'Describir cómo se heredan los cromosomas de la madre y del padre',
     ],
     resumen: [
-      'El ADN es la molécula que guarda las instrucciones para formar y hacer funcionar a un ser vivo. Está en el núcleo de cada célula.',
-      'El ADN se enrolla y forma los cromosomas. Las personas tienen 46 cromosomas en cada célula del cuerpo, organizados en 23 pares.',
+      'El ADN es la molécula que guarda las instrucciones para formar y hacer funcionar a un ser vivo. En la mayoría de las células humanas, está guardado en el núcleo.',
+      'El ADN se enrolla y forma los cromosomas. Casi todas las células humanas que tienen núcleo contienen 46 cromosomas, organizados en 23 pares.',
       'Un gen es un pedazo de ADN con la instrucción para una característica, como el grupo sanguíneo o el color natural de los ojos.',
       'Cada persona recibe la mitad de sus cromosomas de la madre (23) y la otra mitad del padre (23); por eso se parece a los dos, sin ser igual a ninguno.',
     ],
@@ -64,7 +64,7 @@ export default [
           hint: 'La célula contiene al núcleo; el núcleo, a los cromosomas; y un gen es solo un pedazo de un cromosoma.',
           explain: 'Célula → núcleo → cromosoma → gen. El gen es una parte del ADN que forma el cromosoma.' },
         { labels: { start: 'Más grande', end: 'Más pequeño' }, items: [
-          { id: 'o1', text: 'Célula', icon: 'Circle' },
+          { id: 'o1', text: 'Célula', icon: 'Microscope' },
           { id: 'o2', text: 'Núcleo', icon: 'CircleDot' },
           { id: 'o3', text: 'Cromosoma', icon: 'Book' },
           { id: 'o4', text: 'Gen', icon: 'FileText' },
@@ -85,12 +85,12 @@ export default [
       S.ejemplo(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.4.1'], ambito: 'conocer', title: 'Ejemplo: 23 + 23',
           prompt: 'Mira cómo se forma el juego completo de cromosomas de un bebé.' },
-        { icon: 'Users', problem: 'Las células del cuerpo de doña Juana y de don Pedro tienen 46 cromosomas cada una. ¿Cuántos cromosomas recibe su hija de cada uno, y cuántos tiene ella?',
+        { icon: 'Users', problem: 'Casi todas las células con núcleo de doña Juana y de don Pedro tienen 46 cromosomas. ¿Cuántos cromosomas recibe su hija de cada uno, y cuántos tiene la primera célula que se forma?',
           steps: [
             { text: 'Las células reproductoras se forman con **la mitad** de los cromosomas: 46 ÷ 2 = **23**.', why: 'Llevan un cromosoma de cada par.' },
             { text: 'El óvulo de doña Juana lleva **23** y el espermatozoide de don Pedro lleva **23**.' },
             { text: 'Al unirse forman la primera célula de la hija: 23 + 23 = **46** cromosomas.' },
-            { text: 'Esa célula se divide muchas veces, y cada nueva célula del cuerpo recibe una **copia** de los 46.', why: 'Por eso todas tus células tienen la misma información.' },
+            { text: 'Esa célula se divide muchas veces; en general, las nuevas células con núcleo reciben una **copia** de los 46.', why: 'Por eso casi todas las células con núcleo conservan la misma información genética.' },
           ],
           answer: 'Recibe **23** de su madre y **23** de su padre: tiene **46**, en 23 pares.',
           tip: 'Cada hermano recibe una mezcla distinta de cromosomas; por eso los hermanos se parecen, pero no son iguales (salvo los gemelos idénticos).' },
@@ -127,7 +127,7 @@ export default [
           explain: 'Cada óvulo y cada espermatozoide lleva una **mezcla distinta** de cromosomas (uno de cada par). Por eso cada hermano recibe una combinación diferente.' },
         { options: [
           { id: 'a', text: 'Porque cada uno recibió una combinación distinta de cromosomas de sus padres', icon: 'Dna' },
-          { id: 'b', text: 'Porque uno tiene 46 cromosomas y el otro 23', icon: 'Hash', feedback: 'Los dos tienen 46 cromosomas en las células de su cuerpo.' },
+          { id: 'b', text: 'Porque uno tiene 46 cromosomas y el otro 23', icon: 'Hash', feedback: 'Casi todas las células con núcleo de ambos tienen 46 cromosomas.' },
           { id: 'c', text: 'Porque uno heredó solo de la mamá y el otro solo del papá', icon: 'User', feedback: 'Cada hijo recibe cromosomas de los dos: 23 de cada uno.' },
         ], correct: ['a'] },
       ),
@@ -186,7 +186,7 @@ export default [
         { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.1.1'], ambito: 'conocer', title: 'Una célula o muchas',
           prompt: 'Los seres vivos se pueden organizar según **cuántas células** los forman. Toca cada tarjeta.' },
         { icon: 'Blocks', body: 'Recuerda: la célula es la unidad de la vida. Algunos seres vivos son **una sola célula**; otros son **millones** o **billones** de células trabajando juntas.', reveal: [
-          { icon: 'Circle', front: 'Unicelulares', back: 'Formados por **una sola célula** que hace todas las funciones. Casi siempre son **microscópicos**. Ejemplos: bacterias, levaduras (hongos del pan) y protozoos.' },
+          { icon: 'Microscope', front: 'Unicelulares', back: 'Formados por **una sola célula** que hace todas las funciones. Casi siempre son **microscópicos**. Ejemplos: bacterias, levaduras (hongos del pan) y protozoos.' },
           { icon: 'Blocks', front: 'Pluricelulares', back: 'Formados por **muchas células**, cada grupo con un trabajo distinto. Ejemplos: una planta de frijol, un hongo de sombrero, un perro, tú.' },
           { icon: 'Microscope', front: 'Protozoos', back: 'Unicelulares **con núcleo** que se alimentan de otros seres, y muchos se **mueven**. Su nombre significa "primeros animales".' },
           { icon: 'Bird', front: 'Metazoos', back: 'Así se llama a los **animales pluricelulares**: desde una lombriz hasta un quetzal.' },
@@ -221,7 +221,7 @@ export default [
           hint: '¿Se puede ver a simple vista y tiene partes distintas (hojas, patas, órganos)? Entonces tiene muchas células.',
           explain: 'La ameba, el paramecio, la levadura y las bacterias son una sola célula. La lombriz, el hongo de sombrero, la milpa y la gallina tienen muchas células.' },
         { buckets: [
-          { id: 'uni', label: 'Unicelular', icon: 'Circle', color: 'var(--area-cnt)' },
+          { id: 'uni', label: 'Unicelular', icon: 'Microscope', color: 'var(--area-cnt)' },
           { id: 'plu', label: 'Pluricelular', icon: 'Blocks', color: 'var(--c-maiz-strong)' },
         ], items: [
           { id: 'u1', text: 'Ameba', bucket: 'uni' },
@@ -238,7 +238,7 @@ export default [
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.1.1'], ambito: 'conocer', title: 'Cómo se organizan los pluricelulares',
           prompt: 'En un pluricelular, las células **se especializan** y se agrupan por niveles. Toca las tarjetas en orden.' },
         { icon: 'Layers', body: 'Una neurona no puede hacer el trabajo de un glóbulo rojo, y viceversa. Por eso las células se **organizan en equipos**.', reveal: [
-          { icon: 'Circle', front: '1. Célula', back: 'Unidad básica. Ejemplo: una **célula muscular** del corazón.' },
+          { icon: 'Microscope', front: '1. Célula', back: 'Unidad básica. Ejemplo: una **célula muscular** del corazón.' },
           { icon: 'Layers', front: '2. Tejido', back: 'Grupo de células parecidas que hacen el mismo trabajo. Ejemplo: el **tejido muscular**.' },
           { icon: 'Heart', front: '3. Órgano', back: 'Varios tejidos juntos con una función. Ejemplo: el **corazón** (músculo, nervios, vasos).' },
           { icon: 'Route', front: '4. Sistema', back: 'Varios órganos que trabajan juntos. Ejemplo: el **sistema circulatorio** (corazón, venas, arterias, sangre).' },
@@ -251,7 +251,7 @@ export default [
           hint: 'Empieza por la unidad más pequeña y termina con el ser vivo completo.',
           explain: 'Célula → tejido → órgano → sistema → organismo.' },
         { labels: { start: 'Más simple', end: 'Más complejo' }, items: [
-          { id: 'n1', text: 'Célula', icon: 'Circle' },
+          { id: 'n1', text: 'Célula', icon: 'Microscope' },
           { id: 'n2', text: 'Tejido', icon: 'Layers' },
           { id: 'n3', text: 'Órgano', icon: 'Heart' },
           { id: 'n4', text: 'Sistema', icon: 'Route' },
@@ -299,7 +299,7 @@ export default [
           prompt: '¿Cuál afirmación es correcta?',
           explain: 'Todos los protozoos son unicelulares, pero no todo unicelular es protozoo: las bacterias y las levaduras también son unicelulares y no son protozoos.' },
         { options: [
-          { id: 'a', text: 'Todos los protozoos son unicelulares', icon: 'Circle' },
+          { id: 'a', text: 'Todos los protozoos son unicelulares', icon: 'Microscope' },
           { id: 'b', text: 'Todos los unicelulares son protozoos', icon: 'Copy', feedback: 'Las bacterias y las levaduras son unicelulares, pero no son protozoos.' },
           { id: 'c', text: 'Los metazoos tienen una sola célula', icon: 'Bird', feedback: 'Los metazoos son animales pluricelulares.' },
         ], correct: ['a'] },

@@ -58,7 +58,7 @@ export default [
         { cards: [
           { icon: 'Banana', front: 'banana', back: 'banano · "ba-NÁ-na"' },
           { icon: 'Apple', front: 'mango', back: 'mango · "MÉIN-gou"' },
-          { icon: 'Circle', front: 'orange', back: 'naranja · "Ó-rinch"' },
+          { icon: 'Citrus', front: 'orange', back: 'naranja · "Ó-rinch"' },
           { icon: 'Egg', front: 'avocado', back: 'aguacate · "a-vo-KÁ-dou"' },
           { icon: 'Cherry', front: 'tomato', back: 'tomate · "to-MÉI-tou"' },
           { icon: 'Layers', front: 'onion', back: 'cebolla · "Á-nion"' },

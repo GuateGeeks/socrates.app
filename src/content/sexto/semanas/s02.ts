@@ -42,7 +42,7 @@ export default semana({
       ],
       resumen: [
         'Necesidad + recurso + saber = idea productiva. Una oferta simple dice qué se ofrece y a qué precio.',
-        'Lavarse las manos con agua y jabón, usar agua apta para el consumo y mantener la comida tapada reduce riesgos de contaminación.',
+        'Separar el dinero de la comida, lavarse las manos con agua y jabón, dejar el cuchillo a una persona adulta y mantener el alimento tapado ayuda a reducir riesgos de contaminación.',
         'Un instructivo tiene título, materiales y pasos en orden con palabras como primero, después, luego y finalmente.',
         'Con personas mayores o desconocidas usamos usted, títulos como don o doña y expresiones como buenos días, por favor y gracias.',
       ],
@@ -72,47 +72,11 @@ export default semana({
             { id: 'c', text: 'Regalar las naranjas a la tienda del pueblo', icon: 'Gift', feedback: 'No responde a la necesidad del recreo ni genera ingresos para el equipo.' },
           ], correct: ['a'] },
         ),
-        S.choice(
-          { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.2.1'], ambito: 'emprender',
-            prompt: 'Para que el puesto funcione, el equipo necesita **actitudes** emprendedoras. ¿Cuáles de estas son **actitudes**? Elige todas las correctas.',
-            hint: 'Las actitudes son **cómo actúas**. Los saberes son lo que conoces y las habilidades, lo que sabes hacer.',
-            explain: 'Responsabilidad, honestidad y perseverancia son actitudes. Saber los precios es un saber; pelar y picar fruta es una habilidad.' },
-          { multiple: true, options: [
-            { id: 'a', text: 'Llegar a tiempo a atender el puesto (responsabilidad)', icon: 'Clock' },
-            { id: 'b', text: 'Dar el vuelto exacto aunque el cliente no se dé cuenta (honestidad)', icon: 'HandCoins' },
-            { id: 'c', text: 'Seguir intentando aunque el primer día se venda poco (perseverancia)', icon: 'Repeat' },
-            { id: 'd', text: 'Conocer el precio de la fruta en el mercado', icon: 'Tag', feedback: 'Eso es un **saber**: algo que se conoce.' },
-            { id: 'e', text: 'Pelar y picar fruta rápido', icon: 'Hand', feedback: 'Eso es una **habilidad**: algo que se sabe hacer.' },
-          ], correct: ['a', 'b', 'c'] },
-        ),
-        S.reading(
-          { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.5.1', 'cnt:1.5.2', 'cnt:1.5.3'], ambito: 'conocer',
-            prompt: 'Recupera lo aprendido en Ciencias Naturales. Lee la ficha y comprueba qué riesgos y cuidados ya reconoces.' },
-          { genre: 'Ficha de repaso', heading: 'Riesgos y cuidados al manipular fruta', passage:
-            'Las frutas y verduras que se comen crudas pueden llevar **huevecillos de lombrices** y **quistes de ameba o de giardia**, tan pequeños que no se ven. Llegan a la fruta por el agua sucia, la tierra o las manos sin lavar.\n\nSi una persona se los traga, los parásitos se quedan a vivir en su intestino. Allí **le roban nutrientes** y pueden causarle diarrea, dolor de estómago, desnutrición y anemia.\n\nPara vender fruta en la escuela: lávese las manos con agua y jabón; lave la fruta con agua clorada; una persona adulta corta la fruta con tabla y cuchillo limpios; tape la comida para que no se paren las moscas. Si alguien tiene síntomas, que acuda al centro de salud y **no se automedique**.',
-            questions: [
-              { q: 'Los parásitos del aviso viven **dentro** del intestino. ¿Qué tipo de parásitos son?', options: [
-                { id: 'a', text: 'Ectoparásitos' },
-                { id: 'b', text: 'Endoparásitos' },
-                { id: 'c', text: 'Plantas' },
-              ], correct: 'b', why: 'Endo = dentro. Los ectoparásitos, como piojos y pulgas, viven por fuera del cuerpo.' },
-              { q: 'Según el aviso, ¿por qué los parásitos pueden causar **desnutrición**?', options: [
-                { id: 'a', text: 'Porque le roban nutrientes a la persona' },
-                { id: 'b', text: 'Porque hacen que la fruta sepa mal' },
-                { id: 'c', text: 'Porque dan mucha sed' },
-              ], correct: 'a' },
-              { q: '¿Por dónde llegan los huevecillos y quistes a la fruta?', options: [
-                { id: 'a', text: 'Por el agua sucia, la tierra o las manos sin lavar' },
-                { id: 'b', text: 'Por el sol' },
-                { id: 'c', text: 'Nacen solos dentro de la fruta sana' },
-              ], correct: 'a' },
-            ] },
-        ),
         S.sort(
           { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:1.5.3'], ambito: 'hacer',
-            prompt: 'Revisa cómo trabaja el puesto. ¿Cada acción **previene** los parásitos o **aumenta el riesgo**?',
+            prompt: 'Recupera y aplica el procedimiento que practicaste: ¿cada acción **previene** los parásitos o **aumenta el riesgo**?',
             hint: 'Piensa en los caminos de los parásitos: agua sucia, tierra, manos sin lavar y moscas.',
-            explain: 'Manos limpias, agua clorada y comida tapada cierran el paso a los parásitos. El agua destapada, las moscas y los billetes tocados antes de servir lo abren.' },
+            explain: 'Las manos limpias, el agua apta para consumo y la comida tapada ayudan a reducir el riesgo de contaminación. El agua destapada, las moscas y tocar billetes antes de servir pueden aumentarlo.' },
           { buckets: [
             { id: 'prev', label: 'Previene', icon: 'ShieldCheck', color: 'var(--c-ok)' },
             { id: 'riesgo', label: 'Aumenta el riesgo', icon: 'TriangleAlert', color: 'var(--c-hint)' },
@@ -127,9 +91,9 @@ export default semana({
         ),
         S.order(
           { fase: 'aplicar', areas: ['l2', 'cnt'], cnb: ['l2:2.1.1', 'cnt:1.5.3'], ambito: 'hacer',
-            prompt: 'El equipo escribe un **instructivo** para su puesto: "Cómo preparar vasitos de fruta seguros". Ordena los pasos.',
+            prompt: 'Retoma el **procedimiento** que modelaste en L2 y Ciencias: ordena sus pasos para el puesto.',
             hint: 'Fíjate en las palabras de orden: primero, después, luego, a continuación, finalmente.',
-            explain: 'Las palabras de orden y los verbos de acción (lava, corta, sirve, tapa) hacen que cualquiera pueda seguir las instrucciones.' },
+            explain: 'Este orden aplica lo aprendido: lavarse las manos, dejar el cuchillo a una persona adulta, servir con utensilios limpios y tapar el alimento.' },
           { items: [
             { id: 'p1', text: 'Primero, lávate las manos con agua y jabón.', icon: 'HandHelping' },
             { id: 'p2', text: 'Después, lava la fruta con agua clorada.', icon: 'Droplets' },
@@ -175,20 +139,18 @@ export default semana({
           { text: 'VENDEDORA: [[Buenos días]], doña Elena. ¿En qué le puedo servir?\nCLIENTA: Quisiera dos vasos de fruta, [[por favor]].\nVENDEDORA: Con gusto. Aquí tiene [[usted]].\nCLIENTA: Muchas gracias.\nVENDEDORA: Gracias a usted.', distractors: ['Qué quiere', 'vos', 'rápido'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['pyd', 'cnt', 'l2'], cnb: ['pyd:1.4.4', 'pyd:1.2.1', 'cnt:1.5.3', 'l2:2.1.1', 'l2:1.3.1'], ambito: 'emprender', title: 'Producto: plan de un puesto sano y respetuoso',
+          { fase: 'aplicar', areas: ['pyd', 'cnt', 'l2'], cnb: ['pyd:1.4.4', 'cnt:1.5.3', 'l2:2.1.1', 'l2:1.3.1'], ambito: 'emprender', title: 'Producto: plan de un puesto sano y respetuoso',
             prompt: 'Elabora el **plan de tu puesto** en una hoja. Usa solo decisiones que ya practicaste y completa cada parte.' },
           { goal: 'Diseñar un plan de puesto **posible, higiénico y respetuoso** para el mercadito escolar.',
             steps: [
               { title: 'Oferta simple', detail: 'Escribe qué ofrecerás, a qué precio y qué necesidad, recurso local y saber familiar reúne.' },
-              { title: 'Procedimiento de higiene', detail: 'Anota materiales y cuatro pasos: **Primero**, lávate las manos con agua y jabón; **después**, lava el alimento con agua apta para consumo; **luego**, usa utensilios limpios; **finalmente**, tapa el alimento y limpia la mesa.' },
+              { title: 'Procedimiento de higiene', detail: 'Anota materiales y cuatro pasos breves: **primero**, separa el dinero y asigna quién cobra; **después**, lávate las manos y deja el corte a una persona adulta con utensilios limpios; **luego**, sirve y tapa el alimento; **finalmente**, quien cobra no toca comida y se lava las manos antes de cambiar de tarea.' },
               { title: 'Servicio respetuoso', detail: 'Escribe un saludo con usted y don o doña, una frase para ofrecer el producto y una despedida con gracias.' },
-              { title: 'Distribución del puesto', detail: 'Dibuja dónde estarán el producto tapado, los utensilios limpios, el dinero separado y el bote con tapa.' },
             ],
-            evidence: 'Una hoja con la oferta, el procedimiento de higiene, tres frases de servicio respetuoso y el dibujo del puesto.',
+            evidence: 'Una hoja con una oferta simple, un procedimiento de higiene de cuatro pasos y tres frases de servicio respetuoso.',
             rubric: [
               'Mi oferta es sencilla y usa un recurso y un saber disponibles',
-              'Mi procedimiento tiene materiales y cuatro pasos en orden',
-              'Separé los alimentos, los utensilios y el dinero en el dibujo',
+              'Mi procedimiento tiene materiales y cuatro pasos: separa dinero y comida, reserva el cuchillo para una persona adulta, mantiene el alimento tapado y exige lavarse las manos después de cobrar',
               'Mi lenguaje de servicio usa usted, un título y palabras de cortesía',
             ] },
         ),
@@ -246,11 +208,11 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.4.1'], prompt: 'Los 46 cromosomas de una célula humana se organizan en ¿cuántos **pares**?' },
+          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.4.1'], prompt: 'Una investigadora observa una estructura formada por ADN enrollado que contiene muchos genes. ¿Qué estructura observa?' },
           { options: [
-            { id: 'a', text: '23' },
-            { id: 'b', text: '22' },
-            { id: 'c', text: '46' },
+            { id: 'a', text: 'Un cromosoma' },
+            { id: 'b', text: 'Un gen' },
+            { id: 'c', text: 'Una célula reproductora' },
           ], correct: ['a'] },
         ),
         S.sort(
@@ -325,19 +287,19 @@ export default semana({
   bank: [
     S.number({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.1.9'], prompt: 'Con el compás abierto a **3 cm** trazas un círculo y marcas 6 puntos seguidos sobre él. Al unirlos formas un hexágono regular. ¿Cuánto mide cada lado del hexágono?' },
       { answer: 3, unit: 'cm', misconceptions: [{ value: 6, msg: '6 cm sería el diámetro. Cada lado del hexágono mide lo mismo que el radio.' }] }),
-    S.choice({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.1.7'], prompt: '¿Cuántos lados tiene un **eneágono**?' },
-      { options: [{ id: 'a', text: '9' }, { id: 'b', text: '11' }, { id: 'c', text: '7' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.1.7'], prompt: 'Un marco cerrado tiene **diez lados** y diez vértices. ¿Cómo se llama ese polígono?' },
+      { options: [{ id: 'a', text: 'Decágono' }, { id: 'b', text: 'Eneágono' }, { id: 'c', text: 'Hexágono' }], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.1.8', 'mat:1.1.6'], prompt: '¿Cuánto mide **cada** ángulo interior de un hexágono regular?' },
       { options: [{ id: 'a', text: '120°' }, { id: 'b', text: '108°' }, { id: 'c', text: '720°' }], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:4.2.1'], prompt: '"Don Luis compra 4 libras de tomate a Q5 la libra y paga con un billete de Q50. Su hija tiene 11 años. ¿Cuánto le dan de vuelto?" ¿Qué dato **sobra**?' },
       { options: [{ id: 'a', text: 'La edad de la hija' }, { id: 'b', text: 'El precio de la libra' }, { id: 'c', text: 'El billete de Q50' }], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:4.2.2'], prompt: 'Quieres buscar la palabra **"corrieron"** en el diccionario. ¿Qué forma buscas?' },
       { options: [{ id: 'a', text: 'correr' }, { id: 'b', text: 'corrieron' }, { id: 'c', text: 'corrida' }], correct: ['a'] }),
-    S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.4.1'], prompt: '¿Qué es un **gen**?' },
+    S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.4.1'], prompt: 'Una instrucción para el grupo sanguíneo ocupa un tramo de ADN. ¿Cómo se llama ese tramo?' },
       { options: [
-        { id: 'a', text: 'Un pedazo de ADN con la instrucción para una característica' },
-        { id: 'b', text: 'Un organelo que produce energía' },
-        { id: 'c', text: 'Un parásito que vive en el intestino' },
+        { id: 'a', text: 'Gen' },
+        { id: 'b', text: 'Cromosoma completo' },
+        { id: 'c', text: 'Núcleo' },
       ], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.1.1'], prompt: '¿Qué ser vivo es **unicelular**?' },
       { options: [{ id: 'a', text: 'El paramecio' }, { id: 'b', text: 'La lombriz de tierra' }, { id: 'c', text: 'El perro' }], correct: ['a'] }),
