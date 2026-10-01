@@ -55,7 +55,7 @@ export default semana({
       steps: [
         S.explain(
           { fase: 'explorar', areas: ['ccss', 'l1'], cnb: ['ccss:1.2.1', 'l1:2.1.6'], ambito: 'conocer', title: 'Tu misión de hoy',
-            prompt: 'La escuela invita a compartir **Nuestro lugar en mapas y palabras**. En veinte minutos analizarás la ficha de **Loma Linda**, mirarás un modelo y crearás un mapa anotado con un plan oral breve.' },
+            prompt: 'La escuela invita a compartir **Nuestro lugar en mapas y palabras**. En veinte minutos analizarás la ficha de **Loma Linda**, recuperarás lo aprendido y crearás un mapa anotado con un plan oral breve.' },
           { icon: 'Map', body: 'No aprenderás temas nuevos: vas a **integrar** lo que ya practicaste esta semana.', reveal: [
             { icon: 'Globe', front: 'Sociales', back: 'Ubicación, condiciones geográficas y prevención.' },
             { icon: 'Scale', front: 'Formación Ciudadana', back: 'Una condición local, el derecho relacionado y una respuesta solidaria.' },
@@ -80,16 +80,29 @@ export default semana({
               ], correct: 'b', why: 'Las viviendas junto al barranco están expuestas a deslaves durante lluvias fuertes.' },
             ] },
         ),
-        S.ejemplo(
-          { fase: 'construir', areas: ['ccss', 'fc'], cnb: ['ccss:1.2.1', 'ccss:1.3.1', 'fc:1.2.1', 'fc:1.1.2'], ambito: 'hacer', title: 'Ejemplo resuelto: del dato al mapa anotado',
-            prompt: 'Ana convierte la ficha de Loma Linda en un mapa que otra persona puede leer sin escuchar una explicación adicional.' },
-          { icon: 'Map', problem: '¿Cómo organiza orientación, símbolos, lugares y anotaciones sin inventar datos?', steps: [
-            { text: '**Orientación:** dibuja una flecha con la letra **N** de **norte** en la parte superior.', why: 'La orientación permite interpretar dónde queda cada elemento.' },
-            { text: '**Símbolos y clave:** usa □ escuela, ≋ nacimiento de agua, ▲ barranco y → ruta de evacuación; repite esos signos en una clave.', why: 'La clave explica qué significa cada símbolo.' },
-            { text: '**Colocación y rótulos:** sitúa y nombra la escuela en terreno firme, las casas sobre la ladera, el barranco, el nacimiento y la ruta que los conecta.', why: 'Cada símbolo debe estar colocado y rotulado en el lugar que representa.' },
-            { text: '**Anotación con evidencia:** junto al nacimiento escribe: “4 de cada 10 familias acarrean agua hasta sus casas; el acceso domiciliario es desigual y exige más tiempo y esfuerzo”.', why: 'Una línea conecta el texto con el nacimiento: la anotación dice qué muestra la evidencia y dónde ocurre.' },
-            { text: '**Derecho y respuesta:** cerca de las viviendas escribe: “La accesibilidad domiciliaria del derecho al agua se cumple de forma desigual; la ficha no permite juzgar su potabilidad ni continuidad. Respuesta solidaria: registrar recorridos y posibles interrupciones con el COCODE, y acompañar a quienes acarrean agua mientras se gestionan mejoras”.', why: 'La anotación identifica una condición, juzga su cumplimiento y propone apoyo colectivo sin inventar datos sobre calidad o continuidad.' },
-          ], tip: 'Una buena anotación une **evidencia + lugar + significado**. Si no sabes un dato, no lo inventes.' },
+        S.match(
+          { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'hacer',
+            prompt: 'Recupera lo que aprendiste en **Ciencias Sociales**: une cada convención del mapa con su función.' },
+          { leftTitle: 'Convención', rightTitle: 'Función', pairs: [
+            { id: 'o', left: 'Orientación', right: 'La flecha N permite reconocer el norte' },
+            { id: 's', left: 'Símbolo', right: 'Representa un lugar o elemento con un signo sencillo' },
+            { id: 'c', left: 'Clave', right: 'Explica qué significa cada símbolo usado' },
+            { id: 'a', left: 'Anotación', right: 'Conecta evidencia, lugar y significado' },
+          ] },
+        ),
+        S.sort(
+          { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'hacer',
+            prompt: 'Revisa el borrador del mapa de Ana. Clasifica lo que ya comunica con claridad y lo que debe corregir.',
+            explain: 'Un mapa legible necesita orientación, símbolos explicados en una clave, rótulos y anotaciones conectadas a lugares.' },
+          { buckets: [
+            { id: 'listo', label: 'Comunica con claridad', icon: 'BadgeCheck', color: 'var(--c-ok)' },
+            { id: 'corregir', label: 'Debe corregirse', icon: 'Pencil', color: 'var(--c-hint)' },
+          ], items: [
+            { id: 'm1', text: 'Una flecha N indica el norte', bucket: 'listo' },
+            { id: 'm2', text: 'Aparece un símbolo de escuela, pero no está explicado en la clave', bucket: 'corregir' },
+            { id: 'm3', text: 'El barranco está colocado y rotulado', bucket: 'listo' },
+            { id: 'm4', text: 'La frase “Hay riesgo” no está unida a ningún lugar', bucket: 'corregir' },
+          ] },
         ),
         S.choice(
           { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'hacer',
@@ -110,6 +123,16 @@ export default semana({
             { id: 'b', text: '“Toda el agua entubada es potable” + no investigar nada más' },
             { id: 'c', text: '“El nacimiento siempre es inseguro” + culpar a las familias que lo usan' },
           ], correct: ['a'] },
+        ),
+        S.match(
+          { fase: 'aplicar', areas: ['ccss', 'fc'], cnb: ['ccss:1.2.1', 'ccss:1.3.1', 'fc:1.2.1', 'fc:1.1.2'], ambito: 'hacer',
+            prompt: 'Antes de dibujar, une cada una de las **cuatro categorías** con una anotación respaldada por la ficha.' },
+          { leftTitle: 'Categoría', rightTitle: 'Anotación', pairs: [
+            { id: 'u', left: 'Ubicación o condición geográfica', right: 'Loma Linda está a unos 2,000 m: es tierra fría' },
+            { id: 'r', left: 'Riesgo y prevención', right: 'Las casas junto al barranco están expuestas a deslaves; la ruta lleva a terreno firme' },
+            { id: 'd', left: 'Condición, derecho y juicio', right: 'Cuatro de cada diez familias acarrean agua: la accesibilidad domiciliaria del derecho al agua es desigual' },
+            { id: 's', left: 'Respuesta solidaria', right: 'Registrar recorridos con el COCODE y acompañar a quienes acarrean agua' },
+          ] },
         ),
         S.order(
           { fase: 'aplicar', areas: ['l1', 'ccss'], cnb: ['l1:2.1.6'], ambito: 'hacer',

@@ -16,7 +16,7 @@ export default [
     objetivos: [
       'Reconocer el ecuador, el meridiano de Greenwich, los paralelos y los meridianos',
       'Explicar qué miden la latitud y la longitud',
-      'Ubicar un punto en un mapa cuadriculado con sus coordenadas geográficas',
+      'Interpretar y construir mapas con coordenadas, orientación, símbolos, clave y anotaciones',
     ],
     resumen: [
       'Los paralelos son líneas imaginarias horizontales; el más importante es el ecuador (0°), que divide la Tierra en hemisferio norte y hemisferio sur.',
@@ -80,17 +80,18 @@ export default [
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'hacer', title: 'Ejemplo resuelto: leer un mapa cuadriculado',
-          prompt: 'En los mapas escolares a veces se usa una **cuadrícula**. Supongamos que en este mapa **cada cuadro mide 10°**: el eje horizontal es el ecuador y el vertical es Greenwich.' },
-        { icon: 'Map', problem: 'Un barco está **3 cuadros a la izquierda** de Greenwich y **2 cuadros arriba** del ecuador. ¿Cuáles son sus coordenadas?',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'hacer', title: 'Ejemplo resuelto: leer y construir un mapa',
+          prompt: 'Un mapa comunica una ubicación cuando combina coordenadas con convenciones que cualquier persona puede interpretar.' },
+        { icon: 'Map', problem: '¿Cómo representamos una escuela ubicada en 20° N, 30° O y anotamos una condición comprobable de su entorno?',
           steps: [
-            { text: 'Arriba del ecuador es **norte**. 2 cuadros × 10° = **20° N**.', why: 'La latitud se cuenta hacia arriba (N) o hacia abajo (S) desde el ecuador.' },
-            { text: 'A la izquierda de Greenwich es **oeste**. 3 cuadros × 10° = **30° O**.', why: 'La longitud se cuenta hacia la derecha (E) o la izquierda (O) desde Greenwich.' },
-            { text: 'Se escribe primero la latitud y luego la longitud: **20° N, 30° O**.' },
-            { text: 'En la cuadrícula del plano, ese punto es **(−3, 2)**: x negativa porque va al oeste, y positiva porque va al norte.' },
+            { text: '**Orientación:** coloca una flecha con la letra **N**; así se reconoce dónde está el norte y se interpretan las demás direcciones.' },
+            { text: '**Ubicación:** marca 20° N, 30° O; la latitud va primero y la longitud después.' },
+            { text: '**Símbolo:** representa la escuela con un signo sencillo y rotúlala en el lugar correcto.' },
+            { text: '**Clave:** repite el signo al margen y escribe “escuela”; la clave explica qué significa cada símbolo.' },
+            { text: '**Anotación con evidencia:** une una frase breve al lugar correspondiente, por ejemplo “La escuela está en terreno firme”. Una anotación dice qué muestra la evidencia y dónde ocurre.' },
           ],
-          answer: 'El barco está en **20° N, 30° O**.',
-          tip: 'Truco: norte y este son como los números positivos del plano; sur y oeste, como los negativos.' },
+          answer: 'El mapa queda orientado, ubica la escuela en **20° N, 30° O**, explica su símbolo en la clave y conecta la anotación con el lugar.',
+          tip: 'No inventes datos: toda anotación debe unir **evidencia + lugar + significado**.' },
       ),
       S.coord(
         { fase: 'construir', areas: ['ccss', 'mat'], cnb: ['ccss:1.2.1'], ambito: 'hacer',

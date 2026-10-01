@@ -81,6 +81,38 @@ test('Unidad 1 limita cada taller a dos, tres o cuatro áreas reales', () => {
   }
 });
 
+test('Semana 1 mantiene el taller entre diez y catorce pasos', () => {
+  const week = unitWeeks.find((item) => item.semana === 1);
+  const workshop = week?.lessons.find((lesson) => lesson.kind === 'taller');
+  assert.ok(workshop, 'Semana 1 sin taller');
+  assert.ok(
+    workshop.steps.length >= 10 && workshop.steps.length <= 14,
+    `Semana 1: taller tiene ${workshop.steps.length} pasos`,
+  );
+});
+
+test('Semana 1 enseña las convenciones del mapa en CCSS antes de recuperarlas en el taller', () => {
+  const week = unitWeeks.find((item) => item.semana === 1);
+  assert.ok(week, 'Falta semana 1');
+  const workshopIndex = week.lessons.findIndex((lesson) => lesson.kind === 'taller');
+  assert.notEqual(workshopIndex, -1, 'Semana 1 sin taller');
+
+  const ccssLessons = week.lessons
+    .slice(0, workshopIndex)
+    .filter((lesson) => lesson.area === 'ccss');
+  const mapInstruction = JSON.stringify(
+    ccssLessons.flatMap((lesson) => lesson.steps)
+      .filter((step) => step.cnb.includes('ccss:1.2.1')),
+  ).toLocaleLowerCase('es');
+  for (const convention of ['orientación', 'norte', 'símbolo', 'clave', 'anotación']) {
+    assert.ok(mapInstruction.includes(convention), `CCSS no enseña la convención "${convention}"`);
+  }
+
+  const workshop = week.lessons[workshopIndex];
+  const workshopText = JSON.stringify(workshop.steps).toLocaleLowerCase('es');
+  assert.match(workshopText, /recupera.+aprendiste.+ciencias sociales/s);
+});
+
 test('Unidad 1 no repite una interacción tres veces seguidas', () => {
   for (const week of unitWeeks) for (const lesson of week.lessons) {
     for (let index = 2; index < lesson.steps.length; index += 1) {
