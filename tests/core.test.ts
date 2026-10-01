@@ -148,6 +148,35 @@ test('hidratacion recupera el area segura de diarios pendientes creados antes de
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
+test('hidratacion acepta el minimo historico de cinco palabras pero respeta minWords persistido', () => {
+  const value = JSON.stringify({
+    text: 'Libros circulan por nuestro grado', checks: [true, true], seen: true,
+  });
+  const baseEntry = {
+    stepId: 'week6-label', value, at: '2026-02-13', status: 'pending-review',
+    primaryArea: 'pyd', cnb: ['pyd:4.3.1'],
+    review: { criteria: ['Nombra el proyecto con claridad', 'Tiene entre 5 y 8 palabras'], selfChecks: [true, true] },
+  };
+  const stored = {
+    ...emptyProgress(),
+    journal: {
+      'week6/legacy-minimum': baseEntry,
+      'week6/persisted-minimum': { ...baseEntry, review: { ...baseEntry.review, minWords: 6 } },
+    },
+  } as unknown as Progress;
+  setStorageAdapter({ load: () => stored, save: () => {} });
+
+  assert.equal(getProgress().journal['week6/legacy-minimum'].status, 'pending-review');
+  assert.equal(getProgress().journal['week6/persisted-minimum'].status, 'legacy');
+  reviewJournalEntry('week6/legacy-minimum', 'approve');
+  assert.equal(getProgress().journal['week6/legacy-minimum'].status, 'approved');
+  assert.deepEqual(getProgress().journal['week6/legacy-minimum'].creditedRefs, ['pyd:4.3.1']);
+  assert.deepEqual(getProgress().evidence['pyd:4.3'], {
+    ok: 1, total: 1, last: getProgress().journal['week6/legacy-minimum'].reviewedAt,
+  });
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
 test('hidratacion vuelve legacy cada forma pendiente malformada y bloquea su aprobacion', () => {
   const valid = {
     stepId: 'step',

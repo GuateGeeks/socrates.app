@@ -80,6 +80,8 @@ export const localStorageAdapter: StorageAdapter = {
   save(p) { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch { /* modo privado / sin espacio */ } },
 };
 
+const LEGACY_SHORT_ANSWER_MIN_WORDS = 5;
+
 export function emptyProgress(): Progress {
   return {
     version: 1,
@@ -133,7 +135,7 @@ function hydrate(raw: Progress | null): Progress {
     const minWordsValid = entry.review?.minWords === undefined
       || (Number.isInteger(entry.review.minWords) && entry.review.minWords! > 0);
     const reviewValid = criteriaValid && checksValid && minWordsValid;
-    const minWords = entry.review?.minWords ?? 8;
+    const minWords = entry.review?.minWords ?? LEGACY_SHORT_ANSWER_MIN_WORDS;
     let response: ShortAnswerValue | undefined;
     if (typeof entry.value === 'string' && criteriaValid) {
       try {
