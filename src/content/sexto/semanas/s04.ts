@@ -32,11 +32,12 @@ export default semana({
       icon: 'Drama',
       minutes: 19,
       gancho: '¿Cómo puede una escena breve responder una duda sobre crecer sin asustar, avergonzar ni repetir rumores?',
-      objetivos: ['Crear una campaña informativa con una escena dramática científicamente correcta, respetuosa y participativa'],
+      objetivos: ['Crear una campaña informativa con una escena dramática científicamente correcta, respetuosa y participativa, acompañada por música elegida con criterio'],
       resumen: [
         'Una campaña de salud usa información comprobable y dice de dónde procede.',
         'Una escena informativa presenta una duda, una respuesta clara y una acción de cuidado.',
         'El lenguaje respetuoso reconoce que cada cuerpo cambia a su ritmo y evita burlas, estereotipos y diagnósticos.',
+        'Un fragmento instrumental se elige por su carácter e intensidad: debe apoyar el mensaje sin tapar las voces.',
         'Un liderazgo democrático escucha al equipo, reparte tareas y revisa el producto con criterios comunes.',
       ],
       media: {
@@ -84,15 +85,20 @@ export default semana({
             rubric: ['Tiene entre 18 y 24 palabras', 'Comunica un dato científico sin diagnosticar', 'Usa lenguaje respetuoso y orienta hacia una fuente confiable'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['art', 'l1'], cnb: ['art:3.1.2', 'l1:5.1.9'], ambito: 'hacer', title: 'Etapa 4: apoyo visual · 2 min',
-            prompt: 'Hagan una tarjeta pequeña que muestre la idea central con un título legible y un solo ícono descriptivo.' },
-          { goal: 'Dar claridad a la escena dramática con un apoyo visual sencillo.',
+          { fase: 'aplicar', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'hacer', title: 'Etapa 4: elige el fragmento · 2 min',
+            prompt: 'Escuchen dos fragmentos instrumentales de cinco segundos. Elijan A o B según su carácter e intensidad y escriban una oración: “Elegimos ___ porque ___”.',
+            media: {
+              id: 's04-d5-taller-fragmentos', kind: 'audio', title: 'Dos fragmentos para la escena', duration: 12,
+              alt: 'Fragmento A: marimba instrumental tranquila y suave. Fragmento B: percusión instrumental festiva de intensidad moderada.',
+              brief: 'Audio de 12 s, sin voces ni marcas. Fragmento A: 5 s de marimba instrumental original o de dominio público, tempo lento, carácter tranquilo e intensidad suave. Pausa de 1 s. Fragmento B: 5 s de percusión instrumental original o de dominio público, tempo moderado, carácter festivo e intensidad moderada. Cierre con 1 s de silencio. Ambos fragmentos deben oírse con claridad a volumen moderado.',
+            } },
+          { goal: 'Valorar música breve y elegir la que apoye mejor la campaña.',
             steps: [
-              { title: 'Sinteticen', detail: 'Escriban un título de tres a cinco palabras que coincida con el mensaje.' },
-              { title: 'Representen', detail: 'Dibujen un libro abierto, un escudo de cuidado o manos que apoyan; no representen cuerpos de forma burlona.' },
+              { title: 'Comparen', detail: 'Identifiquen el carácter y la intensidad de A y B; no hace falta describir otros elementos.' },
+              { title: 'Decidan', detail: 'Escojan un fragmento y anoten una razón de una sola oración vinculada con el mensaje, el respeto o la claridad de las voces.' },
             ],
-            evidence: 'Una tarjeta legible que apoya el mensaje sin añadir otra tarea.',
-            rubric: ['El recurso visual refuerza la idea central', 'La imagen comunica cuidado y respeto'] },
+            evidence: 'Fragmento A o B seleccionado y una oración que justifica la decisión con un criterio musical aprendido.',
+            rubric: ['La razón usa carácter, intensidad o volumen', 'La elección apoya el mensaje y permite escuchar las voces'] },
         ),
         S.choice(
           { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:2.3.2', 'l1:5.1.8'], ambito: 'conocer', title: 'Control de concisión · 1 min',
@@ -104,15 +110,15 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['l1', 'fc'], cnb: ['l1:5.1.8', 'fc:3.1.1'], ambito: 'hacer', title: 'Etapa 5: ensayo breve · 1 min',
-            prompt: 'Hagan una lectura en voz alta de 30 segundos: una persona plantea la duda y la otra dice el mensaje; después intercambien una observación.' },
-          { goal: 'Ensayar la escena informativa con voz clara y escucha mutua.',
+          { fase: 'aplicar', areas: ['l1', 'fc', 'art'], cnb: ['l1:5.1.8', 'fc:3.1.1', 'art:3.1.2'], ambito: 'hacer', title: 'Etapa 5: ensayo breve · 1 min',
+            prompt: 'Hagan una lectura en voz alta de 30 segundos: reproduzcan solo cinco segundos del fragmento elegido, deténganlo y representen los dos roles; después intercambien una observación.' },
+          { goal: 'Ensayar la escena informativa con la música elegida, voz clara y escucha mutua.',
             steps: [
-              { title: 'Lean', detail: 'Representen la escena una vez mostrando la tarjeta en el momento del dato.' },
-              { title: 'Escuchen', detail: 'Confirmen si se entendieron la idea central y la orientación final.' },
+              { title: 'Inicien', detail: 'Usen el fragmento seleccionado durante 5 segundos y deténganlo antes de hablar para que no tape las voces.' },
+              { title: 'Lean y comprueben', detail: 'Representen la escena una vez; confirmen que se entiendan la idea central y la orientación final, y que el carácter musical apoye el mensaje.' },
             ],
-            evidence: 'Una lectura completa y una observación oral.',
-            rubric: ['Ambas personas cumplen el rol acordado', 'El mensaje se entiende sin hablar deprisa'] },
+            evidence: 'Una lectura completa que usa cinco segundos del fragmento elegido y una observación oral.',
+            rubric: ['Ambas personas cumplen el rol acordado', 'La música se detiene antes de las voces', 'El mensaje se entiende sin hablar deprisa'] },
         ),
         S.project(
           { fase: 'aplicar', areas: ['cnt', 'l1', 'fc'], cnb: ['cnt:2.3.2', 'cnt:3.3.1', 'l1:5.1.8', 'fc:3.1.1'], ambito: 'convivir', title: 'Etapa 6: revisión entre pares · 2 min',
@@ -134,11 +140,11 @@ export default semana({
         ),
         S.project(
           { fase: 'aplicar', areas: ['cnt', 'l1', 'fc'], cnb: ['cnt:2.3.2', 'l1:5.1.8', 'fc:3.1.1'], ambito: 'hacer', title: 'Etapa 8: presentación final · 1 min',
-            prompt: 'Representen o lean la escena final de 30 segundos con la tarjeta visible y los dos roles acordados.' },
+            prompt: 'Representen o lean la escena final de 30 segundos con los dos roles acordados.' },
           { goal: 'Presentar una escena dramática informativa breve y revisada.',
             steps: [
               { title: 'Presenten', detail: 'Una voz plantea la duda y la otra comunica el dato, la fuente y la acción de cuidado.' },
-              { title: 'Entreguen', detail: 'Junten el mensaje corregido, las dos marcas de revisión y la tarjeta visual.' },
+              { title: 'Entreguen', detail: 'Junten el mensaje corregido, las dos marcas de revisión y la razón de la elección musical.' },
             ],
             evidence: 'Campaña informativa presentada y producto breve revisado.',
             rubric: ['Mantiene exactitud científica y fuente confiable', 'Usa lenguaje respetuoso', 'Ambas personas participan en la escena'] },

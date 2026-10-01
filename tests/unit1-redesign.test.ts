@@ -1991,8 +1991,9 @@ test('s04-mat-5 ensambla cuatro sólidos con un kit preparado dentro de quince m
   assert.match(lessonText, /plantillas?.{0,80}(?:preparadas?|precortadas?)|kit.{0,80}(?:preparado|precortado)/);
   assert.match(lessonText, /autoadhesiv|peel.?and.?stick|encastre|autoajustable/);
   assert.match(lessonText, /bases? (?:circulares|curvas).{0,120}(?:autoadhesiv|encastre)|(?:autoadhesiv|encastre).{0,120}bases? (?:circulares|curvas)/);
-  assert.doesNotMatch(lessonText, /tiras? (?:cortas? )?de cinta|trozos? (?:cortos? )?de cinta/);
-  assert.doesNotMatch(lessonText, /(?:estudiante|alumno|tu).{0,60}(?:traza|recorta|corta)|(?:traza|recorta|corta).{0,60}(?:estudiante|alumno|tu)/);
+  const studentStepsText = normalizeFactText(JSON.stringify(lesson.steps));
+  assert.doesNotMatch(studentStepsText, /tiras? (?:cortas? )?de cinta|trozos? (?:cortos? )?de cinta/);
+  assert.doesNotMatch(studentStepsText, /(?:estudiante|alumno|tu).{0,60}(?:traza|recorta|corta)|(?:traza|recorta|corta).{0,60}(?:estudiante|alumno|tu)/);
 
   const projects = lesson.steps.filter((step) => step.type === 'project');
   assert.equal(projects.length, 1);
@@ -2011,6 +2012,8 @@ test('s04-mat-5 ensambla cuatro sólidos con un kit preparado dentro de quince m
   assert.match(production, /cuatro modelos (?:armados|ensamblados|terminados)|4 modelos (?:armados|ensamblados|terminados)/);
   assert.match(production, /dobl|enroll|unir|ensambl/);
   assert.doesNotMatch(production, /\b(?:traza|dibuja|recorta|corta|usa tijeras|usa compas)\b/);
+  assert.doesNotMatch(production, /(?:aplica|coloca|corta).{0,40}(?:adhesiv|cinta)|(?:adhesiv|cinta).{0,40}(?:aplica|coloca|corta)/);
+  assert.match(lessonText, /solo despega.{0,40}dobla o enrolla.{0,40}presiona/);
 
   const stages = project.props.steps ?? [];
   assert.ok(stages.length >= 3 && stages.length <= 5, `El proyecto tiene ${stages.length} etapas`);
@@ -2023,6 +2026,19 @@ test('s04-mat-5 ensambla cuatro sólidos con un kit preparado dentro de quince m
   assert.ok(manualOperations <= 10, `El producto exige ${manualOperations} operaciones manuales`);
   assert.match(production, /autoadhesiv|encastre|autoajustable/);
   assert.match(production, /etiqueta|rotul|compara/);
+
+  const brief = normalizeFactText(lesson.media?.brief ?? '');
+  assert.match(brief, /cartulina.{0,50}(?:180|200|220).{0,20}g\/m|(?:180|200|220).{0,20}g\/m.{0,50}cartulina/);
+  assert.match(brief, /tamano carta.{0,30}100 ?%|100 ?%.{0,30}tamano carta/);
+  assert.match(brief, /zonas? (?:grises?|sombreadas?).{0,50}adhesiv|zonas? adhesivas?.{0,50}(?:grises?|sombreadas?)/);
+  assert.match(brief, /14 tiras?.{0,80}doble cara|doble cara.{0,80}14 tiras?/);
+  assert.match(brief, /p2(?:-| )p5.{0,120}bordes libres.{0,80}base triangular/);
+  assert.match(brief, /y1(?:-| )y4.{0,120}caras triangulares contiguas/);
+  assert.match(brief, /(?:5 mm|5 ×|5 x).{0,100}(?:25|35|40|45|50|90|95) mm/);
+  assert.match(brief, /protector(?:es)? desprendible|papel protector|release liner/);
+  assert.match(brief, /lista de preparacion.{0,500}(?:persona adulta|docente).{0,200}(?:recorta|corta).{0,200}(?:marca|hende|score).{0,300}(?:aplica|pega).{0,100}doble cara/s);
+  assert.match(brief, /(?:svg|pdf).{0,160}(?:aporta|incluye|muestra).{0,160}(?:contornos|dobleces|zonas)/);
+  assert.match(brief, /(?:svg|pdf|impresion).{0,120}no (?:crea|incluye|aplica).{0,40}adhesiv/);
 
   const postProject = lesson.steps.slice(projectIndex + 1);
   const exits = postProject.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
@@ -2069,7 +2085,7 @@ test('Semana 4 construye una campaña dramática breve con cuatro áreas ya ense
   assert.match(productText, /exactitud cientifica|cientificamente correcto/);
   assert.match(productText, /lenguaje respetuoso|respeto/);
   assert.match(productText, /fuente confiable/);
-  assert.doesNotMatch(productText, /sonido|musica|reformatea|pasa el dialogo a formato/);
+  assert.doesNotMatch(productText, /reformatea|pasa el dialogo a formato/);
 
   const script = workshop.steps.find((step) => step.type === 'short-answer');
   assert.ok(script, 'Falta redactar el mensaje breve');
@@ -2091,7 +2107,26 @@ test('Semana 4 construye una campaña dramática breve con cuatro áreas ya ense
   const revision = workshop.steps.find((step) => /revision dirigida|correccion dirigida|mejora dirigida|corrige una/.test(normalizeFactText(JSON.stringify(step))));
   assert.ok(revision, 'Falta una revisión dirigida del producto');
   const artProjects = projects.filter((step) => step.areas.includes('art'));
-  assert.equal(artProjects.length, 1, 'Arte debe aportar un solo apoyo visual sencillo');
+  assert.ok(artProjects.length >= 1 && artProjects.length <= 2, `Arte interviene en ${artProjects.length} etapas`);
+  const artText = normalizeFactText(JSON.stringify(artProjects));
+  assert.match(artText, /fragmentos? instrumentales?|musica/);
+  assert.match(artText, /caracter|intensidad|volumen/);
+  assert.match(artText, /elige|escojan|seleccion/);
+  assert.match(artText, /razon|porque/);
+  assert.doesNotMatch(artText, /graba|edita|mezcla|compone|crea (?:una )?(?:musica|cancion)/);
+  const artDecision = artProjects.find((step) => /elige|escojan|seleccion/.test(normalizeFactText(JSON.stringify(step))));
+  assert.ok(artDecision, 'Falta decidir entre dos fragmentos con un criterio musical');
+  const decisionText = normalizeFactText(JSON.stringify(artDecision));
+  assert.match(decisionText, /fragmento a.{0,240}fragmento b|dos fragmentos/);
+  const cueMedia = artDecision.media;
+  assert.ok(cueMedia?.kind === 'audio' && Number(cueMedia.duration ?? 0) <= 15, 'La comparación debe usar un audio breve');
+  const rehearsalWithCue = artProjects.find((step) => /ensay|lectura en voz alta/.test(normalizeFactText(`${step.title ?? ''} ${step.prompt}`))
+    && /5 segundos|cinco segundos/.test(normalizeFactText(JSON.stringify(step))));
+  assert.ok(rehearsalWithCue, 'El fragmento elegido debe sonar cinco segundos en el ensayo real');
+  const artWorkItems = artProjects.reduce((total, step) => total
+    + (((step.props as { steps?: unknown[] } | undefined)?.steps?.length) ?? 0), 0);
+  assert.ok(artWorkItems <= 4, `Arte añade ${artWorkItems} operaciones internas`);
+  assert.match(normalizeFactText(`${workshop.objetivos?.join(' ') ?? ''} ${workshop.resumen?.join(' ') ?? ''}`), /musica|fragmento instrumental/);
   assert.equal(workshop.steps.at(-1)?.type, 'reflection');
 });
 

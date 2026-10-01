@@ -531,14 +531,14 @@ export default [
     ],
     resumen: [
       'El kit preparado incluye cuatro plantillas mini precortadas y premarcadas: prisma triangular recto, pirámide cuadrangular recta, cilindro y cono.',
-      'Línea punteada significa doblar; números iguales indican bordes que se unen; las pestañas autoadhesivas quedan por dentro y se cierran al retirar su protector.',
+      'Línea punteada significa doblar; números iguales indican bordes que se unen; una persona adulta aplica cinta de doble cara en las zonas grises y deja puesto el papel protector.',
       'Prisma y pirámide se forman al doblar caras planas. Cilindro y cono se forman al enrollar una superficie curva y colocar su base o sus bases.',
-      'Las piezas ya vienen precortadas, premarcadas y con uniones de despegar y pegar: no se usan tijeras, cuchillas, grapas ni cinta suelta.',
+      'El estudiantado recibe las piezas precortadas, premarcadas y con las tiras adhesivas protegidas: solo despega, dobla o enrolla, alinea y presiona; no usa tijeras, cuchillas, grapas ni cinta suelta.',
     ],
     media: {
       id: 's04-mat-5-kit', kind: 'diagram', title: 'Kit mini de cuatro sólidos', aspect: '4:3',
-      alt: 'Cuatro plantillas pequeñas, precortadas y premarcadas, para armar un prisma triangular recto, una pirámide cuadrangular recta, un cilindro y un cono.',
-      brief: 'Lámina imprimible en tamaño carta al 100 %, fondo blanco y trazos negros gruesos. Incluye cuatro plantillas mini separadas y rotuladas: 1) prisma triangular recto, tira de tres rectángulos con dos triángulos congruentes; 2) pirámide cuadrangular recta, cuadrado con cuatro triángulos congruentes; 3) cilindro, rectángulo con pestaña lateral y dos círculos con pestañas radiales anchas; 4) cono, sector circular con pestaña lateral y un círculo-base con pestañas radiales anchas. Contorno exterior continuo para preparación adulta; dobleces punteados premarcados; pestañas grises autoadhesivas con protector desprendible; bordes que se unen llevan números iguales. Las bases circulares del cilindro y el cono deben incluir un aro de pestañas radiales anchas, premarcadas y autoadhesivas, para fijarlas sin cinta suelta. Añadir la leyenda "punteada = doblar · números iguales = unir · gris = despegar y pegar". Las piezas deben medir entre 4 y 6 cm armadas. Nota docente: entregar las cuatro piezas ya recortadas, premarcadas y con los protectores aún puestos; comprobar antes que las uniones curvas cierren. Reemplazar el mock con PDF/SVG accesible listo para impresión y una miniatura PNG.',
+      alt: 'Hoja de preparación con cuatro plantillas pequeñas, líneas de corte y doblez, números de unión y 14 zonas adhesivas sombreadas y medidas.',
+      brief: 'Recurso SVG y PDF para imprimir en tamaño carta al 100 % sobre cartulina blanca de 200 g/m². El SVG/PDF aporta la geometría, los contornos continuos de corte, los dobleces punteados, los bordes con números iguales y las zonas adhesivas sombreadas en gris; la impresión no crea ni incluye adhesivo. Incluye cuatro plantillas mini rotuladas: 1) prisma triangular recto, tira de tres rectángulos con dos triángulos congruentes; 2) pirámide cuadrangular recta, cuadrado con cuatro triángulos congruentes; 3) cilindro, rectángulo y dos círculos con pestañas radiales anchas; 4) cono, sector circular y círculo-base con pestañas radiales anchas. Rotular exactamente 14 zonas grises para 14 tiras de cinta de doble cara de 5 mm de ancho: prisma P1 de 5 × 35 mm en la unión lateral y P2-P5 de 5 × 25 mm, una en cada uno de los dos bordes libres de cada base triangular; pirámide Y1-Y4 de 5 × 40 mm, una en cada unión entre caras triangulares contiguas; cilindro C1 de 5 × 45 mm en la unión lateral y C2-C3 de 5 × 95 mm sobre las bandas de las bases circulares superior e inferior; cono O1 de 5 × 50 mm en la unión lateral y O2 de 5 × 90 mm sobre la banda de la base. Cada zona debe mostrar su código, medida y borde de destino. Leyenda del recurso: "continua = cortar · punteada = marcar y doblar · gris = aplicar adhesivo · números iguales = unir". Las piezas armadas miden entre 4 y 6 cm. Lista de preparación docente o de una persona adulta: 1. imprimir a tamaño carta y 100 % en cartulina de 200 g/m²; 2. recortar los contornos y las ranuras radiales; 3. marcar los dobleces punteados con regla y plegadera sin atravesar la cartulina; 4. aplicar las 14 tiras de cinta de doble cara sobre las zonas grises, siguiendo sus medidas, y conservar cada papel protector desprendible; 5. separar las cuatro etiquetas y guardar un kit por pareja; 6. armar un kit de prueba para comprobar que todas las uniones cierren. Entregar al estudiantado las cuatro piezas ya recortadas y marcadas, con las 14 tiras preaplicadas y sus protectores puestos, cuatro etiquetas y un lápiz. Reemplazar el mock con este SVG/PDF accesible listo para impresión y una miniatura PNG.',
     },
     steps: [
       S.explain(
@@ -547,11 +547,11 @@ export default [
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.7'], ambito: 'conocer', title: 'Lee el kit antes de armar',
-          prompt: 'Cada pareja recibe cuatro plantillas mini precortadas y premarcadas, con pestañas autoadhesivas protegidas, cuatro etiquetas y un lápiz.' },
-          { icon: 'PackageOpen', body: 'Las piezas ya están listas: **no se usan tijeras, cuchillas, grapas ni cinta suelta**.', reveal: [
+          prompt: 'Cada pareja recibe cuatro plantillas mini precortadas y premarcadas, con 14 tiras de doble cara ya aplicadas en las zonas grises y con sus protectores puestos, cuatro etiquetas y un lápiz.' },
+          { icon: 'PackageOpen', body: 'La persona adulta ya imprimió, recortó, marcó y aplicó el adhesivo: **no se usan tijeras, cuchillas, grapas ni cinta suelta**.', reveal: [
           { icon: 'FoldHorizontal', front: 'Línea punteada', back: 'Haz el **doblez** hacia adentro y presiónalo una vez.' },
           { icon: 'ListOrdered', front: 'Números iguales', back: 'Los bordes con el mismo número deben quedar juntos.' },
-          { icon: 'Sticker', front: 'Pestaña gris', back: 'Queda por dentro: retira el protector, une los números iguales y **presiona**.' },
+          { icon: 'Sticker', front: 'Zona gris preparada', back: 'La tira de doble cara ya está aplicada: retira el **papel protector**, une los números iguales y presiona.' },
           { icon: 'Rotate3D', front: 'Curva', back: 'El rectángulo del cilindro y el sector del cono se **enrollan**; sus bases circulares ya tienen pestañas autoadhesivas radiales.' },
         ] },
       ),
@@ -562,7 +562,7 @@ export default [
           steps: [
             { text: 'Repasa con los dedos las líneas punteadas para levantar las caras.' },
             { text: 'Junta los bordes con números iguales; las pestañas quedan dentro.' },
-            { text: 'Retira el protector de una pestaña, une los números iguales y presiona.', why: 'Las pestañas autoadhesivas evitan buscar y cortar cinta durante el armado.' },
+            { text: 'Retira el papel protector de una zona gris, une los números iguales y presiona.', why: 'La persona adulta ya aplicó la tira de doble cara; durante el armado no se busca ni se corta cinta.' },
           ],
           answer: 'Queda un prisma recto cerrado, con **dos bases triangulares** y **tres caras laterales rectangulares**.',
           tip: 'Primero da forma; después fija. Así puedes corregir una unión antes de cerrarla.' },
