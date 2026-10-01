@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { registerAll } from '../src/activities/index';
 import { getActivity } from '../src/core/registry';
 import { WEEKS } from '../src/content/index';
@@ -605,6 +606,91 @@ test('La comparación estructurada distingue actividades personalizadas con esce
   assert.equal(repeatsStructuredFact(secondLab, firstLab), false);
 });
 
+test('La frescura detecta una respuesta repetida en prompts largos aunque cambie la referencia CNB', () => {
+  const lesson = {
+    type: 'choice',
+    cnb: ['art:3.2.1'],
+    prompt: 'Durante la revisión del plano escolar, el equipo compara materiales seguros, bordes firmes, contraste visual, símbolos consistentes y una ruta continua antes de decidir qué muestra distingue mejor dos espacios vecinos al tacto.',
+    props: {
+      options: [{ id: 'a', text: 'Fieltro suave junto a cartón corrugado' }],
+      correct: ['a'],
+    },
+  };
+  const retagged = {
+    type: 'choice',
+    cnb: ['fc:3.2.1'],
+    prompt: 'Al revisar el mapa de la escuela, otro grupo contrasta materiales seguros, límites firmes, claves estables y el recorrido completo. ¿Qué par permite diferenciar mejor dos zonas contiguas mediante el tacto?',
+    props: {
+      options: [{ id: 'x', text: 'Fieltro suave y cartón corrugado' }],
+      correct: ['x'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(retagged, lesson), true);
+});
+
+test('La frescura permite un tema común cuando cambian la tarea y la respuesta', () => {
+  const coordinateTask = {
+    type: 'choice',
+    prompt: 'Durante la revisión del mapa táctil escolar, el equipo comprueba la entrada, la dirección, el aula y los baños. Si la biblioteca está dos unidades a la izquierda y cuatro arriba del origen, ¿qué coordenada le corresponde?',
+    props: { options: [{ id: 'a', text: '(-2, 4)' }], correct: ['a'] },
+  };
+  const textureTask = {
+    type: 'choice',
+    prompt: 'Durante la revisión del mapa táctil escolar, el equipo comprueba la entrada, la dirección, el aula y los baños. ¿Qué material permite distinguir una zona lisa de otra acanalada?',
+    props: { options: [{ id: 'b', text: 'Cartón corrugado' }], correct: ['b'] },
+  };
+
+  assert.equal(repeatsStructuredFact(textureTask, coordinateTask), false);
+});
+
+test('La frescura detecta una actividad personalizada retaggeada aunque sus campos auxiliares sean genéricos', () => {
+  const customPractice = {
+    type: 'pulse-lab',
+    cnb: ['ef:2.1.13'],
+    prompt: 'En una estación de balonmano observa cuatro ejecuciones durante el recorrido completo de práctica del equipo escolar. Antes de responder, compara postura, coordinación, dirección, impulso, equilibrio, trayectoria, distancia, precisión, potencia, recepción, desplazamiento, ataque, defensa, portería, marcador, cronómetro, silbato, uniforme, cancha y momento de salida. La ejecución correcta despega con el pie contrario, lleva el balón por arriba del hombro y lo suelta durante el salto hacia las manos elevadas de la pareja.',
+    props: {
+      seconds: 20,
+      rounds: [
+        { label: 'Antes de comenzar' },
+        { label: 'Después de la actividad', exercise: { name: 'Estación técnica', seconds: 60 } },
+      ],
+    },
+  };
+  const retaggedAssessment = {
+    type: 'choice',
+    cnb: ['ef:2.1.9'],
+    prompt: 'En otra estación de balonmano se comparan cuatro ejecuciones. ¿Cuál aplica la técnica correcta?',
+    props: {
+      options: [{ id: 'a', text: 'Despega con el pie contrario, lleva el balón por arriba del hombro y lo suelta durante el salto hacia las manos elevadas' }],
+      correct: ['a'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(retaggedAssessment, customPractice), true);
+});
+
+test('La frescura no confunde redacción escolar común entre áreas distintas', () => {
+  const science = {
+    type: 'choice',
+    prompt: 'Lee el caso escolar y elige la evidencia que apoya mejor la conclusión.',
+    props: { options: [{ id: 'a', text: 'La planta con luz produjo hojas nuevas' }], correct: ['a'] },
+  };
+  const citizenship = {
+    type: 'choice',
+    prompt: 'Lee el caso escolar y elige la evidencia que apoya mejor la conclusión.',
+    props: { options: [{ id: 'b', text: 'El acta registra una votación abierta del consejo' }], correct: ['b'] },
+  };
+
+  assert.equal(repeatsStructuredFact(citizenship, science), false);
+});
+
+test('Los contratos de frescura no usan referencias CNB como puerta de comparación', () => {
+  assert.doesNotMatch(String(repeatsStructuredFact), /custom\.prompt\.size/);
+  const testFile = readFileSync(new URL(import.meta.url), 'utf8');
+  assert.doesNotMatch(testFile, /practice\.cnb\.some\(\(ref\) => assessment\.cnb\.includes\(ref\)\)/);
+});
+
 type StructuredFact = { context: Set<string>; values: string[]; role: 'answer' | 'support' };
 
 function normalizeFactText(value: unknown): string {
@@ -812,13 +898,12 @@ function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
         [...answerTokens].filter((token) => tokens.has(token)).length
       )),
     );
-    const weightedAnswerOverlap = sharedAnswerPrompt + (2 * sharedAnswerField);
-    const hasSpecificFieldReuse = custom.prompt.size <= 35
-      ? (weightedAnswerOverlap >= 2 || sharedPrompt.length >= 2)
-      : sharedAnswerField >= 2;
-    return sharedPrompt.length >= 1
+    const equivalentPromptAndAnswer = sharedPrompt.length >= 1
       && sharedAnswer.length >= 2
-      && hasSpecificFieldReuse;
+      && sharedAnswerPrompt >= 2;
+    const structuredEntryReuse = sharedPrompt.length >= 1
+      && sharedAnswerField >= 2;
+    return equivalentPromptAndAnswer || structuredEntryReuse;
   };
   if (
     customReuse(candidate, left, customStructuredPayload(source))
@@ -2248,7 +2333,6 @@ test('Semana 4 evalúa contenido enseñado en diez áreas con payloads frescos',
   for (const [source, steps] of [['reto', challenge.steps], ['banco', weekFourBank]] as const) {
     for (const assessment of steps.filter((step) => getActivity(step.type)?.graded)) {
       const repeatedLesson = subjectSteps.find((practice) => practice.areas[0] === assessment.areas[0]
-        && practice.cnb.some((ref) => assessment.cnb.includes(ref))
         && repeatsStructuredFact(assessment, practice));
       if (repeatedLesson) reused.push(`${source}/${assessment.areas[0]} <= ${normalizeFactText(repeatedLesson.prompt)}`);
     }
@@ -2509,7 +2593,6 @@ test('Semana 5 evalua diez areas con contenido ensenado y payloads frescos', () 
   for (const [source, steps] of [['reto', challenge.steps], ['banco', weekFiveBank]] as const) {
     for (const assessment of steps.filter((step) => getActivity(step.type)?.graded)) {
       const repeatedLesson = subjectSteps.find((practice) => practice.areas[0] === assessment.areas[0]
-        && practice.cnb.some((ref) => assessment.cnb.includes(ref))
         && repeatsStructuredFact(assessment, practice));
       if (repeatedLesson) reused.push(`${source}/${assessment.areas[0]} <= ${normalizeFactText(repeatedLesson.prompt)}`);
     }

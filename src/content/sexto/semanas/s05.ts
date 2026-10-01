@@ -243,15 +243,12 @@ export default semana({
             { id: 'b', left: 'Cartón corrugado', right: 'Acanalada' },
             { id: 'c', left: 'Esponja firme', right: 'Porosa' },
           ] }),
-        S.sort({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.9'], prompt: 'Juzga estas ejecuciones del pase por arriba del hombro con salto, a altura media o alta y con mano izquierda o derecha.' },
-          { buckets: [
-            { id: 'correcta', label: 'Ejecución correcta', icon: 'CircleCheck' },
-            { id: 'ajuste', label: 'Necesita ajuste', icon: 'RefreshCw' },
-          ], items: [
-            { id: 'a', text: 'Salta con impulso del pie derecho y pasa con la izquierda por arriba del hombro a la altura media del pecho', bucket: 'correcta' },
-            { id: 'b', text: 'Salta con impulso del pie izquierdo y pasa con la derecha por arriba del hombro a altura alta, hacia las manos elevadas', bucket: 'correcta' },
-            { id: 'c', text: 'Con la izquierda, envía un pase alto antes de saltar y sin llevar el balón por arriba del hombro', bucket: 'ajuste' },
-            { id: 'd', text: 'Con la derecha, hace un pase medio desde abajo y aterriza antes de soltar el balón', bucket: 'ajuste' },
+        S.order({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.9'], prompt: 'Ordena el protocolo para juzgar un pase por arriba del hombro con salto. Debe servir tanto para la mano izquierda como para la derecha y para una altura media o una altura alta.' },
+          { items: [
+            { id: 'a', text: 'Reconocer el lado ejecutor' },
+            { id: 'b', text: 'Verificar el apoyo opuesto' },
+            { id: 'c', text: 'Observar el instante aéreo de liberación' },
+            { id: 'd', text: 'Registrar la zona receptora alcanzada' },
           ] }),
         S.sort({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:3.2.3', 'pyd:3.2.4'], prompt: 'Clasifica acciones al usar una perforadora de papel escolar.' },
           { buckets: [
@@ -312,13 +309,12 @@ export default semana({
         { id: 'b', text: 'Dos retazos del mismo fieltro' },
         { id: 'c', text: 'Dos hojas de papel liso' },
       ], correct: ['a'] }),
-    S.match({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.9'], prompt: 'Identifica la mano y la altura en cada pase por arriba del hombro con salto.' },
-      { leftTitle: 'Ejecución observada', rightTitle: 'Mano y altura', pairs: [
-        { id: 'a', left: 'Salta y suelta con la izquierda hacia el pecho de su pareja', right: 'Izquierda · altura media' },
-        { id: 'b', left: 'Salta y suelta con la derecha por encima de la cabeza de su pareja', right: 'Derecha · altura alta' },
-        { id: 'c', left: 'Salta y suelta con la derecha hacia el pecho de su pareja', right: 'Derecha · altura media' },
-        { id: 'd', left: 'Salta y suelta con la izquierda por encima de la cabeza de su pareja', right: 'Izquierda · altura alta' },
-      ] }),
+    S.choice({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.9'], prompt: 'En cuatro pases por arriba del hombro con salto: Ana usa la mano izquierda hacia una altura media; Beto, la derecha hacia una altura alta; Carla, la derecha hacia una altura media; y Diego, la izquierda hacia una altura alta. ¿Qué registro identifica las cuatro ejecuciones?' },
+      { options: [
+        { id: 'a', text: 'Ana: perfil izquierdo y nivel medio; Beto: perfil derecho y nivel superior; Carla: perfil derecho y nivel medio; Diego: perfil izquierdo y nivel superior' },
+        { id: 'b', text: 'Ana: perfil derecho y nivel superior; Beto: perfil izquierdo y nivel medio; Carla: perfil izquierdo y nivel superior; Diego: perfil derecho y nivel medio' },
+        { id: 'c', text: 'Ana y Carla: mismo perfil; Beto y Diego: mismo perfil; las cuatro ejecuciones alcanzan el mismo nivel' },
+      ], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:3.2.4'], prompt: 'Una polea escolar tiene la cuerda deshilachada. ¿Qué haces antes de usarla?' },
       { options: [
         { id: 'a', text: 'No usarla y reportar el daño para que una persona responsable la repare' },
