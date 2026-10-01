@@ -128,14 +128,6 @@ function semanticAssessmentFacts(value: unknown): string[] {
   if (/que es un gen/.test(text) && /adn/.test(text) && /instruccion|caracteristica/.test(text)) {
     facts.push('definicion-directa-de-gen');
   }
-  if (/biciclet/.test(text) && /tachad|circulo rojo/.test(text) && /prohib|no se permite|no pueden pasar/.test(text)) {
-    facts.push('transfer-prohibicion-bicicleta');
-  }
-  const cautiousMovementCues = [/(?:pasos?|movimientos?) (?:cortos?|lentos?)/, /mirada/, /controlad/, /energia suave/]
-    .filter((pattern) => pattern.test(text)).length;
-  if (/cautel|cuidado/.test(text) && /avanz|movim|trayectoria/.test(text) && cautiousMovementCues >= 2) {
-    facts.push('transfer-movimiento-cauteloso');
-  }
   return facts;
 }
 
@@ -315,6 +307,65 @@ test('La comparación estructurada permite el mismo objeto cuando evalúa concep
   assert.equal(repeatsStructuredFact(serviceSign, prohibitionSign), false);
 });
 
+test('La comparación estructurada detecta un solo par reutilizado entre tipos', () => {
+  const lessonMatch = {
+    type: 'match',
+    prompt: 'Relaciona cada aviso vial con su función.',
+    props: { pairs: [{ left: 'Rombo amarillo: puente angosto', right: 'Advierte un peligro' }] },
+  };
+  const bankSort = {
+    type: 'sort',
+    prompt: 'Clasifica el aviso según la función que cumple.',
+    props: {
+      buckets: [{ id: 'adv', label: 'Advierte un peligro' }],
+      items: [{ text: 'ROMBO amarillo — puente angosto', bucket: 'adv' }],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(bankSort, lessonMatch), true);
+});
+
+test('La comparación estructurada no confunde una respuesta común entre conceptos distintos', () => {
+  const communityChoice = {
+    type: 'choice',
+    prompt: '¿Por qué se limpia una fuente de agua comunitaria?',
+    props: { options: [{ id: 'a', text: 'Protege a la comunidad' }], correct: ['a'] },
+  };
+  const passwordChoice = {
+    type: 'choice',
+    prompt: '¿Por qué no se comparte una contraseña escolar?',
+    props: { options: [{ id: 'a', text: 'Protege a la comunidad' }], correct: ['a'] },
+  };
+
+  assert.equal(repeatsStructuredFact(communityChoice, passwordChoice), false);
+});
+
+test('La comparación estructurada normaliza variantes y no depende de firmas temáticas', () => {
+  assert.equal(factValuesMatch('No se permite el paso de bicicletas.', 'Prohíbe el paso de bicicleta'), true);
+  assert.doesNotMatch(semanticAssessmentFacts.toString(), /biciclet|cautiousMovementCues|movimiento-cauteloso/);
+});
+
+test('La comparación estructurada detecta una respuesta parafraseada con contexto compartido', () => {
+  const challenge = {
+    type: 'choice',
+    prompt: '¿Qué movimiento comunica mejor que una persona busca avanzar con cuidado por un espacio reducido?',
+    props: {
+      options: [{ id: 'a', text: 'Pasos cortos y lentos, mirada al frente y trayectoria controlada' }],
+      correct: ['a'],
+    },
+  };
+  const lesson = {
+    type: 'choice',
+    prompt: 'Para representar a una persona que avanza con cautela por una ruta estrecha, ¿qué secuencia comunica mejor esa intención?',
+    props: {
+      options: [{ id: 'a', text: 'Pasos lentos en línea curva, nivel medio, mirada al frente y energía suave' }],
+      correct: ['a'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(challenge, lesson), true);
+});
+
 test('La comparación estructurada detecta reutilización desde un pulse-lab hacia otro tipo', () => {
   const pulseLab = {
     type: 'pulse-lab',
@@ -376,7 +427,7 @@ function normalizeFactText(value: unknown): string {
     .toLocaleLowerCase('es')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[·*_"“”‘’«»¿?¡!.,;:()[\]{}]/g, ' ')
+    .replace(/[·*_"“”‘’«»¿?¡!.,;:()[\]{}—–-]/g, ' ')
     .replace(/\btres\b/g, '3')
     .replace(/\s+/g, ' ')
     .trim();
@@ -495,7 +546,7 @@ function structuredAssessment(value: unknown): { prompt: Set<string>; facts: Str
   if (step.type === 'sort') {
     const labels = new Map((props.buckets ?? []).map((bucket) => [bucket.id, bucket.label]));
     return { prompt, facts: [
-      ...(props.items ?? []).map((item) => makeFact(item.text, [item.text, labels.get(item.bucket)])),
+      ...(props.items ?? []).map((item) => makeFact(item.text, [item.text, labels.get(item.bucket), item.feedback])),
       ...supportFacts,
     ] };
   }
@@ -548,10 +599,9 @@ function factValuesMatch(left: string, right: string): boolean {
 }
 
 function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
-  const candidateSemanticFacts = semanticAssessmentFacts(candidate).filter((fact) => fact.startsWith('transfer-'));
-  const sourceSemanticFacts = new Set(semanticAssessmentFacts(source).filter((fact) => fact.startsWith('transfer-')));
-  if (candidateSemanticFacts.some((fact) => sourceSemanticFacts.has(fact))) return true;
-
+  const candidateType = (candidate as { type?: string } | undefined)?.type;
+  const sourceType = (source as { type?: string } | undefined)?.type;
+  const crossType = Boolean(candidateType && sourceType && candidateType !== sourceType);
   const left = structuredAssessment(candidate);
   const right = structuredAssessment(source);
   const customReuse = (
@@ -621,7 +671,39 @@ function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
   const repeatedPairs = pairedFacts.filter((candidateFact) => (
     right.facts.some((sourceFact) => isPairFact(sourceFact) && matches(candidateFact, sourceFact))
   ));
-  if (repeatedPairs.length >= 2) return true;
+  if (repeatedPairs.length >= (crossType ? 1 : 2)) return true;
+  const contextualReuse = candidateFacts.some((candidateFact) => right.facts.some((sourceFact) => {
+    const candidateScenario = meaningfulCollisionTokens([
+      ...left.prompt,
+      ...(isPairFact(candidateFact) ? factTokens(candidateFact.values[0]) : []),
+    ].join(' '));
+    const sourceScenario = meaningfulCollisionTokens([
+      ...right.prompt,
+      ...(isPairFact(sourceFact) ? factTokens(sourceFact.values[0]) : []),
+    ].join(' '));
+    const candidateResponseText = (isPairFact(candidateFact) ? candidateFact.values.slice(1) : candidateFact.values).join(' ');
+    const sourceResponseText = (isPairFact(sourceFact) ? sourceFact.values.slice(1) : sourceFact.values).join(' ');
+    const candidateResponse = meaningfulCollisionTokens(candidateResponseText);
+    const sourceResponse = meaningfulCollisionTokens(sourceResponseText);
+    const sharedScenario = [...candidateScenario].filter((token) => sourceScenario.has(token)).length;
+    const sharedResponse = [...candidateResponse].filter((token) => sourceResponse.has(token)).length;
+    const scenarioOverlap = directionalOverlap(candidateScenario, sourceScenario) >= 0.3
+      || directionalOverlap(sourceScenario, candidateScenario) >= 0.3;
+    const responseOverlap = directionalOverlap(candidateResponse, sourceResponse) >= 0.3
+      || directionalOverlap(sourceResponse, candidateResponse) >= 0.3;
+    return (crossType && (
+      (sharedScenario >= 3 && sharedResponse >= 1 && scenarioOverlap)
+      || (sharedScenario >= 2 && sharedResponse >= 3 && responseOverlap)
+    )) || (
+      !crossType
+      && sharedScenario >= 2
+      && sharedResponse >= 4
+      && responseOverlap
+      && normalizeFactText(candidateResponseText) !== normalizeFactText(sourceResponseText)
+      && factValuesMatch(candidateResponseText, sourceResponseText)
+    );
+  }));
+  if (contextualReuse) return true;
   return candidateFacts.filter((fact) => !isPairFact(fact)).some((candidateFact) => (
     right.facts.some((sourceFact) => matches(candidateFact, sourceFact))
   ));
@@ -1392,6 +1474,51 @@ test('Semana 3 mantiene s03-l1-2 en una secuencia sustantiva de 9 a 14 actividad
   assert.equal(lesson.steps.filter((step) => step.fase === 'comprobar').length, 2);
 });
 
+test('Semana 3 condiciona la congruencia lateral de prismas y pirámides', () => {
+  const lesson = weekThree.lessons.find((item) => item.id === 's03-mat-5');
+  assert.ok(lesson, 'Falta s03-mat-5');
+  const text = normalizeFactText(JSON.stringify(lesson));
+  const solidsLesson = weekThree.lessons.find((item) => item.id === 's03-mat-4');
+  assert.ok(solidsLesson, 'Falta s03-mat-4');
+  const solidsText = normalizeFactText(JSON.stringify(solidsLesson));
+
+  assert.doesNotMatch(solidsText, /prisma dos bases iguales y paralelas caras laterales rectangulares/);
+  assert.match(solidsText, /prisma recto.{0,120}caras laterales.{0,40}rectangulos/);
+  assert.doesNotMatch(text, /piramide de base regular todas sus caras laterales .*congruent/);
+  assert.doesNotMatch(text, /base regular caras laterales iguales/);
+  assert.match(text, /piramide recta.{0,160}(?:cuspide|vertice).{0,80}centro.{0,180}caras laterales.{0,80}congruent/);
+  assert.match(text, /prisma recto.{0,160}base regular.{0,180}caras laterales.{0,80}congruent/);
+
+  const firstCondition = lesson.steps.findIndex((step) => (
+    /piramide recta/.test(normalizeFactText(JSON.stringify(step)))
+    && /(?:cuspide|vertice).+centro/.test(normalizeFactText(JSON.stringify(step)))
+  ));
+  const relevantAssessments = lesson.steps
+    .map((step, index) => ({ step, index, text: normalizeFactText(JSON.stringify(step)) }))
+    .filter(({ step, text: stepText }) => getActivity(step.type)?.graded && /caras laterales congruent/.test(stepText));
+  assert.ok(firstCondition >= 0, 'Falta enseñar la condición de la pirámide recta');
+  assert.ok(relevantAssessments.length >= 2, 'Faltan evaluaciones de congruencia lateral');
+  assert.ok(relevantAssessments.every(({ index }) => index > firstCondition), 'Se evalúa antes de enseñar la condición');
+  assert.ok(relevantAssessments.every(({ text: stepText }) => /piramide recta|prisma recto/.test(stepText)), 'Una evaluación omite la condición geométrica');
+});
+
+test('Semana 3 usa una clasificación de glándulas con respuestas únicas en el banco', () => {
+  const assessment = weekThreeBank.find((step) => step.areas[0] === 'cnt');
+  assert.ok(assessment, 'Falta el ítem CNT del banco');
+  assert.equal(assessment.type, 'sort', 'La clasificación no debe depender de distractores válidos en un espacio en blanco');
+  const props = assessment.props as {
+    buckets?: Array<{ id: string; label: string }>;
+    items?: Array<{ text: string; bucket: string }>;
+  };
+  const buckets = new Map((props.buckets ?? []).map((bucket) => [bucket.id, normalizeFactText(bucket.label)]));
+  assert.equal(props.items?.length, 2);
+  assert.equal(new Set((props.items ?? []).map((item) => item.bucket)).size, 2);
+  assert.ok((props.items ?? []).every((item) => buckets.has(item.bucket)));
+  assert.match([...buckets.values()].join(' '), /interna.+externa|endocrina.+exocrina/);
+  assert.match(normalizeFactText(JSON.stringify(props.items)), /sangre/);
+  assert.match(normalizeFactText(JSON.stringify(props.items)), /conducto/);
+});
+
 test('Semana 3 presenta la evacuación como dirección designada sujeta a riesgos actuales', () => {
   const lesson = weekThree.lessons.find((item) => item.id === 's03-l2-1');
   assert.ok(lesson, 'Falta s03-l2-1');
@@ -1439,7 +1566,13 @@ test('Semana 3 construye una ruta segura con prerrequisitos, producto y carga fa
 
   const projects = workshop.steps.filter((step) => step.type === 'project');
   const firstProjectIndex = workshop.steps.findIndex((step) => step.type === 'project');
-  assert.ok(firstProjectIndex >= 0 && firstProjectIndex <= 3, 'La producción debe empezar tras no más de tres pasos breves');
+  assert.ok(firstProjectIndex >= 0 && firstProjectIndex <= 2, 'La producción debe empezar tras no más de dos pasos breves');
+  const preProductAssessments = workshop.steps.slice(0, firstProjectIndex).filter((step) => getActivity(step.type)?.graded);
+  assert.ok(preProductAssessments.length <= 1, 'Debe haber como máximo una interacción de recuperación antes del producto');
+  assert.ok(
+    preProductAssessments.reduce((total, step) => total + comparableEntries(step).length, 0) <= 2,
+    'La recuperación previa debe limitarse a dos elementos esenciales',
+  );
   assert.ok(projects.length >= 4, 'La ruta, el análisis, la señal y la integración deben construirse por etapas');
   assert.ok(workshop.steps.slice(firstProjectIndex, -1).length >= 7, 'La mayoría del taller debe dedicarse al producto y su revisión');
 
@@ -1448,6 +1581,24 @@ test('Semana 3 construye una ruta segura con prerrequisitos, producto y carga fa
     return total + (props.steps?.length ?? 0);
   }, 0);
   assert.ok(projectActions <= 10, `El producto exige ${projectActions} operaciones internas`);
+
+  const routeProject = projects.find((step) => /representacion de la ruta/i.test(normalizeFactText(step.title)));
+  const signProject = projects.find((step) => /senal/i.test(normalizeFactText(step.title)));
+  assert.ok(routeProject, 'Falta una etapa específica para representar la ruta');
+  assert.ok(signProject, 'Falta una etapa específica para diseñar la señal');
+  assert.match(routeProject.title ?? '', /[· ]5 min/i, 'La ruta necesita la mayor asignación de tiempo');
+  assert.ok(((routeProject.props as { steps?: unknown[] }).steps?.length ?? 0) <= 2, 'La ruta debe agrupar sus rasgos en dos operaciones');
+  assert.doesNotMatch(normalizeFactText(JSON.stringify(routeProject.props)), /clave|tres referencias/);
+  assert.ok(((signProject.props as { steps?: unknown[] }).steps?.length ?? 0) <= 2, 'La señal debe limitarse a dos operaciones');
+  assert.ok(((signProject.props as { rubric?: unknown[] }).rubric?.length ?? 0) <= 2, 'La señal debe tener como máximo dos criterios');
+  assert.match(normalizeFactText(JSON.stringify(signProject.props)), /(?:hasta|maximo|no mas de) 3 palabras/);
+  assert.doesNotMatch(normalizeFactText(JSON.stringify(signProject.props)), /tecnica mixta|pastel|tinta/);
+
+  const peerCheck = workshop.steps.find((step) => /prueba|comprob/i.test(step.title ?? ''));
+  assert.ok(peerCheck, 'Falta una comprobación simple con otra persona');
+  assert.notEqual(peerCheck.type, 'write', 'La comprobación breve no debe exigir escritura');
+  assert.doesNotMatch(normalizeFactText(JSON.stringify(peerCheck.props)), /minwords|modelo/);
+  assert.ok((peerCheck.prompt.match(/\bque\b/gi) ?? []).length <= 2, 'La comprobación debe limitarse a dos preguntas');
 
   const productText = JSON.stringify(projects).toLocaleLowerCase('es');
   assert.match(productText, /representaci[oó]n.+ruta|ruta.+representaci[oó]n/s);

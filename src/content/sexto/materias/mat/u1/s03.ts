@@ -396,7 +396,7 @@ export default [
     resumen: [
       'Un cuerpo geométrico ocupa espacio: tiene largo, ancho y alto. Una figura plana solo tiene largo y ancho.',
       'Cara: superficie plana. Arista: línea donde se juntan dos caras. Vértice: punto donde se juntan varias aristas.',
-      'Prisma: dos bases iguales y paralelas; caras laterales rectangulares. Pirámide: una base y caras laterales triangulares que se juntan en un vértice (cúspide).',
+      'Prisma recto: dos bases iguales y paralelas; sus caras laterales son rectángulos. Pirámide: una base y caras laterales triangulares que se juntan en un vértice (cúspide).',
       'Cilindro: dos bases circulares y una superficie curva; no tiene vértices. Cono: una base circular, una superficie curva y un vértice.',
     ],
     media: {
@@ -454,7 +454,7 @@ export default [
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.1'], ambito: 'conocer', title: 'Cuatro familias de cuerpos',
           prompt: 'Hoy conoces cuatro familias. Toca cada una.' },
         { icon: 'Shapes', body: 'Los prismas y pirámides tienen solo caras planas. El cilindro y el cono tienen una **superficie curva** (por eso ruedan).', reveal: [
-          { icon: 'Box', front: 'Prisma', back: '**Dos bases** iguales y paralelas (abajo y arriba). Sus caras laterales son **rectángulos**. Ejemplo: una caja.' },
+          { icon: 'Box', front: 'Prisma recto', back: '**Dos bases** iguales y paralelas (abajo y arriba). Sus caras laterales son **rectángulos**. Ejemplo: una caja.' },
           { icon: 'Triangle', front: 'Pirámide', back: '**Una base** y caras laterales **triangulares** que se juntan en un vértice: la **cúspide**.' },
           { icon: 'Cylinder', front: 'Cilindro', back: '**Dos bases circulares** y una superficie curva. **No tiene vértices.** Ejemplo: un bote.' },
           { icon: 'Cone', front: 'Cono', back: '**Una base circular**, una superficie curva y **un vértice** en la punta. Ejemplo: un cono de tránsito.' },
@@ -516,7 +516,8 @@ export default [
     resumen: [
       'Las dos bases de un prisma y de un cilindro siempre son congruentes.',
       'En una caja (prisma rectangular) las caras opuestas son congruentes: hay 3 pares. En un cubo, las 6 caras son congruentes.',
-      'En una pirámide de base regular, todas las caras laterales (triángulos) son congruentes.',
+      'En una pirámide recta de base regular, con la cúspide sobre el centro, todas las caras laterales son triángulos congruentes.',
+      'En un prisma recto de base regular, las caras laterales son rectángulos congruentes.',
       'El cono tiene una sola base: no tiene caras planas congruentes entre sí.',
     ],
     media: {
@@ -532,7 +533,7 @@ export default [
           { icon: 'Box', front: 'Prisma rectangular', back: 'Caras opuestas congruentes: **3 pares**.' },
           { icon: 'Dice5', front: 'Cubo', back: 'Sus **6 caras** son cuadrados congruentes.' },
           { icon: 'Cylinder', front: 'Cilindro', back: 'Sus **2 bases** son círculos congruentes.' },
-          { icon: 'Triangle', front: 'Pirámide de base regular', back: 'Todas sus **caras laterales** son triángulos congruentes. Pirámide cuadrada: 4 triángulos iguales.' },
+          { icon: 'Triangle', front: 'Pirámide recta de base regular', back: 'Si la **cúspide está sobre el centro** de la base, todas sus **caras laterales** son triángulos congruentes. Con base cuadrada: 4 triángulos iguales.' },
         ] },
       ),
       S.choice(
@@ -560,7 +561,7 @@ export default [
       S.sort(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.2'], prompt: '¿Son congruentes estas caras?',
           hint: 'Congruentes = misma forma y mismo tamaño.',
-          explain: 'Las bases de prismas y cilindros son congruentes; en pirámides regulares también las caras laterales.' },
+          explain: 'Las bases de prismas y cilindros son congruentes. En una pirámide recta de base regular, con la cúspide sobre el centro, también son congruentes sus caras laterales.' },
         { buckets: [
           { id: 'si', label: 'Congruentes', icon: 'Check', color: 'var(--c-ok)' },
           { id: 'no', label: 'No congruentes', icon: 'X', color: 'var(--c-maiz-strong)' },
@@ -574,17 +575,17 @@ export default [
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.2'], ambito: 'conocer', title: 'Contar caras congruentes',
-          prompt: 'En cuerpos con bases regulares, las caras laterales también son congruentes. Toca cada ejemplo.' },
-        { icon: 'Hexagon', body: 'Base regular → caras laterales iguales entre sí.', reveal: [
-          { icon: 'Hexagon', front: 'Prisma hexagonal regular', back: '2 hexágonos congruentes (bases) y **6 rectángulos** congruentes alrededor.' },
-          { icon: 'Triangle', front: 'Pirámide pentagonal regular', back: '1 pentágono de base y **5 triángulos** congruentes.' },
+          prompt: 'La base regular no basta por sí sola: también importa dónde está la cúspide o si el prisma es recto. Toca cada ejemplo.' },
+        { icon: 'Hexagon', body: 'En una **pirámide recta**, la cúspide está sobre el centro. En un **prisma recto**, las aristas laterales son perpendiculares a las bases.', reveal: [
+          { icon: 'Hexagon', front: 'Prisma recto de base hexagonal regular', back: 'Tiene 2 hexágonos congruentes y **6 rectángulos laterales congruentes**: todos usan la misma altura y lados de base iguales.' },
+          { icon: 'Triangle', front: 'Pirámide recta de base pentagonal regular', back: 'Con la **cúspide sobre el centro**, tiene **5 triángulos laterales congruentes**.' },
           { icon: 'Cone', front: 'Cono', back: 'Tiene **una sola** cara plana (la base): no hay pares congruentes.' },
         ] },
       ),
       S.number(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.2'], prompt: 'Una pirámide tiene una base **cuadrada** regular. ¿Cuántas **caras laterales congruentes** tiene?',
-          hint: 'Hay una cara lateral por cada lado de la base.',
-          explain: 'La base tiene 4 lados, así que hay 4 triángulos laterales congruentes.' },
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.2'], prompt: 'Una **pirámide recta** tiene base cuadrada regular y la cúspide está sobre el centro. ¿Cuántas **caras laterales congruentes** tiene?',
+          hint: 'La condición de pirámide recta asegura que los triángulos laterales son iguales; hay uno por cada lado de la base.',
+          explain: 'Como la cúspide está sobre el centro y la base regular tiene 4 lados, hay 4 triángulos laterales congruentes.' },
         { answer: 4, misconceptions: [{ value: 5, msg: 'La base es un cuadrado, no un triángulo: no cuenta como cara lateral.' }] },
       ),
       S.number(
@@ -594,12 +595,12 @@ export default [
       ),
       S.match(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.3.2', 'mat:1.3.1'], prompt: 'Une cada cuerpo con la descripción de sus caras congruentes.',
-          explain: 'Recuerda: prismas y cilindros tienen dos bases congruentes; las pirámides regulares, caras laterales congruentes.' },
+          explain: 'Prismas y cilindros tienen dos bases congruentes. La congruencia de todas las caras laterales requiere las condiciones indicadas en los prismas y pirámides rectos.' },
         { leftTitle: 'Cuerpo', rightTitle: 'Caras congruentes', pairs: [
           { id: 'p1', left: 'Cubo', right: '6 cuadrados congruentes' },
           { id: 'p2', left: 'Cilindro', right: '2 círculos congruentes' },
-          { id: 'p3', left: 'Pirámide triangular regular', right: '3 caras laterales congruentes' },
-          { id: 'p4', left: 'Prisma hexagonal regular', right: '6 rectángulos congruentes y 2 bases' },
+          { id: 'p3', left: 'Pirámide recta de base triangular regular, cúspide sobre el centro', right: '3 caras laterales congruentes' },
+          { id: 'p4', left: 'Prisma recto de base hexagonal regular', right: '6 rectángulos congruentes y 2 bases' },
         ] },
       ),
       S.number(
@@ -616,7 +617,7 @@ export default [
         ], correct: ['b'] },
       ),
       S.number(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.3.2'], prompt: 'Un prisma tiene bases que son **pentágonos regulares**. ¿Cuántas caras **laterales** congruentes tiene?' },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.3.2'], prompt: 'Un **prisma recto** tiene bases que son pentágonos regulares. ¿Cuántas caras **laterales congruentes** tiene?' },
         { answer: 5 },
       ),
       cierre({ areas: ['mat'], cnb: [] },

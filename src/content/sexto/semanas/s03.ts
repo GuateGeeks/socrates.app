@@ -55,72 +55,43 @@ export default semana({
           ] },
         ),
         S.match(
-          { fase: 'construir', areas: ['l2'], cnb: ['l2:2.1.2', 'l2:2.1.5'], ambito: 'conocer',
-            prompt: 'Recupera Lenguaje 2 · 1 min. Une cada señal con la información que aportaría a una representación de ruta.',
-            hint: 'Lee forma, color e ícono; no supongas que una señal elimina el riesgo.',
-            explain: 'Las señales reglamentan, previenen u orientan. En la representación muestran información del trayecto, pero las condiciones reales también deben observarse.' },
+          { fase: 'construir', areas: ['l2', 'pyd'], cnb: ['l2:2.1.2', 'pyd:2.3.1'], ambito: 'conocer',
+            prompt: 'Recuperación esencial · 1 min. Une cada recurso con el trabajo que permite hacer.',
+            hint: 'Piensa qué ayuda a comunicar y qué ayuda a justificar.',
+            explain: 'La señal comunica con forma e ícono; la evidencia observable permite justificar un riesgo posible.' },
           { pairs: [
-            { id: 'a', left: 'Octágono rojo: ALTO', leftIcon: 'Octagon', right: 'Lugar donde el tránsito debe detenerse' },
-            { id: 'b', left: 'Rombo amarillo con escolares', leftIcon: 'Diamond', right: 'Advertencia de presencia frecuente de estudiantes' },
-            { id: 'c', left: 'Rectángulo verde con flecha', leftIcon: 'RectangleHorizontal', right: 'Dirección de una ruta indicada' },
-          ] },
-        ),
-        S.sort(
-          { fase: 'construir', areas: ['pyd'], cnb: ['pyd:2.3.1'], ambito: 'emprender',
-            prompt: 'Recupera Productividad · 1 min. Clasifica el análisis del caso de la curva sin acera.',
-            hint: 'La causa explica por qué ocurre; el riesgo describe lo que podría suceder; la evidencia es observable.',
-            explain: 'Separar evidencia, causa y efecto evita afirmar que algo es seguro o peligroso sin fundamento.' },
-          { buckets: [
-            { id: 'e', label: 'Evidencia', icon: 'Eye' },
-            { id: 'c', label: 'Causa', icon: 'GitBranch' },
-            { id: 'r', label: 'Riesgo o efecto posible', icon: 'TriangleAlert' },
-          ], items: [
-            { id: 'e1', text: 'En la curva no se observa acera', bucket: 'e' },
-            { id: 'c1', text: 'Las personas deben caminar cerca del paso de vehículos', bucket: 'c' },
-            { id: 'r1', text: 'Si coinciden peatones y vehículos, podría ocurrir un acercamiento peligroso', bucket: 'r' },
+            { id: 'a', left: 'Forma e ícono reconocibles', right: 'Comunicar una indicación breve' },
+            { id: 'b', left: 'Evidencia observable', right: 'Sustentar un riesgo posible' },
           ] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['l2'], cnb: ['l2:2.1.5'], ambito: 'hacer', title: 'Etapa 1: representación de la ruta · 3 min',
+          { fase: 'aplicar', areas: ['l2'], cnb: ['l2:2.1.5'], ambito: 'hacer', title: 'Etapa 1: representación de la ruta · 5 min',
             prompt: 'En una hoja, representa una ruta real observada con una persona adulta o usa las dos rutas ficticias de la imagen.' },
           { goal: 'Construir una representación de ruta que otra persona pueda seguir.',
             steps: [
-              { title: 'Traza', detail: 'Marca inicio, escuela, una línea continua y dos referencias visibles.' },
-              { title: 'Orienta', detail: 'Añade un cruce o señal observada, una flecha de avance y una clave breve, sin llamar a la ruta “segura”.' },
+              { title: 'Traza', detail: 'Marca inicio, escuela y una línea continua para el trayecto.' },
+              { title: 'Ubica', detail: 'Añade dos referencias visibles y señala un punto que conviene analizar, sin llamar a la ruta “segura”.' },
             ],
-            evidence: 'Representación de la ruta con inicio, destino, trayecto, dos referencias, un cruce o señal, flecha y clave.',
-            rubric: ['Otra persona puede seguir el trayecto', 'La clave explica los íconos', 'Solo muestra elementos observados o dados en el caso'] },
+            evidence: 'Representación con inicio, escuela, trayecto, dos referencias y un punto para analizar.',
+            rubric: ['Otra persona puede seguir el trayecto', 'Solo muestra elementos observados o dados en el caso'] },
         ),
-        S.project(
-          { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:2.3.1', 'pyd:2.3.2'], ambito: 'emprender', title: 'Etapa 2: análisis de riesgos · 2 min',
-            prompt: 'Junto a la ruta, abre una tabla de tres columnas: **evidencia**, **causa** y **riesgo posible**.' },
-          { goal: 'Sustentar el análisis de la ruta sin convertir posibilidades en certezas.',
-            steps: [
-              { title: 'Registra', detail: 'Escribe una evidencia observable del trayecto o del caso ficticio.' },
-              { title: 'Relaciona', detail: 'Completa una cadena con su causa y un riesgo usando “si… entonces podría…”.' },
-            ],
-            evidence: 'Una cadena completa de evidencia, causa y riesgo posible.',
-            rubric: ['La evidencia se puede observar', 'La causa explica la condición', 'El riesgo se expresa como posibilidad condicionada'] },
-        ),
-        S.choice(
-          { fase: 'aplicar', areas: ['mat', 'l2'], cnb: ['mat:1.1.11', 'l2:2.1.2', 'l2:2.1.5'], ambito: 'hacer', title: 'Pausa de diseño · 1 min',
-            prompt: 'Para un mensaje escolar de orientación, ¿qué boceto ofrece una forma reconocible y permite comprobar simetría?' },
-          { options: [
-            { id: 'a', text: 'Un rectángulo con flecha central y un eje que divide la forma y el ícono en mitades reflejadas' },
-            { id: 'b', text: 'Una mancha irregular sin dirección ni eje identificable' },
-            { id: 'c', text: 'Una copia de ALTO para anunciar una actividad escolar' },
-          ], correct: ['a'] },
+        S.write(
+          { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:2.3.1', 'pyd:2.3.2'], ambito: 'emprender', title: 'Etapa 2: un riesgo sustentado · 3 min',
+            prompt: 'Junto al punto marcado, escribe una cadena breve: **evidencia → causa → riesgo posible**.' },
+          { minWords: 10, placeholder: 'Evidencia: ... Causa: ... Si..., entonces podría...',
+            model: 'Evidencia: la curva no tiene acera. Causa: se comparte el espacio con vehículos. Si coinciden, entonces podría haber un acercamiento peligroso.',
+            rubric: ['La evidencia es observable y la causa se relaciona con ella', 'El riesgo se expresa como posibilidad condicionada'] },
         ),
         S.project(
           { fase: 'aplicar', areas: ['mat', 'art', 'l2'], cnb: ['mat:1.1.11', 'art:2.2.1', 'l2:2.1.2', 'l2:2.1.3'], ambito: 'hacer', title: 'Etapa 3: diseño claro de la señal · 3 min',
-            prompt: 'Convierte el boceto en una señal de comunicación escolar que pueda entenderse con rapidez.' },
-          { goal: 'Diseñar una señal clara con forma reconocible, simetría y recursos visuales aprendidos.',
+            prompt: 'Diseña una señal escolar breve para comunicar una indicación relacionada con el punto analizado.' },
+          { goal: 'Diseñar una señal concisa, legible y fácil de reconocer.',
             steps: [
-              { title: 'Forma e ícono', detail: 'Boceta una forma reconocible, marca un eje de simetría y dibuja un ícono grande.' },
-              { title: 'Lectura rápida', detail: 'Añade de dos a cinco palabras y dos colores con contraste.' },
+              { title: 'Forma e ícono', detail: 'Traza una forma simétrica sencilla y un ícono grande.' },
+              { title: 'Lectura rápida', detail: 'Añade hasta 3 palabras y usa dos colores con contraste.' },
             ],
-            evidence: 'Boceto claro de señal con forma, eje de simetría, ícono, texto breve y contraste.',
-            rubric: ['La forma y el ícono conservan la simetría prevista', 'El mensaje se reconoce con rapidez', 'El texto y los colores tienen contraste'] },
+            evidence: 'Señal con forma simétrica, ícono, hasta 3 palabras y contraste.',
+            rubric: ['El mensaje se reconoce con rapidez', 'La forma, el ícono y los colores se distinguen con claridad'] },
         ),
         S.project(
           { fase: 'aplicar', areas: ['mat', 'l2', 'art', 'pyd'], cnb: ['mat:1.1.11', 'l2:2.1.5', 'l2:2.1.3', 'art:2.2.1', 'pyd:2.3.1'], ambito: 'emprender', title: 'Etapa 4: integra la propuesta · 2 min',
@@ -133,23 +104,25 @@ export default semana({
             evidence: 'Hoja integrada con representación de ruta, análisis de riesgos, señal y recomendación condicional.',
             rubric: ['La señal está vinculada con un riesgo analizado', 'La conclusión depende de evidencia y condiciones', 'Solicita revisión adulta o de la autoridad responsable'] },
         ),
-        S.write(
-          { fase: 'aplicar', areas: ['pyd', 'l2'], cnb: ['pyd:2.3.1', 'l2:2.1.3'], ambito: 'convivir', title: 'Etapa 5: prueba con otra persona · 1 min',
-            prompt: 'Muestra la hoja sin explicarla. Pregunta qué ruta entiende, qué riesgo reconoce y qué comunica la señal.' },
-          { minWords: 12, placeholder: 'La persona entendió… Todavía preguntó…',
-            model: 'La persona entendió la Ruta A y reconoció el riesgo de la curva. Todavía preguntó dónde estaría la señal.',
-            rubric: ['Anoté una interpretación y una duda sobre la ruta, el riesgo o la señal'] },
+        S.choice(
+          { fase: 'aplicar', areas: ['pyd', 'l2'], cnb: ['pyd:2.3.1', 'l2:2.1.3'], ambito: 'convivir', title: 'Etapa 5: prueba oral · 1 min',
+            prompt: 'Muestra la hoja sin explicarla. Pide a otra persona que señale el trayecto y diga qué comunica la señal. ¿Cuándo puedes pasar a la revisión?' },
+          { options: [
+            { id: 'a', text: 'Cuando puede seguir la ruta y entiende el mensaje de la señal' },
+            { id: 'b', text: 'Cuando necesita que le expliques toda la hoja' },
+            { id: 'c', text: 'Cuando mira la hoja sin comprobar el trayecto ni la señal' },
+          ], correct: ['a'] },
         ),
         S.project(
           { fase: 'aplicar', areas: ['art', 'pyd'], cnb: ['art:2.2.1', 'pyd:2.3.1'], ambito: 'hacer', title: 'Etapa 6: corrige · 1 min',
-            prompt: 'Haz una corrección concreta basada en la prueba: aclara el trayecto, precisa el riesgo o mejora la señal.' },
+            prompt: 'Haz una corrección concreta basada en la prueba oral: aclara el trayecto o mejora la señal.' },
           { goal: 'Mejorar la comunicación del producto.',
             steps: [
-              { title: 'Elige', detail: 'Marca si la duda pide aclarar el trayecto, precisar el riesgo o mejorar la señal.' },
-              { title: 'Corrige', detail: 'Cambia solo ese elemento y encierra la mejora.' },
+              { title: 'Localiza', detail: 'Señala el único elemento que la otra persona no entendió.' },
+              { title: 'Corrige', detail: 'Cambia un elemento que no se entendió y encierra la mejora.' },
             ],
             evidence: 'Una mejora visible y relacionada con la revisión.',
-            rubric: ['La corrección responde a la duda de la persona revisora', 'La mejora se puede localizar en la hoja'] },
+            rubric: ['La corrección responde a la prueba oral', 'La mejora se puede localizar'] },
         ),
         S.choice(
           { fase: 'aplicar', areas: ['mat', 'l2', 'art', 'pyd'], cnb: ['mat:1.1.11', 'l2:2.1.5', 'l2:2.1.3', 'art:2.2.1', 'pyd:2.3.1', 'pyd:2.3.2'], ambito: 'emprender', title: 'Producto final: Ruta segura a la escuela · 1 min',
@@ -196,13 +169,13 @@ export default semana({
             { id: 'c', text: 'Una novela histórica' },
           ], correct: ['a'] },
         ),
-        S.match(
-          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.1'], prompt: 'Relaciona cada glándula con la vía por la que libera su producto.' },
-          { pairs: [
-            { id: 't', left: 'Tiroides', right: 'Hormonas directamente a la sangre' },
-            { id: 's', left: 'Salival', right: 'Saliva por un conducto hacia la boca' },
-            { id: 'l', left: 'Lagrimal', right: 'Lágrimas por conductos hacia el ojo' },
-          ] },
+        S.choice(
+          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.1'], prompt: 'En el laboratorio observan que una glándula libera un mensajero químico directamente a pequeños vasos sanguíneos, sin usar conductos. ¿Cómo actúa esa glándula?' },
+          { options: [
+            { id: 'a', text: 'Como endocrina, porque su producto entra directamente a la sangre' },
+            { id: 'b', text: 'Como exocrina, porque su producto sale por un conducto' },
+            { id: 'c', text: 'Como músculo, porque impulsa la sangre' },
+          ], correct: ['a'] },
         ),
         S.sort(
           { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.1'], prompt: 'Clasifica el efecto principal de cada tecnología.' },
@@ -217,11 +190,11 @@ export default semana({
           ] },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['l2'], cnb: ['l2:2.1.5'], prompt: 'En una carretera ves un rectángulo azul con un tenedor, un cuchillo y una flecha hacia la derecha. ¿Cómo lo interpretas?' },
+          { fase: 'comprobar', areas: ['l2'], cnb: ['l2:2.1.3'], prompt: 'En una noticia sobre el precio del café aparece un saco, el símbolo Q y una flecha verde hacia arriba. ¿Qué comunica la imagen?' },
           { options: [
-            { id: 'a', text: 'Es una señal informativa: hay servicio de comida a la derecha' },
-            { id: 'b', text: 'Es una señal preventiva: hay cubiertos sobre la carretera' },
-            { id: 'c', text: 'Es una señal reglamentaria: está prohibido comer' },
+            { id: 'a', text: 'El precio del café aumentó' },
+            { id: 'b', text: 'El café está prohibido' },
+            { id: 'c', text: 'El saco debe colocarse en una repisa alta' },
           ], correct: ['a'] },
         ),
         S.fill(
@@ -285,9 +258,15 @@ export default semana({
         { id: 'c', text: 'El narrador cuenta toda la historia.' },
       ], correct: ['a'] },
     ),
-    S.fill(
-      { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.1'], prompt: 'Completa la clasificación de estas glándulas.' },
-      { text: 'La glándula [[sudorípara]] es exocrina; la [[hipófisis]] es endocrina.', distractors: ['tiroides', 'salival'] },
+    S.sort(
+      { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.1'], prompt: 'Clasifica cada caso según la vía de secreción descrita.' },
+      { buckets: [
+        { id: 'int', label: 'Secreción interna (endocrina)', icon: 'HeartPulse' },
+        { id: 'ext', label: 'Secreción externa (exocrina)', icon: 'Droplets' },
+      ], items: [
+        { id: 'a', text: 'El producto entra directamente a la sangre sin pasar por un conducto', bucket: 'int' },
+        { id: 'b', text: 'El producto recorre un conducto hasta la superficie de la piel', bucket: 'ext' },
+      ] },
     ),
     S.order(
       { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.4.1'], prompt: 'Ordena el recorrido económico del café centroamericano.' },
