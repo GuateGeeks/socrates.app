@@ -12,7 +12,7 @@ export default [
     id: 's05-cnt-1',
     title: 'VIH y SIDA: conocer para prevenir y no discriminar',
     icon: 'Shield',
-    minutes: 16,
+    minutes: 15,
     gancho: 'Muchas personas usan "VIH" y "SIDA" como si fueran lo mismo, y hay muchos mitos que lastiman a quienes viven con el virus. ¿Qué dice la ciencia?',
     objetivos: ['Explicar qué hace el sistema inmunológico y cómo lo afecta el VIH; diferenciar el VIH del SIDA; distinguir las formas reales de transmisión de los mitos, para prevenir sin discriminar'],
     resumen: [
@@ -59,18 +59,6 @@ export default [
           { icon: 'HeartPulse', front: 'SIDA', back: '**Síndrome de Inmunodeficiencia Adquirida.** Es la **etapa avanzada** de la infección sin tratamiento: las defensas están tan bajas que aparecen otras enfermedades.' },
           { icon: 'Pill', front: 'Tratamiento', back: 'Los medicamentos **antirretrovirales**, tomados todos los días, frenan al virus. Con ellos, una persona con VIH puede vivir muchos años y **no llegar al SIDA**. Aún no hay cura.' },
           { icon: 'TestTube', front: 'La prueba', back: 'La **única** forma de saber si alguien tiene VIH es con una **prueba de sangre** en un servicio de salud. No se sabe "por cómo se ve" una persona.' },
-        ] },
-      ),
-      S.match(
-        { fase: 'construir', areas: ['cnt', 'l1'], cnb: ['cnt:3.5.1'], ambito: 'conocer',
-          prompt: 'Las siglas **SIDA** explican la enfermedad. Une cada palabra con su significado.',
-          hint: '"Inmuno" tiene que ver con las defensas; "deficiencia" significa falta.',
-          explain: 'Síndrome = conjunto de síntomas; Inmuno = defensas; Deficiencia = falta o debilidad; Adquirida = no se hereda, se contrae durante la vida.' },
-        { leftTitle: 'Palabra', rightTitle: 'Significado', pairs: [
-          { id: 's', left: 'Síndrome', right: 'Conjunto de síntomas y enfermedades' },
-          { id: 'i', left: 'Inmuno', right: 'Relacionado con las defensas' },
-          { id: 'd', left: 'Deficiencia', right: 'Falta o debilidad' },
-          { id: 'a', left: 'Adquirida', right: 'No se hereda: se contrae durante la vida' },
         ] },
       ),
       S.ejemplo(
@@ -172,7 +160,7 @@ export default [
     id: 's05-cnt-2',
     title: 'Las drogas: qué son y qué tipos hay',
     icon: 'Brain',
-    minutes: 16,
+    minutes: 15,
     gancho: 'Una taza de café, un cigarro, una cerveza y una pastilla para dormir tomada sin receta. ¿Qué pueden tener en común?',
     objetivos: ['Explicar qué es una droga y qué son la tolerancia y la dependencia; diferenciar los tipos de droga por su situación legal y por su efecto; relacionar el consumo de drogas con el contagio de algunas enfermedades'],
     resumen: [
@@ -212,35 +200,10 @@ export default [
         ] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:4.1.1'], ambito: 'conocer', title: 'Legales e ilegales',
-          prompt: 'Una forma de clasificar las drogas es por lo que dice la **ley**. Toca las tarjetas.' },
-        { icon: 'Scale', body: '¡Cuidado! **Legal no significa inofensiva.** El alcohol y el tabaco son legales para personas adultas y causan graves daños a la salud.', reveal: [
-          { icon: 'Store', front: 'Drogas legales', back: 'Se venden legalmente a personas adultas: **alcohol**, **tabaco** (su droga es la **nicotina**) y **cafeína** (café, algunos refrescos). También algunos **medicamentos** que actúan sobre el sistema nervioso (para dormir, calmar los nervios o quitar un dolor fuerte), que deben usarse **solo con receta**.' },
-          { icon: 'Ban', front: 'Drogas ilegales', back: 'Su producción y venta están **prohibidas**: por ejemplo, **marihuana** y **cocaína**.' },
-          { icon: 'Pill', front: 'Medicamentos mal usados', back: 'Un medicamento se vuelve un riesgo si se toma **sin receta**, en **más cantidad** o **para otra cosa**. Esto se llama **automedicación** o abuso.' },
-        ] },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:4.1.1'], ambito: 'conocer',
-          prompt: 'Clasifica cada droga según su situación **legal**.',
-          hint: 'Legales: las que se venden en tiendas o farmacias a personas adultas. Ilegales: las prohibidas.',
-          explain: 'Alcohol, nicotina del tabaco, cafeína y los tranquilizantes recetados son legales. Marihuana y cocaína son ilegales.' },
-        { buckets: [
-          { id: 'leg', label: 'Legal', icon: 'Store', color: 'var(--c-maiz-strong)' },
-          { id: 'ile', label: 'Ilegal', icon: 'Ban', color: 'var(--c-bad)' },
-        ], items: [
-          { id: 'l1', text: 'Alcohol', bucket: 'leg' },
-          { id: 'l2', text: 'Cocaína', bucket: 'ile' },
-          { id: 'l3', text: 'Nicotina del tabaco', bucket: 'leg' },
-          { id: 'l4', text: 'Marihuana', bucket: 'ile' },
-          { id: 'l5', text: 'Cafeína', bucket: 'leg' },
-          { id: 'l6', text: 'Un tranquilizante recetado por el médico', bucket: 'leg' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:4.1.1'], ambito: 'conocer', title: 'Según su efecto',
-          prompt: 'La otra forma de clasificarlas es por **lo que le hacen al sistema nervioso**. Observa el diagrama de la lección y toca las tarjetas.' },
-        { icon: 'Activity', body: 'Imagina que el sistema nervioso tiene un **velocímetro**.', reveal: [
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:4.1.1'], ambito: 'conocer', title: 'Clasificar por ley y por efecto',
+          prompt: 'Las drogas pueden clasificarse por su situación legal y por **lo que le hacen al sistema nervioso**. Observa el diagrama y toca las tarjetas.' },
+        { icon: 'Activity', body: '**Legal no significa inofensiva.** La ley y el efecto responden preguntas distintas.', reveal: [
+          { icon: 'Scale', front: 'Situación legal', back: 'Alcohol, tabaco, cafeína y medicamentos recetados son legales bajo condiciones; marihuana y cocaína son ilegales. Un medicamento sin receta o dosis indicada es un uso peligroso.' },
           { icon: 'TrendingDown', front: 'Depresoras', back: 'Lo hacen **más lento**: reflejos lentos, sueño, mala coordinación. Ejemplos: **alcohol** e **inhalantes** (pegamentos, solventes, thinner), muy peligrosos para el cerebro.' },
           { icon: 'Zap', front: 'Estimulantes', back: 'Lo **aceleran**: corazón rápido, nerviosismo, falta de sueño. Ejemplos: **nicotina**, **cafeína** (suave) y **cocaína** (muy peligrosa).' },
           { icon: 'Eye', front: 'Perturbadoras o alucinógenas', back: '**Alteran la percepción**: se ven, oyen o sienten cosas de forma distorsionada. Ejemplos: **marihuana** y alucinógenos.' },
@@ -337,7 +300,7 @@ export default [
     id: 's05-cnt-3',
     title: 'Una vida sana libre de drogas',
     icon: 'Trophy',
-    minutes: 17,
+    minutes: 15,
     gancho: 'Un partido de fútbol con amigos, ensayar con la marimba de la escuela, bailar en la feria del pueblo: ¿cómo pueden estas actividades protegerte de las drogas?',
     objetivos: ['Identificar factores de riesgo y de protección frente al consumo de drogas; explicar cómo el deporte, el juego, la convivencia y la recreación favorecen una vida sana; practicar formas asertivas de decir que no y comunicar un mensaje de prevención'],
     resumen: [
@@ -389,8 +352,7 @@ export default [
           { id: 'f2', text: 'Amigos que se burlan si no pruebas algo', bucket: 'rie' },
           { id: 'f3', text: 'Una familia que conversa en la cena', bucket: 'pro' },
           { id: 'f4', text: 'Pasar las tardes solo, sin nada que hacer', bucket: 'rie' },
-          { id: 'f5', text: 'Tener la meta de ser enfermera o mecánico', bucket: 'pro' },
-          { id: 'f6', text: 'Guardar los problemas sin contárselos a nadie', bucket: 'rie' },
+          { id: 'f5', text: 'Tener una meta y hablar de los problemas con una persona adulta de confianza', bucket: 'pro' },
         ] },
       ),
       S.explain(
@@ -443,36 +405,13 @@ export default [
           { id: 'n4', text: 'Proponer otra actividad o retirarse', icon: 'Footprints' },
         ] },
       ),
-      S.dilemma(
-        { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:4.2.1'], ambito: 'convivir', prompt: '¿Qué harías tú?' },
-        { scene: { icon: 'PartyPopper', text: 'Al terminar el partido del campeonato escolar, unos jóvenes mayores invitan al equipo de **Esteban** a "celebrar" con cerveza detrás de la cancha. Varios compañeros dudan.' }, options: [
-          { id: 'a', icon: 'Users', text: 'Ir para no quedar mal con el grupo', consequence: 'Esteban se siente incómodo y mal después. El alcohol es especialmente dañino para un cerebro que aún se desarrolla.', values: ['Presión de grupo'], constructive: false },
-          { id: 'b', icon: 'Hand', text: 'Decir "no, gracias" y proponer ir por un refresco natural y una refacción', consequence: 'Dos compañeros se animan a ir con él. Celebran igual de contentos y sin riesgos.', values: ['Asertividad', 'Liderazgo'], constructive: true },
-          { id: 'c', icon: 'MessageCircle', text: 'Avisar al entrenador para que acompañe al equipo', consequence: 'El entrenador organiza una celebración para todo el equipo con sus familias.', values: ['Responsabilidad', 'Cuidado'], constructive: true },
-        ] },
-      ),
-      S.project(
-        { fase: 'aplicar', areas: ['cnt', 'l1', 'art'], cnb: ['cnt:4.2.1'], ambito: 'hacer', title: 'Campaña "Vivo sano, vivo libre"',
-          prompt: 'Usa un **medio** para mostrar a otros niños cómo el deporte, el juego, la convivencia o la recreación ayudan a vivir sin drogas.' },
-        { goal: 'Crear un mensaje de prevención positivo, dirigido a niñas y niños de tu escuela o comunidad.',
-          steps: [
-            { title: 'Elige el medio', detail: 'Un **cartel**, una **historieta** de 4 cuadros, un **anuncio de radio** de 30 segundos o una **canción** corta.' },
-            { title: 'Elige la actividad', detail: 'Fútbol, básquetbol, marimba, danza, lectura, huerto, juegos tradicionales como el trompo o el yax…' },
-            { title: 'Escribe el mensaje', detail: 'Explica **un beneficio** (bienestar, menos estrés, amistades, metas) y cierra con una frase positiva, como "Mi tiempo libre, mi mejor decisión".' },
-            { title: 'Compártelo', detail: 'Muéstralo a tu familia o a tu grado y pide su opinión.' },
-          ],
-          evidence: 'El cartel, la historieta, el guion del anuncio o la letra de la canción.',
-          rubric: ['Usa un medio claro y atractivo', 'Muestra una actividad concreta y un beneficio real', 'El mensaje es positivo y no muestra drogas ni consumo', 'Incluye una forma de pedir ayuda o decir que no'] },
-      ),
       S.choice(
-        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:4.2.1'], ambito: 'ser',
-          prompt: 'Doña Marta nota que su hijo pasa las tardes solo, aburrido y con amigos que fuman. ¿Qué propuesta lo **protege más**?',
-          explain: 'Llenar el tiempo libre con actividades sanas, en grupo y con metas, es un factor de protección muy fuerte, junto con la comunicación en familia.' },
-        { options: [
-          { id: 'a', text: 'Inscribirlo en la escuela de fútbol o de música y conversar con él cada día', icon: 'Trophy' },
-          { id: 'b', text: 'Prohibirle salir sin explicarle por qué', icon: 'Lock', feedback: 'Los límites ayudan, pero sin diálogo ni alternativas no protegen lo suficiente.' },
-          { id: 'c', text: 'Dejar que decida solo, sin hablar del tema', icon: 'EyeOff', feedback: 'El silencio y el tiempo libre sin actividades son factores de riesgo.' },
-        ], correct: ['a'] },
+        { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:4.2.1'], ambito: 'convivir', prompt: '¿Qué harías tú?' },
+        { multiple: true, options: [
+          { id: 'a', icon: 'Users', text: 'Ir para no quedar mal con el grupo', feedback: 'Ceder a la presión aumenta el riesgo.' },
+          { id: 'b', icon: 'Hand', text: 'Decir "no, gracias" y proponer otra celebración' },
+          { id: 'c', icon: 'MessageCircle', text: 'Avisar a una persona adulta de confianza' },
+        ], correct: ['b', 'c'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:4.2.1'], prompt: '¿Cuál de estas prácticas favorece una vida sana libre de drogas?' },

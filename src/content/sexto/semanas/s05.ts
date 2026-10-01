@@ -15,7 +15,7 @@ export default semana({
   subtitle: 'Coordenadas, texturas, participación y trabajo seguro para identificar y reducir barreras',
   icon: 'Accessibility',
   color: 'var(--area-art)',
-  contexto: 'La accesibilidad se construye con las personas, no para ellas sin preguntar. Esta semana usamos coordenadas para ubicar espacios, texturas y contraste para comunicar, participación para escuchar y decidir, y herramientas con procedimientos seguros. Consultaremos y probaremos el plano con personas con discapacidad de la comunidad escolar. Un mapa táctil puede orientar, pero no garantiza acceso para todas las personas ni elimina todas las barreras: también existen barreras físicas, de comunicación, sensoriales y actitudinales que la escuela debe identificar y atender.',
+  contexto: 'La accesibilidad se construye con las personas, no para ellas sin preguntar. Esta semana usamos coordenadas para ubicar espacios, texturas y contraste para comunicar, participación para escuchar y decidir, y herramientas con procedimientos seguros. Trabajaremos con criterios publicados y un caso ficticio; haremos una prueba de claridad entre pares con los ojos abiertos. La consulta especializada con personas con discapacidad o especialistas queda pendiente hasta que la escuela pueda acordarla. Un mapa táctil puede orientar, pero no garantiza acceso para todas las personas ni elimina todas las barreras: también existen barreras físicas, de comunicación, sensoriales y actitudinales que la escuela debe identificar y atender.',
   ejes: ['equidad', 'vida-ciudadana', 'seguridad', 'tecnologia'],
   media: {
     id: 's05-portada',
@@ -23,13 +23,13 @@ export default semana({
     title: 'Recorrido accesible por la escuela',
     aspect: '16:9',
     alt: 'Estudiantes y una persona adulta revisan un plano táctil de la escuela; una ruta con relieve conecta la entrada, la dirección, un aula y los baños.',
-    brief: 'Ilustración editorial de una escuela pública guatemalteca. En una mesa, estudiantes, una persona ciega usuaria de bastón y una persona con baja visión revisan un plano táctil con consentimiento y participación activa. El plano muestra cuadrícula, coordenadas grandes, leyenda de cuatro texturas y una ruta continua en relieve. Al fondo se ven una rampa, pasamanos, señalización de alto contraste y un pasillo despejado. Mostrar decisiones compartidas, autonomía y límites del recurso; evitar ayuda condescendiente y promesas de accesibilidad universal.',
+    brief: 'Ilustración editorial conceptual de una escuela pública guatemalteca. En una mesa, estudiantes revisan entre pares un plano táctil con los ojos abiertos; una tarjeta visible dice "consulta especializada pendiente". El plano muestra cuadrícula, coordenadas grandes, leyenda de cuatro texturas y una ruta continua en relieve. Al fondo se ven una rampa, pasamanos, señalización de alto contraste y un pasillo despejado. No presentar la escena como evidencia de una consulta local ya realizada; todas las personas mantienen los ojos abiertos y participan como ellas mismas. Evitar ayuda condescendiente y promesas de accesibilidad universal.',
   },
   badge: {
     id: 'cartografo-accesible',
     name: 'Cartógrafo que escucha',
     icon: 'Map',
-    desc: 'Ubicas espacios y mejoras un plano después de consultar y probarlo con sus usuarios.',
+    desc: 'Ubicas espacios, pruebas la claridad entre pares y registras la consulta especializada como pendiente.',
   },
   lessons: [
     lesson({
@@ -42,7 +42,7 @@ export default semana({
       objetivos: ['Aplicar coordenadas, textura, participación y manejo seguro de materiales para construir, probar y revisar un plano táctil escolar'],
       resumen: [
         'El producto es un plano táctil con coordenadas, una leyenda y una ruta accesible propuesta.',
-        'Las personas con discapacidad participan en las decisiones y en la prueba; sus observaciones guían la revisión.',
+        'La prueba entre pares revisa claridad con los ojos abiertos; la consulta especializada con personas con discapacidad o especialistas queda pendiente.',
         'El mapa orienta, pero no sustituye la eliminación de barreras físicas, comunicativas, sensoriales y actitudinales.',
       ],
       media: {
@@ -56,19 +56,19 @@ export default semana({
       steps: [
         S.explain(
           { fase: 'explorar', areas: ['fc'], cnb: ['fc:3.2.1'], ambito: 'convivir', title: '1 min · Encargo y límites',
-            prompt: '**1 min.** La escuela pide un plano táctil. Primero se consulta y cada persona expresa su propia experiencia y sus prioridades.' },
-          { icon: 'MessageCircleQuestion', body: 'Pregunten qué destinos y formatos son útiles y registren la respuesta sin atribuir opiniones no expresadas. Un plano puede apoyar la orientación, pero **no garantiza acceso para todas las personas** ni elimina todas las barreras físicas, de comunicación, sensoriales y actitudinales.' },
+            prompt: '**1 min.** La escuela pide un plano táctil. Hoy usarán criterios publicados y un caso ficticio, no evidencia de una consulta local.' },
+          { icon: 'MessageCircleQuestion', body: 'La prueba entre pares permite revisar claridad, pero no sustituye la participación de personas con discapacidad. Registren **consulta especializada pendiente** y no atribuyan opiniones no expresadas. Un plano puede apoyar la orientación, pero **no garantiza acceso para todas las personas** ni elimina todas las barreras físicas, de comunicación, sensoriales y actitudinales.' },
         ),
         S.project(
-          { fase: 'construir', areas: ['fc'], cnb: ['fc:3.2.1', 'fc:3.2.2'], ambito: 'convivir', title: '1 min · Recuperen la consulta',
-            prompt: '**1 min.** Lean dos observaciones recogidas con consentimiento de personas con discapacidad de la comunidad escolar y anoten el requisito que aporta cada una.' },
-          { goal: 'Convertir la consulta en requisitos verificables, sin suponer necesidades.',
+          { fase: 'construir', areas: ['fc'], cnb: ['fc:3.2.1', 'fc:3.2.2'], ambito: 'convivir', title: '1 min · Lean el caso ficticio',
+            prompt: '**1 min.** Lean un brief ficticio compuesto a partir de criterios publicados de accesibilidad y anoten dos requisitos de diseño.' },
+          { goal: 'Convertir una referencia claramente etiquetada en requisitos verificables, sin presentarla como consulta local.',
             steps: [
-              { title: 'Destino prioritario', detail: 'La persona consultada pidió conectar entrada, dirección, aula de sexto y baños.' },
-              { title: 'Forma de lectura', detail: 'Pidió una ruta continua en relieve, rótulos grandes y texturas que no se confundan.' },
+              { title: 'Caso ficticio', detail: 'El encargo propone conectar entrada, dirección, aula de sexto y baños.' },
+              { title: 'Criterios publicados', detail: 'La referencia recomienda una ruta continua en relieve, rótulos grandes y texturas contrastantes.' },
             ],
             evidence: 'Dos requisitos escritos en la hoja del equipo.',
-            rubric: ['Conservamos las palabras de la consulta', 'No agregamos necesidades que nadie expresó'] },
+            rubric: ['Identificamos la fuente como ficticia y publicada', 'No afirmamos haber consultado a una persona local'] },
         ),
         S.coord(
           { fase: 'construir', areas: ['mat'], cnb: ['mat:1.5.3'], ambito: 'hacer', title: '1 min · Verifiquen una coordenada',
@@ -79,7 +79,7 @@ export default semana({
         ),
         S.project(
           { fase: 'aplicar', areas: ['mat', 'fc'], cnb: ['mat:1.5.3', 'fc:3.2.1'], ambito: 'hacer', title: '2 min · Armen la base',
-            prompt: '**2 min.** Usen el kit preparado. Definan el origen y ubiquen cuatro destinos según la consulta.' },
+            prompt: '**2 min.** Usen el kit preparado. Definan el origen y ubiquen cuatro destinos según el brief ficticio.' },
           { goal: 'Construir la base coordenada del plano.',
             steps: [
               { title: 'Origen', detail: 'Marquen la entrada principal como (0, 0) y mantengan visibles los ejes x e y.' },
@@ -131,22 +131,22 @@ export default semana({
           ] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['fc', 'art'], cnb: ['fc:3.2.1', 'art:3.2.1'], ambito: 'convivir', title: '2 min · Prueba de usuario',
-            prompt: '**2 min.** Una persona con discapacidad que aceptó participar prueba una consigna real; el equipo observa y escucha sin dirigir sus manos. Si hoy no está disponible, usen observaciones documentadas de una prueba previa y reconozcan que la experiencia del equipo no sustituye la suya.' },
-          { goal: 'Recoger evidencia de uso con respeto y consentimiento.',
+          { fase: 'aplicar', areas: ['fc', 'art'], cnb: ['fc:3.2.1', 'art:3.2.1'], ambito: 'convivir', title: '2 min · Prueba de claridad entre pares',
+            prompt: '**2 min.** Un compañero prueba una consigna con los ojos abiertos y participa como él mismo. Esta prueba revisa la claridad del mapa; la consulta especializada permanece pendiente.' },
+          { goal: 'Recoger retroalimentación real entre pares sin atribuirla a usuarios con discapacidad.',
             steps: [
-              { title: 'Consigna', detail: 'Pidan localizar los baños desde la entrada y describir qué elementos ayudan o confunden.' },
-              { title: 'Registro', detail: 'Anoten literalmente una facilidad, una barrera y una sugerencia; no corrijan durante el recorrido salvo que la persona lo solicite.' },
+              { title: 'Consigna', detail: 'Con los ojos abiertos, localiza los baños desde la entrada y explica qué símbolos ayudan o confunden.' },
+              { title: 'Registro', detail: 'Anoten un comentario de claridad y una sugerencia del compañero; identifiquen la fuente como prueba entre pares.' },
             ],
-            evidence: 'Registro anónimo de la prueba o ficha de una prueba previa autorizada.',
-            rubric: ['Hubo consentimiento y opción de detener la prueba', 'La observación conserva la opinión de la persona usuaria'] },
+            evidence: 'Registro de retroalimentación de la prueba entre pares, con ojos abiertos.',
+            rubric: ['Todas las personas mantuvieron los ojos abiertos', 'El registro no se presenta como consulta especializada'] },
         ),
         S.project(
           { fase: 'aplicar', areas: ['mat', 'art', 'pyd'], cnb: ['mat:1.5.3', 'art:3.2.1', 'pyd:3.2.3'], ambito: 'hacer', title: '2 min · Revisión dirigida',
             prompt: '**2 min.** Corrijan una dificultad observada y vuelvan a comprobar coordenadas, leyenda, ruta y seguridad.' },
           { goal: 'Mejorar el producto con evidencia.',
             steps: [
-              { title: 'Una corrección', detail: 'Muevan una pieza, cambien una textura, separen elementos o reparen el cordón según la prueba.' },
+              { title: 'Una corrección', detail: 'Muevan una pieza, cambien una textura, separen elementos o reparen el cordón según la retroalimentación entre pares.' },
               { title: 'Lista final', detail: 'Verifiquen cuatro coordenadas, cuatro claves coincidentes, ruta continua y ninguna pieza suelta o filosa.' },
             ],
             evidence: 'Plano revisado y nota breve que relaciona observación, cambio y nueva comprobación.',
@@ -154,7 +154,7 @@ export default semana({
         ),
         S.choice(
           { fase: 'comprobar', areas: ['fc'], cnb: ['fc:3.2.1'], title: '1 min · Salida de participación',
-            prompt: '**1 min.** Una usuaria dice que dos texturas se confunden. ¿Qué acción respeta su participación?' },
+            prompt: '**1 min.** En un caso ficticio, una futura consultora indica que dos texturas se confunden. ¿Qué acción respetaría su participación?' },
           { options: [
             { id: 'a', text: 'Pedirle que compare alternativas y cambiar la clave según la prueba' },
             { id: 'b', text: 'Explicarle que el equipo ya decidió y conservar el diseño' },
@@ -176,11 +176,12 @@ export default semana({
           { statements: [
             'Usé coordenadas coherentes entre el plano y la ruta',
             'Hice coincidir texturas y clave',
-            'Escuché la consulta y la prueba sin suponer ni hablar por otra persona',
+            'Registré la retroalimentación de la prueba entre pares sin presentarla como consulta especializada',
+            'Anoté el estado honesto: consulta especializada pendiente',
             'Reconozco barreras que el mapa no resuelve',
           ], commitments: [
             'Presentaré la lista de barreras al gobierno escolar',
-            'Solicitaré otra prueba con consentimiento antes de fabricar una versión permanente',
+            'Como próximo paso, solicitaré a la dirección una consulta con personas con discapacidad o especialistas antes de fabricar una versión permanente',
             'Guardaré el kit completo para que otro grupo pueda revisarlo',
           ] },
         ),
@@ -201,8 +202,8 @@ export default semana({
         kind: 'image',
         title: 'Mesa de revisión del plano escolar',
         aspect: '16:9',
-        alt: 'Mesa con un plano táctil, una hoja de coordenadas, muestras de textura, una lista de consulta y herramientas escolares guardadas de forma segura.',
-        brief: 'Mock de producción para una imagen cenital clara, legible en celular. Mostrar el producto real de la semana: plano táctil cuadriculado con cuatro destinos, ruta continua, leyenda de cuatro texturas y coordenadas visibles. Alrededor, una ficha anónima de consulta y prueba, una lista de revisión y una bandeja cerrada con perforadora y tijeras de punta roma. No mostrar piezas filosas sueltas, personas con los ojos cubiertos ni mensajes que prometan accesibilidad universal.',
+        alt: 'Mesa con un plano táctil, una hoja de coordenadas, muestras de textura, un registro de prueba entre pares y herramientas escolares guardadas de forma segura.',
+        brief: 'Mock de producción para una imagen cenital clara, legible en celular. Mostrar el producto real de la semana: plano táctil cuadriculado con cuatro destinos, ruta continua, leyenda de cuatro texturas y coordenadas visibles. Alrededor, una ficha rotulada "prueba entre pares, ojos abiertos", una tarjeta "consulta especializada pendiente", una lista de revisión y una bandeja cerrada con perforadora y tijeras de punta roma. No mostrar evidencia atribuida a personas con discapacidad, piezas filosas sueltas, personas con los ojos cubiertos ni mensajes que prometan accesibilidad universal.',
       },
       steps: [
         S.coord({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.5.3'], prompt: 'En un plano nuevo, coloca la biblioteca en **(−1, 5)**.' },
@@ -242,8 +243,16 @@ export default semana({
             { id: 'b', left: 'Cartón corrugado', right: 'Acanalada' },
             { id: 'c', left: 'Esponja firme', right: 'Porosa' },
           ] }),
-        S.number({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.9'], prompt: 'Un plan nuevo incluye **2 pases medios con la izquierda, 2 altos con la izquierda, 2 medios con la derecha y 2 altos con la derecha**. ¿Cuántos pases registra en total?' },
-          { answer: 8, unit: 'pases' }),
+        S.sort({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.9'], prompt: 'Juzga estas ejecuciones del pase por arriba del hombro con salto, a altura media o alta y con mano izquierda o derecha.' },
+          { buckets: [
+            { id: 'correcta', label: 'Ejecución correcta', icon: 'CircleCheck' },
+            { id: 'ajuste', label: 'Necesita ajuste', icon: 'RefreshCw' },
+          ], items: [
+            { id: 'a', text: 'Salta con impulso del pie derecho y pasa con la izquierda por arriba del hombro a la altura media del pecho', bucket: 'correcta' },
+            { id: 'b', text: 'Salta con impulso del pie izquierdo y pasa con la derecha por arriba del hombro a altura alta, hacia las manos elevadas', bucket: 'correcta' },
+            { id: 'c', text: 'Con la izquierda, envía un pase alto antes de saltar y sin llevar el balón por arriba del hombro', bucket: 'ajuste' },
+            { id: 'd', text: 'Con la derecha, hace un pase medio desde abajo y aterriza antes de soltar el balón', bucket: 'ajuste' },
+          ] }),
         S.sort({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:3.2.3', 'pyd:3.2.4'], prompt: 'Clasifica acciones al usar una perforadora de papel escolar.' },
           { buckets: [
             { id: 'antes', label: 'Antes', icon: 'ClipboardCheck' },
@@ -303,8 +312,13 @@ export default semana({
         { id: 'b', text: 'Dos retazos del mismo fieltro' },
         { id: 'c', text: 'Dos hojas de papel liso' },
       ], correct: ['a'] }),
-    S.number({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.9'], prompt: 'Otro equipo registra **3 pases medios y 3 altos con cada una de las dos manos**. ¿Cuántos pases completa?' },
-      { answer: 12, unit: 'pases' }),
+    S.match({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.9'], prompt: 'Identifica la mano y la altura en cada pase por arriba del hombro con salto.' },
+      { leftTitle: 'Ejecución observada', rightTitle: 'Mano y altura', pairs: [
+        { id: 'a', left: 'Salta y suelta con la izquierda hacia el pecho de su pareja', right: 'Izquierda · altura media' },
+        { id: 'b', left: 'Salta y suelta con la derecha por encima de la cabeza de su pareja', right: 'Derecha · altura alta' },
+        { id: 'c', left: 'Salta y suelta con la derecha hacia el pecho de su pareja', right: 'Derecha · altura media' },
+        { id: 'd', left: 'Salta y suelta con la izquierda por encima de la cabeza de su pareja', right: 'Izquierda · altura alta' },
+      ] }),
     S.choice({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:3.2.4'], prompt: 'Una polea escolar tiene la cuerda deshilachada. ¿Qué haces antes de usarla?' },
       { options: [
         { id: 'a', text: 'No usarla y reportar el daño para que una persona responsable la repare' },

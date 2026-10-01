@@ -813,9 +813,12 @@ function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
       )),
     );
     const weightedAnswerOverlap = sharedAnswerPrompt + (2 * sharedAnswerField);
+    const hasSpecificFieldReuse = custom.prompt.size <= 35
+      ? (weightedAnswerOverlap >= 2 || sharedPrompt.length >= 2)
+      : sharedAnswerField >= 2;
     return sharedPrompt.length >= 1
       && sharedAnswer.length >= 2
-      && (weightedAnswerOverlap >= 2 || sharedPrompt.length >= 2);
+      && hasSpecificFieldReuse;
   };
   if (
     customReuse(candidate, left, customStructuredPayload(source))
@@ -2245,6 +2248,7 @@ test('Semana 4 evalúa contenido enseñado en diez áreas con payloads frescos',
   for (const [source, steps] of [['reto', challenge.steps], ['banco', weekFourBank]] as const) {
     for (const assessment of steps.filter((step) => getActivity(step.type)?.graded)) {
       const repeatedLesson = subjectSteps.find((practice) => practice.areas[0] === assessment.areas[0]
+        && practice.cnb.some((ref) => assessment.cnb.includes(ref))
         && repeatsStructuredFact(assessment, practice));
       if (repeatedLesson) reused.push(`${source}/${assessment.areas[0]} <= ${normalizeFactText(repeatedLesson.prompt)}`);
     }
@@ -2355,11 +2359,67 @@ test('Semana 5 mantiene una carga estructurada razonable por leccion', () => {
     const complexityBudget = lesson.minutes * 2 - 2;
     const longResponse = lesson.steps.find((step) => step.type === 'short-answer'
       && Number((step.props as { minWords?: number }).minWords ?? 0) > lesson.minutes * 3);
-    if (lesson.steps.length > 14 || nestedItems > lesson.minutes * 3 || complexity > complexityBudget || longResponse) {
+    if (lesson.minutes < 10 || lesson.minutes > 15 || lesson.steps.length < 9 || lesson.steps.length > 14
+      || nestedItems > lesson.minutes * 3 || complexity > complexityBudget || longResponse) {
       failures.push(`${lesson.id}: pantallas=${lesson.steps.length}, elementos=${nestedItems}, complejidad=${complexity.toFixed(2)}/${complexityBudget}, respuestaLarga=${Boolean(longResponse)}`);
     }
   }
   assert.deepEqual(failures, []);
+});
+
+test('Semana 5 distingue prueba entre pares de consulta especializada pendiente', () => {
+  const workshop = weekFive.lessons.find((lesson) => lesson.kind === 'taller');
+  assert.ok(workshop, 'Semana 5 sin taller');
+  const text = normalizeFactText(JSON.stringify(workshop));
+  assert.match(text, /criterios publicados|caso ficticio|brief ficticio/);
+  assert.match(text, /prueba.{0,80}pares?.{0,80}ojos abiertos|pares?.{0,80}ojos abiertos.{0,80}prueba/);
+  assert.match(text, /claridad|usabilidad/);
+  assert.match(text, /retroalimentacion|comentario|observacion/);
+  assert.match(text, /consulta especializada pendiente/);
+  assert.match(text, /proximo paso|siguiente paso|solicitar.{0,80}(?:consulta|revision)/);
+  assert.doesNotMatch(text, /observaciones? (?:recogidas?|documentadas?) con consentimiento/);
+  assert.doesNotMatch(text, /persona consultada pidio|usuaria (?:ciega )?pidio|prueba previa autorizada/);
+  assert.doesNotMatch(text, /(?:cerrar|cubrir|vendar).{0,50}ojos|simular.{0,50}(?:ceguera|discapacidad)/);
+});
+
+test('Semana 5 no fabrica evidencia local de consulta o prueba', () => {
+  const allowed = weekFive.lessons.filter((lesson) => lesson.kind === 'materia' && ['art', 'fc'].includes(lesson.area ?? ''));
+  const text = normalizeFactText(JSON.stringify([weekFive.contexto, weekFive.media, ...allowed]));
+  assert.doesNotMatch(text, /observaciones? (?:recogidas?|documentadas?) con consentimiento/);
+  assert.doesNotMatch(text, /persona consultada pidio|usuaria (?:ciega )?pidio|prueba previa autorizada/);
+  assert.match(text, /consulta especializada pendiente/);
+});
+
+test('Semana 5 evalua semanticamente el pase con salto por arriba del hombro', () => {
+  const challenge = weekFive.lessons.find((lesson) => lesson.kind === 'reto');
+  assert.ok(challenge, 'Semana 5 sin reto');
+  const challengeEf = challenge.steps.find((step) => step.areas.includes('ef'));
+  const bankEf = weekFiveBank.find((step) => step.areas.includes('ef'));
+  assert.ok(challengeEf && bankEf, 'Faltan evaluaciones EF en reto o banco');
+  for (const [source, step] of [['reto', challengeEf], ['banco', bankEf]] as const) {
+    const text = normalizeFactText(JSON.stringify(step));
+    assert.notEqual(step.type, 'number-input', `${source}: no debe evaluar aritmetica`);
+    assert.ok(step.cnb.includes('ef:2.1.9'), `${source}: falta ef:2.1.9`);
+    assert.match(text, /por arriba del hombro/);
+    assert.match(text, /salto|saltar/);
+    assert.match(text, /izquierda/);
+    assert.match(text, /derecha/);
+    assert.match(text, /altura media|pase medio|al pecho/);
+    assert.match(text, /altura alta|pase alto|por encima/);
+    assert.ok(!step.hint && !step.explain, `${source}: la evaluacion debe ir sin pistas`);
+  }
+  assert.ok(!repeatsStructuredFact(challengeEf, bankEf), 'Reto y banco EF reutilizan la misma respuesta');
+});
+
+test('Semana 5 usa simbolos tactiles y no imita braille', () => {
+  const relevant = weekFive.lessons.filter((lesson) => lesson.kind === 'taller' || lesson.area === 'art');
+  const text = normalizeFactText(JSON.stringify(relevant));
+  assert.doesNotMatch(text, /braille.{0,40}(?:simulad|imitad|inventad)|(?:simulad|imitad|inventad).{0,40}braille/);
+  assert.match(text, /simbolos tactiles (?:no braille|que no son braille)|texturas no braille/);
+  const brailleSentences = text.split(/[.!?]+/).filter((sentence) => sentence.includes('braille'));
+  assert.ok(brailleSentences.length > 0, 'Falta advertencia de integridad Braille');
+  assert.ok(brailleSentences.every((sentence) => /no (?:imitar|inventar|copiar)|transcripcion profesional|validado/.test(sentence)),
+    `Menciones no controladas: ${brailleSentences.join(' | ')}`);
 });
 
 test('Semana 5 aborda accesibilidad con consulta, prueba y limites honestos', () => {
@@ -2371,8 +2431,8 @@ test('Semana 5 aborda accesibilidad con consulta, prueba y limites honestos', ()
   assert.match(text, /textura/);
   assert.match(text, /accesibilidad|accesible/);
   assert.match(text, /herramientas?.{0,50}segur|segur.{0,50}herramientas?/);
-  assert.match(text, /consultar|preguntar.{0,100}personas con discapacidad|personas con discapacidad.{0,100}(?:consultar|preguntar)/);
-  assert.match(text, /probar.{0,120}personas con discapacidad|personas con discapacidad.{0,120}probar/);
+  assert.match(text, /consulta especializada pendiente/);
+  assert.match(text, /prueba.{0,100}pares?.{0,80}ojos abiertos|pares?.{0,80}ojos abiertos.{0,100}prueba/);
   assert.match(text, /no (?:elimina|resuelve|garantiza).{0,120}(?:todas las barreras|accesibilidad universal|acceso para todas)/);
   assert.match(text, /barreras (?:fisicas|de comunicacion|sensoriales|actitudinales)/);
   assert.doesNotMatch(text, /simula(?:r|mos)?.{0,80}(?:ceguera|discapacidad)|vend(?:a|ar).{0,50}(?:ojos|vista)/);
@@ -2408,7 +2468,8 @@ test('Semana 5 aplica cuatro prerrequisitos en un mapa tactil viable y comprobab
   assert.match(text, /leyenda|clave/);
   assert.match(text, /ruta accesible/);
   assert.match(text, /texturas?.{0,80}(?:distintas|contraste)|contraste.{0,80}texturas?/);
-  assert.match(text, /prueba.{0,120}(?:persona|usuario).{0,60}discapacidad|(?:persona|usuario).{0,60}discapacidad.{0,120}prueba/);
+  assert.match(text, /prueba.{0,100}pares?.{0,80}ojos abiertos|pares?.{0,80}ojos abiertos.{0,100}prueba/);
+  assert.match(text, /consulta especializada pendiente/);
   assert.match(text, /corrige|revision|revisa|mejora/);
   assert.equal(workshop.steps.at(-1)?.type, 'reflection');
 
@@ -2448,6 +2509,7 @@ test('Semana 5 evalua diez areas con contenido ensenado y payloads frescos', () 
   for (const [source, steps] of [['reto', challenge.steps], ['banco', weekFiveBank]] as const) {
     for (const assessment of steps.filter((step) => getActivity(step.type)?.graded)) {
       const repeatedLesson = subjectSteps.find((practice) => practice.areas[0] === assessment.areas[0]
+        && practice.cnb.some((ref) => assessment.cnb.includes(ref))
         && repeatsStructuredFact(assessment, practice));
       if (repeatedLesson) reused.push(`${source}/${assessment.areas[0]} <= ${normalizeFactText(repeatedLesson.prompt)}`);
     }

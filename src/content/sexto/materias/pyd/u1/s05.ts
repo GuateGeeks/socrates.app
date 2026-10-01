@@ -10,7 +10,7 @@ export default [
     id: 's05-pyd-1',
     title: 'Herramientas y máquinas simples: usarlas bien y con seguridad',
     icon: 'Wrench',
-    minutes: 17,
+    minutes: 15,
     gancho: 'Un costal de abono pesa mucho. ¿Cómo lo moverías hasta el huerto sin lastimarte la espalda?',
     objetivos: ['Reconocer las seis máquinas simples en herramientas de la casa, el campo y la escuela; usar las herramientas con la técnica adecuada; aplicar criterios preventivos antes, durante y después de usar una herramienta'],
     resumen: [
@@ -97,22 +97,6 @@ export default [
           ],
           answer: 'Keyla movió el abono **con menos esfuerzo** (técnica) y **sin accidentes** (prevención).',
           tip: 'Revisar → cargar bien → buena postura → cuidado al moverse → limpiar, guardar y reportar.' },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:3.2.4'], prompt: 'Clasifica cada práctica en el huerto escolar: ¿es **segura** o es **peligrosa**?',
-          hint: 'Recuerda los tres momentos: antes (revisar y protegerse), durante (distancia y atención) y después (limpiar y guardar).',
-          explain: 'Las prácticas seguras previenen cortes, golpes y lesiones de espalda.' },
-        { buckets: [
-          { id: 'seg', label: 'Segura', icon: 'ShieldCheck', color: 'var(--c-ok)' },
-          { id: 'pel', label: 'Peligrosa', icon: 'X', color: 'var(--c-bad)' },
-        ], items: [
-          { id: 'g1', text: 'Revisar que el mango del azadón no esté rajado', bucket: 'seg' },
-          { id: 'g2', text: 'Correr con las tijeras de podar abiertas', bucket: 'pel' },
-          { id: 'g3', text: 'Usar zapatos cerrados en la jornada', bucket: 'seg' },
-          { id: 'g4', text: 'Dejar el rastrillo tirado con los dientes hacia arriba', bucket: 'pel', feedback: 'Alguien puede pisarlo y golpearse o cortarse. Se guarda en su lugar.' },
-          { id: 'g5', text: 'Levantar el costal doblando las rodillas y con la espalda recta', bucket: 'seg' },
-          { id: 'g6', text: 'Jugar a las espadas con los palos de las herramientas', bucket: 'pel' },
-        ] },
       ),
       S.order(
         { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:3.2.3', 'pyd:3.2.4'], ambito: 'hacer', prompt: 'Vas a aflojar la tierra de un tablón con el **azadón**. Ordena los pasos seguros.',
