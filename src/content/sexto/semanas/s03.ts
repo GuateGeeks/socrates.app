@@ -170,11 +170,11 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.1'], prompt: 'En el laboratorio observan que una glándula libera un mensajero químico directamente a pequeños vasos sanguíneos, sin usar conductos. ¿Cómo actúa esa glándula?' },
+          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.1'], prompt: 'En un modelo se tapa el conducto que lleva la secreción de una glándula sebácea a la superficie. ¿Qué función se interrumpe directamente?' },
           { options: [
-            { id: 'a', text: 'Como endocrina, porque su producto entra directamente a la sangre' },
-            { id: 'b', text: 'Como exocrina, porque su producto sale por un conducto' },
-            { id: 'c', text: 'Como músculo, porque impulsa la sangre' },
+            { id: 'a', text: 'La grasa protectora deja de llegar a la superficie de la piel y el cabello' },
+            { id: 'b', text: 'La insulina deja de entrar a la sangre para regular el azúcar' },
+            { id: 'c', text: 'Las lágrimas dejan de limpiar y proteger los ojos' },
           ], correct: ['a'] },
         ),
         S.sort(

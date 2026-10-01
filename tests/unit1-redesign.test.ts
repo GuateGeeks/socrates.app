@@ -325,6 +325,35 @@ test('La comparación estructurada detecta un solo par reutilizado entre tipos',
   assert.equal(repeatsStructuredFact(bankSort, lessonMatch), true);
 });
 
+test('La comparación de reto y banco detecta un hecho único aunque esté parafraseado', () => {
+  const challengeChoice = {
+    type: 'choice',
+    prompt: 'En el laboratorio observan que una glándula libera un mensajero químico directamente a pequeños vasos sanguíneos, sin usar conductos. ¿Cómo actúa esa glándula?',
+    props: {
+      options: [
+        { id: 'a', text: 'Como endocrina, porque su producto entra directamente a la sangre' },
+        { id: 'b', text: 'Como exocrina, porque su producto sale por un conducto' },
+      ],
+      correct: ['a'],
+    },
+  };
+  const bankSort = {
+    type: 'sort',
+    prompt: 'Clasifica cada caso según la vía de secreción descrita.',
+    props: {
+      buckets: [
+        { id: 'endo', label: 'Secreción endocrina' },
+        { id: 'exo', label: 'Secreción exocrina' },
+      ],
+      items: [
+        { text: 'El producto entra directamente a la sangre sin pasar por un conducto', bucket: 'endo' },
+      ],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(bankSort, challengeChoice), true);
+});
+
 test('La comparación estructurada no confunde una respuesta común entre conceptos distintos', () => {
   const communityChoice = {
     type: 'choice',
@@ -667,11 +696,36 @@ function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
       && directionalOverlap(candidateContext, sourceContext) >= (numericValue ? 0.35 : 0.3);
   };
   const candidateFacts = left.facts.filter((fact) => fact.role === 'answer');
+  const sourceFacts = right.facts.filter((fact) => fact.role === 'answer');
   const pairedFacts = candidateFacts.filter(isPairFact);
   const repeatedPairs = pairedFacts.filter((candidateFact) => (
     right.facts.some((sourceFact) => isPairFact(sourceFact) && matches(candidateFact, sourceFact))
   ));
   if (repeatedPairs.length >= (crossType ? 1 : 2)) return true;
+  const pairMatchesSingle = (
+    pair: StructuredFact,
+    single: StructuredFact,
+    singlePrompt: Set<string>,
+  ): boolean => {
+    const entry = meaningfulCollisionTokens(pair.values[0]);
+    const category = meaningfulCollisionTokens(pair.values.slice(1).join(' '));
+    const singleAnswer = meaningfulCollisionTokens(single.values.join(' '));
+    const singleContent = new Set([...singlePrompt, ...singleAnswer]);
+    const sharedEntry = [...entry].filter((token) => singleContent.has(token)).length;
+    const sharedCategory = [...category].filter((token) => singleAnswer.has(token)).length;
+    return entry.size >= 3
+      && sharedEntry >= 3
+      && directionalOverlap(entry, singleContent) >= 0.45
+      && sharedCategory >= 1;
+  };
+  if (crossType && (
+    candidateFacts.some((candidateFact) => isPairFact(candidateFact) && sourceFacts.some((sourceFact) => (
+      !isPairFact(sourceFact) && pairMatchesSingle(candidateFact, sourceFact, right.prompt)
+    )))
+    || sourceFacts.some((sourceFact) => isPairFact(sourceFact) && candidateFacts.some((candidateFact) => (
+      !isPairFact(candidateFact) && pairMatchesSingle(sourceFact, candidateFact, left.prompt)
+    )))
+  )) return true;
   const contextualReuse = candidateFacts.some((candidateFact) => right.facts.some((sourceFact) => {
     const candidateScenario = meaningfulCollisionTokens([
       ...left.prompt,
@@ -1639,14 +1693,9 @@ test('Semana 3 evalúa las diez áreas con contenido enseñado y payloads fresco
 
   const gradedChallenge = nestedGradedAssessments(challenge.steps);
   for (const assessment of weekThreeBank.filter((step) => getActivity(step.type)?.graded)) {
-    const assessmentStructure = structuredAssessment(assessment);
     const repeatedChallengeFact = gradedChallenge.some((source) => {
       if (source.areas[0] !== assessment.areas[0]) return false;
-      const sourceStructure = structuredAssessment(source);
-      const sameAnswer = assessmentStructure.facts.some((candidateFact) => sourceStructure.facts.some((sourceFact) => (
-        candidateFact.values.some((value) => sourceFact.values.includes(value))
-      )));
-      return sameAnswer && directionalOverlap(assessmentStructure.prompt, sourceStructure.prompt) >= 0.5;
+      return repeatsStructuredFact(assessment, source);
     });
     if (repeatedChallengeFact) reused.push(`banco/${assessment.areas[0]}/estructura: ${normalizeFactText(assessment.prompt)}`);
   }
