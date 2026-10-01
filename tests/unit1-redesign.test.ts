@@ -191,6 +191,71 @@ test('La frescura numérica detecta una respuesta reutilizada en retroalimentaci
   assert.equal(repeatsStructuredFact(bankItem, equivalentPayload), true);
 });
 
+test('La comparación estructurada detecta hechos no numéricos parafraseados', () => {
+  const assessment = {
+    type: 'choice',
+    prompt: 'La uncinaria puede afectar la sangre. ¿Qué daño causa?',
+    props: {
+      options: [{ id: 'a', text: 'La uncinaria puede provocar anemia y cansancio' }],
+      correct: ['a'],
+    },
+  };
+  const guidedPractice = {
+    type: 'choice',
+    prompt: '¿Qué daño causa la uncinaria en el cuerpo?',
+    props: {
+      options: [{ id: 'a', text: 'La uncinaria causa anemia, palidez y cansancio' }],
+      correct: ['a'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(assessment, guidedPractice), true);
+});
+
+test('La comparación estructurada detecta la reutilización parcial de pares', () => {
+  const assessment = {
+    type: 'sort',
+    prompt: 'Clasifica los parásitos según dónde viven.',
+    props: {
+      buckets: [{ id: 'ecto', label: 'Ectoparásito (por fuera)' }, { id: 'endo', label: 'Endoparásito (por dentro)' }],
+      items: [
+        { text: 'Pulga', bucket: 'ecto' },
+        { text: 'Giardia', bucket: 'endo' },
+      ],
+    },
+  };
+  const guidedPractice = {
+    type: 'sort',
+    prompt: 'Ubica cada organismo por el lugar que ocupa en el hospedero.',
+    props: {
+      buckets: [{ id: 'ecto', label: 'Ectoparásito (por fuera)' }, { id: 'endo', label: 'Endoparásito (por dentro)' }],
+      items: [
+        { text: 'Piojo', bucket: 'ecto' },
+        { text: 'Pulga', bucket: 'ecto' },
+        { text: 'Giardia', bucket: 'endo' },
+        { text: 'Tenia', bucket: 'endo' },
+      ],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(assessment, guidedPractice), true);
+});
+
+test('La comparación estructurada tolera el mismo número en conceptos distintos', () => {
+  const geometry = {
+    type: 'number-input',
+    prompt: 'Un polígono tiene doce lados. ¿Cuántos vértices tiene?',
+    props: { answer: 12 },
+  };
+  const music = {
+    type: 'number-input',
+    prompt: 'Una secuencia tiene doce pulsos. ¿Cuántos pulsos escuchaste?',
+    props: { answer: 12, unit: 'pulsos' },
+  };
+
+  assert.equal(repeatsStructuredFact(geometry, music), false);
+});
+
 type StructuredFact = { context: Set<string>; values: string[]; role: 'answer' | 'support' };
 
 function normalizeFactText(value: unknown): string {
@@ -249,16 +314,17 @@ function structuredAssessment(value: unknown): { prompt: Set<string>; facts: Str
   const numericValues = (value: unknown): string[] => (
     String(value ?? '').match(/-?\d+(?:[.,]\d+)?\s*(?:°|cm|m|km|%|quetzales?|pulsos?)?/gi) ?? []
   ).map((item) => normalizeFactText(item));
-  const numericSupport = [
+  const supportText = [
     step.explain,
     ...(props.misconceptions ?? []).map((item) => [item.value, item.msg].filter(Boolean).join(' ')),
     ...(props.options ?? []).map((item) => item.feedback),
     ...(props.items ?? []).map((item) => item.feedback),
     ...(props.statements ?? []).map((item) => item.why),
   ].filter((item): item is string => Boolean(item));
-  const supportFacts = numericSupport
-    .map((item) => makeFact(item, numericValues(item), 'support'))
-    .filter((fact) => fact.values.length > 0);
+  const supportFacts = supportText.flatMap((item) => [
+    makeFact(item, [item], 'support'),
+    makeFact(item, numericValues(item), 'support'),
+  ]).filter((fact) => fact.values.length > 0);
   if (step.type === 'choice') {
     const correct = new Set(props.correct ?? []);
     return { prompt, facts: [
@@ -310,38 +376,75 @@ function meaningfulNumericContext(tokens: Set<string>): Set<string> {
 }
 
 function factValuesMatch(left: string, right: string): boolean {
-  const leftNumber = left.match(/-?\d+(?:[.,]\d+)?/);
-  const rightNumber = right.match(/-?\d+(?:[.,]\d+)?/);
+  const numericFact = /^-?\d+(?:[.,]\d+)?(?:\s*(?:°|cm|m|km|%|quetzales?|pulsos?))?$/i;
+  const leftNumber = numericFact.test(left) ? left.match(/-?\d+(?:[.,]\d+)?/) : null;
+  const rightNumber = numericFact.test(right) ? right.match(/-?\d+(?:[.,]\d+)?/) : null;
   if (leftNumber && rightNumber) {
     return Number(leftNumber[0].replace(',', '.')) === Number(rightNumber[0].replace(',', '.'));
   }
-  return left === right
-    || (left.length >= 3 && right.includes(left))
-    || (right.length >= 3 && left.includes(right));
+  if (leftNumber || rightNumber) return false;
+  if (left === right || (left.length >= 5 && right.includes(left)) || (right.length >= 5 && left.includes(right))) return true;
+  const leftTokens = factTokens(left);
+  const rightTokens = factTokens(right);
+  const shared = [...leftTokens].filter((token) => rightTokens.has(token)).length;
+  return shared >= 2 && (
+    directionalOverlap(leftTokens, rightTokens) >= 0.5
+    || directionalOverlap(rightTokens, leftTokens) >= 0.5
+  );
 }
 
 function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
   const left = structuredAssessment(candidate);
   const right = structuredAssessment(source);
-  return left.facts.filter((fact) => fact.role === 'answer').some((candidateFact) => (
-    right.facts.some((sourceFact) => {
-    const sameValue = candidateFact.values.some((candidateValue) => (
-      sourceFact.values.some((sourceValue) => factValuesMatch(candidateValue, sourceValue))
-    ));
+  const numericPattern = /^-?\d+(?:[.,]\d+)?(?:\s*\D+)?$/;
+  const isNumericFact = (fact: StructuredFact) => fact.values.some((item) => numericPattern.test(item));
+  const isPairFact = (fact: StructuredFact) => !isNumericFact(fact) && fact.values.length >= 2;
+  const matches = (candidateFact: StructuredFact, sourceFact: StructuredFact): boolean => {
+    const numericValue = isNumericFact(candidateFact) && isNumericFact(sourceFact);
+    const candidateValueTokens = factTokens(candidateFact.values.join(' '));
+    const sourceValueTokens = factTokens(sourceFact.values.join(' '));
+    const sharedValues = [...candidateValueTokens].filter((token) => sourceValueTokens.has(token)).length;
+    const pairedEntry = isPairFact(candidateFact) && isPairFact(sourceFact);
+    const candidateEntry = normalizeFactText(candidateFact.values[0]);
+    const sourceEntry = normalizeFactText(sourceFact.values[0]);
+    const sameEntry = candidateEntry === sourceEntry
+      || (candidateEntry.length >= 5 && sourceEntry.includes(candidateEntry))
+      || (sourceEntry.length >= 5 && candidateEntry.includes(sourceEntry));
+    const samePair = pairedEntry
+      && sameEntry
+      && factValuesMatch(candidateFact.values[1], sourceFact.values[1]);
+    const samePhrase = !pairedEntry
+      && !numericValue
+      && candidateValueTokens.size >= 3
+      && sourceValueTokens.size >= 3
+      && sharedValues >= 2
+      && (directionalOverlap(candidateValueTokens, sourceValueTokens) >= 0.6
+        || directionalOverlap(sourceValueTokens, candidateValueTokens) >= 0.6)
+      && (directionalOverlap(left.prompt, right.prompt) >= 0.55
+        || directionalOverlap(right.prompt, left.prompt) >= 0.55);
+    const sameValue = numericValue
+      ? candidateFact.values.some((candidateValue) => (
+        sourceFact.values.some((sourceValue) => factValuesMatch(candidateValue, sourceValue))
+      ))
+      : sourceFact.role === 'answer' && (samePair || samePhrase);
     const candidateContext = meaningfulNumericContext(candidateFact.context);
     const sourceContext = meaningfulNumericContext(sourceFact.context);
     const sharedContext = [...candidateContext].filter((token) => sourceContext.has(token)).length;
-    const numericValue = candidateFact.values.some((item) => /\d/.test(item))
-      && sourceFact.values.some((item) => /\d/.test(item));
     return sameValue
-      && numericValue
       && candidateContext.size >= 2
       && sharedContext >= 2
-      && directionalOverlap(candidateContext, sourceContext) >= 0.35;
-    })
+      && directionalOverlap(candidateContext, sourceContext) >= (numericValue ? 0.35 : 0.3);
+  };
+  const candidateFacts = left.facts.filter((fact) => fact.role === 'answer');
+  const pairedFacts = candidateFacts.filter(isPairFact);
+  const repeatedPairs = pairedFacts.filter((candidateFact) => (
+    right.facts.some((sourceFact) => isPairFact(sourceFact) && matches(candidateFact, sourceFact))
+  ));
+  if (repeatedPairs.length >= 2) return true;
+  return candidateFacts.filter((fact) => !isPairFact(fact)).some((candidateFact) => (
+    right.facts.some((sourceFact) => matches(candidateFact, sourceFact))
   ));
 }
-
 function nestedGradedAssessments(values: unknown[]): Array<{ type: string; prompt?: string; areas: string[] }> {
   const found: Array<{ type: string; prompt?: string; areas: string[] }> = [];
   const visit = (value: unknown): void => {
@@ -821,6 +924,7 @@ test('Semana 2 modela y guía el procedimiento de higiene antes del taller', () 
   assert.match(prerequisiteText, /persona adulta.+(?:cort|cuchillo)|(?:cort|cuchillo).+persona adulta/s);
   assert.match(prerequisiteText, /(?:tap|cubr|prote).+moscas|moscas.+(?:tap|cubr|prote)/s);
   assert.match(prerequisiteText, /(?:separ|lejos).+dinero.+(?:comida|alimento)|dinero.+(?:separ|lejos).+(?:comida|alimento)|(?:comida|alimento).+(?:separ|lejos).+dinero/s);
+  assert.match(prerequisiteText, /(?:primero|antes de (?:preparar|tocar)).{0,100}(?:lav|limpi).+manos|(?:lav|limpi).+manos.{0,100}antes de (?:preparar|tocar)/s);
   assert.match(prerequisiteText, /(?:cobr|dinero).+(?:lav|limpi).+manos|(?:lav|limpi).+manos.+(?:cobr|dinero)/s);
 
   const workshop = weekTwo.lessons[workshopIndex];
@@ -836,21 +940,20 @@ test('Semana 2 modela y guía el procedimiento de higiene antes del taller', () 
     if (/(?:separ|lejos).+dinero.+(?:comida|alimento)|dinero.+(?:separ|lejos).+(?:comida|alimento)|(?:comida|alimento).+(?:separ|lejos).+dinero/s.test(text)) facts.add('dinero-separado');
     if (/persona adulta.+(?:cort|cuchillo)|(?:cort|cuchillo).+persona adulta/s.test(text)) facts.add('cuchillo-adulto');
     if (/(?:tap|cubr|prote).+(?:comida|alimento|fruta)|(?:comida|alimento|fruta).+(?:tap|cubr|prote)/s.test(text)) facts.add('alimento-tapado');
+    if (/(?:primero|antes de (?:preparar|tocar)).{0,100}(?:lav|limpi).+manos|(?:lav|limpi).+manos.{0,100}antes de (?:preparar|tocar)/s.test(text)) facts.add('manos-antes-preparar');
     if (/(?:cobr|dinero).+(?:lav|limpi).+manos|(?:lav|limpi).+manos.+(?:cobr|dinero)/s.test(text)) facts.add('manos-despues-dinero');
     return facts;
   };
-  const expectedSafety = new Set(['agua-apta', 'dinero-separado', 'cuchillo-adulto', 'alimento-tapado', 'manos-despues-dinero']);
-  assert.deepEqual(safetyFacts(prerequisiteText), expectedSafety, 'L2 debe enseñar los cinco hechos de seguridad');
-  assert.deepEqual(safetyFacts(retrievalText), expectedSafety, 'El taller debe recuperar solo los cinco hechos enseñados');
+  const expectedSafety = new Set(['agua-apta', 'dinero-separado', 'cuchillo-adulto', 'alimento-tapado', 'manos-antes-preparar', 'manos-despues-dinero']);
+  assert.deepEqual(safetyFacts(prerequisiteText), expectedSafety, 'L2 debe enseñar los seis hechos de seguridad');
+  assert.deepEqual(safetyFacts(retrievalText), expectedSafety, 'El taller debe recuperar solo los seis hechos enseñados');
 
-  const project = workshop.steps.find((step) => step.type === 'project') as typeof workshop.steps[number] & {
+  const hygieneProject = workshop.steps.find((step) => step.type === 'project' && /higiene/i.test(step.title ?? '')) as typeof workshop.steps[number] & {
     props: { steps?: Array<{ title?: string; detail?: string }>; rubric?: string[] };
   };
-  assert.ok(project, 'Falta el producto del taller');
-  const hygieneProduct = project.props.steps?.find((step) => /higiene/i.test(step.title ?? ''));
-  assert.ok(hygieneProduct, 'Falta el procedimiento de higiene en el producto');
-  assert.deepEqual(safetyFacts(normalizeFactText(hygieneProduct.detail)), expectedSafety);
-  assert.deepEqual(safetyFacts(normalizeFactText(project.props.rubric?.join(' '))), expectedSafety);
+  assert.ok(hygieneProject, 'Falta una etapa de construcción del procedimiento de higiene');
+  assert.deepEqual(safetyFacts(normalizeFactText(JSON.stringify(hygieneProject.props.steps))), expectedSafety);
+  assert.deepEqual(safetyFacts(normalizeFactText(hygieneProject.props.rubric?.join(' '))), expectedSafety);
 });
 
 test('Semana 2 construye un puesto sano y respetuoso con alcance y evidencia factibles', () => {
@@ -879,12 +982,27 @@ test('Semana 2 construye un puesto sano y respetuoso con alcance y evidencia fac
   assert.ok(workshop.steps.every((step) => step.cnb.every((ref) => priorCnb.has(ref))), 'El taller introduce CNB no enseñado');
 
   const projects = workshop.steps.filter((step) => step.type === 'project');
-  assert.equal(projects.length, 1, 'El taller debe producir un solo plan integrado');
-  const project = projects[0] as typeof projects[number] & {
+  const firstProjectIndex = workshop.steps.findIndex((step) => step.type === 'project');
+  assert.ok(firstProjectIndex >= 0 && firstProjectIndex <= 3, 'La creación debe empezar después de no más de tres pasos breves');
+  const preProductItems = workshop.steps.slice(0, firstProjectIndex).reduce((total, step) => {
+    const props = step.props as Record<string, unknown>;
+    const collections = ['options', 'items', 'pairs', 'statements', 'questions'];
+    return total + collections.reduce((count, key) => count + (Array.isArray(props[key]) ? props[key].length : 0), 0);
+  }, 0);
+  assert.ok(preProductItems <= 9, 'La preparación previa exige ' + preProductItems + ' respuestas');
+  assert.ok(projects.length >= 4, 'La oferta, higiene, servicio e integración final deben construirse por etapas');
+  assert.ok(workshop.steps.slice(firstProjectIndex, -1).length >= 6, 'La mayoría del taller debe dedicarse a producir y revisar');
+
+  const project = projects.at(-1) as typeof projects[number] & {
     props: { steps?: unknown[]; rubric?: unknown[]; evidence?: string };
   };
-  assert.equal(project.props.steps?.length, 3, 'El producto debe tener tres componentes realizables');
-  assert.equal(project.props.rubric?.length, 3, 'La rúbrica debe corresponder a los tres componentes');
+  assert.ok(project, 'Falta la revisión final del plan integrado');
+  assert.equal(project.props.rubric?.length, 3, 'La rúbrica final debe corresponder a los tres componentes');
+  const stageTitles = projects.map((step) => normalizeFactText(step.title)).join(' ');
+  assert.match(stageTitles, /oferta/);
+  assert.match(stageTitles, /higiene/);
+  assert.match(stageTitles, /servicio/);
+  assert.match(stageTitles, /integr|revis|final/);
   const projectText = JSON.stringify(project).toLocaleLowerCase('es');
   assert.match(projectText, /plan.+puesto|puesto.+plan/s);
   assert.match(projectText, /procedimiento.+higiene|higiene.+procedimiento/s);
@@ -901,6 +1019,19 @@ test('Semana 2 evita absolutos inexactos sobre ADN y cromosomas', () => {
   const summary = genetics.resumen.join(' ').toLocaleLowerCase('es');
   assert.doesNotMatch(summary, /(?:adn.+)?n[uú]cleo de (?:cada|todas?) (?:las? )?c[eé]lulas?/);
   assert.doesNotMatch(summary, /46 cromosomas en (?:cada|todas?) (?:las? )?c[eé]lulas?/);
+});
+
+test('Semana 2 distingue la ameba común de una ameba parásita que causa enfermedad', () => {
+  const parasites = weekTwo.lessons.find((lesson) => lesson.id === 's02-cnt-3');
+  assert.ok(parasites, 'Falta la lección de parásitos');
+  const segments = JSON.stringify(parasites).split(/[.!?]/).map(normalizeFactText).filter((segment) => (
+    /ameba/.test(segment) && /(endoparasit|diarrea|dolor|enferm|contamin)/.test(segment)
+  ));
+  assert.ok(segments.length > 0, 'La lección no explica la ameba parásita');
+  assert.ok(
+    segments.every((segment) => /ameba parasita|entamoeba histolytica/.test(segment)),
+    'Referencias genéricas a la ameba como patógena: ' + segments.join(' | '),
+  );
 });
 
 test('Semana 2 evalúa contenido enseñado, sin pistas y con payloads frescos', () => {
@@ -922,13 +1053,11 @@ test('Semana 2 evalúa contenido enseñado, sin pistas y con payloads frescos', 
   const reused: string[] = [];
   for (const [source, steps] of [['reto', challenge.steps], ['banco', weekTwoBank]] as const) {
     for (const assessment of steps) {
-      const entries = comparableEntries(assessment);
-      if (entries.length < 2) continue;
+      if (!getActivity(assessment.type)?.graded) continue;
       for (const practice of subjectSteps) {
-        if (practice.type !== assessment.type || practice.areas[0] !== assessment.areas[0]) continue;
-        const practiceEntries = new Set(comparableEntries(practice));
-        if (entries.every((entry) => practiceEntries.has(entry))) {
-          reused.push(`${source}/${assessment.areas[0]}/${assessment.type}`);
+        if (practice.areas[0] !== assessment.areas[0] || practice.type !== assessment.type) continue;
+        if (repeatsStructuredFact(assessment, practice)) {
+          reused.push(source + '/' + assessment.areas[0] + '/' + assessment.type + ' <= ' + normalizeFactText(practice.prompt));
           break;
         }
       }
@@ -955,6 +1084,7 @@ test('Semana 2 evalúa contenido enseñado, sin pistas y con payloads frescos', 
   for (const assessment of weekTwoBank.filter((step) => getActivity(step.type)?.graded)) {
     const repeatedLessonSource = subjectSteps.find((source) => (
       source.areas[0] === assessment.areas[0]
+      && source.type === assessment.type
       && repeatsStructuredFact(assessment, source)
     ));
     const assessmentStructure = structuredAssessment(assessment);

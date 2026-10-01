@@ -339,14 +339,14 @@ export default [
     ],
     resumen: [
       'Un parásito vive sobre o dentro de otro ser vivo (el hospedero), se alimenta de él y le causa daño.',
-      'Ectoparásitos viven por fuera (piojos, pulgas, garrapatas, ácaros de la sarna). Endoparásitos viven por dentro: protozoos (ameba, giardia) y gusanos (lombriz intestinal, tenia, oxiuros, uncinaria).',
+      'Ectoparásitos viven por fuera (piojos, pulgas, garrapatas, ácaros de la sarna). Endoparásitos viven por dentro: protozoos (como Entamoeba histolytica, una ameba parásita, y la giardia) y gusanos (lombriz intestinal, tenia, oxiuros, uncinaria).',
       'Daños: roban nutrientes (desnutrición, anemia), causan diarrea y dolor de estómago, picazón y heridas, y algunos transmiten enfermedades.',
       'Prevención: lavarse las manos con agua y jabón, beber agua hervida o clorada, lavar frutas y verduras, cocinar bien la carne, usar zapatos, uñas cortas, usar sanitario o letrina, no compartir peines. Para eliminarlos: acudir al centro de salud; no automedicarse.',
     ],
     media: {
       id: 's02-cnt-3-parasitos', kind: 'diagram', title: 'Parásitos por fuera y por dentro', aspect: '3:4',
-      alt: 'Silueta de un niño: afuera, en la cabeza y la piel, un piojo, una pulga y una garrapata; adentro, en el intestino, una ameba, una giardia, una lombriz intestinal y una tenia, cada uno con su tamaño relativo.',
-      brief: 'Diagrama vertical, silueta neutra de una persona (sin rasgos realistas), en colores planos. Lado exterior: piojo en el cabello, pulga y garrapata en la piel, con etiqueta "ectoparásitos (por fuera)". Lado interior: sistema digestivo simplificado con ameba y giardia (con lupa, "microscópicos"), lombriz intestinal (áscaris), oxiuros y tenia (dibujo esquemático, NO realista ni asqueroso) con etiqueta "endoparásitos (por dentro)". Cada uno con una línea guía y una frase del daño. Estilo amable, sin imágenes grotescas.',
+      alt: 'Silueta de un niño: afuera, en la cabeza y la piel, un piojo, una pulga y una garrapata; adentro, en el intestino, una ameba parásita, una giardia, una lombriz intestinal y una tenia, cada uno con su tamaño relativo.',
+      brief: 'Diagrama vertical, silueta neutra de una persona (sin rasgos realistas), en colores planos. Lado exterior: piojo en el cabello, pulga y garrapata en la piel, con etiqueta "ectoparásitos (por fuera)". Lado interior: sistema digestivo simplificado con ameba parásita y giardia (con lupa, "microscópicos"), lombriz intestinal (áscaris), oxiuros y tenia (dibujo esquemático, NO realista ni asqueroso) con etiqueta "endoparásitos (por dentro)". Cada uno con una línea guía y una frase del daño. Estilo amable, sin imágenes grotescas.',
     },
     steps: [
       S.explain(
@@ -371,9 +371,9 @@ export default [
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.5.1'], ambito: 'conocer', title: 'Tipos de parásitos',
           prompt: 'Los parásitos se clasifican según **dónde viven** en el hospedero. Observa el diagrama de la lección y toca las tarjetas.' },
-        { icon: 'Search', body: 'Algunos se ven a simple vista (piojos, lombrices) y otros son **microscópicos** (ameba, giardia: son protozoos, como viste en la lección anterior).', reveal: [
+        { icon: 'Search', body: 'Algunos se ven a simple vista (piojos, lombrices) y otros son **microscópicos** (ameba parásita, giardia: son protozoos, como viste en la lección anterior).', reveal: [
           { icon: 'Bug', front: 'Ectoparásitos (por fuera)', back: 'Viven en la **piel o el pelo**: **piojos**, **pulgas**, **garrapatas** y los **ácaros** que causan la sarna.' },
-          { icon: 'Microscope', front: 'Endoparásitos microscópicos', back: 'Viven **dentro** del cuerpo y son protozoos: la **ameba** y la **giardia**, que viven en el intestino.' },
+          { icon: 'Microscope', front: 'Endoparásitos microscópicos', back: 'Viven **dentro** del cuerpo y son protozoos: la **ameba parásita** y la **giardia**, que viven en el intestino.' },
           { icon: 'Route', front: 'Endoparásitos: gusanos', back: '**Lombriz intestinal** (áscaris), **tenia** o solitaria, **oxiuros** (gusanitos blancos pequeños) y **uncinaria**, que entra por la piel de los pies descalzos.' },
         ] },
       ),
@@ -387,7 +387,7 @@ export default [
           { id: 'endo', label: 'Endoparásito (por dentro)', icon: 'Microscope', color: 'var(--area-cnt)' },
         ], items: [
           { id: 'p1', text: 'Piojo', bucket: 'ecto' },
-          { id: 'p2', text: 'Ameba', bucket: 'endo' },
+          { id: 'p2', text: 'Ameba parásita', bucket: 'endo' },
           { id: 'p3', text: 'Garrapata', bucket: 'ecto' },
           { id: 'p4', text: 'Lombriz intestinal', bucket: 'endo' },
           { id: 'p5', text: 'Pulga', bucket: 'ecto' },
@@ -401,7 +401,7 @@ export default [
         { icon: 'HeartPulse', body: 'Los niños y las niñas con parásitos pueden **crecer menos**, cansarse más y **aprender con más dificultad**, porque su cuerpo no aprovecha bien los alimentos.', reveal: [
           { icon: 'Utensils', front: 'Roban nutrientes', back: 'La **lombriz intestinal** y la **tenia** se alimentan de lo que comes: causan **desnutrición** y pérdida de peso.' },
           { icon: 'Droplet', front: 'Causan anemia', back: 'La **uncinaria** se alimenta de sangre en el intestino: provoca **anemia** (poca sangre sana), cansancio y palidez.' },
-          { icon: 'Droplets', front: 'Causan diarrea', back: 'La **ameba** y la **giardia** causan **diarrea**, dolor de estómago y gases. La diarrea hace perder agua: puede causar **deshidratación**.' },
+          { icon: 'Droplets', front: 'Causan diarrea', back: 'La **ameba parásita** y la **giardia** causan **diarrea**, dolor de estómago y gases. La diarrea hace perder agua: puede causar **deshidratación**.' },
           { icon: 'Hand', front: 'Picazón y heridas', back: '**Piojos**, **pulgas** y **sarna** causan picazón; al rascarse se hacen heridas que se pueden infectar. Los **oxiuros** causan picazón alrededor del ano, sobre todo de noche.' },
           { icon: 'Bug', front: 'Transmiten enfermedades', back: 'Algunas **garrapatas** y **pulgas** pueden pasar microbios que causan otras enfermedades.' },
         ] },
@@ -410,10 +410,10 @@ export default [
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.5.2'], ambito: 'conocer',
           prompt: 'Une cada parásito con el **daño** principal que causa.',
           hint: 'Recuerda las tarjetas: ¿cuál chupa sangre en el intestino?, ¿cuál causa picazón en la cabeza?',
-          explain: 'Uncinaria → anemia; ameba → diarrea; tenia → roba nutrientes; piojo → picazón en la cabeza.' },
+          explain: 'Uncinaria → anemia; ameba parásita → diarrea; tenia → roba nutrientes; piojo → picazón en la cabeza.' },
         { leftTitle: 'Parásito', rightTitle: 'Daño', pairs: [
           { id: 'u', left: 'Uncinaria', right: 'Anemia, cansancio y palidez' },
-          { id: 'a', left: 'Ameba', right: 'Diarrea y dolor de estómago' },
+          { id: 'a', left: 'Ameba parásita', right: 'Diarrea y dolor de estómago' },
           { id: 't', left: 'Tenia o solitaria', right: 'Roba nutrientes y causa pérdida de peso' },
           { id: 'p', left: 'Piojo', right: 'Picazón y heridas en la cabeza' },
         ] },
@@ -465,7 +465,7 @@ export default [
         { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:1.5.2', 'cnt:1.5.3'], ambito: 'hacer', title: 'Tu cartel de salud',
           prompt: 'Diseña el texto de un **cartel** para el baño de tu escuela sobre **un parásito**: si es ecto o endoparásito, cómo llega, qué daño causa y cómo prevenirlo. Si puedes, dibújalo después en una hoja.' },
         { placeholder: 'Título del cartel, cómo llega el parásito, qué daño causa y 3 formas de prevenirlo…',
-          model: '¡ALTO A LA AMEBA! La ameba es un endoparásito microscópico: vive en el intestino. Llega al cuerpo con el agua o la comida contaminada. Causa diarrea y dolor de estómago, y la diarrea nos deshidrata. Para prevenirla: 1) lávate las manos con agua y jabón antes de comer y después de ir al baño; 2) bebe agua hervida o clorada; 3) lava bien las frutas y verduras. Si tienes diarrea, avisa a tu familia y ve al centro de salud.',
+          model: '¡ALTO A LA AMEBA PARÁSITA! La ameba parásita es un endoparásito microscópico: vive en el intestino. Llega al cuerpo con el agua o la comida contaminada. Causa diarrea y dolor de estómago, y la diarrea nos deshidrata. Para prevenirla: 1) lávate las manos con agua y jabón antes de comer y después de ir al baño; 2) bebe agua hervida o clorada; 3) lava bien las frutas y verduras. Si tienes diarrea, avisa a tu familia y ve al centro de salud.',
           rubric: ['Nombra un parásito y dice si es ecto o endoparásito', 'Explica cómo llega al cuerpo', 'Describe el daño que causa', 'Da al menos 3 formas de prevenirlo', 'Recomienda acudir al centro de salud en lugar de automedicarse'],
           minWords: 40 },
       ),
@@ -481,7 +481,7 @@ export default [
       S.tf(
         { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.5.2', 'cnt:1.5.3'], prompt: '¿Verdadero o falso?' },
         { statements: [
-          { text: 'Beber agua hervida o clorada ayuda a prevenir la ameba y la giardia.', answer: true },
+          { text: 'Beber agua hervida o clorada ayuda a prevenir la ameba parásita y la giardia.', answer: true },
           { text: 'Los parásitos intestinales pueden causar desnutrición porque roban nutrientes.', answer: true },
           { text: 'Si sospechas que tienes parásitos, lo mejor es tomar cualquier pastilla que haya en casa.', answer: false, why: 'Hay que acudir al centro de salud: el personal indica el tratamiento correcto.' },
           { text: 'Usar zapatos no tiene relación con los parásitos.', answer: false, why: 'Los zapatos impiden que la uncinaria entre por la piel de los pies.' },

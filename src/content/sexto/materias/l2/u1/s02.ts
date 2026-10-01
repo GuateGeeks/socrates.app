@@ -161,7 +161,7 @@ export default [
       'Los pasos usan verbos que indican una acción: lava, corta, mezcla (o lavar, cortar, mezclar).',
       'Las palabras de orden guían la secuencia: primero, después, luego, a continuación, finalmente.',
       'Las instrucciones también pueden darse con dibujos, flechas y números. Lee o mira todo antes de empezar y sigue el orden.',
-      'Al preparar alimentos para un puesto: una persona adulta usa el cuchillo, la comida se mantiene tapada y el dinero permanece separado; quien cobra no toca comida y se lava las manos con agua y jabón antes de cambiar de tarea.',
+      'Al preparar alimentos para un puesto: quienes servirán se lavan las manos con agua y jabón antes de empezar; una persona adulta lava el alimento con agua apta para consumo y usa el cuchillo; la comida se mantiene tapada y el dinero permanece separado; quien cobra no toca comida y vuelve a lavarse las manos antes de cambiar a servir.',
     ],
     media: {
       id: 's02-l2-2-cartel-manos', kind: 'diagram', title: 'Cartel: procedimiento para servir fruta', aspect: '3:4',
@@ -200,7 +200,7 @@ export default [
             { text: '**Luego**, se sirve la fruta en recipientes limpios y se mantiene **tapada para protegerla de las moscas**.' },
             { text: '**Finalmente**, una persona cobra y no toca los alimentos. Si cambia de tarea, se **lava otra vez las manos con agua y jabón** antes de servir.', why: 'El dinero permanece lejos de la comida y quien lo toca se limpia las manos antes de manipular alimentos.' },
           ],
-          answer: 'El instructivo separa dinero y comida, reserva el cuchillo para una persona adulta, mantiene la fruta tapada y exige manos lavadas antes de tocar alimentos.',
+          answer: 'El instructivo exige lavarse las manos antes de preparar, usar agua apta para consumo, separar dinero y comida, reservar el cuchillo para una persona adulta, mantener la fruta tapada y volver a lavarse las manos después de manejar dinero.',
           tip: 'Cada paso empieza con un verbo y deja claro quién realiza la acción.' },
       ),
       S.order(
