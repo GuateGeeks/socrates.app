@@ -157,7 +157,41 @@ test('La comparación estructurada conserva datos y respuesta de entradas numér
   ]);
 });
 
-type StructuredFact = { context: Set<string>; values: string[] };
+test('La frescura numérica detecta una respuesta reutilizada en retroalimentación del mismo tipo', () => {
+  const bankItem = {
+    type: 'number-input',
+    prompt: 'Un octágono regular tiene ocho ángulos iguales. ¿Cuánto mide cada uno?',
+    props: { answer: 135, unit: '°' },
+  };
+  const lessonAssessment = {
+    type: 'number-input',
+    prompt: 'Un octágono tiene ocho lados. ¿Cuánto suman sus ángulos interiores?',
+    props: {
+      answer: 1080,
+      unit: '°',
+      misconceptions: [
+        { value: 135, msg: '135° mide cada ángulo si el octágono es regular.' },
+      ],
+    },
+  };
+
+  const unrelatedSameAnswer = {
+    type: 'number-input',
+    prompt: 'Una figura en forma de I tiene varios segmentos en su borde. ¿Cuántos lados tiene?',
+    props: { answer: 12 },
+  };
+  const equivalentPayload = {
+    type: 'number-input',
+    prompt: 'En un octágono regular, los ocho ángulos son iguales. ¿Cuál es su medida?',
+    props: { answer: 135, unit: '°' },
+  };
+
+  assert.equal(repeatsStructuredFact(bankItem, lessonAssessment), true);
+  assert.equal(repeatsStructuredFact(bankItem, unrelatedSameAnswer), false);
+  assert.equal(repeatsStructuredFact(bankItem, equivalentPayload), true);
+});
+
+type StructuredFact = { context: Set<string>; values: string[]; role: 'answer' | 'support' };
 
 function normalizeFactText(value: unknown): string {
   return String(value ?? '')
@@ -195,35 +229,62 @@ function structuredAssessment(value: unknown): { prompt: Set<string>; facts: Str
     type?: string; prompt?: string; explain?: string;
     props?: {
       answer?: string | number; unit?: string; stimulus?: string;
-      options?: Array<{ id?: string; text?: string }>; correct?: string[];
+      misconceptions?: Array<{ value?: string | number; msg?: string }>;
+      options?: Array<{ id?: string; text?: string; feedback?: string }>; correct?: string[];
       buckets?: Array<{ id?: string; label?: string }>;
-      items?: Array<{ text?: string; bucket?: string }>;
+      items?: Array<{ text?: string; bucket?: string; feedback?: string }>;
       pairs?: Array<{ left?: string; right?: string }>;
-      statements?: Array<{ text?: string; answer?: boolean }>;
+      statements?: Array<{ text?: string; answer?: boolean; why?: string }>;
       text?: string;
       questions?: Array<{ q?: string; options?: Array<{ id?: string; text?: string }>; correct?: string }>;
     };
   };
   const props = step.props ?? {};
   const prompt = factTokens(step.prompt);
-  const makeFact = (context: unknown, values: unknown[]): StructuredFact => ({
+  const makeFact = (context: unknown, values: unknown[], role: StructuredFact['role'] = 'answer'): StructuredFact => ({
     context: factTokens((step.prompt ?? '') + ' ' + String(context ?? '') + ' ' + values.join(' ')),
     values: values.flatMap(canonicalFactValues),
+    role,
   });
+  const numericValues = (value: unknown): string[] => (
+    String(value ?? '').match(/-?\d+(?:[.,]\d+)?\s*(?:°|cm|m|km|%|quetzales?|pulsos?)?/gi) ?? []
+  ).map((item) => normalizeFactText(item));
+  const numericSupport = [
+    step.explain,
+    ...(props.misconceptions ?? []).map((item) => [item.value, item.msg].filter(Boolean).join(' ')),
+    ...(props.options ?? []).map((item) => item.feedback),
+    ...(props.items ?? []).map((item) => item.feedback),
+    ...(props.statements ?? []).map((item) => item.why),
+  ].filter((item): item is string => Boolean(item));
+  const supportFacts = numericSupport
+    .map((item) => makeFact(item, numericValues(item), 'support'))
+    .filter((fact) => fact.values.length > 0);
   if (step.type === 'choice') {
     const correct = new Set(props.correct ?? []);
-    return { prompt, facts: (props.options ?? []).filter((option) => correct.has(option.id ?? '')).map((option) => makeFact('', [option.text])) };
+    return { prompt, facts: [
+      ...(props.options ?? []).filter((option) => correct.has(option.id ?? '')).map((option) => makeFact('', [option.text])),
+      ...supportFacts,
+    ] };
   }
   if (step.type === 'number-input') {
-    return { prompt, facts: [makeFact(props.stimulus, [props.answer, String(props.answer ?? '') + ' ' + (props.unit ?? '')])] };
+    return { prompt, facts: [
+      makeFact(props.stimulus, [props.answer, String(props.answer ?? '') + ' ' + (props.unit ?? '')]),
+      ...supportFacts,
+    ] };
   }
   if (step.type === 'sort') {
     const labels = new Map((props.buckets ?? []).map((bucket) => [bucket.id, bucket.label]));
-    return { prompt, facts: (props.items ?? []).map((item) => makeFact(item.text, [item.text, labels.get(item.bucket)])) };
+    return { prompt, facts: [
+      ...(props.items ?? []).map((item) => makeFact(item.text, [item.text, labels.get(item.bucket)])),
+      ...supportFacts,
+    ] };
   }
   if (step.type === 'match') return { prompt, facts: (props.pairs ?? []).map((pair) => makeFact(pair.left, [pair.left, pair.right])) };
   if (step.type === 'order') return { prompt, facts: (props.items ?? []).map((item) => makeFact(item.text, [item.text])) };
-  if (step.type === 'true-false') return { prompt, facts: (props.statements ?? []).map((item) => makeFact(item.text, [String(item.text) + '=' + item.answer])) };
+  if (step.type === 'true-false') return { prompt, facts: [
+    ...(props.statements ?? []).map((item) => makeFact(item.text, [String(item.text) + '=' + item.answer])),
+    ...supportFacts,
+  ] };
   if (step.type === 'fill-blank') {
     const answers = [...(props.text ?? '').matchAll(/\[\[([^\]]+)\]\]/g)].map((match) => match[1]);
     return { prompt, facts: answers.map((answer) => makeFact(props.text, [answer])) };
@@ -234,7 +295,7 @@ function structuredAssessment(value: unknown): { prompt: Set<string>; facts: Str
       return makeFact(question.q, [answer]);
     }) };
   }
-  if (step.explain) return { prompt, facts: [makeFact(step.explain, [step.explain])] };
+  if (step.explain) return { prompt, facts: supportFacts };
   return { prompt, facts: [] };
 }
 
@@ -243,23 +304,42 @@ function directionalOverlap(left: Set<string>, right: Set<string>): number {
   return [...left].filter((token) => right.has(token)).length / left.size;
 }
 
+function meaningfulNumericContext(tokens: Set<string>): Set<string> {
+  const generic = new Set(['cuant', 'mide', 'medir', 'cada', 'valor', 'respu', 'total', 'forma', 'tiene', 'grado', 'cm', 'km']);
+  return new Set([...tokens].filter((token) => !generic.has(token) && !/^-?\d+(?:[.,/]\d+)?°?$/.test(token)));
+}
+
+function factValuesMatch(left: string, right: string): boolean {
+  const leftNumber = left.match(/-?\d+(?:[.,]\d+)?/);
+  const rightNumber = right.match(/-?\d+(?:[.,]\d+)?/);
+  if (leftNumber && rightNumber) {
+    return Number(leftNumber[0].replace(',', '.')) === Number(rightNumber[0].replace(',', '.'));
+  }
+  return left === right
+    || (left.length >= 3 && right.includes(left))
+    || (right.length >= 3 && left.includes(right));
+}
+
 function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
   const left = structuredAssessment(candidate);
   const right = structuredAssessment(source);
-  return left.facts.some((candidateFact) => right.facts.some((sourceFact) => {
-    const sameValue = candidateFact.values.some((candidateValue) => sourceFact.values.some((sourceValue) => (
-      candidateValue === sourceValue
-      || (candidateValue.length >= 3 && sourceValue.includes(candidateValue))
-      || (sourceValue.length >= 3 && candidateValue.includes(sourceValue))
-    )));
-    const sharedContext = [...candidateFact.context].filter((token) => sourceFact.context.has(token)).length;
+  return left.facts.filter((fact) => fact.role === 'answer').some((candidateFact) => (
+    right.facts.some((sourceFact) => {
+    const sameValue = candidateFact.values.some((candidateValue) => (
+      sourceFact.values.some((sourceValue) => factValuesMatch(candidateValue, sourceValue))
+    ));
+    const candidateContext = meaningfulNumericContext(candidateFact.context);
+    const sourceContext = meaningfulNumericContext(sourceFact.context);
+    const sharedContext = [...candidateContext].filter((token) => sourceContext.has(token)).length;
     const numericValue = candidateFact.values.some((item) => /\d/.test(item))
       && sourceFact.values.some((item) => /\d/.test(item));
-    return sameValue && numericValue && candidateFact.context.size >= 3 && (
-      directionalOverlap(candidateFact.context, sourceFact.context) >= 0.6
-      || (sharedContext >= 3 && directionalOverlap(candidateFact.context, sourceFact.context) >= 0.25)
-    );
-  }));
+    return sameValue
+      && numericValue
+      && candidateContext.size >= 2
+      && sharedContext >= 2
+      && directionalOverlap(candidateContext, sourceContext) >= 0.35;
+    })
+  ));
 }
 
 function nestedGradedAssessments(values: unknown[]): Array<{ type: string; prompt?: string; areas: string[] }> {
@@ -873,9 +953,8 @@ test('Semana 2 evalúa contenido enseñado, sin pistas y con payloads frescos', 
 
   const gradedChallenge = nestedGradedAssessments(challenge.steps);
   for (const assessment of weekTwoBank.filter((step) => getActivity(step.type)?.graded)) {
-    const repeatedLessonFact = subjectSteps.some((source) => (
+    const repeatedLessonSource = subjectSteps.find((source) => (
       source.areas[0] === assessment.areas[0]
-      && source.type !== assessment.type
       && repeatsStructuredFact(assessment, source)
     ));
     const assessmentStructure = structuredAssessment(assessment);
@@ -887,8 +966,9 @@ test('Semana 2 evalúa contenido enseñado, sin pistas y con payloads frescos', 
       )));
       return sameAnswer && directionalOverlap(assessmentStructure.prompt, sourceStructure.prompt) >= 0.5;
     });
-    if (repeatedLessonFact || repeatedChallengeFact) {
-      reused.push(`banco/${assessment.areas[0]}/estructura: ${normalizeFactText(assessment.prompt)}`);
+    if (repeatedLessonSource || repeatedChallengeFact) {
+      const lessonContext = repeatedLessonSource ? ` <= ${normalizeFactText(repeatedLessonSource.prompt)}` : '';
+      reused.push(`banco/${assessment.areas[0]}/estructura: ${normalizeFactText(assessment.prompt)}${lessonContext}`);
     }
   }
   assert.deepEqual(reused, []);
