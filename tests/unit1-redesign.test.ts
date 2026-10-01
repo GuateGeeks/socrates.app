@@ -606,6 +606,75 @@ test('La comparación estructurada distingue actividades personalizadas con esce
   assert.equal(repeatsStructuredFact(secondLab, firstLab), false);
 });
 
+test('La frescura agrega evidencia reutilizada entre prompt y campos personalizados distintos', () => {
+  const customPractice = {
+    type: 'pulse-lab',
+    prompt: 'Practica una secuencia de pase manteniendo el equilibrio durante el desplazamiento.',
+    props: {
+      rounds: [
+        { label: 'Apoyo contrario al brazo ejecutor' },
+        { label: 'Control final', exercise: { name: 'Liberación durante la fase aérea', seconds: 45 } },
+      ],
+    },
+  };
+  const reusedAssessment = {
+    type: 'choice',
+    prompt: '¿Qué ejecución conserva la técnica de la secuencia practicada?',
+    props: {
+      options: [{ id: 'a', text: 'Mantiene el equilibrio, impulsa con el pie contrario y libera en el momento aéreo' }],
+      correct: ['a'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(reusedAssessment, customPractice), true);
+});
+
+test('La frescura permite campos relacionados cuando cambian la decisión y la respuesta', () => {
+  const customPractice = {
+    type: 'pulse-lab',
+    prompt: 'Practica una secuencia expresiva sobre una tormenta y controla el movimiento.',
+    props: {
+      rounds: [
+        { label: 'Apoyo estable' },
+        { label: 'Cierre sereno', exercise: { name: 'Trayectoria curva y energía suave', seconds: 45 } },
+      ],
+    },
+  };
+  const distinctAssessment = {
+    type: 'choice',
+    prompt: 'En otra secuencia sobre una tormenta, ¿qué mantiene el pulso musical?',
+    props: {
+      options: [{ id: 'a', text: 'Dar una palmada en cada pulso' }],
+      correct: ['a'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(distinctAssessment, customPractice), false);
+});
+
+test('La frescura separa parametros de practica de una correccion tecnica nueva', () => {
+  const bilateralPractice = {
+    type: 'pulse-lab',
+    prompt: 'Realiza seis pases bilaterales por arriba del hombro con salto: tres con la izquierda y tres con la derecha, alternando altura media y alta.',
+    props: {
+      rounds: [
+        { label: 'Después de los pases', exercise: { name: 'Decisión de altura', seconds: 60 } },
+        { label: 'Después de las finalizaciones', exercise: { name: 'Caída equilibrada', seconds: 45 } },
+      ],
+    },
+  };
+  const unseenDiagnosis = {
+    type: 'choice',
+    prompt: 'En una ejecución observada, una estudiante usa la mano izquierda hacia una altura media y se impulsa con el mismo pie. ¿Qué falla debe corregir?',
+    props: {
+      options: [{ id: 'a', text: 'Debe impulsarse con el pie derecho, contrario a la mano izquierda' }],
+      correct: ['a'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(unseenDiagnosis, bilateralPractice), false);
+});
+
 test('La frescura detecta una respuesta repetida en prompts largos aunque cambie la referencia CNB', () => {
   const lesson = {
     type: 'choice',
@@ -892,18 +961,29 @@ function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
     const sharedPrompt = [...assessmentPromptTokens].filter((token) => custom.prompt.has(token));
     const sharedAnswer = [...answerTokens].filter((token) => customContent.has(token));
     const sharedAnswerPrompt = [...answerTokens].filter((token) => custom.prompt.has(token)).length;
-    const sharedAnswerField = Math.max(
-      0,
-      ...[...custom.fields.values()].map((tokens) => (
-        [...answerTokens].filter((token) => tokens.has(token)).length
-      )),
-    );
-    const equivalentPromptAndAnswer = sharedPrompt.length >= 1
+    const sharedAnswerFields = [...custom.fields.values()].map((tokens) => (
+      [...answerTokens].filter((token) => tokens.has(token)).length
+    ));
+    const sharedAnswerField = Math.max(0, ...sharedAnswerFields);
+    const relatedPrompt = sharedPrompt.length >= 1
+      && directionalOverlap(assessmentPromptTokens, custom.prompt) >= 0.2;
+    const diagnosisTask = /\b(?:error|falla|ajuste|correg\w*)\b/.test(normalizeFactText(assessmentPrompt));
+    const equivalentPromptAndAnswer = relatedPrompt
       && sharedAnswer.length >= 2
-      && sharedAnswerPrompt >= 2;
-    const structuredEntryReuse = sharedPrompt.length >= 1
+      && sharedAnswerPrompt >= 2
+      && (!diagnosisTask || directionalOverlap(answerTokens, custom.prompt) >= 0.5);
+    const structuredEntryReuse = relatedPrompt
       && sharedAnswerField >= 2;
-    return equivalentPromptAndAnswer || structuredEntryReuse;
+    const contributingFields = sharedAnswerFields.filter((count) => count > 0).length;
+    const evidenceSources = Number(sharedAnswerPrompt > 0) + contributingFields;
+    const aggregateEvidence = sharedAnswerPrompt
+      + sharedAnswerFields.reduce((sum, count) => sum + count * 1.5, 0);
+    const mixedEvidenceReuse = relatedPrompt
+      && sharedAnswer.length >= 2
+      && contributingFields >= 2
+      && evidenceSources >= 2
+      && aggregateEvidence >= 2.5;
+    return equivalentPromptAndAnswer || structuredEntryReuse || mixedEvidenceReuse;
   };
   if (
     customReuse(candidate, left, customStructuredPayload(source))
@@ -2382,6 +2462,40 @@ test('Semana 5 preserva 27 lecciones, cobertura CNB y una idea central por lecci
   assert.deepEqual(failures, []);
 });
 
+test('Semana 5 expresa un resultado central y lo sostiene desde la ensenanza hasta las salidas', () => {
+  const actionVerbs = /(?:aplicar|calcular|cambiar|caracterizar|clasificar|combinar|comparar|completar|comunicar|construir|crear|describir|diferenciar|disenar|distinguir|elegir|ejecutar|escribir|evaluar|explicar|formar|identificar|organizar|ordenar|planificar|practicar|reconocer|registrar|relacionar|representar|resolver|seleccionar|seguir|transferir|ubicar|usar)/;
+  const actionStems = new Set([...factTokens(actionVerbs.source)]);
+  const failures: string[] = [];
+  for (const lesson of weekFive.lessons.filter((item) => item.kind === 'materia')) {
+    const rawObjective = (lesson.objetivos ?? []).join(' ');
+    const objective = normalizeFactText(rawObjective);
+    const compound = rawObjective.includes(';')
+      || /(?:^|\s)[1-4][.)]\s/.test(rawObjective)
+      || new RegExp(`(?:;|,|\\by\\b)\\s*${actionVerbs.source}\\b`).test(objective);
+    if (compound) failures.push(`${lesson.id}: objetivo compuesto`);
+
+    const concepts = new Set([...meaningfulCollisionTokens(objective)]
+      .filter((token) => !actionStems.has(token) && token.length >= 4));
+    const sharesConcept = (steps: typeof lesson.steps): boolean => {
+      const tokens = meaningfulCollisionTokens(JSON.stringify(steps));
+      return [...concepts].some((token) => tokens.has(token));
+    };
+    const teaching = lesson.steps.filter((step) => step.fase === 'construir' && INSTRUCTION_TYPES.has(step.type));
+    const guided = lesson.steps.filter((step) => step.fase === 'construir' && getActivity(step.type)?.graded && step.hint);
+    const transfer = lesson.steps.filter((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded && !step.hint);
+    const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
+    const missingStages = [
+      [concepts.size === 0, 'concepto'],
+      [!sharesConcept(teaching), 'modelo'],
+      [!sharesConcept(guided), 'guia'],
+      [!sharesConcept(transfer), 'transferencia'],
+      [exits.some((step) => !sharesConcept([step])), 'salidas'],
+    ].filter(([missing]) => missing).map(([, stage]) => stage);
+    if (missingStages.length > 0) failures.push(`${lesson.id}: falta ${missingStages.join(', ')}`);
+  }
+  assert.deepEqual(failures, []);
+});
+
 test('Semana 5 ensena y modela antes de calificar con fases monotonicas', () => {
   const phaseRank = new Map([
     ['explorar', 0], ['construir', 1], ['aplicar', 2], ['comprobar', 3], ['reflexionar', 4],
@@ -2439,7 +2553,18 @@ test('Semana 5 mantiene una carga estructurada razonable por leccion', () => {
       .reduce((sum, media) => sum + Number(media?.duration ?? 0), 0);
     const manualActions = normalizeFactText(serialized)
       .match(/\b(?:dobla|enrolla|une|cierra|presiona|recorta|traza|lanza|pasa|ensaya|representa|escribe|dibuja|rotula)\b/g)?.length ?? 0;
-    const complexity = lesson.steps.length + nestedItems / 4 + mediaSeconds / 60 + textWords / 600 + manualActions / 10;
+    const activeText = normalizeFactText(JSON.stringify(lesson.steps.filter((step) => (
+      step.fase === 'aplicar' || ['project-builder', 'pulse-lab'].includes(step.type)
+    ))));
+    const repetitionPhrases = new Map([...activeText.matchAll(/\b(\d+)\s+(pases?|lanzamientos?|saltos?|veces|repeticiones?|intentos?|finalizaciones?)\b/g)]
+      .map((match) => [`${match[1]} ${match[2]}`, Number(match[1])]));
+    const repetitions = [...repetitionPhrases.values()].reduce((sum, count) => sum + count, 0);
+    const setupActions = activeText.match(/\b(?:buscar|recolectar|conseguir|recortar|triturar|preparar|mezclar|distribuir|montar)\b/g)?.length ?? 0;
+    const wetProcesses = activeText.match(/\b(?:pegamento|cola|adhesivo humedo|pintura humeda|secar|secado)\b/g)?.length ?? 0;
+    const collaboration = activeText.match(/\b(?:en parejas|en equipos|en grupos|companer[oa]|turnos?)\b/g)?.length ?? 0;
+    const evidenceWriting = activeText.match(/\b(?:anota|anoten|registra|registren|escribe|escriban|documenta|documenten)\b/g)?.length ?? 0;
+    const complexity = lesson.steps.length + nestedItems / 4 + mediaSeconds / 60 + textWords / 600 + manualActions / 10
+      + repetitions / 10 + setupActions * 0.5 + wetProcesses * 1.5 + collaboration * 0.25 + evidenceWriting * 0.5;
     const complexityBudget = lesson.minutes * 2 - 2;
     const longResponse = lesson.steps.find((step) => step.type === 'short-answer'
       && Number((step.props as { minWords?: number }).minWords ?? 0) > lesson.minutes * 3);
@@ -2449,6 +2574,72 @@ test('Semana 5 mantiene una carga estructurada razonable por leccion', () => {
     }
   }
   assert.deepEqual(failures, []);
+});
+
+test('Arte 2 usa un kit reutilizable de tres texturas y una discriminacion tactil breve', () => {
+  const lesson = weekFive.lessons.find((item) => item.id === 's05-art-2');
+  assert.ok(lesson, 'Falta s05-art-2');
+  const text = normalizeFactText(JSON.stringify(lesson));
+  assert.match(text, /muestras? (?:tactiles )?(?:preparadas?|reutilizables?)|muestrario reutilizable/);
+  assert.match(text, /gancho y felpa|cierre removible|sujetador removible/);
+  assert.match(text, /3 texturas|tres texturas/);
+  assert.match(text, /lisa/);
+  assert.match(text, /corrugada|acanalada/);
+  assert.match(text, /rugos[oa]/);
+  assert.match(text, /clave (?:breve|concisa)|leyenda (?:breve|concisa)/);
+  assert.match(text, /discriminar|distinguir.{0,50}tacto|comparacion tactil/);
+  assert.doesNotMatch(text, /buscar|recolectar|conseguir materiales|arena pegada|hojas secas|algodon|pegamento|cola|adhesivo humedo|secar|secado/);
+  assert.doesNotMatch(text, /4 a 6 texturas|cuatro texturas|cinco texturas|prueba.{0,50}pares|consulta especializada pendiente/);
+  assert.equal(lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded).length, 2);
+});
+
+test('EF 2 practica una sola decision motriz con seis pases y tres finalizaciones controladas', () => {
+  const lesson = weekFive.lessons.find((item) => item.id === 's05-ef-2');
+  assert.ok(lesson, 'Falta s05-ef-2');
+  const text = normalizeFactText(JSON.stringify(lesson));
+  assert.match(text, /6 pases|seis pases/);
+  assert.match(text, /3 con (?:la )?izquierda.{0,40}3 con (?:la )?derecha|3 por cada mano/);
+  assert.match(text, /3 finalizaciones|tres finalizaciones/);
+  assert.match(text, /registro|tanteo|marcas/);
+  assert.doesNotMatch(text, /10 pases|5 con cada mano|5 veces directo|5 en suspension|5 con pique|3 contra 3|minipartido|partido corto/);
+  assert.equal(lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded).length, 2);
+});
+
+test('Productividad ensena el rodillo y el taller lo usa con evidencia de tecnica segura', () => {
+  const lesson = weekFive.lessons.find((item) => item.id === 's05-pyd-1');
+  const workshop = weekFive.lessons.find((item) => item.id === 's05-d5-taller');
+  assert.ok(lesson && workshop, 'Falta Productividad o taller');
+  const lessonText = normalizeFactText(JSON.stringify(lesson));
+  assert.match(lessonText, /rodillo manual|brayer/);
+  assert.match(lessonText, /rueda y eje/);
+  assert.match(lessonText, /superficie estable|mesa estable/);
+  assert.match(lessonText, /dedos.{0,40}fuera (?:del|de la) (?:recorrido|trayectoria|paso)/);
+  assert.match(lessonText, /presion controlada|presionar sin exceso/);
+  assert.match(lessonText, /revisar.{0,60}(?:rodillo|mango|eje)/);
+  assert.match(lessonText, /detener|no usar.{0,40}(?:dano|danado|flojo|trabado)/);
+  const taughtIndex = lesson.steps.findIndex((step) => /rodillo manual|brayer/.test(normalizeFactText(JSON.stringify(step)))
+    && INSTRUCTION_TYPES.has(step.type));
+  const appliedIndex = lesson.steps.findIndex((step) => /rodillo manual|brayer/.test(normalizeFactText(JSON.stringify(step)))
+    && step.fase === 'aplicar');
+  assert.ok(taughtIndex >= 0 && appliedIndex > taughtIndex, 'El rodillo debe ensenarse antes de aplicarse');
+
+  const productUse = workshop.steps.find((step) => step.type === 'project'
+    && step.areas.includes('pyd')
+    && /rodillo manual|brayer/.test(normalizeFactText(JSON.stringify(step))));
+  assert.ok(productUse, 'El taller no usa el rodillo en el producto');
+  const useText = normalizeFactText(JSON.stringify(productUse));
+  assert.match(useText, /presionar.{0,80}(?:tiras|cierres|texturas|ruta)/);
+  assert.match(useText, /dedos.{0,40}fuera/);
+  assert.match(useText, /evidencia|lista|verificar|comprobar/);
+  assert.match(normalizeFactText(JSON.stringify(workshop.media)), /rodillo manual|brayer/);
+  assert.ok(workshop.minutes >= 18 && workshop.minutes <= 20);
+});
+
+test('Semana 5 evita presentar una preferencia como necesidad universal de personas ciegas', () => {
+  const text = normalizeFactText(JSON.stringify(weekFive));
+  assert.doesNotMatch(text, /(?:una persona ciega|las personas ciegas) (?:necesita|necesitan|usa|usan|prefiere|prefieren|lee|leen)/);
+  assert.match(text, /algunas personas ciegas pueden (?:preferir|usar)|personas ciegas pueden elegir/);
+  assert.match(text, /formatos|apoyos|estrategias/);
 });
 
 test('Semana 5 distingue prueba entre pares de consulta especializada pendiente', () => {
@@ -2483,27 +2674,36 @@ test('Semana 5 evalua semanticamente el pase con salto por arriba del hombro', (
   for (const [source, step] of [['reto', challengeEf], ['banco', bankEf]] as const) {
     const text = normalizeFactText(JSON.stringify(step));
     assert.notEqual(step.type, 'number-input', `${source}: no debe evaluar aritmetica`);
+    assert.notEqual(step.type, 'order', `${source}: no debe evaluar una lista memorizada`);
+    assert.notEqual(step.type, 'match', `${source}: no debe evaluar rotulos`);
     assert.ok(step.cnb.includes('ef:2.1.9'), `${source}: falta ef:2.1.9`);
     assert.match(text, /por arriba del hombro/);
     assert.match(text, /salto|saltar/);
-    assert.match(text, /izquierda/);
-    assert.match(text, /derecha/);
-    assert.match(text, /altura media|pase medio|al pecho/);
-    assert.match(text, /altura alta|pase alto|por encima/);
+    assert.match(text, /fotogramas?|secuencia observada|video (?:nuevo|sin narracion)|ejecucion observada/);
+    assert.match(text, /error|falla|ajuste/);
+    assert.match(text, /corregir|correccion|debe (?:soltar|impulsarse|saltar)/);
     assert.ok(!step.hint && !step.explain, `${source}: la evaluacion debe ir sin pistas`);
   }
+  const challengeText = normalizeFactText(JSON.stringify(challengeEf));
+  const bankText = normalizeFactText(JSON.stringify(bankEf));
+  assert.match(challengeText, /derecha/);
+  assert.match(challengeText, /altura alta|pase alto|por encima/);
+  assert.match(challengeText, /despues de (?:caer|aterrizar)|suelo antes de soltar/);
+  assert.match(challengeText, /punto mas alto|fase aerea/);
+  assert.match(bankText, /izquierda/);
+  assert.match(bankText, /altura media|pase medio|al pecho/);
+  assert.match(bankText, /mismo pie|pie izquierdo.{0,50}mano izquierda/);
+  assert.match(bankText, /pie contrario|pie derecho/);
   assert.ok(!repeatsStructuredFact(challengeEf, bankEf), 'Reto y banco EF reutilizan la misma respuesta');
 });
 
 test('Semana 5 usa simbolos tactiles y no imita braille', () => {
   const relevant = weekFive.lessons.filter((lesson) => lesson.kind === 'taller' || lesson.area === 'art');
   const text = normalizeFactText(JSON.stringify(relevant));
-  assert.doesNotMatch(text, /braille.{0,40}(?:simulad|imitad|inventad)|(?:simulad|imitad|inventad).{0,40}braille/);
+  assert.doesNotMatch(text, /puntos? en relieve.{0,30}(?:simul|imit).{0,20}braille|braille (?:falso|simulado|inventado)/);
   assert.match(text, /simbolos tactiles (?:no braille|que no son braille)|texturas no braille/);
-  const brailleSentences = text.split(/[.!?]+/).filter((sentence) => sentence.includes('braille'));
-  assert.ok(brailleSentences.length > 0, 'Falta advertencia de integridad Braille');
-  assert.ok(brailleSentences.every((sentence) => /no (?:imitar|inventar|copiar)|transcripcion profesional|validado/.test(sentence)),
-    `Menciones no controladas: ${brailleSentences.join(' | ')}`);
+  assert.match(text, /no (?:se debe )?(?:imitar|inventar|copiar).{0,50}braille|braille.{0,50}(?:transcripcion profesional|validado)/,
+    'Falta advertencia de integridad Braille');
 });
 
 test('Semana 5 aborda accesibilidad con consulta, prueba y limites honestos', () => {

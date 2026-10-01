@@ -13,7 +13,7 @@ export default [
     icon: 'Hand',
     minutes: 14,
     gancho: '¿Alguna vez te preguntaron tu opinión para decidir algo en tu familia? ¿Cómo te sentiste?',
-    objetivos: ['Explicar qué es participar y por qué es un derecho y una responsabilidad; reconocer formas de participar en la familia, la escuela y la comunidad; seguir los pasos de la participación para mejorar algo de tu entorno'],
+    objetivos: ['Aplicar un proceso de participación informada, respetuosa e inclusiva'],
     resumen: [
       'Participar es tomar parte en las decisiones y acciones de un grupo: informarse, opinar, proponer, actuar y evaluar.',
       'La niñez tiene derecho a opinar y ser escuchada en lo que le afecta (Convención sobre los Derechos del Niño). Participar también es una responsabilidad: cumplir lo que se acuerda.',
@@ -148,7 +148,7 @@ export default [
     icon: 'Vote',
     minutes: 15,
     gancho: 'Imagina que tu escuela va a elegir a su gobierno escolar mañana. ¿Por quién votarías: por el más popular o por quien tenga las mejores propuestas?',
-    objetivos: ['Explicar qué es el gobierno escolar, sus cargos y sus comisiones; ordenar los pasos de una elección escolar democrática; evaluar y escribir propuestas de campaña realistas y útiles'],
+    objetivos: ['Evaluar la participación y las propuestas del gobierno escolar'],
     resumen: [
       'El gobierno escolar es una organización de estudiantes elegida por voto que representa a sus compañeros, organiza proyectos y trabaja con docentes y dirección. En cada grado también puede haber una directiva de aula.',
       'Cargos frecuentes: presidencia, vicepresidencia, secretaría, tesorería y vocales. Las comisiones (limpieza, deporte, cultura, lectura, huerto) organizan el trabajo.',
@@ -239,23 +239,14 @@ export default [
           { id: 'q5', text: 'Sembrar un huerto con semillas donadas por las familias', bucket: 'ok' },
         ] },
       ),
-      S.number(
-        { fase: 'aplicar', areas: ['fc'], cnb: ['fc:3.2.2'], ambito: 'hacer',
-          prompt: 'Supongamos este conteo público: Planilla Azul **48** votos, Planilla Verde **35** votos, Planilla Roja **27** votos y **5** votos nulos (papeletas mal marcadas que no cuentan para ninguna planilla). ¿Cuántos votos **válidos** hubo en total?',
-          explain: 'Los votos válidos son los que fueron para alguna planilla: 48 + 35 + 27 = 110. Los 5 nulos no cuentan para ninguna planilla.' },
-        { answer: 110, unit: 'votos', misconceptions: [
-          { value: 115, msg: 'Sumaste también los votos nulos. Los nulos no son válidos.' },
-          { value: 83, msg: 'Te faltó sumar los votos de la Planilla Roja.' },
-        ] },
-      ),
-      S.dilemma(
-        { fase: 'aplicar', areas: ['fc'], cnb: ['fc:3.2.2'], ambito: 'convivir', prompt: '¿Qué harías tú?' },
-        { scene: { icon: 'Gift', text: 'Un candidato de otra planilla te ofrece **una bolsa de dulces** si votas por él. Nadie se daría cuenta porque el voto es secreto.' },
-          options: [
-            { id: 'a', icon: 'Gift', text: 'Aceptar los dulces y votar por él', consequence: 'Tu voto se "vendió" por unos dulces. Si todos hacen lo mismo, gana quien regala, no quien tiene mejores ideas.', values: ['Voto comprado'], constructive: false },
-            { id: 'b', icon: 'Vote', text: 'Decirle "gracias, pero voto por las propuestas" y comparar las planillas', consequence: 'Votas con libertad por la mejor propuesta. Tu voto vale más que cualquier regalo.', values: ['Honestidad', 'Voto libre'], constructive: true },
-            { id: 'c', icon: 'MessageCircle', text: 'Rechazar los dulces y avisar a la comisión electoral para que recuerde las reglas a todas las planillas', consequence: 'La comisión recuerda que no se permiten regalos a cambio de votos. La elección es más justa para todos.', values: ['Responsabilidad', 'Justicia'], constructive: true },
-          ] },
+      S.choice(
+        { fase: 'aplicar', areas: ['fc'], cnb: ['fc:3.2.2'], ambito: 'convivir',
+          prompt: 'Un candidato te ofrece una bolsa de dulces a cambio de tu voto. ¿Qué decisión permite evaluar las propuestas y proteger una elección libre?' },
+        { options: [
+          { id: 'a', text: 'Aceptar los dulces y votar por quien los regaló' },
+          { id: 'b', text: 'Rechazar el regalo, comparar las propuestas y reportar la oferta a la comisión electoral' },
+          { id: 'c', text: 'Aceptar los dulces y votar al azar para que nadie se entere' },
+        ], correct: ['b'] },
       ),
       S.write(
         { fase: 'aplicar', areas: ['fc'], cnb: ['fc:3.2.2'], ambito: 'emprender',

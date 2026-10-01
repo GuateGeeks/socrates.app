@@ -13,7 +13,7 @@ export default [
     icon: 'Blocks',
     minutes: 14,
     gancho: 'En español puedes decir "Toco marimba" sin decir "yo". En inglés, ¿se puede decir solo "Play marimba"?',
-    objetivos: ['Usar los pronombres personales en inglés: I, you, he, she, it, we, they; ordenar oraciones: pronombre + verbo + sustantivo; agregar -s al verbo con he, she, it en presente'],
+    objetivos: ['Construir oraciones en presente con pronombre, verbo y sustantivo en orden correcto'],
     resumen: [
       'Pronombres: I (yo), you (tú, usted, ustedes), he (él), she (ella), it (animal o cosa), we (nosotros), they (ellos, ellas).',
       'En inglés el pronombre (o el nombre) casi siempre se dice: "I play", no solo "play".',
@@ -161,7 +161,7 @@ export default [
     icon: 'Palette',
     minutes: 15,
     gancho: 'En español decimos "una casa grande". En inglés, ¿será "a house big" o "a big house"?',
-    objetivos: ['Colocar el adjetivo antes del sustantivo: a big house; usar adverbios para decir cómo se hace una acción: slowly, fast, well; ordenar oraciones con pronombre, verbo, adjetivo, sustantivo y adverbio'],
+    objetivos: ['Construir oraciones en inglés con adjetivos y adverbios en orden correcto'],
     resumen: [
       'El adjetivo describe al sustantivo y va ANTES de él: a red backpack, a tall volcano. Nunca lleva plural: two big dogs.',
       'El adjetivo también va después de is / are: The house is big.',

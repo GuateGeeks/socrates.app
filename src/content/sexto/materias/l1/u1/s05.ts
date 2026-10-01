@@ -16,7 +16,7 @@ export default [
     icon: 'Palette',
     minutes: 14,
     gancho: '"Un güipil" o "un güipil rojo, antiguo y suave como la tortilla recién hecha": ¿cuál puedes imaginar mejor?',
-    objetivos: ['Distinguir las palabras que solo nombran de las que dicen cómo es algo; reconocer palabras connotativas (adjetivos calificativos) en un texto; usar palabras connotativas para que una descripción sea más precisa'],
+    objetivos: ['Caracterizar sustantivos mediante palabras connotativas precisas'],
     resumen: [
       'Hay palabras que nombran sin caracterizar: güipil, telar, abuela. Se llaman no connotativas.',
       'Las palabras connotativas señalan las particularidades de lo nombrado: cómo es, de qué color, qué forma, qué textura. Son los adjetivos calificativos: rojo, antiguo, suave.',
@@ -163,7 +163,7 @@ export default [
     icon: 'Pointer',
     minutes: 13,
     gancho: 'Si alguien te dice "pásame ese", ¿sabes cómo es el objeto? No… pero sí sabes cuál es.',
-    objetivos: ['Reconocer palabras no connotativas que acompañan al sustantivo: artículos, demostrativos, posesivos, numerales e indefinidos; diferenciarlas de las palabras connotativas; combinar ambos tipos para escribir con precisión'],
+    objetivos: ['Distinguir palabras no connotativas de calificativos connotativos en descripciones'],
     resumen: [
       'Algunas palabras acompañan al sustantivo sin decir cómo es: lo presentan (el, una), lo señalan (este, ese, aquel), dicen de quién es (mi, tu, su, nuestro), cuántos son (dos, tercer) o una cantidad imprecisa (algunos, muchos, pocos).',
       'Estas palabras son no connotativas (adjetivos determinativos): identifican al objeto, pero no lo caracterizan.',
@@ -301,7 +301,7 @@ export default [
     icon: 'NotebookPen',
     minutes: 15,
     gancho: '¿Qué dice más: "una comida buena" o "un caldo espeso y humeante que huele a cilantro"?',
-    objetivos: ['Cambiar palabras vagas por palabras connotativas precisas; usar los cinco sentidos para encontrar detalles; escribir una descripción ordenada de un objeto que tiene historia en la familia'],
+    objetivos: ['Escribir una descripción sensorial ordenada con palabras precisas'],
     resumen: [
       'Las palabras vagas (bonito, bueno, feo, grande) dicen poco. Las precisas (colorido, sabroso, ronco, caudaloso) pintan una imagen.',
       'Para encontrar detalles, recorre los sentidos: ¿cómo se ve?, ¿cómo suena?, ¿a qué huele?, ¿cómo se siente al tocarlo?, ¿a qué sabe?',
@@ -461,7 +461,7 @@ export default [
     icon: 'Users',
     minutes: 14,
     gancho: 'Se dice "el mapa" aunque termina en -a, y "la mano" aunque termina en -o. ¿Entonces cómo sabemos el género de una palabra?',
-    objetivos: ['Reconocer el género masculino y femenino de los sustantivos; formar el femenino de los sustantivos de distintas maneras; hacer concordar en género el artículo, el sustantivo y el adjetivo'],
+    objetivos: ['Aplicar la concordancia de género entre artículo, sustantivo y adjetivo'],
     resumen: [
       'Todo sustantivo en español tiene género: masculino (el, un) o femenino (la, una). El artículo es la mejor pista: el mapa, la mano.',
       'El femenino se forma cambiando la terminación (niño/niña, doctor/doctora, alcalde/alcaldesa, rey/reina), con una palabra distinta (padre/madre, caballo/yegua) o solo cambiando el artículo (el estudiante/la estudiante).',
@@ -568,7 +568,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:7.1.2'], prompt: '¿Cuál es el femenino de "**el rey**"?' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:7.1.2'], prompt: 'Para mantener la concordancia de género, ¿cuál es el femenino de "**el rey**"?' },
         { options: [
           { id: 'a', text: 'la reina' },
           { id: 'b', text: 'la reya' },
@@ -593,7 +593,7 @@ export default [
     icon: 'Layers',
     minutes: 15,
     gancho: 'Un lápiz, dos… ¿lápizes o lápices? Hoy descubrirás las reglas que ordenan el plural.',
-    objetivos: ['Formar el plural de los sustantivos según su terminación; escribir bien la tilde al pasar palabras al plural; hacer concordar en número todas las palabras de una oración'],
+    objetivos: ['Aplicar la concordancia de número al formar oraciones en plural'],
     resumen: [
       'Singular = uno; plural = varios. Termina en vocal sin tilde → + s (casa, casas). Termina en consonante → + es (árbol, árboles). Termina en z → cambia a c + es (lápiz, lápices).',
       'Las palabras en -s o -x sin acento en la última sílaba no cambian: el lunes/los lunes, la crisis/las crisis.',

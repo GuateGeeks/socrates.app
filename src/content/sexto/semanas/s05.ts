@@ -23,7 +23,7 @@ export default semana({
     title: 'Recorrido accesible por la escuela',
     aspect: '16:9',
     alt: 'Estudiantes y una persona adulta revisan un plano táctil de la escuela; una ruta con relieve conecta la entrada, la dirección, un aula y los baños.',
-    brief: 'Ilustración editorial conceptual de una escuela pública guatemalteca. En una mesa, estudiantes revisan entre pares un plano táctil con los ojos abiertos; una tarjeta visible dice "consulta especializada pendiente". El plano muestra cuadrícula, coordenadas grandes, leyenda de cuatro texturas y una ruta continua en relieve. Al fondo se ven una rampa, pasamanos, señalización de alto contraste y un pasillo despejado. No presentar la escena como evidencia de una consulta local ya realizada; todas las personas mantienen los ojos abiertos y participan como ellas mismas. Evitar ayuda condescendiente y promesas de accesibilidad universal.',
+    brief: 'Ilustración editorial conceptual de una escuela pública guatemalteca. En una mesa, estudiantes revisan entre pares un plano táctil con los ojos abiertos; una tarjeta visible dice "consulta especializada pendiente". El plano muestra cuadrícula, coordenadas grandes, una clave de tres texturas y una ruta continua en relieve. Al fondo se ven una rampa, pasamanos, señalización de alto contraste y un pasillo despejado. No presentar la escena como evidencia de una consulta local ya realizada; todas las personas mantienen los ojos abiertos y participan como ellas mismas. Evitar ayuda condescendiente y promesas de accesibilidad universal.',
   },
   badge: {
     id: 'cartografo-accesible',
@@ -50,8 +50,8 @@ export default semana({
         kind: 'image',
         title: 'Kit reutilizable de plano táctil',
         aspect: '4:3',
-        alt: 'Bandeja rotulada con base cuadriculada, piezas lavables de cuatro texturas, cordón grueso, etiquetas grandes y una guía de montaje.',
-        brief: 'Activo físico de alta preparación pendiente. Reemplazo durable: 8 kits reutilizables para grupos de 3 o 4, cada uno en bandeja rotulada, con base rígida lavable cuadriculada de 40 por 40 cm, ejes y coordenadas de alto contraste, 12 piezas grandes precortadas de EVA, corcho, plástico corrugado y fieltro, cordón grueso con cierre de gancho y felpa, etiquetas impresas grandes y cuatro muestras para la leyenda. Todas las esquinas deben estar redondeadas; no incluir piezas punzantes, granos sueltos ni adhesivo húmedo. Preparación central: fabricar y probar una vez, registrar piezas y guardar cada kit completo. Preparación docente normal, máximo 2 minutos: distribuir una bandeja por grupo y comprobar con la lista que contiene base, ruta, 12 zonas y cuatro muestras. Reemplazo o alternativa de baja tecnología: cartón corrugado y retazos limpios precortados por una persona adulta fuera del tiempo de clase, unidos con cinta de doble cara ya colocada. Todo recorte y pegado permanente ocurre en la preparación central, fuera de la sesión habitual.',
+        alt: 'Bandeja rotulada con base cuadriculada, piezas lavables de tres texturas, cordón grueso, etiquetas grandes, cierres removibles y un rodillo manual redondeado.',
+        brief: 'Activo físico de alta preparación pendiente. Reemplazo durable: 8 kits reutilizables para grupos de 3 o 4, cada uno en bandeja rotulada, con base rígida lavable cuadriculada de 40 por 40 cm, ejes y coordenadas de alto contraste, 12 piezas grandes precortadas de EVA lisa, corcho rugoso y plástico corrugado, cordón grueso, cierres de gancho y felpa ya instalados, etiquetas impresas grandes, tres muestras para la clave y un rodillo manual redondeado de goma de baja fuerza. Todas las esquinas deben estar redondeadas y las piezas deben llegar firmes y listas para reutilizar. Preparación central: fabricar y probar una vez, registrar piezas, comprobar que cada rodillo gire sin daño y guardar cada kit completo. Preparación docente normal, máximo 2 minutos: distribuir una bandeja por grupo y comprobar con la lista base, ruta, 12 zonas, tres muestras y rodillo. Alternativa de baja tecnología: cartón corrugado y retazos limpios preparados por una persona adulta fuera del tiempo de clase, con cierres removibles ya colocados. Toda fabricación permanente ocurre en la preparación central, fuera de la sesión habitual.',
       },
       steps: [
         S.explain(
@@ -93,53 +93,40 @@ export default semana({
             prompt: '**1 min.** Antes de fijar las piezas, unan cada destino con su coordenada y textura acordada.' },
           { leftTitle: 'Destino', rightTitle: 'Dato del plano', pairs: [
             { id: 'a', left: 'Dirección', right: '(−3, 2) · EVA lisa' },
-            { id: 'b', left: 'Aula', right: '(2, 3) · fieltro suave' },
+            { id: 'b', left: 'Aula', right: '(2, 3) · EVA lisa' },
             { id: 'c', left: 'Baños', right: '(4, −2) · plástico corrugado' },
             { id: 'd', left: 'Bebedero', right: '(1, −3) · corcho rugoso' },
           ] },
         ),
         S.project(
           { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.1'], ambito: 'hacer', title: '2 min · Construyan la leyenda',
-            prompt: '**2 min.** Elijan cuatro materiales del kit con textura y contraste visual claramente diferentes.' },
+            prompt: '**2 min.** Usen las tres muestras preparadas del kit para crear una clave táctil y visual concisa.' },
           { goal: 'Crear una leyenda táctil y visual consistente.',
             steps: [
-              { title: 'Cuatro muestras', detail: 'Asignen EVA lisa, corcho rugoso, plástico corrugado y fieltro suave a cuatro tipos de espacio.' },
+              { title: 'Tres muestras', detail: 'Asignen EVA lisa a espacios de aprendizaje, corcho rugoso a servicios y plástico corrugado a circulación.' },
               { title: 'Clave', detail: 'Fijen una muestra de cada textura junto a su nombre en letra grande y alto contraste.' },
             ],
-            evidence: 'Leyenda con cuatro muestras seguras y sus significados.',
+            evidence: 'Clave con tres muestras seguras y sus significados.',
             rubric: ['Las texturas se distinguen entre sí', 'La clave coincide con las piezas del plano'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['mat', 'art'], cnb: ['mat:1.5.3', 'art:3.2.1'], ambito: 'hacer', title: '2 min · Marquen la ruta',
-            prompt: '**2 min.** Unan entrada, dirección, aula y baños con el cordón continuo del kit; anoten las coordenadas de cada parada.' },
-          { goal: 'Representar una ruta accesible propuesta sin afirmar que ya está libre de barreras.',
+          { fase: 'aplicar', areas: ['mat', 'art', 'pyd'], cnb: ['mat:1.5.3', 'art:3.2.1', 'pyd:3.2.3', 'pyd:3.2.4'], ambito: 'hacer', title: '3 min · Marquen y fijen la ruta',
+            prompt: '**3 min.** Unan entrada, dirección, aula y baños con el cordón continuo; después usen el rodillo manual redondeado para presionar los cierres removibles.' },
+          { goal: 'Representar y fijar al producto una ruta accesible propuesta mediante la técnica segura ya practicada.',
             steps: [
               { title: 'Ruta continua', detail: 'Fijen el cordón sin cruces ni extremos sueltos y dejen libres las etiquetas.' },
+              { title: 'Rodillo seguro', detail: 'Revisen mango, rueda y eje; apoyen la base en una mesa estable, mantengan los dedos fuera de la trayectoria y hagan una pasada con presión controlada. Si está flojo, dañado o trabado, no lo usen y repórtenlo.' },
               { title: 'Comprobación física', detail: 'Comparen la propuesta con el pasillo real: ancho, escalones, pendientes, puertas y objetos que obstruyen requieren revisión de la escuela.' },
             ],
-            evidence: 'Ruta en relieve con cuatro paradas coordenadas y una lista de barreras por verificar.',
-            rubric: ['La ruta puede seguirse sin perder el cordón', 'No presentamos como accesible un tramo que no fue verificado'] },
+            evidence: 'Ruta firme con cuatro paradas coordenadas, lista de barreras por verificar y marcas de herramienta revisada, dedos fuera de la trayectoria y presión controlada.',
+            rubric: ['La ruta puede seguirse sin perder el cordón', 'La técnica segura quedó comprobada en el producto', 'No presentamos como accesible un tramo que no fue verificado'] },
         ),
-        S.order(
-          { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:3.2.3', 'pyd:3.2.4'], ambito: 'hacer', title: '1 min · Apliquen el proceso seguro',
-            prompt: '**1 min.** Ordenen el manejo seguro de las piezas y herramientas del kit.' },
-          { items: [
-            { id: 'a', text: 'Revisar piezas, bordes y cierres antes de usarlos' },
-            { id: 'b', text: 'Trabajar en una mesa despejada con las piezas grandes' },
-            { id: 'c', text: 'Presionar cierres sin usar tijeras ni objetos punzantes' },
-            { id: 'd', text: 'Contar, limpiar y guardar todo en la bandeja rotulada' },
-          ] },
-        ),
-        S.project(
+        S.write(
           { fase: 'aplicar', areas: ['fc', 'art'], cnb: ['fc:3.2.1', 'art:3.2.1'], ambito: 'convivir', title: '2 min · Prueba de claridad entre pares',
-            prompt: '**2 min.** Un compañero prueba una consigna con los ojos abiertos y participa como él mismo. Esta prueba revisa la claridad del mapa; la consulta especializada permanece pendiente.' },
-          { goal: 'Recoger retroalimentación real entre pares sin atribuirla a usuarios con discapacidad.',
-            steps: [
-              { title: 'Consigna', detail: 'Con los ojos abiertos, localiza los baños desde la entrada y explica qué símbolos ayudan o confunden.' },
-              { title: 'Registro', detail: 'Anoten un comentario de claridad y una sugerencia del compañero; identifiquen la fuente como prueba entre pares.' },
-            ],
-            evidence: 'Registro de retroalimentación de la prueba entre pares, con ojos abiertos.',
-            rubric: ['Todas las personas mantuvieron los ojos abiertos', 'El registro no se presenta como consulta especializada'] },
+            prompt: '**2 min.** Un compañero, con los ojos abiertos y participando como él mismo, localiza los baños desde la entrada. Registra qué símbolo le resultó claro o confuso y una sugerencia. Identifica la fuente como **prueba entre pares**; la consulta especializada permanece pendiente.' },
+          { minWords: 8, placeholder: 'Prueba entre pares: el símbolo...; sugerencia...',
+            model: 'Formato de registro, no evidencia: "Prueba entre pares: [símbolo claro o confuso]. La sugerencia expresada fue [comentario real]."',
+            rubric: ['Registré retroalimentación real de la prueba', 'No la presenté como consulta especializada'] },
         ),
         S.project(
           { fase: 'aplicar', areas: ['mat', 'art', 'pyd'], cnb: ['mat:1.5.3', 'art:3.2.1', 'pyd:3.2.3'], ambito: 'hacer', title: '2 min · Revisión dirigida',
@@ -147,7 +134,7 @@ export default semana({
           { goal: 'Mejorar el producto con evidencia.',
             steps: [
               { title: 'Una corrección', detail: 'Muevan una pieza, cambien una textura, separen elementos o reparen el cordón según la retroalimentación entre pares.' },
-              { title: 'Lista final', detail: 'Verifiquen cuatro coordenadas, cuatro claves coincidentes, ruta continua y ninguna pieza suelta o filosa.' },
+              { title: 'Lista final', detail: 'Verifiquen cuatro coordenadas, tres significados de textura coincidentes, ruta continua y ninguna pieza suelta o filosa.' },
             ],
             evidence: 'Plano revisado y nota breve que relaciona observación, cambio y nueva comprobación.',
             rubric: ['El cambio responde a evidencia de la prueba', 'Ruta, clave, coordenadas y texturas siguen alineadas'] },
@@ -203,7 +190,7 @@ export default semana({
         title: 'Mesa de revisión del plano escolar',
         aspect: '16:9',
         alt: 'Mesa con un plano táctil, una hoja de coordenadas, muestras de textura, un registro de prueba entre pares y herramientas escolares guardadas de forma segura.',
-        brief: 'Mock de producción para una imagen cenital clara, legible en celular. Mostrar el producto real de la semana: plano táctil cuadriculado con cuatro destinos, ruta continua, leyenda de cuatro texturas y coordenadas visibles. Alrededor, una ficha rotulada "prueba entre pares, ojos abiertos", una tarjeta "consulta especializada pendiente", una lista de revisión y una bandeja cerrada con perforadora y tijeras de punta roma. No mostrar evidencia atribuida a personas con discapacidad, piezas filosas sueltas, personas con los ojos cubiertos ni mensajes que prometan accesibilidad universal.',
+        brief: 'Mock de producción para una imagen cenital clara, legible en celular. Mostrar el producto real de la semana: plano táctil cuadriculado con cuatro destinos, ruta continua, clave de tres texturas y coordenadas visibles. Alrededor, una ficha rotulada "prueba entre pares, ojos abiertos", una tarjeta "consulta especializada pendiente", una lista de revisión y una bandeja con un rodillo manual redondeado guardado. No mostrar evidencia atribuida a personas con discapacidad, piezas filosas sueltas, personas con los ojos cubiertos ni mensajes que prometan accesibilidad universal.',
       },
       steps: [
         S.coord({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.5.3'], prompt: 'En un plano nuevo, coloca la biblioteca en **(−1, 5)**.' },
@@ -243,13 +230,12 @@ export default semana({
             { id: 'b', left: 'Cartón corrugado', right: 'Acanalada' },
             { id: 'c', left: 'Esponja firme', right: 'Porosa' },
           ] }),
-        S.order({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.9'], prompt: 'Ordena el protocolo para juzgar un pase por arriba del hombro con salto. Debe servir tanto para la mano izquierda como para la derecha y para una altura media o una altura alta.' },
-          { items: [
-            { id: 'a', text: 'Reconocer el lado ejecutor' },
-            { id: 'b', text: 'Verificar el apoyo opuesto' },
-            { id: 'c', text: 'Observar el instante aéreo de liberación' },
-            { id: 'd', text: 'Registrar la zona receptora alcanzada' },
-          ] }),
+        S.choice({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.9'], prompt: 'Una secuencia nueva de fotogramas muestra un pase por arriba del hombro con salto: Julia usa la mano derecha hacia una altura alta, se impulsa con el pie izquierdo, pero conserva la pelota durante la fase aérea y la suelta después de aterrizar. ¿Qué error observable y qué corrección corresponden?' },
+          { options: [
+            { id: 'a', text: 'La liberación es tardía; debe soltar la pelota en el punto más alto de la fase aérea' },
+            { id: 'b', text: 'La mano ejecutora es incorrecta; debe cambiar a la izquierda y mantener la liberación después de caer' },
+            { id: 'c', text: 'La altura es incorrecta; debe dirigir el pase al suelo antes de saltar' },
+          ], correct: ['a'] }),
         S.sort({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:3.2.3', 'pyd:3.2.4'], prompt: 'Clasifica acciones al usar una perforadora de papel escolar.' },
           { buckets: [
             { id: 'antes', label: 'Antes', icon: 'ClipboardCheck' },
@@ -309,11 +295,11 @@ export default semana({
         { id: 'b', text: 'Dos retazos del mismo fieltro' },
         { id: 'c', text: 'Dos hojas de papel liso' },
       ], correct: ['a'] }),
-    S.choice({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.9'], prompt: 'En cuatro pases por arriba del hombro con salto: Ana usa la mano izquierda hacia una altura media; Beto, la derecha hacia una altura alta; Carla, la derecha hacia una altura media; y Diego, la izquierda hacia una altura alta. ¿Qué registro identifica las cuatro ejecuciones?' },
+    S.choice({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:2.1.9'], prompt: 'En una ejecución observada sin narración, Mateo hace un pase por arriba del hombro con salto usando la mano izquierda hacia una altura media. Suelta la pelota en el aire, pero se impulsa con el mismo pie izquierdo. ¿Qué falla observable y qué corrección corresponden?' },
       { options: [
-        { id: 'a', text: 'Ana: perfil izquierdo y nivel medio; Beto: perfil derecho y nivel superior; Carla: perfil derecho y nivel medio; Diego: perfil izquierdo y nivel superior' },
-        { id: 'b', text: 'Ana: perfil derecho y nivel superior; Beto: perfil izquierdo y nivel medio; Carla: perfil izquierdo y nivel superior; Diego: perfil derecho y nivel medio' },
-        { id: 'c', text: 'Ana y Carla: mismo perfil; Beto y Diego: mismo perfil; las cuatro ejecuciones alcanzan el mismo nivel' },
+        { id: 'a', text: 'El apoyo es del mismo lado; debe impulsarse con el pie derecho, contrario a la mano izquierda, y conservar el pase medio' },
+        { id: 'b', text: 'La liberación es tardía; debe esperar hasta tocar el suelo y luego pasar al pecho' },
+        { id: 'c', text: 'La mano izquierda es la falla; debe usar siempre la derecha para cualquier altura' },
       ], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:3.2.4'], prompt: 'Una polea escolar tiene la cuerda deshilachada. ¿Qué haces antes de usarla?' },
       { options: [

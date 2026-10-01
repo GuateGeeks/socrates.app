@@ -13,7 +13,7 @@ export default [
     icon: 'Drama',
     minutes: 15,
     gancho: 'Sin decir una sola palabra, ¿podrías hacer que tu familia adivine que eres un abuelito que camina contra el viento?',
-    objetivos: ['Usar postura, expresión, gestos, desplazamientos y danza para representar un cuento; organizar una representación en inicio, nudo y desenlace; elegir un papel y participar con confianza en una dramatización'],
+    objetivos: ['Representar corporalmente un cuento con una secuencia narrativa clara'],
     resumen: [
       'Para representar sin palabras usamos: postura (cómo está el cuerpo), expresión de la cara, gestos, desplazamientos y ritmo o danza.',
       'Cada personaje tiene su forma de moverse: un anciano camina lento; un niño corre y salta; el viento se mueve con giros.',
@@ -142,7 +142,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:2.2.5'], prompt: 'Boleto de salida: en una representación sin palabras, ¿qué muestra que un personaje tiene **mucho frío**?' },
+        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:2.2.5'], prompt: 'Boleto de salida: en una secuencia de lenguaje corporal sin palabras, ¿qué muestra que un personaje tiene **mucho frío**?' },
         { options: [
           { id: 'a', text: 'Encogerse, abrazarse y temblar' },
           { id: 'b', text: 'Abanicarse la cara' },
@@ -150,7 +150,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:2.2.3', 'l2:2.2.5'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:2.2.3', 'l2:2.2.5'], prompt: 'Comprueba la secuencia narrativa y el lenguaje corporal: ¿verdadero o falso?' },
         { statements: [
           { text: 'Solo participa en una dramatización quien actúa frente al público.', answer: false, why: 'La música, la escenografía y la narración también son formas de participar.' },
           { text: 'La danza puede expresar la alegría del final de un cuento.', answer: true },
@@ -167,7 +167,7 @@ export default [
     icon: 'MessagesSquare',
     minutes: 15,
     gancho: 'Dos compañeros piden un huerto escolar. Uno dice "¡Porque sí!". La otra da tres razones. ¿A quién le hará caso la directora?',
-    objetivos: ['Distinguir mensajes que informan, explican o buscan convencer; construir un mensaje argumentativo: opinión, razones y cierre; elegir información confiable que justifique tu opinión'],
+    objetivos: ['Construir un mensaje argumentativo con razones verificables'],
     resumen: [
       'Los mensajes tienen intenciones: informar (dar datos), explicar (decir cómo o por qué) y argumentar (convencer).',
       'Un mensaje argumentativo tiene: una opinión clara, razones que la apoyan y un cierre que invita a actuar.',
@@ -293,7 +293,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:3.3.4'], prompt: 'Quieres convencer a tu familia de **lavarse las manos antes de comer**. ¿Qué frase justifica mejor tu opinión?' },
+        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:3.3.4'], prompt: 'Quieres convencer a tu familia de **lavarse las manos antes de comer**. ¿Qué mensaje argumentativo justifica mejor tu opinión?' },
         { options: [
           { id: 'a', text: 'El personal de salud explica que lavarse las manos con agua y jabón elimina microbios que causan enfermedades.' },
           { id: 'b', text: 'Porque me dijeron que sí.' },

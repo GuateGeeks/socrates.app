@@ -14,7 +14,7 @@ export default [
     icon: 'Shield',
     minutes: 15,
     gancho: 'Muchas personas usan "VIH" y "SIDA" como si fueran lo mismo, y hay muchos mitos que lastiman a quienes viven con el virus. ¿Qué dice la ciencia?',
-    objetivos: ['Explicar qué hace el sistema inmunológico y cómo lo afecta el VIH; diferenciar el VIH del SIDA; distinguir las formas reales de transmisión de los mitos, para prevenir sin discriminar'],
+    objetivos: ['Explicar la relación entre VIH, defensas y SIDA sin discriminación'],
     resumen: [
       'El sistema inmunológico son las defensas del cuerpo: glóbulos blancos que combaten microbios.',
       'El VIH (Virus de Inmunodeficiencia Humana) es el virus que ataca y debilita esas defensas. El SIDA (Síndrome de Inmunodeficiencia Adquirida) es la etapa avanzada de la infección, cuando las defensas están tan bajas que aparecen otras enfermedades.',
@@ -162,7 +162,7 @@ export default [
     icon: 'Brain',
     minutes: 15,
     gancho: 'Una taza de café, un cigarro, una cerveza y una pastilla para dormir tomada sin receta. ¿Qué pueden tener en común?',
-    objetivos: ['Explicar qué es una droga y qué son la tolerancia y la dependencia; diferenciar los tipos de droga por su situación legal y por su efecto; relacionar el consumo de drogas con el contagio de algunas enfermedades'],
+    objetivos: ['Clasificar drogas por sus efectos, riesgos y situación legal'],
     resumen: [
       'Una droga es una sustancia que, al entrar al cuerpo, cambia el funcionamiento del sistema nervioso y puede causar dependencia (necesidad de seguir consumiéndola).',
       'Por su situación legal: legales (alcohol, tabaco, cafeína y algunos medicamentos que actúan sobre el sistema nervioso, como los tranquilizantes) e ilegales (marihuana, cocaína, entre otras). Que una droga sea legal no significa que sea inofensiva.',
@@ -302,7 +302,7 @@ export default [
     icon: 'Trophy',
     minutes: 15,
     gancho: 'Un partido de fútbol con amigos, ensayar con la marimba de la escuela, bailar en la feria del pueblo: ¿cómo pueden estas actividades protegerte de las drogas?',
-    objetivos: ['Identificar factores de riesgo y de protección frente al consumo de drogas; explicar cómo el deporte, el juego, la convivencia y la recreación favorecen una vida sana; practicar formas asertivas de decir que no y comunicar un mensaje de prevención'],
+    objetivos: ['Aplicar factores de protección y respuestas asertivas ante el consumo de drogas'],
     resumen: [
       'Los factores de protección (familia que escucha, amistades sanas, deporte, metas, buena autoestima) reducen el riesgo de consumir drogas; los factores de riesgo (presión de grupo, tiempo libre sin actividades, falta de información) lo aumentan.',
       'El deporte y el juego liberan en el cerebro sustancias naturales de bienestar, reducen el estrés, fortalecen la autoestima y crean amistades sanas.',
@@ -406,7 +406,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:4.2.1'], ambito: 'convivir', prompt: '¿Qué harías tú?' },
+        { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:4.2.1'], ambito: 'convivir', prompt: 'En una fiesta, un grupo te presiona para probar una sustancia. ¿Qué respuesta asertiva y qué factor de protección elegirías?' },
         { multiple: true, options: [
           { id: 'a', icon: 'Users', text: 'Ir para no quedar mal con el grupo', feedback: 'Ceder a la presión aumenta el riesgo.' },
           { id: 'b', icon: 'Hand', text: 'Decir "no, gracias" y proponer otra celebración' },

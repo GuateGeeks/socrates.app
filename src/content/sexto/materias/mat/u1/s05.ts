@@ -13,7 +13,7 @@ export default [
     icon: 'Thermometer',
     minutes: 14,
     gancho: 'En diciembre, en algunas madrugadas del altiplano, cae helada y el agua de las pilas amanece congelada. ¿Cómo se escribe una temperatura más fría que 0 °C?',
-    objetivos: ['Usar números positivos y negativos para representar situaciones de la vida diaria y calcular cambios de temperatura'],
+    objetivos: ['Resolver cambios de temperatura mediante números enteros positivos y negativos'],
     resumen: [
       'Los números negativos llevan el signo menos (−) y representan cantidades por debajo del cero: −3 °C se lee "tres grados bajo cero".',
       'Los positivos están por encima del cero (se puede escribir +5 o solo 5). El cero no es positivo ni negativo.',
@@ -149,7 +149,7 @@ export default [
     icon: 'MoveHorizontal',
     minutes: 13,
     gancho: 'Si acuestas un termómetro, se convierte en una recta numérica. ¿Dónde quedan los números negativos?',
-    objetivos: ['Ubicar números positivos y negativos en la recta numérica; comparar y ordenar números enteros; calcular distancias entre enteros en la recta'],
+    objetivos: ['Resolver comparaciones y distancias entre enteros en la recta numérica'],
     resumen: [
       'En la recta numérica, el 0 está en el centro; los positivos a la derecha y los negativos a la izquierda.',
       'Un número es mayor que otro si está más a la derecha. Por eso −2 > −7 y cualquier positivo es mayor que cualquier negativo.',
@@ -264,7 +264,7 @@ export default [
         ], correct: ['b'] },
       ),
       S.order(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.5.2'], prompt: 'Ordena de **menor a mayor**.' },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.5.2'], prompt: 'Ordena estos **números enteros** de menor a mayor.' },
         { items: [
           { id: 'a', text: '−10' },
           { id: 'b', text: '−5' },
@@ -274,7 +274,7 @@ export default [
         ], labels: { start: 'Menor', end: 'Mayor' } },
       ),
       S.number(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.5.2'], prompt: '¿Cuántos espacios hay en la recta entre **−6** y **4**?' },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.5.2'], prompt: '¿Qué distancia entre números enteros hay en la recta entre **−6** y **4**?' },
         { answer: 10 },
       ),
     ],
@@ -287,7 +287,7 @@ export default [
     icon: 'MapPin',
     minutes: 14,
     gancho: 'Para decirle a un amigo dónde enterraste un "tesoro" en el patio, ¿cuántos números necesitas?',
-    objetivos: ['Reconocer los ejes, el origen y los cuadrantes del plano cartesiano; ubicar e identificar puntos con pares ordenados (x, y), incluyendo negativos'],
+    objetivos: ['Ubicar puntos con pares ordenados en los cuatro cuadrantes del plano cartesiano'],
     resumen: [
       'El plano cartesiano tiene dos rectas numéricas: el eje x (horizontal) y el eje y (vertical). Se cruzan en el origen (0, 0).',
       'Un par ordenado (x, y) indica: primero cuánto moverse a la derecha (+) o a la izquierda (−); después, cuánto subir (+) o bajar (−).',
@@ -415,7 +415,7 @@ export default [
     icon: 'TrendingUp',
     minutes: 14,
     gancho: '2, 5, 11, 23… ¿Qué número sigue? Hay una regla escondida que combina dos operaciones.',
-    objetivos: ['Descubrir la regla de una serie que combina dos o tres operaciones; completar series aplicando la regla y comprobándola'],
+    objetivos: ['Completar series numéricas mediante reglas de operaciones combinadas'],
     resumen: [
       'Una serie numérica es una lista de números que sigue una regla.',
       'Regla combinada: a cada número se le aplican las mismas operaciones para obtener el siguiente (por ejemplo, ×2 y luego +1).',
@@ -530,7 +530,7 @@ export default [
     icon: 'Sparkles',
     minutes: 14,
     gancho: 'Si tú eres quien pone la regla, ¿qué serie inventarías para retar a tu familia?',
-    objetivos: ['Crear series numéricas con reglas que combinan dos o tres operaciones; describir con claridad la regla de una serie; repasar enteros y plano cartesiano'],
+    objetivos: ['Crear series numéricas con reglas combinadas verificables'],
     resumen: [
       'Para crear una serie: elige un número inicial, elige una regla de dos o tres operaciones, aplícala varias veces y comprueba cada cálculo.',
       'Describe la regla en orden: "×2, luego −3" no es lo mismo que "−3, luego ×2".',

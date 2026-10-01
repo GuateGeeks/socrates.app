@@ -14,7 +14,7 @@ export default [
     icon: 'ClipboardList',
     minutes: 15,
     gancho: 'Quieres saber cuántos estudiantes de tu escuela desayunan antes de venir. ¿Preguntarías uno por uno sin anotar nada? ¿Cómo lo harías para no olvidar ni confundirte?',
-    objetivos: ['Conocer la encuesta, la entrevista, la observación y la ficha de lectura; elegir la herramienta adecuada según lo que se quiere averiguar; registrar y organizar datos en una tabla de conteo'],
+    objetivos: ['Seleccionar herramientas de investigación social según la información buscada'],
     resumen: [
       'Encuesta: las mismas preguntas cerradas a muchas personas; sirve para contar y comparar.',
       'Entrevista: conversación con preguntas abiertas a una persona que sabe del tema; sirve para conocer experiencias y detalles.',
@@ -127,7 +127,7 @@ export default [
     icon: 'Wheat',
     minutes: 15,
     gancho: 'Hace miles de años no había milpas, ni aldeas, ni mercados. ¿Cómo conseguían su comida las primeras personas? ¿Qué cambió cuando alguien sembró la primera semilla?',
-    objetivos: ['Describir la forma de vida de las sociedades cazadoras y recolectoras; explicar cómo la agricultura transformó la vida humana; ordenar la evolución de las formas de vida en Mesoamérica'],
+    objetivos: ['Explicar la transformación de sociedades móviles en comunidades agrícolas sedentarias'],
     resumen: [
       'Durante la mayor parte de la historia, los seres humanos fueron cazadores y recolectores: nómadas, en grupos pequeños, con herramientas de piedra, hueso y madera, y el fuego.',
       'Con la agricultura, las personas se volvieron sedentarias: formaron aldeas, domesticaron plantas y animales, hicieron cerámica y guardaron excedentes.',
@@ -263,7 +263,7 @@ export default [
     icon: 'Sun',
     minutes: 15,
     gancho: 'Si hoy sabes que una hora tiene 60 minutos y que el año tiene 365 días, es gracias a pueblos que vivieron hace más de 5,000 años junto a unos ríos. ¿Cuáles?',
-    objetivos: ['Ubicar Mesopotamia y Egipto y explicar la importancia de sus ríos; identificar sus avances tecnológicos y agrícolas; organizar sus aportes en un esquema político, económico y cultural'],
+    objetivos: ['Comparar Mesopotamia y Egipto mediante sus ríos, organización y aportes'],
     resumen: [
       'Mesopotamia ("tierra entre ríos") se desarrolló entre los ríos Tigris y Éufrates, en el actual Irak. Egipto creció a lo largo del río Nilo, en el norte de África.',
       'Ambas controlaron el agua con canales y diques para regar sus cultivos de trigo y cebada. Las crecidas del Nilo dejaban cada año un limo fértil sobre los campos.',
@@ -366,7 +366,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.3.1'], prompt: '¿Por qué las crecidas del Nilo eran importantes para la agricultura egipcia?' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.3.1'], prompt: 'Al comparar Egipto con otras civilizaciones fluviales, ¿por qué las crecidas del Nilo eran importantes para la agricultura egipcia?' },
         { options: [
           { id: 'a', text: 'Porque dejaban un limo fértil sobre los campos' },
           { id: 'b', text: 'Porque destruían todos los cultivos cada año' },
