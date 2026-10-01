@@ -4,6 +4,9 @@ import { readFileSync } from 'node:fs';
 import { registerAll } from '../src/activities/index';
 import { getActivity } from '../src/core/registry';
 import { WEEKS } from '../src/content/index';
+import type { Lesson, StepBase } from '../src/core/types';
+import { MEDIA_ASSETS } from '../src/media/assets';
+import { mediaBacklogRows } from '../src/media/mockRegistry';
 
 registerAll();
 
@@ -3223,7 +3226,75 @@ test('Semana 6 asigna referencias CNB segun la operacion de conjuntos evaluada',
   assert.deepEqual(failures, []);
 });
 
-test('Semana 6 usa l2:4.1.2 solo cuando existe entrada auditiva real', () => {
+function exactAudioScript(step: StepBase): string | undefined {
+  if (step.media?.kind !== 'audio') return undefined;
+  return step.media.brief.match(/Texto exacto:\s*"([^"]+)"/i)?.[1];
+}
+
+function scoredListeningFailures(lesson: Lesson): string[] {
+  const failures: string[] = [];
+  for (const step of lesson.steps.filter((item) => item.cnb.includes('l2:4.1.2') && getActivity(item.type)?.graded)) {
+    if (step.media?.kind !== 'audio') {
+      failures.push(`${step.id}: evaluacion auditiva sin audio propio`);
+      continue;
+    }
+    const script = exactAudioScript(step);
+    if (!script) failures.push(`${step.id}: audio sin guion exacto`);
+    const props = step.props as {
+      text?: string;
+      options?: Array<{ id?: string; text?: string }>;
+      correct?: string[];
+    };
+    const assessedWords = step.type === 'fill-blank'
+      ? [...(props.text ?? '').matchAll(/\[\[([^\]]+)\]\]/g)].map((match) => match[1])
+      : (props.options ?? [])
+        .filter((option) => (props.correct ?? []).includes(option.id ?? ''))
+        .map((option) => option.text?.split(/[: (]/, 1)[0] ?? '');
+    const normalizedScript = normalizeFactText(script);
+    for (const word of assessedWords) {
+      if (!new RegExp(`(?:^| )${normalizeFactText(word)}(?: |$)`).test(normalizedScript)) {
+        failures.push(`${step.id}: el guion no contiene la respuesta auditiva ${word}`);
+      }
+    }
+    const visible = normalizeFactText(`${step.prompt} ${step.media.alt}`);
+    if (script && visible.includes(normalizeFactText(script))) failures.push(`${step.id}: consigna o texto alternativo revela el estimulo`);
+    const rawBrief = step.media.brief;
+    const brief = normalizeFactText(rawBrief);
+    for (const [label, pattern] of [
+      ['voz', /\bvoz\b/],
+      ['acento', /espanol de guatemala|acento guatemalteco/],
+      ['ritmo', /ritmo|pausad/],
+      ['silencio', /silencio|pausa/],
+      ['duracion', /duracion/],
+      ['politica de transcripcion', /transcripcion.{0,120}(?:despues de responder|docente|accesibilidad)/],
+      ['ruta de reemplazo', /public\/media\/[a-z0-9-]+\.mp3/i],
+    ] as const) {
+      if (!pattern.test(label === 'ruta de reemplazo' ? rawBrief : brief)) failures.push(`${step.id}: ficha sin ${label}`);
+    }
+  }
+  return failures;
+}
+
+test('La evidencia auditiva calificada exige audio propio y no acepta el audio general de la leccion', () => {
+  const audio = {
+    id: 'fixture-audio', kind: 'audio' as const, title: 'Estimulo auditivo', duration: 6,
+    alt: 'Audio de una oracion breve para identificar una palabra.',
+    brief: 'Audio MP3. Texto exacto: "Trae la taza azul." Voz adulta, acento guatemalteco, ritmo pausado; 2 s de silencio. Duracion: 6 s. Transcripcion disponible despues de responder o por mediacion docente para accesibilidad. Reemplazo: public/media/fixture-audio.mp3.',
+  };
+  const assessment: StepBase = {
+    id: 'fixture-step', type: 'choice', fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.2'],
+    prompt: 'Escucha y elige el objeto que se menciona.', media: audio,
+    props: { options: [{ id: 'a', text: 'taza' }, { id: 'b', text: 'casa' }], correct: ['a'] },
+  };
+  const baseLesson: Lesson = { id: 'fixture', title: 'Fixture', minutes: 1, steps: [assessment] };
+  assert.deepEqual(scoredListeningFailures(baseLesson), []);
+  assert.deepEqual(
+    scoredListeningFailures({ ...baseLesson, media: audio, steps: [{ ...assessment, media: undefined }] }),
+    ['fixture-step: evaluacion auditiva sin audio propio'],
+  );
+});
+
+test('Semana 6 usa estimulos auditivos especificos y honestamente registrados para cada evaluacion l2:4.1.2', () => {
   const l2Lessons = weekSix.lessons.filter((lesson) => lesson.area === 'l2');
   const weeklyAssessments = [
     ...weekSix.lessons.filter((lesson) => lesson.kind === 'reto').flatMap((lesson) => lesson.steps),
@@ -3231,12 +3302,7 @@ test('Semana 6 usa l2:4.1.2 solo cuando existe entrada auditiva real', () => {
   ].filter((step) => step.areas.includes('l2'));
   const failures: string[] = [];
   for (const lesson of l2Lessons) {
-    for (const step of lesson.steps.filter((item) => item.cnb.includes('l2:4.1.2'))) {
-      const text = normalizeFactText(JSON.stringify(step));
-      const hasAudio = step.media?.kind === 'audio' || lesson.media?.kind === 'audio';
-      const requiresHearing = /\b(?:audio|dictado|escucha|escuchas|escucho|oye|oyes|oiste|oir)\b/.test(text);
-      if (!hasAudio || !requiresHearing) failures.push(`${step.id}: l2:4.1.2 sin audio o escucha`);
-    }
+    failures.push(...scoredListeningFailures(lesson));
   }
   for (const step of weeklyAssessments) {
     const text = normalizeFactText(JSON.stringify(step));
@@ -3246,6 +3312,17 @@ test('Semana 6 usa l2:4.1.2 solo cuando existe entrada auditiva real', () => {
     }
     if (/r inicial|rr entre vocales|r suave|r fuerte/.test(text) && !hasAudio && !step.cnb.includes('l2:4.1.1')) {
       failures.push(`${step.id}: regla visual sin l2:4.1.1`);
+    }
+  }
+  const backlog = new Map(mediaBacklogRows().map((row) => [row.slot.id, row]));
+  for (const step of l2Lessons.flatMap((lesson) => lesson.steps)
+    .filter((item) => item.cnb.includes('l2:4.1.2') && getActivity(item.type)?.graded)) {
+    if (!step.media) continue;
+    const row = backlog.get(step.media.id);
+    if (!row) failures.push(`${step.id}: audio sin registro de backlog`);
+    else {
+      if (MEDIA_ASSETS[step.media.id] || row.replacement.produced) failures.push(`${step.id}: mock declarado como producido`);
+      if (row.replacement.fileTarget !== `public/media/${step.media.id}.mp3`) failures.push(`${step.id}: ruta de reemplazo inconsistente`);
     }
   }
   assert.deepEqual(failures, []);
