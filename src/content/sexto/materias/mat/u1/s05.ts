@@ -13,10 +13,7 @@ export default [
     icon: 'Thermometer',
     minutes: 14,
     gancho: 'En diciembre, en algunas madrugadas del altiplano, cae helada y el agua de las pilas amanece congelada. ¿Cómo se escribe una temperatura más fría que 0 °C?',
-    objetivos: [
-      'Usar números positivos y negativos para representar situaciones de la vida diaria',
-      'Leer temperaturas bajo cero y calcular subidas y bajadas de temperatura',
-    ],
+    objetivos: ['Usar números positivos y negativos para representar situaciones de la vida diaria y calcular cambios de temperatura'],
     resumen: [
       'Los números negativos llevan el signo menos (−) y representan cantidades por debajo del cero: −3 °C se lee "tres grados bajo cero".',
       'Los positivos están por encima del cero (se puede escribir +5 o solo 5). El cero no es positivo ni negativo.',
@@ -29,8 +26,13 @@ export default [
       brief: 'Ilustración de una madrugada fría en el altiplano guatemalteco: campo con escarcha blanca sobre la grama y las hojas de milpa, cerros y volcanes al fondo con cielo despejado rosado. En primer plano, un termómetro de pared grande y legible con escala de −10 °C a 30 °C y la línea marcando −3 °C; el 0 resaltado. Una niña abrigada con chumpa y gorro observa. Estilo cálido, sin marcas.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.5.1'], ambito: 'conocer',
+          prompt: 'Lee el termómetro como una recta vertical antes de comparar temperaturas.' },
+        { icon: 'Thermometer', body: 'El cero es el punto de referencia: arriba se escriben enteros positivos y abajo, enteros negativos. Por ejemplo, 3 grados bajo cero se representa con -3.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.5.1'], ambito: 'conocer',
           prompt: 'Supongamos que en una madrugada el termómetro marca **3 grados bajo cero**. ¿Cómo se escribe?',
           explain: 'Se escribe **−3 °C**. El signo menos indica que la temperatura está **por debajo del cero**.' },
         { options: [
@@ -147,11 +149,7 @@ export default [
     icon: 'MoveHorizontal',
     minutes: 13,
     gancho: 'Si acuestas un termómetro, se convierte en una recta numérica. ¿Dónde quedan los números negativos?',
-    objetivos: [
-      'Ubicar números positivos y negativos en la recta numérica',
-      'Comparar y ordenar números enteros',
-      'Calcular distancias entre enteros en la recta',
-    ],
+    objetivos: ['Ubicar números positivos y negativos en la recta numérica; comparar y ordenar números enteros; calcular distancias entre enteros en la recta'],
     resumen: [
       'En la recta numérica, el 0 está en el centro; los positivos a la derecha y los negativos a la izquierda.',
       'Un número es mayor que otro si está más a la derecha. Por eso −2 > −7 y cualquier positivo es mayor que cualquier negativo.',
@@ -164,8 +162,13 @@ export default [
       brief: 'Animación 2D de 30 s. Un termómetro vertical de −10 a 10 gira 90° en sentido horario hasta quedar acostado como recta numérica: negativos a la izquierda en azul, positivos a la derecha en naranja, el 0 resaltado al centro. Luego aparecen dos puntos, −4 y 4, con flechas iguales hacia el 0 y la palabra "opuestos". Termina con una flecha hacia la derecha y el texto "más a la derecha = mayor". Narración en español.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.5.2'], ambito: 'conocer',
+          prompt: 'Observa cómo se ordenan los enteros en una recta numérica.' },
+        { icon: 'MoveHorizontal', body: 'En la recta, los números aumentan hacia la derecha y disminuyen hacia la izquierda. Dos números opuestos, como -4 y 4, están a igual distancia del cero.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.5.2'], ambito: 'conocer',
           prompt: 'En una recta numérica, el 0 está en el centro y el 5 a la derecha. ¿Dónde crees que va el **−3**?',
           explain: 'Los negativos van a la **izquierda** del cero, como en un termómetro acostado.' },
         { options: [
@@ -284,10 +287,7 @@ export default [
     icon: 'MapPin',
     minutes: 14,
     gancho: 'Para decirle a un amigo dónde enterraste un "tesoro" en el patio, ¿cuántos números necesitas?',
-    objetivos: [
-      'Reconocer los ejes, el origen y los cuadrantes del plano cartesiano',
-      'Ubicar e identificar puntos con pares ordenados (x, y), incluyendo negativos',
-    ],
+    objetivos: ['Reconocer los ejes, el origen y los cuadrantes del plano cartesiano; ubicar e identificar puntos con pares ordenados (x, y), incluyendo negativos'],
     resumen: [
       'El plano cartesiano tiene dos rectas numéricas: el eje x (horizontal) y el eje y (vertical). Se cruzan en el origen (0, 0).',
       'Un par ordenado (x, y) indica: primero cuánto moverse a la derecha (+) o a la izquierda (−); después, cuánto subir (+) o bajar (−).',
@@ -300,8 +300,13 @@ export default [
       brief: 'Ilustración cenital de una aldea guatemalteca sobre una cuadrícula con ejes x e y numerados de −5 a 5 y el origen (0, 0) en la plaza central. Íconos grandes: escuela en (2, 3), mercado en (−3, 2), iglesia en (−2, −3), cancha en (4, −1), pozo en (0, −2). Caminos de tierra, árboles, colores suaves. Los cuatro cuadrantes rotulados con números romanos pequeños. Sin texto adicional.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.5.3'], ambito: 'conocer',
+          prompt: 'Aprende a leer un lugar mediante un par ordenado.' },
+        { icon: 'MapPin', body: 'Un punto se escribe (x, y): primero se avanza sobre el eje horizontal y luego sobre el vertical. El origen (0, 0) sirve como referencia común para ubicar espacios de la escuela.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.5.3'], ambito: 'conocer',
           prompt: 'Para decir exactamente dónde está tu escritorio en el aula, ¿qué información necesitas?',
           explain: 'Necesitas **dos datos**: la fila y la columna. En matemáticas, un punto del plano también se ubica con **dos números**.' },
         { options: [
@@ -410,10 +415,7 @@ export default [
     icon: 'TrendingUp',
     minutes: 14,
     gancho: '2, 5, 11, 23… ¿Qué número sigue? Hay una regla escondida que combina dos operaciones.',
-    objetivos: [
-      'Descubrir la regla de una serie que combina dos o tres operaciones',
-      'Completar series aplicando la regla y comprobándola',
-    ],
+    objetivos: ['Descubrir la regla de una serie que combina dos o tres operaciones; completar series aplicando la regla y comprobándola'],
     resumen: [
       'Una serie numérica es una lista de números que sigue una regla.',
       'Regla combinada: a cada número se le aplican las mismas operaciones para obtener el siguiente (por ejemplo, ×2 y luego +1).',
@@ -426,8 +428,13 @@ export default [
       brief: 'Animación 2D de 40 s con una máquina amigable de dos engranes rotulados "×2" y "+1". Un número entra por un embudo (2), pasa por el primer engrane (se ve 4) y por el segundo (sale 5). El 5 vuelve a entrar y sale 11; luego 23 y 47. Debajo se va formando la serie 2, 5, 11, 23, 47. Al final aparece otra máquina con engranes que se turnan "+4" y "−1". Narración en español, subtítulos.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['mat'], cnb: ['mat:2.1.1'], ambito: 'conocer',
+          prompt: 'Identifica la regla que transforma cada término de una serie.' },
+        { icon: 'ListOrdered', body: 'Una serie puede repetir una operación o alternar varias. Para descubrir la regla, compara cada término con el siguiente y comprueba que el mismo patrón continúa.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:2.1.1'], ambito: 'conocer',
           prompt: 'Observa la serie **3, 6, 12, 24, …** ¿Qué número sigue?',
           explain: 'Cada número es el **doble** del anterior: 24 × 2 = **48**. Hoy verás series con reglas de dos o tres operaciones.' },
         { options: [
@@ -523,11 +530,7 @@ export default [
     icon: 'Sparkles',
     minutes: 14,
     gancho: 'Si tú eres quien pone la regla, ¿qué serie inventarías para retar a tu familia?',
-    objetivos: [
-      'Crear series numéricas con reglas que combinan dos o tres operaciones',
-      'Describir con claridad la regla de una serie',
-      'Repasar enteros y plano cartesiano',
-    ],
+    objetivos: ['Crear series numéricas con reglas que combinan dos o tres operaciones; describir con claridad la regla de una serie; repasar enteros y plano cartesiano'],
     resumen: [
       'Para crear una serie: elige un número inicial, elige una regla de dos o tres operaciones, aplícala varias veces y comprueba cada cálculo.',
       'Describe la regla en orden: "×2, luego −3" no es lo mismo que "−3, luego ×2".',
@@ -540,8 +543,13 @@ export default [
       brief: 'Ilustración cálida de una cocina guatemalteca con poyo y comal. Una niña de 11 años escribe en un pizarrón pequeño "4, 5, 7, 11, 19, ?" y esconde la regla en un papelito doblado. Su abuelo y su hermano menor piensan con expresión divertida. Estilo plano, colores cálidos, sin marcas.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['mat'], cnb: ['mat:2.1.2'], ambito: 'conocer',
+          prompt: 'Diseña una serie cuya regla pueda comprobar otra persona.' },
+        { icon: 'ListPlus', body: 'Una serie bien construida tiene un inicio, una regla explícita y suficientes términos para verificarla. Si alterna operaciones, conviene escribir el ciclo completo antes de calcular.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:2.1.2'], ambito: 'conocer',
           prompt: 'Empiezas en **2** y tu regla es "**×3, luego −1**". ¿Cuál es el **segundo** número de tu serie?',
           explain: '2 × 3 = 6 y 6 − 1 = **5**. Tu serie empieza 2, 5, … ¡Ya estás creando!' },
         { options: [

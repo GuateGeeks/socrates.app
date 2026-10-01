@@ -13,12 +13,8 @@ export default [
     title: 'Texturas que se tocan y texturas que se ven',
     icon: 'Hand',
     minutes: 14,
-    gancho: 'Cierra los ojos y toca tu mesa, tu ropa, una hoja de árbol y una piedra. ¿Podrías saber qué es cada cosa solo con las manos?',
-    objetivos: [
-      'Explicar qué es una textura y distinguir entre textura táctil y textura visual',
-      'Describir texturas con palabras precisas (rugosa, lisa, suave, áspera…)',
-      'Capturar texturas del entorno con la técnica del frotado',
-    ],
+    gancho: 'Compara al tacto tu mesa, tu ropa, una hoja de árbol y una piedra. ¿Qué palabras distinguen mejor sus superficies?',
+    objetivos: ['Distinguir y comunicar texturas táctiles y visuales mediante vocabulario preciso y la técnica del frotado'],
     resumen: [
       'La textura es cómo se siente o cómo parece que se siente una superficie.',
       'Textura táctil: la que se percibe al tocar (la corteza de un árbol, un petate). Textura visual: la que se ve en una imagen plana pero no se siente al tocarla (una foto de una piedra).',
@@ -32,8 +28,13 @@ export default [
       brief: 'Mosaico fotográfico 3×3, fotos macro con luz lateral que resalte el relieve: corteza de pino, petate de palma o tule, tejido de güipil (detalle de hilos, sin identificar comunidad concreta), piedra de río lisa, hoja de milpa seca, arena volcánica negra, ladrillo, mota de algodón, barro cocido. Cada foto con una etiqueta pequeña con su nombre. Sin personas ni marcas.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.1'], ambito: 'conocer',
+          prompt: 'Compara textura real y textura visual antes de crear un registro.' },
+        { icon: 'Hand', body: 'La textura táctil se percibe al tocar una superficie; la visual se representa con líneas, puntos y contraste. Un frotado transfiere al papel el relieve de una superficie segura.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.1'], ambito: 'conocer',
           prompt: 'Observa el mosaico. Si pasaras la mano por cada foto **impresa en papel**, ¿qué sentirías?',
           explain: 'En el papel todo se siente **liso**: la foto solo **muestra** la textura. A eso le llamamos **textura visual**. La textura que se siente de verdad al tocar es **táctil**.' },
         { options: [
@@ -163,14 +164,10 @@ export default [
     title: 'Arte para leer con las manos: el mapa táctil',
     icon: 'Map',
     minutes: 15,
-    gancho: 'Una compañera ciega quiere conocer el mapa de tu comunidad. No puede ver los colores… pero sí puede sentir. ¿Cómo le mostrarías dónde está el río, la escuela y el mercado?',
-    objetivos: [
-      'Explicar por qué las texturas hacen el arte accesible para personas con discapacidad visual',
-      'Elegir texturas del entorno que se distingan bien al tacto para representar lugares',
-      'Planificar un mapa táctil seguro, con leyenda de texturas',
-    ],
+    gancho: 'Una compañera ciega participa en el diseño de un mapa de la escuela. ¿Cómo pueden el relieve, la textura, el contraste y sus observaciones orientar el trabajo?',
+    objetivos: ['Planificar un mapa táctil seguro con texturas contrastantes, leyenda y revisión de personas usuarias'],
     resumen: [
-      'Las personas con discapacidad visual (ciegas o con baja visión) conocen el mundo sobre todo con el tacto y el oído. Las texturas les permiten "leer" imágenes.',
+      'Las personas ciegas y con baja visión usan estrategias y apoyos diversos. Algunos mapas táctiles combinan relieve, textura, contraste y rótulos; se consulta a quienes los usarán.',
       'Un mapa táctil representa cada lugar con una textura distinta: por ejemplo, arena para la tierra, papel aluminio liso para el agua, algodón para las nubes, hojas secas para el bosque.',
       'Reglas: pocas texturas y muy distintas entre sí, bordes marcados con lana o hilo pegado, leyenda táctil (una muestra de cada textura con su significado) y nada que corte, pinche o se despegue.',
       'El sistema braille, inventado por el francés Louis Braille, permite leer con los dedos mediante puntos en relieve, en celdas de hasta 6 puntos.',
@@ -181,12 +178,17 @@ export default [
       brief: 'Fotografía o ilustración realista de un mapa táctil escolar sobre cartón grueso: un río con papel aluminio alisado (liso), la tierra con arena pegada (granulosa), un bosque con hojas secas trituradas (crujiente), el campo de fútbol con fieltro (suave), las calles marcadas con lana gruesa pegada, la escuela con un cuadrito de cartón corrugado (ondulado). En el lado derecho, una leyenda con una muestra de cada textura y puntos en relieve simulando braille. Encuadre cenital con dos manos de niña o niño explorando. Sin rostros.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.1'], ambito: 'conocer',
+          prompt: 'Aprende cómo textura y contraste comunican en un mapa táctil.' },
+        { icon: 'Map', body: 'Una clave táctil asigna una textura distinta a cada tipo de lugar y mantiene ese código en todo el mapa. El contraste visual apoya a personas con visión parcial; la utilidad se comprueba consultando y probando con posibles usuarios.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.1'], ambito: 'convivir',
-          prompt: 'Para que una persona ciega "lea" un mapa, ¿qué necesita el mapa?',
-          explain: 'Necesita **relieve y texturas distintas** que se puedan sentir con los dedos. Los colores no le sirven a quien no ve, pero las texturas sí.' },
+        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.1'], ambito: 'convivir',
+          prompt: 'Una usuaria ciega pidió distinguir dos zonas vecinas al tacto. ¿Qué cambio responde a esa consulta?',
+          explain: 'El **relieve y las texturas distintas** pueden comunicar límites cuando responden a una necesidad consultada y se prueban con personas usuarias.' },
         { options: [
-          { id: 'a', text: 'Colores muy brillantes', icon: 'Palette', feedback: 'Los colores ayudan a personas con baja visión, pero una persona ciega no los percibe.' },
+          { id: 'a', text: 'Usar solamente dos colores brillantes', icon: 'Palette', feedback: 'El contraste puede ayudar a algunas personas con baja visión, pero no responde por sí solo a la necesidad táctil expresada.' },
           { id: 'b', text: 'Texturas y relieves que se sientan con los dedos', icon: 'Hand' },
           { id: 'c', text: 'Letras más pequeñas para que quepa todo', icon: 'Type', feedback: 'Las letras impresas no se sienten al tacto.' },
         ], correct: ['b'] },
@@ -194,11 +196,11 @@ export default [
       S.explain(
         { fase: 'construir', areas: ['art'], cnb: ['art:3.2.1'], ambito: 'convivir', title: 'Ver con las manos',
           prompt: 'En tu comunidad hay personas con **discapacidad visual**: algunas son **ciegas** y otras tienen **baja visión**. Toca cada tarjeta para conocer cómo el arte puede incluirlas.' },
-        { icon: 'HandHeart', body: 'Un arte **accesible** es un arte pensado para que **todas las personas** puedan disfrutarlo. Las texturas son una gran herramienta para lograrlo.', reveal: [
+        { icon: 'HandHeart', body: 'Una obra puede reducir algunas barreras cuando ofrece más de una forma de percibirla y se revisa con sus posibles usuarios. Ningún recurso aislado garantiza acceso para todas las personas.', reveal: [
           { icon: 'Hand', front: 'El tacto', back: 'Las yemas de los dedos son muy sensibles: distinguen lo liso de lo rugoso, lo blando de lo duro y hasta puntitos muy pequeños.' },
           { icon: 'CircleDot', front: 'El braille', back: 'Es un sistema de lectura con **puntos en relieve**, en celdas de hasta **6 puntos**. Lo inventó el francés **Louis Braille**, que era ciego, cuando era joven.' },
-          { icon: 'Map', front: 'Mapas y láminas táctiles', back: 'Representan lugares y formas con **relieve y texturas**. Así una persona ciega puede conocer su escuela, su país o una obra de arte.' },
-          { icon: 'MessageCircle', front: 'Pregunta y escucha', back: 'La mejor forma de saber si tu obra es accesible es **preguntar** a una persona con discapacidad visual qué le funciona.' },
+          { icon: 'Map', front: 'Mapas y láminas táctiles', back: 'Representan lugares y formas con **relieve y texturas**; su utilidad depende del propósito, el diseño y la prueba con usuarios.' },
+          { icon: 'MessageCircle', front: 'Pregunta, prueba y revisa', back: 'Consulta a personas con discapacidad visual, solicita su consentimiento para probar el prototipo y cambia lo que no funcione.' },
         ] },
       ),
       S.explain(
@@ -224,12 +226,12 @@ export default [
             { text: '**Caminos → lana gruesa pegada** en línea. Luego arman la **leyenda** con una muestra de cada material.' },
           ],
           answer: 'Cinco texturas **bien distintas** (liso, granuloso, crujiente, suave y línea en relieve) y una **leyenda táctil**.',
-          tip: 'Prueba tu mapa con los ojos cerrados: si tú te confundes, otra persona también.' },
+          tip: 'Compara cada muestra al tacto y luego solicita una prueba con consentimiento: tu experiencia no reemplaza la de otra persona.' },
       ),
       S.sort(
         { fase: 'construir', areas: ['art'], cnb: ['art:3.2.1'], ambito: 'hacer',
           prompt: 'Clasifica estos materiales de tu entorno según la textura que ofrecen al tacto.',
-          hint: 'Imagina que los tocas con los ojos cerrados. ¿Raspan, resbalan o se hunden?',
+          hint: 'Compara las muestras directamente: ¿raspan, resbalan o se hunden?',
           explain: 'Tener materiales de los tres grupos te permite hacer un mapa con texturas bien distintas.' },
         { buckets: [
           { id: 'rug', label: 'Rugosa o áspera', icon: 'Mountain', color: 'var(--area-art)' },
@@ -267,12 +269,12 @@ export default [
       S.project(
         { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.1'], ambito: 'convivir',
           prompt: '**En casa:** crea un **mapa táctil** de tu cuarto, tu casa o el camino a tu escuela.' },
-        { goal: 'Hacer un mapa sencillo con 4 a 5 texturas de tu entorno que se pueda "leer" con los ojos cerrados.',
+        { goal: 'Hacer un prototipo sencillo con 4 a 5 texturas, una leyenda y un plan de prueba con personas usuarias.',
           steps: [
             { title: 'Dibuja el plano', detail: 'En un cartón (de una caja), dibuja a lápiz los lugares principales: por ejemplo, tu casa, la calle, la tienda y un árbol.' },
             { title: 'Elige texturas', detail: 'Busca en tu entorno materiales seguros y bien distintos: arena, hojas secas, tela, papel aluminio, cartón corrugado, lana.' },
             { title: 'Pega y marca', detail: 'Pega cada textura con goma blanca. Marca los caminos con lana o pita. Deja secar bien.' },
-            { title: 'Leyenda y prueba', detail: 'Arma la leyenda táctil en un costado. Pide a alguien que, con los ojos vendados, encuentre la tienda siguiendo el camino.' },
+            { title: 'Leyenda y prueba', detail: 'Arma la leyenda táctil. Consulta a una persona que podría usar el mapa y, si acepta, pídele realizar una tarea; registra sus observaciones y reconoce que su experiencia es propia.' },
           ],
           evidence: 'Tu mapa táctil y una nota sobre qué tan fácil fue para la otra persona recorrerlo.',
           rubric: ['Usé de 4 a 5 texturas bien distintas', 'Marqué caminos con relieve', 'Hice una leyenda táctil', 'Mi mapa es seguro y no se despega'] },
@@ -296,7 +298,7 @@ export default [
       ),
       cierre({ areas: ['art'], cnb: ['art:3.2.1'] },
         ['Distingo texturas táctiles y visuales', 'Describo texturas con palabras precisas', 'Elijo texturas distintas y seguras para un mapa táctil'],
-        ['Haré mi cacería de texturas', 'Construiré mi mapa táctil y lo probaré con alguien', 'Pensaré en cómo hacer mis obras accesibles para todas las personas']),
+        ['Haré mi cacería de texturas', 'Probaré mi mapa con consentimiento y escucharé la opinión de la persona usuaria', 'Identificaré qué barreras no resuelve mi obra']),
     ],
   }),
 ];

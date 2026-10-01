@@ -12,13 +12,9 @@ export default [
     id: 's05-cnt-1',
     title: 'VIH y SIDA: conocer para prevenir y no discriminar',
     icon: 'Shield',
-    minutes: 15,
+    minutes: 16,
     gancho: 'Muchas personas usan "VIH" y "SIDA" como si fueran lo mismo, y hay muchos mitos que lastiman a quienes viven con el virus. ¿Qué dice la ciencia?',
-    objetivos: [
-      'Explicar qué hace el sistema inmunológico y cómo lo afecta el VIH',
-      'Diferenciar el VIH del SIDA',
-      'Distinguir las formas reales de transmisión de los mitos, para prevenir sin discriminar',
-    ],
+    objetivos: ['Explicar qué hace el sistema inmunológico y cómo lo afecta el VIH; diferenciar el VIH del SIDA; distinguir las formas reales de transmisión de los mitos, para prevenir sin discriminar'],
     resumen: [
       'El sistema inmunológico son las defensas del cuerpo: glóbulos blancos que combaten microbios.',
       'El VIH (Virus de Inmunodeficiencia Humana) es el virus que ataca y debilita esas defensas. El SIDA (Síndrome de Inmunodeficiencia Adquirida) es la etapa avanzada de la infección, cuando las defensas están tan bajas que aparecen otras enfermedades.',
@@ -31,8 +27,13 @@ export default [
       brief: 'Animación 2D de 50 s, estilo amable (sin sangre ni escenas de enfermedad grave). (1) Glóbulos blancos dibujados como guardianes redondos patrullan la sangre y vencen microbios de colores. (2) Llega el VIH (esfera con puntitos) y entra en algunos guardianes; un contador muestra que su número baja lentamente durante "años". (3) Rótulo "VIH = el virus". (4) Si no hay tratamiento, los guardianes son tan pocos que otros microbios avanzan: rótulo "SIDA = etapa avanzada". (5) Escena alternativa: una persona toma su medicamento diario (pastilla), el virus se frena y los guardianes se recuperan: "Con tratamiento, se puede vivir muchos años". Narración en español con subtítulos.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:3.5.1'], ambito: 'conocer',
+          prompt: 'Diferencia el virus, la infección y la etapa avanzada antes de analizar casos.' },
+        { icon: 'ShieldCheck', body: 'El VIH afecta el sistema de defensas; el SIDA es una etapa avanzada que puede prevenirse con diagnóstico y tratamiento. La convivencia cotidiana no transmite el VIH y nunca justifica discriminar.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.5.1'], ambito: 'conocer',
           prompt: '¿Qué crees? **VIH** y **SIDA**, ¿son lo mismo?',
           explain: 'No son lo mismo. El **VIH** es un **virus**; el **SIDA** es la **etapa avanzada** de la infección. Una persona puede tener VIH durante muchos años sin llegar al SIDA, sobre todo si recibe tratamiento.' },
         { options: [
@@ -171,13 +172,9 @@ export default [
     id: 's05-cnt-2',
     title: 'Las drogas: qué son y qué tipos hay',
     icon: 'Brain',
-    minutes: 15,
+    minutes: 16,
     gancho: 'Una taza de café, un cigarro, una cerveza y una pastilla para dormir tomada sin receta. ¿Qué pueden tener en común?',
-    objetivos: [
-      'Explicar qué es una droga y qué son la tolerancia y la dependencia',
-      'Diferenciar los tipos de droga por su situación legal y por su efecto',
-      'Relacionar el consumo de drogas con el contagio de algunas enfermedades',
-    ],
+    objetivos: ['Explicar qué es una droga y qué son la tolerancia y la dependencia; diferenciar los tipos de droga por su situación legal y por su efecto; relacionar el consumo de drogas con el contagio de algunas enfermedades'],
     resumen: [
       'Una droga es una sustancia que, al entrar al cuerpo, cambia el funcionamiento del sistema nervioso y puede causar dependencia (necesidad de seguir consumiéndola).',
       'Por su situación legal: legales (alcohol, tabaco, cafeína y algunos medicamentos que actúan sobre el sistema nervioso, como los tranquilizantes) e ilegales (marihuana, cocaína, entre otras). Que una droga sea legal no significa que sea inofensiva.',
@@ -190,8 +187,13 @@ export default [
       brief: 'Infografía de tres paneles con un cerebro esquemático y un velocímetro encima. Panel 1 "Depresoras": aguja hacia la zona lenta (azul); ejemplos en texto: alcohol, inhalantes (pegamentos, solventes). Panel 2 "Estimulantes": aguja hacia la zona rápida (rojo); ejemplos: nicotina del tabaco, cafeína, cocaína. Panel 3 "Perturbadoras o alucinógenas": aguja que gira y colores distorsionados; ejemplos: marihuana, alucinógenos. NO mostrar sustancias, cigarros, jeringas ni personas consumiendo; solo íconos neutros y texto. Colores planos.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:4.1.1'], ambito: 'conocer',
+          prompt: 'Clasifica las sustancias por su efecto, no solo por su condición legal.' },
+        { icon: 'Brain', body: 'Una droga altera funciones del organismo y puede ser depresora, estimulante o perturbadora del sistema nervioso. Que una sustancia sea legal no significa que carezca de riesgos.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:4.1.1'], ambito: 'conocer',
           prompt: 'El café, un cigarro, una cerveza y una pastilla para dormir tomada sin receta, ¿qué tienen en común?',
           explain: 'Todos contienen sustancias que **cambian cómo funciona el cerebro** y el cuerpo: son **drogas**, aunque sean muy distintas en su efecto y en su peligro.' },
         { options: [
@@ -335,13 +337,9 @@ export default [
     id: 's05-cnt-3',
     title: 'Una vida sana libre de drogas',
     icon: 'Trophy',
-    minutes: 16,
+    minutes: 17,
     gancho: 'Un partido de fútbol con amigos, ensayar con la marimba de la escuela, bailar en la feria del pueblo: ¿cómo pueden estas actividades protegerte de las drogas?',
-    objetivos: [
-      'Identificar factores de riesgo y de protección frente al consumo de drogas',
-      'Explicar cómo el deporte, el juego, la convivencia y la recreación favorecen una vida sana',
-      'Practicar formas asertivas de decir que no y comunicar un mensaje de prevención',
-    ],
+    objetivos: ['Identificar factores de riesgo y de protección frente al consumo de drogas; explicar cómo el deporte, el juego, la convivencia y la recreación favorecen una vida sana; practicar formas asertivas de decir que no y comunicar un mensaje de prevención'],
     resumen: [
       'Los factores de protección (familia que escucha, amistades sanas, deporte, metas, buena autoestima) reducen el riesgo de consumir drogas; los factores de riesgo (presión de grupo, tiempo libre sin actividades, falta de información) lo aumentan.',
       'El deporte y el juego liberan en el cerebro sustancias naturales de bienestar, reducen el estrés, fortalecen la autoestima y crean amistades sanas.',
@@ -353,8 +351,13 @@ export default [
       brief: 'Video de 45 s con escenas cortas (actores o animación, sin marcas ni personas identificables sin permiso): partido de fútbol en cancha de tierra de una aldea; niñas y niños tocando marimba; baile folclórico en una feria; lectura en la biblioteca municipal; huerto escolar; grupo de scouts o club de ciencias. Texto en pantalla: "Deporte", "Música", "Amistad", "Aprender", "Naturaleza". Cierre: "Vivo sano, vivo libre". Música alegre de marimba, narración en español con subtítulos. No mostrar drogas ni consumo.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:4.2.1'], ambito: 'conocer',
+          prompt: 'Compara factores de riesgo y de protección en decisiones cotidianas.' },
+        { icon: 'HeartHandshake', body: 'Un factor de riesgo aumenta la posibilidad de daño; uno de protección ayuda a reducirla. Redes de apoyo, información confiable y actividades saludables fortalecen decisiones libres de drogas.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:4.2.1'], ambito: 'ser',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:4.2.1'], ambito: 'ser',
           prompt: '¿Por qué crees que algunos jóvenes prueban drogas? Elige **todas** las razones que te parezcan reales.',
           explain: 'La curiosidad, la presión del grupo y los problemas emocionales son razones frecuentes. Las drogas **no** mejoran el rendimiento: lo empeoran. Hoy verás qué **protege** a los jóvenes.' },
         { multiple: true, options: [

@@ -11,13 +11,9 @@ export default [
     id: 's05-l2-1',
     title: 'Contamos un cuento con el cuerpo',
     icon: 'Drama',
-    minutes: 14,
+    minutes: 15,
     gancho: 'Sin decir una sola palabra, ¿podrías hacer que tu familia adivine que eres un abuelito que camina contra el viento?',
-    objetivos: [
-      'Usar postura, expresión, gestos, desplazamientos y danza para representar un cuento',
-      'Organizar una representación en inicio, nudo y desenlace',
-      'Elegir un papel y participar con confianza en una dramatización',
-    ],
+    objetivos: ['Usar postura, expresión, gestos, desplazamientos y danza para representar un cuento; organizar una representación en inicio, nudo y desenlace; elegir un papel y participar con confianza en una dramatización'],
     resumen: [
       'Para representar sin palabras usamos: postura (cómo está el cuerpo), expresión de la cara, gestos, desplazamientos y ritmo o danza.',
       'Cada personaje tiene su forma de moverse: un anciano camina lento; un niño corre y salta; el viento se mueve con giros.',
@@ -30,8 +26,13 @@ export default [
       brief: 'Video de 60 s en un patio escolar o salón comunal. Tres estudiantes (dos niñas y un niño) representan sin hablar "El sombrero de don Chepe". Inicio: el niño, encorvado y con bastón, camina lento y feliz tocándose un sombrero de palma. Nudo: una niña hace de viento (giros con los brazos abiertos, pasos rápidos); el sombrero "vuela" (se lo quita y lo pasa); don Chepe lo persigue con cara de angustia; el sombrero cae al río (tela azul en el suelo). Desenlace: otra niña con una vara lo pesca y se lo devuelve; los tres bailan unos pasos sencillos de son al ritmo de una marimba suave (música sin derechos o grabada para el proyecto). Cámara fija, plano general, subtítulos "Inicio – Nudo – Desenlace".',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['l2'], cnb: ['l2:2.2.5'], ambito: 'conocer',
+          prompt: 'Lee postura, gesto y movimiento como partes de un relato.' },
+        { icon: 'PersonStanding', body: 'El lenguaje corporal comunica sin palabras: la postura muestra actitud, el gesto expresa emoción y el movimiento organiza acciones. Una secuencia clara permite reconocer inicio, problema y desenlace.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:2.2.5'], ambito: 'conocer',
           prompt: 'Sin palabras, quieres mostrar que eres un **abuelito cansado**. ¿Qué harías con tu cuerpo?',
           explain: 'La **postura** (encorvado) y el **ritmo** (lento) bastan para que todos entiendan quién eres. Hoy aprenderás a contar un cuento completo con el cuerpo.' },
         { options: [
@@ -166,11 +167,7 @@ export default [
     icon: 'MessagesSquare',
     minutes: 15,
     gancho: 'Dos compañeros piden un huerto escolar. Uno dice "¡Porque sí!". La otra da tres razones. ¿A quién le hará caso la directora?',
-    objetivos: [
-      'Distinguir mensajes que informan, explican o buscan convencer',
-      'Construir un mensaje argumentativo: opinión, razones y cierre',
-      'Elegir información confiable que justifique tu opinión',
-    ],
+    objetivos: ['Distinguir mensajes que informan, explican o buscan convencer; construir un mensaje argumentativo: opinión, razones y cierre; elegir información confiable que justifique tu opinión'],
     resumen: [
       'Los mensajes tienen intenciones: informar (dar datos), explicar (decir cómo o por qué) y argumentar (convencer).',
       'Un mensaje argumentativo tiene: una opinión clara, razones que la apoyan y un cierre que invita a actuar.',
@@ -183,8 +180,13 @@ export default [
       brief: 'Animación 2D de 45 s. Una niña y un niño frente a la directora de una escuela guatemalteca (sin logotipos). El niño dice "¡Queremos un huerto porque sí!" y su frase cae como una pluma en un plato de una balanza, que casi no se mueve. La niña dice "Queremos un huerto" y deja caer tres bloques: "Aprenderíamos ciencias haciendo", "Tendríamos hierbas para la refacción", "El terreno de atrás está sin usar". La balanza se inclina hacia su lado. Texto final: "Opinión + razones + cierre". Narración en español de Guatemala, subtítulos.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.2'], ambito: 'conocer',
+          prompt: 'Distingue una opinión de las razones que pueden sostenerla.' },
+        { icon: 'Scale', body: 'Un mensaje persuasivo presenta una postura y razones pertinentes. Para proponer una mejora escolar, conviene explicar qué barrera existe, a quién afecta y cómo la propuesta ayudaría.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.2'], ambito: 'conocer',
           prompt: 'Dos compañeros le piden a la directora un huerto escolar. ¿Qué mensaje la **convencerá** más?',
           explain: 'Las **razones** dan fuerza a una opinión. Hoy aprenderás a construir mensajes que convencen y a justificar lo que dices.' },
         { options: [

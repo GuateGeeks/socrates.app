@@ -16,11 +16,7 @@ export default [
     icon: 'Palette',
     minutes: 14,
     gancho: '"Un güipil" o "un güipil rojo, antiguo y suave como la tortilla recién hecha": ¿cuál puedes imaginar mejor?',
-    objetivos: [
-      'Distinguir las palabras que solo nombran de las que dicen cómo es algo',
-      'Reconocer palabras connotativas (adjetivos calificativos) en un texto',
-      'Usar palabras connotativas para que una descripción sea más precisa',
-    ],
+    objetivos: ['Distinguir las palabras que solo nombran de las que dicen cómo es algo; reconocer palabras connotativas (adjetivos calificativos) en un texto; usar palabras connotativas para que una descripción sea más precisa'],
     resumen: [
       'Hay palabras que nombran sin caracterizar: güipil, telar, abuela. Se llaman no connotativas.',
       'Las palabras connotativas señalan las particularidades de lo nombrado: cómo es, de qué color, qué forma, qué textura. Son los adjetivos calificativos: rojo, antiguo, suave.',
@@ -33,8 +29,13 @@ export default [
       brief: 'Ilustración cálida estilo libro de texto: un güipil tejido a mano, con franjas rojas, pájaros y rombos bordados, extendido sobre una mesa de madera junto a una canasta con hilos de colores. Etiquetas en dos colores: en gris, palabras que nombran (güipil, mesa, hilos, canasta); en naranja, palabras que caracterizan (rojo, antiguo, suave, brillante, bordado), cada una con una flecha hacia la parte del objeto. Sin diseños de un pueblo específico copiados de fotos reales; motivo genérico y respetuoso.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.2.2'], ambito: 'conocer',
+          prompt: 'Distingue las palabras que nombran de las que caracterizan.' },
+        { icon: 'Tags', body: 'El sustantivo nombra personas, lugares, animales u objetos; el adjetivo expresa una característica del sustantivo. En "pasillo amplio", pasillo nombra y amplio caracteriza.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.2.2'], ambito: 'conocer',
           prompt: 'Doña Rosa perdió su morral en el mercado y lo describe a una vendedora. ¿Qué descripción ayuda **más** a encontrarlo?',
           explain: 'La segunda descripción dice **cómo es** el morral: color, material, tamaño y un detalle especial. Esas palabras que caracterizan son el tema de hoy.' },
         { options: [
@@ -162,11 +163,7 @@ export default [
     icon: 'Pointer',
     minutes: 13,
     gancho: 'Si alguien te dice "pásame ese", ¿sabes cómo es el objeto? No… pero sí sabes cuál es.',
-    objetivos: [
-      'Reconocer palabras no connotativas que acompañan al sustantivo: artículos, demostrativos, posesivos, numerales e indefinidos',
-      'Diferenciarlas de las palabras connotativas',
-      'Combinar ambos tipos para escribir con precisión',
-    ],
+    objetivos: ['Reconocer palabras no connotativas que acompañan al sustantivo: artículos, demostrativos, posesivos, numerales e indefinidos; diferenciarlas de las palabras connotativas; combinar ambos tipos para escribir con precisión'],
     resumen: [
       'Algunas palabras acompañan al sustantivo sin decir cómo es: lo presentan (el, una), lo señalan (este, ese, aquel), dicen de quién es (mi, tu, su, nuestro), cuántos son (dos, tercer) o una cantidad imprecisa (algunos, muchos, pocos).',
       'Estas palabras son no connotativas (adjetivos determinativos): identifican al objeto, pero no lo caracterizan.',
@@ -178,8 +175,13 @@ export default [
       brief: 'Animación 2D de 40 s. Patio de casa rural con pila. Una niña señala tres cántaros a distinta distancia; aparece la palabra "este" junto al que está a su lado, "ese" junto al que está cerca de su hermano y "aquel" junto al lejano. Luego aparecen etiquetas "mi cántaro", "dos cántaros", "algunos cántaros". Cierra con el texto: "Estas palabras señalan, cuentan o dicen de quién es… pero no dicen cómo es". Narración en español, subtítulos.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.2.2'], ambito: 'conocer',
+          prompt: 'Reconoce qué información aportan las palabras que acompañan al sustantivo.' },
+        { icon: 'MousePointer2', body: 'Los determinantes pueden señalar (este), indicar cantidad (tres) o posesión (nuestro). Acompañan al sustantivo y concuerdan con él: estas rutas, dos entradas, nuestra escuela.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.2.2'], ambito: 'conocer',
           prompt: 'Tu mamá dice: "**Trae aquella** canasta". ¿Qué información te da la palabra **aquella**?',
           explain: '"Aquella" no dice si la canasta es grande o pequeña, nueva o vieja: solo **señala** cuál es (la que está lejos). Es una palabra no connotativa.' },
         { options: [
@@ -215,7 +217,8 @@ export default [
       ),
       S.sort(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:5.2.2'], prompt: 'Clasifica la palabra destacada en cada expresión.',
-          hint: 'Pregunta: ¿responde a "cómo es"? → connotativa. ¿Responde a "cuál, cuántos o de quién"? → no connotativa.' },
+          hint: 'Pregunta: ¿responde a "cómo es"? → connotativa. ¿Responde a "cuál, cuántos o de quién"? → no connotativa.',
+          explain: 'Las palabras connotativas caracterizan; las no connotativas señalan, cuentan, presentan o indican pertenencia.' },
         { buckets: [
           { id: 'no', label: 'No connotativa (señala, cuenta, dice de quién)', icon: 'Pointer', color: 'var(--area-l1)' },
           { id: 'si', label: 'Connotativa (dice cómo es)', icon: 'Sparkles', color: 'var(--c-maiz-strong)' },
@@ -298,11 +301,7 @@ export default [
     icon: 'NotebookPen',
     minutes: 15,
     gancho: '¿Qué dice más: "una comida buena" o "un caldo espeso y humeante que huele a cilantro"?',
-    objetivos: [
-      'Cambiar palabras vagas por palabras connotativas precisas',
-      'Usar los cinco sentidos para encontrar detalles',
-      'Escribir una descripción ordenada de un objeto que tiene historia en la familia',
-    ],
+    objetivos: ['Cambiar palabras vagas por palabras connotativas precisas; usar los cinco sentidos para encontrar detalles; escribir una descripción ordenada de un objeto que tiene historia en la familia'],
     resumen: [
       'Las palabras vagas (bonito, bueno, feo, grande) dicen poco. Las precisas (colorido, sabroso, ronco, caudaloso) pintan una imagen.',
       'Para encontrar detalles, recorre los sentidos: ¿cómo se ve?, ¿cómo suena?, ¿a qué huele?, ¿cómo se siente al tocarlo?, ¿a qué sabe?',
@@ -314,8 +313,13 @@ export default [
       brief: 'Diagrama circular: al centro, ilustración de una tinaja de barro rojizo. Alrededor, cinco círculos con íconos simples de los sentidos (ojo, oreja, nariz, mano, boca) y en cada uno dos palabras connotativas: vista "rojiza, panzona"; oído "suena hueca"; olfato "huele a tierra mojada"; tacto "fresca, rugosa"; gusto "el agua sabe fresca". Colores tierra, letra grande, fondo claro.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.2.2'], ambito: 'conocer',
+          prompt: 'Cambia palabras vagas por detalles que permitan reconocer un objeto.' },
+        { icon: 'ScanSearch', body: 'Una descripción precisa nombra material, forma, tamaño, textura, uso y procedencia con datos observables. "Superficie rugosa de piedra" informa más que "objeto bonito".' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.2.2'], ambito: 'conocer',
           prompt: 'Lee estas dos oraciones sobre el mismo día. ¿Cuál te hace **sentir** que estás ahí?',
           explain: 'La segunda usa palabras precisas y de varios sentidos (vista, oído, tacto). La primera usa palabras vagas: "bonito" puede significar mil cosas.' },
         { options: [
@@ -420,7 +424,7 @@ export default [
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:5.2.2'], ambito: 'hacer',
           prompt: 'Escribe la **descripción** de un objeto con historia en tu familia (puede ser el mismo de la lección 1). Sigue el orden: presentación → aspecto general → detalles con al menos **tres sentidos** → historia → lo que significa. Evita "bonito", "bueno", "feo" y "grande".' },
-        { minWords: 70, placeholder: 'En mi casa hay…',
+        { minWords: 36, placeholder: 'En mi casa hay…',
           model: 'En la pared de la sala de mi casa cuelga el sombrero de palma de mi abuelo Chepe. Es de ala ancha y color paja, con una cinta negra que ya está desteñida. Sus fibras son ásperas y el borde está un poco deshilachado. Si lo acercas a la nariz, todavía huele a sol y a tierra de la milpa. Mi abuelo lo usó más de veinte años para cosechar maíz y frijol. Cuando me lo pongo, me queda flojo y me tapa los ojos, pero me siento grande y protegido, como si él me estuviera cuidando.',
           rubric: [
             'Seguí el orden: presentación, aspecto general, detalles, historia y significado',
@@ -457,11 +461,7 @@ export default [
     icon: 'Users',
     minutes: 14,
     gancho: 'Se dice "el mapa" aunque termina en -a, y "la mano" aunque termina en -o. ¿Entonces cómo sabemos el género de una palabra?',
-    objetivos: [
-      'Reconocer el género masculino y femenino de los sustantivos',
-      'Formar el femenino de los sustantivos de distintas maneras',
-      'Hacer concordar en género el artículo, el sustantivo y el adjetivo',
-    ],
+    objetivos: ['Reconocer el género masculino y femenino de los sustantivos; formar el femenino de los sustantivos de distintas maneras; hacer concordar en género el artículo, el sustantivo y el adjetivo'],
     resumen: [
       'Todo sustantivo en español tiene género: masculino (el, un) o femenino (la, una). El artículo es la mejor pista: el mapa, la mano.',
       'El femenino se forma cambiando la terminación (niño/niña, doctor/doctora, alcalde/alcaldesa, rey/reina), con una palabra distinta (padre/madre, caballo/yegua) o solo cambiando el artículo (el estudiante/la estudiante).',
@@ -474,8 +474,13 @@ export default [
       brief: 'Infografía horizontal en cuatro columnas de colores, cada una con un título y dos o tres pares de dibujos sencillos con su palabra: 1) "Cambia la terminación": niño/niña, profesor/profesora. 2) "Terminación especial": alcalde/alcaldesa, actor/actriz, gallo/gallina. 3) "Palabra distinta": padre/madre, toro/vaca. 4) "Solo cambia el artículo": el estudiante/la estudiante, el artista/la artista. Personajes diversos (maya, garífuna, ladino), sin estereotipos. Letra grande.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['l1'], cnb: ['l1:7.1.2'], ambito: 'conocer',
+          prompt: 'Observa cómo el género se expresa en sustantivos y palabras relacionadas.' },
+        { icon: 'Languages', body: 'El género gramatical puede ser masculino o femenino y se refleja en la concordancia: el maestro atento, la maestra atenta. No describe por sí solo las capacidades de una persona.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.1.2'], ambito: 'conocer',
           prompt: '¿Cuál expresión está **bien dicha**?',
           explain: '"Mapa" es masculino aunque termine en -a: se dice **el mapa antiguo**. La terminación no siempre indica el género; el artículo sí.' },
         { options: [
@@ -518,7 +523,8 @@ export default [
       ),
       S.match(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:7.1.2'], ambito: 'hacer', prompt: 'Une cada masculino con su femenino.',
-          hint: 'Algunos cambian la terminación y otros son palabras distintas.' },
+          hint: 'Algunos cambian la terminación y otros son palabras distintas.',
+          explain: 'Comprueba cada pareja y observa si cambia la terminación, toda la palabra o solo el artículo.' },
         { leftTitle: 'Masculino', rightTitle: 'Femenino', pairs: [
           { id: 'g1', left: 'el yerno', right: 'la nuera' },
           { id: 'g2', left: 'el actor', right: 'la actriz' },
@@ -587,11 +593,7 @@ export default [
     icon: 'Layers',
     minutes: 15,
     gancho: 'Un lápiz, dos… ¿lápizes o lápices? Hoy descubrirás las reglas que ordenan el plural.',
-    objetivos: [
-      'Formar el plural de los sustantivos según su terminación',
-      'Escribir bien la tilde al pasar palabras al plural',
-      'Hacer concordar en número todas las palabras de una oración',
-    ],
+    objetivos: ['Formar el plural de los sustantivos según su terminación; escribir bien la tilde al pasar palabras al plural; hacer concordar en número todas las palabras de una oración'],
     resumen: [
       'Singular = uno; plural = varios. Termina en vocal sin tilde → + s (casa, casas). Termina en consonante → + es (árbol, árboles). Termina en z → cambia a c + es (lápiz, lápices).',
       'Las palabras en -s o -x sin acento en la última sílaba no cambian: el lunes/los lunes, la crisis/las crisis.',
@@ -604,8 +606,13 @@ export default [
       brief: 'Animación tipográfica de 45 s. Cada palabra aparece en singular con un dibujo, luego el dibujo se multiplica y la palabra cambia: casa → casas (+s en verde), árbol → árboles (+es en azul), lápiz → lápices (la z se transforma en c, en naranja). Después: joven → jóvenes (aparece la tilde con brillo), canción → canciones (la tilde se desvanece). Cierre: "el lunes / los lunes" sin cambio. Narración en español y subtítulos.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['l1'], cnb: ['l1:7.1.2'], ambito: 'conocer',
+          prompt: 'Relaciona singular, plural y concordancia.' },
+        { icon: 'CopyPlus', body: 'El singular nombra una unidad y el plural, más de una. Al cambiar el número, también deben concordar determinantes y adjetivos: la señal clara, las señales claras.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.1.2'], ambito: 'conocer',
           prompt: '¿Cuál es el plural correcto de **lápiz**?',
           explain: 'Las palabras que terminan en **z** cambian la z por **c** y agregan **-es**: lápiz → lápi**ces**. Igual: luz → luces, nariz → narices.' },
         { options: [
@@ -651,7 +658,8 @@ export default [
       ),
       S.sort(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:7.1.2'], prompt: '¿Cómo se forma el plural de cada palabra?',
-          hint: 'Mira la última letra: ¿vocal, consonante o z? Y recuerda las palabras que terminan en -s sin acento en la última sílaba.' },
+          hint: 'Mira la última letra: ¿vocal, consonante o z? Y recuerda las palabras que terminan en -s sin acento en la última sílaba.',
+          explain: 'La terminación del singular guía la formación del plural; después revisa si cambia la tilde.' },
         { buckets: [
           { id: 's', label: '+ s', icon: 'Plus', color: 'var(--c-ok)' },
           { id: 'es', label: '+ es', icon: 'Plus', color: 'var(--area-l1)' },

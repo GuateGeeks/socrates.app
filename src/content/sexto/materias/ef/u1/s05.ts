@@ -14,11 +14,7 @@ export default [
     icon: 'Users',
     minutes: 15,
     gancho: 'Si le lanzas la pelota a tu compañera justo donde está ahora, pero ella va corriendo, ¿dónde estará cuando llegue la pelota?',
-    objetivos: [
-      'Recibir la pelota con las manos en forma de "W" y amortiguando',
-      'Hacer pases adelantados a un compañero que se desplaza',
-      'Aplicar la regla "pasa y muévete" en un juego de pases',
-    ],
+    objetivos: ['Recibir la pelota con las manos en forma de "W" y amortiguando; hacer pases adelantados a un compañero que se desplaza; aplicar la regla "pasa y muévete" en un juego de pases'],
     resumen: [
       'Recepción: mira la pelota, brazos adelante, manos abiertas formando una "W" con pulgares e índices casi juntos; al tocarla, dobla los codos y llévala al pecho para amortiguar.',
       'Pase adelantado: si tu compañero se mueve, lanza al espacio donde estará cuando llegue la pelota, un poco delante de él.',
@@ -31,8 +27,13 @@ export default [
       brief: 'Animación 2D cenital de 40 s sobre cancha verde. (1) Error: la pasadora lanza directo a donde está la receptora que corre; la pelota llega detrás de ella (X roja). (2) Acierto: se marca un punto "X" delante de la receptora; la pelota y la receptora llegan al mismo tiempo (check verde). (3) Tras pasar, la pasadora corre a un espacio libre: rótulo "pasa y muévete". (4) Primer plano de las manos en "W" recibiendo y llevando la pelota al pecho. Rótulos grandes, sin narración obligatoria (subtítulos opcionales).',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['ef'], cnb: ['ef:2.1.5'], ambito: 'conocer',
+          prompt: 'Coordina mirada, desplazamiento y pase para jugar con seguridad.' },
+        { icon: 'CircleDotDashed', body: 'Quien recibe muestra las manos y mira el balón; quien pasa apunta al espacio hacia donde avanza su compañero. La distancia y la fuerza se ajustan para evitar choques.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.5'], ambito: 'conocer',
           prompt: 'Tu compañera corre hacia adelante. ¿A dónde le lanzas la pelota?',
           explain: 'Un poco **delante** de ella: al lugar donde estará cuando llegue la pelota. Se llama **pase adelantado**.' },
         { options: [
@@ -145,11 +146,7 @@ export default [
     icon: 'Goal',
     minutes: 15,
     gancho: 'En el balonmano se juega con las manos, pero no puedes correr con la pelota todo lo que quieras. ¿Cuántos pasos crees que se permiten?',
-    objetivos: [
-      'Aplicar la regla de los tres pasos y el bote para avanzar con la pelota',
-      'Hacer pases por arriba del hombro con salto, a altura media y alta, con cada mano',
-      'Lanzar a gol en forma directa, en suspensión y con pique',
-    ],
+    objetivos: ['Aplicar la regla de los tres pasos y el bote para avanzar con la pelota; hacer pases por arriba del hombro con salto, a altura media y alta, con cada mano; lanzar a gol en forma directa, en suspensión y con pique'],
     resumen: [
       'El balonmano se juega con las manos entre dos equipos; se anota lanzando la pelota dentro de la portería. Solo el portero puede estar dentro del área de portería.',
       'Con la pelota en la mano puedes dar como máximo 3 pasos y retenerla hasta 3 segundos. Para avanzar más, bota la pelota: al atraparla de nuevo, tienes otros 3 pasos. No se permite botar, atrapar y volver a botar.',
@@ -162,8 +159,13 @@ export default [
       brief: 'Video de 60 s en cancha escolar con portería de balonmano o dos conos. (1) Vista lateral en cámara lenta: recepción, contador en pantalla "1-2-3 pasos", bote (ícono), "1-2-3 pasos", salto con pie contrario al brazo lanzador (rótulo) y lanzamiento en suspensión a una esquina. (2) Tres tipos de lanzamiento a gol, cada uno con rótulo: directo, en suspensión y con pique. (3) Plano cenital del área de portería con la línea marcada y rótulo "solo el portero". (4) Pase por arriba del hombro con salto a una compañera, con la mano derecha y luego con la izquierda. Pelota suave, jugadores con ropa deportiva genérica.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['ef'], cnb: ['ef:2.1.13'], ambito: 'conocer',
+          prompt: 'Ordena la secuencia básica antes de practicar el lanzamiento.' },
+        { icon: 'Goal', body: 'En balonmano se puede avanzar hasta tres pasos con el balón, botarlo y volver a dar hasta tres pasos. Para lanzar, se respeta el área de portería y se controla el espacio alrededor.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:2.1.13'], ambito: 'conocer',
           prompt: 'En balonmano, ¿cuántos pasos puedes dar como máximo con la pelota en la mano?',
           explain: 'Máximo **3 pasos**. Si quieres avanzar más, debes **botar** la pelota. Esta regla hace que el juego sea de pases y no de "correr con la pelota".' },
         { options: [

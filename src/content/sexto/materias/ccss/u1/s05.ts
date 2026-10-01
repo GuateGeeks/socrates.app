@@ -14,11 +14,7 @@ export default [
     icon: 'ClipboardList',
     minutes: 15,
     gancho: 'Quieres saber cuántos estudiantes de tu escuela desayunan antes de venir. ¿Preguntarías uno por uno sin anotar nada? ¿Cómo lo harías para no olvidar ni confundirte?',
-    objetivos: [
-      'Conocer la encuesta, la entrevista, la observación y la ficha de lectura',
-      'Elegir la herramienta adecuada según lo que se quiere averiguar',
-      'Registrar y organizar datos en una tabla de conteo',
-    ],
+    objetivos: ['Conocer la encuesta, la entrevista, la observación y la ficha de lectura; elegir la herramienta adecuada según lo que se quiere averiguar; registrar y organizar datos en una tabla de conteo'],
     resumen: [
       'Encuesta: las mismas preguntas cerradas a muchas personas; sirve para contar y comparar.',
       'Entrevista: conversación con preguntas abiertas a una persona que sabe del tema; sirve para conocer experiencias y detalles.',
@@ -31,8 +27,13 @@ export default [
       brief: 'Ilustración cenital de una mesa escolar con los materiales de un investigador de sexto grado: un cuaderno de campo abierto con notas y fecha, una hoja de encuesta con preguntas y casillas para marcar, un celular sobre la mesa como grabadora (sin marca), una lista de cotejo con marcas de verificación, tres fichas de lectura con título, autor y año, un lápiz y un borrador. Cada objeto con una etiqueta: Encuesta, Entrevista, Observación, Ficha de lectura, Diario de campo. Colores alegres.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:5.3.1'], ambito: 'conocer',
+          prompt: 'Elige una herramienta de investigación según la información que necesitas.' },
+        { icon: 'ClipboardList', body: 'La observación registra lo que ocurre; la entrevista recoge experiencias; la encuesta compara respuestas; y la revisión documental aporta antecedentes. Investigar accesibilidad exige consentimiento y escuchar a quienes usan los espacios.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:5.3.1'], ambito: 'conocer',
           prompt: 'Quieres saber **cuántos** de los 30 estudiantes de tu grado desayunan antes de venir. ¿Qué harías?',
           explain: 'Una **pregunta igual para todos** y una **tabla para anotar** permiten contar sin olvidar. Eso es, en pequeño, una **encuesta**. Hoy conocerás esta y otras herramientas.' },
         { options: [
@@ -126,11 +127,7 @@ export default [
     icon: 'Wheat',
     minutes: 15,
     gancho: 'Hace miles de años no había milpas, ni aldeas, ni mercados. ¿Cómo conseguían su comida las primeras personas? ¿Qué cambió cuando alguien sembró la primera semilla?',
-    objetivos: [
-      'Describir la forma de vida de las sociedades cazadoras y recolectoras',
-      'Explicar cómo la agricultura transformó la vida humana',
-      'Ordenar la evolución de las formas de vida en Mesoamérica',
-    ],
+    objetivos: ['Describir la forma de vida de las sociedades cazadoras y recolectoras; explicar cómo la agricultura transformó la vida humana; ordenar la evolución de las formas de vida en Mesoamérica'],
     resumen: [
       'Durante la mayor parte de la historia, los seres humanos fueron cazadores y recolectores: nómadas, en grupos pequeños, con herramientas de piedra, hueso y madera, y el fuego.',
       'Con la agricultura, las personas se volvieron sedentarias: formaron aldeas, domesticaron plantas y animales, hicieron cerámica y guardaron excedentes.',
@@ -143,8 +140,13 @@ export default [
       brief: 'Animación 2D de 50 s en dos partes. Parte 1: un grupo pequeño de cazadores y recolectores en un paisaje de Mesoamérica, con refugios temporales, fuego, herramientas de piedra; recogen frutos y se desplazan siguiendo a los animales (flechas de movimiento). Parte 2: un reloj de arena indica que pasan miles de años; aparece una aldea con casas de bajareque y techo de paja, milpas con maíz, frijol y calabaza, vasijas de cerámica y una troje con mazorcas guardadas. Contador en pantalla: "nómadas → sedentarios". Mostrar una mazorca pequeña de teocintle junto a una mazorca actual. Narración en español con subtítulos.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.2.1'], ambito: 'conocer',
+          prompt: 'Relaciona agricultura, permanencia y organización de las primeras aldeas.' },
+        { icon: 'Wheat', body: 'La domesticación de plantas y animales permitió producir alimentos con mayor regularidad. Muchas comunidades se volvieron sedentarias, almacenaron excedentes y organizaron nuevas tareas.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.2.1'], ambito: 'conocer',
           prompt: 'Imagina que tu grupo vive solo de lo que caza y recolecta. Cuando se acaban los frutos y los animales se van a otro lugar, ¿qué tienen que hacer?',
           explain: '**Mudarse** a donde haya alimento. Por eso esas sociedades eran **nómadas**: no tenían un lugar fijo para vivir.' },
         { options: [
@@ -261,11 +263,7 @@ export default [
     icon: 'Sun',
     minutes: 15,
     gancho: 'Si hoy sabes que una hora tiene 60 minutos y que el año tiene 365 días, es gracias a pueblos que vivieron hace más de 5,000 años junto a unos ríos. ¿Cuáles?',
-    objetivos: [
-      'Ubicar Mesopotamia y Egipto y explicar la importancia de sus ríos',
-      'Identificar sus avances tecnológicos y agrícolas',
-      'Organizar sus aportes en un esquema político, económico y cultural',
-    ],
+    objetivos: ['Ubicar Mesopotamia y Egipto y explicar la importancia de sus ríos; identificar sus avances tecnológicos y agrícolas; organizar sus aportes en un esquema político, económico y cultural'],
     resumen: [
       'Mesopotamia ("tierra entre ríos") se desarrolló entre los ríos Tigris y Éufrates, en el actual Irak. Egipto creció a lo largo del río Nilo, en el norte de África.',
       'Ambas controlaron el agua con canales y diques para regar sus cultivos de trigo y cebada. Las crecidas del Nilo dejaban cada año un limo fértil sobre los campos.',
@@ -278,8 +276,13 @@ export default [
       brief: 'Mapa del Cercano Oriente antiguo en tonos arena. El río Nilo en azul con su delta, rodeado de una franja verde angosta, rotulado "Egipto"; los ríos Tigris y Éufrates en azul con la zona verde entre ellos, rotulada "Mesopotamia"; una curva verde que las une rotulada "Media Luna Fértil". Rotular también el mar Mediterráneo, el mar Rojo y el golfo Pérsico. Íconos pequeños: una pirámide en Egipto y un zigurat en Mesopotamia. Escala aproximada y rosa de los vientos. Sin fronteras modernas; nota: "Mesopotamia está en el actual Irak".',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.3.1'], ambito: 'conocer',
+          prompt: 'Ubica las civilizaciones fluviales y relaciona el agua con su desarrollo.' },
+        { icon: 'Landmark', body: 'Mesopotamia se desarrolló entre los ríos Tigris y Éufrates; Egipto, junto al Nilo. El riego favoreció la agricultura y también requirió organización colectiva.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.3.1'], ambito: 'conocer',
           prompt: 'Mira el mapa: alrededor de los ríos hay franjas verdes y, más allá, **desierto**. ¿Por qué crees que las primeras grandes civilizaciones crecieron junto a ríos?',
           explain: 'El río daba **agua para beber y regar**, **suelo fértil**, peces y un **camino** para los barcos. Sin el Nilo, Egipto sería casi todo desierto.' },
         { options: [

@@ -13,11 +13,7 @@ export default [
     icon: 'Hand',
     minutes: 14,
     gancho: '¿Alguna vez te preguntaron tu opinión para decidir algo en tu familia? ¿Cómo te sentiste?',
-    objetivos: [
-      'Explicar qué es participar y por qué es un derecho y una responsabilidad',
-      'Reconocer formas de participar en la familia, la escuela y la comunidad',
-      'Seguir los pasos de la participación para mejorar algo de tu entorno',
-    ],
+    objetivos: ['Explicar qué es participar y por qué es un derecho y una responsabilidad; reconocer formas de participar en la familia, la escuela y la comunidad; seguir los pasos de la participación para mejorar algo de tu entorno'],
     resumen: [
       'Participar es tomar parte en las decisiones y acciones de un grupo: informarse, opinar, proponer, actuar y evaluar.',
       'La niñez tiene derecho a opinar y ser escuchada en lo que le afecta (Convención sobre los Derechos del Niño). Participar también es una responsabilidad: cumplir lo que se acuerda.',
@@ -30,8 +26,13 @@ export default [
       brief: 'Ilustración en tres paneles, estilo plano y colores cálidos. (1) "En la familia": una familia guatemalteca alrededor de la mesa con tortillas; la niña habla y los adultos escuchan; al fondo, un cartel de tareas del hogar repartidas entre todos (niños, niñas y adultos). (2) "En la escuela": asamblea de grado votando a mano alzada, una estudiante anota en el pizarrón. (3) "En la comunidad": vecinos de todas las edades siembran arbolitos en una ladera, un joven con carretilla, una abuela con pala. Sin textos adicionales ni logotipos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:3.2.1'], ambito: 'conocer',
+          prompt: 'Reconoce la participación como una acción informada y compartida.' },
+        { icon: 'UsersRound', body: 'Participar no es decidir por otras personas: implica informarse, expresar ideas, escuchar experiencias distintas y colaborar. Para identificar barreras escolares, se consulta a quienes recorren esos espacios.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:3.2.1'], ambito: 'convivir',
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:3.2.1'], ambito: 'convivir',
           prompt: 'En tu familia van a decidir qué hacer el domingo. ¿Qué acción es **participar**?',
           explain: 'Participar no es solo estar presente: es **tomar parte** en las decisiones y en las acciones. Opinar con respeto y ayudar a organizar es participar.' },
         { options: [
@@ -147,11 +148,7 @@ export default [
     icon: 'Vote',
     minutes: 15,
     gancho: 'Imagina que tu escuela va a elegir a su gobierno escolar mañana. ¿Por quién votarías: por el más popular o por quien tenga las mejores propuestas?',
-    objetivos: [
-      'Explicar qué es el gobierno escolar, sus cargos y sus comisiones',
-      'Ordenar los pasos de una elección escolar democrática',
-      'Evaluar y escribir propuestas de campaña realistas y útiles',
-    ],
+    objetivos: ['Explicar qué es el gobierno escolar, sus cargos y sus comisiones; ordenar los pasos de una elección escolar democrática; evaluar y escribir propuestas de campaña realistas y útiles'],
     resumen: [
       'El gobierno escolar es una organización de estudiantes elegida por voto que representa a sus compañeros, organiza proyectos y trabaja con docentes y dirección. En cada grado también puede haber una directiva de aula.',
       'Cargos frecuentes: presidencia, vicepresidencia, secretaría, tesorería y vocales. Las comisiones (limpieza, deporte, cultura, lectura, huerto) organizan el trabajo.',
@@ -164,8 +161,13 @@ export default [
       brief: 'Video animado de 75 s. Escenas: (1) Cartel de convocatoria en el corredor. (2) Tres planillas mixtas (niñas y niños) presentan propuestas en carteles: "Rincón de lectura", "Torneo con equipos mixtos", "Huerto escolar". (3) Día de votación: mesa electoral con estudiantes, papeleta sencilla, mampara de cartón, urna transparente, dedo marcado con tinta. (4) Conteo en voz alta frente a todos, rayitas en el pizarrón. (5) Toma de posesión y, meses después, la planilla ganadora presenta su informe en el periódico mural. Narración en español, subtítulos. Sin logotipos de partidos ni nombres reales.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:3.2.2'], ambito: 'conocer',
+          prompt: 'Relaciona representación estudiantil, propuestas y bien común.' },
+        { icon: 'Vote', body: 'El gobierno escolar representa al estudiantado mediante elección y servicio. Una propuesta responsable parte de una necesidad comprobada, consulta a las personas afectadas y plantea acciones posibles.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:3.2.2'], ambito: 'convivir',
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:3.2.2'], ambito: 'convivir',
           prompt: 'Hay elección de gobierno escolar. ¿En qué te fijarías **más** para decidir tu voto?',
           explain: 'Lo más importante son las **propuestas**: ¿resuelven un problema real? ¿se pueden cumplir? Un voto responsable mira ideas, no popularidad ni regalos.' },
         { options: [

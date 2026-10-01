@@ -13,11 +13,7 @@ export default [
     icon: 'Blocks',
     minutes: 14,
     gancho: 'En español puedes decir "Toco marimba" sin decir "yo". En inglés, ¿se puede decir solo "Play marimba"?',
-    objetivos: [
-      'Usar los pronombres personales en inglés: I, you, he, she, it, we, they',
-      'Ordenar oraciones: pronombre + verbo + sustantivo',
-      'Agregar -s al verbo con he, she, it en presente',
-    ],
+    objetivos: ['Usar los pronombres personales en inglés: I, you, he, she, it, we, they; ordenar oraciones: pronombre + verbo + sustantivo; agregar -s al verbo con he, she, it en presente'],
     resumen: [
       'Pronombres: I (yo), you (tú, usted, ustedes), he (él), she (ella), it (animal o cosa), we (nosotros), they (ellos, ellas).',
       'En inglés el pronombre (o el nombre) casi siempre se dice: "I play", no solo "play".',
@@ -30,8 +26,13 @@ export default [
       brief: 'Animación 2D de 40 s. Tres rieles de colores rotulados "WHO? (pronoun)" en azul, "DOES WHAT? (verb)" en naranja y "WHAT? (noun)" en verde. Caen bloques y encajan: "She" + "plays" + "the marimba"; una marimba sonando aparece a la derecha. Luego "They" + "grow" + "corn" con una milpa, y "He" + "eats" + "tortillas". Cuando aparece he/she, la -s del verbo brilla en amarillo. Narración en inglés lento con subtítulos en español.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['l3'], cnb: ['l3:2.2.3'], ambito: 'conocer',
+          prompt: 'Build a sentence in the order subject, verb, object.' },
+        { icon: 'Blocks', body: 'A subject pronoun tells who acts: I, you, he, she, it, we, or they. In the simple present, add -s to most verbs with he, she, and it: She reads signs.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:2.2.3'], ambito: 'conocer',
           prompt: '¿Cuál de estas oraciones suena **correcta** en inglés?',
           explain: '**She plays the marimba.** Primero quién (she), luego qué hace (plays) y al final qué cosa (the marimba). Hoy aprenderás este orden.' },
         { options: [
@@ -160,11 +161,7 @@ export default [
     icon: 'Palette',
     minutes: 15,
     gancho: 'En español decimos "una casa grande". En inglés, ¿será "a house big" o "a big house"?',
-    objetivos: [
-      'Colocar el adjetivo antes del sustantivo: a big house',
-      'Usar adverbios para decir cómo se hace una acción: slowly, fast, well',
-      'Ordenar oraciones con pronombre, verbo, adjetivo, sustantivo y adverbio',
-    ],
+    objetivos: ['Colocar el adjetivo antes del sustantivo: a big house; usar adverbios para decir cómo se hace una acción: slowly, fast, well; ordenar oraciones con pronombre, verbo, adjetivo, sustantivo y adverbio'],
     resumen: [
       'El adjetivo describe al sustantivo y va ANTES de él: a red backpack, a tall volcano. Nunca lleva plural: two big dogs.',
       'El adjetivo también va después de is / are: The house is big.',
@@ -177,8 +174,13 @@ export default [
       brief: 'Animación 2D de 45 s en un camino de tierra junto a una milpa. Un conejo café pequeño y una tortuga verde grande. Aparece el texto "a small brown rabbit" con "small" y "brown" subrayados en verde (adjetivos, antes del sustantivo). Luego el conejo corre: "The rabbit runs fast." con "fast" en morado (adverbio). La tortuga avanza: "The turtle walks slowly." con "slowly" en morado. Cierre: la tortuga llega con calma: "The turtle walks carefully." Narración en inglés lento con subtítulos en español.',
     },
     steps: [
-      S.choice(
+      S.explain(
         { fase: 'explorar', areas: ['l3'], cnb: ['l3:2.2.3'], ambito: 'conocer',
+          prompt: 'Choose whether a word describes a noun or an action.' },
+        { icon: 'Gauge', body: 'An adjective describes a noun: a clear sign. An adverb describes how an action happens: read carefully. Many English adverbs end in -ly, but some, such as fast, do not.' },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:2.2.3'], ambito: 'conocer',
           prompt: '¿Cómo se dice **"una casa grande"** en inglés?',
           explain: 'En inglés el adjetivo va **antes** del sustantivo: **a big house**. Es al revés que en español. Hoy aprenderás dónde van los adjetivos y los adverbios.' },
         { options: [

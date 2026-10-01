@@ -10,13 +10,9 @@ export default [
     id: 's05-pyd-1',
     title: 'Herramientas y máquinas simples: usarlas bien y con seguridad',
     icon: 'Wrench',
-    minutes: 15,
+    minutes: 17,
     gancho: 'Un costal de abono pesa mucho. ¿Cómo lo moverías hasta el huerto sin lastimarte la espalda?',
-    objetivos: [
-      'Reconocer las seis máquinas simples en herramientas de la casa, el campo y la escuela',
-      'Usar las herramientas con la técnica adecuada',
-      'Aplicar criterios preventivos antes, durante y después de usar una herramienta',
-    ],
+    objetivos: ['Reconocer las seis máquinas simples en herramientas de la casa, el campo y la escuela; usar las herramientas con la técnica adecuada; aplicar criterios preventivos antes, durante y después de usar una herramienta'],
     resumen: [
       'Una herramienta es un objeto que ayuda a hacer un trabajo. Las máquinas simples (palanca, plano inclinado, cuña, rueda y eje, polea y tornillo) reducen la fuerza necesaria o cambian su dirección. Muchas culturas las usan desde hace siglos.',
       'Técnica adecuada: usar cada herramienta para lo que fue hecha, sujetarla bien, trabajar con buena postura (al levantar, doblar las rodillas y mantener la espalda recta) y hacerlo sin prisa.',
@@ -29,8 +25,13 @@ export default [
       brief: 'Ilustración de un huerto escolar en Guatemala. Estudiantes con zapatos cerrados y guantes: una niña empuja una carretilla (etiqueta "palanca + rueda"), un niño sube un costal por una tabla inclinada ("plano inclinado"), un adulto saca agua de un pozo con polea ("polea"), un azadón apoyado en la cerca ("cuña: su filo"), un molino de mano para maíz en una mesa ("rueda y eje: la manivela"). Etiquetas limpias con íconos. Un adulto supervisa. Nadie sostiene herramientas con filo apuntando a otros. Sin marcas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:3.2.3'], ambito: 'conocer',
+          prompt: 'Relaciona cada herramienta con su función y sus cuidados.' },
+        { icon: 'Wrench', body: 'Una herramienta adecuada facilita una tarea solo si está en buen estado y se usa con técnica segura. Antes se inspecciona; durante se mantiene el área despejada; después se limpia y guarda.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:3.2.3'], ambito: 'hacer',
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:3.2.3'], ambito: 'hacer',
           prompt: 'Debes llevar un costal de abono de 25 libras desde la entrada hasta el huerto. ¿Qué harías?',
           explain: 'La **carretilla** es una máquina simple: con ella el peso se reparte entre la rueda y tus brazos, y haces **mucha menos fuerza**. Hoy aprenderás cómo funcionan estas máquinas y cómo usarlas con seguridad.' },
         { options: [
