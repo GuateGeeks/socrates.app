@@ -13,11 +13,7 @@ export default [
     icon: 'Languages',
     minutes: 14,
     gancho: '¿Cuántos idiomas crees que se hablan en Guatemala? ¿Uno, cinco, veinticinco?',
-    objetivos: [
-      'Explicar qué es la diversidad sociocultural',
-      'Identificar los cuatro pueblos y los 25 idiomas de Guatemala',
-      'Reconocer pueblos e idiomas que forman la diversidad de otros países latinoamericanos',
-    ],
+    objetivos: ['Reconocer la diversidad sociocultural de Guatemala y otros países latinoamericanos'],
     resumen: [
       'La diversidad sociocultural es la variedad de pueblos, idiomas, costumbres, creencias, formas de vestir, comidas y maneras de organizarse que conviven en un lugar.',
       'En Guatemala conviven cuatro pueblos: maya, garífuna, xinka y ladino o mestizo. Se hablan 25 idiomas: 22 idiomas mayas, el garífuna, el xinka y el español.',
@@ -30,19 +26,8 @@ export default [
       brief: 'Mapa ilustrado de Guatemala con sus departamentos en líneas finas. Zonas de color suave y etiquetas solo para algunos idiomas bien establecidos: K’iche’ (occidente/centro), Mam (Huehuetenango y San Marcos), Q’eqchi’ (Alta Verapaz e Izabal norte), Kaqchikel (Chimaltenango y Sacatepéquez), Garífuna (Livingston, Izabal), Xinka (Santa Rosa, Jutiapa, Jalapa), Español (en todo el país). Leyenda: "22 idiomas mayas + garífuna + xinka + español = 25". Nota inferior: "Mapa simplificado: en muchas regiones conviven varios idiomas". Validar zonas con el mapa lingüístico oficial antes de publicar.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:2.1.1'], ambito: 'conocer',
-          prompt: '¿Cuántos idiomas crees que se hablan en Guatemala? Elige tu predicción.',
-          explain: '¡Son **25**! 22 idiomas mayas, el garífuna, el xinka y el español. Pocos países tan pequeños tienen tanta riqueza de idiomas.' },
-        { layout: 'grid', options: [
-          { id: 'a', text: '1', feedback: 'El español es el más hablado, pero hay muchos más.' },
-          { id: 'b', text: '5', feedback: 'Son bastantes más: ¡cinco veces más!' },
-          { id: 'c', text: '25' },
-          { id: 'd', text: '100', feedback: 'Son muchos, pero no tantos.' },
-        ], correct: ['c'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:2.1.1'], ambito: 'conocer', title: '¿Qué es la diversidad sociocultural?',
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:2.1.1'], ambito: 'conocer', title: '¿Qué es la diversidad sociocultural?',
           prompt: '**Socio** viene de sociedad y **cultural** de cultura. La **diversidad sociocultural** es la variedad de formas de vivir que conviven en un lugar. Toca cada tarjeta.' },
         { icon: 'Users', body: 'Ninguna cultura es "mejor" que otra: cada una es una forma valiosa de entender el mundo.', reveal: [
           { icon: 'Languages', front: 'Idiomas', back: 'Cada pueblo tiene su idioma o idiomas, con los que nombra el mundo a su manera.' },
@@ -51,6 +36,17 @@ export default [
           { icon: 'Sparkles', front: 'Creencias y fiestas', back: 'Ceremonias, ferias patronales, danzas y formas de celebrar la vida y la naturaleza.' },
           { icon: 'Users', front: 'Organización', back: 'Formas propias de decidir y servir: alcaldías indígenas, cofradías, comités, asambleas.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:2.1.1'], ambito: 'conocer',
+          prompt: '¿Cuántos idiomas crees que se hablan en Guatemala? Elige tu predicción.',
+          explain: '¡Son **25**! 22 idiomas mayas, el garífuna, el xinka y el español. Pocos países tan pequeños tienen tanta riqueza de idiomas.' },
+        { layout: 'grid', options: [
+          { id: 'a', text: '1', feedback: 'El español es el más hablado, pero hay muchos más.' },
+          { id: 'b', text: '5', feedback: 'Son bastantes más: ¡cinco veces más!' },
+          { id: 'c', text: '25' },
+          { id: 'd', text: '100', feedback: 'Son muchos, pero no tantos.' },
+        ], correct: ['c'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['fc'], cnb: ['fc:2.1.1'], ambito: 'conocer', title: 'Cuatro pueblos, 25 idiomas',
@@ -139,11 +135,7 @@ export default [
     icon: 'Search',
     minutes: 15,
     gancho: '"Las niñas no saben jugar fútbol." "Los de ese pueblo son haraganes." ¿Has escuchado frases así? ¿Son verdad?',
-    objetivos: [
-      'Distinguir estereotipo, prejuicio y discriminación',
-      'Reconocer el machismo, el sexismo y el racismo en frases y situaciones',
-      'Responder con argumentos y respeto a quien justifica la discriminación',
-    ],
+    objetivos: ['Responder críticamente y con respeto ante argumentos que justifican la discriminación'],
     resumen: [
       'Estereotipo: idea simplificada sobre un grupo ("todos los… son…"). Prejuicio: juzgar a alguien antes de conocerlo, por su grupo. Discriminación: tratar peor a alguien por su pueblo, idioma, sexo, religión, discapacidad o pobreza.',
       'Machismo: creer que los hombres valen más que las mujeres. Sexismo: dar distinto trato u oportunidades por ser hombre o mujer. Racismo y discriminación étnica: despreciar a alguien por su pueblo, color de piel o cultura.',
@@ -156,23 +148,23 @@ export default [
       brief: 'Animación 2D de 45 s. Aparece un globo de diálogo: "Todas las niñas son malas para las matemáticas". Una lupa se acerca y resalta en amarillo la palabra "Todas" con la etiqueta "generalización". Luego aparecen tres ejemplos de niñas resolviendo problemas, construyendo y programando: "contraejemplos". Finalmente un nuevo globo: "Cada persona es distinta; las capacidades no dependen del sexo". Narración en español, subtítulos. Colores suaves, personajes diversos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.2.3'], ambito: 'conocer',
-          prompt: 'Un compañero dice: **"Las niñas no saben jugar fútbol."** ¿Qué le responderías?',
-          explain: 'Muchas niñas juegan fútbol muy bien, y en Guatemala hay selecciones y ligas femeninas. La frase **generaliza**: habla de "las niñas" como si todas fueran iguales. Hoy aprenderás a detectar y responder frases así.' },
-        { options: [
-          { id: 'a', text: 'Que eso no es cierto: jugar bien depende de practicar, no de ser niña o niño', icon: 'Scale' },
-          { id: 'b', text: 'Que tiene razón, siempre ha sido así', icon: 'ThumbsUp', feedback: 'Que algo "siempre se haya dicho" no lo hace verdad. Piensa en niñas que conoces que juegan bien.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:1.2.3'], ambito: 'conocer', title: 'De la idea al daño',
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.2.3'], ambito: 'conocer', title: 'De la idea al daño',
           prompt: 'La discriminación casi siempre empieza con una **idea equivocada** en la cabeza. Mira cómo avanza. Toca cada tarjeta en orden.' },
         { icon: 'Layers', body: 'Si frenamos la idea a tiempo, frenamos el daño. Por eso importa **pensar críticamente**.', reveal: [
           { icon: 'Brain', front: '1. Estereotipo', back: 'Una idea **simplificada** sobre un grupo: "Todos los de la capital son…", "Las mujeres son…". Borra las diferencias entre personas.' },
           { icon: 'Eye', front: '2. Prejuicio', back: '**Juzgar** a alguien antes de conocerlo, solo por el grupo al que pertenece. "No la invito: seguro no sabe."' },
           { icon: 'X', front: '3. Discriminación', back: '**Tratar peor** a alguien por su pueblo, idioma, sexo, religión, discapacidad o pobreza: excluirlo, burlarse, negarle una oportunidad.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:1.2.3'], ambito: 'conocer',
+          prompt: 'Un compañero dice: **"Las niñas no saben jugar fútbol."** ¿Qué le responderías?',
+          explain: 'Muchas niñas juegan fútbol muy bien, y en Guatemala hay selecciones y ligas femeninas. La frase **generaliza**: habla de "las niñas" como si todas fueran iguales. Hoy aprenderás a detectar y responder frases así.' },
+        { options: [
+          { id: 'a', text: 'Que eso no es cierto: jugar bien depende de practicar, no de ser niña o niño', icon: 'Scale' },
+          { id: 'b', text: 'Que tiene razón, siempre ha sido así', icon: 'ThumbsUp', feedback: 'Que algo "siempre se haya dicho" no lo hace verdad. Piensa en niñas que conoces que juegan bien.' },
+        ], correct: ['a'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['fc'], cnb: ['fc:1.2.3'], ambito: 'conocer', title: 'Formas de discriminación que hay que nombrar',

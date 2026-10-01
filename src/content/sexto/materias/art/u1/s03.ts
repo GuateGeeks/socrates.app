@@ -13,11 +13,7 @@ export default [
     icon: 'Pencil',
     minutes: 15,
     gancho: 'Si dibujas la misma mazorca con lápices de colores, con crayones y con pastel, ¿crees que se verán iguales?',
-    objetivos: [
-      'Reconocer qué efecto logra cada técnica seca: lápices de colores, crayones y pastel',
-      'Usar la presión, las capas y el degradado para dar color con intención',
-      'Elegir la técnica adecuada para lo que quieres expresar',
-    ],
+    objetivos: ['Aplicar técnicas secas eligiendo presión, capas o degradado según el efecto buscado'],
     resumen: [
       'Las técnicas secas se usan sin agua: lápices de colores, crayones de cera y pastel.',
       'Lápices de colores: trazos finos y precisos, buenos para detalles. Con poca presión el color es suave; con más presión, intenso.',
@@ -31,8 +27,17 @@ export default [
       brief: 'Video cenital de 60 s sobre una mesa de madera con hojas blancas. Tres segmentos de 18 s: (1) lápices de colores: contorno, granos con trazo fino, degradado de amarillo a naranja con presión creciente; (2) crayones de cera: color fuerte que cubre rápido, capa de amarillo y encima café para la tuza; (3) pastel: manchas suaves difuminadas con el dedo, fondo de cielo. Rótulos: "precisión", "color intenso", "suavidad". Cierre: las tres mazorcas lado a lado. Música instrumental suave, sin marcas visibles en los materiales.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['art'], cnb: ['art:2.2.1'], ambito: 'conocer', title: 'Tres técnicas secas',
+          prompt: 'Las **técnicas gráficas** son las formas de dibujar y colorear con distintos materiales. Las **secas** se usan sin agua. Toca cada tarjeta.' },
+        { icon: 'Palette', body: 'Ninguna técnica es "mejor": cada una sirve para algo distinto. Un artista elige según **lo que quiere mostrar**.', reveal: [
+          { icon: 'Pencil', front: 'Lápices de colores', back: 'Trazo **fino y preciso**. Ideales para **detalles**: las plumas de un quetzal, las letras de un cartel. Sácales punta seguido.' },
+          { icon: 'Brush', front: 'Crayones de cera', back: 'Colores **intensos** que **cubren rápido** superficies grandes. La cera **resiste el agua** y permite **raspar** (esgrafiado).' },
+          { icon: 'Cloud', front: 'Pastel', back: 'Barras de color en polvo compacto. Da colores **suaves** que se **difuminan** con el dedo o un algodón. Trabaja de arriba hacia abajo para no mancharte, y no soples el polvo: sacúdelo sobre un papel.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:2.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['art'], cnb: ['art:2.2.1'], ambito: 'conocer',
           prompt: 'Observa el video. ¿Con qué técnica los bordes de los colores se ven **más suaves y borrosos**, como una nube?',
           explain: 'El **pastel** se puede **difuminar** con el dedo: los colores se funden y los bordes se suavizan. Cada técnica tiene su "personalidad".' },
         { options: [
@@ -40,15 +45,6 @@ export default [
           { id: 'b', text: 'Crayones de cera', icon: 'Brush', feedback: 'El crayón deja colores fuertes y cerosos; no se difumina fácil.' },
           { id: 'c', text: 'Pastel', icon: 'Cloud' },
         ], correct: ['c'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:2.2.1'], ambito: 'conocer', title: 'Tres técnicas secas',
-          prompt: 'Las **técnicas gráficas** son las formas de dibujar y colorear con distintos materiales. Las **secas** se usan sin agua. Toca cada tarjeta.' },
-        { icon: 'Palette', body: 'Ninguna técnica es "mejor": cada una sirve para algo distinto. Un artista elige según **lo que quiere mostrar**.', reveal: [
-          { icon: 'Pencil', front: 'Lápices de colores', back: 'Trazo **fino y preciso**. Ideales para **detalles**: las plumas de un quetzal, las letras de un cartel. Sácales punta seguido.' },
-          { icon: 'Brush', front: 'Crayones de cera', back: 'Colores **intensos** que **cubren rápido** superficies grandes. La cera **resiste el agua** y permite **raspar** (esgrafiado).' },
-          { icon: 'Cloud', front: 'Pastel', back: 'Barras de color en polvo compacto. Da colores **suaves** que se **difuminan** con el dedo o un algodón. Trabaja de arriba hacia abajo para no mancharte, y no soples el polvo: sacúdelo sobre un papel.' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['art'], cnb: ['art:2.2.1'], ambito: 'hacer', title: 'Cuatro trucos de color',
@@ -157,11 +153,7 @@ export default [
     icon: 'Megaphone',
     minutes: 15,
     gancho: 'Caminando por tu comunidad ves carteles de ferias, campañas de vacunación y rutas de evacuación. ¿Por qué algunos se entienden en un segundo y otros no?',
-    objetivos: [
-      'Reconocer las tintas y la técnica mixta (por ejemplo, crayón con acuarela)',
-      'Usar íconos, contraste y pocas palabras para diseñar un cartel',
-      'Planificar un cartel eligiendo la técnica gráfica más adecuada',
-    ],
+    objetivos: ['Diseñar un cartel público claro mediante técnica mixta, ícono, contraste y pocas palabras'],
     resumen: [
       'Tintas: tinta china, marcadores y acuarelas. Dan líneas firmes (tinta) o manchas transparentes (acuarela).',
       'Técnica mixta: combinar dos o más técnicas en una obra. La más conocida es crayón + acuarela: la cera rechaza el agua y los trazos de crayón resaltan.',
@@ -174,17 +166,8 @@ export default [
       brief: 'Ilustración escolar de dos carteles verticales colgados en una pared de escuela pública guatemalteca. Cartel A (mal ejemplo): fondo celeste pálido, 6 renglones de texto pequeño, 5 dibujos diminutos, letras claras sobre fondo claro. Cartel B (buen ejemplo): fondo amarillo, gota azul enorme con una llave de chorro cerrada, título en letras grandes "Cierra el chorro", una línea pequeña "Cada gota cuenta", espacio libre alrededor. Técnica visible: crayón de cera con acuarela. Sin marcas ni logotipos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:2.2.1'], ambito: 'conocer',
-          prompt: 'Observa los dos carteles. Si pasas en bicicleta frente a ellos, ¿cuál entenderías **en un segundo**?',
-          explain: 'El cartel B usa un **ícono grande**, **pocas palabras** y **colores que contrastan**. Hoy aprenderás a diseñar así, usando técnicas gráficas.' },
-        { options: [
-          { id: 'a', text: 'El cartel A, porque explica más cosas', icon: 'FileText', feedback: 'Tiene mucha información, pero nadie la lee de pasada. Un cartel debe entenderse rápido.' },
-          { id: 'b', text: 'El cartel B, porque su mensaje se ve de lejos', icon: 'Eye' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:2.2.1'], ambito: 'conocer', title: 'Tintas y técnica mixta',
+        { fase: 'explorar', areas: ['art'], cnb: ['art:2.2.1'], ambito: 'conocer', title: 'Tintas y técnica mixta',
           prompt: 'Además de las técnicas secas, hay técnicas con **tinta** y con **agua**. Y se pueden **combinar**. Toca cada tarjeta.' },
         { icon: 'PenTool', body: 'Cuando una obra usa **dos o más técnicas**, decimos que es de **técnica mixta**.', reveal: [
           { icon: 'PenTool', front: 'Tinta', back: 'La **tinta china** o los **marcadores** dan líneas firmes y oscuras. Sirven para contornos y letras. Déjala secar antes de tocarla para no manchar.' },
@@ -192,6 +175,15 @@ export default [
           { icon: 'Layers', front: 'Crayón + acuarela', back: 'Dibuja con crayón de cera y luego pinta encima con acuarela: la **cera rechaza el agua** y tus trazos quedan brillando. Se llama técnica de **reserva**.' },
           { icon: 'Scissors', front: 'Otras mezclas', back: '**Collage** (papeles recortados) con lápiz de color; tinta con crayón; pastel sobre acuarela seca. ¡Experimenta!' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['art'], cnb: ['art:2.2.1'], ambito: 'conocer',
+          prompt: 'Observa los dos carteles. Si pasas en bicicleta frente a ellos, ¿cuál entenderías **en un segundo**?',
+          explain: 'El cartel B usa un **ícono grande**, **pocas palabras** y **colores que contrastan**. Hoy aprenderás a diseñar así, usando técnicas gráficas.' },
+        { options: [
+          { id: 'a', text: 'El cartel A, porque explica más cosas', icon: 'FileText', feedback: 'Tiene mucha información, pero nadie la lee de pasada. Un cartel debe entenderse rápido.' },
+          { id: 'b', text: 'El cartel B, porque su mensaje se ve de lejos', icon: 'Eye' },
+        ], correct: ['b'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['art'], cnb: ['art:2.2.1'], ambito: 'conocer', title: 'El lenguaje de los íconos en un cartel',
@@ -226,7 +218,8 @@ export default [
       S.tf(
         { fase: 'construir', areas: ['art'], cnb: ['art:2.2.1'], ambito: 'conocer',
           prompt: 'Revisa lo aprendido. ¿Verdadero o falso?',
-          hint: 'Piensa en las cinco reglas del cartel y en por qué funciona la técnica crayón + acuarela.' },
+          hint: 'Piensa en las cinco reglas del cartel y en por qué funciona la técnica crayón + acuarela.',
+          explain: 'La cera reserva el dibujo, mientras el ícono grande, el contraste y pocas palabras hacen legible el mensaje público.' },
         { statements: [
           { text: 'En la técnica de reserva, la cera del crayón rechaza la acuarela.', answer: true },
           { text: 'Un cartel es mejor si tiene muchos dibujos pequeños.', answer: false, why: 'Se ve saturado. Es mejor un ícono grande y claro.' },

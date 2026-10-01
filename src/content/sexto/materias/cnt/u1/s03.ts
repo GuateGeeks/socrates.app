@@ -13,11 +13,7 @@ export default [
     icon: 'Bird',
     minutes: 15,
     gancho: 'Pasa la mano por el centro de tu espalda: sientes una fila de huesitos. ¿Cuáles animales tienen algo así y cuáles no?',
-    objetivos: [
-      'Organizar a los animales en vertebrados e invertebrados',
-      'Reconocer los cinco grupos de vertebrados y los principales grupos de invertebrados',
-      'Usar una clave sencilla para clasificar un animal',
-    ],
+    objetivos: ['Clasificar animales como vertebrados o invertebrados mediante rasgos observables y una clave sencilla'],
     resumen: [
       'Los vertebrados tienen columna vertebral y un esqueleto interno. Son cinco grupos: peces, anfibios, reptiles, aves y mamíferos.',
       'Los invertebrados no tienen columna vertebral. Son la gran mayoría de las especies animales: artrópodos (insectos, arácnidos, crustáceos), moluscos, anélidos (lombrices), equinodermos y medusas, entre otros.',
@@ -29,8 +25,17 @@ export default [
       brief: 'Ilustración horizontal y detallada de un sendero de bosque nuboso guatemalteco (helechos, bromelias, musgo, río pequeño). Incluir, bien visibles y en proporciones realistas: quetzal en una rama, iguana en una piedra, rana verde junto al río, venado cola blanca al fondo, mojarra en el agua, mariposa azul, caracol sobre una hoja, tarántula junto a una raíz, lombriz de tierra en el suelo húmedo, hormigas en fila. Sin rótulos (el estudiante los identifica). Colores naturales, estilo de guía de naturaleza para niños.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.1.2'], ambito: 'conocer', title: 'Con columna o sin columna',
+          prompt: 'Una forma de organizar a los animales es preguntarse: **¿tiene columna vertebral?** Toca las tarjetas.' },
+        { icon: 'Bone', body: 'La **columna vertebral** es una fila de huesos llamados **vértebras** que sostiene el cuerpo y protege la médula espinal.', reveal: [
+          { icon: 'Bone', front: 'Vertebrados', back: 'Tienen **columna vertebral** y **esqueleto interno** (huesos dentro del cuerpo), y un cráneo que protege el cerebro. Ejemplos: quetzal, jaguar, iguana, tú.' },
+          { icon: 'Bug', front: 'Invertebrados', back: '**No** tienen columna vertebral. Algunos tienen un **esqueleto externo** duro (exoesqueleto), otros una **concha** y otros el cuerpo **blando**.' },
+          { icon: 'BarChart3', front: '¿Cuántos hay?', back: 'Los invertebrados son **la gran mayoría** de las especies animales del planeta: solo los insectos son muchísimas más especies que todos los vertebrados juntos.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.1.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.1.2'], ambito: 'conocer',
           prompt: 'Mira el sendero de la imagen. ¿Cuál de estos animales tiene una **columna vertebral** como la tuya?',
           explain: 'La **iguana** tiene columna vertebral y esqueleto interno. El caracol y la mariposa no tienen huesos.' },
         { layout: 'grid', options: [
@@ -38,15 +43,6 @@ export default [
           { id: 'b', text: 'Iguana', icon: 'Footprints' },
           { id: 'c', text: 'Mariposa', icon: 'Bug', feedback: 'La mariposa tiene un esqueleto externo, duro y delgado, pero no columna vertebral.' },
         ], correct: ['b'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.1.2'], ambito: 'conocer', title: 'Con columna o sin columna',
-          prompt: 'Una forma de organizar a los animales es preguntarse: **¿tiene columna vertebral?** Toca las tarjetas.' },
-        { icon: 'Bone', body: 'La **columna vertebral** es una fila de huesos llamados **vértebras** que sostiene el cuerpo y protege la médula espinal.', reveal: [
-          { icon: 'Bone', front: 'Vertebrados', back: 'Tienen **columna vertebral** y **esqueleto interno** (huesos dentro del cuerpo), y un cráneo que protege el cerebro. Ejemplos: quetzal, jaguar, iguana, tú.' },
-          { icon: 'Bug', front: 'Invertebrados', back: '**No** tienen columna vertebral. Algunos tienen un **esqueleto externo** duro (exoesqueleto), otros una **concha** y otros el cuerpo **blando**.' },
-          { icon: 'BarChart3', front: '¿Cuántos hay?', back: 'Los invertebrados son **la gran mayoría** de las especies animales del planeta: solo los insectos son muchísimas más especies que todos los vertebrados juntos.' },
-        ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.1.2'], ambito: 'conocer',
@@ -185,10 +181,7 @@ export default [
     icon: 'Dna',
     minutes: 14,
     gancho: 'En el mercado hay mazorcas amarillas, blancas, moradas y rojas. ¿Son el mismo maíz? ¿Por qué se ven tan distintas?',
-    objetivos: [
-      'Explicar cómo el ADN, los genes y los cromosomas producen la diversidad entre especies',
-      'Explicar por qué hay variedad dentro de una misma especie y por qué es valiosa',
-    ],
+    objetivos: ['Explicar la relación entre ADN, genes, cromosomas y diversidad biológica'],
     resumen: [
       'Todos los seres vivos usan ADN con el mismo "alfabeto" químico de cuatro letras. Lo que cambia es el mensaje: genes distintos producen especies distintas.',
       'Cada especie tiene un número fijo de cromosomas (personas 46, maíz 20, perro 78). Tener más cromosomas no significa ser más complejo.',
@@ -201,18 +194,8 @@ export default [
       brief: 'Fotografía cenital de mazorcas de maíz de distintos colores (amarillo, blanco, negro o morado, rojo y pinto) sobre un petate, con luz natural. Sin personas identificables ni marcas. Rótulo superpuesto: "Una sola especie: Zea mays". Opcional: una mano sosteniendo una mazorca abierta para mostrar granos de dos colores.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.2.1'], ambito: 'conocer',
-          prompt: 'Las mazorcas amarillas, blancas, moradas y rojas de la imagen, ¿son de la **misma especie**?',
-          explain: 'Sí: todas son **maíz** (_Zea mays_). Sus colores distintos se deben a **diferencias en sus genes**. Hoy verás cómo el ADN produce tanta diversidad.' },
-        { options: [
-          { id: 'a', text: 'Sí, son maíz, pero con genes un poco distintos', icon: 'Wheat' },
-          { id: 'b', text: 'No, cada color es una planta diferente, sin relación', icon: 'X', feedback: 'Se pueden cruzar entre sí y dar mazorcas: son la misma especie.' },
-          { id: 'c', text: 'Sí, y el color depende solo de la pintura del mercado', icon: 'Palette', feedback: 'El color viene de los granos mismos, no de pintura.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.2.1'], ambito: 'conocer', title: 'El mismo alfabeto, mensajes distintos',
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.2.1'], ambito: 'conocer', title: 'El mismo alfabeto, mensajes distintos',
           prompt: 'Recuerda: el **ADN** forma los **cromosomas**, y los **genes** son pedazos de ADN con instrucciones. Toca las tarjetas.',
           media: { id: 's03-cnt-2-alfabeto', kind: 'animation', title: 'Cuatro letras, millones de seres', aspect: '16:9', duration: 40,
             alt: 'Animación: las letras A, T, C y G se ordenan en cadenas distintas; cada cadena se convierte en un ser vivo diferente: un hongo, una planta de maíz, un quetzal y una persona.',
@@ -222,6 +205,16 @@ export default [
           { icon: 'Layers', front: 'Genes distintos, especies distintas', back: 'Las diferencias en los genes producen **especies diferentes**: por eso un jaguar no se parece a una iguana.' },
           { icon: 'Users', front: 'Parecidos de familia', back: 'Especies emparentadas tienen ADN **muy parecido**. Mientras más parecido es el ADN, más cercano es el parentesco.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.2.1'], ambito: 'conocer',
+          prompt: 'Las mazorcas amarillas, blancas, moradas y rojas de la imagen, ¿son de la **misma especie**?',
+          explain: 'Sí: todas son **maíz** (_Zea mays_). Sus colores distintos se deben a **diferencias en sus genes**. Hoy verás cómo el ADN produce tanta diversidad.' },
+        { options: [
+          { id: 'a', text: 'Sí, son maíz, pero con genes un poco distintos', icon: 'Wheat' },
+          { id: 'b', text: 'No, cada color es una planta diferente, sin relación', icon: 'X', feedback: 'Se pueden cruzar entre sí y dar mazorcas: son la misma especie.' },
+          { id: 'c', text: 'Sí, y el color depende solo de la pintura del mercado', icon: 'Palette', feedback: 'El color viene de los granos mismos, no de pintura.' },
+        ], correct: ['a'] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.2.1'], ambito: 'conocer', title: 'Ejemplo: ¿más cromosomas es más complejo?',
@@ -315,10 +308,7 @@ export default [
     icon: 'HeartPulse',
     minutes: 15,
     gancho: 'Antes de pasar al frente a leer, a Mariana le late rápido el corazón y le sudan las manos. ¿Quién da esa orden en su cuerpo?',
-    objetivos: [
-      'Distinguir las glándulas de secreción interna (endocrinas) de las de secreción externa (exocrinas)',
-      'Ubicar las principales glándulas en el cuerpo y describir su función',
-    ],
+    objetivos: ['Clasificar y ubicar glándulas endocrinas y exocrinas según dónde liberan sus sustancias'],
     resumen: [
       'Una glándula es un órgano que fabrica y libera sustancias.',
       'Las glándulas de secreción interna (endocrinas) liberan hormonas a la sangre: hipófisis (glándula maestra, en la base del cerebro), tiroides (cuello), suprarrenales (sobre los riñones) y páncreas.',
@@ -331,8 +321,17 @@ export default [
       brief: 'Diagrama vertical de una silueta humana neutra (sin rasgos sexuales). Marcar en MORADO las glándulas de secreción interna: hipófisis (base del cerebro), tiroides (cuello, forma de mariposa), suprarrenales (sombrero sobre cada riñón), páncreas (detrás del estómago, marcado como "mixta" con los dos colores). Marcar en VERDE las de secreción externa: lagrimales (ojos), salivales (junto a la mandíbula), sudoríparas (lupa sobre la piel). Leyenda: "morado = a la sangre (hormonas)", "verde = hacia afuera por conductos". Letra grande, fondo blanco.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.3.1'], ambito: 'conocer', title: '¿Qué es una glándula?',
+          prompt: 'Una **glándula** es un órgano que **fabrica y libera** sustancias. Según **hacia dónde** las envía, hay dos tipos. Toca las tarjetas.' },
+        { icon: 'Factory', body: 'Liberar una sustancia se llama **secretar**, y la sustancia es la **secreción**.', reveal: [
+          { icon: 'HeartPulse', front: 'Secreción interna (endocrinas)', back: 'Liberan **hormonas** directamente a la **sangre**. Las hormonas son **mensajeros químicos**: viajan por todo el cuerpo y dan órdenes a otros órganos.' },
+          { icon: 'Droplets', front: 'Secreción externa (exocrinas)', back: 'Sacan su producto por **conductos** (tubitos) hacia **afuera del cuerpo** o hacia una cavidad, como la boca. Ejemplos: sudor, saliva, lágrimas.' },
+          { icon: 'Copy', front: 'Glándula mixta', back: 'El **páncreas** hace las dos cosas: envía **insulina** a la sangre y **jugo digestivo** al intestino.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.3.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.1'], ambito: 'conocer',
           prompt: 'Cuando Mariana se pone nerviosa, su corazón late rápido en pocos segundos. ¿Qué crees que lo causa?',
           explain: 'Unas glándulas liberan a la sangre una sustancia llamada **adrenalina**, que llega al corazón y lo acelera. Las sustancias que viajan por la sangre como mensajes se llaman **hormonas**.' },
         { options: [
@@ -340,15 +339,6 @@ export default [
           { id: 'b', text: 'El frío del aula', icon: 'Snowflake', feedback: 'El frío no acelera el corazón de esa forma en unos segundos.' },
           { id: 'c', text: 'Algo que comió hace una semana', icon: 'Utensils', feedback: 'Es una respuesta inmediata, no por algo de hace días.' },
         ], correct: ['a'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.1'], ambito: 'conocer', title: '¿Qué es una glándula?',
-          prompt: 'Una **glándula** es un órgano que **fabrica y libera** sustancias. Según **hacia dónde** las envía, hay dos tipos. Toca las tarjetas.' },
-        { icon: 'Factory', body: 'Liberar una sustancia se llama **secretar**, y la sustancia es la **secreción**.', reveal: [
-          { icon: 'HeartPulse', front: 'Secreción interna (endocrinas)', back: 'Liberan **hormonas** directamente a la **sangre**. Las hormonas son **mensajeros químicos**: viajan por todo el cuerpo y dan órdenes a otros órganos.' },
-          { icon: 'Droplets', front: 'Secreción externa (exocrinas)', back: 'Sacan su producto por **conductos** (tubitos) hacia **afuera del cuerpo** o hacia una cavidad, como la boca. Ejemplos: sudor, saliva, lágrimas.' },
-          { icon: 'Copy', front: 'Glándula mixta', back: 'El **páncreas** hace las dos cosas: envía **insulina** a la sangre y **jugo digestivo** al intestino.' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.1'], ambito: 'conocer', title: 'Las glándulas de secreción interna',

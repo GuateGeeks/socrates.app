@@ -13,11 +13,7 @@ export default [
     icon: 'History',
     minutes: 14,
     gancho: 'Hoy es lunes y tu amiga de Belice te pregunta: "What did you do on Sunday?" ¿Cómo le cuentas lo que hiciste?',
-    objetivos: [
-      'Reconocer palabras que indican pasado: yesterday, last Sunday, this morning',
-      'Formar el pasado de verbos regulares con -ed',
-      'Usar el pasado de verbos irregulares frecuentes: went, saw, ate, had, got up',
-    ],
+    objetivos: ['Narrar acciones pasadas con marcadores de tiempo y verbos regulares e irregulares frecuentes'],
     resumen: [
       'Para hablar de lo que ya pasó se usa el pasado simple (simple past).',
       'Verbos regulares: se agrega -ed: play → played, visit → visited, watch → watched. Si terminan en e, solo -d: dance → danced.',
@@ -30,8 +26,17 @@ export default [
       brief: 'Animación 2D de 45 s en cuatro escenas con transición de calendario (DOMINGO). (1) Sofía se levanta con el sol: texto "I got up early." (2) Camina al mercado con su mamá: "I went to the market." (3) Come un tamal con la familia: "I ate a tamal." (4) Juega fútbol con amigos en la cancha: "I played football." En cada escena el verbo en pasado aparece resaltado en color y el presente (get up, go, eat, play) se transforma con un efecto de "giro". Narración en inglés lento y claro con subtítulos en inglés.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.3.3'], ambito: 'conocer', title: 'Regular verbs: + ed',
+          prompt: 'La mayoría de verbos forman el pasado agregando **-ed** al final. ¡Y sirve igual para I, you, he, she, we, they! Toca cada tarjeta.' },
+        { icon: 'Plus', body: 'En español el pasado cambia con cada persona (yo jugué, ella jugó). En inglés es más fácil: **I played, she played, they played**.', reveal: [
+          { icon: 'Plus', front: '+ ed', back: 'play → **played** · walk → **walked** · visit → **visited** · watch → **watched** · cook → **cooked**' },
+          { icon: 'PenLine', front: 'Termina en e: + d', back: 'dance → **danced** · like → **liked** · live → **lived**' },
+          { icon: 'CalendarDays', front: 'Palabras de tiempo', back: '**yesterday** (ayer) · **last Sunday** (el domingo pasado) · **last week** (la semana pasada) · **this morning** (esta mañana)' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.3.3'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.3.3'], ambito: 'conocer',
           prompt: 'Lee: _"**Yesterday** I **played** football with my cousins."_ ¿Cuándo jugó fútbol?',
           explain: '**Yesterday** = ayer, y **played** es el pasado de **play** (jugar). Hoy aprenderás a contar en inglés lo que ya pasó.' },
         { options: [
@@ -39,15 +44,6 @@ export default [
           { id: 'b', text: 'Mañana', icon: 'CalendarDays', feedback: 'Mañana (el día siguiente) se dice "tomorrow". "Yesterday" es ayer.' },
           { id: 'c', text: 'Ahora mismo', icon: 'Clock', feedback: 'Ahora sería "now". Las pistas "yesterday" y "-ed" indican pasado.' },
         ], correct: ['a'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.3.3'], ambito: 'conocer', title: 'Regular verbs: + ed',
-          prompt: 'La mayoría de verbos forman el pasado agregando **-ed** al final. ¡Y sirve igual para I, you, he, she, we, they! Toca cada tarjeta.' },
-        { icon: 'Plus', body: 'En español el pasado cambia con cada persona (yo jugué, ella jugó). En inglés es más fácil: **I played, she played, they played**.', reveal: [
-          { icon: 'Plus', front: '+ ed', back: 'play → **played** · walk → **walked** · visit → **visited** · watch → **watched** · cook → **cooked**' },
-          { icon: 'PenLine', front: 'Termina en e: + d', back: 'dance → **danced** · like → **liked** · live → **lived**' },
-          { icon: 'CalendarDays', front: 'Palabras de tiempo', back: '**yesterday** (ayer) · **last Sunday** (el domingo pasado) · **last week** (la semana pasada) · **this morning** (esta mañana)' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['l3'], cnb: ['l3:1.3.3'], ambito: 'conocer', title: 'Irregular verbs',
@@ -169,11 +165,7 @@ export default [
     icon: 'Sparkles',
     minutes: 15,
     gancho: '"I got up early. I saw the sun shining, and I thought: what a beautiful morning! I am happy." Con solo tres oraciones, ¿ya sabes cómo se sintió quien lo escribió?',
-    objetivos: [
-      'Usar adjetivos para expresar sentimientos e impresiones',
-      'Narrar una experiencia en tres oraciones: lo que hice, lo que vi y cómo me sentí',
-      'Leer y comprender narraciones breves de otras personas',
-    ],
+    objetivos: ['Narrar en tres oraciones una experiencia, una observación y una impresión personal'],
     resumen: [
       'Una impresión es lo que sientes o piensas de algo que viviste.',
       'Receta de tres oraciones: 1) What I did: I went… / I got up… 2) What I saw or heard: I saw… / I heard… 3) How I felt: I felt happy. / I thought it was beautiful!',
@@ -186,8 +178,17 @@ export default [
       brief: 'Ilustración cálida al amanecer: una niña de 11-12 años abre la ventana de madera de su casa en un pueblo del altiplano y sonríe; afuera, el sol sale detrás de un volcán y hay milpa y neblina suave. Tres globitos pequeños con íconos (un despertador, un ojo con el sol, un corazón) que representan las tres oraciones: lo que hice, lo que vi, lo que sentí. Sin texto.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.3.3'], ambito: 'conocer', title: 'The three-sentence recipe',
+          prompt: 'Para contar una impresión en inglés, usa esta receta de **tres oraciones**. Toca cada paso.' },
+        { icon: 'ListOrdered', body: 'Usa el **pasado** que aprendiste el martes (went, saw, ate, was). Para "sentí" se dice **I felt** (pasado de feel).', reveal: [
+          { icon: 'Footprints', front: '1. What I did', back: 'Lo que hiciste: _I **went** to the fair._ · _I **got up** early._ · _I **visited** my aunt._' },
+          { icon: 'Eye', front: '2. What I saw or heard', back: 'Lo que viste u oíste: _I **saw** a big Ferris wheel._ · _I **heard** the marimba._' },
+          { icon: 'Heart', front: '3. How I felt', back: 'Tu impresión: _I **felt** happy._ · _I **was** excited._ · _I **thought** it was amazing!_' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.3.3'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.3.3'], ambito: 'conocer',
           prompt: 'Lee: _"I got up early. I saw the sun shining, and I thought: what a beautiful morning! I am happy."_ ¿Cómo se siente quien lo escribió?',
           explain: '**Happy** = feliz, y **beautiful** = hermoso. Con tres oraciones contó qué hizo, qué vio y cómo se sintió. Hoy aprenderás a escribir así tus propias impresiones.' },
         { options: [
@@ -212,15 +213,6 @@ export default [
           { icon: 'Utensils', front: 'delicious', back: 'delicioso/a · _It was delicious._' },
           { icon: 'PartyPopper', front: 'fun', back: 'divertido/a · _It was fun!_' },
           { icon: 'Leaf', front: 'calm', back: 'tranquilo/a · _I felt calm._' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.3.3'], ambito: 'conocer', title: 'The three-sentence recipe',
-          prompt: 'Para contar una impresión en inglés, usa esta receta de **tres oraciones**. Toca cada paso.' },
-        { icon: 'ListOrdered', body: 'Usa el **pasado** que aprendiste el martes (went, saw, ate, was). Para "sentí" se dice **I felt** (pasado de feel).', reveal: [
-          { icon: 'Footprints', front: '1. What I did', back: 'Lo que hiciste: _I **went** to the fair._ · _I **got up** early._ · _I **visited** my aunt._' },
-          { icon: 'Eye', front: '2. What I saw or heard', back: 'Lo que viste u oíste: _I **saw** a big Ferris wheel._ · _I **heard** the marimba._' },
-          { icon: 'Heart', front: '3. How I felt', back: 'Tu impresión: _I **felt** happy._ · _I **was** excited._ · _I **thought** it was amazing!_' },
         ] },
       ),
       S.ejemplo(

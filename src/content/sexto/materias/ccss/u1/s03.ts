@@ -14,11 +14,7 @@ export default [
     icon: 'Route',
     minutes: 14,
     gancho: 'Hoy mandas un mensaje por celular y llega en un segundo. ¿Cómo avisaba un rey maya o inca algo urgente a una ciudad lejana, hace mil años?',
-    objetivos: [
-      'Identificar medios de transporte y de comunicación de culturas antiguas de América y del mundo',
-      'Explicar por qué cada cultura usó los medios que usó según su geografía',
-      'Valorar la importancia de la comunicación y el transporte en la vida humana',
-    ],
+    objetivos: ['Relacionar medios de transporte y comunicación de culturas antiguas con su geografía y necesidades'],
     resumen: [
       'Los mayas construyeron sacbeob (caminos blancos) entre ciudades, navegaron en canoas por ríos y costas, y registraron su historia con escritura jeroglífica en estelas y códices.',
       'Los incas tuvieron una enorme red de caminos, el Qhapaq Ñan; sus mensajeros, los chasquis, corrían por relevos, y registraban datos con quipus (cuerdas con nudos). Usaban llamas para cargar.',
@@ -31,18 +27,8 @@ export default [
       brief: 'Ilustración en perspectiva de un sacbé: calzada blanca, recta y elevada, cubierta de estuco, que cruza la selva de Petén entre dos ciudades mayas con templos al fondo. Personas mayas antiguas caminan con cargas sujetas por mecapal; un mensajero corre adelante. No aparecen caballos, bueyes ni carretas con ruedas (no se usaban en Mesoamérica). Colores naturales, estilo educativo.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.3.1'], ambito: 'conocer',
-          prompt: 'En la antigua Mesoamérica **no había caballos, bueyes ni burros**. ¿Cómo crees que llevaban las cargas pesadas de una ciudad a otra?',
-          explain: 'Las llevaban **personas**, caminando con cargas sujetas por un **mecapal** (una banda en la frente), y por agua en **canoas**. Hoy verás cómo cada cultura resolvió este reto.' },
-        { options: [
-          { id: 'a', text: 'En carretas jaladas por caballos', icon: 'Truck', feedback: 'Los caballos llegaron a América con los europeos, en el siglo XVI.' },
-          { id: 'b', text: 'Cargándolas personas a pie y en canoas por ríos y costas', icon: 'Footprints' },
-          { id: 'c', text: 'No transportaban nada', icon: 'X', feedback: 'Sí comerciaban mucho: jade, cacao, obsidiana, sal, plumas y textiles viajaban grandes distancias.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.3.1'], ambito: 'conocer', title: 'Los mayas: caminos blancos y libros pintados',
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.3.1'], ambito: 'conocer', title: 'Los mayas: caminos blancos y libros pintados',
           prompt: 'Los mayas vivieron en lo que hoy es Guatemala, el sur de México, Belice y parte de Honduras y El Salvador. Toca cada tarjeta.' },
         { icon: 'Route', body: 'Comerciaban **jade** de la cuenca del Motagua, **obsidiana** del altiplano, **cacao**, **sal** y plumas de quetzal.', reveal: [
           { icon: 'Route', front: 'Sacbé (plural: sacbeob)', back: 'Significa "camino blanco". Calzadas elevadas y cubiertas de estuco blanco que unían edificios y ciudades. En Petén se conocen sacbeob que conectan El Mirador con otras ciudades.' },
@@ -50,6 +36,16 @@ export default [
           { icon: 'ScrollText', front: 'Escritura jeroglífica', back: 'Combinaba signos de palabras y de sílabas. La tallaban en **estelas** de piedra y la pintaban en **códices**, libros de papel de corteza doblados como acordeón.' },
           { icon: 'Footprints', front: 'Mensajeros y cargadores', back: 'Las noticias viajaban con **mensajeros a pie**. Las cargas iban en la espalda, sujetas con el **mecapal**, una técnica que aún se usa hoy.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.3.1'], ambito: 'conocer',
+          prompt: 'En la antigua Mesoamérica **no había caballos, bueyes ni burros**. ¿Cómo crees que llevaban las cargas pesadas de una ciudad a otra?',
+          explain: 'Las llevaban **personas**, caminando con cargas sujetas por un **mecapal** (una banda en la frente), y por agua en **canoas**. Hoy verás cómo cada cultura resolvió este reto.' },
+        { options: [
+          { id: 'a', text: 'En carretas jaladas por caballos', icon: 'Truck', feedback: 'Los caballos llegaron a América con los europeos, en el siglo XVI.' },
+          { id: 'b', text: 'Cargándolas personas a pie y en canoas por ríos y costas', icon: 'Footprints' },
+          { id: 'c', text: 'No transportaban nada', icon: 'X', feedback: 'Sí comerciaban mucho: jade, cacao, obsidiana, sal, plumas y textiles viajaban grandes distancias.' },
+        ], correct: ['b'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.3.1'], ambito: 'conocer', title: 'Otras culturas, otras soluciones',
@@ -138,11 +134,7 @@ export default [
     icon: 'Smartphone',
     minutes: 15,
     gancho: 'Tus abuelos escribían cartas que tardaban semanas. Tú haces videollamadas. ¿Qué ganamos con ese cambio? ¿Y qué podríamos perder?',
-    objetivos: [
-      'Describir cambios tecnológicos en distintos países del mundo',
-      'Clasificar sus efectos en la cultura, la economía y los valores',
-      'Opinar con argumentos sobre el uso responsable de la tecnología',
-    ],
+    objetivos: ['Analizar efectos culturales, económicos y éticos de un cambio tecnológico'],
     resumen: [
       'Un cambio tecnológico es una nueva herramienta o forma de hacer las cosas que transforma la vida de la gente: la imprenta, la electricidad, el automóvil, la radio, internet, el celular.',
       'Efectos en la economía: nuevos trabajos, formas de comprar y vender, envíos de dinero; algunos oficios cambian o desaparecen.',
@@ -155,8 +147,18 @@ export default [
       brief: 'Animación 2D de 45 s. Una línea del tiempo horizontal aparece de izquierda a derecha con íconos: imprenta de tipos móviles (hacia 1450), teléfono (siglo XIX), radio (inicios del siglo XX), televisión (mediados del siglo XX), computadora personal (años ochenta), internet para el público (años noventa), teléfono inteligente (siglo XXI). Debajo, una familia guatemalteca ilustrada cambia: una abuela escribe una carta, luego escucha la radio, y al final una niña hace videollamada con su tío que vive lejos. Narración en español con subtítulos. Sin marcas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.2.1'], ambito: 'conocer', title: '¿Qué es un cambio tecnológico?',
+          prompt: 'Un **cambio tecnológico** ocurre cuando una nueva herramienta o técnica transforma la forma de trabajar, comunicarse o vivir. Cada país lo vive a su manera. Toca las tarjetas.' },
+        { icon: 'Cpu', body: 'La tecnología no llega igual a todas partes: en muchos lugares del mundo, y también en áreas rurales de Guatemala, todavía falta conexión a internet. A esa diferencia se le llama **brecha digital**.', reveal: [
+          { icon: 'Factory', front: 'Japón y Corea del Sur', back: 'Usan muchos **robots** en fábricas. Producen más rápido, pero algunos trabajos manuales se reducen y aparecen otros nuevos de programación y mantenimiento.' },
+          { icon: 'Smartphone', front: 'Kenia (África)', back: 'Millones de personas **envían y reciben dinero por el celular** sin tener cuenta de banco. Eso ayudó a pequeños comerciantes del campo.' },
+          { icon: 'Tractor', front: 'Estados Unidos y Europa', back: 'La **maquinaria agrícola** hace que pocas personas cultiven grandes extensiones; mucha gente dejó el campo para trabajar en ciudades.' },
+          { icon: 'Radio', front: 'Guatemala', back: 'Las **radios comunitarias** transmiten en idiomas mayas; hay clases por televisión y radio; las familias reciben **remesas** de parientes en el extranjero y se comunican por videollamada.' },
+        ] },
+      ),
       S.sort(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.1'], ambito: 'conocer',
           prompt: 'Pregunta imaginaria a tu abuela: ¿qué existía cuando ella tenía tu edad y qué llegó después? Clasifica según lo que creas.',
           explain: 'Muchas tecnologías que hoy parecen "de siempre" son muy recientes. Internet y el celular llegaron a la mayoría de las familias de Guatemala en las últimas décadas.' },
         { buckets: [
@@ -168,16 +170,6 @@ export default [
           { id: 't3', text: 'El correo con cartas', bucket: 'antes' },
           { id: 't4', text: 'Pagar con el celular', bucket: 'nuevo' },
           { id: 't5', text: 'Las videollamadas', bucket: 'nuevo' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.1'], ambito: 'conocer', title: '¿Qué es un cambio tecnológico?',
-          prompt: 'Un **cambio tecnológico** ocurre cuando una nueva herramienta o técnica transforma la forma de trabajar, comunicarse o vivir. Cada país lo vive a su manera. Toca las tarjetas.' },
-        { icon: 'Cpu', body: 'La tecnología no llega igual a todas partes: en muchos lugares del mundo, y también en áreas rurales de Guatemala, todavía falta conexión a internet. A esa diferencia se le llama **brecha digital**.', reveal: [
-          { icon: 'Factory', front: 'Japón y Corea del Sur', back: 'Usan muchos **robots** en fábricas. Producen más rápido, pero algunos trabajos manuales se reducen y aparecen otros nuevos de programación y mantenimiento.' },
-          { icon: 'Smartphone', front: 'Kenia (África)', back: 'Millones de personas **envían y reciben dinero por el celular** sin tener cuenta de banco. Eso ayudó a pequeños comerciantes del campo.' },
-          { icon: 'Tractor', front: 'Estados Unidos y Europa', back: 'La **maquinaria agrícola** hace que pocas personas cultiven grandes extensiones; mucha gente dejó el campo para trabajar en ciudades.' },
-          { icon: 'Radio', front: 'Guatemala', back: 'Las **radios comunitarias** transmiten en idiomas mayas; hay clases por televisión y radio; las familias reciben **remesas** de parientes en el extranjero y se comunican por videollamada.' },
         ] },
       ),
       S.explain(
@@ -270,11 +262,7 @@ export default [
     icon: 'Ship',
     minutes: 15,
     gancho: 'El café que se cultiva en Huehuetenango puede terminar en una taza en Japón, y el celular de tu casa quizá se fabricó en Asia. ¿Cómo viajan los productos entre continentes?',
-    objetivos: [
-      'Clasificar actividades económicas en los sectores primario, secundario y terciario',
-      'Describir productos y servicios de los países centroamericanos',
-      'Explicar cómo Centroamérica se conecta económicamente con otros continentes',
-    ],
+    objetivos: ['Explicar cómo los sectores productivos conectan a Centroamérica con otros continentes'],
     resumen: [
       'Sector primario: obtiene recursos de la naturaleza (agricultura, ganadería, pesca, minería). Secundario: transforma materias primas (industria, maquilas, construcción). Terciario: ofrece servicios (comercio, transporte, turismo, educación, salud).',
       'Centroamérica exporta café, banano, azúcar, cardamomo, textiles y otros productos; Panamá ofrece el servicio de su canal y Costa Rica fabrica dispositivos médicos.',
@@ -287,8 +275,17 @@ export default [
       brief: 'Mapamundi centrado en América. Centroamérica resaltada. Flechas verdes de exportación salen hacia Estados Unidos (café, banano, textiles, azúcar), Europa (café, banano), Asia (café, azúcar) y el mundo árabe (cardamomo). Flechas azules de importación llegan desde Estados Unidos y Asia (combustibles, maquinaria, electrónicos, medicinas). Se marcan puertos: Puerto Quetzal y Santo Tomás de Castilla (Guatemala) y el Canal de Panamá con un barco portacontenedores. Leyenda "exportación" e "importación". Sin cifras ni marcas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.4.1'], ambito: 'conocer', title: 'Los tres sectores de la economía',
+          prompt: 'Las **actividades económicas** son las que realizan las personas para producir bienes y servicios. Se agrupan en tres sectores. Toca cada tarjeta.' },
+        { icon: 'Factory', body: 'Sigue un producto: el **café** se cultiva (primario), se tuesta y empaca (secundario) y se vende en una cafetería o se transporta (terciario).', reveal: [
+          { icon: 'Wheat', front: 'Primario', back: 'Obtiene recursos **de la naturaleza**: agricultura, ganadería, pesca, minería. Ejemplo: cortar café en la finca.' },
+          { icon: 'Factory', front: 'Secundario', back: '**Transforma** materias primas en productos: industria, maquilas de ropa, ingenios de azúcar, construcción.' },
+          { icon: 'Store', front: 'Terciario', back: 'Ofrece **servicios**: comercio, transporte, turismo, bancos, educación, salud, centros de llamadas.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.4.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.4.1'], ambito: 'conocer',
           prompt: 'Guatemala es uno de los mayores productores de **cardamomo** del mundo, pero en Guatemala casi no se consume. ¿Qué crees que se hace con la mayor parte?',
           explain: 'Se **exporta**: se vende a otros países, sobre todo del Oriente Medio y Asia, donde se usa mucho en el café y la comida. El comercio conecta a Alta Verapaz con otros continentes.' },
         { options: [
@@ -296,15 +293,6 @@ export default [
           { id: 'b', text: 'Se guarda en bodegas para siempre', icon: 'Package', feedback: 'Guardarlo no daría ingresos a las familias productoras.' },
           { id: 'c', text: 'Se tira porque no se usa', icon: 'Trash2', feedback: 'Al contrario: es un producto muy valioso para muchas familias de Alta Verapaz.' },
         ], correct: ['a'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.4.1'], ambito: 'conocer', title: 'Los tres sectores de la economía',
-          prompt: 'Las **actividades económicas** son las que realizan las personas para producir bienes y servicios. Se agrupan en tres sectores. Toca cada tarjeta.' },
-        { icon: 'Factory', body: 'Sigue un producto: el **café** se cultiva (primario), se tuesta y empaca (secundario) y se vende en una cafetería o se transporta (terciario).', reveal: [
-          { icon: 'Wheat', front: 'Primario', back: 'Obtiene recursos **de la naturaleza**: agricultura, ganadería, pesca, minería. Ejemplo: cortar café en la finca.' },
-          { icon: 'Factory', front: 'Secundario', back: '**Transforma** materias primas en productos: industria, maquilas de ropa, ingenios de azúcar, construcción.' },
-          { icon: 'Store', front: 'Terciario', back: 'Ofrece **servicios**: comercio, transporte, turismo, bancos, educación, salud, centros de llamadas.' },
-        ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.4.1'], prompt: 'Clasifica cada actividad en su sector.',

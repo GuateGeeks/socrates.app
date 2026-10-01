@@ -12,11 +12,7 @@ export default [
     icon: 'Users',
     minutes: 15,
     gancho: 'En tu escuela el chorro se queda abierto y el agua se desperdicia. ¿Lo resuelve un cartel que diga "cierre el chorro", o hay que averiguar primero por qué pasa?',
-    objetivos: [
-      'Explicar qué es un círculo de calidad, cómo se forma y cómo trabaja',
-      'Separar causas y efectos de un problema con el árbol de problemas',
-      'Evaluar una propuesta con la técnica PNI: positivo, negativo e interesante',
-    ],
+    objetivos: ['Analizar un problema cercano en un círculo de calidad mediante causas, efectos y PNI'],
     resumen: [
       'Un círculo de calidad es un grupo pequeño (de 4 a 8 personas) que se reúne con frecuencia, de forma voluntaria, para identificar un problema, analizar sus causas, proponer soluciones, aplicarlas y evaluarlas.',
       'Roles: quien coordina (dirige la reunión), quien hace de secretaría (anota) y los participantes (todos opinan). Reglas: respeto, turnos para hablar y decisiones con datos.',
@@ -29,18 +25,8 @@ export default [
       brief: 'Ilustración de seis estudiantes de sexto (niñas y niños diversos) sentados en círculo en el corredor de una escuela. En el centro, un papelógrafo con un árbol dibujado a marcador: en las raíces tarjetas amarillas ("chorro flojo", "nadie revisa"), en el tronco "Se desperdicia el agua", en las ramas tarjetas celestes ("baño sucio", "tanque vacío"). Una niña coordina con un marcador, un niño anota en un cuaderno (secretaría). Al fondo, el chorro de la pila. Estilo plano, colores cálidos, sin textos adicionales.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:2.3.1'], ambito: 'emprender',
-          prompt: 'El chorro de la escuela se queda abierto y el agua se desperdicia. ¿Qué conviene hacer **primero**?',
-          explain: 'Antes de proponer, hay que **averiguar las causas**: quizá el chorro está flojo, quizá nadie revisa o quizá los pequeños no alcanzan a cerrarlo. Cada causa tiene una solución distinta.' },
-        { options: [
-          { id: 'a', text: 'Averiguar por qué se queda abierto', icon: 'Search' },
-          { id: 'b', text: 'Castigar a quien lo dejó abierto', icon: 'Gavel', feedback: 'Sin saber la causa, podrías castigar a alguien que no tuvo la culpa y el problema seguiría.' },
-          { id: 'c', text: 'Poner un cartel y ya', icon: 'FileText', feedback: 'Un cartel puede ayudar, pero si la causa es que el chorro está dañado, no servirá.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:2.3.2'], ambito: 'conocer', title: '¿Qué es un círculo de calidad?',
+        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:2.3.2'], ambito: 'conocer', title: '¿Qué es un círculo de calidad?',
           prompt: 'Un **círculo de calidad** es un grupo pequeño que se reúne para **mejorar algo** de su entorno. Toca cada tarjeta.' },
         { icon: 'Users', body: 'Se llama "de calidad" porque busca que las cosas **funcionen mejor**, y "círculo" porque todos se sientan como iguales y todos opinan.', reveal: [
           { icon: 'Users', front: '¿Quiénes lo forman?', back: 'De **4 a 8 personas** que comparten el mismo espacio (un grado, un comité, un taller). Participan **de forma voluntaria**.' },
@@ -48,6 +34,16 @@ export default [
           { icon: 'ClipboardList', front: 'Roles', back: '**Coordinación:** dirige la reunión y da la palabra. **Secretaría:** anota ideas y acuerdos. **Participantes:** aportan ideas y datos.' },
           { icon: 'Scale', front: 'Reglas', back: 'Respeto, **turnos** para hablar, criticar ideas y no personas, y decidir con **datos**, no con suposiciones.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:2.3.1'], ambito: 'emprender',
+          prompt: 'El chorro de la escuela se queda abierto y el agua se desperdicia. ¿Qué conviene hacer **primero**?',
+          explain: 'Antes de proponer, hay que **averiguar las causas**: quizá el chorro está flojo, quizá nadie revisa o quizá los pequeños no alcanzan a cerrarlo. Cada causa tiene una solución distinta.' },
+        { options: [
+          { id: 'a', text: 'Averiguar por qué se queda abierto', icon: 'Search' },
+          { id: 'b', text: 'Castigar a quien lo dejó abierto', icon: 'Gavel', feedback: 'Sin saber la causa, podrías castigar a alguien que no tuvo la culpa y el problema seguiría.' },
+          { id: 'c', text: 'Poner un cartel y ya', icon: 'FileText', feedback: 'Un cartel puede ayudar, pero si la causa es que el chorro está dañado, no servirá.' },
+        ], correct: ['a'] },
       ),
       S.order(
         { fase: 'construir', areas: ['pyd'], cnb: ['pyd:2.3.2'], prompt: 'Ordena los **pasos** que sigue un círculo de calidad.',

@@ -13,11 +13,7 @@ export default [
     icon: 'FlipHorizontal',
     minutes: 13,
     gancho: 'Si doblas por la mitad una hoja con una mariposa pintada, las dos alas quedan encima una de la otra. ¿Por qué?',
-    objetivos: [
-      'Reconocer el eje de simetría de una figura',
-      'Contar los ejes de simetría de polígonos conocidos',
-      'Reflejar una figura en papel cuadriculado',
-    ],
+    objetivos: ['Aplicar la simetría para reconocer ejes y reflejar figuras en una cuadrícula'],
     resumen: [
       'Una figura es simétrica si una línea (el eje de simetría) la divide en dos mitades que son reflejo una de la otra.',
       'Al reflejar, cada punto queda a la misma distancia del eje, pero del otro lado. La figura reflejada es congruente con la original.',
@@ -29,8 +25,17 @@ export default [
       brief: 'Animación 2D de 35 s. Una hoja blanca con una línea punteada vertical; a la izquierda, media mariposa de colores. La hoja se dobla por la línea, se presiona y se abre: aparece la otra mitad igual, reflejada. Luego flechas muestran que un punto del ala izquierda y su reflejo están a la misma distancia de la línea. Texto final: "eje de simetría". Música suave, narración breve en español.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.11'], ambito: 'conocer', title: 'El eje de simetría',
+          prompt: 'Una figura es **simétrica** si una línea la divide en **dos mitades que son reflejo** una de la otra, como en un espejo. Esa línea es el **eje de simetría**. Toca cada tarjeta.' },
+        { icon: 'FlipHorizontal', body: 'Reflejar una figura es "voltearla" sobre el eje, como al doblar una hoja.', reveal: [
+          { icon: 'Ruler', front: 'Misma distancia', back: 'Cada punto y su reflejo están a la **misma distancia** del eje, pero en lados opuestos.' },
+          { icon: 'Copy', front: 'Figura congruente', back: 'La figura reflejada tiene los mismos lados y ángulos: es **congruente** con la original.' },
+          { icon: 'X', front: 'Contraejemplo', back: 'Si doblas un romboide por cualquier línea, sus mitades no coinciden: **no tiene** ejes de simetría.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.11'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.11'], ambito: 'conocer',
           prompt: '¿Cuál de estos objetos puedes doblar por una línea de modo que **sus dos mitades queden (casi) una sobre otra**?',
           explain: 'Una hoja de aguacate, doblada por su vena central, tiene dos mitades casi iguales. En la naturaleza la simetría casi nunca es perfecta; en las figuras geométricas sí puede serlo. Esa línea se llama **eje de simetría**.' },
         { options: [
@@ -38,15 +43,6 @@ export default [
           { id: 'b', text: 'Una piedra de río cualquiera', icon: 'Mountain', feedback: 'Una piedra cualquiera no suele tener dos mitades iguales.' },
           { id: 'c', text: 'Un garabato hecho sin pensar', icon: 'PenLine', feedback: 'Un garabato casi nunca tiene dos mitades iguales.' },
         ], correct: ['a'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.11'], ambito: 'conocer', title: 'El eje de simetría',
-          prompt: 'Una figura es **simétrica** si una línea la divide en **dos mitades que son reflejo** una de la otra, como en un espejo. Esa línea es el **eje de simetría**. Toca cada tarjeta.' },
-        { icon: 'FlipHorizontal', body: 'Reflejar una figura es "voltearla" sobre el eje, como al doblar una hoja.', reveal: [
-          { icon: 'Ruler', front: 'Misma distancia', back: 'Cada punto y su reflejo están a la **misma distancia** del eje, pero en lados opuestos.' },
-          { icon: 'Copy', front: 'Figura congruente', back: 'La figura reflejada tiene los mismos lados y ángulos: es **congruente** con la original.' },
-          { icon: 'X', front: 'Contraejemplo', back: 'Si doblas un romboide por cualquier línea, sus mitades no coinciden: **no tiene** ejes de simetría.' },
-        ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.11'], prompt: '¿Tiene al menos un eje de simetría?',
@@ -146,11 +142,7 @@ export default [
     icon: 'RotateCw',
     minutes: 14,
     gancho: 'Un cajón se abre deslizándose; una puerta se abre girando. ¿Las figuras también pueden moverse así?',
-    objetivos: [
-      'Trasladar una figura indicando dirección y distancia',
-      'Rotar una figura alrededor de un punto: cuarto de vuelta, media vuelta y vuelta completa',
-      'Reconocer simetría, traslación y rotación en diseños y objetos',
-    ],
+    objetivos: ['Aplicar traslaciones y rotaciones indicando dirección, distancia, centro y amplitud del giro'],
     resumen: [
       'Traslación: la figura se desliza una distancia en una dirección, sin girar ni voltearse. Todos sus puntos se mueven lo mismo.',
       'Rotación: la figura gira alrededor de un punto fijo (centro de giro). Cuarto de vuelta = 90°, media vuelta = 180°, tres cuartos = 270°, vuelta completa = 360°.',
@@ -163,18 +155,8 @@ export default [
       brief: 'Ilustración de una faja tejida horizontal dividida en tres franjas rotuladas: "traslación" (un pájaro estilizado que se repite hacia la derecha siempre igual, con flechas de desplazamiento), "rotación" (una flor de cuatro pétalos con una figura que gira un cuarto de vuelta cada vez, con flecha curva y punto de giro) y "simetría" (dos figuras enfrentadas con eje punteado). Colores de textil guatemalteco, estilo plano, sin reproducir un diseño específico de una comunidad.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.11'], ambito: 'conocer',
-          prompt: '¿Cuál de estos movimientos es **deslizar sin girar**?',
-          explain: 'El cajón se desliza en línea recta sin girar: eso es una **traslación**. La puerta y la rueda **giran**: eso es una **rotación**.' },
-        { options: [
-          { id: 'a', text: 'Abrir un cajón', icon: 'Archive' },
-          { id: 'b', text: 'Abrir una puerta', icon: 'DoorOpen', feedback: 'La puerta gira alrededor de sus bisagras.' },
-          { id: 'c', text: 'Una rueda de bicicleta andando', icon: 'Bike', feedback: 'La rueda gira alrededor de su centro.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.11'], ambito: 'conocer', title: 'Tres movimientos',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.11'], ambito: 'conocer', title: 'Tres movimientos',
           prompt: 'Las figuras se pueden mover de tres maneras **sin cambiar su forma ni su tamaño**. Toca cada tarjeta.',
           media: { id: 's03-mat-2-anim', kind: 'animation', title: 'Traslación, rotación y reflexión', aspect: '16:9', duration: 40,
             alt: 'Una bandera triangular sobre cuadrícula se desliza 4 cuadritos, luego gira un cuarto de vuelta alrededor de un punto y al final se refleja sobre una línea.',
@@ -184,6 +166,16 @@ export default [
           { icon: 'RotateCw', front: 'Rotación', back: '**Gira** alrededor de un punto fijo, el **centro de giro**. Se dice cuánto gira: ¼ de vuelta (90°), ½ vuelta (180°)…' },
           { icon: 'FlipHorizontal', front: 'Simetría (reflexión)', back: 'Se **voltea** sobre un eje, como en un espejo.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.11'], ambito: 'conocer',
+          prompt: '¿Cuál de estos movimientos es **deslizar sin girar**?',
+          explain: 'El cajón se desliza en línea recta sin girar: eso es una **traslación**. La puerta y la rueda **giran**: eso es una **rotación**.' },
+        { options: [
+          { id: 'a', text: 'Abrir un cajón', icon: 'Archive' },
+          { id: 'b', text: 'Abrir una puerta', icon: 'DoorOpen', feedback: 'La puerta gira alrededor de sus bisagras.' },
+          { id: 'c', text: 'Una rueda de bicicleta andando', icon: 'Bike', feedback: 'La rueda gira alrededor de su centro.' },
+        ], correct: ['a'] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.11'], ambito: 'hacer', title: 'Trasladar en cuadrícula',
@@ -279,11 +271,7 @@ export default [
     icon: 'Fence',
     minutes: 14,
     gancho: 'Don Efraín quiere cercar su parcela de café con alambre. ¿Cómo sabe cuántos metros comprar?',
-    objetivos: [
-      'Calcular el perímetro de polígonos regulares e irregulares',
-      'Hallar un lado desconocido si se conoce el perímetro',
-      'Resolver problemas de cercos, marcos y bordes',
-    ],
+    objetivos: ['Resolver problemas de perímetro en polígonos regulares e irregulares, incluso con un lado desconocido'],
     resumen: [
       'El perímetro es la medida del contorno de una figura: se suman todos sus lados.',
       'Polígono regular: perímetro = número de lados × medida de un lado.',
@@ -297,18 +285,8 @@ export default [
       brief: 'Ilustración de una parcela de café en una ladera del altiplano con forma de pentágono irregular vista en perspectiva aérea suave. Cada lado rotulado con su medida (20 m, 15 m, 18 m, 22 m, 25 m). Un agricultor con sombrero mide un lado con cinta métrica; postes y alambre en parte del borde. Una línea de color recorre todo el contorno con la palabra "perímetro". Estilo plano cálido, sin marcas.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.2.1'], ambito: 'conocer',
-          prompt: 'Para saber cuánto alambre comprar, ¿qué necesita medir don Efraín?',
-          explain: 'Necesita la medida de **todo el borde**: el **perímetro**.' },
-        { options: [
-          { id: 'a', text: 'Solo el lado más largo', icon: 'Ruler', feedback: 'El alambre debe rodear toda la parcela, no solo un lado.' },
-          { id: 'b', text: 'La medida de todo el borde de la parcela', icon: 'Fence' },
-          { id: 'c', text: 'Cuántas matas de café caben adentro', icon: 'Sprout', feedback: 'Eso tiene que ver con el espacio de adentro, no con el borde.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.2.1'], ambito: 'conocer', title: '¿Qué es el perímetro?',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.2.1'], ambito: 'conocer', title: '¿Qué es el perímetro?',
           prompt: 'El **perímetro** es la medida del **contorno** de una figura. Se calcula **sumando todos sus lados**. Toca cada tarjeta.' },
         { icon: 'Fence', body: 'Perímetro = lado + lado + lado + …', reveal: [
           { icon: 'Shapes', front: 'Polígono irregular', back: 'Suma los lados uno por uno. No te saltes ninguno.' },
@@ -316,6 +294,16 @@ export default [
           { icon: 'RectangleHorizontal', front: 'Rectángulo', back: 'Tiene dos largos y dos anchos: **2 × largo + 2 × ancho**.' },
           { icon: 'X', front: 'Cuidado', back: 'El perímetro es el **borde**, no el espacio de adentro. Se mide en m o cm.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.2.1'], ambito: 'conocer',
+          prompt: 'Para saber cuánto alambre comprar, ¿qué necesita medir don Efraín?',
+          explain: 'Necesita la medida de **todo el borde**: el **perímetro**.' },
+        { options: [
+          { id: 'a', text: 'Solo el lado más largo', icon: 'Ruler', feedback: 'El alambre debe rodear toda la parcela, no solo un lado.' },
+          { id: 'b', text: 'La medida de todo el borde de la parcela', icon: 'Fence' },
+          { id: 'c', text: 'Cuántas matas de café caben adentro', icon: 'Sprout', feedback: 'Eso tiene que ver con el espacio de adentro, no con el borde.' },
+        ], correct: ['b'] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.2.1'], ambito: 'hacer', title: 'Ejemplo resuelto',
@@ -404,11 +392,7 @@ export default [
     icon: 'Box',
     minutes: 14,
     gancho: 'Una caja de cardamomo, un bote de agua y un cono de tránsito ocupan espacio. ¿En qué se diferencian de una figura dibujada en papel?',
-    objetivos: [
-      'Distinguir figuras planas de cuerpos geométricos',
-      'Reconocer caras, aristas y vértices',
-      'Describir prismas, pirámides, cilindros y conos',
-    ],
+    objetivos: ['Describir prismas, pirámides, cilindros y conos por sus caras, aristas y vértices'],
     resumen: [
       'Un cuerpo geométrico ocupa espacio: tiene largo, ancho y alto. Una figura plana solo tiene largo y ancho.',
       'Cara: superficie plana. Arista: línea donde se juntan dos caras. Vértice: punto donde se juntan varias aristas.',
@@ -421,8 +405,20 @@ export default [
       brief: 'Ilustración de una mesa de mercado guatemalteco con objetos reales etiquetados con el nombre del cuerpo: caja de cartón de cardamomo (prisma rectangular), bote de agua (cilindro), barquillo de helado (cono), adorno de piedra con forma de pirámide de base cuadrada y un dado (cubo). Cada objeto con sus aristas resaltadas en línea fina de color. Estilo plano, sin marcas comerciales.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.1'], ambito: 'conocer', title: 'Las partes de un cuerpo',
+          prompt: 'Toma una caja cualquiera de tu casa y busca estas tres partes. Toca cada tarjeta.',
+          media: { id: 's03-mat-4-partes', kind: 'diagram', title: 'Cara, arista y vértice', aspect: '4:3',
+            alt: 'Una caja en perspectiva con una cara sombreada en azul, una arista resaltada en rojo y un vértice marcado con un punto amarillo.',
+            brief: 'Diagrama de un prisma rectangular (caja) en perspectiva con aristas ocultas en línea punteada. Una cara sombreada en azul con rótulo "cara (superficie plana)", una arista resaltada en rojo con rótulo "arista (donde se juntan dos caras)" y un vértice con punto amarillo y rótulo "vértice (donde se juntan aristas)". Fondo blanco, rótulos grandes y legibles.' } },
+        { icon: 'Box', body: 'Así se describen los cuerpos: contando sus caras, aristas y vértices.', reveal: [
+          { icon: 'Square', front: 'Cara', back: 'Cada **superficie plana** del cuerpo. Una caja tiene 6.' },
+          { icon: 'Minus', front: 'Arista', back: 'La **línea** donde se juntan dos caras. Una caja tiene 12.' },
+          { icon: 'CircleDot', front: 'Vértice', back: 'El **punto** donde se juntan varias aristas (las esquinas). Una caja tiene 8.' },
+        ] },
+      ),
       S.sort(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.1'], ambito: 'conocer',
           prompt: '¿Es una figura plana (se dibuja en papel) o un cuerpo que ocupa espacio?',
           explain: 'Los cuerpos tienen largo, ancho **y alto**. Las figuras planas solo tienen largo y ancho.' },
         { buckets: [
@@ -434,18 +430,6 @@ export default [
           { id: 'c', text: 'Un bote de agua', bucket: 'cu' },
           { id: 'd', text: 'Un triángulo recortado de papel', bucket: 'pl', feedback: 'El papel es tan delgado que lo tratamos como figura plana.' },
           { id: 'e', text: 'Un cono de tránsito', bucket: 'cu' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.1'], ambito: 'conocer', title: 'Las partes de un cuerpo',
-          prompt: 'Toma una caja cualquiera de tu casa y busca estas tres partes. Toca cada tarjeta.',
-          media: { id: 's03-mat-4-partes', kind: 'diagram', title: 'Cara, arista y vértice', aspect: '4:3',
-            alt: 'Una caja en perspectiva con una cara sombreada en azul, una arista resaltada en rojo y un vértice marcado con un punto amarillo.',
-            brief: 'Diagrama de un prisma rectangular (caja) en perspectiva con aristas ocultas en línea punteada. Una cara sombreada en azul con rótulo "cara (superficie plana)", una arista resaltada en rojo con rótulo "arista (donde se juntan dos caras)" y un vértice con punto amarillo y rótulo "vértice (donde se juntan aristas)". Fondo blanco, rótulos grandes y legibles.' } },
-        { icon: 'Box', body: 'Así se describen los cuerpos: contando sus caras, aristas y vértices.', reveal: [
-          { icon: 'Square', front: 'Cara', back: 'Cada **superficie plana** del cuerpo. Una caja tiene 6.' },
-          { icon: 'Minus', front: 'Arista', back: 'La **línea** donde se juntan dos caras. Una caja tiene 12.' },
-          { icon: 'CircleDot', front: 'Vértice', back: 'El **punto** donde se juntan varias aristas (las esquinas). Una caja tiene 8.' },
         ] },
       ),
       S.ejemplo(
@@ -528,10 +512,7 @@ export default [
     icon: 'Package',
     minutes: 14,
     gancho: 'Si desarmas una caja de zapatos, ¿cuántas piezas iguales encuentras?',
-    objetivos: [
-      'Identificar caras congruentes en prismas, pirámides y cilindros',
-      'Repasar movimientos, perímetro y partes de los cuerpos',
-    ],
+    objetivos: ['Identificar y justificar cuáles caras son congruentes en prismas, pirámides y cilindros'],
     resumen: [
       'Las dos bases de un prisma y de un cilindro siempre son congruentes.',
       'En una caja (prisma rectangular) las caras opuestas son congruentes: hay 3 pares. En un cubo, las 6 caras son congruentes.',
@@ -544,18 +525,8 @@ export default [
       brief: 'Animación 2D de 35 s. Una caja de cartón sin marcas (30 × 20 × 10 cm) gira, se abre y queda desplegada sobre la mesa. Las caras se colorean por pares congruentes: las dos de 30 × 20 en azul, las dos de 30 × 10 en verde y las dos de 20 × 10 en amarillo, con sus medidas. Luego un cubo desplegado con sus 6 caras del mismo color. Narración: "caras congruentes: misma forma y mismo tamaño".',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.2'], ambito: 'conocer',
-          prompt: 'En una caja de zapatos, ¿qué caras son **iguales** en forma y tamaño?',
-          explain: 'Las caras **opuestas** (la de arriba y la de abajo, las de los lados, la de enfrente y la de atrás) son **congruentes**.' },
-        { options: [
-          { id: 'a', text: 'Las caras opuestas', icon: 'Copy' },
-          { id: 'b', text: 'Todas las caras', icon: 'Layers', feedback: 'Eso pasa en un cubo; en una caja de zapatos hay caras largas y caras cortas.' },
-          { id: 'c', text: 'Ninguna', icon: 'X', feedback: 'Mira la tapa y el fondo: miden lo mismo.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.2'], ambito: 'conocer', title: 'Caras congruentes',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.2'], ambito: 'conocer', title: 'Caras congruentes',
           prompt: 'Dos caras son **congruentes** si tienen la misma forma y el mismo tamaño (encajarían una sobre otra). Toca cada cuerpo.' },
         { icon: 'Copy', body: 'Pista general: las **bases** de prismas y cilindros siempre son congruentes.', reveal: [
           { icon: 'Box', front: 'Prisma rectangular', back: 'Caras opuestas congruentes: **3 pares**.' },
@@ -563,6 +534,16 @@ export default [
           { icon: 'Cylinder', front: 'Cilindro', back: 'Sus **2 bases** son círculos congruentes.' },
           { icon: 'Triangle', front: 'Pirámide de base regular', back: 'Todas sus **caras laterales** son triángulos congruentes. Pirámide cuadrada: 4 triángulos iguales.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.2'], ambito: 'conocer',
+          prompt: 'En una caja de zapatos, ¿qué caras son **iguales** en forma y tamaño?',
+          explain: 'Las caras **opuestas** (la de arriba y la de abajo, las de los lados, la de enfrente y la de atrás) son **congruentes**.' },
+        { options: [
+          { id: 'a', text: 'Las caras opuestas', icon: 'Copy' },
+          { id: 'b', text: 'Todas las caras', icon: 'Layers', feedback: 'Eso pasa en un cubo; en una caja de zapatos hay caras largas y caras cortas.' },
+          { id: 'c', text: 'Ninguna', icon: 'X', feedback: 'Mira la tapa y el fondo: miden lo mismo.' },
+        ], correct: ['a'] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.2'], ambito: 'hacer', title: 'Ejemplo resuelto',

@@ -14,11 +14,7 @@ export default [
     icon: 'Library',
     minutes: 13,
     gancho: 'Si quisieras saber qué significa una palabra, dónde queda un río o qué pasó ayer en tu departamento, ¿buscarías en el mismo lugar?',
-    objetivos: [
-      'Conocer los principales materiales de consulta y qué información ofrece cada uno',
-      'Elegir el material adecuado según lo que necesitas saber',
-      'Reconocer a las personas de la comunidad como fuentes de información',
-    ],
+    objetivos: ['Elegir una fuente de consulta pertinente según la información que se necesita'],
     resumen: [
       'Diccionario: significado y escritura de las palabras. Enciclopedia: explicaciones sobre muchos temas. Atlas: mapas. Periódico: noticias recientes. Libro de texto: temas de cada materia.',
       'Las personas que saben de un tema (abuelos, artesanos, autoridades comunitarias, personal de salud) también son una fuente valiosa: se les consulta con una entrevista.',
@@ -31,18 +27,8 @@ export default [
       brief: 'Ilustración de una biblioteca escolar sencilla en Guatemala: estantes de madera con carteles "Diccionarios", "Enciclopedias", "Atlas", "Periódicos" y "Libros de texto". Una niña con corte de pelo corto consulta un atlas con el mapa de Guatemala; un niño lee un periódico en una mesa. Por la ventana se ven montañas. Sin marcas de editoriales.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.3'], ambito: 'conocer',
-          prompt: 'Necesitas saber **en qué departamento está el lago de Izabal**. ¿Qué material consultarías primero?',
-          explain: 'Un **atlas** es un libro de mapas: muestra dónde está cada lugar. Hoy conocerás para qué sirve cada material de consulta.' },
-        { options: [
-          { id: 'a', text: 'Un diccionario', icon: 'Book', feedback: 'El diccionario explica el significado de las palabras, no la ubicación de los lugares.' },
-          { id: 'b', text: 'Un atlas', icon: 'Map' },
-          { id: 'c', text: 'Un libro de cuentos', icon: 'BookOpen', feedback: 'Los cuentos son para disfrutar historias, no para ubicar lugares.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.3'], ambito: 'conocer', title: 'Cada material tiene su especialidad',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.3'], ambito: 'conocer', title: 'Cada material tiene su especialidad',
           prompt: 'Los **materiales de consulta** son los que usamos para buscar información, no para leerlos de principio a fin. Toca cada tarjeta.' },
         { icon: 'Library', body: 'Elegir bien el material te ahorra tiempo y te da información **pertinente**: la que de verdad responde lo que necesitas.', reveal: [
           { icon: 'Book', front: 'Diccionario', back: 'Significado de las palabras, cómo se escriben y, a veces, sinónimos. Ordenado alfabéticamente.' },
@@ -52,6 +38,16 @@ export default [
           { icon: 'GraduationCap', front: 'Libro de texto', back: 'Explica los temas de una **materia escolar** en orden, con ejemplos y ejercicios.' },
           { icon: 'Users', front: 'Personas de la comunidad', back: 'Abuelas y abuelos, artesanos, comadronas, agricultores, autoridades comunitarias: saben cosas que **no están en los libros**. Se les consulta con una entrevista respetuosa.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.3'], ambito: 'conocer',
+          prompt: 'Necesitas saber **en qué departamento está el lago de Izabal**. ¿Qué material consultarías primero?',
+          explain: 'Un **atlas** es un libro de mapas: muestra dónde está cada lugar. Hoy conocerás para qué sirve cada material de consulta.' },
+        { options: [
+          { id: 'a', text: 'Un diccionario', icon: 'Book', feedback: 'El diccionario explica el significado de las palabras, no la ubicación de los lugares.' },
+          { id: 'b', text: 'Un atlas', icon: 'Map' },
+          { id: 'c', text: 'Un libro de cuentos', icon: 'BookOpen', feedback: 'Los cuentos son para disfrutar historias, no para ubicar lugares.' },
+        ], correct: ['b'] },
       ),
       S.match(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.3'], ambito: 'hacer', prompt: 'Une cada necesidad con el material más adecuado.',
@@ -141,11 +137,7 @@ export default [
     icon: 'Filter',
     minutes: 13,
     gancho: 'Buscas qué come el quetzal y encuentras un texto larguísimo sobre aves. ¿Tienes que leerlo todo?',
-    objetivos: [
-      'Decidir si un material o un párrafo es pertinente para tu pregunta',
-      'Usar títulos e índices para localizar la parte que sirve',
-      'Separar la información útil de la que no responde tu pregunta',
-    ],
+    objetivos: ['Localizar información pertinente para una pregunta usando títulos, índices y subtítulos'],
     resumen: [
       'Una información es pertinente cuando responde tu pregunta o ayuda a responderla.',
       'Para decidir rápido, mira el título, el índice y los subtítulos del material: si no hablan de tu tema, probablemente no te sirve.',
@@ -157,18 +149,8 @@ export default [
       brief: 'Animación 2D de 35 s. Arriba, un colador con la etiqueta "¿Qué come el quetzal?". Caen tarjetas: "Come frutos como el aguacatillo" (pasa, se pone verde), "El quetzal es el ave nacional" (rebota, gris), "También come insectos y pequeños animales" (pasa), "La moneda de Guatemala se llama quetzal" (rebota). Texto final: "Pertinente = responde mi pregunta". Colores planos, voz en off breve.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.3'], ambito: 'conocer',
-          prompt: 'Tu pregunta es: **"¿Qué come el quetzal?"**. ¿Cuál de estas oraciones te sirve para responderla?',
-          explain: 'Las otras dos oraciones son verdaderas, pero no responden la pregunta. La información que sí la responde se llama **pertinente**.' },
-        { options: [
-          { id: 'a', text: '"El quetzal es el ave nacional de Guatemala."', icon: 'Bird', feedback: 'Es cierto, pero no dice qué come.' },
-          { id: 'b', text: '"Se alimenta principalmente de frutos, como el aguacatillo, y también de insectos."', icon: 'Apple' },
-          { id: 'c', text: '"La moneda de Guatemala también se llama quetzal."', icon: 'Coins', feedback: 'Es cierto, pero habla de la moneda, no del ave.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.3'], ambito: 'conocer', title: '¿Qué es información pertinente?',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.3'], ambito: 'conocer', title: '¿Qué es información pertinente?',
           prompt: 'Toca cada tarjeta para aprender a filtrar la información.' },
         { icon: 'Filter', body: '**Pertinente** significa que **viene al caso**: responde tu pregunta o te ayuda a responderla. Tu pregunta funciona como un **filtro**.', reveal: [
           { icon: 'HelpCircle', front: '1. Ten clara tu pregunta', back: 'Escríbela antes de buscar. Sin pregunta, todo parece importante y te pierdes.' },
@@ -176,6 +158,16 @@ export default [
           { icon: 'Search', front: '3. Lee rápido y luego despacio', back: 'Recorre el texto rápidamente buscando palabras de tu pregunta. Cuando las encuentres, lee esa parte con atención.' },
           { icon: 'Check', front: '4. Pregúntate: ¿responde?', back: 'Si la información responde tu pregunta, anótala. Si es interesante pero no responde, **no la uses** en este trabajo.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.3'], ambito: 'conocer',
+          prompt: 'Tu pregunta es: **"¿Qué come el quetzal?"**. ¿Cuál de estas oraciones te sirve para responderla?',
+          explain: 'Las otras dos oraciones son verdaderas, pero no responden la pregunta. La información que sí la responde se llama **pertinente**.' },
+        { options: [
+          { id: 'a', text: '"El quetzal es el ave nacional de Guatemala."', icon: 'Bird', feedback: 'Es cierto, pero no dice qué come.' },
+          { id: 'b', text: '"Se alimenta principalmente de frutos, como el aguacatillo, y también de insectos."', icon: 'Apple' },
+          { id: 'c', text: '"La moneda de Guatemala también se llama quetzal."', icon: 'Coins', feedback: 'Es cierto, pero habla de la moneda, no del ave.' },
+        ], correct: ['b'] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.3'], ambito: 'hacer', title: 'Ejemplo resuelto: usar el índice',
@@ -255,11 +247,7 @@ export default [
     icon: 'Drama',
     minutes: 14,
     gancho: 'Un cuento se lee; una obra de teatro se lee… y también se actúa. ¿Crees que se escriben igual?',
-    objetivos: [
-      'Reconocer el texto dramático como un texto escrito para ser representado',
-      'Identificar personajes, diálogos y acotaciones',
-      'Comparar un texto dramático con un texto narrativo',
-    ],
+    objetivos: ['Interpretar un texto dramático distinguiendo personajes, diálogos y acotaciones'],
     resumen: [
       'El texto dramático está escrito para ser representado en un escenario por actrices y actores frente a un público.',
       'La historia avanza por medio de los diálogos: lo que dicen los personajes. No hay narrador que cuente todo.',
@@ -272,23 +260,23 @@ export default [
       brief: 'Video de 60 s. Primero, plano cenital de una página de guion con el fragmento "La carta de doña Chus" (nombres en mayúsculas, acotaciones en cursiva). Luego transición a un pequeño escenario escolar con telón de tela: dos estudiantes actúan la escena; cada vez que se cumple una acotación, aparece resaltada en pantalla ("mira el sobre, sorprendida"). Música suave de marimba al inicio y al final. Actores niños de 11-12 años, vestuario sencillo. Sin marcas.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer',
-          prompt: 'Compara estos dos fragmentos. ¿Cuál está escrito para **ser actuado** en un escenario?\n\n**A:** Doña Chus abrió la puerta y vio al cartero, que le entregó una carta con cara de preocupación.\n\n**B:** DOÑA CHUS: _(abre la puerta)_ ¡Buenos días, don Beto! ¿Qué me trae hoy?',
-          explain: 'El fragmento B tiene el nombre del personaje, lo que dice (diálogo) y una indicación entre paréntesis (acotación). Esa es la forma del **texto dramático**.' },
-        { options: [
-          { id: 'a', text: 'El fragmento A', feedback: 'El A tiene un narrador que cuenta lo que pasa: es un texto narrativo, como un cuento.' },
-          { id: 'b', text: 'El fragmento B' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer', title: 'Los elementos del texto dramático',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer', title: 'Los elementos del texto dramático',
           prompt: 'El **texto dramático** es el que se escribe para ser **representado**. Toca cada tarjeta.' },
         { icon: 'Drama', body: 'En un cuento, el narrador nos cuenta la historia. En el teatro, **los personajes la viven frente a nosotros**: la historia avanza con lo que dicen y hacen.', reveal: [
           { icon: 'Users', front: 'Personajes', back: 'Quienes participan en la historia. Al inicio de la obra suele haber una **lista de personajes**. En el texto, el nombre va antes de cada intervención, muchas veces en MAYÚSCULAS.' },
           { icon: 'MessagesSquare', front: 'Diálogos', back: 'Lo que **dicen** los personajes. Son el corazón del texto dramático: por ellos sabemos qué piensan, qué sienten y qué pasa. Cuando un personaje habla solo, se llama **monólogo**.' },
           { icon: 'Info', front: 'Acotaciones', back: 'Indicaciones del autor, **entre paréntesis y en cursiva**: lugar, tiempo, movimientos, gestos, tono de voz, sonidos, luces. **No se dicen** en voz alta: se actúan.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer',
+          prompt: 'Compara estos dos fragmentos. ¿Cuál está escrito para **ser actuado** en un escenario?\n\n**A:** Doña Chus abrió la puerta y vio al cartero, que le entregó una carta con cara de preocupación.\n\n**B:** DOÑA CHUS: _(abre la puerta)_ ¡Buenos días, don Beto! ¿Qué me trae hoy?',
+          explain: 'El fragmento B tiene el nombre del personaje, lo que dice (diálogo) y una indicación entre paréntesis (acotación). Esa es la forma del **texto dramático**.' },
+        { options: [
+          { id: 'a', text: 'El fragmento A', feedback: 'El A tiene un narrador que cuenta lo que pasa: es un texto narrativo, como un cuento.' },
+          { id: 'b', text: 'El fragmento B' },
+        ], correct: ['b'] },
       ),
       S.reading(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer',
@@ -365,6 +353,15 @@ export default [
           ] },
       ),
       S.choice(
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'hacer',
+          prompt: 'Una estudiante adapta una noticia sobre un bus detenido por un derrumbe. ¿Qué fragmento la convierte correctamente en texto dramático?' },
+        { options: [
+          { id: 'a', text: 'PILOTO: (mira la carretera y frena) Hay piedras en el camino. PASAJERA: Avisemos a la comunidad.' },
+          { id: 'b', text: 'El piloto vio el derrumbe. Luego una pasajera habló. Fin.' },
+          { id: 'c', text: '(La noticia dice que ayer hubo lluvia y explica tres causas del derrumbe.)' },
+        ], correct: ['a'] },
+      ),
+      S.choice(
         { fase: 'comprobar', areas: ['l1'], cnb: ['l1:5.1.7'], prompt: 'En un texto dramático, ¿qué son las **acotaciones**?' },
         { options: [
           { id: 'a', text: 'Indicaciones del autor sobre lugar, gestos, movimientos o tono de voz' },
@@ -390,11 +387,7 @@ export default [
     icon: 'Layers',
     minutes: 14,
     gancho: 'Cuando ves una obra de teatro, a veces se cierra el telón y luego se abre en otro lugar. ¿Por qué crees que la dividen así?',
-    objetivos: [
-      'Reconocer la estructura externa de una obra: actos y escenas',
-      'Identificar la estructura interna: planteamiento, nudo y desenlace',
-      'Reconocer el conflicto que mueve una obra dramática',
-    ],
+    objetivos: ['Explicar cómo actos, escenas y conflicto organizan el planteamiento, nudo y desenlace de una obra'],
     resumen: [
       'Estructura externa: la obra se divide en actos (grandes partes, separadas por la caída del telón o un cambio de luces) y los actos en escenas (cambian cuando entra o sale un personaje).',
       'Estructura interna: planteamiento (se presentan personajes y situación), nudo (crece el conflicto) y desenlace (el conflicto se resuelve).',
@@ -406,8 +399,17 @@ export default [
       brief: 'Diagrama en dos niveles. Arriba, una línea de tensión en forma de montaña con tres zonas rotuladas y coloreadas: "Planteamiento" (inicio plano, verde), "Nudo" (subida y cima, naranja, con un rayo en la cima que dice "conflicto"), "Desenlace" (bajada, azul). Abajo, una barra dividida en "Acto I" y "Acto II", cada uno partido en pequeñas "Escena 1, 2, 3". Estilo limpio, colores planos, textos grandes.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer', title: 'Estructura externa: cómo se divide la obra',
+          prompt: 'La **estructura externa** es la forma en que se ve dividida la obra. Toca cada tarjeta.' },
+        { icon: 'Layers', body: 'Así como un libro se divide en capítulos, una obra de teatro se divide en **actos** y **escenas**.', reveal: [
+          { icon: 'Square', front: 'Acto', back: 'Cada una de las **grandes partes** de la obra. Se separan cerrando el telón, apagando las luces o con un cambio de escenografía. Las obras cortas pueden tener un solo acto.' },
+          { icon: 'Users', front: 'Escena', back: 'Parte de un acto. Cambia cuando **entra o sale un personaje**. Por ejemplo: cuando Lupita entra corriendo, empieza una nueva escena.' },
+          { icon: 'Image', front: 'Cuadro', back: 'Algunas obras usan cuadros: partes que cambian de **lugar o de decorado** (el mercado, la casa, el camino).' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer',
           prompt: 'Recuerda "La carta de doña Chus". ¿Cuál era el **problema** o la **tensión** de la escena?',
           explain: 'La tensión estaba en la carta: ¿de quién es?, ¿qué dirá? Ese problema que mantiene al público atento se llama **conflicto**. Hoy verás cómo se organiza una obra alrededor de él.' },
         { options: [
@@ -415,15 +417,6 @@ export default [
           { id: 'b', text: 'El atol estaba frío', icon: 'Coffee', feedback: 'Eso no pasa en la escena. Relee cuál es el centro de la historia.' },
           { id: 'c', text: 'No había ningún problema', icon: 'X', feedback: 'Toda obra tiene algo que crea tensión, aunque sea pequeño.' },
         ], correct: ['a'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer', title: 'Estructura externa: cómo se divide la obra',
-          prompt: 'La **estructura externa** es la forma en que se ve dividida la obra. Toca cada tarjeta.' },
-        { icon: 'Layers', body: 'Así como un libro se divide en capítulos, una obra de teatro se divide en **actos** y **escenas**.', reveal: [
-          { icon: 'Square', front: 'Acto', back: 'Cada una de las **grandes partes** de la obra. Se separan cerrando el telón, apagando las luces o con un cambio de escenografía. Las obras cortas pueden tener un solo acto.' },
-          { icon: 'Users', front: 'Escena', back: 'Parte de un acto. Cambia cuando **entra o sale un personaje**. Por ejemplo: cuando Lupita entra corriendo, empieza una nueva escena.' },
-          { icon: 'Image', front: 'Cuadro', back: 'Algunas obras usan cuadros: partes que cambian de **lugar o de decorado** (el mercado, la casa, el camino).' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer', title: 'Estructura interna: el recorrido de la historia',
@@ -517,11 +510,7 @@ export default [
     icon: 'Theater',
     minutes: 14,
     gancho: 'Algunas obras te hacen reír a carcajadas y otras te dejan pensando en silencio. ¿Por qué serán tan distintas?',
-    objetivos: [
-      'Distinguir la comedia, la tragedia y el drama',
-      'Conocer a las personas y los espacios que hacen posible el teatro',
-      'Valorar el teatro de Guatemala, como el Rabinal Achí',
-    ],
+    objetivos: ['Distinguir tipos de obras y reconocer los recursos humanos y escénicos que hacen posible el teatro'],
     resumen: [
       'Comedia: situaciones graciosas y final feliz; a veces se burla de defectos para que reflexionemos.',
       'Tragedia: conflicto muy serio que termina en desgracia para los personajes principales.',
@@ -535,18 +524,8 @@ export default [
       brief: 'Ilustración simbólica: dos máscaras teatrales clásicas, una sonriente y una triste, sobre un telón rojo. Debajo, rótulos "Comedia" y "Tragedia", y en medio una tercera máscara con expresión neutral-pensativa rotulada "Drama". Estilo gráfico sencillo, colores cálidos, sin texto adicional.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer',
-          prompt: 'Una obra trata de un señor muy tacaño que esconde su dinero en lugares tan raros que al final ni él lo encuentra, y todos terminan riendo. ¿Qué tipo de obra crees que es?',
-          explain: 'Situaciones graciosas, burla de un defecto (la tacañería) y final alegre: es una **comedia**. Hoy conocerás los tipos de obras dramáticas.' },
-        { options: [
-          { id: 'a', text: 'Una comedia', icon: 'Smile' },
-          { id: 'b', text: 'Una tragedia', icon: 'CloudRain', feedback: 'En una tragedia el final es de desgracia; aquí todos terminan riendo.' },
-          { id: 'c', text: 'Una noticia', icon: 'Newspaper', feedback: 'Una noticia informa hechos reales; esto es una obra de teatro.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer', title: 'Tipos de obras dramáticas',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer', title: 'Tipos de obras dramáticas',
           prompt: 'Desde la antigüedad, las obras de teatro se agrupan según su tono y su final. Toca cada tarjeta.' },
         { icon: 'Theater', body: 'Las dos máscaras (una ríe y otra llora) son el símbolo del teatro en todo el mundo.', reveal: [
           { icon: 'Smile', front: 'Comedia', back: 'Situaciones **graciosas**, enredos y confusiones. Termina **bien**. A veces se burla de defectos humanos (la envidia, la tacañería) para que reflexionemos riendo.' },
@@ -554,6 +533,16 @@ export default [
           { icon: 'Scale', front: 'Drama', back: '**Mezcla** momentos serios y alegres, como la vida real. Su final puede ser feliz o triste. "La carta de doña Chus" se acerca a este tipo.' },
           { icon: 'Hand', front: 'Obras para niñas y niños', back: 'También hay **teatro infantil** y de **títeres**, que suele combinar humor, aventura y una enseñanza. Lo verás la próxima semana.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'conocer',
+          prompt: 'Una obra trata de un señor muy tacaño que esconde su dinero en lugares tan raros que al final ni él lo encuentra, y todos terminan riendo. ¿Qué tipo de obra crees que es?',
+          explain: 'Situaciones graciosas, burla de un defecto (la tacañería) y final alegre: es una **comedia**. Hoy conocerás los tipos de obras dramáticas.' },
+        { options: [
+          { id: 'a', text: 'Una comedia', icon: 'Smile' },
+          { id: 'b', text: 'Una tragedia', icon: 'CloudRain', feedback: 'En una tragedia el final es de desgracia; aquí todos terminan riendo.' },
+          { id: 'c', text: 'Una noticia', icon: 'Newspaper', feedback: 'Una noticia informa hechos reales; esto es una obra de teatro.' },
+        ], correct: ['a'] },
       ),
       S.sort(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:5.1.7'], ambito: 'hacer', prompt: 'Clasifica cada obra según su tipo.',
@@ -578,7 +567,7 @@ export default [
           { icon: 'Megaphone', front: 'Director o directora', back: 'Decide **cómo se representa**: dónde se para cada actor, cómo habla, qué luces y música hay.' },
           { icon: 'Drama', front: 'Actrices y actores', back: 'Dan vida a los personajes con su **voz, cuerpo y emociones**.' },
           { icon: 'Lightbulb', front: 'Equipo técnico', back: 'Se encarga de la **escenografía**, el vestuario, las **luces** y el **sonido**.' },
-          { icon: 'Square', front: 'Escenario', back: 'El **espacio** donde se actúa: puede ser un teatro, un patio, una plaza o el salón de clases.' },
+          { icon: 'Drama', front: 'Escenario', back: 'El **espacio** donde se actúa: puede ser un teatro, un patio, una plaza o el salón de clases.' },
           { icon: 'Users', front: 'Público', back: 'Quienes **miran**. Sin público, el teatro no está completo.' },
         ] },
       ),

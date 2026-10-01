@@ -14,11 +14,7 @@ export default [
     icon: 'Music',
     minutes: 15,
     gancho: 'En los desfiles, cientos de estudiantes marchan al mismo tiempo sin chocar. ¿Cuál es su secreto?',
-    objetivos: [
-      'Marchar y trotar siguiendo el pulso de la música',
-      'Contar y representar estructuras rítmicas de 4 y de 8 tiempos con el cuerpo',
-      'Crear y repetir un patrón rítmico sencillo con pasos, palmas y saltos',
-    ],
+    objetivos: ['Crear y repetir un patrón corporal de 4 u 8 tiempos manteniendo el pulso'],
     resumen: [
       'El pulso es el latido constante de la música. Marchar al ritmo es dar un paso en cada pulso; al trotar se pueden dar dos pasos rápidos por pulso.',
       'Una estructura rítmica es un grupo de tiempos que se repite. En la danza y la gimnasia rítmica se cuenta en grupos de 4 o de 8 ("1, 2, 3, 4, 5, 6, 7, 8").',
@@ -31,18 +27,8 @@ export default [
       brief: 'Video vertical de 45 s en patio escolar. Suena una pieza ORIGINAL de marimba en 4/4, tempo ≈100. Parte 1: cinco estudiantes (rostros no protagonistas) marchan un paso por pulso; en pantalla aparecen los números 1-2-3-4 que se iluminan con cada paso, el 1 más grande con un pisotón. Parte 2: trote con dos pasitos por pulso; rótulo "2 pasos = 1 pulso". Parte 3: patrón "paso, paso, palma, pausa" repetido. Toma aérea desde un segundo piso para mostrar la sincronía.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.4.1'], ambito: 'conocer',
-          prompt: 'Observa el video. ¿Qué hace que todos los pasos caigan al mismo tiempo?',
-          explain: 'Todos siguen el **pulso** de la música: un paso en cada latido. Cuando el cuerpo sigue un pulso común, el grupo se mueve **sincronizado**.' },
-        { options: [
-          { id: 'a', text: 'Todos siguen el mismo pulso de la música', icon: 'Music' },
-          { id: 'b', text: 'Todos tienen piernas del mismo largo', icon: 'Ruler', feedback: 'El largo de las piernas cambia el tamaño del paso, pero no el momento en que se da.' },
-          { id: 'c', text: 'Todos se miran los pies', icon: 'Eye', feedback: 'Mirarse los pies no ayuda: lo que los une es escuchar el pulso.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['ef', 'art'], cnb: ['ef:1.4.1'], ambito: 'conocer', title: 'Pulso, acento y estructuras de 4 y 8',
+        { fase: 'explorar', areas: ['ef', 'art'], cnb: ['ef:1.4.1'], ambito: 'conocer', title: 'Pulso, acento y estructuras de 4 y 8',
           prompt: 'En Expresión Artística aprendiste el **pulso** y el **compás**. En Educación Física los usamos para **mover el cuerpo**. Toca cada tarjeta.' },
         { icon: 'Drum', body: 'Una **estructura rítmica** es un grupo de tiempos que se repite. El cuerpo puede "dibujarla" con pasos, palmas y saltos.', reveal: [
           { icon: 'HeartPulse', front: 'Pulso', back: 'El latido constante de la música. **Marchar** = un paso por pulso.' },
@@ -50,6 +36,16 @@ export default [
           { icon: 'Repeat', front: 'Estructura de 4', back: 'Cuentas "1-2-3-4" y vuelves a empezar. Ejemplo: 4 pasos adelante, 4 atrás.' },
           { icon: 'ListOrdered', front: 'Estructura de 8', back: 'En danza se cuenta "1 al 8" (dos grupos de 4). Muchas coreografías cambian de movimiento cada 8 tiempos.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.4.1'], ambito: 'conocer',
+          prompt: 'Observa el video. ¿Qué hace que todos los pasos caigan al mismo tiempo?',
+          explain: 'Todos siguen el **pulso** de la música: un paso en cada latido. Cuando el cuerpo sigue un pulso común, el grupo se mueve **sincronizado**.' },
+        { options: [
+          { id: 'a', text: 'Todos siguen el mismo pulso de la música', icon: 'Music' },
+          { id: 'b', text: 'Todos tienen piernas del mismo largo', icon: 'Ruler', feedback: 'El largo de las piernas cambia el tamaño del paso, pero no el momento en que se da.' },
+          { id: 'c', text: 'Todos se miran los pies', icon: 'Eye', feedback: 'Mirarse los pies no ayuda: lo que los une es escuchar el pulso.' },
+        ], correct: ['a'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:1.4.3', 'ef:1.4.14'], ambito: 'hacer', title: 'Marcha y carrera con fondo musical',
@@ -143,11 +139,7 @@ export default [
     icon: 'PersonStanding',
     minutes: 15,
     gancho: 'Sin decir una palabra, ¿podrías mostrar con tu cuerpo que tienes miedo, que estás feliz o que eres un volcán a punto de despertar?',
-    objetivos: [
-      'Usar direcciones, niveles, trayectorias y velocidades para moverte en el espacio y en el tiempo',
-      'Reconocer los recursos expresivos del cuerpo: gesto, mirada, postura, energía y velocidad',
-      'Crear una secuencia corta de movimiento con una intención clara',
-    ],
+    objetivos: ['Crear una secuencia expresiva usando direcciones, niveles, trayectorias, velocidad e intención'],
     resumen: [
       'Relaciones espacio-temporales: el cuerpo se mueve en direcciones (adelante, atrás, a los lados, arriba, abajo), niveles (alto, medio, bajo) y trayectorias (recta, curva, zigzag), a distintas velocidades (rápido, lento) y duraciones.',
       'Recursos expresivos: el gesto (cara y manos), la mirada, la postura, la energía (movimiento fuerte o suave) y la velocidad.',
@@ -160,18 +152,8 @@ export default [
       brief: 'Video de 50 s en un salón despejado con luz natural. Una niña y un niño (ropa sencilla, rostros visibles solo con permiso o en silueta) interpretan "El ciclo de la milpa" sin palabras, con marimba suave de fondo: (1) semilla en nivel bajo, cuerpo cerrado; (2) crecimiento lento a nivel medio y alto; (3) viento: trayectoria curva, balanceo; (4) lluvia fuerte: movimientos rápidos y enérgicos en zigzag; (5) cosecha: caída suave y pausa final. Rótulos breves: "nivel bajo", "lento", "curva", "energía fuerte", "posición final". Ninguna vestimenta de una comunidad concreta.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.4.12'], ambito: 'conocer',
-          prompt: 'En el video, la niña empieza **agachada, cerrada y quieta**. ¿Qué crees que representa?',
-          explain: 'Una **semilla**. Sin palabras, usó el **nivel bajo**, la **postura cerrada** y la **quietud**. El cuerpo es un lenguaje: hoy aprenderás sus "palabras".' },
-        { options: [
-          { id: 'a', text: 'Una semilla bajo la tierra', icon: 'Sprout' },
-          { id: 'b', text: 'Una persona corriendo', icon: 'Footprints', feedback: 'Correr necesita movimiento y desplazamiento; ella está quieta y en el suelo.' },
-          { id: 'c', text: 'Un árbol muy alto', icon: 'TreePine', feedback: 'Un árbol alto usaría el nivel alto, con el cuerpo estirado.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.4.2'], ambito: 'conocer', title: 'El cuerpo en el espacio y el tiempo',
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.4.2'], ambito: 'conocer', title: 'El cuerpo en el espacio y el tiempo',
           prompt: 'Para moverte con intención, piensa **dónde** y **cuándo** te mueves. Toca cada tarjeta y pruébalo.' },
         { icon: 'Compass', body: 'Estas son las **relaciones espacio-temporales**: los "ingredientes" de cualquier movimiento.', reveal: [
           { icon: 'Compass', front: 'Direcciones', back: 'Adelante, atrás, a la derecha, a la izquierda, arriba y abajo.' },
@@ -179,6 +161,16 @@ export default [
           { icon: 'Route', front: 'Trayectorias', back: 'El camino que dibujas en el suelo: **recta**, **curva**, **zigzag**, **círculo**.' },
           { icon: 'Timer', front: 'Velocidad y duración', back: 'Rápido o lento, largo o corto. Puedes moverte **en 8 tiempos** o **en 2**, y eso cambia la sensación.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.4.12'], ambito: 'conocer',
+          prompt: 'En el video, la niña empieza **agachada, cerrada y quieta**. ¿Qué crees que representa?',
+          explain: 'Una **semilla**. Sin palabras, usó el **nivel bajo**, la **postura cerrada** y la **quietud**. El cuerpo es un lenguaje: hoy aprenderás sus "palabras".' },
+        { options: [
+          { id: 'a', text: 'Una semilla bajo la tierra', icon: 'Sprout' },
+          { id: 'b', text: 'Una persona corriendo', icon: 'Footprints', feedback: 'Correr necesita movimiento y desplazamiento; ella está quieta y en el suelo.' },
+          { id: 'c', text: 'Un árbol muy alto', icon: 'TreePine', feedback: 'Un árbol alto usaría el nivel alto, con el cuerpo estirado.' },
+        ], correct: ['a'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:1.4.12'], ambito: 'conocer', title: 'Los recursos expresivos',
@@ -231,6 +223,15 @@ export default [
         { minWords: 40, placeholder: 'Mi tema es… Parte 1: … Parte 2: … Parte 3: … Parte 4: …',
           model: 'Mi tema es "El río baja de la montaña". Parte 1: nivel alto, de puntillas, movimientos suaves; soy el agua que nace arriba. Parte 2: nivel medio, trayectoria en zigzag y más rápido; el río baja entre piedras. Parte 3: nivel bajo, energía fuerte, brazos que empujan; es una crecida por la lluvia. Parte 4: trayectoria curva, lento y suave hasta quedar quieta; el río llega tranquilo al lago.',
           rubric: ['Tiene un tema claro', 'Describe 4 partes de 8 tiempos', 'Usa al menos 2 niveles y 2 trayectorias', 'Explica la intención de cada parte'] },
+      ),
+      S.choice(
+        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:1.4.2', 'ef:1.4.12'], ambito: 'hacer',
+          prompt: 'Para representar a una persona que avanza con cautela por una ruta estrecha, ¿qué secuencia comunica mejor esa intención?' },
+        { options: [
+          { id: 'a', text: 'Pasos lentos en línea curva, nivel medio, mirada al frente y energía suave' },
+          { id: 'b', text: 'Saltos rápidos sin mirar, con giros amplios y energía fuerte' },
+          { id: 'c', text: 'Quedarse inmóvil de espaldas durante toda la secuencia' },
+        ], correct: ['a'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.2'], prompt: 'Te mueves **agachado**, con las rodillas muy dobladas y las manos cerca del suelo. ¿En qué nivel estás?' },

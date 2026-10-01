@@ -13,11 +13,7 @@ export default [
     icon: 'Signpost',
     minutes: 14,
     gancho: 'Una turista que no habla español maneja por la carretera y ve un octágono rojo. ¿Sabrá qué hacer aunque no lea la palabra?',
-    objetivos: [
-      'Reconocer los tres grupos de señales de tránsito por su forma y color',
-      'Interpretar señales que indican dónde están los sitios importantes',
-      'Usar las señales para moverte con seguridad en tu comunidad',
-    ],
+    objetivos: ['Interpretar señales comunitarias por su forma, color e ícono para orientar una ruta'],
     resumen: [
       'Las señales se entienden por su forma, su color y su dibujo, aunque no sepas leer el idioma.',
       'Reglamentarias (obligan o prohíben): el ALTO es un octágono rojo; muchas llevan un círculo con borde rojo, y si está tachado, prohíbe.',
@@ -30,8 +26,17 @@ export default [
       brief: 'Diagrama plano en tres columnas con encabezado de color. Columna 1 "Reglamentarias – obligan o prohíben": octágono rojo con ALTO, triángulo invertido blanco con borde rojo (Ceda el paso), rectángulo blanco con círculo rojo tachado sobre una E (prohibido estacionar). Columna 2 "Preventivas – avisan un peligro": rombos amarillos con dibujo negro: curva, rocas cayendo (derrumbe), una vaca (animales en la vía). Columna 3 "Informativas – orientan": rectángulos azules con H (hospital) y un teléfono; rectángulo verde con "Antigua Guatemala 25 km" y flecha. Estilo limpio, sin marcas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:2.1.5'], ambito: 'conocer', title: 'Las tres familias de señales de tránsito',
+          prompt: 'Las señales de tránsito se agrupan en tres familias. **Forma y color** te dicen a cuál pertenece cada una. Toca las tarjetas.' },
+        { icon: 'Signpost', body: 'Mira primero el **color** y la **forma**; después, el **dibujo** te dice el detalle.', reveal: [
+          { icon: 'Octagon', front: 'Reglamentarias', back: '**Obligan o prohíben.** El ALTO es un octágono rojo; "Ceda el paso", un triángulo con la punta hacia abajo. Muchas tienen un **círculo de borde rojo**; si el dibujo está **tachado**, está prohibido.' },
+          { icon: 'Diamond', front: 'Preventivas', back: '**Avisan un peligro** que viene adelante. Son **rombos amarillos** con dibujo negro: curva, derrumbe, animales en la vía, cruce de peatones.' },
+          { icon: 'Square', front: 'Informativas', back: '**Orientan.** Son rectángulos: **azules** para servicios (hospital, teléfono, gasolinera) y **verdes** para destinos y distancias ("Antigua Guatemala 25 km").' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:2.1.5'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:2.1.5'], ambito: 'conocer',
           prompt: 'Una turista que no lee español ve en la esquina un **octágono rojo** (figura de 8 lados). ¿Qué crees que hará?',
           explain: 'El octágono rojo significa **ALTO** en casi todo el mundo. Las señales se entienden por su **forma** y su **color**. Hoy aprenderás a leerlas.' },
         { options: [
@@ -39,15 +44,6 @@ export default [
           { id: 'b', text: 'Acelerará', icon: 'Car', feedback: 'El rojo casi siempre indica detenerse o prohibición.' },
           { id: 'c', text: 'No sabrá qué hacer porque no lee español', icon: 'HelpCircle', feedback: 'La forma y el color bastan para entender esta señal, aun sin leer la palabra.' },
         ], correct: ['a'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:2.1.5'], ambito: 'conocer', title: 'Las tres familias de señales de tránsito',
-          prompt: 'Las señales de tránsito se agrupan en tres familias. **Forma y color** te dicen a cuál pertenece cada una. Toca las tarjetas.' },
-        { icon: 'Signpost', body: 'Mira primero el **color** y la **forma**; después, el **dibujo** te dice el detalle.', reveal: [
-          { icon: 'Octagon', front: 'Reglamentarias', back: '**Obligan o prohíben.** El ALTO es un octágono rojo; "Ceda el paso", un triángulo con la punta hacia abajo. Muchas tienen un **círculo de borde rojo**; si el dibujo está **tachado**, está prohibido.' },
-          { icon: 'Diamond', front: 'Preventivas', back: '**Avisan un peligro** que viene adelante. Son **rombos amarillos** con dibujo negro: curva, derrumbe, animales en la vía, cruce de peatones.' },
-          { icon: 'Square', front: 'Informativas', back: '**Orientan.** Son rectángulos: **azules** para servicios (hospital, teléfono, gasolinera) y **verdes** para destinos y distancias ("Antigua Guatemala 25 km").' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:2.1.5'], ambito: 'conocer', title: 'Señales para ubicar sitios importantes',
@@ -146,11 +142,7 @@ export default [
     icon: 'Image',
     minutes: 14,
     gancho: 'En una caja de cartón hay un dibujo de una copa quebrada. Nadie escribió nada… pero todos entienden que hay que tener cuidado. ¿Por qué?',
-    objetivos: [
-      'Interpretar símbolos que describen personas, animales u objetos',
-      'Leer mensajes no verbales en mapas del tiempo, anuncios y noticias',
-      'Explicar qué significan los colores y las marcas de un símbolo',
-    ],
+    objetivos: ['Interpretar mensajes públicos no verbales mediante figuras, colores y marcas'],
     resumen: [
       'Un símbolo comunica sin palabras. Para leerlo, observa: la figura (quién o qué), el color, la forma y las marcas (tachado, flechas).',
       'Símbolos que describen personas: baño de mujeres u hombres, persona en silla de ruedas (acceso para personas con discapacidad), asiento para personas mayores o embarazadas.',
@@ -163,18 +155,8 @@ export default [
       brief: 'Diagrama cuadrado 3×3, estilo pictograma plano, figuras negras o blancas sobre fondos de color suave. Sin palabras, solo un número pequeño en la esquina de cada casilla (1-9): 1 figura con vestido (baño de mujeres), 2 figura con pantalón (baño de hombres), 3 silla de ruedas (accesibilidad), 4 persona mayor con bastón, 5 cabeza de perro mostrando los dientes, 6 copa quebrada, 7 tres flechas en triángulo (reciclaje), 8 sol, 9 nube con rayo y gotas. Líneas gruesas y claras para leerse en pantalla de celular.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:2.1.2'], ambito: 'conocer',
-          prompt: 'En una caja que llega a la tienda hay un dibujo de una **copa quebrada**. ¿Qué mensaje da?',
-          explain: 'La copa quebrada es el símbolo de **frágil**: el contenido se puede romper. Un solo dibujo describe el objeto y da una advertencia. Hoy aprenderás a leer símbolos como este.' },
-        { options: [
-          { id: 'a', text: 'Cuidado: lo que hay dentro se puede romper', icon: 'Package' },
-          { id: 'b', text: 'La caja trae copas para una fiesta', icon: 'PartyPopper', feedback: 'Podría traer copas, pero el dibujo de la copa **quebrada** es un aviso de cuidado, no una lista de lo que trae.' },
-          { id: 'c', text: 'La caja está vacía', icon: 'Box', feedback: 'No hay ninguna pista de que esté vacía.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:2.1.2'], ambito: 'conocer', title: 'Cómo se lee un símbolo',
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:2.1.2'], ambito: 'conocer', title: 'Cómo se lee un símbolo',
           prompt: 'Un **símbolo** (o pictograma) es un dibujo sencillo que comunica una idea **sin palabras**. Lo entienden personas que hablan distintos idiomas. Para leerlo, revisa cuatro cosas.' },
         { icon: 'Eye', body: 'Muchos símbolos **describen** a una persona, un animal o un objeto, y a la vez dan un mensaje sobre él.', reveal: [
           { icon: 'User', front: '1. La figura', back: '¿Quién o qué aparece? Una persona con bastón = persona mayor. Una silla de ruedas = persona con discapacidad. Un perro = un animal.' },
@@ -182,6 +164,16 @@ export default [
           { icon: 'Slash', front: '3. Las marcas', back: 'Una **línea que tacha** = no se permite. Una **flecha** = dirección. **Líneas de movimiento** = algo se mueve.' },
           { icon: 'MapPin', front: '4. El lugar', back: 'Una figura con vestido en una **puerta** indica baño de mujeres. Una mujer embarazada o una persona con bastón dibujada **junto a un asiento del bus** indica un asiento preferencial para ellas. El lugar completa el mensaje.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:2.1.2'], ambito: 'conocer',
+          prompt: 'En una caja que llega a la tienda hay un dibujo de una **copa quebrada**. ¿Qué mensaje da?',
+          explain: 'La copa quebrada es el símbolo de **frágil**: el contenido se puede romper. Un solo dibujo describe el objeto y da una advertencia. Hoy aprenderás a leer símbolos como este.' },
+        { options: [
+          { id: 'a', text: 'Cuidado: lo que hay dentro se puede romper', icon: 'Package' },
+          { id: 'b', text: 'La caja trae copas para una fiesta', icon: 'PartyPopper', feedback: 'Podría traer copas, pero el dibujo de la copa **quebrada** es un aviso de cuidado, no una lista de lo que trae.' },
+          { id: 'c', text: 'La caja está vacía', icon: 'Box', feedback: 'No hay ninguna pista de que esté vacía.' },
+        ], correct: ['a'] },
       ),
       S.match(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:2.1.2'], ambito: 'hacer',
