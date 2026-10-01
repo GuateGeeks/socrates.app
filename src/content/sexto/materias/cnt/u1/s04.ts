@@ -20,7 +20,7 @@ export default [
     resumen: [
       'La pubertad es una etapa natural de transición hacia el cuerpo adulto. Suele comenzar entre los 8 y los 14 años, aproximadamente, y cada cuerpo lleva su propio ritmo.',
       'La hipófisis envía hormonas que activan las gónadas, como los testículos y los ovarios.',
-      'Los testículos producen principalmente testosterona y forman espermatozoides; los ovarios producen principalmente estrógenos y progesterona y hacen madurar óvulos.',
+      'Los testículos producen principalmente testosterona y forman espermatozoides; los ovarios producen principalmente estrógenos y progesterona y contienen las células que participan en la ovogénesis.',
       'El estirón, el vello, el sudor, la voz, las mamas y la menstruación siguen patrones generales, pero no aparecen a la misma edad ni con la misma intensidad. No determinan la personalidad ni las capacidades.',
     ],
     media: {
@@ -57,11 +57,11 @@ export default [
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: 'Glándulas masculinas y femeninas',
           prompt: 'Las glándulas sexuales se llaman **gónadas**. Tienen **dos funciones**: producen hormonas y forman células reproductoras. Toca las tarjetas.',
           media: { id: 's04-cnt-1-gonadas', kind: 'diagram', title: 'Testículos y ovarios: dos funciones', aspect: '16:9',
-            alt: 'Diagrama en dos columnas: a la izquierda los testículos, con flechas hacia "testosterona" y "espermatozoides"; a la derecha los ovarios, con flechas hacia "estrógenos y progesterona" y "óvulos".',
-            brief: 'Diagrama escolar esquemático en dos columnas, sin representar genitales externos: columna izquierda "Glándulas masculinas: testículos" (dos óvalos dentro de un contorno sencillo) con dos flechas: "hormona: testosterona" (gota morada hacia un vaso sanguíneo) y "células: espermatozoides". Columna derecha "Glándulas femeninas: ovarios" (dos óvalos junto a un útero esquemático) con dos flechas: "hormonas: estrógenos y progesterona" y "células: óvulos". Arriba, la hipófisis con flechas hacia ambas columnas. Colores planos, letra grande.' } },
+            alt: 'Diagrama en dos columnas: a la izquierda los testículos, con flechas hacia testosterona y espermatozoides; a la derecha los ovarios, con flechas hacia estrógenos y progesterona y una etiqueta que indica que contienen ovocitos.',
+            brief: 'Diagrama escolar esquemático en dos columnas, sin representar genitales externos: columna izquierda "Glándulas masculinas: testículos" (dos óvalos dentro de un contorno sencillo) con dos flechas: "hormona: testosterona" (gota morada hacia un vaso sanguíneo) y "células: espermatozoides". Columna derecha "Glándulas femeninas: ovarios" (dos óvalos junto a un útero esquemático) con una flecha "hormonas: estrógenos y progesterona" y la etiqueta "contienen ovocitos". Arriba, la hipófisis con flechas hacia ambas columnas. Colores planos, letra grande.' } },
         { icon: 'Copy', body: 'Las gónadas son glándulas de **secreción interna**: envían sus hormonas a la **sangre**, como aprendiste la semana pasada.', reveal: [
           { icon: 'Dna', front: 'Testículos', back: 'Producen principalmente **testosterona** y, desde la pubertad, forman **espermatozoides**.' },
-          { icon: 'Microscope', front: 'Ovarios', back: 'Producen principalmente **estrógenos** y **progesterona** y hacen **madurar óvulos**.' },
+          { icon: 'Microscope', front: 'Ovarios', back: 'Producen principalmente **estrógenos** y **progesterona** y contienen **ovocitos**, células que participan en la ovogénesis.' },
           { icon: 'Droplet', front: 'Testosterona', back: 'Contribuye a cambios como una voz más grave, vello facial y aumento de masa muscular. La intensidad varía entre personas.' },
           { icon: 'Droplets', front: 'Estrógenos y progesterona', back: 'Contribuyen al desarrollo de las mamas y regulan el **ciclo menstrual**. Cada cuerpo responde de manera distinta.' },
         ] },
@@ -69,7 +69,7 @@ export default [
       S.sort(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
           prompt: 'Clasifica cada función: ¿es de los **testículos**, de los **ovarios** o de **ambos**?',
-          hint: 'Testículos: testosterona y espermatozoides. Ovarios: estrógenos, progesterona y óvulos.',
+          hint: 'Testículos: testosterona y espermatozoides. Ovarios: estrógenos, progesterona y ovocitos.',
           explain: 'Los dos son glándulas sexuales de secreción interna que producen hormonas y forman células reproductoras.' },
         { buckets: [
           { id: 'tes', label: 'Testículos', icon: 'Dna', color: 'var(--area-l1)' },
@@ -77,7 +77,7 @@ export default [
           { id: 'amb', label: 'Ambos', icon: 'Copy', color: 'var(--area-cnt)' },
         ], items: [
           { id: 'f1', text: 'Producen testosterona', bucket: 'tes' },
-          { id: 'f2', text: 'Hacen madurar los óvulos', bucket: 'ova' },
+          { id: 'f2', text: 'Contienen ovocitos que participan en la ovogénesis', bucket: 'ova' },
           { id: 'f3', text: 'Producen estrógenos y progesterona', bucket: 'ova' },
           { id: 'f4', text: 'Forman espermatozoides', bucket: 'tes' },
           { id: 'f5', text: 'Envían hormonas a la sangre', bucket: 'amb' },
@@ -137,8 +137,8 @@ export default [
       ),
       S.match(
         { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
-          prompt: 'Une cada hormona o célula con la glándula que la produce.',
-          explain: 'Testosterona y espermatozoides: testículos. Estrógenos y óvulos: ovarios. La señal inicial: hipófisis.' },
+          prompt: 'Une cada hormona o célula con la glándula relacionada.',
+          explain: 'Testosterona y espermatozoides: testículos. Estrógenos, progesterona y ovocitos: ovarios. La señal inicial: hipófisis.' },
         { leftTitle: 'Producto', rightTitle: 'Glándula', pairs: [
           { id: 't', left: 'Testosterona', right: 'Testículos' },
           { id: 'e', left: 'Estrógenos', right: 'Ovarios' },
@@ -157,10 +157,10 @@ export default [
         ], correct: ['a', 'b', 'd'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.2'], prompt: '¿Qué producen los **ovarios**?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.2'], prompt: '¿Qué hormonas producen principalmente los **ovarios** y qué células contienen?' },
         { options: [
           { id: 'a', text: 'Testosterona y espermatozoides' },
-          { id: 'b', text: 'Estrógenos, progesterona y óvulos' },
+          { id: 'b', text: 'Estrógenos, progesterona y ovocitos' },
           { id: 'c', text: 'Insulina' },
           { id: 'd', text: 'Adrenalina' },
         ], correct: ['b'] },
@@ -191,7 +191,7 @@ export default [
       'Aparato reproductor masculino: testículos (con túbulos seminíferos donde se forman los espermatozoides), escroto, conductos eferentes, epidídimo, conductos deferentes, vesículas seminales, próstata, uretra y pene, cuyo extremo se llama glande.',
       'Recorrido de los espermatozoides: túbulos seminíferos → conductos eferentes → epidídimo → conducto deferente → uretra.',
       'En el modelo escolar de la espermatogénesis, la meiosis de una célula inicial produce cuatro espermatozoides funcionales.',
-      'La ovogénesis empieza antes de nacer y, desde la pubertad, suele madurar una célula reproductora por ciclo; la meiosis produce un óvulo funcional y cuerpos polares. Los gametos humanos maduros tienen 23 cromosomas.',
+      'La ovogénesis empieza antes de nacer. Al completar el proceso produce una célula funcional grande y cuerpos polares pequeños. En un ciclo típico puede liberarse un ovocito secundario; la meiosis II solo se completa si ocurre la fecundación. En lenguaje común suele llamarse “óvulo” a la célula liberada.',
     ],
     media: {
       id: 's04-cnt-2-aparato', kind: 'diagram', title: 'Aparato reproductor masculino (esquema)', aspect: '4:3',
@@ -206,7 +206,7 @@ export default [
       S.choice(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer',
           prompt: 'Hoy usarás **nombres científicos**, correctos y respetuosos. En la milpa, la **espiga** del maíz suelta polen y el **jilote** lo recibe por sus "pelos de elote". En los seres humanos, ¿qué células se unen para formar una nueva vida?',
-          explain: 'Se unen el **óvulo** (célula reproductora femenina, formada en los **ovarios**; grande y sin movimiento propio) y el **espermatozoide** (célula reproductora masculina, formada en los **testículos**; muy pequeña y con una **cola** o flagelo para moverse). Hoy verás dónde y cómo se forman. Si tienes dudas, conversa con tu familia, tu docente o el personal de salud.' },
+          explain: 'En lenguaje común se dice que se unen el **óvulo** y el **espermatozoide**. Con mayor precisión, la célula liberada por el ovario suele ser un **ovocito secundario**; si ocurre la fecundación, completa la meiosis II. El espermatozoide se forma en los testículos y tiene una cola o flagelo para moverse. Si tienes dudas, conversa con tu familia, tu docente o el personal de salud.' },
         { options: [
           { id: 'a', text: 'Un óvulo y un espermatozoide', icon: 'Egg' },
           { id: 'b', text: 'Dos células de la piel', icon: 'Hand', feedback: 'Las células de la piel tienen 46 cromosomas y no forman nuevos seres. Se necesitan células reproductoras, de 23 cromosomas.' },
@@ -268,9 +268,9 @@ export default [
           prompt: 'La formación de células reproductoras se llama **gametogénesis**. Hay dos tipos. Toca las tarjetas.' },
         { icon: 'Dna', body: 'Recuerda la semana 2: las células reproductoras llevan **23 cromosomas**, la mitad que las demás células. Al unirse un óvulo y un espermatozoide, la nueva célula tiene 46.', reveal: [
           { icon: 'Dna', front: 'Espermatogénesis', back: 'Formación de **espermatozoides** en los **túbulos seminíferos** de los testículos. Empieza en la **pubertad** y puede continuar durante la vida adulta.' },
-          { icon: 'CircleDot', front: 'Ovogénesis', back: 'Formación de **óvulos** en los **ovarios**. **Empieza antes de nacer** y se pausa; desde la pubertad, por lo general **madura un óvulo en cada ciclo menstrual** (más o menos cada mes).' },
-          { icon: 'Hash', front: '¿Cuántas salen?', back: 'De cada célula inicial, la espermatogénesis forma **4 espermatozoides**; la ovogénesis forma **1 óvulo** (y otras células pequeñas que no se usan).' },
-          { icon: 'Egg', front: '¿Por qué el óvulo es grande?', back: 'Guarda **nutrientes** para los primeros días de una posible nueva vida. El espermatozoide es pequeño y ligero para **moverse**.' },
+          { icon: 'CircleDot', front: 'Ovogénesis', back: 'Empieza **antes de nacer** y se pausa. Desde la pubertad, en un ciclo típico puede liberarse un **ovocito secundario**; los ciclos varían y no siempre ocurre una liberación.' },
+          { icon: 'Hash', front: 'División desigual', back: 'Al completar la ovogénesis se obtiene **una célula funcional grande** y **cuerpos polares** pequeños. No son cuatro células funcionales iguales.' },
+          { icon: 'Egg', front: '“Óvulo” y ovocito', back: '**Óvulo** es el término común simplificado para la célula liberada. Con precisión, suele ser un **ovocito secundario**, y la **meiosis II solo se completa si ocurre la fecundación**.' },
         ] },
       ),
       S.sort(
@@ -286,29 +286,29 @@ export default [
           { id: 'o1', text: 'Ocurre en los testículos', bucket: 'esp' },
           { id: 'o2', text: 'Ocurre en los ovarios', bucket: 'ovo' },
           { id: 'o3', text: 'Forma millones de células cada día desde la pubertad', bucket: 'esp' },
-          { id: 'o4', text: 'Por lo general madura una célula en cada ciclo menstrual', bucket: 'ovo' },
+          { id: 'o4', text: 'En un ciclo típico puede liberar un ovocito secundario', bucket: 'ovo' },
           { id: 'o5', text: 'Comienza antes del nacimiento', bucket: 'ovo' },
           { id: 'o6', text: 'Forma células con 23 cromosomas', bucket: 'amb' },
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['cnt', 'mat'], cnb: ['cnt:3.2.1'], ambito: 'hacer', title: 'Ejemplo: contar células reproductoras',
-          prompt: 'Usa lo aprendido para comparar los dos procesos con números.' },
-        { icon: 'Calculator', problem: 'Supongamos que **10 células iniciales** hacen espermatogénesis y otras **10** hacen ovogénesis. ¿Cuántas células reproductoras se forman en cada caso?',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.2.1'], ambito: 'hacer', title: 'Ejemplo: nombrar el proceso con precisión',
+          prompt: 'Sigue una secuencia típica sin convertirla en una regla para todos los ciclos.' },
+        { icon: 'Route', problem: 'Un esquema muestra que una célula inicia la ovogénesis, luego aparece una célula grande con un cuerpo polar y, durante un ciclo, esa célula grande es liberada. ¿Cómo se explica?',
           steps: [
-            { text: 'En la espermatogénesis, cada célula inicial forma **4** espermatozoides: 10 × 4 = **40**.' },
-            { text: 'En la ovogénesis, cada célula inicial forma **1** óvulo: 10 × 1 = **10**.', why: 'Las otras células pequeñas que se forman no se usan: casi todo el citoplasma y los nutrientes quedan en el óvulo.' },
-            { text: 'Comparo: se forman 4 veces más espermatozoides que óvulos.' },
+            { text: 'La división es **desigual**: se conserva una célula funcional grande y se forman cuerpos polares pequeños.' },
+            { text: 'La célula que puede liberarse es un **ovocito secundario**; en lenguaje común suele llamarse “óvulo”.' },
+            { text: 'La **meiosis II** queda incompleta y solo termina si ocurre la fecundación.', why: 'Por eso no conviene decir que cada ciclo produce automáticamente un óvulo completo.' },
           ],
-          answer: '**40 espermatozoides** y **10 óvulos**. Cada una de esas células tiene **23 cromosomas**.',
-          tip: 'Espermatozoides: muchos, pequeños y móviles. Óvulos: pocos, grandes y con reservas.' },
+          answer: 'Es un **ovocito secundario** que puede ser liberado; la meiosis II solo se completa si ocurre la fecundación.',
+          tip: '“Puede” expresa variación normal: no todos los ciclos son iguales.' },
       ),
       S.number(
         { fase: 'aplicar', areas: ['cnt', 'mat'], cnb: ['cnt:3.2.1'], ambito: 'hacer',
           prompt: 'Supongamos que **25 células iniciales** hacen espermatogénesis. ¿Cuántos espermatozoides se forman?',
           explain: 'Cada célula inicial forma 4 espermatozoides: 25 × 4 = 100.' },
         { answer: 100, unit: 'espermatozoides', misconceptions: [
-          { value: 25, msg: 'Eso sería si cada célula formara 1, como en la ovogénesis. En la espermatogénesis forma 4.' },
+          { value: 25, msg: 'Contaste una por célula. En este modelo de espermatogénesis se forman 4 por cada célula inicial.' },
           { value: 29, msg: 'Sumaste 25 + 4. Cada una de las 25 células forma 4: hay que multiplicar.' },
         ] },
       ),
@@ -336,7 +336,8 @@ export default [
         { statements: [
           { text: 'Los conductos deferentes transportan los espermatozoides hacia la uretra.', answer: true },
           { text: 'La ovogénesis ocurre en los testículos.', answer: false, why: 'La ovogénesis ocurre en los ovarios; en los testículos ocurre la espermatogénesis.' },
-          { text: 'De cada célula inicial, la ovogénesis forma un solo óvulo.', answer: true },
+          { text: 'En la ovogénesis se conserva una célula funcional grande y se forman cuerpos polares pequeños.', answer: true },
+          { text: 'La meiosis II del ovocito secundario termina en todos los ciclos.', answer: false, why: 'Solo se completa si ocurre la fecundación; además, los ciclos presentan variación normal.' },
           { text: 'El glande es una glándula que produce semen.', answer: false, why: 'El glande es el extremo del pene. Los líquidos del semen los producen las vesículas seminales y la próstata.' },
         ] },
       ),

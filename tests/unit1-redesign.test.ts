@@ -1930,6 +1930,54 @@ test('Semana 4 trata crecimiento y cuidado con ciencia, fuentes confiables y res
   assert.doesNotMatch(scienceText, /diagnostica|tienes la enfermedad|seguro que tienes/);
 });
 
+test('Semana 4 distingue las caras laterales de prismas rectos y oblicuos', () => {
+  const math = weekFour.lessons.filter((lesson) => lesson.area === 'mat');
+  const mathText = normalizeFactText(JSON.stringify(math));
+  assert.match(mathText, /prisma recto.{0,100}caras? laterales?.{0,40}rectangul/);
+  assert.match(mathText, /prisma oblicuo.{0,100}caras? laterales?.{0,40}paralelogram/);
+  assert.doesNotMatch(mathText, /(?:caras? laterales? de (?:un|los) prismas?|prismas?:? (?:sus )?caras? laterales?|prismas?:? laterales).{0,30}(?:son )?rectangul/);
+});
+
+test('Semana 4 explica la ovogénesis sin convertirla en un óvulo completo por ciclo', () => {
+  const science = weekFour.lessons.filter((lesson) => lesson.area === 'cnt');
+  const scienceAndAssessment = normalizeFactText(JSON.stringify({ science, challenge: weekFour.lessons.find((lesson) => lesson.kind === 'reto'), bank: weekFourBank }));
+  assert.match(scienceAndAssessment, /una celula funcional grande.{0,100}cuerpos polares|cuerpos polares.{0,100}una celula funcional grande/);
+  assert.match(scienceAndAssessment, /ovocito secundario.{0,100}(?:puede|podria) ser liberado/);
+  assert.match(scienceAndAssessment, /meiosis ii.{0,100}solo.{0,60}(?:si ocurre|cuando ocurre) la fecundacion/);
+  assert.match(scienceAndAssessment, /ovulo.{0,100}(?:lenguaje|termino) (?:comun|simplificado)/);
+  assert.doesNotMatch(scienceAndAssessment, /madura (?:un|el) ovulo (?:en|cada)|cada celula inicial.{0,80}(?:forma|produce) (?:un|1) ovulo/);
+});
+
+test('El reto L3 de Semana 4 transfiere solo palabras y patrones enseñados', () => {
+  const l3Lessons = weekFour.lessons.filter((lesson) => lesson.area === 'l3');
+  const taughtText = normalizeFactText(JSON.stringify(l3Lessons));
+  const challenge = weekFour.lessons.find((lesson) => lesson.kind === 'reto');
+  assert.ok(challenge, 'Semana 4 sin reto');
+  const l3Assessment = challenge.steps.find((step) => step.areas.includes('l3'));
+  assert.ok(l3Assessment, 'El reto no evalúa L3');
+  const assessmentText = normalizeFactText(JSON.stringify(l3Assessment));
+  assert.doesNotMatch(assessmentText, /\bkind\b|\bshare\b|\bhome\b/);
+  const answers = [...JSON.stringify(l3Assessment).matchAll(/\[\[([a-z]+)\]\]/gi)].map((match) => normalizeFactText(match[1]));
+  assert.ok(answers.length >= 2, 'La transferencia debe recuperar al menos dos palabras');
+  assert.ok(answers.every((word) => new RegExp(`\\b${word}\\b`).test(taughtText)), `Palabras no enseñadas: ${answers.join(', ')}`);
+  assert.match(assessmentText, /ee|ea|oo|sh|th|silent|muda|spelling|correctly spelled/);
+});
+
+test('La producción de s04-mat-5 cabe en quince minutos y entrega un solo plan', () => {
+  const lesson = weekFour.lessons.find((item) => item.id === 's04-mat-5');
+  assert.ok(lesson, 'Falta s04-mat-5');
+  assert.ok(lesson.minutes >= 10 && lesson.minutes <= 15);
+  assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 14);
+  const projects = lesson.steps.filter((step) => step.type === 'project');
+  assert.equal(projects.length, 1);
+  const production = normalizeFactText(JSON.stringify(projects[0]));
+  assert.match(production, /un solo (?:solido|desarrollo|plan)|un (?:solido|desarrollo|plan)/);
+  assert.match(production, /plan|papel|cuadricula|dibujo/);
+  assert.doesNotMatch(production, /al menos tres|aldea|casa.{0,100}monumento.{0,100}troje/);
+  assert.doesNotMatch(production, /recorta.{0,100}dobla.{0,100}pega|trazar.{0,100}recortar.{0,100}doblar.{0,100}pegar/);
+  assert.match(production, /medidas?.{0,80}pestanas?.{0,80}(?:doblez|corte)|pestanas?.{0,80}(?:doblez|corte).{0,80}medidas?/);
+});
+
 test('Semana 4 construye una campaña dramática breve con cuatro áreas ya enseñadas', () => {
   const workshop = weekFour.lessons.find((lesson) => lesson.kind === 'taller');
   assert.ok(workshop, 'Semana 4 sin taller');

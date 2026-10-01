@@ -17,15 +17,15 @@ export default [
       "Clasificar y nombrar prismas y pirámides a partir de sus bases",
     ],
     resumen: [
-      'Prisma: tiene DOS bases congruentes y paralelas; sus caras laterales son rectángulos.',
+      'Prisma: tiene DOS bases congruentes y paralelas. En un prisma recto, las caras laterales son rectángulos; en un prisma oblicuo, las caras laterales son paralelogramos inclinados.',
       'Pirámide: tiene UNA base; sus caras laterales son triángulos que se juntan en la cúspide.',
       'Se nombran por el polígono de la base: prisma triangular, prisma hexagonal, pirámide cuadrangular, pirámide pentagonal…',
       'Una pirámide tiene tantas caras laterales como lados tiene su base; un prisma también.',
     ],
     media: {
       id: 's04-mat-1-bases', kind: 'diagram', title: 'Prismas y pirámides lado a lado', aspect: '16:9',
-      alt: 'Arriba, tres prismas (triangular, rectangular y hexagonal) con sus dos bases pintadas de azul. Abajo, tres pirámides (triangular, cuadrangular y hexagonal) con su única base pintada de naranja.',
-      brief: 'Diagrama en dos filas. Fila de arriba "Prismas: 2 bases": prisma triangular, rectangular y hexagonal con sus dos bases coloreadas de azul y caras laterales rectangulares en gris claro. Fila de abajo "Pirámides: 1 base": pirámide triangular, cuadrangular y hexagonal con la base en naranja y caras triangulares en gris, cúspide marcada con punto. Debajo de cada sólido, su nombre. Aristas ocultas punteadas. Fondo blanco.',
+      alt: 'Arriba, tres prismas rectos (triangular, rectangular y hexagonal) y un prisma oblicuo, con sus dos bases pintadas de azul. Abajo, tres pirámides con su única base pintada de naranja.',
+      brief: 'Diagrama en dos filas. Fila de arriba "Prismas rectos: 2 bases": prisma triangular, rectangular y hexagonal con sus dos bases coloreadas de azul y caras laterales rectangulares en gris claro; al final, un prisma oblicuo con caras laterales en forma de paralelogramo. Fila de abajo "Pirámides: 1 base": pirámide triangular, cuadrangular y hexagonal con la base en naranja y caras triangulares en gris, cúspide marcada con punto. Debajo de cada sólido, su nombre. Aristas ocultas punteadas. Fondo blanco.',
     },
     steps: [
       S.explain(
@@ -46,7 +46,7 @@ export default [
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.3'], ambito: 'conocer', title: 'Las bases dan el nombre',
           prompt: 'La **base** es la cara que "sostiene" al sólido y le da su nombre. Contar las bases te dice si es prisma o pirámide. Toca cada tarjeta.' },
         { icon: 'Layers', body: 'Primero cuenta las bases; después mira qué polígono son.', reveal: [
-          { icon: 'Box', front: 'Prisma', back: '**Dos bases** congruentes y paralelas (una frente a la otra). Caras laterales: **rectángulos**.' },
+          { icon: 'Box', front: 'Prisma', back: '**Dos bases** congruentes y paralelas. En los prismas **rectos**, las caras laterales son rectángulos; en los **oblicuos**, son paralelogramos inclinados.' },
           { icon: 'Triangle', front: 'Pirámide', back: '**Una base**. Caras laterales: **triángulos** que se juntan en un punto, la **cúspide**.' },
           { icon: 'Tag', front: 'Apellido', back: 'El polígono de la base es el "apellido": base de 6 lados → prisma **hexagonal** o pirámide **hexagonal**.' },
         ] },
@@ -69,13 +69,13 @@ export default [
       S.ejemplo(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.3'], ambito: 'hacer', title: 'Ejemplo resuelto: ponerle nombre',
           prompt: 'Así se nombra un sólido en dos pasos.' },
-        { icon: 'Tag', problem: 'Una troje moderna tiene **dos hexágonos** congruentes, uno abajo y otro arriba, unidos por **6 rectángulos**. ¿Cómo se llama?',
+        { icon: 'Tag', problem: 'Una troje moderna tiene **dos hexágonos** congruentes, uno abajo y otro arriba, unidos perpendicularmente por **6 rectángulos**. ¿Cómo se llama?',
           steps: [
             { text: '¿Cuántas bases? **Dos** hexágonos congruentes y paralelos → es un **prisma**.' },
             { text: '¿Qué polígono es la base? Un **hexágono** (6 lados).' },
-            { text: 'Nombre completo: **prisma hexagonal**.', why: 'Además, tiene 6 caras laterales: una por cada lado de la base.' },
+            { text: 'Nombre completo: **prisma hexagonal recto**.', why: 'Tiene 6 caras laterales rectangulares, una por cada lado de la base.' },
           ],
-          answer: 'Es un **prisma hexagonal**.',
+          answer: 'Es un **prisma hexagonal recto**.',
           tip: 'Una pirámide con base de 5 lados sería una pirámide pentagonal, con 5 triángulos alrededor.' },
       ),
       S.match(
@@ -83,9 +83,9 @@ export default [
           hint: 'Dos bases → prisma; una base con triángulos → pirámide. Luego mira el polígono.',
           explain: 'Cantidad de bases + polígono de la base = nombre completo.' },
         { leftTitle: 'Descripción', rightTitle: 'Sólido', pairs: [
-          { id: 'p1', left: '2 triángulos y 3 rectángulos', right: 'Prisma triangular' },
+          { id: 'p1', left: '2 triángulos y 3 rectángulos', right: 'Prisma triangular recto' },
           { id: 'p2', left: '1 cuadrado y 4 triángulos', right: 'Pirámide cuadrangular' },
-          { id: 'p3', left: '2 pentágonos y 5 rectángulos', right: 'Prisma pentagonal' },
+          { id: 'p3', left: '2 pentágonos y 5 rectángulos', right: 'Prisma pentagonal recto' },
           { id: 'p4', left: '1 hexágono y 6 triángulos', right: 'Pirámide hexagonal' },
         ] },
       ),
@@ -100,10 +100,10 @@ export default [
       ),
       S.choice(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.3.3'], prompt: 'Un pedazo de queso tiene forma de sólido con **dos triángulos congruentes** a los lados y **tres rectángulos**. ¿Qué es?',
-          explain: 'Dos bases triangulares congruentes → **prisma triangular**.' },
+          explain: 'Dos bases triangulares congruentes y caras laterales rectangulares → **prisma triangular recto**.' },
         { options: [
           { id: 'a', text: 'Pirámide triangular', feedback: 'Una pirámide tiene una sola base y termina en punta.' },
-          { id: 'b', text: 'Prisma triangular' },
+          { id: 'b', text: 'Prisma triangular recto' },
           { id: 'c', text: 'Prisma rectangular', feedback: 'Las bases son las dos caras congruentes que están frente a frente: aquí son triángulos.' },
         ], correct: ['b'] },
       ),
@@ -120,7 +120,7 @@ export default [
           { id: 'pi', label: 'Pirámide', icon: 'Triangle' },
           { id: 're', label: 'Cuerpo redondo', icon: 'Cylinder' },
         ], items: [
-          { id: 'a', text: 'Dos octágonos y ocho rectángulos', bucket: 'pr' },
+          { id: 'a', text: 'Dos octágonos y ocho rectángulos: prisma recto', bucket: 'pr' },
           { id: 'b', text: 'Un pentágono y cinco triángulos', bucket: 'pi' },
           { id: 'c', text: 'Dos círculos y una superficie curva', bucket: 're' },
           { id: 'd', text: 'Un círculo, una superficie curva y una punta', bucket: 're' },
@@ -131,7 +131,7 @@ export default [
         { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.3.3'], prompt: 'Un sólido tiene **dos cuadrados congruentes** y **cuatro rectángulos**. ¿Cómo se llama?' },
         { options: [
           { id: 'a', text: 'Pirámide cuadrangular' },
-          { id: 'b', text: 'Prisma cuadrangular' },
+          { id: 'b', text: 'Prisma cuadrangular recto' },
           { id: 'c', text: 'Cilindro' },
         ], correct: ['b'] },
       ),
@@ -139,7 +139,8 @@ export default [
         { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.3.3'], prompt: '¿Verdadero o falso?' },
         { statements: [
           { text: 'Una pirámide tiene dos bases.', answer: false },
-          { text: 'Las caras laterales de un prisma son rectángulos.', answer: true },
+          { text: 'En los prismas rectos, las caras laterales son rectángulos.', answer: true },
+          { text: 'En los prismas oblicuos, las caras laterales son paralelogramos.', answer: true },
           { text: 'Una pirámide hexagonal tiene 6 caras laterales.', answer: true },
           { text: 'Un prisma acostado deja de ser prisma.', answer: false },
         ] },
@@ -190,7 +191,7 @@ export default [
             alt: 'Tabla con prismas y pirámides de base triangular, cuadrada, pentagonal y hexagonal, con su número de caras, aristas y vértices.',
             brief: 'Tabla limpia con dibujo pequeño de cada sólido en la primera columna. Filas: prisma triangular (5 caras, 9 aristas, 6 vértices), prisma cuadrangular (6, 12, 8), prisma pentagonal (7, 15, 10), prisma hexagonal (8, 18, 12), pirámide triangular (4, 6, 4), pirámide cuadrangular (5, 8, 5), pirámide pentagonal (6, 10, 6), pirámide hexagonal (7, 12, 7). Última fila con las reglas: prisma n + 2, 3n, 2n; pirámide n + 1, 2n, n + 1. Colores suaves alternos.' } },
         { icon: 'Box', body: 'Prisma con base de **n** lados:', reveal: [
-          { icon: 'Layers', front: 'Caras: n + 2', back: '**n caras laterales** (rectángulos, una por lado) + **2 bases**.' },
+          { icon: 'Layers', front: 'Caras: n + 2', back: '**n caras laterales** (paralelogramos, una por lado) + **2 bases**. Si el prisma es recto, esos paralelogramos son rectángulos.' },
           { icon: 'Minus', front: 'Aristas: 3 × n', back: '**n** abajo + **n** arriba + **n** que las unen.' },
           { icon: 'CircleDot', front: 'Vértices: 2 × n', back: '**n** abajo + **n** arriba.' },
         ] },
@@ -198,7 +199,7 @@ export default [
       S.ejemplo(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.4'], ambito: 'hacer', title: 'Ejemplo resuelto',
           prompt: 'Usa la regla con la troje hexagonal.' },
-        { icon: 'Calculator', problem: 'Describe el **prisma hexagonal**: caras laterales, caras-base, total de caras, aristas y vértices.',
+        { icon: 'Calculator', problem: 'Describe el **prisma hexagonal recto**: caras laterales, caras-base, total de caras, aristas y vértices.',
           steps: [
             { text: 'La base es un hexágono: **n = 6**.' },
             { text: 'Caras: 6 laterales (rectángulos) + 2 bases (hexágonos) = **8 caras**.' },
@@ -245,9 +246,9 @@ export default [
       ),
       S.match(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.3.4'], prompt: 'Une cada cuerpo con la descripción de sus caras laterales y sus bases.',
-          explain: 'Prismas: laterales rectangulares y 2 bases. Pirámides: laterales triangulares y 1 base. Cilindro y cono: superficie lateral curva.' },
+          explain: 'Prismas: caras laterales con forma de paralelogramo y 2 bases; si son rectos, esas caras son rectángulos. Pirámides: laterales triangulares y 1 base. Cilindro y cono: superficie lateral curva.' },
         { leftTitle: 'Cuerpo', rightTitle: 'Caras', pairs: [
-          { id: 'p1', left: 'Prisma triangular', right: '3 rectángulos y 2 triángulos' },
+          { id: 'p1', left: 'Prisma triangular recto', right: '3 rectángulos y 2 triángulos' },
           { id: 'p2', left: 'Pirámide cuadrangular', right: '4 triángulos y 1 cuadrado' },
           { id: 'p3', left: 'Cilindro', right: 'Superficie curva y 2 círculos' },
           { id: 'p4', left: 'Cono', right: 'Superficie curva y 1 círculo' },
@@ -401,7 +402,7 @@ export default [
     resumen: [
       'El desarrollo plano es la figura que se obtiene al "desarmar" un sólido: todas sus caras unidas por algunas aristas.',
       'Cubo: 6 cuadrados congruentes (por ejemplo, en forma de cruz). Prisma rectangular: 6 rectángulos en 3 pares.',
-      'Pirámide: la base y un triángulo pegado a cada lado de la base. Prisma: 2 bases y un rectángulo por cada lado de la base.',
+      'Pirámide: la base y un triángulo pegado a cada lado de la base. Prisma recto: 2 bases y un rectángulo por cada lado de la base; en un prisma oblicuo se usan paralelogramos inclinados.',
       'Cilindro: 2 círculos y un rectángulo cuyo largo es el contorno del círculo. Cono: 1 círculo y una figura en forma de abanico.',
     ],
     media: {
@@ -429,7 +430,7 @@ export default [
           prompt: 'El **desarrollo plano** de un sólido es la figura plana con **todas sus caras** unidas, que al doblarse forma el sólido. Toca cada tarjeta.' },
         { icon: 'Grid3x3', body: 'Para dibujar un desarrollo, piensa: ¿cuántas caras tiene y qué forma tiene cada una?', reveal: [
           { icon: 'Square', front: 'Cubo', back: '**6 cuadrados** congruentes. Una forma común: una fila de 4 con uno arriba y uno abajo (una cruz).' },
-          { icon: 'Box', front: 'Prisma', back: '**2 bases** y un **rectángulo por cada lado** de la base.' },
+          { icon: 'Box', front: 'Prisma recto', back: '**2 bases** y un **rectángulo por cada lado** de la base. Un prisma oblicuo lleva paralelogramos inclinados.' },
           { icon: 'Triangle', front: 'Pirámide', back: 'La **base** y un **triángulo** pegado a cada lado de la base.' },
           { icon: 'Cylinder', front: 'Cilindro', back: '**2 círculos** y un **rectángulo**. El largo del rectángulo debe ser igual al contorno del círculo (un poco más de 3 veces su diámetro).' },
           { icon: 'Cone', front: 'Cono', back: '**1 círculo** y una figura en forma de **abanico** que se enrolla.' },
@@ -476,13 +477,13 @@ export default [
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.6'], ambito: 'conocer', title: 'Prismas y pirámides en cuadrícula',
           prompt: 'La cuadrícula ayuda a que las aristas que se unen **midan lo mismo**. Toca cada tarjeta.' },
         { icon: 'Ruler', body: 'Regla de oro: dos lados que se pegan deben tener la **misma longitud**.', reveal: [
-          { icon: 'Box', front: 'Prisma rectangular 4 × 2 × 3', back: 'Fila de 4 rectángulos de alto 3: anchos 4, 2, 4, 2. Arriba y abajo, dos rectángulos de 4 × 2.' },
+          { icon: 'Box', front: 'Prisma rectangular recto 4 × 2 × 3', back: 'Fila de 4 rectángulos de alto 3: anchos 4, 2, 4, 2. Arriba y abajo, dos rectángulos de 4 × 2.' },
           { icon: 'Triangle', front: 'Pirámide cuadrangular', back: 'Un cuadrado al centro y, pegado a cada lado, un triángulo cuya base mide lo mismo que el lado del cuadrado.' },
           { icon: 'Paperclip', front: 'Pestañas', back: 'Agrega pestañas (tiras pequeñas) en algunos bordes para poder pegar.' },
         ] },
       ),
       S.number(
-        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.3.6', 'mat:1.3.4'], prompt: 'Vas a dibujar el desarrollo de un **prisma hexagonal**. ¿Cuántas figuras (caras) debe tener en total?',
+        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.3.6', 'mat:1.3.4'], prompt: 'Vas a dibujar el desarrollo de un **prisma hexagonal recto**. ¿Cuántas figuras (caras) debe tener en total?',
           explain: '2 hexágonos (bases) + 6 rectángulos (uno por lado) = 8 figuras.' },
         { answer: 8, misconceptions: [{ value: 6, msg: 'Faltan las dos bases hexagonales.' }] },
       ),
@@ -496,10 +497,10 @@ export default [
       ),
       S.choice(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.3.6'], prompt: 'Un desarrollo tiene **2 triángulos** y **3 rectángulos**. ¿Qué sólido forma?',
-          explain: 'Dos bases triangulares y un rectángulo por cada lado del triángulo: **prisma triangular**.' },
+          explain: 'Dos bases triangulares y un rectángulo por cada lado del triángulo: **prisma triangular recto**.' },
         { options: [
           { id: 'a', text: 'Pirámide triangular', feedback: 'La pirámide triangular solo tiene triángulos (4).' },
-          { id: 'b', text: 'Prisma triangular' },
+          { id: 'b', text: 'Prisma triangular recto' },
           { id: 'c', text: 'Prisma rectangular', feedback: 'El prisma rectangular tiene 6 rectángulos.' },
         ], correct: ['b'] },
       ),
@@ -521,28 +522,29 @@ export default [
   /* ───────────────────────── 5. Construir sólidos ───────────────────────── */
   lesson({
     id: 's04-mat-5',
-    title: 'Construyo mis propios sólidos',
+    title: 'Planifico la construcción de un sólido',
     icon: 'Hammer',
     minutes: 15,
-    gancho: 'Con una hoja de cartulina, tijeras y pegamento puedes construir una aldea en miniatura. ¿Por dónde empezarías?',
+    gancho: 'Antes de cortar una hoja, conviene revisar el desarrollo, las medidas, los dobleces y las pestañas. ¿Cómo harías ese plan?',
     objetivos: [
-      "Construir sólidos a partir de desarrollos con medidas, dobleces y pestañas",
+      "Planificar la construcción de un sólido con un desarrollo medido, dobleces y pestañas",
     ],
     resumen: [
       'Pasos para construir: trazar el desarrollo con medidas exactas, agregar pestañas, recortar, marcar los dobleces con la regla, doblar y pegar.',
       'Las aristas que ya están unidas en el desarrollo se doblan; las demás necesitan una pestaña para pegarse.',
       'Pestañas necesarias = aristas del sólido − aristas que se doblan.',
       'Trabaja con tijeras de punta redonda y pide ayuda a una persona adulta para cortar cartón grueso.',
+      'En esta lección harás un solo plan en papel; construir el modelo puede hacerse después con más tiempo.',
     ],
     media: {
-      id: 's04-mat-5-maqueta', kind: 'image', title: 'Maqueta de una aldea de sólidos', aspect: '16:9',
-      alt: 'Maqueta de cartulina con casas de prisma y techo de prisma triangular, una troje cilíndrica con techo cónico y una pirámide como monumento en la plaza.',
-      brief: 'Fotografía o ilustración realista de una maqueta escolar sobre una mesa: casitas hechas con prismas rectangulares de cartulina con techos de prisma triangular, una troje cilíndrica con techo cónico, una pirámide cuadrangular en la plaza central y árboles de papel. Se ven las pestañas pegadas en algunas aristas. Materiales sencillos: cartulina, goma, lápices de colores. Luz natural, sin marcas.',
+      id: 's04-mat-5-maqueta', kind: 'image', title: 'Plan de un prisma triangular', aspect: '16:9',
+      alt: 'Hoja cuadriculada con el desarrollo de un prisma triangular, medidas, pestañas y líneas de corte y doblez claramente rotuladas.',
+      brief: 'Fotografía cenital de una hoja cuadriculada sobre una mesa. La hoja muestra el desarrollo de un prisma triangular recto: una tira de tres rectángulos y dos triángulos congruentes, con medidas sencillas, pestañas sombreadas, línea continua para corte y línea punteada para doblez. A un lado hay una lista de comprobación con bases, caras laterales, aristas y vértices. Solo lápiz y regla; nada está recortado ni pegado.',
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.7'], title: 'Idea central', prompt: 'Construir un modelo sólido exige medir, añadir pestañas y trabajar con cuidado.' },
-        { icon: 'BookOpenCheck', body: "Pasos para construir: trazar el desarrollo con medidas exactas, agregar pestañas, recortar, marcar los dobleces con la regla, doblar y pegar." },
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.3.7'], title: 'Idea central', prompt: 'Un plan en papel permite comprobar medidas, pestañas, cortes y dobleces antes de construir.' },
+        { icon: 'BookOpenCheck', body: 'Primero se diseña y revisa el desarrollo; después, con más tiempo, se puede recortar, doblar y pegar.' },
       ),
       S.choice(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.7'], ambito: 'conocer',
@@ -560,7 +562,7 @@ export default [
           media: { id: 's04-mat-5-armar', kind: 'video', title: 'Armamos un prisma paso a paso', aspect: '16:9', duration: 60,
             alt: 'Unas manos trazan el desarrollo de un prisma en cartulina, agregan pestañas, recortan con tijeras de punta redonda, marcan los dobleces con la regla, doblan y pegan.',
             brief: 'Video de 60 s en plano cenital sobre mesa. Manos de una niña trazan en cartulina el desarrollo de un prisma rectangular con regla y lápiz; agregan pestañas trapezoidales en bordes alternos; recortan con tijeras de punta redonda; pasan la punta de un lápiz sin punta por los dobleces con la regla para marcarlos; doblan y pegan con goma. Texto en pantalla por paso. Mostrar recordatorio de seguridad: "tijeras de punta redonda". Sin marcas.' } },
-        { icon: 'Hammer', body: 'Materiales: cartulina u hoja gruesa, regla, lápiz, tijeras de **punta redonda** y goma.', reveal: [
+        { icon: 'Hammer', body: 'Para el plan de hoy: cuaderno cuadriculado, lápiz y regla. Para construir después: cartulina, tijeras de **punta redonda** y goma.', reveal: [
           { icon: 'PenTool', front: '1. Trazar', back: 'Dibuja el desarrollo con medidas exactas. Las aristas que se unirán deben medir lo mismo.' },
           { icon: 'Paperclip', front: '2. Pestañas', back: 'Las aristas que ya están unidas en el desarrollo solo se **doblan**. Cada arista que hay que **pegar** necesita **una pestaña**.' },
           { icon: 'Scissors', front: '3. Recortar y marcar', back: 'Recorta por el borde. Marca los dobleces pasando un lápiz sin punta con la regla.' },
@@ -598,18 +600,17 @@ export default [
         { answer: 5, misconceptions: [{ value: 9, msg: 'No todas las aristas necesitan pestaña: las que se doblan ya están unidas.' }] },
       ),
       S.project(
-        { fase: 'aplicar', areas: ['mat', 'art'], cnb: ['mat:1.3.7', 'mat:1.3.6'], ambito: 'hacer',
-          prompt: 'Construye tus propios sólidos para una **maqueta de aldea**: una troje (cilindro con techo de cono), una casa (prisma) y un monumento (pirámide).' },
-        { goal: 'Construir al menos tres sólidos distintos de cartulina a partir de sus desarrollos planos y armar con ellos una pequeña aldea.',
+        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.3.7', 'mat:1.3.6'], ambito: 'hacer',
+          prompt: 'Diseña en tu cuaderno un solo plan para construir después un **prisma triangular recto**. Hoy no necesitas recortar ni pegar.' },
+        { goal: 'Entregar un solo plan en papel con medidas, pestañas y líneas de doblez y corte para un prisma triangular recto.',
           steps: [
-            { title: 'Casa (prisma rectangular)', detail: 'Traza en cuadrícula un prisma de 4 × 3 × 3 cm: fila de 4 rectángulos de 3 cm de alto (anchos 4, 3, 4, 3) y dos rectángulos de 4 × 3 arriba y abajo. Agrega pestañas.' },
-            { title: 'Monumento (pirámide cuadrangular)', detail: 'Cuadrado de 4 × 4 cm con un triángulo igual en cada lado (base 4 cm, altura del triángulo 5 cm).' },
-            { title: 'Troje (cilindro)', detail: 'Dos círculos de 3 cm de radio (usa compás) y un rectángulo de 19 cm de largo × 8 cm de alto, porque el contorno de un círculo de 6 cm de diámetro mide aproximadamente 19 cm. Deja pestañas dentadas en los bordes largos.' },
-            { title: 'Techo de la troje (cono)', detail: 'Traza un círculo grande, recorta un "abanico" (una parte del círculo), enróllalo hasta que su borde coincida con el círculo de la troje y pégalo.' },
-            { title: 'Arma y presenta', detail: 'Pega cada sólido, colócalos sobre una base y escribe una etiqueta con el nombre, número de caras, aristas y vértices de cada uno.' },
+            { title: 'Traza las cinco caras', detail: 'Dibuja una tira de tres rectángulos de 4 cm de alto. Sus anchos deben coincidir con los tres lados de las dos bases triangulares congruentes.' },
+            { title: 'Agrega y rotula', detail: 'Añade las dos bases triangulares y las pestañas. Escribe cada medida y marca con una clave qué líneas serían de corte y cuáles de doblez.' },
+            { title: 'Comprueba el cierre', detail: 'Señala qué lados se unirían. Verifica que cada pareja tenga la misma longitud y que haya 5 caras, 9 aristas y 6 vértices.' },
+            { title: 'Revisa sin construir', detail: 'Corrige una medida o pestaña si hace falta. Conserva la hoja como guía para una construcción posterior.' },
           ],
-          evidence: 'Fotografía o dibujo de tu maqueta con las etiquetas de cada sólido.',
-          rubric: ['Tracé los desarrollos con medidas exactas', 'Mis sólidos cierran bien, sin huecos', 'Escribí correctamente caras, aristas y vértices', 'Trabajé con cuidado y seguridad'] },
+          evidence: 'Una hoja con el desarrollo anotado, su clave de líneas y la comprobación de caras, aristas y vértices.',
+          rubric: ['Dibujé un solo desarrollo completo', 'Rotulé medidas, pestañas, cortes y dobleces', 'Los lados que se unirían tienen igual longitud', 'Comprobé 5 caras, 9 aristas y 6 vértices'] },
       ),
       S.number(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.3.4'], prompt: 'Repaso: si construyes un **prisma hexagonal**, ¿cuántas **aristas** tendrá?',
@@ -638,8 +639,8 @@ export default [
         { answer: 4 },
       ),
       cierre({ areas: ['mat'], cnb: [] },
-        ['Distingo prismas y pirámides por sus bases', 'Calculo caras, aristas y vértices con reglas', 'Identifico la altura de un sólido', 'Trazo desarrollos y construyo sólidos'],
-        ['Construiré al menos un sólido en casa con material reciclado', 'Explicaré a alguien de mi familia la regla de las aristas', 'Buscaré prismas, cilindros y conos en mi comunidad']),
+        ['Distingo prismas y pirámides por sus bases', 'Calculo caras, aristas y vértices con reglas', 'Identifico la altura de un sólido', 'Trazo desarrollos y planifico sólidos'],
+        ['Revisaré mi plan antes de construir con material reciclado', 'Explicaré a alguien de mi familia la regla de las aristas', 'Buscaré prismas, cilindros y conos en mi comunidad']),
     ],
   }),
 ];

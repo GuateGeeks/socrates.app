@@ -210,8 +210,8 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.fill(
-          { fase: 'comprobar', areas: ['l3'], cnb: ['l3:2.2.1'], prompt: 'Complete the caring message with the correctly spelled words.' },
-          { text: 'Be [[kind]]. We can [[share]] and help at [[home]].', distractors: ['cind', 'shar', 'hom'] },
+          { fase: 'comprobar', areas: ['l3'], cnb: ['l3:2.2.1'], prompt: 'Complete the new sentence with the correctly spelled **ee** words.' },
+          { text: 'I see a [[green]] [[sheep]] near the [[tree]].', distractors: ['grin', 'ship', 'tre'] },
         ),
         S.choice(
           { fase: 'comprobar', areas: ['fc'], cnb: ['fc:3.1.1'], prompt: 'La coordinadora escucha dos propuestas, publica los costos y luego organiza una votación. ¿Qué rasgo demuestra?' },
