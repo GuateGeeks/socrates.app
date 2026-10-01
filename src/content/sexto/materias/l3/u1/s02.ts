@@ -30,8 +30,17 @@ export default [
       brief: 'Ilustración colorida de un puesto de mercado guatemalteco bajo un toldo. Canastos con carteles de cartón escritos a mano, nombre en inglés y precio en quetzales: "bananas Q10", "mangoes Q12", "avocados Q15", "tomatoes Q8", "onions Q6", "carrots Q5", "potatoes Q7". Una vendedora con delantal sonríe detrás del puesto. Precios hipotéticos (no reales). Sin marcas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.1.2'], ambito: 'conocer', title: 'One, two… plural!',
+          prompt: 'Para hablar de **más de uno**, el inglés cambia la palabra, igual que el español. Toca cada tarjeta.' },
+        { icon: 'Plus', body: 'En inglés el adjetivo y el artículo no cambian: **the** tomato, **the** tomatoes. Solo cambia el sustantivo.', reveal: [
+          { icon: 'Plus', front: 'Regla general: + s', back: 'one banana → two banana**s** · one carrot → three carrot**s** · one onion → four onion**s**.' },
+          { icon: 'AlertCircle', front: 'Tomato y potato: + es', back: 'one tomato → two tomato**es** · one potato → five potato**es**. Con **mango** se aceptan las dos formas: mango**es** o mango**s**.' },
+          { icon: 'Wheat', front: 'Corn', back: '**Corn** se usa casi siempre sin plural, como "maíz": _I buy corn._ Para contar se dice **ears of corn** (mazorcas).' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.1.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.2'], ambito: 'conocer',
           prompt: 'Muchas palabras en inglés se parecen al español. En el cartel dice **"avocados"**. ¿Qué venden en ese canasto?',
           explain: '**Avocado** = aguacate. Palabras como avocado, tomato y chocolate nacieron en el náhuatl, un idioma originario de México, y llegaron al inglés a través del español. Hoy aprenderás el vocabulario del mercado.' },
         { options: [
@@ -56,15 +65,6 @@ export default [
           { icon: 'Carrot', front: 'carrot', back: 'zanahoria · "KÉ-rot"' },
           { icon: 'Salad', front: 'potato', back: 'papa · "po-TÉI-tou"' },
           { icon: 'Wheat', front: 'corn', back: 'maíz · "korn"' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.2'], ambito: 'conocer', title: 'One, two… plural!',
-          prompt: 'Para hablar de **más de uno**, el inglés cambia la palabra, igual que el español. Toca cada tarjeta.' },
-        { icon: 'Plus', body: 'En inglés el adjetivo y el artículo no cambian: **the** tomato, **the** tomatoes. Solo cambia el sustantivo.', reveal: [
-          { icon: 'Plus', front: 'Regla general: + s', back: 'one banana → two banana**s** · one carrot → three carrot**s** · one onion → four onion**s**.' },
-          { icon: 'AlertCircle', front: 'Tomato y potato: + es', back: 'one tomato → two tomato**es** · one potato → five potato**es**. Con **mango** se aceptan las dos formas: mango**es** o mango**s**.' },
-          { icon: 'Wheat', front: 'Corn', back: '**Corn** se usa casi siempre sin plural, como "maíz": _I buy corn._ Para contar se dice **ears of corn** (mazorcas).' },
         ] },
       ),
       S.explain(
@@ -166,18 +166,8 @@ export default [
       brief: 'Audio de 40 s con dos voces: vendedora adulta (Seller) y niño de unos 11 años (Buyer). Inglés claro y lento; ambiente suave de mercado de fondo, sin música. Texto exacto: Seller: "Good morning! Can I help you?" Buyer: "Good morning. Can I have three tomatoes, please?" Seller: "Sure. Here you are." Buyer: "How much is it?" Seller: "It\'s six quetzales." Buyer: "Here you are. Thank you!" Seller: "You\'re welcome. Have a nice day!" Después, repetir el diálogo con un silencio de 3 s tras cada línea del Seller para que el niño diga la línea del Buyer.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.1.2'], ambito: 'conocer',
-          prompt: 'La vendedora te da tus tomates y dice: _"Here you are."_ ¿Qué es lo más amable que puedes responder?',
-          explain: '**Thank you!** (¡Gracias!). En inglés, como en español, la cortesía abre puertas. Hoy practicarás una compra completa… ¡actuando!' },
-        { options: [
-          { id: 'a', text: 'Thank you!', icon: 'Heart' },
-          { id: 'b', text: 'Good night!', icon: 'Moon', feedback: '"Good night" se usa para despedirse en la noche o antes de dormir.' },
-          { id: 'c', text: 'How much is it?', icon: 'Coins', feedback: 'Es una pregunta útil, pero primero agradece lo que te entregaron.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.2'], ambito: 'convivir', title: 'Polite phrases',
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.1.2'], ambito: 'convivir', title: 'Polite phrases',
           prompt: 'Estas frases hacen que una compra sea amable. Escucha el diálogo de la lección y toca cada tarjeta.' },
         { icon: 'MessagesSquare', body: '**Please** (por favor) y **thank you** (gracias) son las palabras mágicas en cualquier idioma.', reveal: [
           { icon: 'Sun', front: 'Saludar', back: '**Good morning!** (Buenos días) · **Good afternoon!** (Buenas tardes) · **Hello!** (¡Hola!)' },
@@ -186,6 +176,16 @@ export default [
           { icon: 'Hand', front: 'Entregar', back: '**Here you are.** (Aquí tiene.) — lo dice quien entrega algo: la fruta o el dinero.' },
           { icon: 'Smile', front: 'Agradecer y responder', back: '**Thank you!** → **You\'re welcome.** (¡Gracias! → De nada.) · Despedirse: **Have a nice day!** (¡Que tenga buen día!)' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.2'], ambito: 'conocer',
+          prompt: 'La vendedora te da tus tomates y dice: _"Here you are."_ ¿Qué es lo más amable que puedes responder?',
+          explain: '**Thank you!** (¡Gracias!). En inglés, como en español, la cortesía abre puertas. Hoy practicarás una compra completa… ¡actuando!' },
+        { options: [
+          { id: 'a', text: 'Thank you!', icon: 'Heart' },
+          { id: 'b', text: 'Good night!', icon: 'Moon', feedback: '"Good night" se usa para despedirse en la noche o antes de dormir.' },
+          { id: 'c', text: 'How much is it?', icon: 'Coins', feedback: 'Es una pregunta útil, pero primero agradece lo que te entregaron.' },
+        ], correct: ['a'] },
       ),
       S.reading(
         { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.2'], ambito: 'hacer', title: 'Dialogue',

@@ -31,8 +31,17 @@ export default [
       brief: 'Ilustración cálida de un puesto de pan en un mercado guatemalteco: canastos con pan dulce (conchas, pirujos) y una panadera con delantal amasando. En un círculo tipo lupa, el interior de la masa con burbujas de aire y diminutas células de levadura representadas como puntitos ovalados (estilo didáctico, no realista). Rótulos pequeños: "masa", "burbujas de gas", "levadura". Colores cálidos, sin marcas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'conocer', title: 'Tres momentos de la lectura',
+          prompt: 'Las buenas lectoras y los buenos lectores hacen cosas **antes, durante y después** de leer. Toca cada tarjeta.' },
+        { icon: 'BookOpen', body: 'Leer para **aprender** (en Ciencias, Sociales o Matemáticas) es un trabajo activo: tu mente pregunta, comprueba y resume.', reveal: [
+          { icon: 'Search', front: 'Antes de leer', back: 'Mira el **título**, los **subtítulos** y las **imágenes**. Pregúntate: ¿qué sé de este tema? ¿Para qué voy a leer? ¿De qué tratará?' },
+          { icon: 'Eye', front: 'Durante la lectura', back: 'Lee **párrafo por párrafo**. Al terminar cada uno, pregúntate: ¿qué me dijo? Si encuentras una palabra nueva, busca pistas en las palabras que la rodean (el **contexto**).' },
+          { icon: 'CheckCircle', front: 'Después de leer', back: 'Di con **tus palabras** de qué trató el texto. Comprueba tu predicción. Responde las preguntas que tenías.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'conocer',
           prompt: 'Vas a leer un texto titulado **"La levadura: una ayudante invisible en la panadería"**. Solo con el título y la imagen, ¿de qué crees que tratará?',
           explain: 'Predecir con el título y las imágenes es una estrategia de lectura: prepara tu mente para lo que vas a leer. Enseguida comprobarás si acertaste.' },
         { options: [
@@ -40,15 +49,6 @@ export default [
           { id: 'b', text: 'De cómo vender pan en el mercado', icon: 'Store', feedback: 'La imagen muestra una panadería, pero el título habla de una "ayudante invisible". Algo no se ve…' },
           { id: 'c', text: 'De una panadera que se vuelve invisible', icon: 'EyeOff', feedback: 'Suena a cuento divertido, pero la lupa de la imagen da una pista: es algo diminuto.' },
         ], correct: ['a'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'conocer', title: 'Tres momentos de la lectura',
-          prompt: 'Las buenas lectoras y los buenos lectores hacen cosas **antes, durante y después** de leer. Toca cada tarjeta.' },
-        { icon: 'BookOpen', body: 'Leer para **aprender** (en Ciencias, Sociales o Matemáticas) es un trabajo activo: tu mente pregunta, comprueba y resume.', reveal: [
-          { icon: 'Search', front: 'Antes de leer', back: 'Mira el **título**, los **subtítulos** y las **imágenes**. Pregúntate: ¿qué sé de este tema? ¿Para qué voy a leer? ¿De qué tratará?' },
-          { icon: 'Eye', front: 'Durante la lectura', back: 'Lee **párrafo por párrafo**. Al terminar cada uno, pregúntate: ¿qué me dijo? Si encuentras una palabra nueva, busca pistas en las palabras que la rodean (el **contexto**).' },
-          { icon: 'CheckCircle', front: 'Después de leer', back: 'Di con **tus palabras** de qué trató el texto. Comprueba tu predicción. Responde las preguntas que tenías.' },
-        ] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'hacer', title: 'Ejemplo resuelto: descubrir una palabra por el contexto',
@@ -177,18 +177,8 @@ export default [
       brief: 'Ilustración de un puesto de mercado en el altiplano: mesa con redes de aguacates (6 por red, contables), una vendedora con traje de Sololá bordado (representación respetuosa), un cartel escrito a mano "Red de 6: Q15". Al fondo, otros puestos con verduras y el lago de Atitlán lejano. Estilo didáctico, colores vivos, sin marcas.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'conocer',
-          prompt: 'Lee el problema: "Doña Marta vende aguacates en el mercado de Sololá. Cada red tiene 6 aguacates y cuesta Q15. Su hijo Tomás tiene 11 años. El sábado vendió 12 redes. ¿Cuánto dinero recibió por las redes?"\n\n¿Qué **pregunta** el problema?',
-          explain: 'La pregunta es la parte más importante: te dice qué tienes que encontrar. Todo lo demás se lee pensando en ella.' },
-        { options: [
-          { id: 'a', text: 'Cuánto dinero recibió por las redes que vendió', icon: 'Coins' },
-          { id: 'b', text: 'Cuántos años tiene Tomás', icon: 'User', feedback: 'Ese dato aparece, pero no es lo que se pregunta.' },
-          { id: 'c', text: 'Cuántos aguacates tiene una red', icon: 'Package', feedback: 'Eso ya lo dice el problema: es un dato, no la pregunta.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'conocer', title: 'Las partes de un problema',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'conocer', title: 'Las partes de un problema',
           prompt: 'Un problema es un texto con una forma especial. Toca cada tarjeta para conocer sus partes.' },
         { icon: 'FileText', body: 'Leer un problema es leer **con lupa**: cada número y cada palabra pueden ser importantes… o pueden sobrar.', reveal: [
           { icon: 'Store', front: 'La situación', back: 'La historia: quién, dónde, qué pasa. Ejemplo: "Doña Marta vende aguacates en el mercado de Sololá".' },
@@ -196,6 +186,16 @@ export default [
           { icon: 'HelpCircle', front: 'La pregunta', back: 'Lo que tienes que **encontrar**. Suele estar al final y empieza con "¿Cuánto…?", "¿Cuántos…?", "¿Qué…?".' },
           { icon: 'Trash2', front: 'Datos que sobran', back: 'A veces el problema trae información que **no se necesita** para responder, como la edad de Tomás. Se lee, pero no se usa.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'conocer',
+          prompt: 'Lee el problema: "Doña Marta vende aguacates en el mercado de Sololá. Cada red tiene 6 aguacates y cuesta Q15. Su hijo Tomás tiene 11 años. El sábado vendió 12 redes. ¿Cuánto dinero recibió por las redes?"\n\n¿Qué **pregunta** el problema?',
+          explain: 'La pregunta es la parte más importante: te dice qué tienes que encontrar. Todo lo demás se lee pensando en ella.' },
+        { options: [
+          { id: 'a', text: 'Cuánto dinero recibió por las redes que vendió', icon: 'Coins' },
+          { id: 'b', text: 'Cuántos años tiene Tomás', icon: 'User', feedback: 'Ese dato aparece, pero no es lo que se pregunta.' },
+          { id: 'c', text: 'Cuántos aguacates tiene una red', icon: 'Package', feedback: 'Eso ya lo dice el problema: es un dato, no la pregunta.' },
+        ], correct: ['a'] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['l1', 'mat'], cnb: ['l1:4.2.1'], ambito: 'hacer', title: 'Ejemplo resuelto: leer y resolver el problema de doña Marta',
@@ -292,18 +292,8 @@ export default [
       brief: 'Diagrama animable de una tabla sencilla con encabezados "Mercado", "Departamento", "Días principales" y tres filas: Chichicastenango | El Quiché | jueves y domingo; San Francisco El Alto | Totonicapán | viernes; Sololá | Sololá | martes y viernes. Resaltar la fila "Chichicastenango" en amarillo y la columna "Días principales" en celeste; en el cruce, una estrella y el rótulo "¡Aquí está el dato!". Flechas: "fila →", "columna ↓". Estilo plano, legible en teléfono.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'conocer',
-          prompt: 'Tienes un libro de Ciencias Sociales de 200 páginas y necesitas saber **en qué departamento está San Francisco El Alto**. ¿Qué haces?',
-          explain: 'Para buscar un dato no se lee todo el libro: se usan las guías del texto (índice, subtítulos, negritas, tablas) para ir directo a la parte que sirve.' },
-        { options: [
-          { id: 'a', text: 'Leo el libro completo desde la página 1', icon: 'BookOpen', feedback: 'Funcionaría… ¡pero tardarías días! Hay formas más rápidas.' },
-          { id: 'b', text: 'Busco un subtítulo, una lista o una tabla sobre los municipios o mercados', icon: 'Search' },
-          { id: 'c', text: 'Adivino', icon: 'HelpCircle', feedback: 'Adivinar no es investigar. Busca el dato en el texto.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'conocer', title: 'Las guías de un texto de estudio',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'conocer', title: 'Las guías de un texto de estudio',
           prompt: 'Los textos de estudio tienen **señales** que te ayudan a encontrar la información. Toca cada tarjeta.' },
         { icon: 'Signpost', body: 'Leer para estudiar tiene dos velocidades: **rápida** para ubicar dónde está la información y **lenta** para entenderla bien.', reveal: [
           { icon: 'Heading', front: 'Títulos y subtítulos', back: 'Dividen el texto en partes. Leyéndolos sabes en qué parte está lo que buscas.' },
@@ -311,6 +301,16 @@ export default [
           { icon: 'List', front: 'Listas con viñetas', back: 'Presentan varios elementos de forma ordenada: pasos, características, ejemplos.' },
           { icon: 'Table', front: 'Tablas', back: 'Organizan datos en **filas** (horizontales →) y **columnas** (verticales ↓). El dato está en el cruce.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.1'], ambito: 'conocer',
+          prompt: 'Tienes un libro de Ciencias Sociales de 200 páginas y necesitas saber **en qué departamento está San Francisco El Alto**. ¿Qué haces?',
+          explain: 'Para buscar un dato no se lee todo el libro: se usan las guías del texto (índice, subtítulos, negritas, tablas) para ir directo a la parte que sirve.' },
+        { options: [
+          { id: 'a', text: 'Leo el libro completo desde la página 1', icon: 'BookOpen', feedback: 'Funcionaría… ¡pero tardarías días! Hay formas más rápidas.' },
+          { id: 'b', text: 'Busco un subtítulo, una lista o una tabla sobre los municipios o mercados', icon: 'Search' },
+          { id: 'c', text: 'Adivino', icon: 'HelpCircle', feedback: 'Adivinar no es investigar. Busca el dato en el texto.' },
+        ], correct: ['b'] },
       ),
       S.reading(
         { fase: 'construir', areas: ['l1', 'ccss'], cnb: ['l1:4.2.1'], ambito: 'conocer',
@@ -423,18 +423,8 @@ export default [
       brief: 'Animación 2D de 45 s. Arriba, el abecedario de 27 letras en una tira. Aparecen tres tarjetas con dibujos: cebolla, cilantro, chile, desordenadas. Todas empiezan con c (la c se ilumina en las tres). Luego se ilumina la segunda letra: e, i, h; en la tira del abecedario se marcan e, h, i y las tarjetas se reacomodan: cebolla, chile, cilantro. Narración: "Si la primera letra es igual, mira la segunda". Final con texto: "La ñ va después de la n. Ch se ordena dentro de la c; ll, dentro de la l".',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.2'], ambito: 'conocer',
-          prompt: 'Quieres ordenar alfabéticamente: **cebolla, cilantro, chile**. Las tres empiezan con **c**. ¿Qué haces?',
-          explain: 'Cuando la primera letra es igual, se compara la segunda: e (cebolla), h (chile), i (cilantro). Como en el abecedario va e, luego h, luego i, el orden es: cebolla, chile, cilantro.' },
-        { options: [
-          { id: 'a', text: 'Miro la segunda letra de cada palabra', icon: 'Search' },
-          { id: 'b', text: 'Las ordeno por tamaño, de la más corta a la más larga', icon: 'Ruler', feedback: 'El largo no importa para el orden alfabético.' },
-          { id: 'c', text: 'No se pueden ordenar porque empiezan igual', icon: 'X', feedback: 'Sí se pueden: hay que seguir comparando las letras siguientes.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.2'], ambito: 'conocer', title: 'Reglas del orden alfabético',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.2'], ambito: 'conocer', title: 'Reglas del orden alfabético',
           prompt: 'Mira la animación y toca cada tarjeta.' },
         { icon: 'ListOrdered', body: 'El **orden alfabético** ordena las palabras según el lugar de sus letras en el abecedario: **a b c d e f g h i j k l m n ñ o p q r s t u v w x y z** (27 letras).', reveal: [
           { icon: 'Hash', front: 'Letra por letra', back: 'Compara la **primera** letra. Si es igual, compara la **segunda**; si también es igual, la **tercera**, y así. Ejemplo: **ma**íz, **me**rcado, **mi**el.' },
@@ -443,6 +433,16 @@ export default [
           { icon: 'Ruler', front: 'La más corta primero', back: 'Si una palabra es el comienzo de otra, la más corta va primero: **sol**, **sol**ar; **pan**, **pan**adería.' },
           { icon: 'Type', front: 'Las tildes no cuentan', back: 'Al ordenar, "á" cuenta igual que "a": "árbol" va junto a "arbusto" según sus letras.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.2'], ambito: 'conocer',
+          prompt: 'Quieres ordenar alfabéticamente: **cebolla, cilantro, chile**. Las tres empiezan con **c**. ¿Qué haces?',
+          explain: 'Cuando la primera letra es igual, se compara la segunda: e (cebolla), h (chile), i (cilantro). Como en el abecedario va e, luego h, luego i, el orden es: cebolla, chile, cilantro.' },
+        { options: [
+          { id: 'a', text: 'Miro la segunda letra de cada palabra', icon: 'Search' },
+          { id: 'b', text: 'Las ordeno por tamaño, de la más corta a la más larga', icon: 'Ruler', feedback: 'El largo no importa para el orden alfabético.' },
+          { id: 'c', text: 'No se pueden ordenar porque empiezan igual', icon: 'X', feedback: 'Sí se pueden: hay que seguir comparando las letras siguientes.' },
+        ], correct: ['a'] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.2'], ambito: 'hacer', title: 'Ejemplo resuelto: cuando las primeras letras son iguales',
@@ -545,8 +545,17 @@ export default [
       brief: 'Ilustración de una página de diccionario escolar (sin marca ni editorial real). En la parte superior, en negrita, las palabras guía "mercado" (izquierda) y "mesa" (derecha), rodeadas con círculos de color y la etiqueta "palabras guía". En la columna, varias entradas en orden (mercado, merecer, merengue, merienda, mermelada, mes, mesa), con "merienda" resaltada y su definición numerada 1 y 2. Estilo limpio, letra legible.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.2'], ambito: 'conocer', title: 'Tres secretos para usar el diccionario',
+          prompt: 'Toca cada tarjeta.' },
+        { icon: 'Book', body: 'El diccionario está en **orden alfabético**. Si dominas el orden alfabético, dominas el diccionario.', reveal: [
+          { icon: 'Bookmark', front: '1. Palabras guía', back: 'Arriba de cada página aparecen la **primera** y la **última** palabra de esa página. Si tu palabra queda entre las dos, está ahí.' },
+          { icon: 'Search', front: '2. La forma básica', back: 'El diccionario no trae todas las formas. Busca: **singular** (tomates → tomate), **masculino** si lo tiene (roja → rojo) y el **infinitivo** de los verbos (vendían → vender; compré → comprar).' },
+          { icon: 'ListOrdered', front: '3. El significado correcto', back: 'Muchas palabras tienen **varias acepciones** numeradas (1, 2, 3…). Lee todas y elige la que tiene sentido en tu oración.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:4.2.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.2'], ambito: 'conocer',
           prompt: 'Arriba de una página del diccionario dice **"mercado — mesa"**. ¿Estará en esa página la palabra **"merienda"**?',
           explain: 'Sí. Comparando letra por letra: mer-c (mercado) < mer-i (merienda) < mes (mesa). "Merienda" cae entre las dos palabras guía, así que está en esa página.' },
         { options: [
@@ -554,15 +563,6 @@ export default [
           { id: 'b', text: 'No, porque "merienda" no empieza igual que "mesa"', icon: 'X', feedback: 'No tiene que empezar igual: basta con que quede entre las dos palabras guía.' },
           { id: 'c', text: 'No se puede saber sin leer toda la página', icon: 'HelpCircle', feedback: 'Las palabras guía existen justamente para no tener que leer toda la página.' },
         ], correct: ['a'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.2'], ambito: 'conocer', title: 'Tres secretos para usar el diccionario',
-          prompt: 'Toca cada tarjeta.' },
-        { icon: 'Book', body: 'El diccionario está en **orden alfabético**. Si dominas el orden alfabético, dominas el diccionario.', reveal: [
-          { icon: 'Bookmark', front: '1. Palabras guía', back: 'Arriba de cada página aparecen la **primera** y la **última** palabra de esa página. Si tu palabra queda entre las dos, está ahí.' },
-          { icon: 'Search', front: '2. La forma básica', back: 'El diccionario no trae todas las formas. Busca: **singular** (tomates → tomate), **masculino** si lo tiene (roja → rojo) y el **infinitivo** de los verbos (vendían → vender; compré → comprar).' },
-          { icon: 'ListOrdered', front: '3. El significado correcto', back: 'Muchas palabras tienen **varias acepciones** numeradas (1, 2, 3…). Lee todas y elige la que tiene sentido en tu oración.' },
-        ] },
       ),
       S.match(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.2'], ambito: 'hacer', prompt: 'Une cada palabra de un texto con la forma en que la buscarías en el diccionario.',
@@ -629,13 +629,9 @@ export default [
           { id: 'c', text: '"temblor — tener"', feedback: 'tem… ya está después de tej…: "tejer" quedó en la página anterior.' },
         ], correct: ['b'] },
       ),
-      S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:4.2.2'], prompt: 'Leíste: "Los niños **recogieron** las mazorcas." ¿Qué palabra buscas en el diccionario?' },
-        { options: [
-          { id: 'a', text: 'recoger' },
-          { id: 'b', text: 'recogieron' },
-          { id: 'c', text: 'recogido' },
-        ], correct: ['a'] },
+      S.fill(
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:4.2.2'], prompt: 'Completa con la forma que buscarías en el diccionario.' },
+        { text: 'En la oración "Los niños **recogieron** las mazorcas", busco el verbo en infinitivo: [[recoger]].', distractors: ['recogieron', 'recogido'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['l1'], cnb: ['l1:4.2.2'], prompt: 'Las palabras guía de una página son **"lista — lobo"**. ¿Cuál de estas palabras **está** en esa página?' },

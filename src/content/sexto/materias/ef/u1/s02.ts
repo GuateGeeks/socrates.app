@@ -31,8 +31,17 @@ export default [
       brief: 'Video vertical de 45 s en el patio de una escuela pública, suelo de cemento seco. Parte 1 "Acelera": salida de pie con un pie adelante, cuerpo inclinado, braceo fuerte; cámara lateral y rótulos "pasos cortos → pasos largos". Parte 2 "Desacelera": cámara lenta del frenado en 4-5 pasos cortos, rodillas flexionadas, tronco ligeramente atrás; rótulo "baja tu centro". Parte 3: contraejemplo breve (animado, no real) de frenado con piernas rectas y resbalón, con una X roja. Aviso: "Practica en suelo seco y despejado".',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.3.3'], ambito: 'conocer', title: 'Acelerar y desacelerar',
+          prompt: 'La **velocidad** es qué tan rápido te mueves. Cuando cambia, sientes el cambio en todo el cuerpo. Toca cada tarjeta.' },
+        { icon: 'Gauge', body: 'Percibir tu propia velocidad te ayuda a **controlar** tu cuerpo en juegos y deportes.', reveal: [
+          { icon: 'TrendingUp', front: 'Aceleración', back: 'Aumentar la velocidad **poco a poco**. Sientes que el cuerpo "se va hacia adelante" y que tus pasos se alargan.' },
+          { icon: 'TrendingDown', front: 'Desaceleración', back: 'Disminuir la velocidad hasta detenerte. Sientes que el cuerpo "quiere seguir" y debes frenarlo.' },
+          { icon: 'Timer', front: 'Velocidad constante', back: 'Mantener el mismo ritmo, como en un trote largo. Tus pasos son iguales y regulares.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.3.3'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.3.3'], ambito: 'conocer',
           prompt: 'Una camioneta sale de la parada. ¿Cómo cambia su velocidad en los primeros segundos?',
           explain: 'Va **aumentando la velocidad poco a poco**: está **acelerando**. Al llegar a la siguiente parada hace lo contrario: **desacelera**. Tu cuerpo hace lo mismo al correr.' },
         { options: [
@@ -40,15 +49,6 @@ export default [
           { id: 'b', text: 'Aumenta la velocidad poco a poco', icon: 'TrendingUp' },
           { id: 'c', text: 'Siempre va a la misma velocidad', icon: 'Minus', feedback: 'Al salir de la parada su velocidad cambia: empieza en cero.' },
         ], correct: ['b'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.3.3'], ambito: 'conocer', title: 'Acelerar y desacelerar',
-          prompt: 'La **velocidad** es qué tan rápido te mueves. Cuando cambia, sientes el cambio en todo el cuerpo. Toca cada tarjeta.' },
-        { icon: 'Gauge', body: 'Percibir tu propia velocidad te ayuda a **controlar** tu cuerpo en juegos y deportes.', reveal: [
-          { icon: 'TrendingUp', front: 'Aceleración', back: 'Aumentar la velocidad **poco a poco**. Sientes que el cuerpo "se va hacia adelante" y que tus pasos se alargan.' },
-          { icon: 'TrendingDown', front: 'Desaceleración', back: 'Disminuir la velocidad hasta detenerte. Sientes que el cuerpo "quiere seguir" y debes frenarlo.' },
-          { icon: 'Timer', front: 'Velocidad constante', back: 'Mantener el mismo ritmo, como en un trote largo. Tus pasos son iguales y regulares.' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:1.3.3', 'ef:1.3.6'], ambito: 'hacer', title: 'La técnica: salir y frenar',
@@ -163,17 +163,8 @@ export default [
       brief: 'Video vertical de 50 s en patio escolar. Un niño y una niña (ropa deportiva sencilla, rostros no protagonistas) demuestran un circuito: (1) cada habilidad por separado con rótulo ("correr", "saltar", "girar", "lanzar"); (2) la combinación despacio; (3) la combinación fluida. Cámara lenta en el salto con rótulos "flexión → extensión → flexión (caída suave)". Materiales caseros: línea de yeso, llanta vieja como aro, pelota de trapo. Aviso "Practica en suelo seco y despejado".',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.3.5'], ambito: 'conocer',
-          prompt: 'En el **basquetbol**, una jugadora **corre botando la pelota** hacia la canasta. ¿Cuántas habilidades está haciendo a la vez?',
-          explain: 'Dos: **correr** (desplazarse) y **botar** la pelota. Cuando unimos habilidades simples en una sola acción fluida, formamos una **habilidad genérica**.' },
-        { options: [
-          { id: 'a', text: 'Una sola', icon: 'Circle', feedback: 'Fíjate en sus pies y en sus manos: hacen cosas distintas al mismo tiempo.' },
-          { id: 'b', text: 'Dos: correr y botar', icon: 'Layers' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.3.5'], ambito: 'conocer', title: 'De simples a genéricas',
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.3.5'], ambito: 'conocer', title: 'De simples a genéricas',
           prompt: 'Así como las letras forman palabras, las **habilidades simples** se unen para formar **habilidades genéricas**. Toca cada tarjeta.' },
         { icon: 'Blocks', body: 'Primero dominamos las simples; luego las combinamos; después las usamos en deportes (habilidades específicas).', reveal: [
           { icon: 'Footprints', front: 'Desplazarse', back: 'Caminar, correr, reptar, cuadrupedia. Mover todo el cuerpo de un lugar a otro.' },
@@ -182,6 +173,15 @@ export default [
           { icon: 'Target', front: 'Lanzar y recibir', back: 'Enviar un objeto con las manos o los pies, y atraparlo o detenerlo.' },
           { icon: 'Layers', front: 'Genéricas', back: 'Combinaciones fluidas: **correr + saltar** un charco, **correr + botar**, **girar + lanzar**, **saltar + atrapar**.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.3.5'], ambito: 'conocer',
+          prompt: 'En el **basquetbol**, una jugadora **corre botando la pelota** hacia la canasta. ¿Cuántas habilidades está haciendo a la vez?',
+          explain: 'Dos: **correr** (desplazarse) y **botar** la pelota. Cuando unimos habilidades simples en una sola acción fluida, formamos una **habilidad genérica**.' },
+        { options: [
+          { id: 'a', text: 'Una sola', icon: 'Circle', feedback: 'Fíjate en sus pies y en sus manos: hacen cosas distintas al mismo tiempo.' },
+          { id: 'b', text: 'Dos: correr y botar', icon: 'Layers' },
+        ], correct: ['b'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:1.3.6'], ambito: 'hacer', title: 'El salto: flexión, extensión, flexión',

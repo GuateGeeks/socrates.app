@@ -29,17 +29,8 @@ export default [
       brief: 'Video (o animación con personajes) de 50 s en un mercado guatemalteco: puesto de verduras con tomates, güisquiles y hierbas; la vendedora usa corte y güipil (sin identificar una etnia específica de forma estereotipada). Escena 1 (20 s): un niño llega, no saluda y dice "¡Deme una libra de tomates!"; la vendedora lo atiende seria. Escena 2 (20 s): el mismo niño llega, dice "Buenos días, doña Juana. ¿Me da una libra de tomates, por favor?"; ella sonríe y le regala una ramita de cilantro; él dice "Muchas gracias". Cierre (10 s): en pantalla aparecen "Buenos días · por favor · gracias · doña". Sin marcas comerciales.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.3.1'], ambito: 'convivir',
-          prompt: 'Imagina que vas al mercado a comprar. ¿Qué forma de pedir **muestra más respeto**?',
-          explain: 'La segunda forma tiene un **saludo**, un **título de respeto** ("doña"), una **pregunta amable** y **"por favor"**. Hoy aprenderás a usar cada una de estas herramientas.' },
-        { options: [
-          { id: 'a', text: '"¡Deme una libra de tomates!"', icon: 'Megaphone', feedback: 'Se entiende, pero suena a orden. Falta saludo y amabilidad.' },
-          { id: 'b', text: '"Buenos días, doña Juana. ¿Me da una libra de tomates, por favor?"', icon: 'Handshake' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.3.1'], ambito: 'convivir', title: 'Expresiones de cortesía',
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.3.1'], ambito: 'convivir', title: 'Expresiones de cortesía',
           prompt: 'La **cortesía** es tratar a los demás con amabilidad y respeto. En español se nota en ciertas palabras. Toca cada tarjeta.' },
         { icon: 'Smile', body: 'Estas expresiones abren puertas en cualquier lugar: la escuela, el centro de salud, la municipalidad o la tienda.', reveal: [
           { icon: 'Sunrise', front: 'Saludar', back: '**Buenos días** (en la mañana), **buenas tardes** (después del mediodía), **buenas noches** (al oscurecer). Se saluda al llegar, antes de pedir algo.' },
@@ -47,6 +38,15 @@ export default [
           { icon: 'Footprints', front: 'Pasar o interrumpir', back: '**Con permiso** para pasar o entrar. **Disculpe** para interrumpir o llamar la atención de alguien.' },
           { icon: 'Users', front: 'Usted, tú o vos', back: '**Usted** con personas mayores, desconocidas o con autoridad: "¿Usted me puede ayudar?". **Tú** o **vos** (muy usado en Guatemala) con amigos y familia de confianza.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.3.1'], ambito: 'convivir',
+          prompt: 'Imagina que vas al mercado a comprar. ¿Qué forma de pedir **muestra más respeto**?',
+          explain: 'La segunda forma tiene un **saludo**, un **título de respeto** ("doña"), una **pregunta amable** y **"por favor"**. Hoy aprenderás a usar cada una de estas herramientas.' },
+        { options: [
+          { id: 'a', text: '"¡Deme una libra de tomates!"', icon: 'Megaphone', feedback: 'Se entiende, pero suena a orden. Falta saludo y amabilidad.' },
+          { id: 'b', text: '"Buenos días, doña Juana. ¿Me da una libra de tomates, por favor?"', icon: 'Handshake' },
+        ], correct: ['b'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:1.3.1'], ambito: 'convivir', title: 'Títulos de respeto',
@@ -168,17 +168,8 @@ export default [
       brief: 'Ilustración vertical tipo cartel de baño de mercado o escuela, estilo plano y claro. Seis viñetas numeradas del 1 al 6 con flechas entre ellas y SIN palabras: (1) manos abriendo una llave de agua, (2) manos con jabón, (3) palmas frotándose con líneas de movimiento, (4) dedos entrelazados y uñas frotando la palma, (5) manos bajo el chorro de agua, (6) manos secándose con una toalla limpia. Colores suaves, manos de distintos tonos de piel. Fondo de azulejos sencillos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:2.1.1'], ambito: 'conocer',
-          prompt: 'Tu tío armó una mesa sin leer las instrucciones y le sobraron cuatro tornillos. ¿Qué error cometió probablemente?',
-          explain: 'Las instrucciones sirven si se **leen completas** y se siguen **en orden**. Hoy aprenderás a leerlas y seguirlas como un experto.' },
-        { options: [
-          { id: 'a', text: 'Se saltó pasos por no leer todo antes de empezar', icon: 'ListChecks' },
-          { id: 'b', text: 'La mesa venía con tornillos de sobra a propósito', icon: 'Package', feedback: 'A veces pasa, pero cuatro tornillos de más suelen indicar pasos que faltaron.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:2.1.1'], ambito: 'conocer', title: 'Las partes de un instructivo',
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:2.1.1'], ambito: 'conocer', title: 'Las partes de un instructivo',
           prompt: 'Un **instructivo** es un texto que te dice **cómo hacer algo** paso a paso. Toca cada parte.' },
         { icon: 'ClipboardList', body: 'Antes de empezar: **lee o mira todo** una vez. Después, sigue los pasos **uno por uno, en orden**.', reveal: [
           { icon: 'Target', front: 'Título', back: 'Dice qué vas a lograr: "Cómo sembrar frijol en un vaso".' },
@@ -187,6 +178,15 @@ export default [
           { icon: 'Hand', front: 'Verbos de acción', back: 'Indican qué hacer: **lava, corta, dobla, mezcla** (o **lavar, cortar, doblar, mezclar**). Suelen ir al inicio del paso.' },
           { icon: 'ArrowRight', front: 'Palabras de orden', back: '**Primero, después, luego, a continuación, finalmente.** Te ayudan a no perderte.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:2.1.1'], ambito: 'conocer',
+          prompt: 'Tu tío armó una mesa sin leer las instrucciones y le sobraron cuatro tornillos. ¿Qué error cometió probablemente?',
+          explain: 'Las instrucciones sirven si se **leen completas** y se siguen **en orden**. Hoy aprenderás a leerlas y seguirlas como un experto.' },
+        { options: [
+          { id: 'a', text: 'Se saltó pasos por no leer todo antes de empezar', icon: 'ListChecks' },
+          { id: 'b', text: 'La mesa venía con tornillos de sobra a propósito', icon: 'Package', feedback: 'A veces pasa, pero cuatro tornillos de más suelen indicar pasos que faltaron.' },
+        ], correct: ['a'] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:2.1.1'], ambito: 'hacer', title: 'Instrucciones sin palabras',

@@ -31,8 +31,17 @@ export default [
       brief: 'Mapamundi ilustrado en colores suaves. Sobre cada continente, íconos grandes y sencillos: América: árboles de la Amazonía, gotas de agua dulce, mazorca de maíz, café, cobre (Chile) y petróleo. Europa: trigo y bosque templado. Asia: arroz y torres de petróleo en el Oriente Medio. África: diamantes y oro, cacao y petróleo. Oceanía: minerales de hierro (Australia) y ovejas. Antártida: hielo (agua dulce congelada). Leyenda con "renovable" (ícono de hoja verde) y "no renovable" (ícono de reloj de arena). Sin banderas ni marcas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:2.3.1'], ambito: 'conocer', title: 'Renovables y no renovables',
+          prompt: 'Un **recurso natural** es todo lo que la naturaleza nos da y usamos para vivir. Se clasifican según si pueden **volver a formarse** o no. Toca cada tarjeta.' },
+        { icon: 'Recycle', body: 'Ojo: un recurso renovable también **puede agotarse** si lo usamos más rápido de lo que se regenera. Un bosque talado sin control tarda décadas en volver.', reveal: [
+          { icon: 'Leaf', front: 'Renovables', back: 'Se regeneran por procesos naturales: **agua, bosques, suelo, fauna, luz del sol, viento**.' },
+          { icon: 'Hourglass', front: 'No renovables', back: 'Existen en cantidad limitada y tardan **millones de años** en formarse: **petróleo, gas natural, carbón, oro, plata, níquel, cobre**.' },
+          { icon: 'Droplets', front: 'Los cinco básicos para la vida', back: '**Agua, aire, suelo, flora y fauna**: sin ellos no hay alimentos, salud ni trabajo.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:2.3.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:2.3.1'], ambito: 'conocer',
           prompt: 'Piensa en tu desayuno: tortillas, frijol, café o atol. ¿De dónde vienen **todos** esos alimentos al final?',
           explain: 'Todo viene de la naturaleza: del **suelo**, del **agua**, del **sol** y del **aire**. Esos son **recursos naturales**, y sin ellos no hay vida.' },
         { options: [
@@ -40,15 +49,6 @@ export default [
           { id: 'b', text: 'De la naturaleza: suelo, agua, sol y aire', icon: 'Sprout' },
           { id: 'c', text: 'De una fábrica en otro país', icon: 'Factory', feedback: 'Aun los alimentos procesados empiezan con plantas o animales que necesitan suelo, agua y sol.' },
         ], correct: ['b'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:2.3.1'], ambito: 'conocer', title: 'Renovables y no renovables',
-          prompt: 'Un **recurso natural** es todo lo que la naturaleza nos da y usamos para vivir. Se clasifican según si pueden **volver a formarse** o no. Toca cada tarjeta.' },
-        { icon: 'Recycle', body: 'Ojo: un recurso renovable también **puede agotarse** si lo usamos más rápido de lo que se regenera. Un bosque talado sin control tarda décadas en volver.', reveal: [
-          { icon: 'Leaf', front: 'Renovables', back: 'Se regeneran por procesos naturales: **agua, bosques, suelo, fauna, luz del sol, viento**.' },
-          { icon: 'Hourglass', front: 'No renovables', back: 'Existen en cantidad limitada y tardan **millones de años** en formarse: **petróleo, gas natural, carbón, oro, plata, níquel, cobre**.' },
-          { icon: 'Droplets', front: 'Los cinco básicos para la vida', back: '**Agua, aire, suelo, flora y fauna**: sin ellos no hay alimentos, salud ni trabajo.' },
-        ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:2.3.1', 'ccss:2.1.1'], prompt: 'Clasifica estos recursos que existen en Guatemala y en América.',
@@ -162,19 +162,8 @@ export default [
       brief: 'Diagrama con dos pirámides de población simplificadas, barras horizontales por grupos de edad (0-14, 15-29, 30-44, 45-59, 60-74, 75+), hombres a la izquierda y mujeres a la derecha. Pirámide 1, "Población joven (como muchos países de África)": base muy ancha que se angosta hacia arriba. Pirámide 2, "Población envejecida (como muchos países de Europa)": forma de columna o de base angosta. Debajo: "Datos ilustrativos, no de un país real". Colores suaves, textos grandes.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.1.1'], ambito: 'conocer',
-          prompt: '¿En qué continente crees que vive **más gente**?',
-          explain: '¡En **Asia**! Allí vive más de la mitad de la humanidad. Solo dos países, China e India, tienen cada uno más de 1,400 millones de habitantes.' },
-        { layout: 'grid', options: [
-          { id: 'am', text: 'América', icon: 'Earth', feedback: 'América tiene mucha gente, pero bastante menos que otro continente.' },
-          { id: 'as', text: 'Asia', icon: 'Globe' },
-          { id: 'af', text: 'África', icon: 'Sun', feedback: 'África es la segunda. Su población crece muy rápido, pero no es la primera.' },
-          { id: 'eu', text: 'Europa', icon: 'Castle', feedback: 'Europa tiene menos población que Asia, África y América.' },
-        ], correct: ['as'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.1.1'], ambito: 'conocer', title: 'Indicadores demográficos',
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.1.1'], ambito: 'conocer', title: 'Indicadores demográficos',
           prompt: 'La **demografía** es la ciencia que estudia la población. Para describirla usa **indicadores**: números que dicen cómo es y cómo cambia. Toca cada tarjeta.' },
         { icon: 'BarChart3', body: 'Un solo indicador no cuenta toda la historia: hay que mirarlos juntos.', reveal: [
           { icon: 'Baby', front: 'Natalidad', back: 'Cuántos **nacimientos** hay en un año. Se suele dar por cada 1,000 habitantes.' },
@@ -183,6 +172,17 @@ export default [
           { icon: 'Users', front: 'Densidad de población', back: 'Cuántas personas viven por cada **kilómetro cuadrado** (hab/km²). Se calcula: habitantes ÷ superficie.' },
           { icon: 'Route', front: 'Migración', back: 'Personas que **salen** de un lugar (emigran) o **llegan** a él (inmigran).' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.1.1'], ambito: 'conocer',
+          prompt: '¿En qué continente crees que vive **más gente**?',
+          explain: '¡En **Asia**! Allí vive más de la mitad de la humanidad. Solo dos países, China e India, tienen cada uno más de 1,400 millones de habitantes.' },
+        { layout: 'grid', options: [
+          { id: 'am', text: 'América', icon: 'Earth', feedback: 'América tiene mucha gente, pero bastante menos que otro continente.' },
+          { id: 'as', text: 'Asia', icon: 'Globe' },
+          { id: 'af', text: 'África', icon: 'Sun', feedback: 'África es la segunda. Su población crece muy rápido, pero no es la primera.' },
+          { id: 'eu', text: 'Europa', icon: 'Castle', feedback: 'Europa tiene menos población que Asia, África y América.' },
+        ], correct: ['as'] },
       ),
       S.match(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.1.1'], prompt: 'Une cada pregunta con el indicador que la responde.',
@@ -284,8 +284,17 @@ export default [
       brief: 'Ilustración tipo collage con tres columnas rotuladas. "Material": el Templo I de Tikal y el arco de Santa Catalina de la Antigua Guatemala. "Inmaterial": danzantes con máscaras del Rabinal Achí, músicos con tambores garífunas y una abuela que enseña a tejer en telar de cintura a una niña. "Natural": el lago de Atitlán con sus volcanes y la selva de Petén con un tucán. Personajes ilustrados genéricos, con trajes respetuosos y bien representados. Colores cálidos. Sin logos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.2.5'], ambito: 'conocer', title: 'Tres tipos de patrimonio',
+          prompt: 'El **patrimonio** de un pueblo es todo lo valioso que ha heredado y que quiere pasar a las siguientes generaciones. Toca cada tarjeta.' },
+        { icon: 'Landmark', body: 'La **UNESCO** (organismo de las Naciones Unidas para la educación y la cultura) ha reconocido como patrimonio de la humanidad a **Tikal**, la **Antigua Guatemala** y **Quiriguá**, y también tradiciones vivas como el **Rabinal Achí** y la lengua, danza y música **garífunas**.', reveal: [
+          { icon: 'Castle', front: 'Material (tangible)', back: 'Lo que se puede **tocar**: sitios arqueológicos, iglesias, edificios, tejidos, cerámica, instrumentos como la marimba.' },
+          { icon: 'Music', front: 'Inmaterial (intangible)', back: 'Lo que se **transmite** de persona a persona: idiomas, música, danzas, fiestas, recetas, medicina tradicional, técnicas de tejido.' },
+          { icon: 'Mountain', front: 'Natural', back: 'Paisajes y ecosistemas valiosos: el **lago de Atitlán**, los volcanes, la selva de Petén, los manglares.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:3.2.5'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.5'], ambito: 'conocer',
           prompt: 'Tu abuela te regala un güipil que tejió su madre. Si lo cuidas, un día lo podrás heredar. ¿Qué palabra describe algo que **recibimos del pasado y debemos cuidar para el futuro**?',
           explain: 'Eso es **patrimonio**. Una familia tiene su patrimonio, y un país también: sus sitios, tradiciones, idiomas y paisajes.' },
         { options: [
@@ -293,15 +302,6 @@ export default [
           { id: 'b', text: 'Basura', icon: 'Trash2', feedback: 'Un güipil hecho por tu bisabuela tiene un gran valor: cuenta la historia de tu familia.' },
           { id: 'c', text: 'Moda', icon: 'Shirt', feedback: 'La moda cambia rápido; el patrimonio se hereda y se cuida por generaciones.' },
         ], correct: ['a'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.5'], ambito: 'conocer', title: 'Tres tipos de patrimonio',
-          prompt: 'El **patrimonio** de un pueblo es todo lo valioso que ha heredado y que quiere pasar a las siguientes generaciones. Toca cada tarjeta.' },
-        { icon: 'Landmark', body: 'La **UNESCO** (organismo de las Naciones Unidas para la educación y la cultura) ha reconocido como patrimonio de la humanidad a **Tikal**, la **Antigua Guatemala** y **Quiriguá**, y también tradiciones vivas como el **Rabinal Achí** y la lengua, danza y música **garífunas**.', reveal: [
-          { icon: 'Castle', front: 'Material (tangible)', back: 'Lo que se puede **tocar**: sitios arqueológicos, iglesias, edificios, tejidos, cerámica, instrumentos como la marimba.' },
-          { icon: 'Music', front: 'Inmaterial (intangible)', back: 'Lo que se **transmite** de persona a persona: idiomas, música, danzas, fiestas, recetas, medicina tradicional, técnicas de tejido.' },
-          { icon: 'Mountain', front: 'Natural', back: 'Paisajes y ecosistemas valiosos: el **lago de Atitlán**, los volcanes, la selva de Petén, los manglares.' },
-        ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:3.2.5'], prompt: 'Clasifica cada ejemplo del patrimonio de Guatemala.',

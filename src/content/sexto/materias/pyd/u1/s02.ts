@@ -29,8 +29,17 @@ export default [
       brief: 'Ilustración colorida de un día de mercado en un pueblo del altiplano. Cinco puestos con emprendedoras y emprendedores diversos: una señora con olla de atol de elote, una tejedora con cortes y servilletas, un joven que repara teléfonos, una familia con hortalizas en canastos, un panadero con canasto de pan dulce. Cada puesto con un globo pequeño con ícono (cazo, telar, llave, zanahoria, pan). Sin marcas comerciales ni textos legibles salvo precios en quetzales genéricos (Q5, Q10).',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:1.2.1'], ambito: 'conocer', title: '¿Qué es emprender?',
+          prompt: '**Emprender** es descubrir una **necesidad** u **oportunidad** y organizar recursos para ofrecer un **producto** o un **servicio**. Toca cada tarjeta.' },
+        { icon: 'Rocket', body: 'Emprender no es solo "tener negocio": también es emprender un proyecto en la escuela o en la comunidad.', reveal: [
+          { icon: 'Package', front: 'Producto', back: 'Algo que se **fabrica o cultiva** y se vende: tortillas, tejidos, hortalizas, muebles, miel.' },
+          { icon: 'Wrench', front: 'Servicio', back: 'Un **trabajo** que se hace para otra persona: reparar bicicletas, cortar el pelo, transportar carga, dar clases.' },
+          { icon: 'Sprout', front: 'Proyecto productivo', back: 'Un emprendimiento que **genera ingresos** para una familia o un grupo, por ejemplo una cooperativa de hortalizas.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:1.2.1'], ambito: 'emprender',
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.2.1'], ambito: 'emprender',
           prompt: '¿Por qué crees que el atol de doña Chepita **siempre se acaba**? Marca **todas** las razones que te parezcan importantes.',
           explain: 'Todo cuenta: **sabe** preparar un buen atol y cuánto cobrar, **sabe hacer** bien su trabajo y **es** puntual y amable. Eso es un **perfil emprendedor**.' },
         { multiple: true, options: [
@@ -38,15 +47,6 @@ export default [
           { id: 'b', text: 'Prepara el atol rápido y lo sirve limpio', icon: 'Utensils' },
           { id: 'c', text: 'Llega puntual cada día de mercado y trata bien a sus clientes', icon: 'Heart' },
         ], correct: ['a', 'b', 'c'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.2.1'], ambito: 'conocer', title: '¿Qué es emprender?',
-          prompt: '**Emprender** es descubrir una **necesidad** u **oportunidad** y organizar recursos para ofrecer un **producto** o un **servicio**. Toca cada tarjeta.' },
-        { icon: 'Rocket', body: 'Emprender no es solo "tener negocio": también es emprender un proyecto en la escuela o en la comunidad.', reveal: [
-          { icon: 'Package', front: 'Producto', back: 'Algo que se **fabrica o cultiva** y se vende: tortillas, tejidos, hortalizas, muebles, miel.' },
-          { icon: 'Wrench', front: 'Servicio', back: 'Un **trabajo** que se hace para otra persona: reparar bicicletas, cortar el pelo, transportar carga, dar clases.' },
-          { icon: 'Sprout', front: 'Proyecto productivo', back: 'Un emprendimiento que **genera ingresos** para una familia o un grupo, por ejemplo una cooperativa de hortalizas.' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.2.1'], ambito: 'conocer', title: 'El perfil emprendedor',

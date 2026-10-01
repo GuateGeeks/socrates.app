@@ -2,22 +2,22 @@ import { S, cierre, lesson, semana } from '../../dsl';
 
 /**
  * SEMANA 2 · Unidad 1 "Conociendo nuestras raíces"
- * Tema generador: Día de mercado en mi pueblo
+ * Tema generador: Un mercado saludable y respetuoso
  * Cierre semanal (v3): las 27 lecciones de materia viven en src/content/sexto/materias/<area>/u1/s02.ts.
- * El viernes: Taller "Un puesto sano en el mercadito escolar" (Productividad + Ciencias Naturales +
- * L2 + Inglés) y Reto semanal.
+ * El viernes: Taller "Un puesto sano y respetuoso" (Productividad + Ciencias Naturales + L2)
+ * y Reto semanal.
  */
 export default semana({
   id: 's02',
   unidad: 1,
   semana: 2,
   kind: 'aprendizaje',
-  temaGenerador: 'Día de mercado en mi pueblo',
-  title: 'Día de mercado en mi pueblo',
-  subtitle: 'Polígonos, genes y seres de una o muchas células, parásitos, población y patrimonio, y respeto al comprar y vender',
+  temaGenerador: 'Un mercado saludable y respetuoso',
+  title: 'Un mercado saludable y respetuoso',
+  subtitle: 'Investigamos alimentos seguros, intercambios respetuosos, recursos locales y formas útiles de comunicar',
   icon: 'Store',
   color: 'var(--area-cnt)',
-  contexto: 'En Guatemala, el día de mercado reúne a familias k’iche’, kaqchikel, q’eqchi’, garífunas, xinkas y ladinas que venden, compran y conversan. Esta semana descubrirás los polígonos de los tejidos y de la arquitectura maya, cómo los genes pasan de madres y padres a hijos, qué seres viven con una sola célula y cómo prevenir los parásitos que viajan en el agua y los alimentos. También leerás datos de la población del mundo, valorarás el patrimonio y los 25 idiomas de Guatemala, comprarás en inglés, usarás palabras de respeto y pensarás ideas de emprendimiento para tu comunidad.',
+  contexto: 'Un mercado sirve a la comunidad cuando ofrece alimentos manipulados con higiene, aprovecha con cuidado los recursos locales y trata a cada persona con respeto. Esta semana investigarás cómo reducir el riesgo de parásitos sin hacer promesas exageradas de salud, cómo comunicar una oferta con claridad en español y en inglés y cómo convertir una necesidad, un recurso y un saber familiar en una idea posible. Las demás materias aportarán sus propios conceptos para comprender las formas, los seres vivos, la población, el patrimonio, la música, los derechos y el movimiento que también forman parte de la vida comunitaria.',
   ejes: ['multiculturalidad', 'vida-familiar', 'trabajo', 'equidad'],
   media: {
     id: 's02-portada', kind: 'video', title: 'Un día de mercado', aspect: '16:9', duration: 60,
@@ -31,20 +31,20 @@ export default semana({
       id: 's02-d5-taller',
       kind: 'taller',
       day: 5,
-      title: 'Taller: un puesto sano en el mercadito escolar',
+      title: 'Un puesto sano y respetuoso',
       icon: 'Store',
       minutes: 18,
       gancho: 'Si tu grado organizara un mercadito en la escuela, ¿qué venderías, cómo cuidarías la salud de tus clientes y cómo los atenderías?',
       objetivos: [
-        'Generar la idea de un puesto uniendo una necesidad, un recurso y un saber de la comunidad',
-        'Escribir instrucciones de higiene que prevengan los parásitos',
-        'Atender a los clientes con palabras de respeto en español y en inglés',
+        'Planear una oferta sencilla que una una necesidad, un recurso y un saber de la comunidad',
+        'Escribir un procedimiento concreto de higiene para manipular alimentos',
+        'Atender a cada cliente con lenguaje respetuoso y útil',
       ],
       resumen: [
-        'Necesidad + recurso + saber = idea productiva. Un buen equipo emprendedor suma saberes, habilidades y actitudes.',
-        'La fruta que se come cruda puede llevar huevecillos y quistes de parásitos: manos limpias, agua clorada y comida tapada los previenen.',
+        'Necesidad + recurso + saber = idea productiva. Una oferta simple dice qué se ofrece y a qué precio.',
+        'Lavarse las manos con agua y jabón, usar agua apta para el consumo y mantener la comida tapada reduce riesgos de contaminación.',
         'Un instructivo tiene título, materiales y pasos en orden con palabras como primero, después, luego y finalmente.',
-        'Con personas mayores o desconocidas usamos usted y títulos (don, doña, Sr., Licda.); en inglés: Can I help you? · How much is it? · Here you are.',
+        'Con personas mayores o desconocidas usamos usted, títulos como don o doña y expresiones como buenos días, por favor y gracias.',
       ],
       media: {
         id: 's02-d5-taller-puesto', kind: 'image', title: 'El mercadito escolar', aspect: '4:3',
@@ -54,12 +54,11 @@ export default semana({
       steps: [
         S.explain(
           { fase: 'explorar', areas: ['pyd', 'l2'], cnb: ['pyd:1.4.4'], ambito: 'emprender', title: 'Se organiza el mercadito',
-            prompt: 'El viernes habrá **mercadito escolar**: cada equipo de sexto planea un puesto. El equipo de **Marta** quiere hacerlo bien. Toca cada tarjeta para ver qué necesitan de lo que aprendiste esta semana.' },
-          { icon: 'Store', body: 'Un buen puesto es **útil**, **sano** y **respetuoso**.', reveal: [
-            { icon: 'Lightbulb', front: 'Productividad', back: 'Una **idea** que una necesidad, un recurso y un saber, y un equipo con buen **perfil emprendedor**.' },
-            { icon: 'Microscope', front: 'Ciencias Naturales', back: 'Evitar que los **parásitos** lleguen a la comida.' },
-            { icon: 'ListOrdered', front: 'L2', back: 'Un **instructivo** claro y **palabras de respeto** para atender.' },
-            { icon: 'Languages', front: 'Inglés', back: 'Vender a visitantes: **Can I help you? · How much is it?**' },
+            prompt: 'Recupera lo aprendido: el equipo de **Marta** planea un puesto y necesita tomar tres decisiones que ya practicaste esta semana.' },
+          { icon: 'Store', body: 'El plan del puesto debe ser **posible**, **higiénico** y **respetuoso**.', reveal: [
+            { icon: 'Lightbulb', front: 'Productividad', back: 'Una **oferta sencilla** que una necesidad, un recurso local y un saber.' },
+            { icon: 'Microscope', front: 'Ciencias Naturales', back: 'Un **procedimiento de higiene** que reduzca el riesgo de contaminación.' },
+            { icon: 'MessagesSquare', front: 'L2', back: 'Frases claras y **respetuosas** para saludar, ofrecer y despedirse.' },
           ] },
         ),
         S.choice(
@@ -74,7 +73,7 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.choice(
-          { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:1.2.1'], ambito: 'emprender',
+          { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.2.1'], ambito: 'emprender',
             prompt: 'Para que el puesto funcione, el equipo necesita **actitudes** emprendedoras. ¿Cuáles de estas son **actitudes**? Elige todas las correctas.',
             hint: 'Las actitudes son **cómo actúas**. Los saberes son lo que conoces y las habilidades, lo que sabes hacer.',
             explain: 'Responsabilidad, honestidad y perseverancia son actitudes. Saber los precios es un saber; pelar y picar fruta es una habilidad.' },
@@ -87,9 +86,9 @@ export default semana({
           ], correct: ['a', 'b', 'c'] },
         ),
         S.reading(
-          { fase: 'construir', areas: ['cnt', 'l1'], cnb: ['cnt:1.5.1', 'cnt:1.5.2', 'cnt:1.5.3'], ambito: 'conocer',
-            prompt: 'Antes de vender comida, el equipo pide consejo al centro de salud. Lee el aviso y responde.' },
-          { genre: 'Aviso', heading: 'Fruta sana, niñez sana', passage:
+          { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.5.1', 'cnt:1.5.2', 'cnt:1.5.3'], ambito: 'conocer',
+            prompt: 'Recupera lo aprendido en Ciencias Naturales. Lee la ficha y comprueba qué riesgos y cuidados ya reconoces.' },
+          { genre: 'Ficha de repaso', heading: 'Riesgos y cuidados al manipular fruta', passage:
             'Las frutas y verduras que se comen crudas pueden llevar **huevecillos de lombrices** y **quistes de ameba o de giardia**, tan pequeños que no se ven. Llegan a la fruta por el agua sucia, la tierra o las manos sin lavar.\n\nSi una persona se los traga, los parásitos se quedan a vivir en su intestino. Allí **le roban nutrientes** y pueden causarle diarrea, dolor de estómago, desnutrición y anemia.\n\nPara vender fruta en la escuela: lávese las manos con agua y jabón; lave la fruta con agua clorada; una persona adulta corta la fruta con tabla y cuchillo limpios; tape la comida para que no se paren las moscas. Si alguien tiene síntomas, que acuda al centro de salud y **no se automedique**.',
             questions: [
               { q: 'Los parásitos del aviso viven **dentro** del intestino. ¿Qué tipo de parásitos son?', options: [
@@ -151,7 +150,7 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.choice(
-          { fase: 'aplicar', areas: ['l2', 'ccss'], cnb: ['l2:1.3.1'], ambito: 'convivir',
+          { fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.3.1'], ambito: 'convivir',
             prompt: 'Llega al puesto **doña Chayo**, una señora mayor de la comunidad. ¿Cuál es el saludo más respetuoso?',
             hint: 'Con personas mayores, desconocidas o con autoridad usamos **usted** y un título como don o doña.',
             explain: 'Usar "usted" y el título "doña" antes del nombre muestra respeto. En muchos idiomas mayas también hay formas especiales para dirigirse a las personas: pregunta en tu familia cómo se hace.' },
@@ -169,29 +168,28 @@ export default semana({
           { text: 'Hoy nos visitan la [[Licda.]] Ana Pérez, nutricionista del centro de salud, y [[doña]] Rosario Tuy, que enseñará a preparar fresco de súchiles.', distractors: ['licda', 'Doña.'] },
         ),
         S.fill(
-          { fase: 'aplicar', areas: ['l3'], cnb: ['l3:1.1.2'], ambito: 'hacer',
-            prompt: 'Unos visitantes que hablan inglés quieren **dos naranjas**. El precio es **Q10**. Completa el diálogo y luego dramatízalo en voz alta con alguien de tu casa.',
-            hint: 'Can I help you? · Can I have…? · Here you are. · How much is it? · It\'s … quetzales.',
-            explain: 'Estas frases de compra sirven en cualquier mercado: saludar, ofrecer ayuda, pedir, entregar y preguntar el precio.' },
-          { text: 'SELLER: Good morning! Can I [[help]] you?\nVISITOR: Yes. Can I have two [[oranges]], please?\nSELLER: Here you [[are]].\nVISITOR: How [[much]] is it?\nSELLER: It\'s [[ten]] quetzales.\nVISITOR: Thank you!\nSELLER: You\'re welcome.', distractors: ['orange', 'many', 'twenty'] },
+          { fase: 'aplicar', areas: ['l2'], cnb: ['l2:1.3.1'], ambito: 'hacer',
+            prompt: 'Completa el intercambio de servicio y luego léelo en voz alta con tono amable.',
+            hint: 'Usa un saludo, usted, por favor y gracias.',
+            explain: 'Un intercambio útil saluda, ofrece el producto con claridad, confirma el pedido y agradece.' },
+          { text: 'VENDEDORA: [[Buenos días]], doña Elena. ¿En qué le puedo servir?\nCLIENTA: Quisiera dos vasos de fruta, [[por favor]].\nVENDEDORA: Con gusto. Aquí tiene [[usted]].\nCLIENTA: Muchas gracias.\nVENDEDORA: Gracias a usted.', distractors: ['Qué quiere', 'vos', 'rápido'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['pyd', 'cnt', 'l2', 'l3'], cnb: ['pyd:1.4.4', 'pyd:1.2.1', 'cnt:1.5.3', 'l2:2.1.1', 'l2:1.3.1'], ambito: 'emprender', title: 'Producto: la ficha de mi puesto',
-            prompt: 'Ahora planea **tu propio puesto** para un mercadito escolar (puede ser de comida, artesanía o un servicio). Sigue los pasos y autoevalúate.' },
-          { goal: 'Diseñar un puesto **útil, sano y respetuoso** para el mercadito escolar.',
+          { fase: 'aplicar', areas: ['pyd', 'cnt', 'l2'], cnb: ['pyd:1.4.4', 'pyd:1.2.1', 'cnt:1.5.3', 'l2:2.1.1', 'l2:1.3.1'], ambito: 'emprender', title: 'Producto: plan de un puesto sano y respetuoso',
+            prompt: 'Elabora el **plan de tu puesto** en una hoja. Usa solo decisiones que ya practicaste y completa cada parte.' },
+          { goal: 'Diseñar un plan de puesto **posible, higiénico y respetuoso** para el mercadito escolar.',
             steps: [
-              { title: 'La idea', detail: 'Escribe la necesidad, el recurso y el saber que usarás, y la idea que resulta.' },
-              { title: 'El equipo', detail: 'Anota un saber, una habilidad y una actitud que aporta cada integrante (o tú, si trabajas solo).' },
-              { title: 'Instructivo de higiene', detail: 'Escribe título, materiales y 4 o 5 pasos con palabras de orden para que tu producto sea seguro.' },
-              { title: 'Atender con respeto', detail: 'Escribe un saludo con usted y un título (don, doña, Sr., Sra., Licda.) y dos frases en inglés para visitantes.' },
-              { title: 'Cartel de precios', detail: 'Haz un cartel con el nombre del puesto, los productos y sus precios en quetzales.' },
+              { title: 'Oferta simple', detail: 'Escribe qué ofrecerás, a qué precio y qué necesidad, recurso local y saber familiar reúne.' },
+              { title: 'Procedimiento de higiene', detail: 'Anota materiales y cuatro pasos: **Primero**, lávate las manos con agua y jabón; **después**, lava el alimento con agua apta para consumo; **luego**, usa utensilios limpios; **finalmente**, tapa el alimento y limpia la mesa.' },
+              { title: 'Servicio respetuoso', detail: 'Escribe un saludo con usted y don o doña, una frase para ofrecer el producto y una despedida con gracias.' },
+              { title: 'Distribución del puesto', detail: 'Dibuja dónde estarán el producto tapado, los utensilios limpios, el dinero separado y el bote con tapa.' },
             ],
-            evidence: 'Una ficha en tu cuaderno o un cartel con la idea, el instructivo y los saludos.',
+            evidence: 'Una hoja con la oferta, el procedimiento de higiene, tres frases de servicio respetuoso y el dibujo del puesto.',
             rubric: [
-              'Mi idea une una necesidad, un recurso y un saber de la comunidad',
-              'Mi instructivo tiene título, materiales y pasos en orden',
-              'Incluí al menos tres medidas para prevenir parásitos o cuidar la limpieza',
-              'Mis saludos usan usted y títulos bien escritos, en español y en inglés',
+              'Mi oferta es sencilla y usa un recurso y un saber disponibles',
+              'Mi procedimiento tiene materiales y cuatro pasos en orden',
+              'Separé los alimentos, los utensilios y el dinero en el dibujo',
+              'Mi lenguaje de servicio usa usted, un título y palabras de cortesía',
             ] },
         ),
         cierre({ areas: ['pyd', 'cnt', 'l2'], cnb: ['pyd:1.4.4', 'l2:1.3.1'] },
@@ -209,7 +207,7 @@ export default semana({
       icon: 'Trophy',
       minutes: 14,
       objetivos: ['Demostrar lo que aprendiste esta semana en todas tus materias', 'Obtener la medalla "Guía del mercado" (70 % o más)'],
-      resumen: ['Superé el reto de la semana 2: polígonos, genes y células, parásitos, población y patrimonio, orden alfabético, música, inglés y derechos de la niñez.'],
+      resumen: ['Superé el reto de la semana 2: geometría, lectura, ciencias, población y patrimonio, comunicación respetuosa en español e inglés, música, derechos, movimiento y emprendimiento.'],
       media: {
         id: 's02-d5-reto', kind: 'image', title: 'Medalla Guía del mercado', aspect: '1:1',
         alt: 'Medalla dorada con un canasto de frutas y un rombo de tejido maya.',
@@ -217,19 +215,19 @@ export default semana({
       },
       steps: [
         S.number(
-          { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.1.8'], prompt: 'Los ángulos interiores de un pentágono suman 540°. Cuatro de sus ángulos miden **100°, 110°, 120° y 95°**. ¿Cuánto mide el quinto ángulo?' },
-          { answer: 115, unit: '°', misconceptions: [
-            { value: 425, msg: 'Esa es la suma de los cuatro ángulos. Réstala a 540°.' },
-            { value: 295, msg: 'Un pentágono suma 540°, no 720° (esa es la suma del hexágono).' },
+          { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.1.8'], prompt: 'Un rótulo pentagonal tiene cuatro ángulos de **95°, 105°, 110° y 125°**. ¿Cuánto mide el quinto ángulo?' },
+          { answer: 105, unit: '°', misconceptions: [
+            { value: 435, msg: 'Esa es la suma de los cuatro ángulos conocidos.' },
+            { value: 285, msg: 'Usaste 720°, que corresponde a un hexágono.' },
           ] },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.1.6'], prompt: 'Un hexágono tiene sus **6 lados de 5 cm**, pero sus ángulos **no** son todos iguales. ¿Cómo se clasifica?' },
+          { fase: 'comprobar', areas: ['l2'], cnb: ['l2:1.3.1'], prompt: 'Una persona mayor llega al puesto. ¿Cuál frase usa un título y el trato de **usted** correctamente?' },
           { options: [
-            { id: 'a', text: 'Regular, porque sus lados son iguales' },
-            { id: 'b', text: 'Irregular, porque no cumple las dos condiciones' },
-            { id: 'c', text: 'No es un polígono' },
-          ], correct: ['b'] },
+            { id: 'a', text: 'Buenos días, doña Marta. ¿Qué desea usted?' },
+            { id: 'b', text: 'Buenos días, Doña. Marta. ¿Qué querés?' },
+            { id: 'c', text: '¡Ey, Marta! Decime qué vas a llevar.' },
+          ], correct: ['a'] },
         ),
         S.order(
           { fase: 'comprobar', areas: ['l1'], cnb: ['l1:4.2.2'], prompt: 'Ordena estas palabras alfabéticamente.' },
@@ -239,86 +237,85 @@ export default semana({
           ], labels: { start: 'Primera (A)', end: 'Última (Z)' } },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['l1'], cnb: ['l1:4.2.2'], prompt: 'Las palabras guía de una página del diccionario son **pájaro** y **palma**. ¿Cuál de estas palabras está en esa página?' },
+          { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:1.4.4'], prompt: '¿Qué propuesta une una necesidad, un recurso local y un saber familiar?' },
           { options: [
-            { id: 'a', text: 'paleta' },
-            { id: 'b', text: 'pato' },
-            { id: 'c', text: 'padre' },
-            { id: 'd', text: 'pan' },
+            { id: 'a', text: 'Preparar tortillas con el maíz de la parcela y la receta de la abuela para vender donde no hay tortillería' },
+            { id: 'b', text: 'Comprar aparatos caros sin saber quién los necesita' },
+            { id: 'c', text: 'Ofrecer algo que la familia no sabe hacer con materiales que no consigue' },
+            { id: 'd', text: 'Copiar el puesto vecino sin observar qué hace falta' },
           ], correct: ['a'] },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.4.1'], prompt: '¿Cuántos cromosomas recibe cada persona de su **padre**?' },
+          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.4.1'], prompt: 'Los 46 cromosomas de una célula humana se organizan en ¿cuántos **pares**?' },
           { options: [
             { id: 'a', text: '23' },
-            { id: 'b', text: '46' },
-            { id: 'c', text: '92' },
+            { id: 'b', text: '22' },
+            { id: 'c', text: '46' },
           ], correct: ['a'] },
         ),
         S.sort(
-          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.5.1'], prompt: 'Clasifica cada parásito según dónde vive.' },
+          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.5.1'], prompt: 'Clasifica estos parásitos por el lugar donde viven en el hospedero.' },
           { buckets: [
             { id: 'ecto', label: 'Ectoparásito (por fuera)', icon: 'Bug' },
             { id: 'endo', label: 'Endoparásito (por dentro)', icon: 'Activity' },
           ], items: [
-            { id: 'x1', text: 'Piojo', bucket: 'ecto' },
-            { id: 'x2', text: 'Garrapata', bucket: 'ecto' },
-            { id: 'x3', text: 'Pulga', bucket: 'ecto' },
-            { id: 'x4', text: 'Tenia', bucket: 'endo' },
-            { id: 'x5', text: 'Ameba', bucket: 'endo' },
-            { id: 'x6', text: 'Lombriz intestinal', bucket: 'endo' },
+            { id: 'x1', text: 'Ácaro de la sarna', bucket: 'ecto' },
+            { id: 'x2', text: 'Pulga', bucket: 'ecto' },
+            { id: 'x3', text: 'Garrapata', bucket: 'ecto' },
+            { id: 'x4', text: 'Giardia', bucket: 'endo' },
+            { id: 'x5', text: 'Oxiuro', bucket: 'endo' },
+            { id: 'x6', text: 'Tenia', bucket: 'endo' },
           ] },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.1.1'], prompt: 'Un país tiene muchos nacimientos y la mayoría de su población es **muy joven**. Según sus indicadores, ¿qué necesita con más urgencia?' },
+          { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.1.1'], prompt: 'Un municipio tiene una población joven que crece con rapidez. ¿Qué decisión se apoya mejor en ese dato?' },
           { options: [
-            { id: 'a', text: 'Escuelas y, más adelante, empleos' },
-            { id: 'b', text: 'Más asilos para personas mayores' },
-            { id: 'c', text: 'Nada: los indicadores no sirven para decidir' },
+            { id: 'a', text: 'Planificar más aulas y oportunidades de empleo futuro' },
+            { id: 'b', text: 'Cerrar escuelas porque habrá menos estudiantes' },
+            { id: 'c', text: 'Ignorar la edad de la población al planificar servicios' },
           ], correct: ['a'] },
         ),
         S.sort(
-          { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.5'], prompt: 'Clasifica este patrimonio de Guatemala.' },
+          { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.5'], prompt: 'Clasifica ejemplos distintos del patrimonio de Guatemala.' },
           { buckets: [
             { id: 'mat', label: 'Material', icon: 'Landmark' },
             { id: 'inm', label: 'Inmaterial', icon: 'Music' },
             { id: 'nat', label: 'Natural', icon: 'Mountain' },
           ], items: [
-            { id: 'p1', text: 'La iglesia colonial de San Andrés Xecul', bucket: 'mat' },
-            { id: 'p2', text: 'Una vasija maya antigua en un museo', bucket: 'mat' },
-            { id: 'p3', text: 'La receta tradicional del pepián', bucket: 'inm' },
-            { id: 'p4', text: 'El idioma q’eqchi’', bucket: 'inm' },
-            { id: 'p5', text: 'Las pozas de Semuc Champey', bucket: 'nat' },
-            { id: 'p6', text: 'El volcán de Agua', bucket: 'nat' },
+            { id: 'p1', text: 'El sitio arqueológico Quiriguá', bucket: 'mat' },
+            { id: 'p2', text: 'Una pieza antigua de cerámica', bucket: 'mat' },
+            { id: 'p3', text: 'El baile del torito', bucket: 'inm' },
+            { id: 'p4', text: 'El idioma garífuna', bucket: 'inm' },
+            { id: 'p5', text: 'El lago de Atitlán', bucket: 'nat' },
+            { id: 'p6', text: 'La selva de Petén', bucket: 'nat' },
           ] },
         ),
         S.fill(
-          { fase: 'comprobar', areas: ['l3'], cnb: ['l3:1.1.2'], prompt: 'Complete the dialogue. (Quieres **tres tomates** y cuestan **Q15**.)' },
-          { text: 'Can I have three [[tomatoes]], please?\nHow [[much]] is it?\nIt\'s [[fifteen]] quetzales.', distractors: ['tomatos', 'many', 'fifty'] },
+          { fase: 'comprobar', areas: ['l3'], cnb: ['l3:1.1.2'], prompt: 'Complete the dialogue. (Quieres **cuatro papas** y cuestan **Q20**.)' },
+          { text: 'Can I have four [[potatoes]], please?\nHow [[much]] is it?\nIt\'s [[twenty]] quetzales.', distractors: ['potatos', 'many', 'twelve'] },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['art'], cnb: ['art:1.1.2'], prompt: 'Una melodía tiene estas notas seguidas: **Sol – Fa – Mi – Re – Do**. ¿Cómo es su movimiento?' },
+          { fase: 'comprobar', areas: ['art'], cnb: ['art:1.1.2'], prompt: 'Una melodía avanza **Do – Re – Mi – Fa – Sol**. ¿Cómo es su movimiento?' },
           { options: [
-            { id: 'a', text: 'Baja por grado conjunto' },
-            { id: 'b', text: 'Sube por grado conjunto' },
-            { id: 'c', text: 'Baja por saltos' },
+            { id: 'a', text: 'Sube por grado conjunto' },
+            { id: 'b', text: 'Baja por grado conjunto' },
+            { id: 'c', text: 'Sube por saltos' },
           ], correct: ['a'] },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['fc'], cnb: ['fc:1.2.2'], prompt: '¿A quiénes protege la Convención sobre los Derechos del Niño?' },
+          { fase: 'comprobar', areas: ['fc'], cnb: ['fc:1.2.2'], prompt: 'Una niña opina sobre una decisión escolar y las personas adultas la escuchan. ¿Qué grupo de derechos se respeta?' },
           { options: [
-            { id: 'a', text: 'A toda persona menor de 18 años' },
-            { id: 'b', text: 'Solo a quienes van a la escuela' },
-            { id: 'c', text: 'Solo a menores de 5 años' },
+            { id: 'a', text: 'Participación' },
+            { id: 'b', text: 'Supervivencia' },
+            { id: 'c', text: 'Protección contra la explotación' },
           ], correct: ['a'] },
         ),
-        S.choice(
-          { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.3.3'], prompt: 'Vienes corriendo rápido y quieres **frenar con seguridad**. ¿Qué haces?' },
-          { options: [
-            { id: 'a', text: 'Doy pasos cortos, doblo las rodillas y llevo el tronco un poco hacia atrás' },
-            { id: 'b', text: 'Me detengo de golpe con las piernas rectas' },
-            { id: 'c', text: 'Me inclino hacia adelante y alargo los pasos' },
-          ], correct: ['a'] },
+        S.tf(
+          { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.3.3'], prompt: 'Decide si estas acciones ayudan a **desacelerar con control**.' },
+          { statements: [
+            { text: 'Acortar los pasos y flexionar las rodillas de manera gradual ayuda a frenar.', answer: true },
+            { text: 'Bloquear las rodillas y detenerse de golpe es una técnica de frenado controlado.', answer: false },
+          ] },
         ),
       ],
     }),
@@ -354,6 +351,27 @@ export default semana({
       { options: [{ id: 'a', text: 'Asia' }, { id: 'b', text: 'Europa' }, { id: 'c', text: 'Oceanía' }], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:2.1.1'], prompt: '¿Cuál de estos recursos naturales es **no renovable**?' },
       { options: [{ id: 'a', text: 'El gas natural' }, { id: 'b', text: 'La energía del viento' }, { id: 'c', text: 'Un bosque reforestado' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:2.1.1'], prompt: '¿Cuál paso pertenece a un instructivo claro para ordenar una mesa de venta?' },
+      { options: [
+        { id: 'a', text: 'Finalmente, guarda los utensilios limpios en un recipiente tapado.' },
+        { id: 'b', text: 'La mesa quedó muy bonita y alegre.' },
+        { id: 'c', text: 'Tal vez alguien ordene todo algún día.' },
+      ], correct: ['a'] }),
+    S.fill({ fase: 'comprobar', areas: ['l3'], cnb: ['l3:1.1.2'], prompt: 'Complete the service exchange. El mango cuesta Q12.' },
+      { text: 'SELLER: Can I [[help]] you?\nCUSTOMER: How much is the mango?\nSELLER: It is [[twelve]] quetzales.\nCUSTOMER: Thank you!\nSELLER: You are [[welcome]].', distractors: ['many', 'twenty', 'please'] }),
+    S.choice({ fase: 'comprobar', areas: ['art'], cnb: ['art:1.1.2'], prompt: 'En un compás de **3/4**, ¿qué combinación completa exactamente un compás?' },
+      { options: [
+        { id: 'a', text: 'Tres negras' },
+        { id: 'b', text: 'Dos negras' },
+        { id: 'c', text: 'Cuatro negras' },
+      ], correct: ['a'] }),
+    S.tf({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.3.5', 'ef:1.3.6'], prompt: 'Decide si cada afirmación sobre una combinación motriz es verdadera o falsa.' },
+      { statements: [
+        { text: 'Correr, saltar una línea y continuar corriendo combina habilidades simples.', answer: true },
+        { text: 'Caer con las rodillas rígidas ayuda a amortiguar el salto.', answer: false },
+        { text: 'Practicar despacio antes de aumentar la velocidad favorece el control.', answer: true },
+      ] }),
+
     S.choice({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:1.2.2'], prompt: 'El derecho a opinar y ser escuchado pertenece al grupo de derechos de…' },
       { options: [{ id: 'a', text: 'Participación' }, { id: 'b', text: 'Supervivencia' }, { id: 'c', text: 'Protección' }], correct: ['a'] }),
     S.sort({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:1.2.1'], prompt: 'Clasifica lo que necesita una tejedora que quiere vender sus güipiles.' },

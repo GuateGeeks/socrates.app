@@ -30,8 +30,18 @@ export default [
       brief: 'Animación 2D de 50 s sobre fondo crema. (1) Doce círculos iguales laten en fila al ritmo de un tambor suave. (2) Cada 3 círculos, uno se agranda y se colorea (acento) mientras el tambor suena más fuerte: "UN-dos-tres". (3) Aparecen barras verticales antes de cada acento y el rótulo "compás de 3 tiempos"; al inicio se dibuja la cifra 3/4. (4) Se repite con grupos de 2 (rótulo "marcha") y de 4. Narración en español neutro, voz cálida; subtítulos. Sin marcas ni instrumentos con logotipos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['art'], cnb: ['art:1.1.2'], ambito: 'conocer', title: 'Acento y compás',
+          prompt: 'En casi toda la música, los pulsos no suenan todos iguales: algunos se sienten **más fuertes**. Toca cada tarjeta.' },
+        { icon: 'Drum', body: 'Al pulso más fuerte le llamamos **acento**. Como el acento se repite siempre a la misma distancia, los pulsos quedan **agrupados**. Cada grupo es un **compás**.', reveal: [
+          { icon: 'Zap', front: 'Acento', back: 'El pulso que se siente más fuerte. Cuando cuentas, lo dices más fuerte: "**UN**-dos-tres".' },
+          { icon: 'Layers', front: 'Compás', back: 'Un grupo de pulsos que empieza con un acento. Puede ser de **2**, **3** o **4** tiempos.' },
+          { icon: 'Slash', front: 'Barra de compás', back: 'Una **línea vertical** en el pentagrama que separa un compás del siguiente. Al final de la obra hay una **doble barra**.' },
+          { icon: 'Footprints', front: 'Marcha y vals', back: 'Una **marcha** se cuenta en 2: "**UN**-dos" (izquierdo-derecho). Un **vals** se cuenta en 3: "**UN**-dos-tres", con un giro suave.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:1.1.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['art'], cnb: ['art:1.1.2'], ambito: 'conocer',
           prompt: 'Escucha los dos fragmentos de marimba y cuenta con la mano. ¿Cuál se cuenta **"UN-dos-tres, UN-dos-tres"**?',
           explain: 'En el segundo fragmento el golpe fuerte vuelve **cada 3 pulsos**, como en un vals. En el primero vuelve cada 2, como en una marcha.',
           media: {
@@ -44,16 +54,6 @@ export default [
           { id: 'b', text: 'El segundo fragmento', icon: 'Music' },
           { id: 'c', text: 'Ninguno: todos los golpes suenan igual', icon: 'Minus', feedback: 'Escucha otra vez el bombo: hay golpes más fuertes que se repiten.' },
         ], correct: ['b'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:1.1.2'], ambito: 'conocer', title: 'Acento y compás',
-          prompt: 'En casi toda la música, los pulsos no suenan todos iguales: algunos se sienten **más fuertes**. Toca cada tarjeta.' },
-        { icon: 'Drum', body: 'Al pulso más fuerte le llamamos **acento**. Como el acento se repite siempre a la misma distancia, los pulsos quedan **agrupados**. Cada grupo es un **compás**.', reveal: [
-          { icon: 'Zap', front: 'Acento', back: 'El pulso que se siente más fuerte. Cuando cuentas, lo dices más fuerte: "**UN**-dos-tres".' },
-          { icon: 'Layers', front: 'Compás', back: 'Un grupo de pulsos que empieza con un acento. Puede ser de **2**, **3** o **4** tiempos.' },
-          { icon: 'Slash', front: 'Barra de compás', back: 'Una **línea vertical** en el pentagrama que separa un compás del siguiente. Al final de la obra hay una **doble barra**.' },
-          { icon: 'Footprints', front: 'Marcha y vals', back: 'Una **marcha** se cuenta en 2: "**UN**-dos" (izquierdo-derecho). Un **vals** se cuenta en 3: "**UN**-dos-tres", con un giro suave.' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['art'], cnb: ['art:1.1.2'], ambito: 'conocer', title: 'La cifra de compás',
@@ -187,8 +187,18 @@ export default [
       brief: 'Animación 2D de 45 s. Pentagrama en clave de sol. Suena en marimba la melodía Mi-Mi-Fa-Sol | Sol-Fa-Mi-Re | Do-Do-Re-Mi | Mi-Re-Re (tema del "Himno a la alegría" de Beethoven, dominio público). Cada nota aparece como negra (la penúltima como negra con puntillo opcional; puede simplificarse a negras) y un hilo de color las une, formando un contorno que sube y baja. Al final el hilo se separa del pentagrama y se convierte en la silueta de un volcán y un valle. Rótulos: "sube", "baja", "se repite". Narración breve en español, subtítulos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['art'], cnb: ['art:1.1.2'], ambito: 'conocer', title: '¿Qué es una melodía?',
+          prompt: 'Ya conoces el **ritmo** (duraciones) y las **notas** (alturas). Cuando se juntan, nace la **melodía**. Toca cada tarjeta.' },
+        { icon: 'Music', body: 'Una **melodía** es una **sucesión de sonidos de distinta altura, organizada con un ritmo**. Es la parte de una canción que puedes cantar o tararear.', reveal: [
+          { icon: 'Timer', front: 'Ritmo sin melodía', back: 'Un tambor tocando "ta · ta · ti-ti · ta-a" tiene ritmo, pero todos sus golpes tienen la misma altura.' },
+          { icon: 'Music2', front: 'Ritmo + altura', back: 'Si cada golpe es una nota distinta (Do, Re, Mi…), el ritmo se convierte en melodía.' },
+          { icon: 'TrendingUp', front: 'Contorno', back: 'Es el "camino" de la melodía: **sube** (ascendente), **baja** (descendente) o **se repite** (misma nota).' },
+          { icon: 'Mountain', front: 'Dibujarla', back: 'Si unes las notas del pentagrama con una línea, ves su contorno: parece el perfil de montañas y valles.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:1.1.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['art'], cnb: ['art:1.1.2'], ambito: 'conocer',
           prompt: 'Escucha la melodía de flauta. ¿Qué camino dibuja?',
           explain: 'Empieza grave y termina aguda: es una melodía **ascendente**. Hoy aprenderás a reconocer ese camino al oír y al leer.',
           media: {
@@ -201,16 +211,6 @@ export default [
           { id: 'b', text: 'Baja: de agudo a grave', icon: 'ArrowDown', feedback: 'Escucha otra vez: la última nota es la más delgada (aguda).' },
           { id: 'c', text: 'Se queda en la misma nota', icon: 'Minus', feedback: 'Cada nota es distinta; fíjate si se vuelven más graves o más agudas.' },
         ], correct: ['a'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:1.1.2'], ambito: 'conocer', title: '¿Qué es una melodía?',
-          prompt: 'Ya conoces el **ritmo** (duraciones) y las **notas** (alturas). Cuando se juntan, nace la **melodía**. Toca cada tarjeta.' },
-        { icon: 'Music', body: 'Una **melodía** es una **sucesión de sonidos de distinta altura, organizada con un ritmo**. Es la parte de una canción que puedes cantar o tararear.', reveal: [
-          { icon: 'Timer', front: 'Ritmo sin melodía', back: 'Un tambor tocando "ta · ta · ti-ti · ta-a" tiene ritmo, pero todos sus golpes tienen la misma altura.' },
-          { icon: 'Music2', front: 'Ritmo + altura', back: 'Si cada golpe es una nota distinta (Do, Re, Mi…), el ritmo se convierte en melodía.' },
-          { icon: 'TrendingUp', front: 'Contorno', back: 'Es el "camino" de la melodía: **sube** (ascendente), **baja** (descendente) o **se repite** (misma nota).' },
-          { icon: 'Mountain', front: 'Dibujarla', back: 'Si unes las notas del pentagrama con una línea, ves su contorno: parece el perfil de montañas y valles.' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['art'], cnb: ['art:1.1.2'], ambito: 'conocer', title: 'Grado conjunto y salto',

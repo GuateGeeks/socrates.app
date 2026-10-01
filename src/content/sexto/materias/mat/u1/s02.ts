@@ -29,18 +29,8 @@ export default [
       brief: 'Ilustración de una calle de pueblo guatemalteco camino al mercado. Resaltar con contorno de color: señal de ALTO (octágono), panal de abejas en un árbol (hexágonos), ventana (cuadrilátero), banderín triangular, kiosco del parque con un recuadro que muestra su techo visto desde arriba (octágono), y una baldosa de 5 lados en la banqueta. Cada figura con una etiqueta pequeña: nombre y número de lados. Estilo plano, colores vivos, sin marcas ni texto adicional.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.7'], ambito: 'conocer',
-          prompt: 'Tres figuras del camino al mercado. ¿Cuál **no** está formada solo por lados rectos?',
-          explain: 'La tortilla es redonda: su borde es **curvo**. Las figuras hechas solo de lados rectos y cerradas se llaman **polígonos**.' },
-        { layout: 'grid', options: [
-          { id: 'a', text: 'La señal de ALTO', icon: 'Octagon', feedback: 'La señal de ALTO tiene 8 lados rectos.' },
-          { id: 'b', text: 'Una tortilla', icon: 'Pizza' },
-          { id: 'c', text: 'Una ventana', icon: 'AppWindow', feedback: 'La ventana tiene 4 lados rectos.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.7'], ambito: 'conocer', title: '¿Qué es un polígono?',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.7'], ambito: 'conocer', title: '¿Qué es un polígono?',
           prompt: 'Un **polígono** es una figura **plana** y **cerrada** formada por **segmentos rectos** que no se cruzan. Toca cada tarjeta para conocer sus partes.',
           media: { id: 's02-mat-1-partes', kind: 'diagram', title: 'Partes de un polígono', aspect: '4:3',
             alt: 'Un pentágono con sus partes rotuladas: un lado, un vértice, un ángulo interior y una diagonal punteada.',
@@ -51,6 +41,16 @@ export default [
           { icon: 'Slash', front: 'Diagonal', back: 'Segmento que une dos vértices que **no** son vecinos.' },
           { icon: 'X', front: 'No son polígonos', back: 'El círculo (borde curvo), una figura abierta y una figura cuyos lados se cruzan.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.7'], ambito: 'conocer',
+          prompt: 'Tres figuras del camino al mercado. ¿Cuál **no** está formada solo por lados rectos?',
+          explain: 'La tortilla es redonda: su borde es **curvo**. Las figuras hechas solo de lados rectos y cerradas se llaman **polígonos**.' },
+        { layout: 'grid', options: [
+          { id: 'a', text: 'La señal de ALTO', icon: 'Octagon', feedback: 'La señal de ALTO tiene 8 lados rectos.' },
+          { id: 'b', text: 'Una tortilla', icon: 'Pizza' },
+          { id: 'c', text: 'Una ventana', icon: 'AppWindow', feedback: 'La ventana tiene 4 lados rectos.' },
+        ], correct: ['b'] },
       ),
       S.sort(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.7'], prompt: '¿Es polígono o no?',
@@ -164,18 +164,8 @@ export default [
       brief: 'Ilustración realista-suave de un panal de abejas de un apiario comunitario (sin marcas). Una celda resaltada en color con cada lado marcado con una rayita igual y cada ángulo con un arco y la etiqueta "120°". A la par, en recuadro, un hexágono irregular (lados distintos) para comparar, con la etiqueta "irregular". Fondo cálido, abejas pequeñas amigables.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.6'], ambito: 'conocer',
-          prompt: '¿Qué tienen de especial las celdas de un panal de abejas?',
-          explain: 'Cada celda es un hexágono con **seis lados iguales** y **seis ángulos iguales**. A esos polígonos se les llama **regulares**.' },
-        { options: [
-          { id: 'a', text: 'Todos sus lados y todos sus ángulos son iguales', icon: 'Hexagon' },
-          { id: 'b', text: 'Son redondas', icon: 'Circle', feedback: 'Mira bien: tienen seis lados rectos.' },
-          { id: 'c', text: 'Cada una tiene lados de distinto tamaño', icon: 'Shapes', feedback: 'Si así fuera, no encajarían tan bien unas con otras.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.6'], ambito: 'conocer', title: 'Regular = dos condiciones',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.6'], ambito: 'conocer', title: 'Regular = dos condiciones',
           prompt: 'Un polígono es **regular** si cumple **dos** condiciones a la vez. Si falla una, es **irregular**. Toca cada tarjeta.' },
         { icon: 'ListChecks', body: '**Regular** = todos los lados iguales **y** todos los ángulos iguales.', reveal: [
           { icon: 'Ruler', front: 'Condición 1: lados', back: 'Todos sus lados miden lo mismo.' },
@@ -183,6 +173,16 @@ export default [
           { icon: 'Check', front: 'Ejemplos regulares', back: 'Triángulo equilátero (lados iguales y ángulos de 60°), cuadrado, celda de panal, señal de ALTO.' },
           { icon: 'Shapes', front: 'Irregular no es "feo"', back: 'Solo significa que sus lados o sus ángulos no son todos iguales. Un terreno, una casa o una hoja de árbol suelen ser irregulares.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.6'], ambito: 'conocer',
+          prompt: '¿Qué tienen de especial las celdas de un panal de abejas?',
+          explain: 'Cada celda es un hexágono con **seis lados iguales** y **seis ángulos iguales**. A esos polígonos se les llama **regulares**.' },
+        { options: [
+          { id: 'a', text: 'Todos sus lados y todos sus ángulos son iguales', icon: 'Hexagon' },
+          { id: 'b', text: 'Son redondas', icon: 'Circle', feedback: 'Mira bien: tienen seis lados rectos.' },
+          { id: 'c', text: 'Cada una tiene lados de distinto tamaño', icon: 'Shapes', feedback: 'Si así fuera, no encajarían tan bien unas con otras.' },
+        ], correct: ['a'] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.6'], ambito: 'hacer', title: 'Ejemplo resuelto: la casita',
@@ -293,18 +293,8 @@ export default [
       brief: 'Animación 2D de 45 s. Aparece un cuadrilátero con un vértice rojo; salen diagonales que lo dividen en 2 triángulos de colores y aparece "2 × 180° = 360°". Se transforma en pentágono: 3 triángulos, "3 × 180° = 540°". Luego hexágono: 4 triángulos, "4 × 180° = 720°". Al final, una tabla: lados, triángulos, suma. Resaltar que los triángulos son siempre 2 menos que los lados. Narración en español neutro, subtítulos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.8'], ambito: 'conocer',
-          prompt: 'Haz una predicción: ¿cuánto crees que suman los **5 ángulos interiores** de un pentágono?',
-          explain: 'Suman **540°**. Hoy descubrirás por qué, usando lo que ya sabes de los triángulos.' },
-        { options: [
-          { id: 'a', text: '180°', feedback: 'Eso suma un triángulo. El pentágono es más grande: sus ángulos suman más.' },
-          { id: 'b', text: '360°', feedback: 'Eso suma un cuadrilátero. El pentágono tiene un ángulo más.' },
-          { id: 'c', text: '540°' },
-        ], correct: ['c'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.8'], ambito: 'conocer', title: 'El truco de los triángulos',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.8'], ambito: 'conocer', title: 'El truco de los triángulos',
           prompt: 'Elige **un solo vértice** y traza desde él todas las diagonales posibles. El polígono queda dividido en triángulos, y cada triángulo aporta **180°**. Toca cada tarjeta.' },
         { icon: 'Triangle', body: 'Suma de ángulos = número de triángulos × **180°**', reveal: [
           { icon: 'Square', front: 'Cuadrilátero (4 lados)', back: 'Se divide en **2** triángulos: 2 × 180° = **360°**.' },
@@ -312,6 +302,16 @@ export default [
           { icon: 'Hexagon', front: 'Hexágono (6 lados)', back: 'Se divide en **4** triángulos: 4 × 180° = **720°**.' },
           { icon: 'Lightbulb', front: 'El patrón', back: 'Siempre hay **2 triángulos menos que lados**. Los dos lados vecinos del vértice elegido no forman triángulo nuevo.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.8'], ambito: 'conocer',
+          prompt: 'Usa la división en triángulos: ¿cuánto suman los **5 ángulos interiores** de un pentágono?',
+          explain: 'Suman **540°**. Hoy descubrirás por qué, usando lo que ya sabes de los triángulos.' },
+        { options: [
+          { id: 'a', text: '180°', feedback: 'Eso suma un triángulo. El pentágono es más grande: sus ángulos suman más.' },
+          { id: 'b', text: '360°', feedback: 'Eso suma un cuadrilátero. El pentágono tiene un ángulo más.' },
+          { id: 'c', text: '540°' },
+        ], correct: ['c'] },
       ),
       S.polygon(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.8'], ambito: 'hacer',
@@ -411,18 +411,8 @@ export default [
       brief: 'Composición en tres paneles: (1) ondas concéntricas en el agua tranquila de un lago al amanecer; (2) un comal de barro sobre el fuego visto desde arriba, con su centro, un radio y un diámetro marcados con líneas finas y rotulados; (3) un plato de cerámica artesanal con una roseta de seis pétalos pintada. Estilo ilustración cálida, sin marcas ni texto adicional.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.9'], ambito: 'conocer',
-          prompt: '¿Qué herramienta te ayuda a dibujar un círculo **perfecto**?',
-          explain: 'El **compás** mantiene siempre la misma abertura mientras giras: así todos los puntos quedan a la misma distancia del centro.' },
-        { options: [
-          { id: 'a', text: 'Una regla', icon: 'Ruler', feedback: 'La regla traza líneas rectas, no curvas.' },
-          { id: 'b', text: 'Un compás', icon: 'Compass' },
-          { id: 'c', text: 'Una escuadra', icon: 'Triangle', feedback: 'La escuadra sirve para ángulos rectos.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.9'], ambito: 'conocer', title: 'Partes del círculo',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.9'], ambito: 'conocer', title: 'Partes del círculo',
           prompt: 'Un círculo se construye desde su **centro**. Toca cada tarjeta.' },
         { icon: 'CircleDot', body: 'Todos los puntos del borde (la **circunferencia**) están a la **misma distancia** del centro.', reveal: [
           { icon: 'CircleDot', front: 'Centro', back: 'El punto del medio. Ahí va la punta del compás.' },
@@ -430,6 +420,16 @@ export default [
           { icon: 'MoveHorizontal', front: 'Diámetro', back: 'Cruza de borde a borde pasando por el centro. Mide **2 radios**.' },
           { icon: 'Hand', front: 'Sin compás', back: 'Amarra un lápiz a un cordel; sostén el otro extremo con un dedo en el centro y gira con el cordel estirado. ¡Cuidado con la punta del compás si usas uno!' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.9'], ambito: 'conocer',
+          prompt: '¿Qué herramienta te ayuda a dibujar un círculo **perfecto**?',
+          explain: 'El **compás** mantiene siempre la misma abertura mientras giras: así todos los puntos quedan a la misma distancia del centro.' },
+        { options: [
+          { id: 'a', text: 'Una regla', icon: 'Ruler', feedback: 'La regla traza líneas rectas, no curvas.' },
+          { id: 'b', text: 'Un compás', icon: 'Compass' },
+          { id: 'c', text: 'Una escuadra', icon: 'Triangle', feedback: 'La escuadra sirve para ángulos rectos.' },
+        ], correct: ['b'] },
       ),
       S.number(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.9'], prompt: 'Abres el compás **4 cm** y trazas un círculo. ¿Cuánto mide su **diámetro**?',
@@ -549,8 +549,17 @@ export default [
       brief: 'Ilustración en dos mitades. Izquierda: un templo maya escalonado de Tikal (Petén) entre la selva; un recuadro muestra su vista desde arriba como rectángulos de colores uno dentro de otro, con la etiqueta "vista desde arriba". Derecha: la parte frontal de un güipil con franjas de rombos, triángulos en zigzag y cuadrados, con uno de los rombos resaltado con contorno. Sin personas identificables, sin reproducir un diseño específico de una comunidad; colores inspirados en textiles del altiplano.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.10', 'mat:1.1.6'], ambito: 'conocer', title: 'Cómo interpretar un diseño',
+          prompt: 'Interpretar un diseño con ojos de matemático es responder tres preguntas. Toca cada tarjeta.' },
+        { icon: 'Search', body: 'Nombrar, clasificar y buscar el patrón.', reveal: [
+          { icon: 'Tag', front: '1. ¿Qué polígonos hay?', back: 'Nómbralos por su número de lados: triángulos, cuadrados, rombos, rectángulos…' },
+          { icon: 'Hexagon', front: '2. ¿Regulares o irregulares?', back: 'El cuadrado y el triángulo equilátero son regulares. El rombo (sin ángulos rectos) y el rectángulo son irregulares.' },
+          { icon: 'Repeat', front: '3. ¿Qué se repite?', back: 'Busca la simetría (una mitad refleja la otra) y la franja que se repite a lo largo.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['mat', 'ccss'], cnb: ['mat:1.1.10'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat', 'ccss'], cnb: ['mat:1.1.10'], ambito: 'conocer',
           prompt: 'Una pirámide maya escalonada tiene varios "pisos" o cuerpos, cada uno más pequeño que el de abajo. **Vista desde arriba**, ¿qué verías?',
           explain: 'Verías **cuadriláteros uno dentro de otro**: cada cuerpo es un rectángulo o cuadrado más pequeño, encima del anterior.' },
         { options: [
@@ -581,15 +590,6 @@ export default [
               { id: 'c', text: 'Decir que no significa nada' },
             ], correct: 'b', why: 'El texto dice que los significados pueden cambiar entre comunidades; quienes tejen son la mejor fuente.' },
           ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.10', 'mat:1.1.6'], ambito: 'conocer', title: 'Cómo interpretar un diseño',
-          prompt: 'Interpretar un diseño con ojos de matemático es responder tres preguntas. Toca cada tarjeta.' },
-        { icon: 'Search', body: 'Nombrar, clasificar y buscar el patrón.', reveal: [
-          { icon: 'Tag', front: '1. ¿Qué polígonos hay?', back: 'Nómbralos por su número de lados: triángulos, cuadrados, rombos, rectángulos…' },
-          { icon: 'Hexagon', front: '2. ¿Regulares o irregulares?', back: 'El cuadrado y el triángulo equilátero son regulares. El rombo (sin ángulos rectos) y el rectángulo son irregulares.' },
-          { icon: 'Repeat', front: '3. ¿Qué se repite?', back: 'Busca la simetría (una mitad refleja la otra) y la franja que se repite a lo largo.' },
-        ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.10', 'mat:1.1.6'], prompt: 'Estos polígonos aparecen en construcciones y tejidos mayas. ¿Son regulares o irregulares?',

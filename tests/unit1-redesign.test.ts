@@ -22,6 +22,10 @@ const weekOne = unitWeeks.find((week) => week.semana === 1);
 assert.ok(weekOne, 'Falta semana 1');
 const weekOneBank = weekOne.bank;
 assert.ok(weekOneBank, 'Semana 1 sin banco');
+const weekTwo = unitWeeks.find((week) => week.semana === 2);
+assert.ok(weekTwo, 'Falta semana 2');
+const weekTwoBank = weekTwo.bank;
+assert.ok(weekTwoBank, 'Semana 2 sin banco');
 
 const PRIMARY_AREAS = new Set(['mat', 'l1', 'cnt', 'ccss', 'l2', 'l3', 'fc', 'art', 'ef', 'pyd']);
 const INSTRUCTION_TYPES = new Set(['explain', 'worked-example', 'flashcards']);
@@ -449,6 +453,148 @@ test('Semana 1 no reutiliza payloads de práctica guiada en reto o banco', () =>
   }
   assert.deepEqual(reused, []);
 });
+
+test('Semana 2 preserva las lecciones y referencias CNB aprobadas', () => {
+  const expectedLessonCounts = new Map([
+    ['mat', 5], ['l1', 5], ['cnt', 3], ['ccss', 3], ['l2', 2],
+    ['l3', 2], ['fc', 2], ['art', 2], ['ef', 2], ['pyd', 1],
+  ]);
+  const expectedCnb = new Set([
+    'mat:1.1.6', 'mat:1.1.7', 'mat:1.1.8', 'mat:1.1.9', 'mat:1.1.10',
+    'l1:4.2.1', 'l1:4.2.2',
+    'cnt:1.4.1', 'cnt:2.1.1', 'cnt:1.5.1', 'cnt:1.5.2', 'cnt:1.5.3',
+    'ccss:2.3.1', 'ccss:2.1.1', 'ccss:3.1.1', 'ccss:3.2.5', 'ccss:3.2.6',
+    'l2:1.3.1', 'l2:2.1.1', 'l3:1.1.2', 'fc:1.2.2', 'art:1.1.2',
+    'ef:1.3.3', 'ef:1.3.5', 'ef:1.3.6', 'pyd:1.2.1', 'pyd:1.4.4',
+  ]);
+  const lessons = weekTwo.lessons.filter((lesson) => lesson.kind === 'materia');
+  const actualCounts = new Map<string, number>();
+  for (const lesson of lessons) {
+    const area = lesson.area;
+    assert.ok(area, `${lesson.id} no declara área`);
+    actualCounts.set(area, (actualCounts.get(area) ?? 0) + 1);
+  }
+  assert.deepEqual(actualCounts, expectedLessonCounts);
+  assert.deepEqual(new Set(lessons.flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb))), expectedCnb);
+});
+
+test('Semana 2 enseña antes de calificar y mantiene fases monotónicas', () => {
+  const phaseRank = new Map([
+    ['explorar', 0], ['construir', 1], ['aplicar', 2], ['comprobar', 3], ['reflexionar', 4],
+  ]);
+  const failures: string[] = [];
+  for (const lesson of weekTwo.lessons.filter((item) => item.kind === 'materia')) {
+    const firstInstruction = lesson.steps.findIndex((step) => INSTRUCTION_TYPES.has(step.type));
+    const firstGraded = lesson.steps.findIndex((step) => getActivity(step.type)?.graded);
+    if (firstInstruction < 0 || firstGraded < 0 || firstInstruction > firstGraded) {
+      failures.push(`${lesson.id}: instrucción=${firstInstruction + 1}, calificada=${firstGraded + 1}`);
+    }
+    lesson.steps.forEach((step, index) => {
+      if (step.fase === 'explorar' && getActivity(step.type)?.graded) {
+        failures.push(`${lesson.id}: explorar calificado en paso ${index + 1}`);
+      }
+      if (index > 0 && (phaseRank.get(step.fase) ?? -1) < (phaseRank.get(lesson.steps[index - 1].fase) ?? -1)) {
+        failures.push(`${lesson.id}: ${lesson.steps[index - 1].fase} -> ${step.fase}`);
+      }
+    });
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 2 ofrece guía, aplicación independiente y dos salidas sin pistas por materia', () => {
+  const failures: string[] = [];
+  for (const lesson of weekTwo.lessons.filter((item) => item.kind === 'materia')) {
+    const guided = lesson.steps.some((step) => (
+      step.fase === 'construir'
+      && Boolean(getActivity(step.type)?.graded)
+      && Boolean(step.hint)
+      && Boolean(step.explain)
+    ));
+    const independent = lesson.steps.some((step) => (
+      step.fase === 'aplicar'
+      && Boolean(getActivity(step.type)?.graded)
+      && !step.hint
+    ));
+    const exits = lesson.steps.filter((step) => (
+      step.fase === 'comprobar'
+      && Boolean(getActivity(step.type)?.graded)
+      && !step.hint
+      && !step.explain
+    ));
+    if (!guided || !independent || exits.length < 2) {
+      failures.push(`${lesson.id}: guía=${guided}, aplicación=${independent}, salidas=${exits.length}`);
+    }
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 2 construye un puesto sano y respetuoso con alcance y evidencia factibles', () => {
+  const workshop = weekTwo.lessons.find((lesson) => lesson.kind === 'taller');
+  assert.ok(workshop, 'Semana 2 sin taller');
+  assert.equal(workshop.title, 'Un puesto sano y respetuoso');
+  assert.ok(workshop.minutes <= 20, `Taller declara ${workshop.minutes} minutos`);
+  assert.ok(workshop.steps.length >= 10 && workshop.steps.length <= 14, `Taller tiene ${workshop.steps.length} pasos`);
+
+  const allowedAreas = new Set(['cnt', 'pyd', 'l2', 'l3', 'fc']);
+  const contributors = new Set(
+    workshop.steps
+      .filter((step) => step.fase === 'construir' || step.fase === 'aplicar')
+      .flatMap((step) => step.areas),
+  );
+  assert.ok(contributors.size >= 2 && contributors.size <= 4);
+  assert.ok([...contributors].every((area) => allowedAreas.has(area)), `Áreas fuera de alcance: ${[...contributors]}`);
+
+  const workshopIndex = weekTwo.lessons.indexOf(workshop);
+  const priorCnb = new Set(
+    weekTwo.lessons
+      .slice(0, workshopIndex)
+      .filter((lesson) => lesson.kind === 'materia')
+      .flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb)),
+  );
+  assert.ok(workshop.steps.every((step) => step.cnb.every((ref) => priorCnb.has(ref))), 'El taller introduce CNB no enseñado');
+
+  const projectText = JSON.stringify(workshop.steps.filter((step) => step.type === 'project')).toLocaleLowerCase('es');
+  assert.match(projectText, /plan.+puesto|puesto.+plan/s);
+  assert.match(projectText, /procedimiento.+higiene|higiene.+procedimiento/s);
+  assert.match(projectText, /primero/);
+  assert.match(projectText, /respeto|respetuos/);
+  assert.match(projectText, /oferta/);
+});
+
+test('Semana 2 evalúa contenido enseñado, sin pistas y con payloads frescos', () => {
+  const subjectSteps = weekTwo.lessons
+    .filter((lesson) => lesson.kind === 'materia')
+    .flatMap((lesson) => lesson.steps);
+  const taughtCnb = new Set(subjectSteps.flatMap((step) => step.cnb));
+  const challenge = weekTwo.lessons.find((lesson) => lesson.kind === 'reto');
+  assert.ok(challenge, 'Semana 2 sin reto');
+  const assessments = [...challenge.steps, ...weekTwoBank].filter((step) => getActivity(step.type)?.graded);
+  assert.ok(assessments.every((step) => !step.hint && !step.explain), 'Reto o banco contiene pistas');
+  assert.ok(assessments.every((step) => step.cnb.every((ref) => taughtCnb.has(ref))), 'Reto o banco evalúa CNB no enseñado');
+
+  const challengeAreas = new Set(challenge.steps.filter((step) => getActivity(step.type)?.graded).map((step) => step.areas[0]));
+  const bankAreas = new Set(weekTwoBank.filter((step) => getActivity(step.type)?.graded).map((step) => step.areas[0]));
+  assert.ok(challengeAreas.size >= 6, `Reto cubre ${challengeAreas.size} materias`);
+  assert.deepEqual(bankAreas, PRIMARY_AREAS);
+
+  const reused: string[] = [];
+  for (const [source, steps] of [['reto', challenge.steps], ['banco', weekTwoBank]] as const) {
+    for (const assessment of steps) {
+      const entries = comparableEntries(assessment);
+      if (entries.length < 2) continue;
+      for (const practice of subjectSteps) {
+        if (practice.type !== assessment.type || practice.areas[0] !== assessment.areas[0]) continue;
+        const practiceEntries = new Set(comparableEntries(practice));
+        if (entries.every((entry) => practiceEntries.has(entry))) {
+          reused.push(`${source}/${assessment.areas[0]}/${assessment.type}`);
+          break;
+        }
+      }
+    }
+  }
+  assert.deepEqual(reused, []);
+});
+
 test('Unidad 1 no repite una interacción tres veces seguidas', () => {
   for (const week of unitWeeks) for (const lesson of week.lessons) {
     for (let index = 2; index < lesson.steps.length; index += 1) {

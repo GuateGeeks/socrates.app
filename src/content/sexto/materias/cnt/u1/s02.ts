@@ -29,8 +29,17 @@ export default [
       brief: 'Animación 2D de 45 s con zoom continuo. (1) Una niña guatemalteca en el patio de la escuela. (2) Acercamiento a la piel de su mano. (3) Una célula con su núcleo. (4) Dentro del núcleo, cromosomas con forma de X; uno se desenrolla como un hilo de lana hasta mostrar la doble hélice del ADN (escalera torcida). (5) Un tramo de la escalera se ilumina: rótulo "gen". Rótulos: persona → célula → núcleo → cromosoma → ADN → gen. Narración en español con subtítulos, colores suaves.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.4.1'], ambito: 'conocer', title: 'Tres palabras clave',
+          prompt: 'En la lección de la célula viste que el **núcleo** guarda el ADN. Ahora mira más de cerca. Toca cada tarjeta.' },
+        { icon: 'Dna', body: 'Piensa en el núcleo como una **biblioteca** que tiene todos los instructivos para construir y hacer funcionar tu cuerpo.', reveal: [
+          { icon: 'Dna', front: 'ADN', back: 'Molécula larguísima con forma de **escalera torcida** (doble hélice). Guarda las **instrucciones** de la vida escritas en un código químico.' },
+          { icon: 'Book', front: 'Cromosoma', back: 'El ADN se **enrolla** muy apretado y forma los cromosomas, como hilo en una bobina. Son como los **libros** de la biblioteca.' },
+          { icon: 'FileText', front: 'Gen', back: 'Un **pedazo de ADN** con la instrucción para una característica o una función. Es como **una receta** dentro de un libro.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.4.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.4.1'], ambito: 'conocer',
           prompt: '¿Por qué crees que te pareces a tu familia en algunas cosas, como la forma de la nariz o el tipo de cabello?',
           explain: 'Recibiste **información** de tu madre y de tu padre, guardada en tus células. Hoy descubrirás dónde está y cómo se llama.' },
         { options: [
@@ -38,15 +47,6 @@ export default [
           { id: 'b', text: 'Porque heredé información de mi madre y de mi padre', icon: 'Users' },
           { id: 'c', text: 'Por pura casualidad', icon: 'HelpCircle', feedback: 'Hay una razón científica: la herencia.' },
         ], correct: ['b'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.4.1'], ambito: 'conocer', title: 'Tres palabras clave',
-          prompt: 'En la lección de la célula viste que el **núcleo** guarda el ADN. Ahora mira más de cerca. Toca cada tarjeta.' },
-        { icon: 'Dna', body: 'Piensa en el núcleo como una **biblioteca** que tiene todos los instructivos para construir y hacer funcionar tu cuerpo.', reveal: [
-          { icon: 'Dna', front: 'ADN', back: 'Molécula larguísima con forma de **escalera torcida** (doble hélice). Guarda las **instrucciones** de la vida escritas en un código químico.' },
-          { icon: 'Book', front: 'Cromosoma', back: 'El ADN se **enrolla** muy apretado y forma los cromosomas, como hilo en una bobina. Son como los **libros** de la biblioteca.' },
-          { icon: 'FileText', front: 'Gen', back: 'Un **pedazo de ADN** con la instrucción para una característica o una función. Es como **una receta** dentro de un libro.' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.4.1'], ambito: 'conocer', title: '¿Cuántos cromosomas tienes?',
@@ -182,18 +182,8 @@ export default [
       brief: 'Video de 40 s grabado con microscopio escolar (o animación realista si no hay material propio): gota de agua de charco. Mostrar un paramecio nadando con sus cilios, una ameba que avanza estirando pseudópodos y rodea una partícula. Rótulos que aparecen: "paramecio: cilios", "ameba: pseudópodos", "cada uno es UNA sola célula". Barra de escala en micrómetros. Narración en español con subtítulos. Sin música estridente.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.1.1'], ambito: 'conocer',
-          prompt: 'Mira el video. Esos seres diminutos que nadan en la gota, ¿son **seres vivos**?',
-          explain: '¡Sí! Se alimentan, se mueven, responden y se reproducen. Y cada uno es **una sola célula**.' },
-        { options: [
-          { id: 'a', text: 'Sí, porque se alimentan, se mueven y se reproducen', icon: 'Sparkles' },
-          { id: 'b', text: 'No, son solo polvo', icon: 'Wind', feedback: 'El polvo no se mueve por sí solo ni se alimenta. Estos seres sí.' },
-          { id: 'c', text: 'No, porque son demasiado pequeños', icon: 'Minus', feedback: 'El tamaño no decide si algo está vivo: lo deciden sus funciones.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.1.1'], ambito: 'conocer', title: 'Una célula o muchas',
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.1.1'], ambito: 'conocer', title: 'Una célula o muchas',
           prompt: 'Los seres vivos se pueden organizar según **cuántas células** los forman. Toca cada tarjeta.' },
         { icon: 'Blocks', body: 'Recuerda: la célula es la unidad de la vida. Algunos seres vivos son **una sola célula**; otros son **millones** o **billones** de células trabajando juntas.', reveal: [
           { icon: 'Circle', front: 'Unicelulares', back: 'Formados por **una sola célula** que hace todas las funciones. Casi siempre son **microscópicos**. Ejemplos: bacterias, levaduras (hongos del pan) y protozoos.' },
@@ -201,6 +191,16 @@ export default [
           { icon: 'Microscope', front: 'Protozoos', back: 'Unicelulares **con núcleo** que se alimentan de otros seres, y muchos se **mueven**. Su nombre significa "primeros animales".' },
           { icon: 'Bird', front: 'Metazoos', back: 'Así se llama a los **animales pluricelulares**: desde una lombriz hasta un quetzal.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.1.1'], ambito: 'conocer',
+          prompt: 'Mira el video. Esos seres diminutos que nadan en la gota, ¿son **seres vivos**?',
+          explain: '¡Sí! Se alimentan, se mueven, responden y se reproducen. Y cada uno es **una sola célula**.' },
+        { options: [
+          { id: 'a', text: 'Sí, porque se alimentan, se mueven y se reproducen', icon: 'Sparkles' },
+          { id: 'b', text: 'No, son solo polvo', icon: 'Wind', feedback: 'El polvo no se mueve por sí solo ni se alimenta. Estos seres sí.' },
+          { id: 'c', text: 'No, porque son demasiado pequeños', icon: 'Minus', feedback: 'El tamaño no decide si algo está vivo: lo deciden sus funciones.' },
+        ], correct: ['a'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.1.1'], ambito: 'conocer', title: 'Conoce a los protozoos',
@@ -349,8 +349,17 @@ export default [
       brief: 'Diagrama vertical, silueta neutra de una persona (sin rasgos realistas), en colores planos. Lado exterior: piojo en el cabello, pulga y garrapata en la piel, con etiqueta "ectoparásitos (por fuera)". Lado interior: sistema digestivo simplificado con ameba y giardia (con lupa, "microscópicos"), lombriz intestinal (áscaris), oxiuros y tenia (dibujo esquemático, NO realista ni asqueroso) con etiqueta "endoparásitos (por dentro)". Cada uno con una línea guía y una frase del daño. Estilo amable, sin imágenes grotescas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.5.1'], ambito: 'conocer', title: 'Seres vivos que dependen de otros',
+          prompt: 'Los seres vivos se relacionan entre sí: dependen unos de otros. Toca las tarjetas.' },
+        { icon: 'Link', body: 'Esta dependencia se llama **interdependencia**. Algunas relaciones benefician a los dos; otras, solo a uno.', reveal: [
+          { icon: 'Flower', front: 'Ayuda mutua', back: 'La **abeja** toma néctar de la flor y, a la vez, lleva su polen a otras flores. **Los dos ganan.**' },
+          { icon: 'Bug', front: 'Parasitismo', back: 'Un **parásito** vive sobre o dentro de otro ser, el **hospedero**; se alimenta de él y **le hace daño**, aunque casi nunca lo mata rápido.' },
+          { icon: 'Home', front: 'Hospedero', back: 'El ser vivo que "hospeda" al parásito: puede ser una persona, un perro, una vaca o una planta.' },
+        ] },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.5.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.5.1'], ambito: 'conocer',
           prompt: 'Entre un **piojo** y la persona en cuya cabeza vive, ¿qué tipo de relación hay?',
           explain: 'El piojo se beneficia (se alimenta de sangre) y la persona sale dañada (picazón, heridas). Esa relación se llama **parasitismo**.' },
         { options: [
@@ -358,15 +367,6 @@ export default [
           { id: 'b', text: 'El piojo se beneficia y la persona sale dañada', icon: 'Bug' },
           { id: 'c', text: 'No se afectan en nada', icon: 'Minus', feedback: 'Sí se afectan: el piojo se alimenta de la sangre de la persona.' },
         ], correct: ['b'] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.5.1'], ambito: 'conocer', title: 'Seres vivos que dependen de otros',
-          prompt: 'Los seres vivos se relacionan entre sí: dependen unos de otros. Toca las tarjetas.' },
-        { icon: 'Link', body: 'Esta dependencia se llama **interdependencia**. Algunas relaciones benefician a los dos; otras, solo a uno.', reveal: [
-          { icon: 'Flower', front: 'Ayuda mutua', back: 'La **abeja** toma néctar de la flor y, a la vez, lleva su polen a otras flores. **Los dos ganan.**' },
-          { icon: 'Bug', front: 'Parasitismo', back: 'Un **parásito** vive sobre o dentro de otro ser, el **hospedero**; se alimenta de él y **le hace daño**, aunque casi nunca lo mata rápido.' },
-          { icon: 'Home', front: 'Hospedero', back: 'El ser vivo que "hospeda" al parásito: puede ser una persona, un perro, una vaca o una planta.' },
-        ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.5.1'], ambito: 'conocer', title: 'Tipos de parásitos',

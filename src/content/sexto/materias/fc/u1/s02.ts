@@ -30,18 +30,8 @@ export default [
       brief: 'Diagrama circular dividido en cuatro cuadrantes de colores suaves, con una niña y un niño guatemaltecos (uno con traje maya, otro con uniforme escolar) al centro. Cuadrantes: "Supervivencia" (ícono de corazón: vida, salud, alimentación), "Desarrollo" (ícono de libro: educación, juego, cultura), "Protección" (ícono de escudo: contra violencia, explotación, abandono), "Participación" (ícono de globo de diálogo: opinar, ser escuchado, reunirse). Textos grandes y cortos, fondo blanco, estilo plano.',
     },
     steps: [
-      S.tf(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.2.2'], ambito: 'conocer',
-          prompt: '¿Qué crees? Responde sin miedo: aún no hemos explicado el tema.',
-          explain: 'Hoy verás que la niñez tiene derechos **especiales** además de los derechos humanos de todas las personas, y que en Guatemala existe una ley para protegerlos.' },
-        { statements: [
-          { text: 'Las niñas y los niños tienen derecho a jugar y descansar.', answer: true },
-          { text: 'Los niños solo tienen derechos cuando cumplen 18 años.', answer: false, why: 'Tienen derechos desde que nacen. A los 18 años se adquieren además derechos políticos, como votar.' },
-          { text: 'Una niña tiene derecho a dar su opinión sobre lo que le afecta.', answer: true },
-        ] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:1.2.2'], ambito: 'conocer', title: 'Leyes que protegen a la niñez',
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.2.2'], ambito: 'conocer', title: 'Leyes que protegen a la niñez',
           prompt: 'Las niñas, los niños y los adolescentes están creciendo y necesitan **protección especial**. Por eso existen leyes solo para ellos. Toca cada tarjeta.' },
         { icon: 'ScrollText', body: 'Estas leyes no quitan responsabilidades: los derechos van de la mano con **deberes**, como respetar a los demás, estudiar y cuidar lo común.', reveal: [
           { icon: 'Globe', front: 'Convención sobre los Derechos del Niño', back: 'Tratado de las **Naciones Unidas** aprobado el **20 de noviembre de 1989**. Protege a toda persona **menor de 18 años**. Guatemala la ratificó en **1990**.' },
@@ -49,6 +39,16 @@ export default [
           { icon: 'Star', front: 'Interés superior del niño', back: 'Principio clave: en toda decisión que afecte a una niña o un niño, se debe buscar **lo que más le conviene** para su bienestar y desarrollo.' },
           { icon: 'Scale', front: 'No discriminación', back: 'Los derechos son para **toda** la niñez: de cualquier pueblo, idioma, religión, sexo, condición económica o discapacidad.' },
           { icon: 'Phone', front: '¿A quién acudir?', back: 'Primero, a una **persona adulta de confianza** (familia, maestra, directora). Además, la **Procuraduría de los Derechos Humanos** y la **Procuraduría General de la Nación** (por medio de su Procuraduría de la Niñez y la Adolescencia) protegen a la niñez.' },
+        ] },
+      ),
+      S.tf(
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:1.2.2'], ambito: 'conocer',
+          prompt: 'Comprueba las ideas centrales que acabas de estudiar sobre los derechos de la niñez.',
+          explain: 'Hoy verás que la niñez tiene derechos **especiales** además de los derechos humanos de todas las personas, y que en Guatemala existe una ley para protegerlos.' },
+        { statements: [
+          { text: 'Las niñas y los niños tienen derecho a jugar y descansar.', answer: true },
+          { text: 'Los niños solo tienen derechos cuando cumplen 18 años.', answer: false, why: 'Tienen derechos desde que nacen. A los 18 años se adquieren además derechos políticos, como votar.' },
+          { text: 'Una niña tiene derecho a dar su opinión sobre lo que le afecta.', answer: true },
         ] },
       ),
       S.explain(
@@ -171,18 +171,8 @@ export default [
       brief: 'Animación 2D de 45 s. Pantalla dividida: "Aldea A" (con carretera asfaltada) y "Aldea B" (lejana, camino de tierra). Sobre cada aldea suben tres barras con íconos: gota (agua potable), libro (niños en la escuela), cruz (centro de salud cerca). En la Aldea A las barras suben alto; en la B quedan bajas. Aparece una llave de corchete entre las barras con la palabra "brecha". Narración: "Los datos nos ayudan a ver dónde los derechos todavía no se cumplen". Etiqueta visible: "Datos hipotéticos". Sin cifras reales, estilo plano, colores cálidos.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.2.2'], ambito: 'conocer',
-          prompt: 'Si quisieras saber si en tu municipio se cumple el derecho a la educación, ¿qué dato te ayudaría **más**?',
-          explain: 'Los **datos** (cuántos niños estudian, cuántas casas tienen agua…) permiten analizar la situación de los derechos con hechos, no solo con opiniones.' },
-        { options: [
-          { id: 'a', text: 'Cuántas niñas y niños en edad escolar van a la escuela', icon: 'School' },
-          { id: 'b', text: 'Cuántos equipos de fútbol hay', icon: 'Trophy', feedback: 'Es un dato interesante, pero no dice nada sobre la educación.' },
-          { id: 'c', text: 'De qué color están pintadas las escuelas', icon: 'Palette', feedback: 'El color no nos dice si los niños están aprendiendo.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:1.2.2'], ambito: 'conocer', title: '¿Qué es el desarrollo social?',
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.2.2'], ambito: 'conocer', title: '¿Qué es el desarrollo social?',
           prompt: 'Un país no se desarrolla solo porque tenga edificios altos. Toca cada tarjeta para entender el **desarrollo social**.' },
         { icon: 'TrendingUp', body: 'Desarrollo social y derechos humanos van juntos: **hay desarrollo social cuando los derechos se cumplen para todas las personas**, no solo para algunas.', reveal: [
           { icon: 'Users', front: 'Desarrollo social', back: 'La mejora de la **calidad de vida de toda la población**: salud, educación, alimentación, vivienda, empleo y participación.' },
@@ -190,6 +180,16 @@ export default [
           { icon: 'Scale', front: 'Brecha', back: 'La **diferencia** entre dos grupos o lugares. Ejemplo: entre el área urbana y el área rural, o entre niñas y niños.' },
           { icon: 'Landmark', front: 'Procuraduría de los Derechos Humanos', back: 'Institución creada por la **Constitución de 1985**. El Procurador vigila que el Estado respete los derechos humanos y recibe denuncias.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:1.2.2'], ambito: 'conocer',
+          prompt: 'Si quisieras saber si en tu municipio se cumple el derecho a la educación, ¿qué dato te ayudaría **más**?',
+          explain: 'Los **datos** (cuántos niños estudian, cuántas casas tienen agua…) permiten analizar la situación de los derechos con hechos, no solo con opiniones.' },
+        { options: [
+          { id: 'a', text: 'Cuántas niñas y niños en edad escolar van a la escuela', icon: 'School' },
+          { id: 'b', text: 'Cuántos equipos de fútbol hay', icon: 'Trophy', feedback: 'Es un dato interesante, pero no dice nada sobre la educación.' },
+          { id: 'c', text: 'De qué color están pintadas las escuelas', icon: 'Palette', feedback: 'El color no nos dice si los niños están aprendiendo.' },
+        ], correct: ['a'] },
       ),
       S.chart(
         { fase: 'construir', areas: ['fc'], cnb: ['fc:1.2.2'], ambito: 'hacer',
