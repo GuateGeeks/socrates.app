@@ -31,7 +31,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.1.1'], ambito: 'conocer', title: 'Relatos y explicaciones',
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.1.1'], ambito: 'conocer', title: 'Relatos y explicaciones',
           prompt: 'Antes de conocer los relatos, aprende tres palabras clave. Toca cada tarjeta.' },
         { icon: 'Globe', body: 'Preguntar **"¿de dónde venimos?"** es muy humano. Las respuestas dependen de **para qué** se hace la pregunta.', reveal: [
           { icon: 'Eye', front: 'Cosmovisión', back: 'La **manera en que un pueblo entiende el mundo**: su origen, la naturaleza, lo sagrado y el lugar del ser humano.' },
@@ -195,7 +195,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.2.1'], ambito: 'conocer', title: '¿Qué es una célula?',
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.2.1'], ambito: 'conocer', title: '¿Qué es una célula?',
           prompt: 'La **célula** es la unidad más pequeña que tiene vida: se alimenta, crece, responde y se reproduce. Toca cada tarjeta.' },
         { icon: 'Microscope', body: 'La mayoría de las células mide **menos de una décima de milímetro**: por eso necesitamos un **microscopio** para verlas. Tu cuerpo tiene **billones** de ellas (millones de millones).', reveal: [
           { icon: 'Blocks', front: 'Unidad de la vida', back: '**Todos** los seres vivos están formados por células: algunos por una sola, otros, como tú, por billones.' },
@@ -350,7 +350,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer', title: 'Lo que comparten',
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer', title: 'Lo que comparten',
           prompt: 'Las células de plantas y de animales son **parecidas por dentro**. Toca las tarjetas.' },
         { icon: 'Copy', body: 'Ambas tienen **núcleo** con ADN y los organelos que aprendiste en la lección anterior.', reveal: [
           { icon: 'Shield', front: 'Membrana y citoplasma', back: 'Las dos tienen **membrana celular** que controla el paso de sustancias y **citoplasma** donde flotan los organelos.' },
@@ -359,18 +359,8 @@ export default [
           { icon: 'Package', front: 'Ribosomas, retículo y Golgi', back: 'Ambas fabrican, transportan y empacan sustancias con los mismos organelos.' },
         ] },
       ),
-      S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer',
-          prompt: 'Haz una predicción: ¿por qué una hoja de lechuga fresca se mantiene **firme** y cruje?',
-          explain: '¡Buena pista! Las células vegetales tienen una **pared celular** rígida y una **vacuola** llena de agua que empuja hacia afuera. Hoy verás cómo funciona.' },
-        { options: [
-          { id: 'a', text: 'Porque sus células tienen una cubierta rígida y mucha agua adentro', icon: 'Droplets' },
-          { id: 'b', text: 'Porque tiene huesos muy pequeños', icon: 'Bone', feedback: 'Las plantas no tienen huesos. La firmeza viene de sus células.' },
-          { id: 'c', text: 'Porque está fría', icon: 'Snowflake', feedback: 'El frío ayuda a conservarla, pero la firmeza viene de la estructura de sus células.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer', title: 'Lo que las hace diferentes',
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer', title: 'Lo que las hace diferentes',
           prompt: 'Observa el esquema de la lección. La célula vegetal tiene **tres estructuras** que la animal no tiene, y la animal tiene una que la vegetal no. Toca cada tarjeta.' },
         { icon: 'Leaf', body: 'Las plantas **no se mueven** de un lugar a otro y **fabrican su propio alimento** con la luz del Sol. Sus células están preparadas para eso.', reveal: [
           { icon: 'Square', front: 'Pared celular (solo vegetal)', back: 'Capa **rígida** de **celulosa** por fuera de la membrana. Da **forma y firmeza**: por eso un tronco se sostiene de pie. La madera y el papel están hechos de paredes celulares.' },
@@ -378,6 +368,16 @@ export default [
           { icon: 'Droplet', front: 'Vacuola central (solo vegetal)', back: 'Una bolsa **grande** llena de agua que ocupa casi toda la célula y la mantiene **firme**. En la célula animal las vacuolas son pequeñas.' },
           { icon: 'Circle', front: 'Centriolos y forma (solo animal)', back: 'La célula animal tiene **centriolos** y, sin pared, tiene forma **redondeada o irregular**. La vegetal suele verse como un **ladrillo**.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer',
+          prompt: 'Usa lo aprendido: ¿por qué una hoja de lechuga fresca se mantiene **firme** y cruje?',
+          explain: 'La **pared celular** rígida y la **vacuola** llena de agua ayudan a que la hoja se mantenga firme.' },
+        { options: [
+          { id: 'a', text: 'Porque sus células tienen una cubierta rígida y mucha agua adentro', icon: 'Droplets' },
+          { id: 'b', text: 'Porque tiene huesos muy pequeños', icon: 'Bone', feedback: 'Las plantas no tienen huesos. La firmeza viene de sus células.' },
+          { id: 'c', text: 'Porque está fría', icon: 'Snowflake', feedback: 'El frío ayuda a conservarla, pero la firmeza viene de la estructura de sus células.' },
+        ], correct: ['a'] },
       ),
       S.sort(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer',

@@ -30,7 +30,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.1.1'], ambito: 'conocer', title: '¿Qué es el desarrollo?',
+        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:1.1.1'], ambito: 'conocer', title: '¿Qué es el desarrollo?',
           prompt: 'El **desarrollo** es el proceso por el que **todas** las personas de una comunidad mejoran sus condiciones de vida. Tiene varios **elementos**. Toca cada tarjeta.' },
         { icon: 'TrendingUp', body: 'Las Naciones Unidas miden el **desarrollo humano** con tres dimensiones: **vida larga y saludable**, **educación** y **nivel de vida** (ingresos).', reveal: [
           { icon: 'Salad', front: 'Alimentación y salud', back: 'Comer lo suficiente y de forma variada; tener un **centro de salud** cerca y personal que atienda.' },

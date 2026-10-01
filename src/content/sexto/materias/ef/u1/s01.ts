@@ -32,7 +32,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['ef', 'cnt'], cnb: ['ef:1.1.6'], ambito: 'conocer', title: 'El equipo del movimiento',
+        { fase: 'explorar', areas: ['ef', 'cnt'], cnb: ['ef:1.1.6'], ambito: 'conocer', title: 'El equipo del movimiento',
           prompt: 'Cada movimiento que haces es trabajo en equipo. Toca cada tarjeta para conocer a los integrantes.' },
         { icon: 'PersonStanding', body: 'El **aparato locomotor** está formado por **huesos**, **articulaciones** y **músculos**, unidos por **tendones** y **ligamentos**.', reveal: [
           { icon: 'Bone', front: 'Huesos', back: 'Forman el **esqueleto**: sostienen el cuerpo y protegen órganos (el cráneo protege el cerebro; las costillas, el corazón y los pulmones). Una persona adulta tiene **206**.' },
@@ -172,7 +172,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.2.1'], ambito: 'conocer', title: 'La lateralidad',
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.2.1'], ambito: 'conocer', title: 'La lateralidad',
           prompt: 'Nuestro cuerpo tiene dos lados, pero casi siempre **preferimos uno**. Toca cada tarjeta.' },
         { icon: 'Hand', body: 'La **lateralidad** es la preferencia por usar un lado del cuerpo: mano, pie, ojo y oído.', reveal: [
           { icon: 'Hand', front: 'Lado dominante', back: 'Es el que usas con **más fuerza y precisión**. Si es la derecha eres **diestro/a**; si es la izquierda, **zurdo/a**.' },

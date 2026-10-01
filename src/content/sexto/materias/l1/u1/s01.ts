@@ -31,7 +31,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer', title: 'Tres tipos de recursos',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer', title: 'Tres tipos de recursos',
           prompt: 'Cuando hablas frente a un grupo, tienes **tres herramientas** para que te escuchen. Toca cada tarjeta.' },
         { icon: 'Megaphone', body: 'Los recursos para **mantener la atención** son todo lo que haces para que tu público no se distraiga y quiera seguir escuchando.', reveal: [
           { icon: 'Volume2', front: 'La voz', back: '**Volumen** (que se oiga hasta el fondo), **velocidad** (ni muy rápido ni muy lento), **pausas** antes de algo importante y **cambios sorpresivos**: bajar la voz para crear suspenso o subirla para mostrar emoción.' },
@@ -190,7 +190,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6', 'l1:2.1.4'], ambito: 'conocer', title: 'Las cuatro perillas de tu voz',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6', 'l1:2.1.4'], ambito: 'conocer', title: 'Las cuatro perillas de tu voz',
           prompt: 'Imagina que tu voz tiene **cuatro perillas** que puedes mover. Toca cada una para saber cómo usarla.' },
         { icon: 'Mic', body: 'Una voz que siempre suena igual adormece. Una voz que **cambia con intención** mantiene despierto al público.', reveal: [
           { icon: 'Volume2', front: '1. Volumen', back: '**Proyecta la voz**: que te oiga la última persona sin que tengas que gritar. Truco: respira profundo, abre bien la boca y habla "hacia la pared del fondo".' },
@@ -328,7 +328,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer', title: 'Cuatro formas en que habla tu cuerpo',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer', title: 'Cuatro formas en que habla tu cuerpo',
           prompt: 'Toca cada tarjeta y descubre cómo usar tu cuerpo al exponer.' },
         { icon: 'PersonStanding', body: 'El lenguaje del cuerpo se llama **comunicación no verbal**: todo lo que comunicamos sin palabras.', reveal: [
           { icon: 'Hand', front: 'Gestos', back: 'Con las **manos** puedes mostrar tamaños ("así de grande"), cantidades (tres dedos), direcciones (señalar el mapa). Con la **cara** muestras emociones: sorpresa, alegría, preocupación.' },
@@ -580,7 +580,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer', title: 'Las partes de un correo',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer', title: 'Las partes de un correo',
           prompt: 'Observa el diagrama y toca cada tarjeta para conocer las partes de un correo electrónico.' },
         { icon: 'Mail', body: 'Un correo electrónico es parecido a una carta, pero viaja por internet. Tiene partes que ayudan a que llegue a la persona correcta y se entienda.', reveal: [
           { icon: 'AtSign', front: 'Para (destinatario)', back: 'La **dirección de correo** de quien lo recibe. Revísala letra por letra: un error y el correo no llega.' },

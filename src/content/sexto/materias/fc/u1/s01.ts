@@ -31,7 +31,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:1.1.2'], ambito: 'conocer', title: 'Dos valores para vivir juntos',
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.1.2'], ambito: 'conocer', title: 'Dos valores para vivir juntos',
           prompt: 'Todos los días **convivimos**: compartimos la casa, el aula, la camioneta, el mercado. Para que la convivencia sea buena necesitamos valores. Toca cada tarjeta.' },
         { icon: 'Users', body: 'La **solidaridad** mueve a ayudar; la **tolerancia** mueve a respetar. Las dos juntas hacen que todas las personas se sientan parte del grupo.', reveal: [
           { icon: 'Home', front: 'Convivir', back: 'Vivir **junto a otras personas** compartiendo espacios, reglas y responsabilidades.' },
@@ -169,7 +169,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:1.2.1'], ambito: 'conocer', title: '¿Qué son los derechos humanos?',
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.2.1'], ambito: 'conocer', title: '¿Qué son los derechos humanos?',
           prompt: 'Los **derechos humanos** son lo que toda persona necesita y merece para vivir con **dignidad**, solo por ser persona. Toca cada tarjeta.' },
         { icon: 'Scale', body: 'No son favores ni premios: **te pertenecen desde que naces**, igual que a cualquier otra persona del mundo.', reveal: [
           { icon: 'Globe', front: 'Universales', back: 'Son de **todas** las personas, sin importar su pueblo, idioma, sexo, religión, edad o si tienen dinero o no.' },

@@ -31,7 +31,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer', title: 'Las cuatro cualidades del sonido',
+        { fase: 'explorar', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer', title: 'Las cuatro cualidades del sonido',
           prompt: 'Todo sonido tiene cuatro **cualidades**. Toca cada tarjeta.' },
         { icon: 'Ear', body: 'Los músicos escriben **partituras** para que otras personas toquen una canción igual, aunque nunca la hayan escuchado. Para eso anotan las cualidades del sonido.', reveal: [
           { icon: 'ArrowUpDown', front: 'Altura', back: 'Si el sonido es **grave** (grueso, como un tambor grande) o **agudo** (delgado, como el canto de un pajarito).' },
@@ -179,7 +179,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer', title: 'Las siete notas',
+        { fase: 'explorar', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer', title: 'Las siete notas',
           prompt: 'Para nombrar la altura de los sonidos usamos **siete notas**. Se cantan en orden, de la más grave a la más aguda.' },
         { icon: 'Music', body: '**Do · Re · Mi · Fa · Sol · La · Si** … y otra vez **Do**, pero más agudo. Ese nuevo Do está a una **octava** del primero (ocho notas contando las dos puntas). Esta serie ordenada se llama **escala de Do**.', reveal: [
           { icon: 'ArrowUpRight', front: 'Escala ascendente', back: 'Do, Re, Mi, Fa, Sol, La, Si, Do: cada nota es **un poco más aguda** que la anterior.' },

@@ -33,7 +33,17 @@ function comparableEntries(value: unknown): string[] {
     props?: {
       pairs?: Array<{ left?: string; right?: string }>;
       buckets?: Array<{ id?: string; label?: string }>;
-      items?: Array<{ text?: string; bucket?: string }>;
+      items?: Array<{ id?: string; text?: string; bucket?: string }>;
+      options?: Array<{ id?: string; text?: string }>;
+      correct?: string[];
+      statements?: Array<{ text?: string; answer?: boolean }>;
+      text?: string;
+      distractors?: string[];
+      questions?: Array<{
+        q?: string;
+        options?: Array<{ id?: string; text?: string }>;
+        correct?: string;
+      }>;
     };
   };
   const normalize = (text: string | undefined) => (text ?? '')
@@ -57,6 +67,24 @@ function comparableEntries(value: unknown): string[] {
   }
   if (step.type === 'order') {
     return (props.items ?? []).map((item) => normalize(item.text));
+  }
+  if (step.type === 'choice') {
+    const correct = new Set(props.correct ?? []);
+    return (props.options ?? []).map((option) => `${normalize(option.text)}=>${correct.has(option.id ?? '')}`);
+  }
+  if (step.type === 'true-false') {
+    return (props.statements ?? []).map((statement) => `${normalize(statement.text)}=>${statement.answer}`);
+  }
+  if (step.type === 'fill-blank') {
+    const answers = [...(props.text ?? '').matchAll(/\[\[([^\]]+)\]\]/g)]
+      .map((match) => `answer:${normalize(match[1])}`);
+    return [...answers, ...(props.distractors ?? []).map((item) => `distractor:${normalize(item)}`)];
+  }
+  if (step.type === 'reading') {
+    return (props.questions ?? []).map((question) => {
+      const answer = question.options?.find((option) => option.id === question.correct)?.text;
+      return `${normalize(question.q)}=>${normalize(answer)}`;
+    });
   }
   return [];
 }
@@ -132,14 +160,44 @@ test('Semana 1 mantiene un taller ejecutable con productos escalonados', () => {
     `Semana 1: taller tiene ${workshop.steps.length} pasos`,
   );
 
-  const projects = workshop.steps.filter((step) => step.type === 'project');
-  assert.equal(projects.length, 2, 'El mapa y la presentación deben tener etapas de producto separadas');
-  const firstProjectIndex = workshop.steps.findIndex((step) => step.type === 'project');
-  assert.ok(firstProjectIndex <= 6, `El primer producto empieza después de ${firstProjectIndex} interacciones`);
+  type ProjectStep = {
+    title?: string;
+    prompt: string;
+    props?: {
+      goal?: string;
+      steps?: Array<{ title?: string; detail?: string }>;
+      evidence?: string;
+      rubric?: string[];
+    };
+  };
+  const projects = workshop.steps.filter((step) => step.type === 'project') as ProjectStep[];
+  const projectText = (project: ProjectStep) => JSON.stringify({
+    title: project.title,
+    prompt: project.prompt,
+    ...project.props,
+  }).toLocaleLowerCase('es');
+  const mapProject = projects.find((project) => /mapa/.test(projectText(project)));
+  const oralProject = projects.find((project) => /presentación oral/.test(projectText(project)));
 
-  const [mapProject, oralProject] = projects as Array<{ props?: { steps?: unknown[] } }>;
-  assert.equal(mapProject.props?.steps?.length, 2, 'El mapa debe tener dos etapas de elaboración');
-  assert.equal(oralProject.props?.steps?.length, 2, 'La presentación debe tener dos etapas');
+  assert.ok(mapProject, 'Falta un producto de mapa');
+  assert.ok(oralProject, 'Falta un producto de presentación oral');
+  assert.ok(
+    workshop.steps.indexOf(mapProject as typeof workshop.steps[number])
+      < workshop.steps.indexOf(oralProject as typeof workshop.steps[number]),
+    'El mapa debe construirse antes de la presentación',
+  );
+
+  const mapText = projectText(mapProject);
+  assert.match(mapText, /norte/);
+  assert.match(mapText, /clave/);
+  assert.match(mapText, /cuatro anotaciones/);
+  assert.ok((mapProject.props?.steps?.length ?? 0) >= 2, 'El mapa no tiene elaboración por etapas');
+
+  const oralText = projectText(oralProject);
+  assert.match(oralText, /45 segundos/);
+  assert.match(oralText, /ensaya/);
+  assert.match(oralText, /presenta/);
+  assert.ok((oralProject.props?.steps?.length ?? 0) >= 2, 'La presentación no tiene preparación y ejecución');
 
   const categoryCheck = workshop.steps.find((step) => (
     step.type === 'match'
@@ -215,6 +273,64 @@ test('Semana 1 enseña antes de presentar cualquier interacción calificada', ()
   assert.deepEqual(failures, []);
 });
 
+test('Semana 1 mantiene un flujo de fases monotónico en cada materia', () => {
+  const phaseRank = new Map([
+    ['explorar', 0],
+    ['construir', 1],
+    ['aplicar', 2],
+    ['comprobar', 3],
+    ['reflexionar', 4],
+  ]);
+  const failures: string[] = [];
+  for (const lesson of weekOne.lessons.filter((item) => item.kind === 'materia')) {
+    for (let index = 1; index < lesson.steps.length; index += 1) {
+      const previous = phaseRank.get(lesson.steps[index - 1].fase);
+      const current = phaseRank.get(lesson.steps[index].fase);
+      if (previous === undefined || current === undefined || current < previous) {
+        failures.push(`${lesson.id}: ${lesson.steps[index - 1].fase} -> ${lesson.steps[index].fase}`);
+      }
+    }
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('CCSS enseña el efecto de la altitud antes de evaluarlo', () => {
+  const lesson = weekOne.lessons.find((item) => item.id === 's01-ccss-2');
+  assert.ok(lesson, 'Falta s01-ccss-2');
+  const assessedIndex = lesson.steps.findIndex((step) => (
+    Boolean(getActivity(step.type)?.graded)
+    && /altitud|altura|más alto/i.test(JSON.stringify(step))
+  ));
+  assert.ok(assessedIndex >= 0, 'CCSS no evalúa el efecto de la altitud');
+  const priorInstruction = lesson.steps
+    .slice(0, assessedIndex)
+    .filter((step) => INSTRUCTION_TYPES.has(step.type))
+    .map((step) => JSON.stringify(step))
+    .join(' ')
+    .toLocaleLowerCase('es');
+  assert.match(priorInstruction, /altitud|altura/);
+  assert.match(priorInstruction, /(más alto|al subir).*(más frío|temperatura baja)/s);
+});
+
+test('Ciencias enseña pared y vacuola antes de evaluar la firmeza vegetal', () => {
+  const lesson = weekOne.lessons.find((item) => item.id === 's01-cnt-3');
+  assert.ok(lesson, 'Falta s01-cnt-3');
+  const assessedIndex = lesson.steps.findIndex((step) => (
+    Boolean(getActivity(step.type)?.graded)
+    && /lechuga|firme|cubierta rígida/i.test(JSON.stringify(step))
+  ));
+  assert.ok(assessedIndex >= 0, 'Ciencias no evalúa la firmeza vegetal');
+  const priorInstruction = lesson.steps
+    .slice(0, assessedIndex)
+    .filter((step) => INSTRUCTION_TYPES.has(step.type))
+    .map((step) => JSON.stringify(step))
+    .join(' ')
+    .toLocaleLowerCase('es');
+  assert.match(priorInstruction, /pared celular/);
+  assert.match(priorInstruction, /vacuola/);
+  assert.match(priorInstruction, /firme/);
+});
+
 test('Semana 1 guía la construcción de un mapa en L1 antes de una transferencia independiente', () => {
   const mapLesson = weekOne.lessons.find((lesson) => (
     lesson.kind === 'materia'
@@ -223,20 +339,21 @@ test('Semana 1 guía la construcción de un mapa en L1 antes de una transferenci
   ));
   assert.ok(mapLesson, 'Falta la lección L1 de mapas');
 
-  const mapSteps = mapLesson.steps.filter((step) => (
-    step.cnb.includes('l1:3.2.1')
-    && step.cnb.includes('l1:3.3.1')
-  ));
-  const modelIndex = mapSteps.findIndex((step) => step.type === 'worked-example');
-  const guidedIndex = mapSteps.findIndex((step, index) => (
+  const underMapRefs = (step: typeof mapLesson.steps[number]) => (
+    step.cnb.includes('l1:3.2.1') && step.cnb.includes('l1:3.3.1')
+  );
+  const modelIndex = mapLesson.steps.findIndex((step) => underMapRefs(step) && step.type === 'worked-example');
+  const guidedIndex = mapLesson.steps.findIndex((step, index) => (
     index > modelIndex
+    && underMapRefs(step)
     && step.fase === 'construir'
     && Boolean(getActivity(step.type)?.graded)
     && typeof step.hint === 'string'
     && typeof step.explain === 'string'
   ));
-  const transferIndex = mapSteps.findIndex((step, index) => (
+  const transferIndex = mapLesson.steps.findIndex((step, index) => (
     index > guidedIndex
+    && underMapRefs(step)
     && step.fase === 'aplicar'
     && step.type === 'project'
     && !step.hint
@@ -245,6 +362,17 @@ test('Semana 1 guía la construcción de un mapa en L1 antes de una transferenci
   assert.ok(modelIndex >= 0, 'L1 no modela la lectura y construcción del mapa');
   assert.ok(guidedIndex > modelIndex, 'L1 no ofrece construcción guiada con retroalimentación');
   assert.ok(transferIndex > guidedIndex, 'L1 no ofrece transferencia independiente de construcción');
+
+  const model = JSON.stringify(mapLesson.steps[modelIndex].props).toLocaleLowerCase('es');
+  const guided = JSON.stringify(mapLesson.steps[guidedIndex].props).toLocaleLowerCase('es');
+  const transfer = JSON.stringify(mapLesson.steps[transferIndex].props).toLocaleLowerCase('es');
+  for (const [stage, payload] of [['modelo', model], ['guía', guided], ['transferencia', transfer]] as const) {
+    assert.match(payload, /norte|orient|flecha.+n/, `${stage}: falta orientación`);
+    assert.match(payload, /símbolo/, `${stage}: faltan símbolos`);
+    assert.match(payload, /clave/, `${stage}: falta clave`);
+    assert.match(payload, /anotación|evidencia/, `${stage}: falta anotación de evidencia`);
+    assert.match(payload, /línea|vincul/, `${stage}: no conecta evidencia con un lugar`);
+  }
 });
 
 test('Semana 1 evalúa las diez áreas primarias en reto y banco', () => {
@@ -299,7 +427,7 @@ test('Semana 1 no reutiliza payloads de práctica guiada en reto o banco', () =>
   for (const [source, steps] of [['reto', challenge.steps], ['banco', weekOneBank]] as const) {
     for (const assessment of steps) {
       const entries = comparableEntries(assessment);
-      if (entries.length < 3) continue;
+      if (entries.length < 2) continue;
       for (const practice of guided) {
         if (practice.type !== assessment.type || practice.areas[0] !== assessment.areas[0]) continue;
         const practiceEntries = new Set(comparableEntries(practice));

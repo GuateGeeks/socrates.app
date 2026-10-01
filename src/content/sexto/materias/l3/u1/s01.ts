@@ -31,7 +31,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer', title: 'Prepositions of place: in, on, under',
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer', title: 'Prepositions of place: in, on, under',
           prompt: 'Las **preposiciones de lugar** dicen **dónde** está algo. Toca cada tarjeta.' },
         { icon: 'MapPin', body: 'Cuidado: en español decimos "en la mesa" y "en la caja" con la misma palabra, pero en inglés son **distintas**. We say: **"The book is on the table"**, not "in the table".', reveal: [
           { icon: 'Package', front: 'in', back: '**Dentro de.** _The pencil is **in** the box._ (El lápiz está dentro de la caja.)' },
@@ -178,7 +178,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer', title: 'More prepositions of place',
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer', title: 'More prepositions of place',
           prompt: 'Estas preposiciones sirven para ubicar lugares y personas. Toca cada tarjeta y compara con el mapa.' },
         { icon: 'MapPin', body: 'Fíjate: **in front of** y **next to** tienen varias palabras, pero funcionan como una sola.', reveal: [
           { icon: 'ArrowLeftRight', front: 'next to', back: '**A la par de, al lado de.** _The bus stop is **next to** the church._' },

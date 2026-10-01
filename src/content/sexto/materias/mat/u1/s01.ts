@@ -30,7 +30,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer', title: 'Tres tipos de ángulo',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer', title: 'Tres tipos de ángulo',
           prompt: 'Un **ángulo** es la abertura entre dos lados que se juntan en un punto, el **vértice**. Se mide en **grados (°)**. Toca cada tarjeta.',
           media: { id: 's01-mat-1-angulos', kind: 'diagram', title: 'Agudo, recto y obtuso', aspect: '16:9',
             alt: 'Tres ángulos dibujados con su medida: 45° (agudo, verde), 90° (recto, azul, con un cuadradito) y 130° (obtuso, naranja). Detrás de cada uno, la esquina de una hoja en gris para comparar.',
@@ -176,7 +176,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer', title: 'La regla de los 180°',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer', title: 'La regla de los 180°',
           prompt: 'Los tres ángulos de **cualquier** triángulo suman **180°**. Grande o pequeño, acutángulo u obtusángulo: siempre 180°. Toca cada tarjeta.' },
         { icon: 'Triangle', body: 'Ángulo 1 + ángulo 2 + ángulo 3 = **180°**', reveal: [
           { icon: 'Scissors', front: 'Compruébalo en casa', back: 'Dibuja un triángulo, colorea sus esquinas, recórtalo y junta las tres esquinas: formarán una línea recta (180°).' },
@@ -301,7 +301,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'conocer', title: 'Paralelas y perpendiculares',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'conocer', title: 'Paralelas y perpendiculares',
           prompt: 'Para entender los paralelogramos necesitas dos palabras. Toca cada tarjeta.' },
         { icon: 'Ruler', body: 'Un **cuadrilátero** es una figura de 4 lados. Un **paralelogramo** es un cuadrilátero con **dos pares de lados paralelos**.', reveal: [
           { icon: 'Pause', front: 'Paralelas', back: 'Van siempre a la misma distancia y **nunca se juntan**. Ejemplo: los bordes largos de una regla.' },
@@ -444,7 +444,7 @@ export default [
     },
     steps: [
       S.ejemplo(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'hacer', title: 'Trazar un rectángulo y un romboide',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'hacer', title: 'Trazar un rectángulo y un romboide',
           prompt: 'Sigue los pasos. Si tienes cuaderno cuadriculado, hazlo a la par.' },
         { icon: 'PenTool', problem: 'Traza un **rectángulo** de 6 × 3 cuadritos y un **romboide** con la misma base.',
           steps: [
@@ -572,7 +572,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.4'], ambito: 'conocer', title: '¿Qué significa congruente?',
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.4'], ambito: 'conocer', title: '¿Qué significa congruente?',
           prompt: 'Dos figuras son **congruentes** cuando tienen **la misma forma y el mismo tamaño**. Toca cada tarjeta.' },
         { icon: 'Copy', body: 'Para comprobarlo, compara **lados correspondientes** (los que ocupan el mismo lugar) y **ángulos correspondientes**.', reveal: [
           { icon: 'Ruler', front: 'Lados', back: 'Cada lado de una figura mide lo mismo que su lado correspondiente en la otra.' },

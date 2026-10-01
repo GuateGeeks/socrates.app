@@ -30,7 +30,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'conocer', title: 'Hechos y opiniones',
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'conocer', title: 'Hechos y opiniones',
           prompt: 'Cuando escuchas la radio, lees un anuncio o conversas, recibes **dos clases de mensajes**. Toca cada tarjeta.' },
         { icon: 'Scale', body: 'La pregunta clave es: **¿se puede comprobar?** Si sí, es un hecho. Si depende de lo que alguien piensa o siente, es una opinión.', reveal: [
           { icon: 'Ruler', front: 'Hecho', back: 'Algo que **se puede comprobar**: se ve, se mide, se cuenta o se consulta en una fuente confiable. Ejemplo: "El mercado abre los jueves".' },
@@ -169,7 +169,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'conocer', title: '¿Qué es anticipar?',
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'conocer', title: '¿Qué es anticipar?',
           prompt: '**Anticipar** es imaginar lo que viene en un mensaje **antes** de oírlo completo. Los buenos oyentes lo hacen todo el tiempo. Toca cada pista.' },
         { icon: 'Ear', body: 'Anticipar te ayuda a **entender más rápido** y a **reaccionar a tiempo** (por ejemplo, ante un aviso de lluvia fuerte).', reveal: [
           { icon: 'Radio', front: 'Quién habla y dónde', back: 'Un locutor del noticiero, la directora en la formación, el parlante de la aldea: cada uno suele hablar de ciertos temas.' },

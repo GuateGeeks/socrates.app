@@ -31,7 +31,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer', title: 'Líneas que no se ven, pero sirven',
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer', title: 'Líneas que no se ven, pero sirven',
           prompt: 'Para ubicar lugares, los geógrafos dibujan sobre la Tierra una **red de líneas imaginarias**. No existen en el suelo: están en mapas y globos. Toca cada tarjeta.',
           media: { id: 's01-ccss-1-hemisferios', kind: 'diagram', title: 'Cuatro hemisferios', aspect: '16:9',
             alt: 'Dos globos: el primero cortado por el ecuador en norte y sur; el segundo cortado por el meridiano de Greenwich en este y oeste. Guatemala marcada en norte y oeste.',
@@ -165,7 +165,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer', title: 'La latitud y las zonas climáticas',
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer', title: 'La latitud y las zonas climáticas',
           prompt: 'La Tierra es redonda, así que los rayos del Sol **no llegan igual** a todas partes. Cerca del ecuador llegan casi directos y calientan más; cerca de los polos llegan inclinados y calientan menos. Toca cada tarjeta.' },
         { icon: 'Sun', body: 'Dos paralelos marcan la zona más cálida: el **Trópico de Cáncer** (unos 23.5° N) y el **Trópico de Capricornio** (unos 23.5° S).', reveal: [
           { icon: 'Sun', front: 'Zona cálida o tropical', back: 'Entre los dos trópicos. Hace calor casi todo el año. Guatemala está aquí, por eso no tenemos invierno con nieve: tenemos **época seca** y **época lluviosa**.' },
@@ -173,18 +173,8 @@ export default [
           { icon: 'Snowflake', front: 'Zonas frías o polares', back: 'Más allá de los círculos polares (unos 66.5°). Muy frías casi todo el año. Ejemplo: la Antártida.' },
         ] },
       ),
-      S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer',
-          prompt: 'Dos lugares de Guatemala están a una latitud parecida: **Puerto San José** (a la orilla del mar) y **Quetzaltenango** (en las montañas, a más de 2,300 m). ¿Cuál crees que es más frío?',
-          explain: '¡Quetzaltenango! Aunque estén a una latitud parecida, **la altura** cambia el clima. Hoy vas a descubrir por qué.' },
-        { options: [
-          { id: 'a', text: 'Quetzaltenango, porque está más alto', icon: 'Mountain' },
-          { id: 'b', text: 'Puerto San José, porque está junto al mar', icon: 'Waves', feedback: 'Puerto San José está al nivel del mar y es de clima cálido. ¡Sigue la lección para ver por qué!' },
-          { id: 'c', text: 'Los dos tienen el mismo clima', icon: 'Equal', feedback: 'Tienen latitud parecida, pero hay algo más que influye mucho: la altura.' },
-        ], correct: ['a'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer', title: 'La altitud: más alto, más frío',
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer', title: 'La altitud: más alto, más frío',
           prompt: 'La **altitud** es la altura de un lugar **sobre el nivel del mar** (msnm). Al subir una montaña, el aire es más delgado y guarda menos calor: la temperatura baja, en promedio, **unos 6 °C por cada 1,000 metros**.',
           media: { id: 's01-ccss-2-pisos', kind: 'diagram', title: 'Pisos térmicos de Guatemala', aspect: '16:9',
             alt: 'Corte de una montaña de Guatemala desde la costa del Pacífico hasta un volcán, con tres franjas: cálida abajo, templada en medio y fría arriba, con lugares de ejemplo.',
@@ -194,6 +184,16 @@ export default [
           { icon: 'CloudSun', front: 'Tierra templada (1,000 a 2,000 m)', back: 'Ejemplos: Ciudad de Guatemala (unos 1,500 m), Cobán. Clima agradable; buen lugar para el café.' },
           { icon: 'Snowflake', front: 'Tierra fría (más de 2,000 m)', back: 'Altiplano occidental. Ejemplos: Quetzaltenango (unos 2,330 m), Totonicapán. Puede haber heladas en diciembre y enero. Cultivos: trigo, papa, hortalizas.' },
         ] },
+      ),
+      S.choice(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer',
+          prompt: 'Dos lugares de Guatemala están a una latitud parecida: **Puerto San José** (a la orilla del mar) y **Quetzaltenango** (en las montañas, a más de 2,300 m). ¿Cuál crees que es más frío?',
+          explain: '¡Quetzaltenango! Aunque estén a una latitud parecida, **la altitud** ayuda a explicar la diferencia de temperatura.' },
+        { options: [
+          { id: 'a', text: 'Quetzaltenango, porque está más alto', icon: 'Mountain' },
+          { id: 'b', text: 'Puerto San José, porque está junto al mar', icon: 'Waves', feedback: 'Puerto San José está al nivel del mar. Recuerda: al aumentar la altitud, la temperatura suele bajar.' },
+          { id: 'c', text: 'Los dos tienen el mismo clima', icon: 'Equal', feedback: 'Tienen latitud parecida, pero la diferencia de altitud influye mucho en la temperatura.' },
+        ], correct: ['a'] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['ccss', 'mat'], cnb: ['ccss:1.2.1'], ambito: 'hacer', title: 'Ejemplo resuelto: estimar la temperatura',
@@ -293,7 +293,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.3.1'], ambito: 'conocer', title: 'Fenómenos que nacen dentro de la Tierra',
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.3.1'], ambito: 'conocer', title: 'Fenómenos que nacen dentro de la Tierra',
           prompt: 'La capa exterior de la Tierra está partida en enormes piezas llamadas **placas tectónicas**, que se mueven muy despacio. Cuando chocan o se rozan, liberan energía. Toca cada tarjeta.' },
         { icon: 'Mountain', body: 'Guatemala está donde se juntan **tres placas**: Norteamérica, Caribe y Cocos. También forma parte del **Cinturón de Fuego del Pacífico**, una franja con muchos volcanes y sismos alrededor del océano Pacífico.', reveal: [
           { icon: 'Activity', front: 'Terremoto o sismo', back: 'Movimiento brusco del suelo cuando las placas liberan energía. El 4 de febrero de **1976** un fuerte terremoto, originado en la **falla del Motagua**, causó grandes daños en Guatemala.' },
