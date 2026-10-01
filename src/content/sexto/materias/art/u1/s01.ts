@@ -41,7 +41,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer',
           prompt: 'Escucha los dos sonidos de marimba. Tienen la misma nota y el mismo volumen. ¿En qué se diferencian?',
           explain: 'Uno **dura más** que el otro. La música se escribe con símbolos que dicen, entre otras cosas, **cuánto dura** cada sonido.',
           media: {
@@ -188,7 +188,7 @@ export default [
         ] },
       ),
       S.sort(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['art'], cnb: ['art:1.1.1'], ambito: 'conocer',
           prompt: 'Antes de leer notas, entrena tu oído. Clasifica cada sonido como **grave** (grueso) o **agudo** (delgado).',
           explain: 'La **altura** del sonido es lo que dice si es grave o agudo. En el pentagrama, los agudos se escriben arriba y los graves abajo.' },
         { buckets: [

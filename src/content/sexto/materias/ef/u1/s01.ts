@@ -42,7 +42,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.1.6'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.1.6'], ambito: 'conocer',
           prompt: 'Dobla tu brazo como mostrando tu "fuerza" y toca con la otra mano la parte de adelante del brazo. ¿Qué sientes?',
           explain: 'Sientes el **bíceps** endurecerse y abultarse: se **contrae** (se acorta) y jala el hueso del antebrazo hacia arriba. Así funcionan todos los músculos que mueven el esqueleto.' },
         { options: [
@@ -182,7 +182,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:1.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:1.2.1'], ambito: 'conocer',
           prompt: 'Haz una prueba rápida: **lanza una bolita de papel** a un bote con una mano y luego con la otra, 3 veces cada una. Casi todas las personas aciertan más con una mano. ¿Por qué crees que pasa?',
           explain: 'Acertamos más con la mano **dominante**: la que el cerebro prefiere y ha entrenado más. Hoy vas a ejercitarla y también a darle práctica a la otra.' },
         { options: [

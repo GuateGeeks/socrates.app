@@ -44,7 +44,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer',
           prompt: 'En una sala de cine, tu boleto dice **"Fila F, asiento 12"**. ¿Por qué necesitas **dos** datos para encontrar tu lugar?',
           explain: 'Con un solo dato habría muchos lugares posibles. Con **dos datos que se cruzan** hay un solo lugar. La Tierra funciona igual: usamos **latitud** y **longitud**.' },
         { options: [
@@ -186,7 +186,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.2.1'], ambito: 'conocer',
           prompt: 'Dos lugares de Guatemala están a una latitud parecida: **Puerto San José** (a la orilla del mar) y **Quetzaltenango** (en las montañas, a más de 2,300 m). ¿Cuál crees que es más frío?',
           explain: '¡Quetzaltenango! Aunque estén a una latitud parecida, **la altitud** ayuda a explicar la diferencia de temperatura.' },
         { options: [
@@ -301,21 +301,6 @@ export default [
           { icon: 'Waves', front: 'Tsunami', back: 'Olas gigantes causadas por un terremoto bajo el mar. En 2004, un tsunami en el océano Índico afectó a varios países de Asia.' },
         ] },
       ),
-      S.sort(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:1.3.1'], ambito: 'conocer',
-          prompt: 'Antes de aprender, clasifica según lo que ya sabes: ¿este fenómeno viene **de dentro de la Tierra** o **del agua y el aire**?',
-          explain: 'Los que vienen de dentro de la Tierra se llaman **geológicos**; los del agua y el aire, **hidrometeorológicos**. Ahora aprenderás cómo funciona cada uno.' },
-        { buckets: [
-          { id: 'geo', label: 'De dentro de la Tierra', icon: 'Mountain', color: 'var(--c-maiz-strong)' },
-          { id: 'hid', label: 'Del agua y el aire', icon: 'CloudRain', color: 'var(--area-ccss)' },
-        ], items: [
-          { id: 'f1', text: 'Terremoto', bucket: 'geo' },
-          { id: 'f2', text: 'Huracán', bucket: 'hid' },
-          { id: 'f3', text: 'Erupción volcánica', bucket: 'geo' },
-          { id: 'f4', text: 'Depresión tropical', bucket: 'hid' },
-          { id: 'f5', text: 'Sequía', bucket: 'hid' },
-        ] },
-      ),
       S.explain(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.3.1'], ambito: 'conocer', title: 'Fenómenos del agua y el aire',
           prompt: 'Sobre los mares cálidos se forman **ciclones tropicales**: grandes remolinos de nubes, viento y lluvia. Se nombran según la **fuerza de sus vientos**. Toca cada tarjeta.',
@@ -327,6 +312,21 @@ export default [
           { icon: 'CloudRain', front: 'Tormenta tropical', back: 'Vientos de **63 a 118 km/h**. Desde esta etapa recibe un nombre propio. La tormenta tropical **Agatha** (2010) causó graves inundaciones y deslaves en Guatemala.' },
           { icon: 'Wind', front: 'Huracán', back: 'Vientos de **119 km/h o más**. En 1998, el huracán **Mitch** causó enormes inundaciones en Centroamérica.' },
           { icon: 'Sun', front: 'Sequía', back: 'Falta de lluvia por mucho tiempo. Afecta las cosechas; en Guatemala ocurre con más frecuencia en el llamado **Corredor Seco**.' },
+        ] },
+      ),
+      S.sort(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:1.3.1'], ambito: 'conocer',
+          prompt: 'Usa lo aprendido para clasificar: ¿este fenómeno viene **de dentro de la Tierra** o **del agua y el aire**?',
+          explain: 'Los fenómenos **geológicos** nacen dentro de la Tierra; los **hidrometeorológicos** se relacionan con el agua y el aire.' },
+        { buckets: [
+          { id: 'geo', label: 'De dentro de la Tierra', icon: 'Mountain', color: 'var(--c-maiz-strong)' },
+          { id: 'hid', label: 'Del agua y el aire', icon: 'CloudRain', color: 'var(--area-ccss)' },
+        ], items: [
+          { id: 'f1', text: 'Terremoto', bucket: 'geo' },
+          { id: 'f2', text: 'Huracán', bucket: 'hid' },
+          { id: 'f3', text: 'Erupción volcánica', bucket: 'geo' },
+          { id: 'f4', text: 'Depresión tropical', bucket: 'hid' },
+          { id: 'f5', text: 'Sequía', bucket: 'hid' },
         ] },
       ),
       S.match(

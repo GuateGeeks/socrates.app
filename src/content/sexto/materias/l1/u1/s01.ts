@@ -40,7 +40,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer',
           prompt: 'Dos compañeros van a exponer sobre **los volcanes de Guatemala**. Lee cómo empieza cada uno. ¿Con cuál pondrías más atención?',
           explain: 'Una **pregunta** y un **dato curioso** despiertan la curiosidad. Hoy vas a descubrir por qué funcionan y qué otros recursos existen.' },
         { options: [
@@ -200,7 +200,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer',
           prompt: 'Escucha el audio: la misma frase dicha de **tres maneras**. ¿Cuál crea más **suspenso**?',
           explain: 'La tercera versión baja el volumen y hace una pausa larga. Tu voz puede cambiar el efecto de las mismas palabras. ¡Hoy aprenderás a controlarla!' },
         { options: [
@@ -338,7 +338,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer',
           prompt: 'Observa la imagen. La niña de la izquierda dice exactamente las mismas palabras que la de la derecha. ¿Qué **te comunica** su cuerpo?',
           explain: 'Aunque las palabras sean iguales, los brazos cruzados, la vista al suelo y el balanceo transmiten nervios o desinterés. El cuerpo habla, ¡aunque no queramos!' },
         { options: [
@@ -591,7 +591,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:3.4.2'], ambito: 'conocer',
           prompt: 'La directora recibe muchos correos al día. ¿Cuál de estos **asuntos** le ayuda a saber de qué trata el mensaje antes de abrirlo?',
           explain: 'Un buen asunto es corto y dice exactamente de qué trata el correo. Así la persona sabe si es urgente y lo encuentra fácilmente después.' },
         { options: [

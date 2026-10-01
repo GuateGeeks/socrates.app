@@ -40,7 +40,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer',
           prompt: 'Observa la imagen y lee: _"The cat is **on** the box."_ ¿Dónde está el gato?',
           explain: '**On** significa "sobre" o "encima de". El gato está encima de la caja. Hoy aprenderás tres palabras para decir dónde están las cosas.',
           media: { id: 's01-l3-1-gato', kind: 'image', title: 'The cat is on the box', aspect: '4:3',
@@ -188,7 +188,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:1.1.1'], ambito: 'conocer',
           prompt: 'Mira el mapa de la lección. Lee: _"The store is **between** the school and the park."_ ¿Qué crees que significa **between**?',
           explain: 'La tienda está en medio de la escuela y el parque: **between** = entre. Con las pistas del mapa pudiste deducirlo. Hoy aprenderás más palabras para ubicar lugares.' },
         { options: [

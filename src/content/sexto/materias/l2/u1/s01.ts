@@ -40,7 +40,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.6'], ambito: 'conocer',
           prompt: 'Lee estas dos frases sobre el lago de Atitlán. ¿Cuál se puede **comprobar** consultando un mapa?',
           explain: 'Cualquiera puede revisar un mapa y ver que Atitlán está en Sololá. En cambio, "el más bonito" depende de quién lo diga. Hoy aprenderás a separar estas dos clases de mensajes.' },
         { options: [
@@ -180,7 +180,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:1.2.4'], ambito: 'conocer',
           prompt: 'Escuchas por el parlante: _"¡Atención, vecinos! Se les informa que mañana no habrá servicio de agua de 8 de la mañana a…"_ Antes de que termine, ¿qué crees que dirá después?',
           explain: 'Aunque el mensaje no había terminado, ya tenías pistas: "no habrá agua" y "de 8 de la mañana a…". Eso se llama **anticipar**, y hoy vas a practicarlo.' },
         { options: [

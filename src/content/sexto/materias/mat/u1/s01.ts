@@ -42,7 +42,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer',
           prompt: 'Mira las esquinas de estos objetos. ¿Cuál tiene una esquina **igual a la de una hoja de cuaderno**?',
           explain: 'La esquina de una hoja forma un **ángulo recto** (90°). Hoy la usaremos como "regla" para comparar todos los ángulos.' },
         { layout: 'grid', options: [
@@ -185,7 +185,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.1'], ambito: 'conocer',
           prompt: 'Recortas un triángulo de papel, arrancas sus **tres esquinas** y las juntas con las puntas en un mismo lugar. ¿Qué crees que se forma?',
           explain: '¡Se forma una **línea recta**! Una línea recta es un ángulo llano: **180°**. Eso pasa con cualquier triángulo.' },
         { options: [
@@ -310,7 +310,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'conocer',
           prompt: 'Imagina que alargas estas líneas muchísimo. ¿Cuál par **nunca** se juntaría?',
           explain: 'Los rieles de una vía de tren van siempre a la misma distancia: son **paralelos**. Nunca se juntan.' },
         { options: [
@@ -457,7 +457,7 @@ export default [
           tip: 'Si corres la línea de arriba, la figura se inclina, pero sigue siendo paralelogramo.' },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.2'], ambito: 'conocer',
           prompt: 'Una tejedora dibuja su diseño en **papel cuadriculado** antes de tejer. ¿Por qué le ayuda la cuadrícula?',
           explain: 'Las líneas de la cuadrícula ya son **paralelas** y se cruzan en **ángulos rectos**; contar cuadritos permite trazar lados exactos y repetir el diseño.' },
         { options: [
@@ -582,7 +582,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:1.1.4'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:1.1.4'], ambito: 'conocer',
           prompt: 'Tienes dos tortillas hechas con el mismo molde y una tortillita pequeña. ¿Cuáles **encajarían exactamente** una sobre otra?',
           explain: 'Las dos del mismo molde tienen la misma forma **y** el mismo tamaño. La pequeña tiene la misma forma, pero no el mismo tamaño.' },
         { options: [

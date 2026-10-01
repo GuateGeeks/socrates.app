@@ -41,7 +41,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.1.2'], ambito: 'convivir',
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:1.1.2'], ambito: 'convivir',
           prompt: 'Una tormenta tumbó la milpa de la familia de Tomás. Al día siguiente, varios vecinos llegaron con sus azadones a ayudar a resembrar, sin cobrar nada. ¿Cómo se llama esa actitud?',
           explain: 'Ayudar a quien lo necesita, sin esperar pago, es **solidaridad**. Hoy aprenderás este valor y otro que lo acompaña: la **tolerancia**.' },
         { options: [
@@ -180,7 +180,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:1.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:1.2.1'], ambito: 'conocer',
           prompt: 'Supongamos que en una aldea las niñas y los niños caminan **dos horas** cada mañana para traer agua del río. ¿A qué más crees que afecta esa situación, además de la sed?',
           explain: '¡Muy bien pensado! La falta de agua afecta la salud, el tiempo para estudiar y hasta el juego. Hoy verás que detrás de cada condición de un lugar hay **derechos humanos**.' },
         { options: [

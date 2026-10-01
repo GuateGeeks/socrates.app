@@ -41,7 +41,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:1.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.1.1'], ambito: 'conocer',
           prompt: '¿Qué crees que hace que una comunidad sea **desarrollada**?',
           explain: 'El desarrollo no se mide por edificios bonitos, sino por **cómo viven todas las personas**: si comen bien, tienen salud, estudian, tienen agua, vivienda y trabajo digno.' },
         { options: [

@@ -40,7 +40,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.1.1'], ambito: 'conocer',
           prompt: 'Las personas se preguntan desde hace miles de años **cómo empezó el mundo**. ¿Cuántas explicaciones crees que existen?',
           explain: 'Existen **muchas**: cada pueblo tiene su relato de origen, y además la ciencia tiene su propia explicación, basada en pruebas. Hoy conocerás tres.' },
         { options: [
@@ -204,7 +204,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.2.1'], ambito: 'conocer',
           prompt: '¿Qué tienen en común un **jaguar**, una **hormiga** y **tú**?',
           explain: 'Los tres están formados por **células**. La hormiga no tiene huesos y solo el jaguar tiene pelo, pero todos los seres vivos están hechos de células.' },
         { layout: 'grid', options: [
@@ -370,7 +370,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:1.3.1'], ambito: 'conocer',
           prompt: 'Usa lo aprendido: ¿por qué una hoja de lechuga fresca se mantiene **firme** y cruje?',
           explain: 'La **pared celular** rígida y la **vacuola** llena de agua ayudan a que la hoja se mantenga firme.' },
         { options: [

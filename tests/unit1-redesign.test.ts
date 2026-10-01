@@ -273,6 +273,15 @@ test('Semana 1 enseña antes de presentar cualquier interacción calificada', ()
   assert.deepEqual(failures, []);
 });
 
+test('Semana 1 reserva explorar para actividades no calificadas', () => {
+  const failures = weekOne.lessons
+    .filter((lesson) => lesson.kind === 'materia')
+    .flatMap((lesson) => lesson.steps
+      .filter((step) => step.fase === 'explorar' && Boolean(getActivity(step.type)?.graded))
+      .map((step) => `${lesson.id}: ${step.type}`));
+  assert.deepEqual(failures, []);
+});
+
 test('Semana 1 mantiene un flujo de fases monotónico en cada materia', () => {
   const phaseRank = new Map([
     ['explorar', 0],
