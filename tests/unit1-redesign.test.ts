@@ -112,38 +112,57 @@ function comparableEntries(value: unknown): string[] {
   return [];
 }
 
-function semanticAssessmentFacts(value: unknown): string[] {
-  const text = JSON.stringify(value)
-    .toLocaleLowerCase('es')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[*]+/g, '');
-  const facts: string[] = [];
-  if (/cromosom/.test(text) && /\b46\b/.test(text) && /\b23\b/.test(text) && /par(?:es)?/.test(text)) {
-    facts.push('46-cromosomas-en-23-pares');
-  }
-  if (/eneagono/.test(text) && /lado/.test(text) && /(?:"answer":9|"text":"9")/.test(text)) {
-    facts.push('eneagono-tiene-9-lados');
-  }
-  if (/que es un gen/.test(text) && /adn/.test(text) && /instruccion|caracteristica/.test(text)) {
-    facts.push('definicion-directa-de-gen');
-  }
-  return facts;
-}
-
-test('Las firmas de frescura reconocen hechos repetidos aunque cambie el formato', () => {
-  const directGeneDefinition = {
+test('La comparación estructurada detecta una proposición reutilizada entre choice y true-false', () => {
+  const choice = {
     type: 'choice',
-    prompt: '¿Qué es un **gen**?',
+    prompt: 'Una máquina ficticia muestra un triángulo ámbar en el panel. ¿Qué estado comunica?',
     props: {
-      options: [{ id: 'a', text: 'Un pedazo de ADN con la instrucción para una característica' }],
+      options: [{ id: 'a', text: 'El filtro de enfriamiento necesita reemplazo inmediato' }],
       correct: ['a'],
     },
   };
-  assert.ok(
-    semanticAssessmentFacts(directGeneDefinition).includes('definicion-directa-de-gen'),
-    'La firma debe ignorar el énfasis Markdown del concepto',
-  );
+  const trueFalse = {
+    type: 'true-false',
+    prompt: 'Evalúa las afirmaciones del manual de mantenimiento.',
+    props: {
+      statements: [{
+        text: 'El triángulo ámbar indica que el filtro de enfriamiento requiere reemplazo inmediato.',
+        answer: true,
+      }],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(choice, trueFalse), true);
+});
+
+test('La comparación estructurada usa el contexto de fill-blank sin confundir respuestas comunes', () => {
+  const fill = {
+    type: 'fill-blank',
+    prompt: 'Completa el protocolo de la máquina ficticia.',
+    props: {
+      text: 'Si la palanca azul vibra dos veces, la persona operadora debe [[desconectar la energía]].',
+      distractors: ['aumentar la velocidad'],
+    },
+  };
+  const repeatedChoice = {
+    type: 'choice',
+    prompt: 'La palanca azul de la máquina vibra dos veces. ¿Qué debe hacer la persona operadora?',
+    props: {
+      options: [{ id: 'a', text: 'Desconectar la energía' }],
+      correct: ['a'],
+    },
+  };
+  const unrelatedChoice = {
+    type: 'choice',
+    prompt: 'Terminó la demostración de una lámpara portátil. ¿Cuál es el último paso?',
+    props: {
+      options: [{ id: 'a', text: 'Desconectar la energía' }],
+      correct: ['a'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(fill, repeatedChoice), true);
+  assert.equal(repeatsStructuredFact(fill, unrelatedChoice), false);
 });
 
 test('La comparación estructurada conserva datos y respuesta de entradas numéricas', () => {
@@ -369,9 +388,70 @@ test('La comparación estructurada no confunde una respuesta común entre concep
   assert.equal(repeatsStructuredFact(communityChoice, passwordChoice), false);
 });
 
-test('La comparación estructurada normaliza variantes y no depende de firmas temáticas', () => {
+test('La comparación estructurada distingue sincronización de repetición ordenada', () => {
+  const synchronizedChoice = {
+    type: 'choice',
+    prompt: 'Observa el video. ¿Qué hace que todos los pasos caigan al mismo tiempo?',
+    explain: 'Todos siguen el pulso de la música: un paso en cada latido. Cuando el cuerpo sigue un pulso común, el grupo se mueve sincronizado.',
+    props: {
+      options: [{ id: 'a', text: 'Todos siguen el mismo pulso de la música' }],
+      correct: ['a'],
+    },
+  };
+  const orderedPattern = {
+    type: 'true-false',
+    prompt: 'Decide si cada acción mantiene un patrón de ocho tiempos.',
+    props: {
+      statements: [
+        { text: 'Repetir dos veces una secuencia de cuatro pulsos completa ocho tiempos.', answer: true },
+        { text: 'Cambiar el orden de los pasos en cada repetición conserva el mismo patrón.', answer: false },
+      ],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(orderedPattern, synchronizedChoice), false);
+});
+
+test('La comparación estructurada distingue cambio observado de una estrategia de práctica', () => {
+  const observedChange = {
+    type: 'choice',
+    prompt: 'Una camioneta sale de la parada. ¿Cómo cambia su velocidad en los primeros segundos?',
+    explain: 'Va aumentando la velocidad poco a poco: está acelerando. Al llegar a la siguiente parada hace lo contrario: desacelera.',
+    props: {
+      options: [
+        { id: 'a', text: 'Arranca a toda velocidad de golpe', feedback: 'Nada pasa de quieto a muy rápido de golpe: la velocidad aumenta poco a poco.' },
+        { id: 'b', text: 'Aumenta la velocidad poco a poco' },
+        { id: 'c', text: 'Siempre va a la misma velocidad', feedback: 'Al salir de la parada su velocidad cambia: empieza en cero.' },
+      ],
+      correct: ['b'],
+    },
+  };
+  const practiceStrategy = {
+    type: 'true-false',
+    prompt: 'Decide si cada afirmación sobre una secuencia de operación es correcta.',
+    props: {
+      statements: [{
+        text: 'Practicar despacio antes de aumentar la velocidad favorece el control.',
+        answer: true,
+      }],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(practiceStrategy, observedChange), false);
+});
+
+test('La comparación estructurada normaliza variantes sin firmas curriculares', () => {
   assert.equal(factValuesMatch('No se permite el paso de bicicletas.', 'Prohíbe el paso de bicicleta'), true);
-  assert.doesNotMatch(semanticAssessmentFacts.toString(), /biciclet|cautiousMovementCues|movimiento-cauteloso/);
+  const helperSource = [
+    structuredAssessment,
+    customStructuredPayload,
+    factValuesMatch,
+    repeatsStructuredFact,
+  ].map(String).join('\n');
+  assert.doesNotMatch(
+    helperSource,
+    /cromosom|ene[aá]gono|que es un gen|46-cromosomas|biciclet|cautiousMovementCues|movimiento-cauteloso/i,
+  );
 });
 
 test('La comparación estructurada detecta una respuesta parafraseada con contexto compartido', () => {
@@ -541,7 +621,7 @@ function structuredAssessment(value: unknown): { prompt: Set<string>; facts: Str
   const props = step.props ?? {};
   const prompt = factTokens(step.prompt);
   const makeFact = (context: unknown, values: unknown[], role: StructuredFact['role'] = 'answer'): StructuredFact => ({
-    context: factTokens((step.prompt ?? '') + ' ' + String(context ?? '') + ' ' + values.join(' ')),
+    context: factTokens((step.prompt ?? '') + ' ' + String(context ?? '')),
     values: values.flatMap(canonicalFactValues),
     role,
   });
@@ -687,6 +767,7 @@ function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
         sourceFact.values.some((sourceValue) => factValuesMatch(candidateValue, sourceValue))
       ))
       : sourceFact.role === 'answer' && (samePair || samePhrase);
+    if (samePair) return true;
     const candidateContext = meaningfulNumericContext(candidateFact.context);
     const sourceContext = meaningfulNumericContext(sourceFact.context);
     const sharedContext = [...candidateContext].filter((token) => sourceContext.has(token)).length;
@@ -727,14 +808,8 @@ function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
     )))
   )) return true;
   const contextualReuse = candidateFacts.some((candidateFact) => right.facts.some((sourceFact) => {
-    const candidateScenario = meaningfulCollisionTokens([
-      ...left.prompt,
-      ...(isPairFact(candidateFact) ? factTokens(candidateFact.values[0]) : []),
-    ].join(' '));
-    const sourceScenario = meaningfulCollisionTokens([
-      ...right.prompt,
-      ...(isPairFact(sourceFact) ? factTokens(sourceFact.values[0]) : []),
-    ].join(' '));
+    const candidateScenario = meaningfulCollisionTokens([...candidateFact.context].join(' '));
+    const sourceScenario = meaningfulCollisionTokens([...sourceFact.context].join(' '));
     const candidateResponseText = (isPairFact(candidateFact) ? candidateFact.values.slice(1) : candidateFact.values).join(' ');
     const sourceResponseText = (isPairFact(sourceFact) ? sourceFact.values.slice(1) : sourceFact.values).join(' ');
     const candidateResponse = meaningfulCollisionTokens(candidateResponseText);
@@ -745,9 +820,16 @@ function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
       || directionalOverlap(sourceScenario, candidateScenario) >= 0.3;
     const responseOverlap = directionalOverlap(candidateResponse, sourceResponse) >= 0.3
       || directionalOverlap(sourceResponse, candidateResponse) >= 0.3;
+    const crossTypeAnswerReuse = sourceFact.role === 'answer'
+      && ((sharedScenario >= 3 && sharedResponse >= 2 && scenarioOverlap && responseOverlap)
+        || (sharedScenario >= 2 && sharedResponse >= 3 && responseOverlap));
+    const crossTypeSupportReuse = sourceFact.role === 'support'
+      && sharedScenario >= 2
+      && sharedResponse >= 4
+      && responseOverlap;
     return (crossType && (
-      (sharedScenario >= 3 && sharedResponse >= 1 && scenarioOverlap)
-      || (sharedScenario >= 2 && sharedResponse >= 3 && responseOverlap)
+      crossTypeAnswerReuse
+      || crossTypeSupportReuse
     )) || (
       !crossType
       && sharedScenario >= 2
@@ -1391,26 +1473,10 @@ test('Semana 2 evalúa contenido enseñado, sin pistas y con payloads frescos', 
     for (const assessment of steps) {
       if (!getActivity(assessment.type)?.graded) continue;
       for (const practice of subjectSteps) {
-        if (practice.areas[0] !== assessment.areas[0] || practice.type !== assessment.type) continue;
+        if (practice.areas[0] !== assessment.areas[0]) continue;
         if (repeatsStructuredFact(assessment, practice)) {
           reused.push(source + '/' + assessment.areas[0] + '/' + assessment.type + ' <= ' + normalizeFactText(practice.prompt));
           break;
-        }
-      }
-    }
-  }
-
-  for (const [source, steps] of [['reto', challenge.steps], ['banco', weekTwoBank]] as const) {
-    for (const assessment of steps.filter((step) => getActivity(step.type)?.graded)) {
-      const assessmentFacts = semanticAssessmentFacts(assessment);
-      if (assessmentFacts.length === 0) continue;
-      for (const practice of subjectSteps.filter((step) => getActivity(step.type)?.graded)) {
-        if (practice.areas[0] !== assessment.areas[0]) continue;
-        const practiceFacts = new Set(semanticAssessmentFacts(practice));
-        for (const fact of assessmentFacts) {
-          if (practiceFacts.has(fact)) {
-            reused.push(`${source}/${assessment.areas[0]}/hecho:${fact}`);
-          }
         }
       }
     }
@@ -1420,17 +1486,11 @@ test('Semana 2 evalúa contenido enseñado, sin pistas y con payloads frescos', 
   for (const assessment of weekTwoBank.filter((step) => getActivity(step.type)?.graded)) {
     const repeatedLessonSource = subjectSteps.find((source) => (
       source.areas[0] === assessment.areas[0]
-      && source.type === assessment.type
       && repeatsStructuredFact(assessment, source)
     ));
-    const assessmentStructure = structuredAssessment(assessment);
     const repeatedChallengeFact = gradedChallenge.some((source) => {
       if (source.areas[0] !== assessment.areas[0]) return false;
-      const sourceStructure = structuredAssessment(source);
-      const sameAnswer = assessmentStructure.facts.some((candidateFact) => sourceStructure.facts.some((sourceFact) => (
-        candidateFact.values.some((value) => sourceFact.values.includes(value))
-      )));
-      return sameAnswer && directionalOverlap(assessmentStructure.prompt, sourceStructure.prompt) >= 0.5;
+      return repeatsStructuredFact(assessment, source);
     });
     if (repeatedLessonSource || repeatedChallengeFact) {
       const lessonContext = repeatedLessonSource ? ` <= ${normalizeFactText(repeatedLessonSource.prompt)}` : '';

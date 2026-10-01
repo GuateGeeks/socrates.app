@@ -277,12 +277,13 @@ export default semana({
         { id: 'd', text: 'Exportación a otro continente' },
       ], labels: { start: 'Inicio', end: 'Destino' } },
     ),
-    S.tf(
-      { fase: 'comprobar', areas: ['l2'], cnb: ['l2:2.1.2', 'l2:2.1.5'], prompt: 'Decide si cada interpretación de una señal es correcta.' },
-      { statements: [
-        { text: 'Un rombo amarillo suele advertir una condición que requiere precaución.', answer: true },
-        { text: 'Una flecha de orientación garantiza que todo el trayecto esté libre de riesgos.', answer: false },
-      ] },
+    S.choice(
+      { fase: 'comprobar', areas: ['l2'], cnb: ['l2:2.1.3'], prompt: 'En una noticia sobre asistencia aparecen diez figuras de personas y cuatro están coloreadas. ¿Qué dato comunica la imagen?' },
+      { options: [
+        { id: 'a', text: 'Cuatro de cada diez personas asistieron' },
+        { id: 'b', text: 'Diez de cada cuatro personas asistieron' },
+        { id: 'c', text: 'Asistieron catorce personas' },
+      ], correct: ['a'] },
     ),
     S.reading(
       { fase: 'comprobar', areas: ['l3'], cnb: ['l3:1.3.3'], prompt: 'Read Ana’s three-sentence impression.' },

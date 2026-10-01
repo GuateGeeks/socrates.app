@@ -222,11 +222,11 @@ export default semana({
             { id: 'c', text: 'Una célula reproductora' },
           ], correct: ['a'] },
         ),
-        S.tf(
-          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.5.1'], prompt: 'Clasifica por el lugar donde vive cada organismo parásito.' },
-          { statements: [
-            { text: 'Si vive sobre la piel del hospedero, es un ectoparásito.', answer: true },
-            { text: 'Si vive dentro del intestino del hospedero, es un ectoparásito.', answer: false },
+        S.match(
+          { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.5.1'], prompt: 'En cada relación de parasitismo, identifica al hospedero.' },
+          { leftTitle: 'Caso', rightTitle: 'Hospedero', pairs: [
+            { id: 'a', left: 'Una garrapata se alimenta de la sangre de un perro', right: 'El perro' },
+            { id: 'b', left: 'Una planta parásita extrae agua y nutrientes de un árbol', right: 'El árbol' },
           ] },
         ),
         S.choice(
@@ -273,10 +273,10 @@ export default semana({
           ], correct: ['a'] },
         ),
         S.tf(
-          { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.3.3'], prompt: 'Decide si estas acciones ayudan a **desacelerar con control**.' },
+          { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.3.3'], prompt: 'Decide si cada observación describe una **velocidad constante**.' },
           { statements: [
-            { text: 'Acortar los pasos y flexionar las rodillas de manera gradual ayuda a frenar.', answer: true },
-            { text: 'Bloquear las rodillas y detenerse de golpe es una técnica de frenado controlado.', answer: false },
+            { text: 'Una corredora recorre la misma distancia en cada segundo.', answer: true },
+            { text: 'Un corredor avanza cada segundo una distancia mayor que la anterior.', answer: false },
           ] },
         ),
       ],
@@ -303,12 +303,6 @@ export default semana({
       ], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.1.1'], prompt: '¿Qué ser vivo es **unicelular**?' },
       { options: [{ id: 'a', text: 'El paramecio' }, { id: 'b', text: 'La lombriz de tierra' }, { id: 'c', text: 'El perro' }], correct: ['a'] }),
-    S.choice({ fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:1.5.3'], prompt: 'Una persona cree que tiene lombrices. ¿Qué es lo correcto para eliminarlas?' },
-      { options: [
-        { id: 'a', text: 'Ir al centro de salud y seguir el tratamiento indicado' },
-        { id: 'b', text: 'Tomar cualquier pastilla que tenga un vecino' },
-        { id: 'c', text: 'Esperar a que se vayan solas' },
-      ], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.1.1'], prompt: '¿Qué continente tiene **más de la mitad** de la población del mundo?' },
       { options: [{ id: 'a', text: 'Asia' }, { id: 'b', text: 'Europa' }, { id: 'c', text: 'Oceanía' }], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:2.1.1'], prompt: '¿Cuál de estos recursos naturales es **no renovable**?' },
@@ -327,15 +321,15 @@ export default semana({
         { id: 'b', text: 'Una blanca' },
         { id: 'c', text: 'Una redonda' },
       ], correct: ['a'] }),
-    S.tf({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.3.5', 'ef:1.3.6'], prompt: 'Decide si cada afirmación sobre una combinación motriz es verdadera o falsa.' },
-      { statements: [
-        { text: 'Correr, saltar una línea y continuar corriendo combina habilidades simples.', answer: true },
-        { text: 'Caer con las rodillas rígidas ayuda a amortiguar el salto.', answer: false },
-        { text: 'Practicar despacio antes de aumentar la velocidad favorece el control.', answer: true },
-      ] }),
+    S.number({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.3.5'], prompt: 'En una secuencia, Rosa corre, gira y lanza una pelota. ¿Cuántas habilidades simples combina?' },
+      { answer: 3, unit: 'habilidades' }),
 
-    S.choice({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:1.2.2'], prompt: 'Después de una tormenta, una familia recibe agua apta para consumo, alimentos y atención médica. ¿Qué grupo de derechos se está atendiendo?' },
-      { options: [{ id: 'a', text: 'Supervivencia' }, { id: 'b', text: 'Participación' }, { id: 'c', text: 'Desarrollo' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:1.2.2'], prompt: 'Una comunidad ya tiene escuela, pero muchas familias aún no cuentan con agua apta para consumo. ¿Qué conclusión se apoya en esos datos?' },
+      { options: [
+        { id: 'a', text: 'Hay un avance, pero todavía no se cumplen plenamente todos los derechos' },
+        { id: 'b', text: 'Todos los derechos ya están garantizados porque existe una escuela' },
+        { id: 'c', text: 'Ningún derecho se cumple en la comunidad' },
+      ], correct: ['a'] }),
     S.sort({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:1.2.1'], prompt: 'Clasifica lo que necesita una tejedora que quiere vender sus güipiles.' },
       { buckets: [
         { id: 's', label: 'Saber', icon: 'Brain' },
