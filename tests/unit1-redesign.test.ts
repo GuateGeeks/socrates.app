@@ -1963,19 +1963,43 @@ test('El reto L3 de Semana 4 transfiere solo palabras y patrones enseñados', ()
   assert.match(assessmentText, /ee|ea|oo|sh|th|silent|muda|spelling|correctly spelled/);
 });
 
-test('La producción de s04-mat-5 cabe en quince minutos y entrega un solo plan', () => {
+test('s04-mat-5 ensambla cuatro sólidos con un kit preparado dentro de quince minutos', () => {
   const lesson = weekFour.lessons.find((item) => item.id === 's04-mat-5');
   assert.ok(lesson, 'Falta s04-mat-5');
   assert.ok(lesson.minutes >= 10 && lesson.minutes <= 15);
   assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 14);
+  const lessonText = normalizeFactText(JSON.stringify(lesson));
+  assert.match(lessonText, /plantillas?.{0,80}(?:preparadas?|precortadas?)|kit.{0,80}(?:preparado|precortado)/);
+  assert.doesNotMatch(lessonText, /(?:estudiante|alumno|tu).{0,60}(?:traza|recorta|corta)|(?:traza|recorta|corta).{0,60}(?:estudiante|alumno|tu)/);
+
   const projects = lesson.steps.filter((step) => step.type === 'project');
   assert.equal(projects.length, 1);
-  const production = normalizeFactText(JSON.stringify(projects[0]));
-  assert.match(production, /un solo (?:solido|desarrollo|plan)|un (?:solido|desarrollo|plan)/);
-  assert.match(production, /plan|papel|cuadricula|dibujo/);
-  assert.doesNotMatch(production, /al menos tres|aldea|casa.{0,100}monumento.{0,100}troje/);
-  assert.doesNotMatch(production, /recorta.{0,100}dobla.{0,100}pega|trazar.{0,100}recortar.{0,100}doblar.{0,100}pegar/);
-  assert.match(production, /medidas?.{0,80}pestanas?.{0,80}(?:doblez|corte)|pestanas?.{0,80}(?:doblez|corte).{0,80}medidas?/);
+  const project = projects[0] as typeof projects[number] & {
+    props: { steps?: Array<{ title: string; detail: string }> };
+  };
+  const projectIndex = lesson.steps.indexOf(project);
+  assert.ok(projectIndex >= 4, 'Debe enseñar y modelar las convenciones antes del proyecto');
+  const preparation = normalizeFactText(JSON.stringify(lesson.steps.slice(0, projectIndex)));
+  assert.match(preparation, /linea punteada|doblez/);
+  assert.match(preparation, /pestana/);
+  assert.match(preparation, /modelo|ejemplo/);
+
+  const production = normalizeFactText(JSON.stringify(project));
+  for (const solid of ['prisma recto', 'piramide recta', 'cilindro', 'cono']) assert.match(production, new RegExp(solid));
+  assert.match(production, /cuatro modelos (?:armados|ensamblados|terminados)|4 modelos (?:armados|ensamblados|terminados)/);
+  assert.match(production, /dobl|enroll|unir|ensambl/);
+  assert.doesNotMatch(production, /\b(?:traza|dibuja|recorta|corta|usa tijeras|usa compas)\b/);
+
+  const stages = project.props.steps ?? [];
+  assert.ok(stages.length >= 3 && stages.length <= 5, `El proyecto tiene ${stages.length} etapas`);
+  const stageMinutes = stages.map((stage) => Number(`${stage.title} ${stage.detail}`.match(/(\d+) min/i)?.[1] ?? 0));
+  assert.ok(stageMinutes.every((minutes) => minutes > 0), 'Cada etapa manual debe declarar minutos');
+  assert.ok(stageMinutes.reduce((sum, minutes) => sum + minutes, 0) <= 10, 'El ensamblaje excede diez minutos');
+  const manualOperations = stages.reduce((total, stage) => total
+    + (normalizeFactText(stage.detail).match(/\b(?:dobla|enrolla|une|cierra|fija|presiona|coloca|rotula|compara)\b/g)?.length ?? 0), 0);
+  assert.ok(manualOperations <= 12, `El producto exige ${manualOperations} operaciones manuales`);
+  assert.match(production, /cinta|autoadhesiv/);
+  assert.match(production, /etiqueta|rotul|compara/);
 });
 
 test('Semana 4 construye una campaña dramática breve con cuatro áreas ya enseñadas', () => {
