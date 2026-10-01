@@ -47,7 +47,7 @@ export default semana({
         S.explain(
           { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer', title: '1 min · Lean el encargo',
             prompt: '**1 min.** Revisen el encargo para 12 personas y los límites de la propuesta.' },
-          { icon: 'ClipboardList', body: 'Trabajarán con alimentos posibles del escenario, no con una lista universal. Los **precios son ilustrativos**, no datos actuales del mercado. Hoy diseñan en papel; no cocinan. Una preparación posterior debe consultar alergias, intolerancias y restricciones, lavarse las manos y contar con apoyo o supervisión adulta para calor, cuchillos o cocción.' },
+          { icon: 'ClipboardList', body: 'Trabajarán con alimentos posibles del escenario, no con una lista universal. Los **precios son ilustrativos**, no datos actuales del mercado, y el límite del presupuesto del escenario es **Q50**. Hoy diseñan en papel; no cocinan. Una preparación posterior debe consultar alergias, intolerancias y restricciones, lavarse las manos y contar con apoyo o supervisión adulta para calor, cuchillos o cocción.' },
         ),
         S.project(
           { fase: 'construir', areas: ['l1', 'pyd'], cnb: ['l1:8.2.1', 'pyd:4.1.1'], ambito: 'hacer', title: '1 min · Abran la plantilla',
@@ -62,7 +62,7 @@ export default semana({
         ),
         S.choice(
           { fase: 'aplicar', areas: ['mat'], cnb: ['mat:3.2.1'], ambito: 'hacer', title: '1 min · Comparen conjuntos',
-            prompt: '**1 min.** L = opciones confirmadas disponibles en el escenario = {tortilla, frijol, banano, papaya}. P = ítems **clasificados en el escenario en el grupo de proteína** = {frijol, huevo, queso, pepitoria}. Esta regla no afirma que los demás alimentos tengan cero proteína: los alimentos pueden aportar varios nutrientes. ¿Cuál es **L ∩ P**, la intersección?' },
+            prompt: '**1 min.** L = opciones confirmadas disponibles en el escenario = {tortilla, frijol, banano, papaya, agua segura}. P = ítems **clasificados en el escenario en el grupo de proteína** = {frijol, huevo, queso, pepitoria}. Esta regla no afirma que los demás alimentos tengan cero proteína: los alimentos pueden aportar varios nutrientes. ¿Cuál es **L ∩ P**, la intersección?' },
           { options: [
             { id: 'a', text: '{frijol}' },
             { id: 'b', text: '{tortilla, frijol, banano, papaya, huevo, queso, pepitoria}' },
@@ -74,7 +74,7 @@ export default semana({
             prompt: '**3 min.** Completen el menú base del escenario y una alternativa por restricción o disponibilidad.' },
           { goal: 'Escribir un menú justificable con lenguaje descriptivo y sin juicios morales.',
             steps: [
-              { title: 'Menú base', detail: 'Propongan 2 tortillas con frijol cocido, 1 banano y agua segura. Describan aportes posibles: carbohidratos, proteína vegetal, fibra, vitaminas y minerales.' },
+              { title: 'Menú base', detail: 'M = ingredientes seleccionados = {tortilla, frijol, banano, agua segura}. Propongan 2 tortillas con frijol cocido, 1 banano y agua segura. Describan aportes posibles: carbohidratos, proteína vegetal, fibra, vitaminas y minerales.' },
               { title: 'Alternativa', detail: 'Si una alergia, intolerancia, restricción o práctica familiar impide un ingrediente, anoten "consultar y sustituir por una opción disponible con aporte semejante"; no inventen que una opción es segura para todas las personas.' },
             ],
             evidence: 'Menú con una razón nutricional y una alternativa sujeta a consulta.',
@@ -82,7 +82,7 @@ export default semana({
         ),
         S.number(
           { fase: 'aplicar', areas: ['mat', 'pyd'], cnb: ['pyd:4.1.1'], ambito: 'hacer', title: '3 min · Calculen el presupuesto',
-            prompt: '**3 min. Precios ilustrativos del escenario**, no precios actuales:\n- 24 tortillas a **Q0.50** cada una\n- 3 libras de frijol a **Q8** cada libra\n- 12 bananos a **Q1** cada uno\nEn la tabla anoten cantidad, precio, subtotal de cada rubro y el total. ¿Cuál es el costo total para 12 refacciones?' },
+            prompt: '**3 min. Precios ilustrativos del escenario**, no precios actuales:\n- 24 tortillas a **Q0.50** cada una\n- 3 libras de frijol a **Q8** cada libra\n- 12 bananos a **Q1** cada uno\n- 12 vasos de agua segura disponible en la escuela a **Q0** cada uno\n**Límite del escenario: Q50.**\nEn la tabla anoten cantidad, precio, subtotal de cada rubro y el total. ¿Cuál es el costo total para 12 refacciones?' },
           { answer: 48, unit: 'quetzales' },
         ),
         S.project(
@@ -105,10 +105,10 @@ export default semana({
         ),
         S.project(
           { fase: 'aplicar', areas: ['cnt', 'mat', 'l1', 'pyd'], cnb: ['cnt:5.1.1', 'mat:3.2.1', 'l1:8.2.1', 'pyd:4.1.1'], ambito: 'hacer', title: '2 min · Revisión entre pares',
-            prompt: '**2 min.** Intercambien fichas. Apliquen **un criterio**: los ingredientes coinciden en menú, conjunto y presupuesto. Marquen **una revisión** y hagan **una corrección**.' },
+            prompt: '**2 min.** Intercambien fichas. Apliquen **un criterio**: cada ingrediente seleccionado del menú está clasificado en los conjuntos cuando corresponde y cada ingrediente seleccionado aparece en el presupuesto; los conjuntos pueden incluir alternativas no seleccionadas. Marquen **una revisión** y hagan **una corrección**.' },
           { goal: 'Corregir una incoherencia antes de entregar.',
             steps: [
-              { title: 'Criterio único', detail: 'Menú, conjunto y presupuesto nombran los mismos ingredientes del escenario.' },
+              { title: 'Criterio único', detail: 'M está contenido en L; el frijol seleccionado también está en P; cada ingrediente de M aparece en el presupuesto. P puede conservar alternativas no seleccionadas.' },
               { title: 'Corrección', detail: 'Cambien una palabra, ingrediente o cifra solo si el criterio no se cumple.' },
             ],
             evidence: 'Una corrección marcada y comprobada.',
@@ -128,7 +128,7 @@ export default semana({
             prompt: '**1 min.** Revisa la evidencia y elige el próximo paso más honesto.' },
           { statements: [
             'Justifiqué el menú sin prometer resultados de salud',
-            'Comprobé conjuntos, subtotales, total y costo por persona',
+            'Comprobé los conjuntos, los subtotales y que el costo total del escenario no supera el límite del presupuesto',
             'Incluí restricciones, disponibilidad y preparación segura',
           ], commitments: [
             'Preguntaré qué opciones y restricciones existen antes de proponer un menú real',

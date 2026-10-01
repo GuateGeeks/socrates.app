@@ -3218,6 +3218,52 @@ test('Semana 6 mantiene carga estructurada creible dentro de quince minutos', ()
   assert.deepEqual(failures, []);
 });
 
+test('L3 Semana 6 arma y prueba un mini barrilete reutilizable sin preparacion estudiantil', () => {
+  const lesson = weekSix.lessons.find((item) => item.id === 's06-l3-2');
+  assert.ok(lesson, 'Falta s06-l3-2');
+  assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 10, `L3 tiene ${lesson.steps.length} pasos`);
+  const text = normalizeFactText(JSON.stringify(lesson));
+  assert.match(text, /kit.{0,60}(?:preparado|prearmado).{0,80}reutilizable|kit reutilizable.{0,80}(?:preparado|prearmado)/);
+  assert.match(text, /cuerpo.{0,40}precortad|precortad.{0,40}cuerpo/);
+  assert.match(text, /bridle.{0,40}pre tied|bridle.{0,40}previamente amarrad|brid[ae].{0,40}prearmad/);
+  assert.match(text, /pestanas? (?:despegables|reutilizables)|peel.{0,30}(?:tabs|reusable)/);
+  const application = lesson.steps.filter((step) => step.fase === 'aplicar');
+  const applicationText = normalizeFactText(JSON.stringify(application));
+  assert.doesNotMatch(applicationText, /tijeras?|scissors|recort|cut(?:ting)?|pegamento|glue|secad|drying|consigue|reune los materiales|get the materials/);
+  assert.doesNotMatch(applicationText, /campo abierto|open field|vuela tu barrilete|fly your kite|cables de electricidad|power lines/);
+  const assembly = application.find((step) => step.type === 'project');
+  assert.ok(assembly, 'Falta aplicacion de armado');
+  const operations = (assembly.props as { steps?: unknown[] }).steps ?? [];
+  assert.ok(operations.length >= 3 && operations.length <= 4, `Armado declara ${operations.length} operaciones`);
+  const assemblyText = normalizeFactText(JSON.stringify(assembly));
+  assert.match(assemblyText, /mesa|tabletop|flujo de aire bajo|low airflow/);
+  assert.match(assemblyText, /observacion|observation/);
+  const kitMedia = [lesson.media, ...lesson.steps.map((step) => step.media)]
+    .find((media) => /kit|barrilete|kite/.test(normalizeFactText(JSON.stringify(media))));
+  assert.ok(kitMedia, 'Falta medio descriptivo del kit');
+  assert.match(normalizeFactText(JSON.stringify(kitMedia)), /preparacion centralizada|preparado centralmente|commercial|comercial/);
+});
+
+test('PyD Semana 6 completa un solo canvas de proyecto dentro de quince minutos', () => {
+  const lesson = weekSix.lessons.find((item) => item.id === 's06-pyd-1');
+  assert.ok(lesson, 'Falta s06-pyd-1');
+  assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 10, `PyD tiene ${lesson.steps.length} pasos`);
+  const text = normalizeFactText(JSON.stringify(lesson));
+  assert.match(text, /canvas.{0,40}(?:preparado|impreso).{0,40}una pagina|(?:plantilla|canvas) de una pagina.{0,40}(?:preparad|impres)/);
+  assert.doesNotMatch(text, /stand|cartel para|demostracion|maqueta|explicacion de un minuto|practica tu explicacion|ensay/);
+  assert.ok(!lesson.steps.some((step) => step.type === 'chart-builder'), 'El canvas no requiere una grafica preliminar');
+  const canvas = lesson.steps.find((step) => step.type === 'project');
+  assert.ok(canvas, 'Falta el canvas aplicado');
+  const canvasText = normalizeFactText(JSON.stringify(canvas));
+  for (const field of [/objetivo/, /actividad 1/, /actividad 2/, /responsable/, /fecha/, /presupuesto/]) assert.match(canvasText, field);
+  const label = lesson.steps.find((step) => step.type === 'short-answer'
+    && /etiqueta|label/.test(normalizeFactText(`${step.title ?? ''} ${step.prompt}`)));
+  assert.ok(label, 'Falta una etiqueta visual concisa');
+  assert.ok(Number((label.props as { minWords?: number }).minWords ?? 99) <= 8, 'La etiqueta debe ser concisa');
+  assert.match(text, /20 segundos|20 second|lista de cotejo|checklist/);
+  assert.ok(lesson.steps.findIndex((step) => step.type === 'project') <= 3, 'El canvas empieza demasiado tarde');
+});
+
 test('Semana 6 usa lenguaje nutricional preciso, respetuoso y adaptable', () => {
   assert.equal(weekSix.title, 'Una refacción nutritiva con recursos locales');
   assert.equal(weekSix.temaGenerador, 'Una refacción nutritiva con recursos locales');
@@ -3358,6 +3404,41 @@ test('El presupuesto del taller usa precios ilustrativos y aritmetica internamen
   assert.ok(quantitiesAndPrices.length >= 3, 'El presupuesto debe incluir al menos tres rubros calculables');
   const expected = quantitiesAndPrices.reduce((sum, [quantity, price]) => sum + quantity * price, 0);
   assert.equal(budgetProps.answer, expected);
+});
+
+test('El taller relaciona menu, conjuntos y presupuesto por cobertura, no por igualdad', () => {
+  const workshop = weekSix.lessons.find((lesson) => lesson.kind === 'taller');
+  assert.ok(workshop, 'Semana 6 sin taller');
+  const menu = workshop.steps.find((step) => step.type === 'project'
+    && /menu/.test(normalizeFactText(`${step.title ?? ''} ${step.prompt}`)));
+  const sets = workshop.steps.find((step) => step.areas.includes('mat')
+    && /l .* p|interseccion|l ∩ p/.test(normalizeFactText(step.prompt)));
+  const budget = workshop.steps.find((step) => step.type === 'number-input'
+    && /presupuesto|total/.test(normalizeFactText(step.prompt)));
+  assert.ok(menu && sets && budget, 'Faltan componentes relacionables');
+  const parseSet = (label: string, value: string): Set<string> => {
+    const match = value.match(new RegExp(`\\b${label}\\s*=[^{}]*\\{([^}]+)\\}`, 'i'));
+    assert.ok(match, `Falta conjunto declarado ${label}`);
+    return new Set(match[1].split(',').map((item) => normalizeFactText(item)));
+  };
+  const selected = parseSet('M', JSON.stringify(menu));
+  const available = parseSet('L', sets.prompt);
+  const proteinGroup = parseSet('P', sets.prompt);
+  assert.ok([...selected].every((ingredient) => available.has(ingredient)), 'M debe ser subconjunto de L');
+  assert.ok(proteinGroup.has('frijol') && selected.has('frijol'), 'El ingrediente proteico seleccionado debe pertenecer a P');
+  assert.ok([...proteinGroup].some((ingredient) => !selected.has(ingredient)), 'P debe poder contener alternativas no seleccionadas');
+  const budgetText = normalizeFactText(budget.prompt);
+  assert.ok([...selected].every((ingredient) => budgetText.includes(ingredient)), 'El presupuesto debe cubrir cada ingrediente de M');
+  const review = workshop.steps.find((step) => /revision entre pares/.test(normalizeFactText(step.title)));
+  assert.ok(review, 'Falta revision entre pares');
+  const reviewText = normalizeFactText(JSON.stringify(review));
+  assert.match(reviewText, /seleccionad.{0,100}(?:clasificad|conjunto)/);
+  assert.match(reviewText, /cada ingrediente.{0,100}presupuesto/);
+  assert.match(reviewText, /alternativas?.{0,100}no seleccionad/);
+  assert.doesNotMatch(reviewText, /mismos ingredientes|ingredientes coinciden|nombran los mismos ingredientes/);
+  const reflectionText = normalizeFactText(JSON.stringify(workshop.steps.at(-1)));
+  assert.match(reflectionText, /costo total.{0,80}(?:limite|presupuesto)|(?:limite|presupuesto).{0,80}costo total/);
+  assert.doesNotMatch(reflectionText, /costo por persona|costo unitario|por refaccion/);
 });
 
 test('Semana 6 evalua diez areas con contenido ensenado y payloads frescos', () => {
