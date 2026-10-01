@@ -3,6 +3,9 @@ import { defineActivity } from '@/core/registry';
 import type { ActivityProps } from '@/core/types';
 import { Button, Rich } from '@/design-system/components';
 import { feedback } from '@/design-system/feedback';
+import { isShortAnswerValueReady, type ShortAnswerValue } from './short-answer-value';
+
+export type { ShortAnswerValue } from './short-answer-value';
 
 export interface ShortAnswerProps {
   placeholder?: string;
@@ -12,16 +15,10 @@ export interface ShortAnswerProps {
   rubric: string[];
   minWords?: number;
 }
-export interface ShortAnswerValue { text: string; checks: boolean[]; seen: boolean }
-
 const words = (s: string) => s.trim().split(/\s+/).filter(Boolean).length;
 
 export function isShortAnswerReady(props: ShortAnswerProps, value: ShortAnswerValue | undefined): boolean {
-  if (!value || !value.seen || value.checks.length !== props.rubric.length || !value.checks.every(Boolean)) return false;
-  const tokens = value.text.toLocaleLowerCase('es').match(/[a-záéíóúüñ0-9]+/g) ?? [];
-  const minWords = props.minWords ?? 8;
-  const requiredVariety = Math.min(4, Math.ceil(minWords / 3));
-  return tokens.length >= minWords && new Set(tokens.filter((token) => token.length >= 3)).size >= requiredVariety;
+  return isShortAnswerValueReady(value, props.rubric.length, props.minWords ?? 8);
 }
 
 function ShortAnswer({ props, value, onChange, api }: ActivityProps<ShortAnswerProps, ShortAnswerValue>) {

@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import { AREAS, type Ambito, type AreaId } from '@/cnb/model';
 import { areaOf, indicadorOf, lookup } from '@/cnb/catalog';
+import { isShortAnswerValueReady, type ShortAnswerValue } from '@/activities/short-answer-value';
 import type { Lesson, Mission, StepBase } from './types';
 import { getActivity } from './registry';
 
@@ -42,7 +43,7 @@ export interface JournalEntry {
   /** Referencias que este espacio estable ya acreditó; sobreviven a reenvíos. */
   creditedRefs: string[];
   creditedAt?: string;
-  review?: { criteria: string[]; selfChecks: boolean[] };
+  review?: { criteria: string[]; selfChecks: boolean[]; minWords?: number };
   reviewedAt?: string;
 }
 
@@ -114,7 +115,6 @@ function hydrate(raw: Progress | null): Progress {
     const entry = value && typeof value === 'object' ? value as Partial<JournalEntry> : {};
     const statuses: JournalStatus[] = ['pending-review', 'approved', 'needs-revision', 'self-recorded', 'legacy'];
     const status = statuses.includes(entry.status as JournalStatus) ? entry.status as JournalStatus : 'legacy';
-    const responseValid = typeof entry.value === 'string' && entry.value.trim().length > 0;
     const cnbShapeValid = Array.isArray(entry.cnb) && entry.cnb.length > 0
       && entry.cnb.every((ref) => typeof ref === 'string' && Boolean(lookup(ref)));
     const cnb = Array.isArray(entry.cnb) ? entry.cnb.filter((ref): ref is string => typeof ref === 'string') : [];
@@ -128,22 +128,38 @@ function hydrate(raw: Progress | null): Progress {
       && entry.review.criteria.every((item) => typeof item === 'string' && item.trim().length > 0);
     const checksValid = Array.isArray(entry.review?.selfChecks)
       && entry.review.selfChecks.every((item) => typeof item === 'boolean')
-      && entry.review.selfChecks.length === entry.review?.criteria?.length;
-    const reviewValid = criteriaValid && checksValid;
+      && entry.review.selfChecks.length === entry.review?.criteria?.length
+      && entry.review.selfChecks.every((item) => item === true);
+    const minWordsValid = entry.review?.minWords === undefined
+      || (Number.isInteger(entry.review.minWords) && entry.review.minWords! > 0);
+    const reviewValid = criteriaValid && checksValid && minWordsValid;
+    const minWords = entry.review?.minWords ?? 8;
+    let response: ShortAnswerValue | undefined;
+    if (typeof entry.value === 'string' && criteriaValid) {
+      try {
+        const parsed: unknown = JSON.parse(entry.value);
+        if (isShortAnswerValueReady(parsed, entry.review!.criteria.length, minWords)) response = parsed;
+      } catch { /* Los diarios ordinarios y valores dañados no son evidencia evaluable. */ }
+    }
+    const responseValid = Boolean(response) && checksValid && Array.isArray(entry.review?.selfChecks)
+      && entry.review.selfChecks.every((check, index) => check === response!.checks[index]);
     const review = reviewValid
-      ? { criteria: [...entry.review!.criteria], selfChecks: [...entry.review!.selfChecks] }
+      ? {
+          criteria: [...entry.review!.criteria], selfChecks: [...entry.review!.selfChecks],
+          ...(entry.review!.minWords !== undefined ? { minWords: entry.review!.minWords } : {}),
+        }
       : undefined;
     const validPrimaryRefs = primaryArea ? validCnb.filter((ref) => areaOf(ref) === primaryArea) : [];
+    const assessmentValid = responseValid && cnbShapeValid && !storedAreaInvalid && Boolean(primaryArea)
+      && validPrimaryRefs.length > 0 && reviewValid;
+    const assessmentStatus = status === 'pending-review' || status === 'approved' || status === 'needs-revision';
+    const safeStatus = assessmentStatus && !assessmentValid ? 'legacy' : status;
     const storedCredits = Array.isArray(entry.creditedRefs)
       ? entry.creditedRefs.filter((ref): ref is string => typeof ref === 'string' && Boolean(lookup(ref)))
       : [];
-    const creditedRefs = storedCredits.length > 0
+    const creditedRefs = !assessmentValid ? [] : storedCredits.length > 0
       ? [...new Set(storedCredits)]
       : status === 'approved' ? [...new Set(validPrimaryRefs)] : [];
-    const pendingValid = responseValid && cnbShapeValid && !storedAreaInvalid && Boolean(primaryArea)
-      && validPrimaryRefs.length > 0 && reviewValid;
-    const assessmentStatus = status === 'pending-review' || status === 'approved' || status === 'needs-revision';
-    const safeStatus = assessmentStatus && !pendingValid ? 'legacy' : status;
     const creditedAt = typeof entry.creditedAt === 'string'
       ? entry.creditedAt
       : creditedRefs.length > 0 ? entry.reviewedAt ?? entry.at : undefined;
@@ -253,7 +269,7 @@ export function recordLesson(mission: Mission, lesson: Lesson, outcomes: StepOut
       }
       if (!o.graded && o.value !== undefined) {
         const value = typeof o.value === 'string' ? o.value : JSON.stringify(o.value);
-        const props = o.step.props as { rubric?: string[] };
+        const props = o.step.props as { rubric?: string[]; minWords?: number };
         const response = o.value as { checks?: boolean[] } | undefined;
         const journalKey = `${lesson.id}/${o.step.id}`;
         const previous = n.journal[journalKey];
@@ -267,7 +283,9 @@ export function recordLesson(mission: Mission, lesson: Lesson, outcomes: StepOut
           creditedRefs: [...(previous?.creditedRefs ?? [])],
           ...(previous?.creditedAt ? { creditedAt: previous.creditedAt } : {}),
           ...(def?.evidenceMode === 'journal-pending-review' && props.rubric
-            ? { review: { criteria: [...props.rubric], selfChecks: [...(response?.checks ?? [])] } }
+            ? { review: {
+                criteria: [...props.rubric], selfChecks: [...(response?.checks ?? [])], minWords: props.minWords ?? 8,
+              } }
             : {}),
         };
       }

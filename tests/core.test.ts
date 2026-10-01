@@ -124,17 +124,20 @@ test('respuesta escrita se guarda pendiente de revision sin acreditar dominio', 
     primaryArea: 'l1',
     cnb: ['l1:3.4.2'],
     creditedRefs: [],
-    review: { criteria: ['Inclui evidencia', 'Revise claridad'], selfChecks: [true, true] },
+    review: { criteria: ['Inclui evidencia', 'Revise claridad'], selfChecks: [true, true], minWords: 6 },
   });
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
 test('hidratacion recupera el area segura de diarios pendientes creados antes de guardarla', () => {
+  const response = JSON.stringify({
+    text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true], seen: true,
+  });
   const stored = {
     ...emptyProgress(),
     journal: {
       'lesson/step': {
-        stepId: 'step', value: '{}', at: '2026-01-21', status: 'pending-review', cnb: ['l1:3.4.2'],
+        stepId: 'step', value: response, at: '2026-01-21', status: 'pending-review', cnb: ['l1:3.4.2'],
         review: { criteria: ['Es claro'], selfChecks: [true] },
       },
     },
@@ -147,13 +150,33 @@ test('hidratacion recupera el area segura de diarios pendientes creados antes de
 
 test('hidratacion vuelve legacy cada forma pendiente malformada y bloquea su aprobacion', () => {
   const valid = {
-    stepId: 'step', value: '{"text":"respuesta sustantiva"}', at: '2026-01-21', status: 'pending-review',
+    stepId: 'step',
+    value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true], seen: true }),
+    at: '2026-01-21', status: 'pending-review',
     primaryArea: 'l1', cnb: ['l1:3.4.2'], review: { criteria: ['Es claro'], selfChecks: [true] },
   };
   const malformed: Record<string, unknown> = {
     'bad/non-object-entry': null,
     'bad/non-string-response': { ...valid, value: 42 },
     'bad/empty-response': { ...valid, value: '   ' },
+    'bad/non-json-response': { ...valid, value: 'Una respuesta de texto que no esta serializada como JSON' },
+    'bad/empty-object-response': { ...valid, value: '{}' },
+    'bad/missing-text': { ...valid, value: JSON.stringify({ checks: [true], seen: true }) },
+    'bad/non-string-text': { ...valid, value: JSON.stringify({ text: 8, checks: [true], seen: true }) },
+    'bad/blank-text': { ...valid, value: JSON.stringify({ text: '   ', checks: [true], seen: true }) },
+    'bad/repeated-filler': { ...valid, value: JSON.stringify({ text: 'agua agua agua agua agua agua agua agua', checks: [true], seen: true }) },
+    'bad/missing-value-checks': { ...valid, value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', seen: true }) },
+    'bad/non-boolean-value-check': { ...valid, value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: ['si'], seen: true }) },
+    'bad/false-value-check': { ...valid, value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [false], seen: true }) },
+    'bad/value-check-count': { ...valid, value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true, true], seen: true }) },
+    'bad/missing-seen': { ...valid, value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true] }) },
+    'bad/false-seen': { ...valid, value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true], seen: false }) },
+    'bad/persisted-false-self-check': { ...valid, review: { criteria: ['Es claro'], selfChecks: [false] } },
+    'bad/inconsistent-self-checks': {
+      ...valid,
+      value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true, true], seen: true }),
+      review: { criteria: ['Es claro', 'Incluye evidencia'], selfChecks: [true, false] },
+    },
     'bad/empty-criteria': { ...valid, review: { criteria: [], selfChecks: [] } },
     'bad/non-string-criterion': { ...valid, review: { criteria: ['Es claro', 7], selfChecks: [true, true] } },
     'bad/empty-criterion': { ...valid, review: { criteria: ['  '], selfChecks: [true] } },
@@ -173,6 +196,7 @@ test('hidratacion vuelve legacy cada forma pendiente malformada y bloquea su apr
 
   for (const key of Object.keys(malformed).filter((key) => key.startsWith('bad/'))) {
     assert.equal(getProgress().journal[key].status, 'legacy', `${key} no se normalizo como legacy`);
+    assert.deepEqual(getProgress().journal[key].creditedRefs, [], `${key} expuso procedencia de credito`);
     reviewJournalEntry(key, 'approve');
     assert.equal(getProgress().journal[key].status, 'legacy', `${key} expuso una ruta de aprobacion`);
   }
@@ -184,11 +208,14 @@ test('hidratacion vuelve legacy cada forma pendiente malformada y bloquea su apr
 });
 
 test('hidratacion mantiene revisable un diario multiarea y usa la primera referencia CNB valida como area primaria', () => {
+  const response = JSON.stringify({
+    text: 'El informe distingue evidencia observada de una inferencia prudente', checks: [true], seen: true,
+  });
   const stored = {
     ...emptyProgress(),
     journal: {
       's07-d5-taller/report': {
-        stepId: 'report', value: '{}', at: '2026-02-20', status: 'pending-review',
+        stepId: 'report', value: response, at: '2026-02-20', status: 'pending-review',
         cnb: ['cnt:6.4.1', 'l1:8.2.3', 'fc:4.2.2', 'pyd:5.3.2'],
         review: { criteria: ['Separé evidencia e inferencia'], selfChecks: [true] },
       },
@@ -210,13 +237,16 @@ test('hidratacion mantiene revisable un diario multiarea y usa la primera refere
 });
 
 test('hidratacion conserva como acreditadas las referencias de diarios aprobados antes de guardar procedencia', () => {
+  const response = JSON.stringify({
+    text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true], seen: true,
+  });
   const stored = {
     ...emptyProgress(),
     evidence: { 'l1:3.4': { ok: 1, total: 1, last: '2026-02-21' } },
     contenidos: { 'l1:3.4.2': { ok: 1, total: 1, last: '2026-02-21' } },
     journal: {
       'lesson/step': {
-        stepId: 'step', value: '{}', at: '2026-02-20', status: 'approved', primaryArea: 'l1',
+        stepId: 'step', value: response, at: '2026-02-20', status: 'approved', primaryArea: 'l1',
         cnb: ['l1:3.4.2', 'ccss:7.1.3'], reviewedAt: '2026-02-21',
         review: { criteria: ['Es claro'], selfChecks: [true] },
       },
@@ -332,11 +362,14 @@ test('una respuesta cambiada acredita solo referencias nuevas sin repetir indica
 
 test('solicitar revision persiste la decision sin acreditar dominio ni permitir aprobacion tardia directa', () => {
   let mem: Progress | null = null;
+  const response = JSON.stringify({
+    text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true], seen: true,
+  });
   const pending = {
     ...emptyProgress(),
     journal: {
       'lesson/step': {
-        stepId: 'step', value: '{}', at: '2026-01-21', status: 'pending-review', primaryArea: 'l1', cnb: ['l1:3.4.2'],
+        stepId: 'step', value: response, at: '2026-01-21', status: 'pending-review', primaryArea: 'l1', cnb: ['l1:3.4.2'],
         review: { criteria: ['Es claro'], selfChecks: [true] },
       },
     },
