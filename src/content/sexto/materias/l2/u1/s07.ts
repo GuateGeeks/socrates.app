@@ -75,7 +75,6 @@ export default [
           { id: 'b3', label: '3 sílabas', icon: 'Layers' },
           { id: 'b4', label: '4 sílabas', icon: 'Blocks' },
         ], items: [
-          { id: 'w1', text: 'sol', bucket: 'b1' },
           { id: 'w2', text: 'lluvia', bucket: 'b2' },
           { id: 'w3', text: 'caudal', bucket: 'b2' },
           { id: 'w4', text: 'arroyo', bucket: 'b3' },
@@ -129,12 +128,9 @@ export default [
         ], items: [
           { id: 'x1', text: 'caudal', bucket: 'ag' },
           { id: 'x2', text: 'manantial', bucket: 'ag' },
-          { id: 'x3', text: 'captación', bucket: 'ag' },
           { id: 'x4', text: 'agua', bucket: 'll' },
           { id: 'x5', text: 'lluvia', bucket: 'll' },
           { id: 'x6', text: 'tubería', bucket: 'll' },
-          { id: 'x7', text: 'hídrico', bucket: 'es' },
-          { id: 'x8', text: 'acuífero', bucket: 'es' },
         ] },
       ),
       S.highlight(

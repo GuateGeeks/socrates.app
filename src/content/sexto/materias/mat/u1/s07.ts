@@ -26,7 +26,7 @@ export default [
     media: {
       id: 's07-mat-1-refaccion', kind: 'diagram', title: 'Puntos y fechas de observación', aspect: '4:3',
       alt: 'Tabla que combina dos puntos de observación del agua con tres fechas y muestra seis registros posibles.',
-      brief: 'Diagrama de doble entrada. Filas con iconos descriptivos y rótulos "tanque" y "chorro"; columnas "lunes", "miércoles" y "viernes". Cada celda contiene el par ordenado correspondiente, para un total de seis. Incluir tubería y llave reconocibles; no usar círculos o cuadrados como sustitutos de objetos. Datos claramente rotulados "PLAN SIMULADO".',
+      brief: 'Diagrama horizontal 1600×900 de doble entrada. Filas con iconos descriptivos y rótulos "tanque" y "chorro"; columnas "lunes", "miércoles" y "viernes". Cada celda contiene el par ordenado correspondiente, para un total de seis. Incluir tubería y llave reconocibles; no usar círculos o cuadrados como sustitutos de objetos. Datos claramente rotulados "PLAN SIMULADO", con texto grande y contraste alto.',
     },
     steps: [
       S.explain(
@@ -55,7 +55,7 @@ export default [
           prompt: 'Un plan simulado combina cada punto con cada momento del día.',
           media: { id: 's07-mat-1-tabla', kind: 'diagram', title: 'A × B en tabla y en árbol', aspect: '16:9',
             alt: 'Tabla y árbol combinan tanque y chorro con mañana, mediodía y tarde para formar seis pares.',
-            brief: 'Diagrama con dos partes y rótulo "PLAN SIMULADO". Izquierda: tabla con filas "tanque" y "chorro", columnas "mañana", "mediodía", "tarde" y los seis pares escritos. Derecha: árbol con las mismas ramas. Usar iconos descriptivos de tanque, llave y reloj; no formas genéricas como objetos. Abajo: "2 × 3 = 6 pares".' } },
+            brief: 'Diagrama horizontal 1600×900 con dos partes y rótulo "PLAN SIMULADO". Izquierda: tabla con filas "tanque" y "chorro", columnas "mañana", "mediodía", "tarde" y los seis pares escritos. Derecha: árbol con las mismas ramas. Usar iconos descriptivos de tanque, llave y reloj; no formas genéricas como objetos. Abajo: "2 × 3 = 6 pares". Texto grande y contraste alto.' } },
         { icon: 'Table2', problem: 'A = {tanque, chorro} y B = {mañana, mediodía, tarde}. Escribe **A × B**.',
           steps: [
             { text: 'Tomo el primer elemento de A, **tanque**, y lo combino con cada elemento de B: (tanque, mañana), (tanque, mediodía), (tanque, tarde).' },
@@ -97,7 +97,7 @@ export default [
         { text: 'A × B = {(1, x), (1, y), [[(1, z)]], (2, x), [[(2, y)]], (2, z)}', distractors: ['(z, 1)', '(y, 2)', '(1, 2)'] },
       ),
       S.coord(
-        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:3.2.4', 'mat:1.5.3'],
+        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:3.2.4'],
           prompt: 'A = {1, 2, 3} y B = {1, 2}. Los pares de A × B son puntos del plano. El par **(3, 2)** pertenece a A × B: ubícalo.',
           explain: 'Primero x = 3 (derecha) y después y = 2 (arriba). A × B tiene 3 × 2 = 6 puntos: (1, 1), (1, 2), (2, 1), (2, 2), (3, 1) y (3, 2).' },
         { range: { xmin: 0, xmax: 5, ymin: 0, ymax: 5 }, task: { kind: 'place', x: 3, y: 2, emoji: '⭐', label: 'Par (3, 2)' } },
@@ -142,7 +142,7 @@ export default [
     media: {
       id: 's07-mat-2-familias', kind: 'diagram', title: 'Tres familias de números', aspect: '16:9',
       alt: 'Tres registros simulados: cuatro puntos de agua, un cambio de menos dos centímetros y tres cuartos de una muestra.',
-      brief: 'Diagrama horizontal rotulado "DATOS SIMULADOS" con tres escenas: un mapa con cuatro puntos de agua reconocibles y el natural 4; una regla vertical junto a un tanque que muestra un cambio de −2 cm; y un recipiente graduado con 3/4 de una muestra. Etiquetas "natural", "entero" y "fraccionario". No usar formas genéricas como objetos.',
+      brief: 'Diagrama horizontal 1600×900 rotulado "DATOS SIMULADOS" con tres escenas: un mapa con cuatro puntos de agua reconocibles y el natural 4; una regla vertical junto a un tanque que muestra un cambio de −2 cm; y un recipiente graduado con 3/4 de una muestra. Etiquetas "natural", "entero" y "fraccionario". No usar formas genéricas como objetos; texto grande y contraste alto.',
     },
     steps: [
       S.explain(
@@ -165,7 +165,7 @@ export default [
           prompt: 'Los números forman **conjuntos**, cada uno más grande que el anterior. Toca cada tarjeta.',
           media: { id: 's07-mat-2-anidados', kind: 'diagram', title: 'N dentro de Z dentro de los fraccionarios', aspect: '4:3',
             alt: 'Tres óvalos uno dentro de otro. El pequeño N contiene 1, 2, 3, 15. El mediano Z agrega 0, −1, −7. El grande agrega 1/2, 3/4, −2/5 y 0.5.',
-            brief: 'Diagrama de tres óvalos anidados. Óvalo interior (naranja) rotulado "Naturales N" con 1, 2, 3, 15. Óvalo medio (azul) rotulado "Enteros Z" con 0, −1, −7 en la parte que no es N. Óvalo exterior (verde) rotulado "Fraccionarios" con 1/2, 3/4, −2/5 y 0.5 en la parte que no es Z. Una nota: "5 = 5/1: los enteros también se pueden escribir como fracción". Fondo blanco, números grandes.' } },
+            brief: 'Diagrama horizontal 1600×900 de tres óvalos anidados. Óvalo interior (naranja) rotulado "Naturales N" con 1, 2, 3, 15. Óvalo medio (azul) rotulado "Enteros Z" con 0, −1, −7 en la parte que no es N. Óvalo exterior (verde) rotulado "Fraccionarios" con 1/2, 3/4, −2/5 y 0.5 en la parte que no es Z. Una nota: "5 = 5/1: los enteros también se pueden escribir como fracción". Fondo blanco, texto grande y patrones además de color.' } },
         { icon: 'Layers', body: 'Cada conjunto **contiene** al anterior, como óvalos uno dentro de otro.', reveal: [
           { icon: 'Hash', front: 'Naturales N', back: '1, 2, 3, 4, … Sirven para **contar**. No tienen fin. (Algunos libros incluyen el 0; aquí empezamos en 1.)' },
           { icon: 'Thermometer', front: 'Enteros Z', back: '…, −3, −2, −1, **0**, 1, 2, 3, … Son los naturales, el cero y los **negativos**.' },
@@ -307,7 +307,7 @@ export default [
           prompt: 'Nuestro sistema es **decimal**: cada lugar vale 10 veces más que el de su derecha. Las cifras se agrupan de **tres en tres**. Toca cada tarjeta.',
           media: { id: 's07-mat-3-tabla', kind: 'diagram', title: 'Tabla de valor posicional hasta las centenas de millón', aspect: '16:9',
             alt: 'Tabla de nueve columnas agrupadas en tres clases: millones (CMi, DMi, UMi), millares (CM, DM, UM) y unidades (C, D, U), con el número 245,380,017 escrito cifra por cifra.',
-            brief: 'Tabla horizontal de 9 columnas con tres bloques de color: naranja "Millones" (centenas de millón, decenas de millón, unidades de millón), azul "Millares" (centenas de millar, decenas de millar, unidades de millar) y verde "Unidades" (centenas, decenas, unidades). En la fila de abajo, el número 2 4 5 | 3 8 0 | 0 1 7, una cifra por casilla. Debajo de cada bloque, cómo se lee: "doscientos cuarenta y cinco millones", "trescientos ochenta mil", "diecisiete". Fondo blanco, letras grandes.' } },
+            brief: 'Tabla horizontal 1600×900 de 9 columnas con tres bloques de color: naranja "Millones" (centenas de millón, decenas de millón, unidades de millón), azul "Millares" (centenas de millar, decenas de millar, unidades de millar) y verde "Unidades" (centenas, decenas, unidades). En la fila de abajo, el número 2 4 5 | 3 8 0 | 0 1 7, una cifra por casilla. Debajo de cada bloque, cómo se lee: "doscientos cuarenta y cinco millones", "trescientos ochenta mil", "diecisiete". Fondo blanco, letras grandes y separadores de alto contraste.' } },
         { icon: 'Table', body: 'De derecha a izquierda: **unidades**, **millares** y **millones**. Cada clase tiene unidades, decenas y centenas.', reveal: [
           { icon: 'Hash', front: 'Clase de las unidades', back: 'Unidades (U), decenas (D) y centenas (C): de 0 a 999.' },
           { icon: 'Hash', front: 'Clase de los millares', back: 'Unidades de millar, decenas de millar y centenas de millar. Se lee con la palabra **mil**.' },
@@ -428,7 +428,7 @@ export default [
     media: {
       id: 's07-mat-4-billetes', kind: 'diagram', title: 'Agrupar una cantidad de agua', aspect: '4:3',
       alt: 'Diagrama de un registro simulado de 36,700 litros agrupado en 367 unidades de 100 litros.',
-      brief: 'Diagrama matemático rotulado "DATOS SIMULADOS". Mostrar un tanque de agua reconocible junto a "36,700 L" y una flecha hacia "367 grupos de 100 L". Debajo, el procedimiento 36,700 ÷ 100 = 367 con los dos ceros finales resaltados. No dibujar 367 recipientes ni usar formas genéricas como tanques.',
+      brief: 'Diagrama matemático horizontal 1600×900 rotulado "DATOS SIMULADOS". Mostrar un tanque de agua reconocible junto a "36,700 L" y una flecha hacia "367 grupos de 100 L". Debajo, el procedimiento 36,700 ÷ 100 = 367 con los dos ceros finales resaltados. No dibujar 367 recipientes ni usar formas genéricas como tanques. Texto grande y contraste alto.',
     },
     steps: [
       S.explain(
@@ -545,7 +545,7 @@ export default [
     media: {
       id: 's07-mat-5-romanos', kind: 'image', title: 'Números romanos a nuestro alrededor', aspect: '4:3',
       alt: 'Un collage con un reloj de números romanos, la portada de un libro con "Capítulo XIV" y un cartel con "Siglo XXI".',
-      brief: 'Ilustración en collage: 1) un reloj de pared antiguo con números romanos del I al XII; 2) un libro abierto con el título "Capítulo XIV"; 3) un cartel escolar que dice "Siglo XXI"; 4) una placa conmemorativa genérica con el año escrito en romanos. Estilo plano, colores sobrios, letras claras y legibles.',
+      brief: 'Ilustración horizontal 1600×900 en collage: 1) un reloj de pared antiguo con números romanos del I al XII; 2) un libro abierto con el título "Capítulo XIV"; 3) un cartel escolar que dice "Siglo XXI"; 4) una placa conmemorativa genérica con el año escrito en romanos. Estilo plano, colores sobrios, letras grandes, claras y legibles, con contraste alto.',
     },
     steps: [
       S.explain(

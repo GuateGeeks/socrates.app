@@ -25,7 +25,7 @@ export default [
     media: {
       id: 's07-l3-1-blackout', kind: 'image', title: 'The blackout', aspect: '4:3',
       alt: 'Una familia sentada a la mesa a la luz de candelas; el foco y el televisor están apagados y afuera llueve fuerte.',
-      brief: 'Ilustración nocturna de una familia guatemalteca (abuela, papá, mamá, niña y niño) sentada a la mesa con dos candelas encendidas. El foco del techo y el televisor están apagados; por la ventana se ve lluvia fuerte y un poste de luz apagado. En la mesa, un rompecabezas a medio armar y tazas de café. Colores cálidos de candela, sin texto.',
+      brief: 'Ilustración horizontal 1600×900 nocturna de una familia guatemalteca (abuela, papá, mamá, niña y niño) sentada a la mesa con dos candelas encendidas. El foco del techo y el televisor están apagados; por la ventana se ve lluvia fuerte y un poste de luz apagado. En la mesa, un rompecabezas a medio armar y tazas. Colores cálidos con contraste suficiente, siluetas legibles y sin texto.',
     },
     steps: [
       S.explain(
@@ -168,7 +168,7 @@ export default [
     media: {
       id: 's07-l3-2-puddles', kind: 'image', title: 'After the storm', aspect: '16:9',
       alt: 'Una calle de pueblo con charcos y ramas caídas; sale el sol y un niño con las botas llenas de lodo sostiene una pelota.',
-      brief: 'Ilustración de una calle empedrada de un pueblo guatemalteco justo después de una tormenta: charcos grandes que reflejan el cielo, hojas y ramas pequeñas en el suelo, techos goteando, un arcoíris tenue y el sol saliendo entre nubes. En primer plano, un niño sonriente con las botas y el pantalón llenos de lodo sostiene una pelota de fútbol sucia. Un paraguas cerrado y mojado recostado en una puerta. Sin texto.',
+      brief: 'Ilustración horizontal 1600×900 de una calle empedrada de un pueblo guatemalteco justo después de una tormenta: charcos grandes que reflejan el cielo, hojas y ramas pequeñas en el suelo, techos goteando, un arcoíris tenue y el sol saliendo entre nubes. En primer plano, un niño con botas y pantalón con lodo sostiene una pelota sucia. Composición legible, contraste alto y sin texto.',
     },
     steps: [
       S.explain(
@@ -228,7 +228,7 @@ export default [
           explain: '**The cat jumped on the table and broke the vase.** Jumped (regular) y broke (irregular, de break) cuentan lo que ocurrió antes.',
           media: { id: 's07-l3-2-vase', kind: 'image', title: 'The broken vase', aspect: '4:3',
             alt: 'Una sala con un florero roto en el piso, agua y flores regadas, y un gato asustado que mira desde debajo del sofá.',
-            brief: 'Ilustración de una sala sencilla: al pie de una mesita, un florero de barro roto en tres pedazos, agua derramada y flores regadas en el piso. Debajo del sofá asoman los ojos grandes y culpables de un gato. En la mesita, huellas pequeñas de patitas. Tono gracioso, sin personas, sin texto.' } },
+            brief: 'Ilustración horizontal 1600×900 de una sala sencilla: al pie de una mesita, un florero de barro roto en tres pedazos, agua derramada y flores regadas en el piso. Debajo del sofá asoman los ojos de un gato. En la mesita, huellas pequeñas de patas. Tono gracioso, objetos con contornos legibles, contraste alto, sin personas y sin texto.' } },
         { options: [
           { id: 'a', text: 'The cat jumped on the table and broke the vase.' },
           { id: 'b', text: 'The cat is sleeping on the table.', feedback: 'Eso está en presente, y en la imagen el gato está debajo del sofá.' },
@@ -262,7 +262,7 @@ export default [
           prompt: 'Mira la imagen: un barrilete atorado en lo alto de un árbol y una niña mirando hacia arriba con la pita rota en la mano. Escribe **dos oraciones en inglés** sobre lo que pasó antes: una con **was/were + -ing** y otra en pasado simple.',
           media: { id: 's07-l3-2-kite-tree', kind: 'image', title: 'The kite in the tree', aspect: '4:3',
             alt: 'Un barrilete de colores atorado en la copa de un árbol alto; abajo, una niña mira hacia arriba con un pedazo de pita rota en la mano.',
-            brief: 'Ilustración de un campo abierto con un árbol alto (ciprés o pino). En la copa, un barrilete de papel de china de colores atorado entre las ramas, con su cola colgando. Abajo, una niña de 11 años mira hacia arriba con cara de sorpresa y sostiene un pedazo corto de pita rota. Hojas moviéndose por el viento. Cielo azul con nubes, sin texto.' } },
+            brief: 'Ilustración horizontal 1600×900 de un campo abierto con un árbol alto (ciprés o pino). En la copa, un barrilete de papel de china de colores atorado entre las ramas, con su cola colgando. Abajo, una niña de 11 años mira hacia arriba y sostiene un pedazo corto de pita rota. Hojas moviéndose por el viento. Figuras legibles, contraste alto, cielo azul con nubes y sin texto.' } },
         { minWords: 12, placeholder: 'She was flying… The wind…',
           model: 'She was flying her kite in the field. The wind was very strong, and the kite fell into the tree.',
           rubric: ['Escribí dos oraciones en inglés sobre lo que pasó antes', 'Usé was o were + verbo con -ing', 'Usé un verbo en pasado simple (fell, broke, flew…)', 'Mis oraciones se basan en pistas de la imagen'] },

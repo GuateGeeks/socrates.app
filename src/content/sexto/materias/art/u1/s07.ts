@@ -114,16 +114,8 @@ export default [
       ),
       S.project(
         { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'hacer',
-          prompt: '**En casa:** haz un **estudio de luz** con una fruta y una lámpara (o la luz de una ventana).' },
-        { goal: 'Observar la luz real sobre un objeto y dibujarlo con volumen.',
-          steps: [
-            { title: 'Prepara la escena', detail: 'Pon una fruta redonda (naranja, lima, tomate) sobre una mesa, junto a una ventana o una lámpara que la ilumine de un solo lado.' },
-            { title: 'Observa', detail: 'Busca el brillo, la sombra propia y la sombra proyectada. Señálalas con el dedo.' },
-            { title: 'Dibuja', detail: 'Dibuja la fruta con lápiz o colores: brillo, degradado, sombra propia y sombra proyectada. Marca con una flecha de dónde viene la luz.' },
-            { title: 'Mueve la luz', detail: 'Cambia la luz al otro lado y haz un segundo dibujo rápido. ¿Qué cambió?' },
-          ],
-          evidence: 'Tus dos dibujos con la flecha de la luz.',
-          rubric: ['Dibujé el brillo del lado de la luz', 'Hice un degradado hacia la sombra', 'Dibujé la sombra proyectada del lado correcto'] },
+          prompt: 'En el lienzo, dibuja una fruta iluminada desde la izquierda: brillo, degradado, sombra propia, sombra proyectada y una flecha de luz.' },
+        { goal: 'Resolver un estudio breve en el lienzo de la actividad.', steps: [{ title: 'Traza', detail: 'Dibuja el contorno y marca con una flecha la luz.' }, { title: 'Modela', detail: 'Añade brillo, degradado y sombra proyectada.' }], evidence: 'Un dibujo breve con dirección de luz.', rubric: ['Brillo del lado de la luz', 'Degradado hacia la sombra', 'Sombra proyectada al lado contrario'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.7'], prompt: 'En un mural, ¿qué técnica da sensación de **volumen**?' },
@@ -163,7 +155,7 @@ export default [
     media: {
       id: 's07-art-2-movimiento', kind: 'diagram', title: 'Trucos de movimiento', aspect: '16:9',
       alt: 'Cuatro ejemplos de antes y después: una línea recta junto a una curva; un barrilete quieto junto a otro con la cola ondulada y líneas de viento; una fila de pájaros iguales junto a pájaros repetidos en diagonal; una bailarina rígida junto a otra con la falda en curvas.',
-      brief: 'Lámina didáctica en 4 recuadros "antes → después", estilo mural escolar con colores planos y contorno negro: (1) línea horizontal → línea diagonal y curva con flechas; (2) barrilete quieto → barrilete con cola ondulada y líneas de viento repetidas; (3) tres pájaros alineados en horizontal → siete pájaros repetidos en diagonal ascendente, más pequeños a lo lejos; (4) una danzante con falda recta → misma figura con falda en curvas y listones ondulados. Rótulos: "diagonal", "curva", "repetición", "líneas de movimiento". Fondo claro. Evitar trajes de una comunidad concreta mal representados: vestimenta genérica y respetuosa.',
+      brief: 'Lámina didáctica horizontal 1600×900 en 4 recuadros "antes → después", estilo mural escolar con colores planos y contorno negro: línea horizontal a diagonal; barrilete con líneas de viento; pájaros repetidos en diagonal; figura con listones ondulados. Rótulos grandes: "diagonal", "curva", "repetición", "líneas de movimiento". Fondo claro, contraste alto y lectura de izquierda a derecha. Vestimenta genérica y respetuosa, sin atribuirla a una comunidad concreta.',
     },
     steps: [
       S.explain(
@@ -245,23 +237,15 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'hacer',
-          prompt: 'Te toca una sección del **mural multicultural** de la escuela. Describe tu sección: ¿qué **elemento cultural** representarás?, ¿cómo lograrás **volumen** (luz y sombra), **profundidad** (tamaño, superposición) y **movimiento** (líneas, repetición)?, ¿qué **textura** agregarás?' },
-        { minWords: 40, placeholder: 'En mi sección pintaré… Para el volumen… Para la profundidad… Para el movimiento… La textura…',
+          prompt: 'Describe un boceto pequeño sobre el cuidado del agua: elemento central y un recurso de movimiento (línea, diagonal o repetición).' },
+        { minWords: 20, placeholder: 'Mi elemento central será… Mostraré movimiento con…',
           model: 'En mi sección pintaré un tambor garífuna y una marimba tocando juntos en la playa. Para el volumen, la luz vendrá de la izquierda y sombrearé el lado derecho del tambor con un café más oscuro, con degradado en las teclas de la marimba. Para la profundidad, pondré el mar pequeño y azul pálido al fondo, y el tambor tapando parte de la marimba. Para el movimiento, dibujaré notas musicales repetidas en una curva que sube hacia unas aves. Pegaré arena en la base para la textura de la playa.',
-          rubric: ['Nombra un elemento cultural y lo representa con respeto', 'Explica cómo dará volumen', 'Explica cómo dará profundidad', 'Explica cómo dará movimiento', 'Incluye una textura'] },
+          rubric: ['Nombra un elemento relacionado con el agua', 'Explica un recurso de movimiento', 'La propuesta cabe en un boceto pequeño'] },
       ),
       S.project(
         { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'hacer',
-          prompt: '**En casa:** pinta un **mini mural** en un cartón grande o en varias hojas unidas.' },
-        { goal: 'Practicar volumen, profundidad y movimiento en un formato grande, antes del mural de la escuela.',
-          steps: [
-            { title: 'Boceto con cuadrícula', detail: 'Haz un boceto pequeño con cuadros de 2 cm. Traza la misma cantidad de cuadros, más grandes, en tu cartón.' },
-            { title: 'Amplía', detail: 'Copia cuadro por cuadro con lápiz suave.' },
-            { title: 'Pinta', detail: 'Decide la luz, pinta de atrás hacia adelante (fondo, luego figuras) y agrega sombras y líneas de movimiento.' },
-            { title: 'Textura final', detail: 'Pega una textura (arena, tela o papel arrugado) en una zona que quieras destacar.' },
-          ],
-          evidence: 'Tu boceto con cuadrícula y tu mini mural terminado.',
-          rubric: ['Usé la cuadrícula para ampliar', 'Hay volumen con luz y sombra', 'Hay profundidad', 'Hay movimiento con líneas o repetición'] },
+          prompt: 'Haz el boceto en el lienzo. Usa diagonales, curvas o repetición para dirigir la mirada hacia el agua.' },
+        { goal: 'Crear un boceto pequeño en la plantilla de la actividad.', steps: [{ title: 'Elemento', detail: 'Traza un elemento de agua reconocible.' }, { title: 'Movimiento', detail: 'Añade curvas, diagonales o repetición.' }], evidence: 'Un boceto breve con dirección visual.', rubric: ['Elemento de agua reconocible', 'Dirección visual clara', 'Repetición o línea de movimiento'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.7'], prompt: '¿Qué tipo de línea da sensación de **acción y energía**?' },
@@ -281,7 +265,7 @@ export default [
       ),
       cierre({ areas: ['art'], cnb: ['art:3.2.7'] },
         ['Doy volumen con brillo, degradado y sombras', 'Creo profundidad con tamaño, superposición, posición y color', 'Doy movimiento con líneas y repetición, y planifico un mural con respeto'],
-        ['Haré mi estudio de luz con una fruta', 'Pintaré mi mini mural con cuadrícula', 'Preguntaré a mi familia qué elementos de nuestra cultura pondrían en un mural']),
+        ['Usaré luz y sombra en un boceto breve', 'Probaré una línea de movimiento', 'Representaré el agua con respeto']),
     ],
   }),
 ];

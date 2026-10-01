@@ -27,7 +27,7 @@ export default [
     media: {
       id: 's07-l1-1-embudo', kind: 'diagram', title: 'El embudo de la pregunta', aspect: '3:4',
       alt: 'Un embudo pasa de "El agua" a "El agua de la escuela" y termina en la pregunta "¿De dónde viene el agua que llega a nuestra escuela?".',
-      brief: 'Diagrama vertical de un embudo con tres franjas que se angostan. Texto exacto: arriba, "TEMA: El agua"; centro, "DELIMITO: el agua de la escuela, hoy"; abajo, "PREGUNTA: ¿De dónde viene el agua que llega a nuestra escuela?". A la derecha: "¿Qué aspecto?", "¿Dónde?", "¿Cuándo?". Fondo claro, letra grande, iconos descriptivos de gota, escuela y lupa; no usar círculos o cuadrados como objetos.',
+      brief: 'Diagrama vertical 1200×1600 de un embudo con tres franjas que se angostan. Texto exacto: arriba, "TEMA: El agua"; centro, "DELIMITO: el agua de la escuela, hoy"; abajo, "PREGUNTA: ¿De dónde viene el agua que llega a nuestra escuela?". A la derecha: "¿Qué aspecto?", "¿Dónde?", "¿Cuándo?". Fondo claro, letra grande, contraste alto e iconos descriptivos de gota, escuela y lupa; no usar círculos o cuadrados como objetos.',
     },
     steps: [
       S.explain(
@@ -162,7 +162,7 @@ export default [
     media: {
       id: 's07-l1-2-red', kind: 'diagram', title: 'Red de preguntas clave', aspect: '1:1',
       alt: 'Al centro, la pregunta "¿De dónde viene el agua que llega a nuestra escuela?"; alrededor, cinco preguntas clave unidas con líneas: nacimiento, recorrido, quién la cuida, tratamiento y cómo cuidarla.',
-      brief: 'Mapa radial: círculo central azul con la pregunta de investigación "¿De dónde viene el agua que llega a nuestra escuela?". Cinco burbujas alrededor, cada una con un ícono y una pregunta: gota "¿De qué nacimiento o pozo sale?"; camino "¿Por dónde viaja hasta la escuela?"; personas "¿Quién se encarga de mantener el sistema?"; filtro "¿Se limpia o se trata antes de usarla?"; mano "¿Cómo podemos cuidarla?". Colores suaves, letra grande.',
+      brief: 'Mapa radial horizontal 1600×900: círculo central azul con la pregunta de investigación "¿De dónde viene el agua que llega a nuestra escuela?". Cinco burbujas alrededor, cada una con un ícono y una pregunta: gota "¿De qué nacimiento o pozo sale?"; camino "¿Por dónde viaja hasta la escuela?"; personas "¿Quién se encarga de mantener el sistema?"; filtro "¿Se limpia o se trata antes de usarla?"; mano "¿Cómo podemos cuidarla?". Colores suaves, letra grande, líneas legibles y contraste alto.',
     },
     steps: [
       S.explain(
@@ -305,7 +305,7 @@ export default [
     media: {
       id: 's07-l1-3-fuentes', kind: 'image', title: 'Un mundo de fuentes', aspect: '16:9',
       alt: 'Mesa de trabajo con un libro abierto, una enciclopedia, un periódico, una computadora mostrando un mapa, un radio y una niña que entrevista a una señora mayor.',
-      brief: 'Ilustración cálida de una mesa en una biblioteca comunitaria. A la izquierda, fuentes escritas: libro abierto, enciclopedia, diccionario, periódico doblado, folleto. A la derecha, fuentes tecnológicas: computadora con un mapa en pantalla, tableta con un video educativo (sin logotipos), radio antiguo. Al fondo, una niña con cuaderno entrevista a una señora mayor con traje típico. Rótulos: "Escritas", "Tecnológicas", "Personas". Sin marcas comerciales.',
+      brief: 'Ilustración horizontal 1600×900 de una mesa en una biblioteca comunitaria. A la izquierda, fuentes escritas: libro abierto, enciclopedia, diccionario, periódico doblado, folleto. A la derecha, fuentes tecnológicas: computadora con un mapa en pantalla, tableta con un video educativo (sin logotipos), radio antiguo. Al fondo, una niña con cuaderno conversa con una persona adulta. Rótulos grandes: "Escritas", "Tecnológicas", "Personas". Contraste alto, lectura clara, sin marcas comerciales ni estereotipos culturales.',
     },
     steps: [
       S.explain(
@@ -438,7 +438,7 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.3', 'l1:4.2.1'], title: 'La confianza se justifica',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.3'], title: 'La confianza se justifica',
           prompt: 'Una fuente no es confiable solo por verse formal. Hay que revisar autoría, fecha, propósito, evidencia y coincidencia con otras fuentes.' },
         { icon: 'ShieldCheck', body: 'El juicio sobre una fuente debe mencionar criterios observables, no gustos.' },
       ),
@@ -464,14 +464,14 @@ export default [
         ] },
       ),
       S.reading(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3', 'l1:4.2.1'], ambito: 'hacer',
-          prompt: 'Lee **dos fuentes de ejemplo** que encontró Mateo sobre la calidad del agua. Aplica las cinco preguntas y responde.',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer',
+          prompt: 'Lee el **paquete de fuentes suministrado** sobre la calidad del agua. Aplica las cinco preguntas y responde.',
           hint: 'Fíjate en quién escribió cada texto, para qué y si explica de dónde saca lo que dice.',
           explain: 'La fuente A identifica su origen y explica procesos; la B intenta vender con promesas sin autor, fecha ni evidencia.' },
         { genre: 'Dos fuentes simuladas para comparar', heading: '¿La apariencia demuestra que el agua es potable?', passage:
-          'FUENTE A. Guía escolar de salud, con institución responsable, fecha reciente y referencias a normas de calidad.\n\n' +
+          'FUENTE A. Guía escolar de salud, Equipo editorial escolar (material didáctico simulado), 2025; propósito: informar; referencias didácticas a normas de calidad.\n\n' +
           '"El agua transparente no es automáticamente potable. Para decidir si es apta para beber se necesitan controles adecuados y registros del tratamiento, porque algunos contaminantes no se observan a simple vista. El origen del agua, por sí solo, tampoco permite asegurar su calidad."\n\n' +
-          'FUENTE B. Anuncio simulado compartido en una red social, sin autor, fecha ni pruebas.\n\n' +
+          'FUENTE B. Anuncio simulado del paquete, autor desconocido, sin fecha ni pruebas; propósito: vender.\n\n' +
           '"¡FILTRO MÁGICO! Vuelve potable cualquier agua para siempre. No necesita mantenimiento ni pruebas. Miles lo recomiendan. Últimas unidades a Q99. ¡Compra ya!"',
           questions: [
             { q: '¿Quién escribió la Fuente A?', options: [
@@ -497,15 +497,15 @@ export default [
           ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer', title: 'Ejemplo resuelto: revisar un sitio web',
-          prompt: 'Mira cómo Sofía evalúa un sitio web que encontró sobre el agua.' },
-        { icon: 'Monitor', problem: 'Sofía encuentra un artículo en internet: "Cómo cuidar el agua en casa".',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer', title: 'Ejemplo resuelto: revisar la Fuente A',
+          prompt: 'Mira cómo Sofía evalúa una tarjeta incluida en el paquete de la lección.' },
+        { icon: 'Monitor', problem: 'FUENTE A · Guía escolar de salud · institución responsable identificada · edición didáctica 2025 · propósito: informar.',
           steps: [
             { text: '**¿Quién?** Al final de la página dice que lo publica una institución pública de salud. ✔' },
             { text: '**¿Cuándo?** Tiene fecha de este año. ✔', why: 'Para consejos de salud conviene información actual.' },
             { text: '**¿Para qué?** Explica y da consejos; no vende nada. ✔' },
             { text: '**¿Datos?** Menciona recomendaciones de salud y explica por qué hay que hervir o clorar el agua. ✔' },
-            { text: '**¿Coincide?** Compara con su libro de Ciencias: también dice que hay que hervir el agua para beber si no es segura. ✔' },
+            { text: '**¿Coincide?** La compara con la Fuente C del mismo paquete, una ficha técnica identificada: ambas exigen comprobar tratamiento y controles. ✔' },
           ],
           answer: 'El artículo pasa las cinco preguntas: Sofía puede usarlo como fuente y anotar sus datos.',
           tip: 'Si una fuente falla en "¿quién?" y "¿para qué?", busca otra.' },
@@ -521,7 +521,7 @@ export default [
           { id: 'c2', text: '"¡Reenvía a 10 personas o tendrás mala suerte!"', bucket: 'du' },
           { id: 'c3', text: 'Explica de qué estudio vienen sus datos', bucket: 'ok' },
           { id: 'c4', text: 'Promete resultados milagrosos', bucket: 'du' },
-          { id: 'c5', text: 'Coincide con lo que dice el libro de texto', bucket: 'ok' },
+          { id: 'c5', text: 'Coincide con otra tarjeta identificada del paquete', bucket: 'ok' },
           { id: 'c6', text: 'No tiene autor, fecha ni origen', bucket: 'du' },
         ] },
       ),
@@ -537,9 +537,9 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer',
-          prompt: 'Elige **una fuente** que usarás en tu mini-investigación (un libro, un folleto, un sitio web o una persona). Respóndele las **cinco preguntas** y decide si es confiable.' },
+          prompt: 'Usa la **Fuente C suministrada**: "Ficha técnica didáctica del sistema", institución responsable: Equipo editorial escolar, fecha: 2025, propósito: describir un sistema simulado, evidencia: plano y registro anexos. Respóndele las **cinco preguntas** y decide para qué sirve.' },
         { minWords: 35, placeholder: 'Fuente: …\n¿Quién? …\n¿Cuándo? …\n¿Para qué? …\n¿Datos? …\n¿Coincide? …\nConclusión: …',
-          model: 'Ejemplo hipotético. Fuente: guía escolar sobre agua.\n¿Quién? Institución responsable identificada.\n¿Cuándo? Tiene fecha de publicación.\n¿Para qué? Informar.\n¿Datos? Explica el ciclo del agua y cita sus referencias.\n¿Coincide? Sus conceptos coinciden con un libro de Ciencias.\nConclusión: puede apoyar conceptos generales; no demuestra hechos de una comunidad específica.',
+          model: 'Fuente C del paquete.\n¿Quién? Equipo editorial escolar.\n¿Cuándo? 2025.\n¿Para qué? Describir el sistema simulado.\n¿Datos? Plano y registro anexos.\n¿Coincide? El recorrido coincide con el plano suministrado.\nConclusión: sirve para el escenario, no demuestra hechos de una comunidad real.',
           rubric: [
             'Nombré la fuente',
             'Respondí las cinco preguntas',
@@ -585,11 +585,11 @@ export default [
     media: {
       id: 's07-l1-5-ficha', kind: 'image', title: 'Ficha de una fuente', aspect: '4:3',
       alt: 'Una tarjeta de cartulina con los campos Autor, Título, Año, Editorial o sitio, Qué información me dio, llenos con los datos de un libro de Ciencias Naturales.',
-      brief: 'Ilustración de una ficha de cartulina rayada, con clip, sobre un cuaderno. Campos escritos a mano con letra clara: "Autor: institución de ejemplo", "Título: Ciencias Naturales 6", "Año: 2024", "Editorial o sitio: ejemplo", "¿Qué información me dio?: el ciclo del agua, pág. 34". Al lado, una ficha rotulada "ENTREVISTA SIMULADA · PERSONAJE FICTICIO" con "don Rafael, conserje del caso; fecha del escenario: 12 de marzo". Sin marcas ni fuentes reales inventadas.',
+      brief: 'Ilustración horizontal 1600×1200 de una ficha de cartulina rayada, con clip, sobre un cuaderno. Campos escritos con letra grande y clara: "Autor: Equipo editorial escolar", "Título: Registro simulado de la bomba", "Año: 2025", "Procedencia: dossier de la lección", "¿Qué información me dio?: horarios del caso ficticio". Al lado, una ficha rotulada "ENTREVISTA SIMULADA · PERSONAJE FICTICIO" con fecha del escenario. Alto contraste, sin marcas ni fuentes reales inventadas.',
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.3', 'l1:8.2.4', 'l1:4.2.2'], title: 'Buscar y dejar rastro',
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.3'], title: 'Buscar y dejar rastro',
           prompt: 'Las palabras clave localizan información; la ficha registra quién la publicó, cuándo, dónde y qué dato se tomó.' },
         { icon: 'NotebookPen', body: 'Sin ficha, un hallazgo queda separado de su fuente y no puede revisarse.' },
       ),
@@ -634,7 +634,7 @@ export default [
         { target: 'palabras clave', text: '¿Cómo {llega} el {agua} al {tanque} de la {escuela}?' },
       ),
       S.explain(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3', 'l1:8.2.4'], ambito: 'conocer', title: 'La ficha de la fuente',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'conocer', title: 'La ficha de la fuente',
           prompt: 'Cada vez que uses una fuente, anota sus datos en una **ficha**. Observa la imagen y toca cada tarjeta.' },
         { icon: 'FileText', body: 'La ficha te permite volver a la fuente, comprobar un dato y, sobre todo, **decir de dónde sacaste la información** (lo verás la próxima semana).', reveal: [
           { icon: 'BookOpen', front: 'Libro', back: 'Autor, título, año, editorial y **páginas** que usaste.' },
@@ -644,31 +644,31 @@ export default [
         ] },
       ),
       S.fill(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer',
           prompt: 'Completa la ficha de una **entrevista simulada** del caso de Sofía. No representa una consulta real.',
           explain: 'En una entrevista se registra quién es la persona, por qué sabe del tema, la fecha y qué información dio.' },
         { text: 'Tipo de fuente: [[entrevista]]. Personaje ficticio: don Rafael, [[conserje]] de la escuela del caso. Fecha del escenario: 12 de marzo. Afirmación por comprobar: el agua viene de un [[nacimiento]] y llega por [[tubería]] hasta el tanque.',
           distractors: ['enciclopedia', 'alcalde', 'volcán'] },
       ),
       S.sort(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'ser', prompt: 'Al buscar en internet, ¿es una práctica **segura** o **peligrosa**?',
-          explain: 'Buscar con un adulto y en sitios de instituciones es seguro. Compartir datos personales o descargar programas desconocidos te pone en riesgo.' },
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer', prompt: 'Revisa la **Fuente B suministrada** y clasifica qué datos aparecen y cuáles faltan.',
+          explain: 'La tarjeta identifica institución responsable, título, fecha y procedencia del dossier; todavía debes registrar qué dato concreto usarás.' },
         { buckets: [
-          { id: 'seg', label: 'Segura', icon: 'ShieldCheck', color: 'var(--c-ok)' },
-          { id: 'pel', label: 'Peligrosa', icon: 'AlertTriangle', color: 'var(--c-maiz-strong)' },
+          { id: 'seg', label: 'Aparece en la tarjeta', icon: 'ShieldCheck', color: 'var(--c-ok)' },
+          { id: 'pel', label: 'Falta registrar', icon: 'AlertTriangle', color: 'var(--c-maiz-strong)' },
         ], items: [
-          { id: 'i1', text: 'Buscar acompañado de un adulto', bucket: 'seg' },
-          { id: 'i2', text: 'Escribir mi dirección para "ganar un premio"', bucket: 'pel' },
-          { id: 'i3', text: 'Preferir sitios de instituciones educativas o públicas', bucket: 'seg' },
-          { id: 'i4', text: 'Descargar un programa desconocido que promete tareas hechas', bucket: 'pel' },
-          { id: 'i5', text: 'Cerrar una página que me incomoda y avisar a un adulto', bucket: 'seg' },
+          { id: 'i1', text: 'Institución responsable: Equipo editorial escolar', bucket: 'seg' },
+          { id: 'i2', text: 'Título: Registro simulado de la bomba', bucket: 'seg' },
+          { id: 'i3', text: 'Fecha: 2025', bucket: 'seg' },
+          { id: 'i4', text: 'Procedencia: dossier de esta lección', bucket: 'seg' },
+          { id: 'i5', text: 'Dato exacto que usaré en mi respuesta', bucket: 'pel' },
         ] },
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer',
-          prompt: 'Para **tu mini-investigación**: escribe las **palabras clave** de dos de tus preguntas clave y llena **una ficha** de una fuente que ya consultaste o que consultarás.' },
+          prompt: 'Usa el **paquete suministrado**. Escribe palabras clave para dos preguntas y llena la ficha de la **Fuente B**: institución responsable "Equipo editorial escolar", título "Registro simulado de la bomba", fecha 2025, procedencia "dossier de esta lección".' },
         { minWords: 30, placeholder: 'Pregunta 1: … → palabras clave: …\nPregunta 2: … → palabras clave: …\nFicha: tipo… / autor o persona… / título… / fecha… / qué me dio…',
-          model: 'Pregunta 1: ¿De qué nacimiento sale el agua? → palabras clave: nacimiento, agua, escuela.\nPregunta 2: ¿Se trata antes de usarla? → palabras clave: potabilización, cloro, agua.\nFicha: libro / autores de Ciencias Naturales 6 / "El agua y la salud" / edición de hace dos años / explica que clorar o hervir el agua elimina microbios (pág. 41).',
+          model: 'Pregunta 1: ¿Cuándo funciona la bomba? → palabras clave: bomba, horario, registro.\nPregunta 2: ¿Cuántas veces se activa? → palabras clave: activaciones, bomba.\nFicha: registro / Equipo editorial escolar / "Registro simulado de la bomba" / 2025 / dossier de esta lección / aporta horarios de un caso ficticio.',
           rubric: [
             'Elegí palabras clave que nombran el tema (sin palabras de relleno)',
             'Llené la ficha con tipo, autor o persona, título y fecha',
@@ -684,7 +684,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.3', 'l1:4.2.2'], prompt: 'Buscas "tubería" en el **índice alfabético** de un libro. ¿Entre qué palabras aparecerá?' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.3'], prompt: 'En el índice suministrado, buscas "tubería". ¿Entre qué palabras aparecerá alfabéticamente?' },
         { options: [
           { id: 'a', text: 'Entre "tratamiento" y "volumen"' },
           { id: 'b', text: 'Entre "agua" y "caudal"' },
@@ -699,9 +699,9 @@ export default [
           'Sé qué fuentes escritas y tecnológicas usaré y si son confiables',
           'Busco con palabras clave y registro mis fuentes en fichas',
         ], commitments: [
-          'Haré la entrevista o consulta que tengo en mi cronograma',
-          'Llenaré una ficha por cada fuente que use',
-          'Buscaré en internet solo con un adulto y en sitios confiables',
+          'Distinguiré los datos suministrados de los hechos de una comunidad real',
+          'Llenaré una ficha para cada tarjeta del paquete que use',
+          'Explicaré qué puede y qué no puede demostrar cada fuente',
         ] },
       ),
     ],

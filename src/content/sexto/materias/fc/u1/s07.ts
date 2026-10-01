@@ -188,7 +188,7 @@ export default [
     media: {
       id: 's07-fc-2-mesa-mestiza', kind: 'image', title: 'Una mesa con muchas raíces', aspect: '4:3',
       alt: 'Mesa de desayuno guatemalteca con tortillas, frijoles, pan, café, chocolate y plátano; flechas punteadas señalan de qué continente vino cada alimento.',
-      brief: 'Ilustración cenital de una mesa de madera con mantel típico. Sobre ella: tortillas y frijoles (etiqueta "América"), chocolate (etiqueta "América"), pan de trigo (etiqueta "llegó de Europa"), taza de café (etiqueta "origen en África, llegó por Europa"), plátano (etiqueta "Asia/África"). Un pequeño globo terráqueo en la esquina con flechas punteadas de colores hacia la mesa. Estilo cálido, sin marcas comerciales.',
+      brief: 'Ilustración cenital 1600×900 de una mesa de madera con mantel tejido. Sobre ella: tortillas y frijoles (etiqueta "América"), chocolate ("América"), pan de trigo ("llegó de Europa"), taza de café ("origen en África, llegó por Europa") y plátano ("Asia/África"). Globo terráqueo con flechas punteadas. Texto grande, contraste alto, patrones además de color y sin marcas comerciales.',
     },
     steps: [
       S.explain(

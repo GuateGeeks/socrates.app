@@ -1167,6 +1167,52 @@ function quantifiedActionCount(value: unknown): number {
   return [...activeText.matchAll(/\b(\d+)\s+(pases?|lanzamientos?|saltos?|veces|repeticiones?|intentos?|finalizaciones?|frotados?)\b/g)]
     .reduce((sum, match) => sum + Number(match[1]), 0);
 }
+
+function lessonWorkload(lesson: Lesson): {
+  nestedItems: number;
+  complexity: number;
+  longResponse: boolean;
+} {
+  const countItems = (value: unknown): number => {
+    if (!value || typeof value !== 'object') return 0;
+    if (Array.isArray(value)) return value.reduce((sum, item) => sum + countItems(item), 0);
+    return Object.entries(value as Record<string, unknown>).reduce((sum, [key, item]) => {
+      if (['options', 'items', 'pairs', 'statements', 'questions', 'reveal', 'cards', 'steps', 'rounds'].includes(key) && Array.isArray(item)) return sum + item.length;
+      return sum;
+    }, 0);
+  };
+  const nestedItems = lesson.steps.reduce((sum, step) => sum + countItems(step.props), 0);
+  const serialized = JSON.stringify(lesson.steps.map((step) => ({ ...step, media: undefined })));
+  const textWords = serialized.match(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ0-9]+/g)?.length ?? 0;
+  const mediaSeconds = [lesson.media, ...lesson.steps.map((step) => step.media)]
+    .reduce((sum, media) => sum + Number(media?.duration ?? 0), 0);
+  const activeText = normalizeFactText(JSON.stringify(lesson.steps.filter((step) => step.fase === 'aplicar')));
+  const repetitions = quantifiedActionCount(activeText);
+  const setupActions = activeText.match(/\b(?:buscar|recolectar|conseguir|recortar|triturar|preparar|mezclar|distribuir|montar|cocinar)\b/g)?.length ?? 0;
+  const evidenceWriting = activeText.match(/\b(?:anota|anoten|registra|registren|escribe|escriban|documenta|documenten)\b/g)?.length ?? 0;
+  const complexity = lesson.steps.length + nestedItems / 4 + mediaSeconds / 60 + textWords / 600
+    + repetitions / 10 + setupActions * 0.5 + evidenceWriting * 0.5;
+  const longResponse = lesson.steps.some((step) => step.type === 'short-answer'
+    && Number((step.props as { minWords?: number }).minWords ?? 0) > lesson.minutes * 3);
+  return { nestedItems, complexity, longResponse };
+}
+
+function mediaBriefFailure(media: { kind: string; brief: string; alt: string }): string | undefined {
+  const brief = normalizeFactText(media.brief);
+  const timed = /audio|video|animation/.test(media.kind);
+  if (timed && !/\b\d{1,3}\s*(?:s|segundos?|minutos?)\b/.test(brief)) return 'sin duracion';
+  if (!timed && !/\b\d{3,4}\s*[x×]\s*\d{3,4}\b/.test(brief)) return 'sin dimensiones';
+  if (!/(?:subtitulos|transcripcion|guion exacto|sin musica|contraste|legible|letra grande|rotulos grandes|texto grande|sin texto|texto exacto)/.test(brief)) return 'sin detalle de accesibilidad';
+  if (!media.alt.trim() || media.alt.length < 30) return 'alt insuficiente';
+  return undefined;
+}
+
+function unsupportedCausality(value: unknown): boolean {
+  const text = normalizeFactText(value);
+  return /(?:bosque|vegetacion|arboles?|reforestar|tala).{0,100}(?:garantiza|asegura|impide que.{0,30}se seque|hace que.{0,30}(?:se infiltre|haya agua)|provoca.{0,30}(?:que se seque|la falta de agua))/.test(text)
+    || /sin (?:bosque|arboles?|raices).{0,80}(?:no se infiltra|el nacimiento se seca|se seca el nacimiento)/.test(text)
+    || /(?:humo|exposicion al humo).{0,80}(?:causa|provoca).{0,40}(?:gripe|influenza)/.test(text);
+}
 function nestedGradedAssessments(values: unknown[]): Array<{ type: string; prompt?: string; areas: string[] }> {
   const found: Array<{ type: string; prompt?: string; areas: string[] }> = [];
   const visit = (value: unknown): void => {
@@ -3804,15 +3850,28 @@ test('Semana 7 preserva 27 lecciones, cobertura CNB y un resultado central por l
     ['mat', 5], ['l1', 5], ['cnt', 3], ['ccss', 3], ['l2', 2],
     ['l3', 2], ['fc', 2], ['art', 2], ['ef', 2], ['pyd', 1],
   ]);
-  const expectedCnb = new Set([
-    'mat:1.5.3', 'mat:3.2.4', 'mat:3.3.1', 'mat:4.1.1', 'mat:4.1.2', 'mat:4.1.3',
-    'l1:4.2.1', 'l1:4.2.2', 'l1:8.2.2', 'l1:8.2.3', 'l1:8.2.4',
-    'cnt:6.1.1', 'cnt:6.2.1', 'cnt:6.3.1', 'cnt:6.4.1', 'cnt:6.5.1',
-    'ccss:6.6.6', 'ccss:6.7.1', 'ccss:6.7.4', 'ccss:7.1.2', 'ccss:7.2.1',
-    'l2:4.1.4', 'l2:4.1.6', 'l2:4.1.8', 'l3:4.3.3',
-    'fc:4.2.2', 'fc:5.1.1', 'art:3.2.7',
-    'ef:3.2.3', 'ef:4.1.4', 'ef:4.1.8', 'pyd:5.1.2', 'pyd:5.3.2',
-  ]);
+  const plan = JSON.parse(readFileSync('src/content/sexto/plan.json', 'utf8')) as {
+    unidades: Array<{ unidad: number; semanas: Array<{ semana: number; contenidos: Record<string, string[]> }> }>;
+  };
+  const plannedWeek = plan.unidades.find((unit) => unit.unidad === 1)?.semanas.find((week) => week.semana === 7);
+  assert.ok(plannedWeek, 'plan.json no contiene Unidad 1 Semana 7');
+  const expectedCnb = new Set(Object.values(plannedWeek.contenidos).flat());
+  const documentedTransfers = new Map([
+    ['cnt:6.1.1', { fromWeek: 6, reason: 'La morbilidad se interpreta junto con condiciones ambientales sin atribuir causalidad automática.' }],
+    ['cnt:6.2.1', { fromWeek: 6, reason: 'El crecimiento poblacional se estudia en la lección de expansión urbana y áreas verdes.' }],
+    ['cnt:6.3.1', { fromWeek: 6, reason: 'La relación bosque-agua se enseña con condiciones y límites de inferencia.' }],
+    ['ccss:6.6.6', { fromWeek: 6, reason: 'La cooperación regional se conecta con los procesos de paz americanos.' }],
+    ['ccss:6.7.1', { fromWeek: 6, reason: 'Los procesos de paz se relacionan con condiciones sociales y económicas.' }],
+    ['ccss:6.7.4', { fromWeek: 6, reason: 'La comparación de paz incluye avances y desafíos de apertura democrática.' }],
+  ] as const);
+  const unitPlan = plan.unidades.find((unit) => unit.unidad === 1);
+  assert.ok(unitPlan);
+  for (const [ref, transfer] of documentedTransfers) {
+    const sourceWeek = unitPlan.semanas.find((week) => week.semana === transfer.fromWeek);
+    assert.ok(sourceWeek && Object.values(sourceWeek.contenidos).flat().includes(ref), `${ref}: transferencia sin origen en plan.json`);
+    assert.ok(transfer.reason.length >= 40, `${ref}: transferencia sin justificación curricular`);
+    expectedCnb.add(ref);
+  }
   const lessons = weekSeven.lessons.filter((lesson) => lesson.kind === 'materia');
   const actualCounts = new Map<string, number>();
   const failures: string[] = [];
@@ -3825,6 +3884,18 @@ test('Semana 7 preserva 27 lecciones, cobertura CNB y un resultado central por l
   }
   assert.deepEqual(actualCounts, expectedLessonCounts);
   assert.deepEqual(new Set(lessons.flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb))), expectedCnb);
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 7 mantiene carga estructurada creible dentro de quince minutos', () => {
+  const failures: string[] = [];
+  for (const lesson of weekSeven.lessons.filter((item) => item.kind === 'materia')) {
+    const { nestedItems, complexity, longResponse } = lessonWorkload(lesson);
+    if (lesson.minutes < 10 || lesson.minutes > 15 || lesson.steps.length < 9 || lesson.steps.length > 14
+      || nestedItems > lesson.minutes * 3 || complexity > lesson.minutes * 2 - 2 || longResponse) {
+      failures.push(`${lesson.id}: pasos=${lesson.steps.length}, elementos=${nestedItems}, complejidad=${complexity.toFixed(2)}, larga=${longResponse}`);
+    }
+  }
   assert.deepEqual(failures, []);
 });
 
@@ -3864,12 +3935,78 @@ test('Semana 7 usa secuencias autoradas con ensenanza, guia, transferencia y dos
 
 test('Semana 7 distingue escenarios, observaciones e inferencias y califica sus afirmaciones sobre agua', () => {
   const text = normalizeFactText(JSON.stringify(weekSeven));
+  assert.equal(unsupportedCausality('Reforestar garantiza agua y evita que el nacimiento se seque.'), true);
+  assert.equal(unsupportedCausality('La vegetacion puede favorecer la infiltracion segun el suelo, la pendiente y la lluvia.'), false);
+  assert.equal(unsupportedCausality(weekSeven), false, 'Semana 7 contiene una causalidad ambiental o sanitaria no sustentada');
   assert.doesNotMatch(text, /agua entubada (?:es|esta) potable|agua de nacimiento (?:es|esta) (?:sucia|contaminada|insegura)/);
   assert.doesNotMatch(text, /(?:el bosque|los bosques|reforestar).{0,80}(?:garantiza|asegura).{0,60}(?:agua|calidad|cantidad)/);
   assert.doesNotMatch(text, /sin bosque.{0,80}(?:el nacimiento se seca|no se infiltra|no se guarda)/);
   assert.match(text, /puede(?:n)? ayudar|puede(?:n)? contribuir|segun (?:el suelo|las condiciones|la evidencia|el caso)/);
   assert.match(text, /datos? (?:del escenario|hipoteticos?|simulados?|de ejemplo)|caso (?:hipotetico|simulado)/);
   assert.doesNotMatch(text, /(?:entrevistamos|consultamos|medimos|comprobamos) (?:a|con|el|la|los|las|en) (?:nuestra|nuestro|la comunidad|el cocode|el nacimiento)/);
+});
+
+test('CNT1 trata humo, influenza y datos sanitarios como riesgo, asociacion e hipotesis', () => {
+  const lesson = weekSeven.lessons.find((item) => item.id === 's07-cnt-1');
+  assert.ok(lesson, 'Falta s07-cnt-1');
+  const text = normalizeFactText(JSON.stringify(lesson));
+  assert.match(text, /humo.{0,100}(?:puede aumentar|aumenta el riesgo|se asocia)/);
+  assert.match(text, /(?:gripe|influenza).{0,40}(?:virus|viral)|(?:virus|viral).{0,40}(?:gripe|influenza)/);
+  assert.match(text, /(?:otras explicaciones|explicaciones alternativas|tambien pueden influir).{0,120}(?:virus|ventilacion|hacinamiento|epoca|temporada)/);
+  assert.doesNotMatch(text, /(?:imagen|ilustracion|escena).{0,100}(?:demuestra|prueba).{0,80}(?:causa|casos|enfermedad)/);
+});
+
+test('L1-4 y L1-5 resuelven la investigacion con paquetes atribuidos y autosuficientes', () => {
+  const lessons = ['s07-l1-4', 's07-l1-5'].map((id) => weekSeven.lessons.find((item) => item.id === id));
+  assert.ok(lessons.every(Boolean), 'Falta una leccion L1 de fuentes');
+  for (const lesson of lessons) {
+    assert.ok(lesson);
+    const application = normalizeFactText(JSON.stringify(lesson.steps.filter((step) => step.fase === 'aplicar' || step.fase === 'reflexionar')));
+    assert.match(application, /(?:paquete|tarjeta|ficha|fuente) [abc123]/, `${lesson.id}: falta paquete suministrado`);
+    assert.match(application, /autor|institucion responsable|fecha|procedencia/, `${lesson.id}: faltan atribuciones visibles`);
+    assert.doesNotMatch(application, /(?:busca|consulta|visita|entrevista|pregunta a|habla con|investiga en) (?:un|una|tu|el|la|internet|sitio|libro|persona|familia|comunidad)|(?:ya consultaste|consultaras|vas a consultar|entrevistaras)/, `${lesson.id}: exige una fuente externa`);
+  }
+});
+
+test('PyD y CCSS1 alinean objetivo, aplicacion y salidas con evidencia semantica', () => {
+  const pyd = weekSeven.lessons.find((item) => item.id === 's07-pyd-1');
+  const ccss = weekSeven.lessons.find((item) => item.id === 's07-ccss-1');
+  assert.ok(pyd && ccss, 'Faltan PyD o CCSS1');
+  const pydObjective = normalizeFactText((pyd.objetivos ?? []).join(' '));
+  const pydApplication = normalizeFactText(JSON.stringify(pyd.steps.filter((step) => step.fase === 'aplicar')));
+  const pydExits = normalizeFactText(JSON.stringify(pyd.steps.filter((step) => step.fase === 'comprobar')));
+  assert.match(pydObjective, /disenar.{0,80}accion (?:ambiental )?(?:factible|viable)/);
+  for (const field of [/causa/, /evidencia/, /responsabl/, /recurso/, /verific|indicador/]) {
+    assert.match(pydApplication, field, `PyD aplicacion no evidencia ${field}`);
+    assert.match(pydExits, field, `PyD salidas no evidencian ${field}`);
+  }
+  const ccssObjective = normalizeFactText((ccss.objetivos ?? []).join(' '));
+  const ccssApplication = normalizeFactText(JSON.stringify(ccss.steps.filter((step) => step.fase === 'aplicar')));
+  const ccssExits = normalizeFactText(JSON.stringify(ccss.steps.filter((step) => step.fase === 'comprobar')));
+  assert.match(ccssObjective, /comparar.{0,80}procesos? de paz/);
+  for (const field of [/acuerdo/, /actor/, /participacion/]) {
+    assert.match(ccssApplication, field, `CCSS1 aplicacion no compara ${field}`);
+    assert.match(ccssExits, field, `CCSS1 salidas no comparan ${field}`);
+  }
+});
+
+test('Los mocks de Semana 7 tienen especificacion de formato, produccion y accesibilidad', () => {
+  assert.equal(mediaBriefFailure({ kind: 'image', brief: 'Una imagen bonita.', alt: 'Una escena suficientemente descrita para probar.' }), 'sin dimensiones');
+  assert.equal(mediaBriefFailure({ kind: 'audio', brief: 'Audio con voz clara.', alt: 'Una pista suficientemente descrita para probar.' }), 'sin duracion');
+  const failures: string[] = [];
+  const visit = (value: unknown): void => {
+    if (Array.isArray(value)) { value.forEach(visit); return; }
+    if (!value || typeof value !== 'object') return;
+    const record = value as Record<string, unknown>;
+    if (typeof record.id === 'string' && typeof record.kind === 'string'
+      && typeof record.brief === 'string' && typeof record.alt === 'string') {
+      const failure = mediaBriefFailure(record as { kind: string; brief: string; alt: string });
+      if (failure) failures.push(`${record.id}: ${failure}`);
+    }
+    Object.values(record).forEach(visit);
+  };
+  visit(weekSeven);
+  assert.deepEqual(failures, []);
 });
 
 test('Semana 7 construye un informe viable con preguntas, fuentes, hallazgos y accion', () => {

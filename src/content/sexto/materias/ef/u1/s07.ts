@@ -26,7 +26,7 @@ export default [
     media: {
       id: 's07-ef-1-juego-limpio', kind: 'video', title: 'Momentos de juego limpio', aspect: '16:9', duration: 50,
       alt: 'Escenas de un partido escolar: una niña pasa a un compañero mejor ubicado que anota; un niño ayuda a levantarse a un rival caído; el capitán pregunta con calma a la árbitra; al final ambos equipos se saludan.',
-      brief: 'Video de 50 s de un partido escolar mixto de fútbol o balonmano, recreado con estudiantes (rostros no protagonistas). Cuatro momentos con rótulo: (1) "Pienso en el equipo": una niña ve a un compañero libre y le pasa en lugar de tirar desde lejos; él anota y lo celebran juntos. (2) "Ayudo al rival": un niño tiende la mano a un rival caído. (3) "Respeto al árbitro": la árbitra (estudiante con silbato) marca falta; el capitán pregunta tranquilo, ella explica y el juego sigue. (4) "Saludo final": los equipos forman fila y se dan la mano. Sin gestos agresivos.',
+      brief: 'Video de 50 s de un partido escolar mixto de fútbol o balonmano, recreado con estudiantes (rostros no protagonistas). Cuatro momentos con rótulo: (1) "Pienso en el equipo"; (2) "Ayudo al rival"; (3) "Respeto al árbitro"; (4) "Saludo final". Añadir narración breve, subtítulos completos, rótulos grandes y contraste alto. Sin gestos agresivos ni música que cubra las voces.',
     },
     steps: [
       S.explain(
@@ -50,7 +50,7 @@ export default [
           media: {
             id: 's07-ef-1-senas', kind: 'image', title: 'Señales del árbitro', aspect: '4:3',
             alt: 'Una niña árbitra con silbato muestra cuatro señas sencillas: brazo extendido indicando la dirección del saque, brazo arriba para falta, manos girando para pasos y palma abierta hacia abajo para calmar.',
-            brief: 'Ilustración en cuadrícula 2×2 de una niña árbitra escolar con silbato y camiseta de color distinto: (1) brazo extendido señalando dirección: "saque para este equipo"; (2) brazo arriba: "falta"; (3) antebrazos girando uno sobre otro: "pasos"; (4) palmas hacia abajo moviéndose despacio: "calma". Estilo plano, rótulos grandes. Nota al pie: "Las señas oficiales varían según el deporte".',
+            brief: 'Ilustración horizontal 1600×900 en cuadrícula 2×2 de una niña árbitra escolar con silbato y camiseta de color distinto: (1) brazo extendido: "saque"; (2) brazo arriba: "falta"; (3) antebrazos girando: "pasos"; (4) palmas hacia abajo: "calma". Estilo plano, rótulos grandes y contraste alto. Nota legible: "Las señas oficiales varían según el deporte".',
           } },
         { icon: 'Gavel', body: 'El **árbitro** (en juegos como fútbol o balonmano) o el **juez** (en carreras, saltos o gimnasia) hace cumplir las reglas. Es una persona que también puede equivocarse, pero **sin árbitro no hay juego**.', reveal: [
           { icon: 'Scale', front: 'Las reglas', back: 'Se acuerdan **antes** de jugar y valen **para todos** por igual. Si no te gustan, se proponen cambios **después**, no a mitad del partido.' },
@@ -165,7 +165,7 @@ export default [
     media: {
       id: 's07-ef-2-tarde', kind: 'image', title: 'Una tarde de juego en la comunidad', aspect: '16:9',
       alt: 'En una cancha de tierra de una aldea, niñas, niños, personas mayores y un niño en silla de ruedas juegan distintos juegos: salta cuerda, pases de pelota, carrera de costales. Un cartel dice "Tarde activa: calentamiento, juegos y calma".',
-      brief: 'Ilustración cálida, estilo cuento, de una tarde de sábado en una cancha comunitaria de tierra con montañas al fondo. Estaciones: salta cuerda con una abuela dando vuelta a la cuerda; pases de pelota en círculo con un niño en silla de ruedas; carrera de costales; niñas pequeñas jugando tenta. Un cartel de cartón: "Tarde activa: 1. Calentamiento 2. Juegos 3. Calma". Un garrafón de agua y un bote de basura. Diversidad de pueblos y edades sin estereotipos; ropa cotidiana.',
+      brief: 'Ilustración horizontal 1600×900, estilo cuento, de una tarde en una cancha comunitaria de tierra. Estaciones: cuerda, pases de pelota con un niño en silla de ruedas, carrera de costales y tenta. Cartel con texto grande: "Tarde activa: 1. Calentamiento 2. Juegos 3. Calma". Incluir agua y bote de basura. Contraste alto, figuras legibles, diversidad de pueblos y edades sin estereotipos; ropa cotidiana.',
     },
     steps: [
       S.explain(
@@ -250,8 +250,8 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:3.2.3'], ambito: 'emprender',
-          prompt: 'Planifica una **tarde activa** para tu familia, tus vecinos o niñas y niños más pequeños de tu comunidad. Escribe: para quiénes es, dónde y con qué materiales, qué harás en el **calentamiento**, qué **juegos** (al menos 2) y cómo será la **vuelta a la calma**. Incluye una medida de **seguridad** y una forma de que **todos participen**.' },
-        { minWords: 50, placeholder: 'Mi tarde activa será para… en… con… Calentamiento: … Juegos: … Vuelta a la calma: … Seguridad: … Para que todos participen: …',
+          prompt: 'Planifica una sesión breve del caso: calentamiento, un juego, vuelta a la calma, seguridad y adaptación inclusiva.' },
+        { minWords: 30, placeholder: 'Calentamiento: … Juego: … Calma: … Seguridad: … Adaptación: …',
           model: 'Mi tarde activa será para mis primos pequeños y mis vecinos, el domingo en el patio de la iglesia, con una pelota, una cuerda y tiza. Calentamiento: caminar en círculo y mover brazos y piernas como animales. Juegos: avioncito dibujado con tiza y "pelota caliente" pasándola en círculo. Vuelta a la calma: estirarnos como árboles y respirar lento. Seguridad: llevaré un garrafón de agua y mi tía nos cuidará. Para que todos participen, los más pequeños lanzarán desde más cerca.',
           rubric: ['Dice para quiénes, dónde y con qué materiales', 'Incluye calentamiento, al menos 2 juegos y vuelta a la calma', 'Tiene una medida de seguridad', 'Propone una forma de incluir a todos'] },
       ),
