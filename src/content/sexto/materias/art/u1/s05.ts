@@ -58,9 +58,7 @@ export default [
           prompt: 'Aprende palabras para **describir texturas**. Lee el frente, piensa en un ejemplo y voltea la tarjeta.' },
         { cards: [
           { front: 'Rugosa', back: 'Con arrugas o bultos irregulares. Ej.: corteza de pino, piel del güisquil.', icon: 'Mountain' },
-          { front: 'Áspera', back: 'Raspa un poco al tocar. Ej.: lija, ladrillo, piedra de moler.', icon: 'Hammer' },
           { front: 'Lisa', back: 'Sin bultos ni asperezas. Ej.: piedra de río, vidrio, hoja de plátano.', icon: 'Circle' },
-          { front: 'Suave', back: 'Agradable y delicada al tacto. Ej.: algodón, pluma, lana.', icon: 'Feather' },
           { front: 'Granulosa', back: 'Formada por granitos. Ej.: arena volcánica, azúcar, tierra seca.', icon: 'Sparkles' },
           { front: 'Ondulada', back: 'Con ondas que suben y bajan. Ej.: lámina, cartón corrugado.', icon: 'Waves' },
         ] },
@@ -96,8 +94,6 @@ export default [
           { id: 'x2', text: 'La foto de un volcán en un libro', bucket: 'v' },
           { id: 'x3', text: 'El frotado de una moneda en mi cuaderno', bucket: 'v', feedback: 'La moneda es táctil, pero el frotado en el papel es una textura visual.' },
           { id: 'x4', text: 'Un güipil tejido', bucket: 't' },
-          { id: 'x5', text: 'Un dibujo de las plumas de un quetzal', bucket: 'v' },
-          { id: 'x6', text: 'La corteza de un árbol de la escuela', bucket: 't' },
         ] },
       ),
       S.match(
@@ -107,9 +103,7 @@ export default [
         { leftTitle: 'Elemento', rightTitle: 'Textura', pairs: [
           { id: 'p', left: 'Piedra de río', leftIcon: 'Circle', right: 'Lisa' },
           { id: 'a', left: 'Arena volcánica', leftIcon: 'Mountain', right: 'Granulosa' },
-          { id: 'l', left: 'Lana de oveja', leftIcon: 'Cloud', right: 'Suave' },
           { id: 'c', left: 'Corteza de pino', leftIcon: 'TreePine', right: 'Rugosa' },
-          { id: 'm', left: 'Lámina de un techo', leftIcon: 'Home', right: 'Ondulada' },
         ] },
       ),
       S.choice(
@@ -124,16 +118,15 @@ export default [
       ),
       S.project(
         { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.1'], ambito: 'hacer',
-          prompt: '**En casa:** sal a una **cacería de texturas** en tu casa, patio o camino a la escuela.' },
-        { goal: 'Reunir 6 frotados de texturas distintas de tu entorno y describir cada una.',
+          prompt: 'Realiza en clase un ensayo breve con **tres superficies preparadas y seguras**: cartón corrugado, un retazo limpio de petate y una placa de hojas con nervaduras.' },
+        { goal: 'Producir tres frotados y comparar la textura visual que registra cada superficie.',
           steps: [
-            { title: 'Explora con las manos', detail: 'Toca con cuidado paredes, cortezas, hojas, tejidos, petates, monedas, suelas. Evita espinas, vidrios y superficies sucias.' },
-            { title: 'Haz los frotados', detail: 'Con papel delgado y crayón acostado, captura 6 texturas: 3 naturales y 3 artificiales.' },
-            { title: 'Rotula', detail: 'Escribe debajo de cada una: qué es, si es natural o artificial y una palabra que la describa (rugosa, lisa…).' },
-            { title: 'Adivinanza', detail: 'Enseña tus frotados a alguien de tu familia y pídele que adivine de qué objeto salió cada uno.' },
+            { title: 'Prepara la hoja', detail: 'Divide una hoja delgada en tres espacios y coloca el primero sobre una superficie preparada.' },
+            { title: 'Haz tres frotados', detail: 'Sujeta el papel y pasa el crayón acostado con presión suave una vez sobre cada superficie.' },
+            { title: 'Compara y rotula', detail: 'Debajo de los tres frotados escribe una comparación concisa, por ejemplo: “El corrugado deja líneas; el petate, una trama; la placa de hojas, nervaduras”.' },
           ],
-          evidence: 'Una hoja con 6 frotados rotulados.',
-          rubric: ['Capturé 6 texturas distintas', 'Incluí naturales y artificiales', 'Describí cada una con una palabra precisa'] },
+          evidence: 'Una hoja con tres frotados y un rótulo comparativo.',
+          rubric: ['Los tres registros muestran diferencias visibles', 'El rótulo compara las huellas con vocabulario preciso'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['art'], cnb: ['art:3.2.1'], prompt: 'Un dibujo muy realista de la piel de un lagarto, en una hoja de papel, tiene textura…' },

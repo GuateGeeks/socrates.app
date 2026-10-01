@@ -629,6 +629,50 @@ test('La frescura agrega evidencia reutilizada entre prompt y campos personaliza
   assert.equal(repeatsStructuredFact(reusedAssessment, customPractice), true);
 });
 
+test('La frescura agrega evidencia dividida entre prompt y un solo campo personalizado', () => {
+  const customPractice = {
+    type: 'pulse-lab',
+    prompt: 'Practica una recepcion amortiguada mientras avanzas con control por el espacio.',
+    props: {
+      rounds: [
+        { label: 'Pase adelantado', exercise: { name: 'Recorrido cooperativo', seconds: 45 } },
+      ],
+    },
+  };
+  const reusedAssessment = {
+    type: 'choice',
+    prompt: 'En la practica de recepcion con control, que combinacion conserva la tecnica?',
+    props: {
+      options: [{ id: 'a', text: 'Recepcion amortiguada y pase adelantado' }],
+      correct: ['a'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(reusedAssessment, customPractice), true);
+});
+
+test('La frescura permite tema y un token comun cuando cambia la segunda evidencia', () => {
+  const customPractice = {
+    type: 'pulse-lab',
+    prompt: 'Practica una recepcion amortiguada mientras avanzas con control por el espacio.',
+    props: {
+      rounds: [
+        { label: 'Pase adelantado', exercise: { name: 'Recorrido cooperativo', seconds: 45 } },
+      ],
+    },
+  };
+  const distinctAssessment = {
+    type: 'choice',
+    prompt: 'En la practica de recepcion con control, que accion protege la pelota despues de recibir?',
+    props: {
+      options: [{ id: 'a', text: 'Recepcion segura y giro protector' }],
+      correct: ['a'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(distinctAssessment, customPractice), false);
+});
+
 test('La frescura permite campos relacionados cuando cambian la decisión y la respuesta', () => {
   const customPractice = {
     type: 'pulse-lab',
@@ -978,9 +1022,17 @@ function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
     const evidenceSources = Number(sharedAnswerPrompt > 0) + contributingFields;
     const aggregateEvidence = sharedAnswerPrompt
       + sharedAnswerFields.reduce((sum, count) => sum + count * 1.5, 0);
+    const promptOnlyAnswerTokens = [...answerTokens].filter((token) => (
+      custom.prompt.has(token) && !fieldTokens.has(token)
+    ));
+    const fieldOnlyAnswerTokens = [...answerTokens].filter((token) => (
+      fieldTokens.has(token) && !custom.prompt.has(token)
+    ));
+    const promptAndFieldEvidence = promptOnlyAnswerTokens.length >= 1
+      && fieldOnlyAnswerTokens.length >= 1;
     const mixedEvidenceReuse = relatedPrompt
       && sharedAnswer.length >= 2
-      && contributingFields >= 2
+      && (promptAndFieldEvidence || contributingFields >= 2)
       && evidenceSources >= 2
       && aggregateEvidence >= 2.5;
     return equivalentPromptAndAnswer || structuredEntryReuse || mixedEvidenceReuse;
@@ -1097,6 +1149,12 @@ function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
   return candidateFacts.filter((fact) => !isPairFact(fact)).some((candidateFact) => (
     right.facts.some((sourceFact) => matches(candidateFact, sourceFact))
   ));
+}
+
+function quantifiedActionCount(value: unknown): number {
+  const activeText = normalizeFactText(value);
+  return [...activeText.matchAll(/\b(\d+)\s+(pases?|lanzamientos?|saltos?|veces|repeticiones?|intentos?|finalizaciones?|frotados?)\b/g)]
+    .reduce((sum, match) => sum + Number(match[1]), 0);
 }
 function nestedGradedAssessments(values: unknown[]): Array<{ type: string; prompt?: string; areas: string[] }> {
   const found: Array<{ type: string; prompt?: string; areas: string[] }> = [];
@@ -2533,6 +2591,11 @@ test('Semana 5 ofrece guia, transferencia independiente y dos salidas justas', (
   assert.deepEqual(failures, []);
 });
 
+test('El presupuesto cuenta frotados y repeticiones cuantificadas aunque repitan frase', () => {
+  assert.equal(quantifiedActionCount('Realiza 3 frotados preparados.'), 3);
+  assert.equal(quantifiedActionCount('Haz 3 pases al caminar y luego 3 pases al trotar.'), 6);
+});
+
 test('Semana 5 mantiene una carga estructurada razonable por leccion', () => {
   const countItems = (value: unknown): number => {
     if (!value || typeof value !== 'object') return 0;
@@ -2556,9 +2619,7 @@ test('Semana 5 mantiene una carga estructurada razonable por leccion', () => {
     const activeText = normalizeFactText(JSON.stringify(lesson.steps.filter((step) => (
       step.fase === 'aplicar' || ['project-builder', 'pulse-lab'].includes(step.type)
     ))));
-    const repetitionPhrases = new Map([...activeText.matchAll(/\b(\d+)\s+(pases?|lanzamientos?|saltos?|veces|repeticiones?|intentos?|finalizaciones?)\b/g)]
-      .map((match) => [`${match[1]} ${match[2]}`, Number(match[1])]));
-    const repetitions = [...repetitionPhrases.values()].reduce((sum, count) => sum + count, 0);
+    const repetitions = quantifiedActionCount(activeText);
     const setupActions = activeText.match(/\b(?:buscar|recolectar|conseguir|recortar|triturar|preparar|mezclar|distribuir|montar)\b/g)?.length ?? 0;
     const wetProcesses = activeText.match(/\b(?:pegamento|cola|adhesivo humedo|pintura humeda|secar|secado)\b/g)?.length ?? 0;
     const collaboration = activeText.match(/\b(?:en parejas|en equipos|en grupos|companer[oa]|turnos?)\b/g)?.length ?? 0;
@@ -2574,6 +2635,39 @@ test('Semana 5 mantiene una carga estructurada razonable por leccion', () => {
     }
   }
   assert.deepEqual(failures, []);
+});
+
+test('Arte 1 realiza un ensayo breve de tres frotados con superficies preparadas', () => {
+  const lesson = weekFive.lessons.find((item) => item.id === 's05-art-1');
+  assert.ok(lesson, 'Falta s05-art-1');
+  const objective = normalizeFactText((lesson.objetivos ?? []).join(' '));
+  assert.doesNotMatch(objective, /;/);
+  const application = normalizeFactText(JSON.stringify(lesson.steps.filter((step) => step.fase === 'aplicar')));
+  assert.match(application, /superficies? preparadas?|muestras? preparadas?/);
+  assert.match(application, /3 frotados|tres frotados/);
+  assert.match(application, /comparacion|compara/);
+  assert.match(application, /rotulo|rotula|etiqueta/);
+  assert.doesNotMatch(application, /en casa|familia|buscar|recolectar|conseguir|camino a la escuela|6 frotados|seis frotados/);
+  assert.equal(lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded).length, 2);
+});
+
+test('EF 1 usa una practica bilateral breve y un circuito cooperativo sin partido', () => {
+  const lesson = weekFive.lessons.find((item) => item.id === 's05-ef-1');
+  assert.ok(lesson, 'Falta s05-ef-1');
+  const objective = normalizeFactText((lesson.objetivos ?? []).join(' '));
+  assert.doesNotMatch(objective, /;/);
+  const practice = lesson.steps.find((step) => step.type === 'pulse-lab');
+  assert.ok(practice, 'Falta practica motriz breve');
+  const text = normalizeFactText(JSON.stringify(practice));
+  assert.match(text, /calentamiento|movilidad/);
+  assert.match(text, /bilateral|ambos lados/);
+  assert.match(text, /caminando|caminata/);
+  assert.match(text, /trotando|trote/);
+  assert.match(text, /circuito cooperativo|recorrido cooperativo/);
+  assert.match(text, /vuelta a la calma|enfriamiento/);
+  assert.match(text, /\b[2-6] pases\b/);
+  assert.doesNotMatch(text, /10 pases|diez pases|partido|competencia|dos equipos|intercept/);
+  assert.equal(lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded).length, 2);
 });
 
 test('Arte 2 usa un kit reutilizable de tres texturas y una discriminacion tactil breve', () => {

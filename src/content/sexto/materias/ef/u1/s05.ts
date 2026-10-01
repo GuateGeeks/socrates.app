@@ -89,16 +89,16 @@ export default [
       ),
       S.pulse(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:2.1.5'], ambito: 'hacer',
-          prompt: '¡Juego de los 10 pases! Con una pelota suave. **Calentamiento:** trote, rotación de hombros y muñecas, y 10 pases de pecho en parejas a 3 pasos. **Parte principal:** (1) en parejas, avancen en paralelo pasándose la pelota: primero caminando, luego trotando; (2) juego de los 10 pases: dos equipos pequeños; el equipo con la pelota debe dar 10 pases seguidos sin que caiga ni la toque el otro equipo; quien tiene la pelota no camina con ella más de 3 pasos, y los demás **pasan y se mueven**. **Poco espacio:** pases contra la pared desplazándote de lado. **Adaptación:** equipos mixtos; se puede jugar sentados o con pelota más grande y suave; quien use silla de ruedas puede recibir y pasar sin límite de pasos. **Vuelta a la calma:** caminar y estirar brazos.' },
+          prompt: 'Usen una pelota suave y cuatro marcas separadas. **Calentamiento breve:** caminen, movilicen hombros y muñecas y ensayen la recepción en W sin pelota. **Prueba bilateral y recorrido cooperativo:** en parejas completen **6 pases adelantados totales** entre las marcas: 3 caminando y 3 trotando. Repartan las recepciones de forma bilateral; después de cada pase, quien lanzó se mueve a la siguiente marca libre. Trabajen sin defensa ni tanteo: si la pelota cae, recuperen el control y continúen desde la marca anterior. Ajusten distancia, velocidad y tamaño de pelota para que ambas personas participen con seguridad. **Vuelta a la calma:** caminen, respiren y relajen brazos.' },
         { seconds: 15, rounds: [
           { label: 'En reposo' },
-          { label: 'Después de los pases en parejas', exercise: { name: 'Pases de pecho caminando y trotando', icon: 'Users', seconds: 60 } },
-          { label: 'Después del juego de los 10 pases', exercise: { name: '10 pases: pasa y muévete', icon: 'Route', seconds: 120 } },
+          { label: 'Después de caminar', exercise: { name: 'Recepción y pase bilateral', icon: 'Users', seconds: 60 } },
+          { label: 'Después del recorrido', exercise: { name: 'Circuito cooperativo: pasa y muévete', icon: 'Route', seconds: 90 } },
         ] },
       ),
       S.choice(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:2.1.5'], ambito: 'hacer',
-          prompt: 'En el juego de los 10 pases, Juan pasa la pelota y se queda quieto mirando. Su equipo pierde la pelota porque nadie estaba libre. ¿Qué debió hacer Juan?',
+          prompt: 'En un recorrido cooperativo, Juan pasa la pelota y se queda quieto mirando. Su pareja llega a la siguiente marca sin una opción libre. ¿Qué debió hacer Juan?',
           explain: 'Después de pasar hay que **moverse a un espacio libre** para ofrecer una nueva opción de pase.' },
         { options: [
           { id: 'a', text: 'Moverse a un espacio libre y pedir la pelota' },
