@@ -1,13 +1,61 @@
 /**
  * Ciencias Naturales y Tecnología · Unidad 1 · Semana 6 — Alimentarnos bien.
- * Progresión: los nutrientes y su función → la leche materna, primer alimento (valor nutritivo
- * y económico) → hábitos nutricionales para prevenir enfermedades (la olla familiar).
+ * Progresión: nutrientes y funciones → lactancia y calostro con apoyo informado →
+ * variedad, higiene y decisiones alimentarias adaptables.
  */
 import { lesson, S, cierre } from '../../../../dsl';
 
+function preparedLesson(draft: Parameters<typeof lesson>[0]) {
+  const first = draft.steps[0];
+  const objective = draft.objetivos?.[0] ?? draft.title;
+  const firstIdea = draft.resumen?.[0] ?? objective;
+  const secondIdea = draft.resumen?.[1] ?? firstIdea;
+  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
+  const normalized = draft.steps.map((step) => (
+    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
+  ));
+  const construction = normalized.filter((step) => step.fase === 'construir');
+  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
+  const guided = construction.find((step) => !ungraded.has(step.type));
+  let building = construction.slice(0, 4);
+  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
+  building = building.map((step) => step === guided ? {
+    ...step,
+    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
+    explain: step.explain ?? firstIdea,
+  } : step);
+  const compact = [
+    ...building,
+    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
+    ...normalized.filter((step) => step.fase === 'comprobar'),
+    ...normalized.filter((step) => step.fase === 'reflexionar'),
+  ];
+  return lesson({
+    ...draft,
+    objetivos: [objective],
+    steps: [
+      S.explain(
+        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
+          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
+        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
+          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
+        { icon: draft.icon, problem: firstIdea, steps: [
+          { text: `Identifica el criterio central: **${objective}**.` },
+          { text: secondIdea },
+        ], answer: secondIdea,
+          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
+      ),
+      ...compact,
+    ],
+  });
+}
+
 export default [
   /* ───────────────────────── 1. Los nutrientes ───────────────────────── */
-  lesson({
+  preparedLesson({
     id: 's06-cnt-1',
     title: 'Los nutrientes de los alimentos',
     icon: 'Salad',
@@ -21,8 +69,8 @@ export default [
     resumen: [
       'Un alimento es lo que comemos; un nutriente es una sustancia del alimento que el cuerpo usa para vivir.',
       'Carbohidratos (maíz, arroz, papa, pan) y grasas (aguacate, aceite, manías) dan energía. Las proteínas (frijol, huevo, carne, pollo, pescado, leche, queso) construyen y reparan el cuerpo.',
-      'Las vitaminas (frutas y verduras) y los minerales (hierro, calcio, yodo) regulan el cuerpo y fortalecen las defensas. El agua transporta nutrientes y regula la temperatura.',
-      'Ningún alimento tiene todos los nutrientes: por eso hay que comer variado. Frijol con tortilla forma una combinación de proteínas muy completa.',
+      'Las vitaminas y los minerales participan en muchos procesos, incluido el funcionamiento inmunitario. El agua transporta sustancias y ayuda a regular la temperatura.',
+      'Los alimentos aportan combinaciones y cantidades distintas de nutrientes. La variedad posible depende de necesidades, cultura, disponibilidad y presupuesto; maíz y frijol tienen perfiles de aminoácidos que se complementan.',
     ],
     media: {
       id: 's06-cnt-1-nutrientes', kind: 'diagram', title: 'Nutrientes en la mesa guatemalteca', aspect: '16:9',
@@ -32,12 +80,12 @@ export default [
     steps: [
       S.choice(
         { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer',
-          prompt: '¿Por qué no sería sano comer **solo tortillas** todo el día, aunque te llenen?',
-          explain: 'La tortilla da mucha **energía** y algo de calcio, pero le faltan otros **nutrientes** que el cuerpo necesita para crecer y defenderse. Ningún alimento los tiene todos.' },
+          prompt: '¿Por qué combinar la **tortilla** con otros alimentos disponibles puede ampliar los nutrientes de una comida?',
+          explain: 'La tortilla aporta carbohidratos y, cuando es nixtamalizada, también calcio, entre otros nutrientes. Otros alimentos pueden sumar proteína, fibra, vitaminas o minerales en cantidades diferentes.' },
         { options: [
-          { id: 'a', text: 'Porque les faltan nutrientes que el cuerpo también necesita', icon: 'Salad' },
-          { id: 'b', text: 'Porque las tortillas no tienen nada bueno', icon: 'X', feedback: 'La tortilla es un gran alimento: da energía y, por la cal del nixtamal, calcio. El problema es comer solo eso.' },
-          { id: 'c', text: 'Sí sería sano, porque llenan', icon: 'Check', feedback: 'Llenarse no es lo mismo que nutrirse.' },
+          { id: 'a', text: 'Porque otros alimentos pueden sumar nutrientes en cantidades diferentes', icon: 'Salad' },
+          { id: 'b', text: 'Porque la tortilla no aporta ningún nutriente', icon: 'X', feedback: 'Sí aporta, entre otros, carbohidratos y calcio cuando es nixtamalizada.' },
+          { id: 'c', text: 'Porque todos los alimentos aportan exactamente lo mismo', icon: 'CopyX', feedback: 'Los aportes y sus cantidades varían entre alimentos.' },
         ], correct: ['a'] },
       ),
       S.explain(
@@ -48,26 +96,26 @@ export default [
           { icon: 'Sparkles', front: 'Nutriente', back: 'Sustancia **dentro** del alimento que el cuerpo usa: carbohidratos, proteínas, grasas, vitaminas, minerales y agua.' },
           { icon: 'Zap', front: 'Energía', back: '**Carbohidratos** y **grasas**: el "combustible" para moverte, pensar y mantener tu temperatura.' },
           { icon: 'Hammer', front: 'Construcción', back: '**Proteínas**: forman y reparan músculos, piel, sangre y órganos. ¡Clave mientras creces!' },
-          { icon: 'Shield', front: 'Regulación y defensa', back: '**Vitaminas** y **minerales**: hacen que el cuerpo funcione bien y fortalecen las defensas.' },
+          { icon: 'Shield', front: 'Procesos del cuerpo', back: '**Vitaminas** y **minerales** participan en la visión, los huesos, la sangre y el funcionamiento inmunitario, entre otros procesos.' },
         ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer', title: 'Los seis nutrientes en tu mesa',
           prompt: 'Observa el diagrama de la lección y toca cada tarjeta para conocer dónde está cada nutriente.' },
-        { icon: 'Salad', body: 'Casi todos los alimentos tienen varios nutrientes. Se agrupan por el nutriente **más importante que aportan** a tu dieta (su nutriente principal). Por ejemplo, el frijol tiene muchos carbohidratos, pero es valioso sobre todo por su **proteína**.', reveal: [
+        { icon: 'Salad', body: 'Los alimentos suelen aportar varios nutrientes. En esta actividad se agrupan por un **aporte destacado**, sin afirmar que sea el único ni que tenga la misma importancia para todas las personas.', reveal: [
           { icon: 'Wheat', front: 'Carbohidratos', back: 'Maíz y tortillas, arroz, papa, yuca, pan, fideos, plátano. Dan energía rápida.' },
           { icon: 'Egg', front: 'Proteínas', back: 'Frijol, huevo, carne, pollo, pescado, leche, queso, incaparina. Construyen el cuerpo.' },
-          { icon: 'Droplet', front: 'Grasas', back: 'Aguacate, manías, pepitoria, aceite, crema. Energía de reserva; se necesitan en **poca** cantidad.' },
-          { icon: 'Apple', front: 'Vitaminas', back: 'Frutas y verduras: la **vitamina A** (zanahoria, mango, ayote) cuida la vista; la **vitamina C** (naranja, guayaba, limón) las defensas.' },
+          { icon: 'Droplet', front: 'Grasas', back: 'Aguacate, manías, pepitoria y aceites aportan grasas; algunas son esenciales para las células y para absorber ciertas vitaminas.' },
+          { icon: 'Apple', front: 'Vitaminas', back: 'Frutas y verduras pueden aportar vitamina A, vitamina C, folato y otras sustancias que participan en distintos procesos.' },
           { icon: 'Gem', front: 'Minerales', back: '**Hierro** (frijol, hojas verdes como chipilín y hierbamora): sangre sana. **Calcio** (leche, queso, tortilla de maíz con cal): huesos. **Yodo** (sal yodada): tiroides.' },
           { icon: 'Droplets', front: 'Agua', back: 'Más de la mitad de tu cuerpo es agua. Transporta nutrientes, elimina desechos y regula la temperatura.' },
         ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer',
-          prompt: 'Clasifica cada alimento según su **nutriente principal**.',
-          hint: 'Granos y tubérculos: carbohidratos. Frijol, huevo y carnes: proteínas. Aguacate y aceite: grasas. Frutas y verduras: vitaminas y minerales.',
-          explain: 'El frijol aporta proteína y también hierro; la tortilla, carbohidratos y calcio. Por eso juntos son una gran combinación.' },
+          prompt: 'Clasifica cada alimento por el **aporte destacado en esta actividad**. Recuerda que también contiene otros nutrientes.',
+          hint: 'Compara el aporte que destaca la tabla; no lo confundas con el único aporte.',
+          explain: 'El frijol puede destacar por proteína, fibra y hierro; la tortilla, por carbohidratos y calcio si es nixtamalizada. La clasificación simplifica para comparar.' },
         { buckets: [
           { id: 'car', label: 'Carbohidratos', icon: 'Wheat', color: 'var(--c-maiz-strong)' },
           { id: 'pro', label: 'Proteínas', icon: 'Egg', color: 'var(--c-bad)' },
@@ -93,7 +141,7 @@ export default [
           { id: 'c', left: 'Carbohidratos', leftIcon: 'Wheat', right: 'Dan energía rápida' },
           { id: 'p', left: 'Proteínas', leftIcon: 'Egg', right: 'Construyen y reparan el cuerpo' },
           { id: 'g', left: 'Grasas', leftIcon: 'Droplet', right: 'Guardan energía de reserva' },
-          { id: 'v', left: 'Vitamina C', leftIcon: 'Apple', right: 'Fortalece las defensas' },
+          { id: 'v', left: 'Vitamina C', leftIcon: 'Apple', right: 'Participa en funciones del sistema inmunitario' },
           { id: 'k', left: 'Calcio', leftIcon: 'Bone', right: 'Forma huesos y dientes fuertes' },
           { id: 'w', left: 'Agua', leftIcon: 'Droplets', right: 'Transporta nutrientes y regula la temperatura' },
         ] },
@@ -113,12 +161,12 @@ export default [
       ),
       S.choice(
         { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer',
-          prompt: 'En Guatemala se come mucho **frijol con tortilla**. ¿Por qué esta combinación es tan buena?',
-          explain: 'Las proteínas del maíz y las del frijol se **complementan**: lo que le falta a una lo aporta la otra. Juntas forman una proteína más completa, y además dan energía, hierro y calcio.' },
+          prompt: 'En distintas comunidades de Guatemala se combina **frijol con tortilla**. ¿Qué explica una parte de su aporte?',
+          explain: 'Maíz y frijol tienen perfiles de aminoácidos que se **complementan**. También aportan carbohidratos, fibra y minerales en cantidades que dependen de ingredientes y porciones.' },
         { options: [
-          { id: 'a', text: 'Porque sus proteínas se complementan y juntas son más completas', icon: 'Puzzle' },
+          { id: 'a', text: 'Porque sus perfiles de aminoácidos se complementan', icon: 'Puzzle' },
           { id: 'b', text: 'Porque los dos tienen solo grasa', icon: 'Droplet', feedback: 'Ni el frijol ni la tortilla son alimentos grasosos.' },
-          { id: 'c', text: 'Porque así no se necesita comer nada más nunca', icon: 'X', feedback: 'Es una gran base, pero también se necesitan frutas, verduras y otros alimentos.' },
+          { id: 'c', text: 'Porque esa combinación aporta exactamente lo mismo a todas las personas', icon: 'X', feedback: 'Las necesidades, cantidades y demás alimentos disponibles varían.' },
         ], correct: ['a'] },
       ),
       S.sort(
@@ -170,7 +218,7 @@ export default [
   }),
 
   /* ───────────────────────── 2. Lactancia materna ───────────────────────── */
-  lesson({
+  preparedLesson({
     id: 's06-cnt-2',
     title: 'La leche materna: el primer alimento',
     icon: 'Baby',
@@ -182,10 +230,10 @@ export default [
       'Calcular el valor económico de la lactancia en un caso hipotético',
     ],
     resumen: [
-      'La leche materna tiene agua, proteínas, grasas, azúcar de la leche, vitaminas, minerales y defensas, en la cantidad justa para cada etapa del bebé.',
-      'Se recomienda dar solo leche materna durante los primeros 6 meses y, después, combinarla con otros alimentos hasta los 2 años o más.',
-      'Beneficios: protege al bebé de diarreas e infecciones, está siempre limpia y a buena temperatura, fortalece el vínculo afectivo, ayuda a la madre a recuperarse y no cuesta dinero ni produce basura.',
-      'Para amamantar, la madre necesita buena alimentación y el apoyo de su familia y de su trabajo.',
+      'La leche materna aporta agua, macronutrientes, micronutrientes y anticuerpos; su composición cambia durante la toma y a medida que el bebé crece. El calostro es la primera leche y concentra componentes inmunitarios.',
+      'La OMS recomienda lactancia materna exclusiva durante los primeros 6 meses y, desde entonces, alimentos complementarios adecuados y seguros mientras continúa la lactancia hasta los 2 años o más.',
+      'La lactancia se asocia con menor riesgo de algunas infecciones y puede reducir ciertos gastos, pero cada situación requiere decisiones informadas, apoyo respetuoso y atención profesional cuando sea necesaria.',
+      'La leche humana no requiere compra, aunque amamantar sí requiere tiempo, alimentación, descanso, condiciones dignas y apoyo. Cuando no es posible o no se elige, se necesita orientación segura sin culpa ni estigma.',
     ],
     media: {
       id: 's06-cnt-2-lactancia', kind: 'image', title: 'El primer alimento', aspect: '4:3',
@@ -195,52 +243,52 @@ export default [
     steps: [
       S.choice(
         { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:5.2.1'], ambito: 'conocer',
-          prompt: '¿Cuál es el **primer alimento** de los bebés de todos los mamíferos, incluidos los seres humanos?',
-          explain: 'La **leche materna**. Las glándulas mamarias (¿recuerdas? son de secreción externa) la producen después del parto, hecha a la medida de cada especie.' },
+          prompt: '¿Qué alimento producen las glándulas mamarias después del parto para alimentar a las crías de los mamíferos?',
+          explain: 'La **leche**. En los seres humanos, la leche materna cambia con el tiempo y aporta nutrición y componentes inmunitarios al bebé.' },
         { options: [
-          { id: 'a', text: 'Agua con azúcar', icon: 'Droplet', feedback: 'El agua con azúcar no nutre a un bebé y puede enfermarlo.' },
+          { id: 'a', text: 'Agua con azúcar', icon: 'Droplet', feedback: 'No es leche ni sustituye una alimentación infantil indicada de forma segura.' },
           { id: 'b', text: 'La leche de su madre', icon: 'Milk' },
-          { id: 'c', text: 'Atol de maíz', icon: 'Wheat', feedback: 'El atol puede darse más adelante, pero el primer alimento es la leche materna.' },
+          { id: 'c', text: 'Atol de maíz', icon: 'Wheat', feedback: 'No es la sustancia que producen las glándulas mamarias.' },
         ], correct: ['b'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.2.1'], ambito: 'conocer', title: 'Un alimento completo y vivo',
           prompt: 'La leche materna no es un alimento cualquiera. Toca las tarjetas.' },
-        { icon: 'Milk', body: 'Tiene **todos los nutrientes** que el bebé necesita en sus primeros meses y **cambia** a medida que el bebé crece.', reveal: [
-          { icon: 'Salad', front: 'Nutrientes justos', back: '**Agua**, **proteínas**, **grasas**, **azúcar de la leche**, **vitaminas** y **minerales**, en la cantidad justa y fácil de digerir.' },
-          { icon: 'Shield', front: 'Defensas', back: 'Contiene **anticuerpos**: defensas de la madre que protegen al bebé de **diarreas**, **infecciones respiratorias** y otras enfermedades.' },
-          { icon: 'Sunrise', front: 'El calostro', back: 'Es la **primera leche**, espesa y amarillenta, de los primeros días. Aunque es poca, está **llena de defensas**: es como la primera vacuna del bebé.' },
-          { icon: 'Droplets', front: 'Sin agua extra', back: 'En los primeros 6 meses, la leche materna ya tiene toda el agua que el bebé necesita, aun en lugares calurosos.' },
+        { icon: 'Milk', body: 'La leche materna aporta energía y nutrientes durante los primeros meses y su composición **cambia** durante la toma y con la edad del bebé.', reveal: [
+          { icon: 'Salad', front: 'Composición', back: 'Contiene **agua**, proteínas, grasas, lactosa, vitaminas y minerales en proporciones que cambian con el tiempo.' },
+          { icon: 'Shield', front: 'Anticuerpos', back: 'Sus anticuerpos y otros componentes inmunitarios se asocian con menor riesgo de diarrea y algunas infecciones respiratorias.' },
+          { icon: 'Sunrise', front: 'El calostro', back: 'Es la **primera leche**, espesa y amarillenta, de los primeros días; concentra anticuerpos y otros componentes protectores.' },
+          { icon: 'Droplets', front: 'Lactancia exclusiva', back: 'La recomendación general de la OMS para los primeros 6 meses es solo leche materna, sin agua adicional, salvo indicación clínica.' },
         ] },
       ),
       S.reading(
         { fase: 'construir', areas: ['cnt', 'l1'], cnb: ['cnt:5.2.1'], ambito: 'conocer', title: 'Lectura',
           prompt: 'Lee el texto informativo y responde. Hay preguntas que se responden con el texto y otras en las que debes pensar.',
           hint: 'Busca las palabras clave en cada párrafo: "6 meses", "defensas", "dinero", "madre".' },
-        { genre: 'Texto informativo', heading: 'Leche materna: beneficios para todos', passage:
-          'La **Organización Mundial de la Salud** recomienda que, durante los **primeros 6 meses**, los bebés reciban **solo leche materna**, y que después se combine con otros alimentos hasta los **2 años o más**.\n\nPara el **bebé**, la leche materna es el alimento perfecto: tiene los nutrientes justos y defensas que lo protegen de diarreas e infecciones. Siempre está **limpia** y a la **temperatura adecuada**. Además, al mamar, el bebé siente el calor y la voz de su madre, y se fortalece el **vínculo afectivo**.\n\nPara la **madre**, amamantar ayuda a que el útero vuelva a su tamaño después del parto y reduce el riesgo de algunas enfermedades, como ciertos tipos de cáncer de mama y de ovario.\n\nPara la **familia**, la leche materna **no cuesta dinero**: no hay que comprar fórmula, pachas ni combustible para hervir agua. Y para el **ambiente**, no produce latas ni envases que se conviertan en basura.\n\nPara que una madre pueda amamantar, necesita **alimentarse bien**, descansar y recibir **apoyo** de su pareja, su familia y su lugar de trabajo. Si una madre no puede amamantar, el personal de salud le indicará cómo alimentar a su bebé.',
+        { genre: 'Texto informativo', heading: 'Lactancia con información y apoyo', passage:
+          'La **Organización Mundial de la Salud** recomienda lactancia materna exclusiva durante los **primeros 6 meses**. Desde los 6 meses recomienda alimentos complementarios adecuados y seguros, mientras la lactancia continúa hasta los **2 años o más**. Son orientaciones de salud pública; una familia puede necesitar apoyo clínico individual.\n\nLa leche materna aporta nutrientes y componentes inmunitarios, y la lactancia se asocia con menor riesgo de algunas infecciones. Cuando la leche se da directamente del pecho no requiere agua, recipientes ni preparación. La leche humana no se compra, aunque amamantar sí requiere tiempo, alimentación, descanso y condiciones de trabajo favorables.\n\nLa decisión y la experiencia pertenecen a la madre y su familia. El apoyo incluye escuchar, compartir tareas y facilitar atención profesional. Si amamantar no es posible o no se elige, el personal de salud puede orientar una alternativa segura sin culpa ni estigma.',
           questions: [
             { q: 'Según el texto, ¿hasta qué edad se recomienda dar solo leche materna?', options: [{ id: 'a', text: 'Hasta los 6 meses' }, { id: 'b', text: 'Hasta la primera semana' }, { id: 'c', text: 'Hasta los 5 años, sin otros alimentos' }], correct: 'a' },
-            { q: '¿Por qué la leche materna ayuda a la economía de la familia?', options: [{ id: 'a', text: 'Porque se vende en el mercado' }, { id: 'b', text: 'Porque no hay que comprar fórmula, pachas ni combustible' }, { id: 'c', text: 'Porque el bebé come menos' }], correct: 'b' },
-            { q: '¿Qué puedes concluir del último párrafo?', options: [{ id: 'a', text: 'Amamantar es solo responsabilidad de la madre' }, { id: 'b', text: 'La familia y el trabajo también ayudan a que la lactancia sea posible' }, { id: 'c', text: 'Las madres que trabajan no pueden amamantar' }], correct: 'b', why: 'El texto dice que la madre necesita apoyo de su pareja, su familia y su trabajo.' },
+            { q: '¿Qué matiz económico presenta el texto?', options: [{ id: 'a', text: 'La leche humana no se compra, pero la lactancia requiere tiempo, alimentación y apoyo' }, { id: 'b', text: 'Amamantar elimina todos los gastos familiares' }, { id: 'c', text: 'La fórmula tiene el mismo precio en todo lugar' }], correct: 'a' },
+            { q: '¿Qué puedes concluir del último párrafo?', options: [{ id: 'a', text: 'Una sola opción debe imponerse a todas las familias' }, { id: 'b', text: 'Escuchar, compartir tareas y buscar orientación permite apoyar sin juzgar' }, { id: 'c', text: 'Pedir ayuda profesional demuestra fracaso' }], correct: 'b' },
           ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.2.1'], ambito: 'conocer',
           prompt: 'Clasifica cada beneficio de la lactancia: ¿para **quién** es principalmente?',
           hint: 'Vuelve a leer: hay un párrafo para el bebé, otro para la madre y otro para la familia y el ambiente.',
-          explain: 'La lactancia beneficia a todos: al bebé (nutrición y defensas), a la madre (recuperación y salud) y a la familia y el ambiente (ahorro y menos basura).' },
+          explain: 'La lactancia puede aportar nutrición y componentes inmunitarios al bebé, apoyar la recuperación materna y reducir algunas compras y residuos. También requiere tiempo, alimentación y apoyo.' },
         { buckets: [
           { id: 'beb', label: 'Bebé', icon: 'Baby', color: 'var(--area-cnt)' },
           { id: 'mad', label: 'Madre', icon: 'Heart', color: 'var(--area-art)' },
           { id: 'fam', label: 'Familia y ambiente', icon: 'Home', color: 'var(--c-maiz-strong)' },
         ], items: [
-          { id: 'b1', text: 'Recibe defensas contra la diarrea', bucket: 'beb' },
+          { id: 'b1', text: 'Recibe anticuerpos asociados con menor riesgo de algunas infecciones', bucket: 'beb' },
           { id: 'b2', text: 'El útero vuelve más pronto a su tamaño', bucket: 'mad' },
-          { id: 'b3', text: 'No hay que gastar en fórmula ni pachas', bucket: 'fam' },
-          { id: 'b4', text: 'Digiere con facilidad un alimento siempre limpio', bucket: 'beb' },
+          { id: 'b3', text: 'La leche humana no requiere compra', bucket: 'fam' },
+          { id: 'b4', text: 'Al mamar directamente no se requieren agua ni recipientes para preparar la leche', bucket: 'beb' },
           { id: 'b5', text: 'Menor riesgo de algunos tipos de cáncer', bucket: 'mad' },
-          { id: 'b6', text: 'No se producen latas ni envases de basura', bucket: 'fam' },
+          { id: 'b6', text: 'Puede reducir el uso de latas y envases', bucket: 'fam' },
         ] },
       ),
       S.match(
@@ -261,15 +309,15 @@ export default [
           steps: [
             { text: 'Latas necesarias: 180 ÷ 5 = **36 latas**.' },
             { text: 'Costo de la fórmula: 36 × Q125 = **Q4,500**.', why: '36 × 100 = 3,600 y 36 × 25 = 900; 3,600 + 900 = 4,500.' },
-            { text: 'Además habría que comprar **pachas** y **combustible** para hervir el agua, y es probable que el bebé se enferme más.' },
+            { text: 'También puede haber costos de **pachas**, agua segura y combustible, según la forma de preparación.' },
           ],
-          answer: 'En este caso, la lactancia ahorraría **más de Q4,500** en 6 meses, sin contar pachas, combustible ni medicinas.',
-          tip: 'La leche materna tiene un gran valor nutritivo **y** económico.' },
+          answer: 'En este escenario, comprar la fórmula costaría **Q4,500** en 6 meses, sin contar otros insumos. Los costos y las decisiones reales varían.',
+          tip: 'Una comparación económica debe indicar sus supuestos y respetar las necesidades de cada familia.' },
       ),
       S.number(
         { fase: 'aplicar', areas: ['cnt', 'mat'], cnb: ['cnt:5.2.1'], ambito: 'hacer',
-          prompt: 'Supongamos que en otra familia una lata de fórmula cuesta **Q120** y dura **una semana**. ¿Cuánto gastarían en **26 semanas** (unos 6 meses)?',
-          explain: '26 × Q120 = Q3,120. Con lactancia materna, ese dinero se puede usar en la alimentación de la madre y de toda la familia.' },
+          prompt: 'En un escenario ilustrativo, no un precio actual, una lata de fórmula indicada para un bebé cuesta **Q120** y dura **una semana**. ¿Cuál sería la compra de fórmula en **26 semanas**?',
+          explain: '26 × Q120 = Q3,120 en este escenario. Los productos, cantidades y costos reales varían; la fórmula puede ser necesaria o elegida y debe prepararse según indicación sanitaria.' },
         { answer: 3120, unit: 'quetzales', misconceptions: [
           { value: 146, msg: 'Sumaste 26 + 120. Cada semana se compra una lata: hay que multiplicar.' },
           { value: 480, msg: 'Eso sería solo un mes (4 semanas). La pregunta es por 26 semanas.' },
@@ -277,12 +325,12 @@ export default [
       ),
       S.choice(
         { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.2.1'], ambito: 'conocer',
-          prompt: 'Una vecina dice que el **calostro** "es leche sucia" y que hay que tirarlo. ¿Qué le responderías?',
-          explain: 'El calostro es la primera leche y está **llena de defensas**. Es muy valioso para el recién nacido: no se debe tirar.' },
+          prompt: 'Una persona duda del **calostro** por su color amarillento. ¿Qué respuesta usa evidencia y respeta una decisión informada?',
+          explain: 'El calostro es la primera leche y concentra anticuerpos y otros componentes protectores. Una persona profesional de salud puede orientar ante una situación clínica particular.' },
         { options: [
-          { id: 'a', text: 'Que tiene razón, porque es amarillento', icon: 'X', feedback: 'Su color amarillento se debe a que es muy rico en defensas y nutrientes.' },
-          { id: 'b', text: 'Que es la primera leche, llena de defensas, y es muy buena para el bebé', icon: 'Shield' },
-          { id: 'c', text: 'Que es mejor darle agua con azúcar los primeros días', icon: 'Droplet', feedback: 'El agua con azúcar no nutre y puede enfermar al bebé.' },
+          { id: 'a', text: 'Que el color demuestra que está contaminado', icon: 'X', feedback: 'El color no demuestra contaminación.' },
+          { id: 'b', text: 'Que es la primera leche, concentra componentes inmunitarios y puede consultarse al personal de salud', icon: 'Shield' },
+          { id: 'c', text: 'Que debe sustituirse automáticamente por agua con azúcar', icon: 'Droplet', feedback: 'Esa sustitución no corresponde a la recomendación general y una duda clínica requiere orientación profesional.' },
         ], correct: ['b'] },
       ),
       S.dilemma(
@@ -297,7 +345,7 @@ export default [
         { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:5.2.1'], prompt: '¿Cuál es un beneficio **económico** de la lactancia materna?' },
         { options: [
           { id: 'a', text: 'El bebé duerme más horas' },
-          { id: 'b', text: 'La familia no gasta en fórmula, pachas ni combustible' },
+          { id: 'b', text: 'La leche humana no requiere compra, aunque amamantar necesita tiempo y apoyo' },
           { id: 'c', text: 'La madre no necesita comer' },
           { id: 'd', text: 'El bebé no necesita vacunas' },
         ], correct: ['b'] },
@@ -305,9 +353,9 @@ export default [
       S.tf(
         { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:5.2.1'], prompt: '¿Verdadero o falso?' },
         { statements: [
-          { text: 'La leche materna contiene defensas que protegen al bebé de infecciones.', answer: true },
+          { text: 'La leche materna contiene componentes inmunitarios y se asocia con menor riesgo de algunas infecciones.', answer: true },
           { text: 'Se recomienda dar solo leche materna durante los primeros 6 meses.', answer: true },
-          { text: 'A partir del primer mes, el bebé necesita agua con azúcar además de la leche materna.', answer: false, why: 'En los primeros 6 meses la leche materna cubre todas sus necesidades, incluida el agua.' },
+          { text: 'La recomendación general indica agua con azúcar además de leche materna desde el primer mes.', answer: false, why: 'La OMS recomienda lactancia materna exclusiva durante los primeros 6 meses, salvo indicación clínica.' },
           { text: 'Apoyar a una madre que amamanta es tarea solo de ella.', answer: false, why: 'La pareja, la familia y el lugar de trabajo también deben apoyarla.' },
         ] },
       ),
@@ -315,21 +363,21 @@ export default [
   }),
 
   /* ───────────────────────── 3. Hábitos nutricionales ───────────────────────── */
-  lesson({
+  preparedLesson({
     id: 's06-cnt-3',
-    title: 'Hábitos que nutren y previenen enfermedades',
+    title: 'Variedad, higiene y decisiones alimentarias',
     icon: 'Apple',
-    minutes: 16,
-    gancho: 'En el recreo puedes elegir entre una bolsita de frituras con gaseosa o una tortilla con frijol y una fruta. ¿Cuál te sostiene hasta el almuerzo?',
+    minutes: 15,
+    gancho: 'Las opciones de refacción cambian según lo disponible. ¿Qué criterios permiten comparar variedad, agua segura, higiene y cantidad de azúcar o sal?',
     objetivos: [
-      'Usar la olla familiar guatemalteca para planificar una alimentación variada',
-      'Explicar cómo los hábitos nutricionales previenen enfermedades',
-      'Proponer cambios concretos en tus propios hábitos',
+      'Evaluar alimentos y hábitos para una alimentación variada',
+      'Explicar cómo algunos patrones alimentarios influyen en riesgos de salud',
+      'Proponer criterios adaptables para comparar opciones',
     ],
     resumen: [
-      'Un hábito es algo que haces casi todos los días. Los hábitos nutricionales sanos previenen enfermedades como la anemia, la desnutrición, la caries, la obesidad y, más adelante, la diabetes.',
-      'La olla familiar de las Guías Alimentarias para Guatemala muestra qué comer más: cereales, granos y tubérculos, verduras y frutas todos los días; leche, huevos y carnes varias veces por semana; azúcares y grasas en poca cantidad.',
-      'Hábitos clave: desayunar, comer variado y a sus horas, frutas y verduras diarias, agua pura en lugar de bebidas azucaradas, poca comida chatarra, y lavarse las manos y lavar los alimentos.',
+      'Los patrones de alimentación, la higiene y el acceso influyen en la nutrición y en el riesgo de caries, anemia, malnutrición y enfermedades crónicas; una sola comida no define la salud de una persona.',
+      'La olla familiar resume orientaciones generales de Guatemala. Debe interpretarse junto con necesidades personales, cultura, alimentos disponibles, restricciones y orientación profesional cuando corresponda.',
+      'Criterios útiles para comparar opciones son variedad, agua segura, higiene y moderación de azúcares libres y sodio, sin convertirlos en juicios sobre las personas o sus recursos.',
     ],
     media: {
       id: 's06-cnt-3-olla', kind: 'diagram', title: 'La olla familiar guatemalteca', aspect: '1:1',
@@ -339,41 +387,41 @@ export default [
     steps: [
       S.choice(
         { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'ser',
-          prompt: '¿Cuál refacción te da energía **por más tiempo** y te ayuda a concentrarte en clase?',
-          explain: 'La tortilla con frijol y la fruta combinan carbohidratos, proteína, vitaminas y fibra: dan energía **constante**. Las frituras y la gaseosa dan un "subidón" de azúcar y grasa que pasa rápido.' },
+          prompt: '¿Cuál opción del escenario ofrece **más variedad de aportes** sin afirmar que sea la única elección posible?',
+          explain: 'La tortilla con frijol y mandarina reúne carbohidratos, proteína vegetal, fibra y micronutrientes. La elección real también depende de disponibilidad, porciones, restricciones y preferencias.' },
         { layout: 'grid', options: [
-          { id: 'a', text: 'Frituras de bolsita y una gaseosa', icon: 'CupSoda', feedback: 'Da energía rápida que se acaba pronto, con mucha sal, grasa y azúcar.' },
+          { id: 'a', text: 'Frituras de bolsita y una gaseosa', icon: 'CupSoda', feedback: 'Puede aportar energía, además de bastante sodio, grasa o azúcares libres, pero ofrece menos variedad en este ejemplo.' },
           { id: 'b', text: 'Tortilla con frijol y una mandarina', icon: 'Apple' },
-          { id: 'c', text: 'Solo dulces', icon: 'Candy', feedback: 'El azúcar sola da energía por muy poco tiempo y daña los dientes.' },
+          { id: 'c', text: 'Solo dulces', icon: 'Candy', feedback: 'Aporta energía y azúcares libres, pero menos variedad de nutrientes en este ejemplo.' },
         ], correct: ['b'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'ser', title: '¿Qué es un hábito nutricional?',
-          prompt: 'Un **hábito** es algo que haces casi todos los días, casi sin pensarlo. Los hábitos al comer **previenen o provocan** enfermedades. Toca las tarjetas.' },
-        { icon: 'CalendarDays', body: 'Lo que comes **una vez** importa poco; lo que comes **cada día** construye tu salud.', reveal: [
-          { icon: 'Sunrise', front: 'Desayunar', back: 'Después de dormir, el cuerpo necesita energía. Desayunar ayuda a **concentrarte** y a no llegar con hambre al recreo.' },
-          { icon: 'Salad', front: 'Comer variado', back: 'Varios colores y grupos de alimentos cada día: así recibes **todos los nutrientes**.' },
-          { icon: 'GlassWater', front: 'Agua pura', back: 'La mejor bebida. Las gaseosas y los jugos de caja tienen **mucha azúcar**.' },
-          { icon: 'Hand', front: 'Higiene', back: '**Lavarte las manos** y **lavar los alimentos** evita parásitos y diarreas que roban nutrientes (¡lo viste en la semana 2!).' },
-          { icon: 'ShieldCheck', front: 'Prevención', back: 'Estos hábitos previenen **anemia**, **desnutrición**, **caries**, **obesidad** y, a largo plazo, **diabetes**.' },
+          prompt: 'Un **hábito** es una acción repetida. Los patrones alimentarios y la higiene pueden **reducir o aumentar riesgos**, pero no garantizan un resultado individual. Toca las tarjetas.' },
+        { icon: 'CalendarDays', body: 'Para evaluar un patrón se observa el conjunto de decisiones y las condiciones de acceso, no se juzga a una persona por una sola comida.', reveal: [
+          { icon: 'Sunrise', front: 'Regularidad', back: 'Tener opciones regulares de comida puede apoyar energía y atención; los horarios y necesidades varían.' },
+          { icon: 'Salad', front: 'Variedad', back: 'Combinar grupos disponibles aumenta la probabilidad de cubrir distintos nutrientes.' },
+          { icon: 'GlassWater', front: 'Agua segura', back: 'El agua segura hidrata sin añadir azúcares libres.' },
+          { icon: 'Hand', front: 'Higiene', back: '**Lavarse las manos** y manipular alimentos de forma segura reduce el riesgo de infecciones transmitidas por alimentos.' },
+          { icon: 'ShieldCheck', front: 'Riesgo, no garantía', back: 'Los patrones influyen en riesgos de caries, anemia o enfermedades crónicas junto con muchos otros factores.' },
         ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'conocer', title: 'La olla familiar',
           prompt: 'Las **Guías Alimentarias para Guatemala** usan una **olla de barro** para mostrar cómo combinar los alimentos. Observa el diagrama de la lección y toca las tarjetas, de abajo hacia arriba.' },
-        { icon: 'CookingPot', body: 'Mientras **más ancha** es la franja, **más seguido** hay que comer esos alimentos.', reveal: [
+        { icon: 'CookingPot', body: 'Las franjas resumen una **orientación general de frecuencia**, no una dieta individual. Se adapta a necesidades, cultura, disponibilidad, presupuesto y restricciones.', reveal: [
           { icon: 'Wheat', front: 'Base: cereales, granos y tubérculos', back: 'Tortilla, frijol, arroz, papa, yuca. **Todos los días**, en cada tiempo de comida.' },
           { icon: 'Carrot', front: 'Hierbas, verduras y frutas', back: 'Güisquil, zanahoria, chipilín, hierbamora, naranja, mango. **Todos los días**, de varios colores.' },
           { icon: 'Egg', front: 'Leche, huevos y carnes', back: 'Leche, queso, huevo, pollo, pescado, carne, hígado. **Varias veces por semana**.' },
           { icon: 'Candy', front: 'Arriba: azúcares y grasas', back: 'Azúcar, dulces, aceite, manteca. En **poca cantidad**: son la franja más pequeña.' },
-          { icon: 'Footprints', front: 'Fuera de la olla', back: 'Tomar **agua pura** y hacer **actividad física** todos los días completan el mensaje.' },
+          { icon: 'Footprints', front: 'Fuera de la olla', back: 'El agua segura y el movimiento posible para cada persona forman parte de la orientación general.' },
         ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'conocer',
-          prompt: 'Según la olla familiar, ¿con qué frecuencia conviene comer cada alimento?',
+          prompt: 'Según la representación general de la olla familiar, ¿en qué franja aparece cada alimento?',
           hint: 'Base de la olla y verduras: todos los días. Leche, huevo y carnes: varias veces por semana. La punta: poca cantidad.',
-          explain: 'La base y las verduras y frutas van todos los días; los alimentos de origen animal, varias veces por semana; azúcares y grasas, poco.' },
+          explain: 'La actividad recupera las franjas de la guía. No prescribe el menú de una persona ni supone que todas las opciones estén disponibles.' },
         { buckets: [
           { id: 'dia', label: 'Todos los días', icon: 'Sun', color: 'var(--c-ok)' },
           { id: 'sem', label: 'Varias veces por semana', icon: 'CalendarDays', color: 'var(--area-cnt)' },
@@ -389,13 +437,13 @@ export default [
         ] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'conocer', title: 'Comida chatarra y bebidas azucaradas',
-          prompt: 'Algunos productos llenan pero **nutren poco**. Toca las tarjetas.' },
-        { icon: 'CupSoda', body: 'La llamada **comida chatarra** (frituras de bolsita, golosinas, muchas comidas rápidas) tiene **mucha azúcar, grasa o sal** y pocos nutrientes.', reveal: [
-          { icon: 'Candy', front: 'Mucha azúcar', back: 'Causa **caries** y aumenta el riesgo de **obesidad** y, con los años, de **diabetes**.' },
-          { icon: 'Droplet', front: 'Mucha grasa', back: 'Aporta mucha energía que el cuerpo guarda si no la usa: aumenta el riesgo de **sobrepeso**.' },
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'conocer', title: 'Productos con mucho azúcar, grasa o sal',
+          prompt: 'Algunos productos aportan energía y también bastante azúcar, grasa o sal. Toca las tarjetas.' },
+        { icon: 'CupSoda', body: 'Las frituras de bolsita, golosinas y algunas comidas rápidas pueden contener bastante azúcar, grasa o sal. La cantidad y la frecuencia forman parte de la comparación.', reveal: [
+          { icon: 'Candy', front: 'Mucho azúcar', back: 'El consumo frecuente de azúcares libres aumenta el riesgo de **caries** y se relaciona con otros riesgos de salud.' },
+          { icon: 'Droplet', front: 'Mucha grasa', back: 'Las grasas tienen funciones importantes; algunos productos concentran mucha energía y conviene considerar cantidad y frecuencia.' },
           { icon: 'Waves', front: 'Mucha sal', back: 'Con los años puede subir la **presión de la sangre**.' },
-          { icon: 'Scale', front: 'Llenar no es nutrir', back: 'Si comes chatarra, **quitas espacio** a los alimentos que sí te nutren. Una persona puede tener sobrepeso y, a la vez, **anemia**.' },
+          { icon: 'Scale', front: 'Observar el conjunto', back: 'Una sola comida no define la nutrición. Una persona puede presentar anemia con cuerpos de tamaños distintos.' },
         ] },
       ),
       S.ejemplo(
@@ -426,11 +474,11 @@ export default [
       ),
       S.sort(
         { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'ser',
-          prompt: '¿Es un hábito que **previene** enfermedades o uno que **aumenta el riesgo**?',
-          explain: 'Los hábitos sanos se construyen con pequeñas decisiones diarias.' },
+          prompt: 'Clasifica el efecto probable del patrón descrito, sin prometer resultados individuales.',
+          explain: 'Algunos patrones apoyan variedad o seguridad; otros añaden con frecuencia azúcares libres o sodio, omiten comidas o aumentan riesgos. El contexto también importa.' },
         { buckets: [
-          { id: 'pre', label: 'Previene enfermedades', icon: 'ShieldCheck', color: 'var(--c-ok)' },
-          { id: 'rie', label: 'Aumenta el riesgo', icon: 'AlertTriangle', color: 'var(--c-bad)' },
+          { id: 'pre', label: 'Apoya variedad o seguridad', icon: 'ShieldCheck', color: 'var(--c-ok)' },
+          { id: 'rie', label: 'Puede aumentar un riesgo', icon: 'AlertTriangle', color: 'var(--c-bad)' },
         ], items: [
           { id: 'h1', text: 'Tomar agua pura en lugar de gaseosa', bucket: 'pre' },
           { id: 'h2', text: 'Salir sin desayunar todos los días', bucket: 'rie' },
@@ -441,15 +489,15 @@ export default [
         ] },
       ),
       S.write(
-        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'ser', title: 'Mi plan de hábitos',
-          prompt: 'Escribe **tres hábitos** nutricionales que vas a practicar esta semana. Para cada uno, di **cuándo** lo harás y **qué enfermedad** ayuda a prevenir.' },
-        { placeholder: '1. Voy a… (cuándo) … porque previene…',
-          model: '1. Voy a tomar agua pura en el recreo en lugar de gaseosa, todos los días; previene la caries y el sobrepeso. 2. Voy a comer una fruta en la refacción, de lunes a viernes; sus vitaminas fortalecen mis defensas. 3. Voy a pedir frijol o hojas verdes en el almuerzo por lo menos tres veces esta semana; su hierro previene la anemia.',
-          rubric: ['Propone tres hábitos concretos y posibles', 'Dice cuándo practicará cada uno', 'Relaciona cada hábito con una enfermedad que previene'],
+        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.3.1'], ambito: 'ser', title: 'Criterios para una propuesta',
+          prompt: 'Escribe **tres criterios adaptables** para comparar una propuesta de refacción. Explica qué información habría que confirmar antes de aplicarla.' },
+        { placeholder: '1. Criterio… Información por confirmar…',
+          model: '1. Incluir variedad de aportes; confirmar qué alimentos hay. 2. Usar agua y utensilios seguros; confirmar el apoyo adulto disponible. 3. Respetar alergias, intolerancias y decisiones familiares; preguntar antes de sustituir ingredientes.',
+          rubric: ['Propone tres criterios observables', 'Reconoce disponibilidad y restricciones', 'Evita prometer resultados individuales'],
           minWords: 30 },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:5.3.1'], prompt: 'Según la olla familiar, ¿qué alimentos se deben comer en **menor cantidad**?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:5.3.1'], prompt: 'Al evaluar opciones para una **alimentación variada**, ¿qué grupo ocupa la franja **más pequeña** en la representación de la olla familiar?' },
         { options: [
           { id: 'a', text: 'Tortillas y frijol' },
           { id: 'b', text: 'Verduras y frutas' },
@@ -458,7 +506,7 @@ export default [
         ], correct: ['c'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:5.3.1'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:5.3.1'], prompt: 'Evalúa estos **hábitos** como parte de una alimentación variada. ¿Verdadero o falso?' },
         { statements: [
           { text: 'Desayunar ayuda a concentrarte en la escuela.', answer: true },
           { text: 'Las gaseosas son la mejor bebida para hidratarse.', answer: false, why: 'La mejor bebida es el agua pura; las gaseosas tienen mucha azúcar.' },
@@ -468,7 +516,7 @@ export default [
       ),
       cierre({ areas: ['cnt'], cnb: [] },
         ['Clasifico los nutrientes y explico su función', 'Explico los beneficios de la lactancia materna', 'Uso la olla familiar para elegir mejor lo que como'],
-        ['Cumpliré mi plan de tres hábitos esta semana', 'Compartiré la olla familiar con mi familia']),
+        ['Preguntaré por disponibilidad y restricciones antes de proponer cambios', 'Explicaré que la olla familiar ofrece una orientación general adaptable']),
     ],
   }),
 ];

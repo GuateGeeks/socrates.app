@@ -39,6 +39,10 @@ const weekFive = unitWeeks.find((week) => week.semana === 5);
 assert.ok(weekFive, 'Falta semana 5');
 const weekFiveBank = weekFive.bank;
 assert.ok(weekFiveBank, 'Semana 5 sin banco');
+const weekSix = unitWeeks.find((week) => week.semana === 6);
+assert.ok(weekSix, 'Falta semana 6');
+const weekSixBank = weekSix.bank;
+assert.ok(weekSixBank, 'Semana 6 sin banco');
 
 const PRIMARY_AREAS = new Set(['mat', 'l1', 'cnt', 'ccss', 'l2', 'l3', 'fc', 'art', 'ef', 'pyd']);
 const INSTRUCTION_TYPES = new Set(['explain', 'worked-example', 'flashcards']);
@@ -3023,6 +3027,240 @@ test('Semana 5 evalua diez areas con contenido ensenado y payloads frescos', () 
 test('Semana 5 usa iconos descriptivos para objetos concretos', () => {
   const failures: string[] = [];
   inspectConcreteIcon(weekFive, weekFive.id, failures);
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 6 preserva 27 lecciones, cobertura CNB y un resultado central por leccion', () => {
+  const expectedLessonCounts = new Map([
+    ['mat', 5], ['l1', 5], ['cnt', 3], ['ccss', 3], ['l2', 2],
+    ['l3', 2], ['fc', 2], ['art', 2], ['ef', 2], ['pyd', 1],
+  ]);
+  const expectedCnb = new Set([
+    'art:3.2.4',
+    'ccss:6.4.4', 'ccss:6.5.1', 'ccss:6.5.5', 'ccss:6.5.6',
+    'cnt:5.1.1', 'cnt:5.2.1', 'cnt:5.3.1',
+    'ef:2.1.17', 'ef:2.2.4', 'ef:3.1.2', 'ef:3.1.6',
+    'fc:4.2.1',
+    'l1:4.2.1', 'l1:7.1.2', 'l1:7.2.6', 'l1:8.2.1',
+    'l2:4.1.1', 'l2:4.1.2', 'l3:3.3.1',
+    'mat:1.5.2', 'mat:1.5.3', 'mat:3.1.1', 'mat:3.2.1', 'mat:3.2.2', 'mat:3.2.3',
+    'pyd:4.1.1', 'pyd:4.3.1',
+  ]);
+  const lessons = weekSix.lessons.filter((lesson) => lesson.kind === 'materia');
+  const actualCounts = new Map<string, number>();
+  const failures: string[] = [];
+  for (const lesson of lessons) {
+    const area = lesson.area;
+    assert.ok(area, `${lesson.id} no declara area`);
+    actualCounts.set(area, (actualCounts.get(area) ?? 0) + 1);
+    if ((lesson.objetivos?.length ?? 0) !== 1) failures.push(`${lesson.id}: ${lesson.objetivos?.length ?? 0} objetivos`);
+    if (lesson.steps.length < 9 || lesson.steps.length > 14) failures.push(`${lesson.id}: ${lesson.steps.length} pasos`);
+  }
+  assert.deepEqual(actualCounts, expectedLessonCounts);
+  assert.deepEqual(new Set(lessons.flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb))), expectedCnb);
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 6 sostiene el resultado central en modelo, guia, transferencia y salidas', () => {
+  const actionVerbs = /(?:aplicar|calcular|caracterizar|clasificar|combinar|comparar|completar|comunicar|construir|crear|describir|diferenciar|disenar|distinguir|elegir|ejecutar|escribir|evaluar|explicar|formar|identificar|organizar|ordenar|planificar|practicar|reconocer|registrar|relacionar|representar|resolver|seleccionar|seguir|transferir|ubicar|usar)/;
+  const actionStems = new Set([...factTokens(actionVerbs.source)]);
+  const failures: string[] = [];
+  for (const lesson of weekSix.lessons.filter((item) => item.kind === 'materia')) {
+    const rawObjective = (lesson.objetivos ?? []).join(' ');
+    const objective = normalizeFactText(rawObjective);
+    const compound = rawObjective.includes(';')
+      || /(?:^|\s)[1-4][.)]\s/.test(rawObjective)
+      || new RegExp(`(?:;|,|\\by\\b)\\s*${actionVerbs.source}\\b`).test(objective);
+    if (compound) failures.push(`${lesson.id}: objetivo compuesto`);
+    const concepts = new Set([...meaningfulCollisionTokens(objective)]
+      .filter((token) => !actionStems.has(token) && token.length >= 4));
+    const sharesConcept = (steps: typeof lesson.steps): boolean => {
+      const tokens = meaningfulCollisionTokens(JSON.stringify(steps));
+      return [...concepts].some((token) => tokens.has(token));
+    };
+    const teaching = lesson.steps.filter((step) => step.fase === 'construir' && INSTRUCTION_TYPES.has(step.type));
+    const guided = lesson.steps.filter((step) => step.fase === 'construir' && getActivity(step.type)?.graded && step.hint && step.explain);
+    const transfer = lesson.steps.filter((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded && !step.hint);
+    const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
+    const missingStages = [
+      [concepts.size === 0, 'concepto'], [!sharesConcept(teaching), 'modelo'], [!sharesConcept(guided), 'guia'],
+      [!sharesConcept(transfer), 'transferencia'], [exits.length < 2 || exits.some((step) => !sharesConcept([step])), 'salidas'],
+    ].filter(([missing]) => missing).map(([, stage]) => stage);
+    if (missingStages.length > 0) failures.push(`${lesson.id}: falta ${missingStages.join(', ')}`);
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 6 ensena antes de calificar, reserva explorar y mantiene fases monotonicas', () => {
+  const phaseRank = new Map([
+    ['explorar', 0], ['construir', 1], ['aplicar', 2], ['comprobar', 3], ['reflexionar', 4],
+  ]);
+  const failures: string[] = [];
+  for (const lesson of weekSix.lessons.filter((item) => item.kind === 'materia')) {
+    const firstInstruction = lesson.steps.findIndex((step) => INSTRUCTION_TYPES.has(step.type));
+    const firstGraded = lesson.steps.findIndex((step) => getActivity(step.type)?.graded);
+    if (firstInstruction < 0 || firstGraded < 0 || firstInstruction > firstGraded) {
+      failures.push(`${lesson.id}: instruccion=${firstInstruction + 1}, calificada=${firstGraded + 1}`);
+    }
+    lesson.steps.forEach((step, index) => {
+      if (step.fase === 'explorar' && getActivity(step.type)?.graded) failures.push(`${lesson.id}: explorar calificado`);
+      if (index > 0 && (phaseRank.get(step.fase) ?? -1) < (phaseRank.get(lesson.steps[index - 1].fase) ?? -1)) {
+        failures.push(`${lesson.id}: ${lesson.steps[index - 1].fase} -> ${step.fase}`);
+      }
+    });
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 6 ofrece guia con retroalimentacion, transferencia independiente y dos salidas', () => {
+  const failures: string[] = [];
+  for (const lesson of weekSix.lessons.filter((item) => item.kind === 'materia')) {
+    const guided = lesson.steps.some((step) => step.fase === 'construir'
+      && Boolean(getActivity(step.type)?.graded) && Boolean(step.hint) && Boolean(step.explain));
+    const transfer = lesson.steps.some((step) => step.fase === 'aplicar'
+      && Boolean(getActivity(step.type)?.graded) && !step.hint);
+    const exits = lesson.steps.filter((step) => step.fase === 'comprobar'
+      && Boolean(getActivity(step.type)?.graded) && !step.hint && !step.explain);
+    if (!guided || !transfer || exits.length < 2) {
+      failures.push(`${lesson.id}: guia=${guided}, transferencia=${transfer}, salidas=${exits.length}`);
+    }
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 6 mantiene carga estructurada creible dentro de quince minutos', () => {
+  const countItems = (value: unknown): number => {
+    if (!value || typeof value !== 'object') return 0;
+    if (Array.isArray(value)) return value.reduce((sum, item) => sum + countItems(item), 0);
+    return Object.entries(value as Record<string, unknown>).reduce((sum, [key, item]) => {
+      if (['options', 'items', 'pairs', 'statements', 'questions', 'reveal', 'cards', 'steps', 'rounds'].includes(key) && Array.isArray(item)) return sum + item.length;
+      return sum;
+    }, 0);
+  };
+  const failures: string[] = [];
+  for (const lesson of weekSix.lessons.filter((item) => item.kind === 'materia')) {
+    const nestedItems = lesson.steps.reduce((sum, step) => sum + countItems(step.props), 0);
+    const serialized = JSON.stringify(lesson.steps.map((step) => ({ ...step, media: undefined })));
+    const textWords = serialized.match(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ0-9]+/g)?.length ?? 0;
+    const mediaSeconds = [lesson.media, ...lesson.steps.map((step) => step.media)]
+      .reduce((sum, media) => sum + Number(media?.duration ?? 0), 0);
+    const activeText = normalizeFactText(JSON.stringify(lesson.steps.filter((step) => step.fase === 'aplicar')));
+    const repetitions = quantifiedActionCount(activeText);
+    const setupActions = activeText.match(/\b(?:buscar|recolectar|conseguir|recortar|triturar|preparar|mezclar|distribuir|montar|cocinar)\b/g)?.length ?? 0;
+    const evidenceWriting = activeText.match(/\b(?:anota|anoten|registra|registren|escribe|escriban|documenta|documenten)\b/g)?.length ?? 0;
+    const complexity = lesson.steps.length + nestedItems / 4 + mediaSeconds / 60 + textWords / 600
+      + repetitions / 10 + setupActions * 0.5 + evidenceWriting * 0.5;
+    const longResponse = lesson.steps.find((step) => step.type === 'short-answer'
+      && Number((step.props as { minWords?: number }).minWords ?? 0) > lesson.minutes * 3);
+    if (lesson.minutes < 10 || lesson.minutes > 15 || lesson.steps.length < 9 || lesson.steps.length > 14
+      || nestedItems > lesson.minutes * 3 || complexity > lesson.minutes * 2 - 2 || longResponse) {
+      failures.push(`${lesson.id}: pasos=${lesson.steps.length}, elementos=${nestedItems}, complejidad=${complexity.toFixed(2)}, larga=${Boolean(longResponse)}`);
+    }
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 6 usa lenguaje nutricional preciso, respetuoso y adaptable', () => {
+  assert.equal(weekSix.title, 'Una refacción nutritiva con recursos locales');
+  assert.equal(weekSix.temaGenerador, 'Una refacción nutritiva con recursos locales');
+  const text = normalizeFactText(JSON.stringify(weekSix));
+  assert.match(text, /alergias?|restricciones? alimentarias?|intolerancias?/);
+  assert.match(text, /adult[oa].{0,80}(?:apoyo|acompan|supervis)|(?:apoyo|acompan|supervis).{0,80}adult[oa]/);
+  assert.match(text, /precios? (?:del escenario|ilustrativos?|supuestos?)/);
+  assert.match(text, /puede variar|segun (?:la comunidad|el lugar|la temporada|la disponibilidad|el presupuesto)/);
+  assert.match(text, /tortilla|maiz/);
+  assert.match(text, /frijol/);
+  assert.match(text, /banano|papaya|naranja|guisquil|aguacate|pepitoria/);
+  assert.doesNotMatch(text, /alimentos? (?:buenos?|malos?)|comida (?:buena|mala)/);
+  assert.doesNotMatch(text, /\bgarantiza(?:n)? (?:la )?salud\b|\bevita(?:n)? todas? las enfermedades\b|\bcura(?:n)?\b|\badelgaza(?:n)?\b/);
+  assert.doesNotMatch(text, /debes dejar de comer|nunca comas|prohibid[oa] comer|elimina de tu dieta/);
+  assert.doesNotMatch(text, /se consigue en (?:toda|cualquier) comunidad|todas las familias tienen/);
+});
+
+test('Semana 6 construye los cuatro componentes del producto con prerrequisitos y tiempo realistas', () => {
+  const workshop = weekSix.lessons.find((lesson) => lesson.kind === 'taller');
+  assert.ok(workshop, 'Semana 6 sin taller');
+  assert.equal(workshop.title, 'Una refacción local que nutre');
+  assert.ok(workshop.minutes <= 20, `Taller declara ${workshop.minutes} minutos`);
+  assert.ok(workshop.steps.length >= 10 && workshop.steps.length <= 14, `Taller tiene ${workshop.steps.length} pasos`);
+  const minuteLabels = workshop.steps.map((step) => {
+    const match = `${step.title ?? ''} ${step.prompt}`.match(/(?:^|\D)(\d+)\s*min(?:uto)?s?/i);
+    return match ? Number(match[1]) : 0;
+  });
+  assert.ok(minuteLabels.every((minutes) => minutes > 0), 'Cada paso del taller debe declarar su tiempo');
+  assert.ok(minuteLabels.reduce((sum, minutes) => sum + minutes, 0) <= workshop.minutes, 'La agenda excede el tiempo del taller');
+  const contributors = new Set(workshop.steps
+    .filter((step) => step.fase === 'construir' || step.fase === 'aplicar')
+    .flatMap((step) => step.areas));
+  assert.deepEqual(contributors, new Set(['cnt', 'mat', 'l1', 'pyd']));
+  const workshopIndex = weekSix.lessons.indexOf(workshop);
+  const priorCnb = new Set(weekSix.lessons.slice(0, workshopIndex)
+    .filter((lesson) => lesson.kind === 'materia')
+    .flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb)));
+  assert.ok(workshop.steps.every((step) => step.cnb.every((ref) => priorCnb.has(ref))), 'El taller introduce CNB no ensenado');
+  const text = normalizeFactText(JSON.stringify(workshop));
+  for (const component of [/menu.{0,100}justific/, /comparacion.{0,80}conjuntos|conjuntos.{0,80}comparacion/, /presupuesto/, /esquema del proyecto|plan del proyecto/]) {
+    assert.match(text, component);
+  }
+  assert.match(text, /alergias?|restricciones? alimentarias?|intolerancias?/);
+  assert.match(text, /precios? (?:del escenario|ilustrativos?|supuestos?)/);
+  assert.match(text, /cantidad.{0,30}precio.{0,40}subtotal|subtotal.{0,40}total/);
+  assert.match(text, /revision|revisa|verifica|comprueba/);
+  assert.equal(workshop.steps.at(-1)?.type, 'reflection');
+  const projects = workshop.steps.filter((step) => step.type === 'project');
+  assert.ok(projects.length >= 3, 'El producto debe construirse y revisarse en pasos de proyecto');
+  assert.ok(workshop.steps.findIndex((step) => step.type === 'project') <= 3, 'El taller debe empezar a producir pronto');
+});
+
+test('El presupuesto del taller usa precios ilustrativos y aritmetica internamente consistente', () => {
+  const workshop = weekSix.lessons.find((lesson) => lesson.kind === 'taller');
+  assert.ok(workshop, 'Semana 6 sin taller');
+  const budget = workshop.steps.find((step) => step.type === 'number-input'
+    && /presupuesto|total/.test(normalizeFactText(step.prompt)));
+  assert.ok(budget, 'Falta calculo estructurado del presupuesto');
+  const budgetProps = budget.props as { answer?: number; stimulus?: string };
+  assert.match(normalizeFactText(`${budget.prompt} ${budgetProps.stimulus ?? ''}`), /precios? (?:del escenario|ilustrativos?|supuestos?)/);
+  const quantitiesAndPrices = [...`${budget.prompt} ${budgetProps.stimulus ?? ''}`
+    .matchAll(/(\d+(?:[.,]\d+)?)\s+[^\n]*?\bQ\s?(\d+(?:[.,]\d+)?)/gi)]
+    .map((match) => [Number(match[1].replace(',', '.')), Number(match[2].replace(',', '.'))] as const);
+  assert.ok(quantitiesAndPrices.length >= 3, 'El presupuesto debe incluir al menos tres rubros calculables');
+  const expected = quantitiesAndPrices.reduce((sum, [quantity, price]) => sum + quantity * price, 0);
+  assert.equal(budgetProps.answer, expected);
+});
+
+test('Semana 6 evalua diez areas con contenido ensenado y payloads frescos', () => {
+  const subjectSteps = weekSix.lessons.filter((lesson) => lesson.kind === 'materia').flatMap((lesson) => lesson.steps);
+  const taughtCnb = new Set(subjectSteps.flatMap((step) => step.cnb));
+  const challenge = weekSix.lessons.find((lesson) => lesson.kind === 'reto');
+  assert.ok(challenge, 'Semana 6 sin reto');
+  const assessments = [...challenge.steps, ...weekSixBank].filter((step) => getActivity(step.type)?.graded);
+  assert.ok(assessments.every((step) => !step.hint && !step.explain), 'Reto o banco contiene pistas');
+  assert.ok(assessments.every((step) => step.cnb.every((ref) => taughtCnb.has(ref))), 'Reto o banco evalua CNB no ensenado');
+  const challengeAreas = new Set(challenge.steps.filter((step) => getActivity(step.type)?.graded).map((step) => step.areas[0]));
+  const bankAreas = new Set(weekSixBank.filter((step) => getActivity(step.type)?.graded).map((step) => step.areas[0]));
+  assert.deepEqual(challengeAreas, PRIMARY_AREAS);
+  assert.deepEqual(bankAreas, PRIMARY_AREAS);
+  const reused: string[] = [];
+  for (const [source, steps] of [['reto', challenge.steps], ['banco', weekSixBank]] as const) {
+    for (const assessment of steps.filter((step) => getActivity(step.type)?.graded)) {
+      const repeatedLesson = subjectSteps.find((practice) => practice.areas[0] === assessment.areas[0]
+        && repeatsStructuredFact(assessment, practice));
+      if (repeatedLesson) reused.push(`${source}/${assessment.areas[0]} <= ${normalizeFactText(repeatedLesson.prompt)}`);
+    }
+  }
+  const gradedChallenge = nestedGradedAssessments(challenge.steps);
+  for (const assessment of weekSixBank.filter((step) => getActivity(step.type)?.graded)) {
+    if (gradedChallenge.some((source) => source.areas[0] === assessment.areas[0]
+      && repeatsStructuredFact(assessment, source))) {
+      reused.push(`banco/${assessment.areas[0]}/estructura: ${normalizeFactText(assessment.prompt)}`);
+    }
+  }
+  assert.deepEqual(reused, []);
+});
+
+test('Semana 6 usa iconos descriptivos para objetos concretos', () => {
+  const failures: string[] = [];
+  inspectConcreteIcon(weekSix, weekSix.id, failures);
   assert.deepEqual(failures, []);
 });
 

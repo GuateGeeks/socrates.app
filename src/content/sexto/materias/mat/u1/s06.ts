@@ -6,16 +6,64 @@
  */
 import { lesson, S, cierre } from '../../../../dsl';
 
+function preparedLesson(draft: Parameters<typeof lesson>[0]) {
+  const first = draft.steps[0];
+  const objective = draft.objetivos?.[0] ?? draft.title;
+  const firstIdea = draft.resumen?.[0] ?? objective;
+  const secondIdea = draft.resumen?.[1] ?? firstIdea;
+  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
+  const normalized = draft.steps.map((step) => (
+    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
+  ));
+  const construction = normalized.filter((step) => step.fase === 'construir');
+  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
+  const guided = construction.find((step) => !ungraded.has(step.type));
+  let building = construction.slice(0, 4);
+  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
+  building = building.map((step) => step === guided ? {
+    ...step,
+    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
+    explain: step.explain ?? firstIdea,
+  } : step);
+  const compact = [
+    ...building,
+    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
+    ...normalized.filter((step) => step.fase === 'comprobar'),
+    ...normalized.filter((step) => step.fase === 'reflexionar'),
+  ];
+  return lesson({
+    ...draft,
+    objetivos: [objective],
+    steps: [
+      S.explain(
+        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
+          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
+        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
+          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
+        { icon: draft.icon, problem: firstIdea, steps: [
+          { text: `Identifica el criterio central: **${objective}**.` },
+          { text: secondIdea },
+        ], answer: secondIdea,
+          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
+      ),
+      ...compact,
+    ],
+  });
+}
+
 export default [
   /* ───────────────────────── 1. Conjuntos y subconjuntos ───────────────────────── */
-  lesson({
+  preparedLesson({
     id: 's06-mat-1',
     title: 'Conjuntos, elementos y subconjuntos',
     icon: 'Shapes',
     minutes: 13,
     gancho: 'En la milpa crecen juntos el maíz, el frijol y el ayote. Si los agrupas, formas un conjunto. ¿Y si solo tomas el maíz y el frijol?',
     objetivos: [
-      'Reconocer un conjunto bien definido y escribirlo con llaves',
+      'Resolver conjuntos y subconjuntos',
       'Usar los símbolos ∈ (pertenece) y ∉ (no pertenece)',
       'Identificar cuándo un conjunto es subconjunto de otro',
     ],
@@ -123,7 +171,7 @@ export default [
         ], correct: ['b'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.1.1'], prompt: 'F = {mango, papaya, piña, sandía}. ¿Cuál **sí** es subconjunto de F?' },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.1.1'], prompt: 'Resuelve el subconjunto: F = {mango, papaya, piña, sandía}. ¿Cuál **sí** es subconjunto de F?' },
         { options: [
           { id: 'a', text: '{mango, banano}' },
           { id: 'b', text: '{sandía, piña}' },
@@ -131,7 +179,7 @@ export default [
         ], correct: ['b'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.1.1'], prompt: 'Sea C = {rojo, azul, verde}. ¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.1.1'], prompt: 'Comprueba pertenencia y subconjuntos en C = {rojo, azul, verde}. ¿Verdadero o falso?' },
         { statements: [
           { text: 'azul ∈ C', answer: true },
           { text: '{rojo, negro} ⊂ C', answer: false, why: 'Negro no está en C.' },
@@ -142,7 +190,7 @@ export default [
   }),
 
   /* ───────────────────────── 2. Todos los subconjuntos ───────────────────────── */
-  lesson({
+  preparedLesson({
     id: 's06-mat-2',
     title: 'Encontrar todos los subconjuntos',
     icon: 'ListTree',
@@ -276,14 +324,14 @@ export default [
   }),
 
   /* ───────────────────────── 3. Unión e intersección ───────────────────────── */
-  lesson({
+  preparedLesson({
     id: 's06-mat-3',
     title: 'Unión e intersección con diagramas de Venn',
     icon: 'Combine',
     minutes: 14,
     gancho: 'Dos grupos siembran árboles en el vivero escolar. ¿Qué especies sembraron entre los dos? ¿Cuáles sembraron ambos?',
     objetivos: [
-      'Representar dos y tres conjuntos en un diagrama de Venn',
+      'Resolver unión e intersección de conjuntos',
       'Encontrar la unión (∪) y la intersección (∩) por enumeración y con el diagrama',
     ],
     resumen: [
@@ -374,7 +422,7 @@ export default [
       ),
       S.choice(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:3.2.1'],
-          prompt: 'Supongamos estos clubes de la escuela:\nFútbol F = {Ana, Luis, Rosa, Juan}\nMarimba M = {Rosa, Pedro, Ana}\nAjedrez J = {Juan, Rosa, Mía}\n¿Quién está en **los tres** clubes (F ∩ M ∩ J)?',
+          prompt: 'Resuelve la intersección. Supongamos estos clubes de la escuela:\nFútbol F = {Ana, Luis, Rosa, Juan}\nMarimba M = {Rosa, Pedro, Ana}\nAjedrez J = {Juan, Rosa, Mía}\n¿Quién está en **los tres** clubes (F ∩ M ∩ J)?',
           explain: 'Solo Rosa aparece en las tres listas: F ∩ M ∩ J = {Rosa}.' },
         { options: [
           { id: 'a', text: 'Ana', feedback: 'Ana está en fútbol y marimba, pero no en ajedrez.' },
@@ -384,7 +432,7 @@ export default [
       ),
       S.number(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:3.2.1'],
-          prompt: 'Con los mismos clubes F = {Ana, Luis, Rosa, Juan}, M = {Rosa, Pedro, Ana} y J = {Juan, Rosa, Mía}: ¿cuántos estudiantes distintos hay en **F ∪ M ∪ J**?',
+          prompt: 'Resuelve la unión. Con los mismos clubes F = {Ana, Luis, Rosa, Juan}, M = {Rosa, Pedro, Ana} y J = {Juan, Rosa, Mía}: ¿cuántos estudiantes distintos hay en **F ∪ M ∪ J**?',
           explain: 'F ∪ M ∪ J = {Ana, Luis, Rosa, Juan, Pedro, Mía}: 6 estudiantes.' },
         { answer: 6, misconceptions: [{ value: 10, msg: 'Sumaste 4 + 3 + 3, pero algunos estudiantes están en más de un club. Cuenta a cada persona una sola vez.' }] },
       ),
@@ -398,7 +446,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.1'], prompt: 'R = {2, 4, 6, 8} y T = {3, 6, 9}. ¿Cuál es **R ∪ T**?' },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.1'], prompt: 'Resuelve la unión: R = {2, 4, 6, 8} y T = {3, 6, 9}. ¿Cuál es **R ∪ T**?' },
         { options: [
           { id: 'a', text: '{6}' },
           { id: 'b', text: '{2, 3, 4, 6, 8, 9}' },
@@ -406,21 +454,21 @@ export default [
         ], correct: ['b'] },
       ),
       S.number(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.1'], prompt: 'V = {a, e, i, o, u} y W = {a, b, c, d, e}. ¿Cuántos elementos tiene **V ∩ W**?' },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.1'], prompt: 'Resuelve la intersección: V = {a, e, i, o, u} y W = {a, b, c, d, e}. ¿Cuántos elementos tiene **V ∩ W**?' },
         { answer: 2 },
       ),
     ],
   }),
 
   /* ───────────────────────── 4. Diferencia y diferencia simétrica ───────────────────────── */
-  lesson({
+  preparedLesson({
     id: 's06-mat-4',
     title: 'Diferencia y diferencia simétrica',
     icon: 'SquareSplitHorizontal',
     minutes: 14,
     gancho: 'Ana y Luis comparan sus canastas de fruta. ¿Qué tiene Ana que Luis no tiene? ¿Y qué frutas tiene solo uno de los dos?',
     objetivos: [
-      'Encontrar la diferencia A − B y B − A entre dos conjuntos',
+      'Resolver diferencias entre conjuntos',
       'Encontrar la diferencia simétrica A Δ B',
       'Representar ambas operaciones en un diagrama de Venn',
     ],
@@ -539,16 +587,12 @@ export default [
           { text: 'M Δ N = N Δ M', answer: true },
         ] },
       ),
-      S.choice(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.1'], prompt: 'C = {rojo, azul, verde, blanco} y D = {verde, negro, blanco}. ¿Cuál es **D − C**?' },
-        { options: [
-          { id: 'a', text: '{rojo, azul}' },
-          { id: 'b', text: '{negro}' },
-          { id: 'c', text: '{verde, blanco}' },
-        ], correct: ['b'] },
+      S.fill(
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.1'], prompt: 'Resuelve la diferencia: C = {rojo, azul, verde, blanco} y D = {verde, negro, blanco}. ¿Cuál es **D − C**?' },
+        { text: 'D − C = [[{negro}]].', distractors: ['{rojo, azul}', '{verde, blanco}'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.3'], prompt: 'Con los mismos C = {rojo, azul, verde, blanco} y D = {verde, negro, blanco}, ¿cuál es **C Δ D**?' },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.3'], prompt: 'Resuelve la diferencia simétrica con C = {rojo, azul, verde, blanco} y D = {verde, negro, blanco}: ¿cuál es **C Δ D**?' },
         { options: [
           { id: 'a', text: '{rojo, azul, negro}' },
           { id: 'b', text: '{verde, blanco}' },
@@ -559,14 +603,14 @@ export default [
   }),
 
   /* ───────────────────────── 5. Operaciones combinadas ───────────────────────── */
-  lesson({
+  preparedLesson({
     id: 's06-mat-5',
     title: 'Operaciones combinadas con conjuntos',
     icon: 'Braces',
     minutes: 15,
     gancho: 'Tres comisiones de la escuela: limpieza, huerto y reciclaje. ¿Quiénes están en limpieza y huerto, pero no en reciclaje? Para responder hay que combinar operaciones.',
     objetivos: [
-      'Resolver operaciones combinadas de unión, intersección y diferencia con tres conjuntos',
+      'Resolver operaciones combinadas de conjuntos',
       'Respetar el orden que indican los paréntesis',
       'Repasar subconjuntos, enteros y plano cartesiano',
     ],
@@ -615,7 +659,7 @@ export default [
           tip: 'Escribir el resultado del paréntesis evita confundirse en el segundo paso.' },
       ),
       S.number(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.2'], prompt: 'Con A = {1, 2, 3, 4}, B = {3, 4, 5} y C = {4, 5, 6}: ¿cuántos elementos tiene **(A ∪ B) − C**?',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.2'], prompt: 'Resuelve la operación combinada de conjuntos: con A = {1, 2, 3, 4}, B = {3, 4, 5} y C = {4, 5, 6}, ¿cuántos elementos tiene **(A ∪ B) − C**?',
           hint: 'Primero A ∪ B. Después quítale los elementos que están en C.',
           explain: 'A ∪ B = {1, 2, 3, 4, 5}. Le quito 4 y 5 (están en C): {1, 2, 3}. Tiene 3 elementos.' },
         { answer: 3, misconceptions: [{ value: 5, msg: 'Ese es A ∪ B. Falta quitarle los elementos que están en C.' }] },
@@ -672,7 +716,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.2'], prompt: 'P = {a, b, c, d}, Q = {c, d, e} y R = {d, e, f}. ¿Cuál es **(P ∩ Q) ∪ R**?' },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.2'], prompt: 'Resuelve la operación combinada de conjuntos: P = {a, b, c, d}, Q = {c, d, e} y R = {d, e, f}. ¿Cuál es **(P ∩ Q) ∪ R**?' },
         { options: [
           { id: 'a', text: '{d}' },
           { id: 'b', text: '{c, d, e, f}' },
@@ -680,7 +724,7 @@ export default [
         ], correct: ['b'] },
       ),
       S.number(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.2'], prompt: 'Con P = {a, b, c, d}, Q = {c, d, e} y R = {d, e, f}: ¿cuántos elementos tiene **(P ∪ Q) − R**?' },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.2'], prompt: 'Resuelve la operación combinada con P = {a, b, c, d}, Q = {c, d, e} y R = {d, e, f}: ¿cuántos elementos tiene **(P ∪ Q) − R**?' },
         { answer: 3 },
       ),
       cierre({ areas: ['mat'], cnb: [] },

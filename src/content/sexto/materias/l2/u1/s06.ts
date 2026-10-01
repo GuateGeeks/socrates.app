@@ -5,9 +5,57 @@
  */
 import { lesson, S } from '../../../../dsl';
 
+function preparedLesson(draft: Parameters<typeof lesson>[0]) {
+  const first = draft.steps[0];
+  const objective = draft.objetivos?.[0] ?? draft.title;
+  const firstIdea = draft.resumen?.[0] ?? objective;
+  const secondIdea = draft.resumen?.[1] ?? firstIdea;
+  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
+  const normalized = draft.steps.map((step) => (
+    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
+  ));
+  const construction = normalized.filter((step) => step.fase === 'construir');
+  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
+  const guided = construction.find((step) => !ungraded.has(step.type));
+  let building = construction.slice(0, 4);
+  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
+  building = building.map((step) => step === guided ? {
+    ...step,
+    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
+    explain: step.explain ?? firstIdea,
+  } : step);
+  const compact = [
+    ...building,
+    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
+    ...normalized.filter((step) => step.fase === 'comprobar'),
+    ...normalized.filter((step) => step.fase === 'reflexionar'),
+  ];
+  return lesson({
+    ...draft,
+    objetivos: [objective],
+    steps: [
+      S.explain(
+        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
+          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
+        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
+          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
+        { icon: draft.icon, problem: firstIdea, steps: [
+          { text: `Identifica el criterio central: **${objective}**.` },
+          { text: secondIdea },
+        ], answer: secondIdea,
+          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
+      ),
+      ...compact,
+    ],
+  });
+}
+
 export default [
   // ───────────────────────────── Lección 1 ─────────────────────────────
-  lesson({
+  preparedLesson({
     id: 's06-l2-1',
     title: 'La r suave y la r fuerte',
     icon: 'AudioLines',
@@ -140,7 +188,7 @@ export default [
   }),
 
   // ───────────────────────────── Lección 2 ─────────────────────────────
-  lesson({
+  preparedLesson({
     id: 's06-l2-2',
     title: 'Escucho con atención: palabras que se parecen',
     icon: 'Ear',

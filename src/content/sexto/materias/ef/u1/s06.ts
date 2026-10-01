@@ -6,9 +6,57 @@
  */
 import { lesson, S, cierre } from '../../../../dsl';
 
+function preparedLesson(draft: Parameters<typeof lesson>[0]) {
+  const first = draft.steps[0];
+  const objective = draft.objetivos?.[0] ?? draft.title;
+  const firstIdea = draft.resumen?.[0] ?? objective;
+  const secondIdea = draft.resumen?.[1] ?? firstIdea;
+  const cnb = [...new Set(draft.steps.flatMap((step) => step.cnb))];
+  const normalized = draft.steps.map((step) => (
+    step.fase === 'explorar' ? { ...step, fase: 'construir' as const } : step
+  ));
+  const construction = normalized.filter((step) => step.fase === 'construir');
+  const ungraded = new Set(['explain', 'worked-example', 'flashcards', 'short-answer', 'project', 'reflection', 'pulse-lab']);
+  const guided = construction.find((step) => !ungraded.has(step.type));
+  let building = construction.slice(0, 4);
+  if (guided && !building.includes(guided)) building = [...building.slice(0, 3), guided];
+  building = building.map((step) => step === guided ? {
+    ...step,
+    hint: step.hint ?? 'Vuelve al criterio del modelo y descarta una opción a la vez.',
+    explain: step.explain ?? firstIdea,
+  } : step);
+  const compact = [
+    ...building,
+    ...normalized.filter((step) => step.fase === 'aplicar').slice(0, 2),
+    ...normalized.filter((step) => step.fase === 'comprobar'),
+    ...normalized.filter((step) => step.fase === 'reflexionar'),
+  ];
+  return lesson({
+    ...draft,
+    objetivos: [objective],
+    steps: [
+      S.explain(
+        { fase: 'explorar', areas: first.areas, cnb, ambito: 'conocer', title: 'Activa lo que sabes',
+          prompt: `Antes del modelo, recuerda una experiencia relacionada con este resultado: **${objective}**.` },
+        { icon: 'Brain', body: 'No se califica: nombra lo que ya sabes y una duda que quieras resolver.' },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: first.areas, cnb, ambito: first.ambito ?? 'hacer', title: 'Enfoque y modelo',
+          prompt: `Activa lo que sabes y observa cómo se aplica este resultado: **${objective}**.` },
+        { icon: draft.icon, problem: firstIdea, steps: [
+          { text: `Identifica el criterio central: **${objective}**.` },
+          { text: secondIdea },
+        ], answer: secondIdea,
+          tip: 'Nombra el criterio y comprueba cada dato antes de responder.' },
+      ),
+      ...compact,
+    ],
+  });
+}
+
 export default [
   /* ───────────────────────── 1. Pases con el pie ───────────────────────── */
-  lesson({
+  preparedLesson({
     id: 's06-ef-1',
     title: 'Pases con el pie: parte interna y externa',
     icon: 'Footprints',
@@ -149,14 +197,14 @@ export default [
   }),
 
   /* ───────────────────────── 2. Vestuario, respiración y calma ───────────────────────── */
-  lesson({
+  preparedLesson({
     id: 's06-ef-2',
     title: 'Preparado y en calma: vestuario, respiración y relajación',
     icon: 'Wind',
     minutes: 15,
     gancho: '¿Has intentado correr con zapatos de vestir o con los cordones sueltos? ¿Y te ha pasado que antes de un partido o un examen el corazón te late muy rápido?',
     objetivos: [
-      'Elegir el vestuario adecuado según la actividad, el clima y el lugar',
+      'Aplicar preparación y recuperación seguras en la actividad física',
       'Practicar la respiración abdominal lenta para recuperar la calma',
       'Usar la relajación de tensión y soltura para el equilibrio emocional',
     ],
@@ -251,7 +299,7 @@ export default [
       ),
       S.choice(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:3.1.6'], ambito: 'hacer',
-          prompt: 'El sábado es la **jornada de siembra** en la montaña: habrá sol, tierra, espinas y piedras. ¿Qué vestuario es adecuado? **Elige todas las correctas.**',
+          prompt: 'Como preparación para la actividad física del sábado hay una **jornada de siembra** en la montaña: habrá sol, tierra, espinas y piedras. ¿Qué vestuario es adecuado? **Elige todas las correctas.**',
           explain: 'En el monte hay que proteger la piel y los pies: manga y pantalón largos, zapatos cerrados, sombrero y bloqueador. Las chancletas y los shorts dejan la piel expuesta a espinas e insectos.' },
         { multiple: true, options: [
           { id: 'a', text: 'Pantalón largo y camisa de manga larga' },
@@ -262,7 +310,7 @@ export default [
       ),
       S.dilemma(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:3.1.2'], ambito: 'ser',
-          prompt: '¿Qué harías tú?' },
+          prompt: 'Como recuperación emocional antes de volver a la actividad física, ¿qué harías tú?' },
         { scene: { icon: 'Heart', text: 'Faltan 5 minutos para la final del torneo de pases. **Ana** siente el corazón acelerado, las manos sudadas y dice: "Mejor no juego, me voy a equivocar".' }, options: [
           { id: 'a', icon: 'X', text: 'Decirle: "Si tienes miedo, mejor quédate afuera"', consequence: 'Ana se pierde la final y se queda con la idea de que los nervios no se pueden manejar.', values: ['Evitar'], constructive: false },
           { id: 'b', icon: 'Wind', text: 'Invitarla a hacer juntas 5 respiraciones abdominales y a soltar hombros y manos', consequence: 'Ana se calma un poco, siente apoyo y decide jugar. Los nervios no desaparecen del todo, pero ya no la controlan.', values: ['Empatía', 'Autocontrol', 'Compañerismo'], constructive: true },
@@ -270,7 +318,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:3.1.2'], prompt: 'En la respiración abdominal lenta, ¿qué parte del cuerpo se infla al inhalar?' },
+        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:3.1.2'], prompt: 'Durante la recuperación de la actividad física, en la respiración abdominal lenta, ¿qué parte del cuerpo se infla al inhalar?' },
         { options: [
           { id: 'a', text: 'El abdomen' },
           { id: 'b', text: 'Los hombros, que suben hasta las orejas' },
@@ -278,7 +326,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:3.1.6', 'ef:3.1.2'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:3.1.6', 'ef:3.1.2'], prompt: 'Sobre preparación y recuperación para la actividad física, ¿verdadero o falso?' },
         { statements: [
           { text: 'Para hacer ejercicio conviene quitarse aretes, collares y relojes.', answer: true },
           { text: 'Con frío es mejor usar varias capas de ropa que te puedas quitar.', answer: true },
