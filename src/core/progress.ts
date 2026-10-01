@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import type { Ambito, AreaId } from '@/cnb/model';
+import { AREAS, type Ambito, type AreaId } from '@/cnb/model';
 import { areaOf, indicadorOf, lookup } from '@/cnb/catalog';
 import type { Lesson, Mission, StepBase } from './types';
 import { getActivity } from './registry';
@@ -111,16 +111,27 @@ function hydrate(raw: Progress | null): Progress {
   const base = emptyProgress();
   if (!raw) return base;
   const journal = Object.fromEntries(Object.entries(raw.journal ?? {}).map(([key, value]) => {
-    const entry = value as Partial<JournalEntry>;
+    const entry = value && typeof value === 'object' ? value as Partial<JournalEntry> : {};
     const statuses: JournalStatus[] = ['pending-review', 'approved', 'needs-revision', 'self-recorded', 'legacy'];
     const status = statuses.includes(entry.status as JournalStatus) ? entry.status as JournalStatus : 'legacy';
+    const responseValid = typeof entry.value === 'string' && entry.value.trim().length > 0;
+    const cnbShapeValid = Array.isArray(entry.cnb) && entry.cnb.length > 0
+      && entry.cnb.every((ref) => typeof ref === 'string' && Boolean(lookup(ref)));
     const cnb = Array.isArray(entry.cnb) ? entry.cnb.filter((ref): ref is string => typeof ref === 'string') : [];
     const validCnb = cnb.filter((ref) => Boolean(lookup(ref)));
     // Los registros anteriores no guardaban areas: el primer ref valido conserva el orden autorado del paso.
     const inferredArea = validCnb.length > 0 ? areaOf(validCnb[0]) : undefined;
-    const primaryArea = entry.primaryArea ?? inferredArea;
-    const review = entry.review && Array.isArray(entry.review.criteria) && Array.isArray(entry.review.selfChecks)
-      ? { criteria: entry.review.criteria.filter((item): item is string => typeof item === 'string'), selfChecks: entry.review.selfChecks.map(Boolean) }
+    const storedAreaValid = typeof entry.primaryArea === 'string' && entry.primaryArea in AREAS;
+    const storedAreaInvalid = entry.primaryArea !== undefined && !storedAreaValid;
+    const primaryArea = storedAreaValid ? entry.primaryArea : entry.primaryArea === undefined ? inferredArea : undefined;
+    const criteriaValid = Array.isArray(entry.review?.criteria) && entry.review.criteria.length > 0
+      && entry.review.criteria.every((item) => typeof item === 'string' && item.trim().length > 0);
+    const checksValid = Array.isArray(entry.review?.selfChecks)
+      && entry.review.selfChecks.every((item) => typeof item === 'boolean')
+      && entry.review.selfChecks.length === entry.review?.criteria?.length;
+    const reviewValid = criteriaValid && checksValid;
+    const review = reviewValid
+      ? { criteria: [...entry.review!.criteria], selfChecks: [...entry.review!.selfChecks] }
       : undefined;
     const validPrimaryRefs = primaryArea ? validCnb.filter((ref) => areaOf(ref) === primaryArea) : [];
     const storedCredits = Array.isArray(entry.creditedRefs)
@@ -129,7 +140,10 @@ function hydrate(raw: Progress | null): Progress {
     const creditedRefs = storedCredits.length > 0
       ? [...new Set(storedCredits)]
       : status === 'approved' ? [...new Set(validPrimaryRefs)] : [];
-    const safeStatus = status === 'pending-review' && (!primaryArea || validPrimaryRefs.length === 0 || !review) ? 'legacy' : status;
+    const pendingValid = responseValid && cnbShapeValid && !storedAreaInvalid && Boolean(primaryArea)
+      && validPrimaryRefs.length > 0 && reviewValid;
+    const assessmentStatus = status === 'pending-review' || status === 'approved' || status === 'needs-revision';
+    const safeStatus = assessmentStatus && !pendingValid ? 'legacy' : status;
     const creditedAt = typeof entry.creditedAt === 'string'
       ? entry.creditedAt
       : creditedRefs.length > 0 ? entry.reviewedAt ?? entry.at : undefined;

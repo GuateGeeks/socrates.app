@@ -145,6 +145,44 @@ test('hidratacion recupera el area segura de diarios pendientes creados antes de
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
+test('hidratacion vuelve legacy cada forma pendiente malformada y bloquea su aprobacion', () => {
+  const valid = {
+    stepId: 'step', value: '{"text":"respuesta sustantiva"}', at: '2026-01-21', status: 'pending-review',
+    primaryArea: 'l1', cnb: ['l1:3.4.2'], review: { criteria: ['Es claro'], selfChecks: [true] },
+  };
+  const malformed: Record<string, unknown> = {
+    'bad/non-object-entry': null,
+    'bad/non-string-response': { ...valid, value: 42 },
+    'bad/empty-response': { ...valid, value: '   ' },
+    'bad/empty-criteria': { ...valid, review: { criteria: [], selfChecks: [] } },
+    'bad/non-string-criterion': { ...valid, review: { criteria: ['Es claro', 7], selfChecks: [true, true] } },
+    'bad/empty-criterion': { ...valid, review: { criteria: ['  '], selfChecks: [true] } },
+    'bad/non-array-checks': { ...valid, review: { criteria: ['Es claro'], selfChecks: 'true' } },
+    'bad/non-boolean-check': { ...valid, review: { criteria: ['Es claro'], selfChecks: ['yes'] } },
+    'bad/mismatched-checks': { ...valid, review: { criteria: ['Es claro', 'Tiene evidencia'], selfChecks: [true] } },
+    'bad/invalid-area': { ...valid, primaryArea: 'otro' },
+    'bad/invalid-ref': { ...valid, cnb: ['l1:no-existe'] },
+    'bad/no-same-area-ref': { ...valid, cnb: ['ccss:7.1.3'] },
+    'bad/non-array-refs': { ...valid, cnb: 'l1:3.4.2' },
+    'bad/approved-malformed': { ...valid, status: 'approved', value: '' },
+    'bad/revision-malformed': { ...valid, status: 'needs-revision', review: { criteria: ['Es claro'], selfChecks: [] } },
+    'ordinary/note': { stepId: 'note', value: 'Nota libre', at: '2026-01-21', status: 'self-recorded' },
+  };
+  const stored = { ...emptyProgress(), journal: malformed } as unknown as Progress;
+  setStorageAdapter({ load: () => stored, save: () => {} });
+
+  for (const key of Object.keys(malformed).filter((key) => key.startsWith('bad/'))) {
+    assert.equal(getProgress().journal[key].status, 'legacy', `${key} no se normalizo como legacy`);
+    reviewJournalEntry(key, 'approve');
+    assert.equal(getProgress().journal[key].status, 'legacy', `${key} expuso una ruta de aprobacion`);
+  }
+  assert.equal(getProgress().journal['ordinary/note'].status, 'self-recorded');
+  assert.equal(getProgress().journal['ordinary/note'].value, 'Nota libre');
+  assert.deepEqual(getProgress().evidence, {});
+  assert.deepEqual(getProgress().contenidos, {});
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
 test('hidratacion mantiene revisable un diario multiarea y usa la primera referencia CNB valida como area primaria', () => {
   const stored = {
     ...emptyProgress(),
