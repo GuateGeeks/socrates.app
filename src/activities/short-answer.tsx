@@ -56,6 +56,7 @@ export default defineActivity<ShortAnswerProps, SAValue>({
   icon: 'PenLine',
   description: 'Producción escrita breve con respuesta modelo y lista de cotejo para autoevaluarse (se guarda en el diario).',
   graded: false,
+  recordsEvidence: true,
   Component: ShortAnswer,
   validate: (p) => (!p.model || p.rubric.length === 0 ? ['requiere model y rubric'] : []),
 });

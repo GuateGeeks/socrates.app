@@ -229,13 +229,12 @@ export default semana({
             { id: 'b', left: 'Una planta parásita extrae agua y nutrientes de un árbol', right: 'El árbol' },
           ] },
         ),
-        S.choice(
-          { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.1.1'], prompt: 'Un municipio tiene una población joven que crece con rapidez. ¿Qué decisión se apoya mejor en ese dato?' },
-          { options: [
-            { id: 'a', text: 'Planificar más aulas y oportunidades de empleo futuro' },
-            { id: 'b', text: 'Cerrar escuelas porque habrá menos estudiantes' },
-            { id: 'c', text: 'Ignorar la edad de la población al planificar servicios' },
-          ], correct: ['a'] },
+        S.tf(
+          { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.1.1'], prompt: 'Una muestra ficticia y fechada indica que en Región Lago 45% de la población tiene menos de 18 años. Evalúa qué permite inferir ese único indicador.' },
+          { statements: [
+            { text: 'El dato permite preguntar por la capacidad de escuelas y servicios juveniles, pero requiere información local adicional.', answer: true },
+            { text: 'El porcentaje demuestra que todas las familias de Región Lago tienen las mismas necesidades.', answer: false },
+          ] },
         ),
         S.sort(
           { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.5'], prompt: 'Clasifica ejemplos distintos del patrimonio de Guatemala.' },
@@ -305,8 +304,12 @@ export default semana({
       { options: [{ id: 'a', text: 'El paramecio' }, { id: 'b', text: 'La lombriz de tierra' }, { id: 'c', text: 'El perro' }], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.1.1'], prompt: '¿Qué continente tiene **más de la mitad** de la población del mundo?' },
       { options: [{ id: 'a', text: 'Asia' }, { id: 'b', text: 'Europa' }, { id: 'c', text: 'Oceanía' }], correct: ['a'] }),
-    S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:2.1.1'], prompt: '¿Cuál de estos recursos naturales es **no renovable**?' },
-      { options: [{ id: 'a', text: 'El gas natural' }, { id: 'b', text: 'La energía del viento' }, { id: 'c', text: 'Un bosque reforestado' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:3.2.5'], prompt: 'Un archivo presta a la escuela una reproducción autorizada de un antiguo registro de mercado. ¿Qué plan contribuye a conservarlo durante la exposición?' },
+      { options: [
+        { id: 'a', text: 'Anotar su procedencia, colocarlo en un soporte que no lo dañe y devolverlo en la fecha acordada' },
+        { id: 'b', text: 'Recortar una parte para repartir recuerdos entre visitantes' },
+        { id: 'c', text: 'Quitar la información de origen y presentarlo como propiedad de la escuela' },
+      ], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:2.1.1'], prompt: '¿Cuál paso pertenece a un instructivo claro para ordenar una mesa de venta?' },
       { options: [
         { id: 'a', text: 'Finalmente, guarda los utensilios limpios en un recipiente tapado.' },

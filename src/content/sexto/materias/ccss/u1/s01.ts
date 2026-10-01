@@ -140,23 +140,21 @@ export default [
     ],
   }),
 
-  /* ───────────────────────── 2. Latitud, altitud, clima y ecosistemas ───────────────────────── */
+  /* ───────────────────────── 2. Geografia, ecosistemas, recursos y desarrollo ───────────────────────── */
   lesson({
     id: 's01-ccss-2',
-    title: 'Zonas climáticas, altitud y ecosistemas',
+    title: 'Clima, ecosistemas, recursos y desarrollo',
     icon: 'MountainSnow',
     minutes: 15,
     gancho: 'Quetzaltenango y Puerto San José están casi a la misma latitud. ¿Por qué en uno usas chumpa y en el otro buscas sombra?',
-    objetivos: [
-      'Relacionar la latitud con las zonas climáticas del mundo',
-      'Explicar cómo la altitud cambia la temperatura (pisos térmicos)',
-      'Reconocer los grandes ecosistemas de los continentes',
-    ],
+    objetivos: ['Relacionar clima y ecosistemas con recursos de distintos continentes y reflexionar por qué los recursos no determinan por sí solos el desarrollo'],
     resumen: [
       'Por la latitud, la Tierra tiene tres grandes zonas climáticas: cálida o tropical (entre los trópicos), templadas y frías o polares.',
       'La altitud es la altura sobre el nivel del mar. Mientras más alto, más frío: la temperatura baja unos 6 °C por cada 1,000 metros.',
       'En Guatemala hay pisos térmicos: tierras cálidas (costas y Petén), templadas (como la capital) y frías (como Quetzaltenango y el altiplano).',
       'El clima decide qué ecosistema hay en cada lugar: selva tropical, sabana, desierto, bosque templado, taiga, tundra, arrecife y otros.',
+      'Los ecosistemas ofrecen recursos distintos: agua, suelos, flora, fauna, minerales y fuentes de energía; América se compara con otros continentes sin suponer que uno tiene de todo.',
+      'Tener muchos recursos no garantiza desarrollo: también influyen educación, salud, tecnología, instituciones, distribución y conservación.',
     ],
     media: {
       id: 's01-ccss-2-zonas', kind: 'diagram', title: 'Zonas climáticas de la Tierra', aspect: '4:3',
@@ -218,51 +216,48 @@ export default [
         ] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:2.2.1'], ambito: 'conocer', title: 'El clima decide el ecosistema',
-          prompt: 'Un **ecosistema** es un conjunto de seres vivos (plantas, animales, hongos) que viven juntos en un lugar con su clima, su suelo y su agua. Según la latitud, la altitud y las lluvias, cada continente tiene ecosistemas distintos. Toca cada tarjeta.' },
-        { icon: 'Trees', body: 'Un mismo tipo de ecosistema puede aparecer en varios continentes si el clima es parecido.', reveal: [
-          { icon: 'Trees', front: 'Selva tropical', back: 'Calor y mucha lluvia. **Amazonía** (América del Sur), cuenca del Congo (África), Petén (Guatemala).' },
-          { icon: 'Sun', front: 'Desierto', back: 'Casi sin lluvia. **Sahara** (África), Atacama (América del Sur), Gobi (Asia). En Guatemala hay zonas muy secas en el valle del Motagua.' },
-          { icon: 'Wheat', front: 'Sabana', back: 'Pastizales con pocos árboles y una época seca larga. Muy extensa en **África**.' },
-          { icon: 'TreePine', front: 'Taiga y bosque templado', back: 'La **taiga** (bosques de pinos y abetos) cubre el norte de Asia, Europa y América. Los bosques templados pierden sus hojas en otoño, como en Europa.' },
-          { icon: 'Snowflake', front: 'Tundra y hielo polar', back: 'Suelo helado con musgos, cerca del Polo Norte. La **Antártida** está cubierta de hielo.' },
-          { icon: 'Fish', front: 'Arrecife de coral y manglar', back: 'Mares cálidos. La **Gran Barrera de Coral** (Oceanía) y el **Sistema Arrecifal Mesoamericano**, frente a México, Belice, Guatemala y Honduras.' },
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:2.2.1', 'ccss:2.1.1', 'ccss:2.3.1'], ambito: 'conocer', title: 'Del clima a los recursos y al desarrollo',
+          prompt: 'Compara ecosistemas y recursos naturales de América con otros continentes, y distingue esos recursos del nivel de desarrollo. Toca cada tarjeta.' },
+        { icon: 'Trees', body: 'Clima, suelo y agua influyen en los ecosistemas y recursos disponibles. Sin embargo, **tener recursos no garantiza desarrollo**: tambien importan educación, salud, tecnología, instituciones, distribución y conservación.', reveal: [
+          { icon: 'Trees', front: 'América', back: 'Amazonía y otros bosques, grandes ríos, suelos agrícolas, pesca y minerales como cobre. Hay países con niveles de desarrollo diferentes.' },
+          { icon: 'Sun', front: 'África', back: 'Sabanas, cuenca del Congo, minerales y zonas petroleras. Sus países también presentan condiciones sociales y económicas diversas.' },
+          { icon: 'Wheat', front: 'Asia y Europa', back: 'Asia reúne arrozales, bosques, minerales y petróleo; Europa cuenta con suelos agrícolas y bosques, y compra recursos que no posee en cantidad suficiente.' },
+          { icon: 'Mountain', front: 'Oceanía', back: 'Australia posee minerales y zonas ganaderas; las islas del Pacífico dependen mucho de recursos marinos. Un continente no tiene una sola realidad.' },
         ] },
       ),
       S.match(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:2.2.1'], prompt: 'Une cada ecosistema con un lugar del mundo donde se encuentra.',
-          explain: 'Observa que el ecosistema depende del clima, no del país: la selva aparece en América y en África porque ambas tienen zonas cálidas y lluviosas.' },
-        { leftTitle: 'Ecosistema', rightTitle: 'Lugar', pairs: [
-          { id: 'se', left: 'Selva tropical', leftIcon: 'Trees', right: 'Amazonía, América del Sur' },
-          { id: 'de', left: 'Desierto', leftIcon: 'Sun', right: 'Sahara, África' },
-          { id: 'ta', left: 'Taiga', leftIcon: 'TreePine', right: 'Norte de Rusia, Asia' },
-          { id: 'ar', left: 'Arrecife de coral', leftIcon: 'Fish', right: 'Gran Barrera, Oceanía' },
-          { id: 'hi', left: 'Hielo polar', leftIcon: 'Snowflake', right: 'Antártida' },
-        ] },
-      ),
-      S.number(
-        { fase: 'aplicar', areas: ['ccss', 'mat'], cnb: ['ccss:1.2.1'], ambito: 'hacer',
-          prompt: 'Supongamos que en la costa hay **28 °C**. Con la regla de **6 °C menos por cada 1,000 m**, ¿qué temperatura aproximada habría en un cerro a **3,000 m**?',
-          explain: '3,000 m son 3 veces 1,000 m: baja 3 × 6 = 18 °C. Entonces 28 − 18 = 10 °C.' },
-        { answer: 10, unit: '°C', misconceptions: [
-          { value: 22, msg: 'Restaste solo 6 °C. Pero subiste 3,000 m: son 3 veces 6 °C.' },
-          { value: 46, msg: 'Al subir la temperatura baja, no sube. Hay que restar.' },
-        ] },
-      ),
-      S.tf(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:1.2.1'], prompt: '¿Verdadero o falso?' },
-        { statements: [
-          { text: 'Guatemala está en la zona cálida o tropical de la Tierra.', answer: true },
-          { text: 'Mientras más alto está un lugar, más calor hace.', answer: false, why: 'Al subir, la temperatura baja: unos 6 °C por cada 1,000 m.' },
-          { text: 'Las zonas polares reciben los rayos del Sol muy inclinados.', answer: true },
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:2.2.1', 'ccss:2.1.1', 'ccss:2.3.1'], prompt: 'Con ayuda, relaciona ecosistema o recurso de América y otros continentes con una comparación cuidadosa del desarrollo.',
+          hint: 'Distingue lo que ofrece la naturaleza de las decisiones sociales sobre su uso.',
+          explain: 'Los recursos varían por clima y geografía; el desarrollo depende además de cómo se transforman, distribuyen y conservan.' },
+        { leftTitle: 'Evidencia', rightTitle: 'Relación', pairs: [
+          { id: 'se', left: 'Selvas y grandes ríos en América y África', leftIcon: 'Trees', right: 'Climas parecidos pueden sostener recursos semejantes' },
+          { id: 'mi', left: 'Cobre americano y minerales australianos', leftIcon: 'Pickaxe', right: 'Continentes distintos aportan minerales al intercambio' },
+          { id: 'de', left: 'País con muchos recursos y servicios insuficientes', leftIcon: 'Scale', right: 'Los recursos por sí solos no garantizan desarrollo' },
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:2.2.1'], prompt: 'Un lugar tiene calor todo el año, llueve muchísimo y hay árboles altísimos con gran variedad de animales. ¿Qué ecosistema es?' },
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:1.2.1', 'ccss:2.2.1', 'ccss:2.1.1', 'ccss:2.3.1'], ambito: 'hacer',
+          prompt: 'Aplicación independiente. América tiene bosques, agua, suelos y minerales; Asia, África, Europa y Oceanía poseen combinaciones distintas. ¿Qué explicación relaciona clima, recursos y nivel de desarrollo sin confundirlos?' },
         { options: [
-          { id: 'a', text: 'Selva tropical' },
-          { id: 'b', text: 'Tundra' },
-          { id: 'c', text: 'Desierto' },
+          { id: 'a', text: 'El clima influye en ecosistemas y recursos, pero educación, salud, tecnología, distribución y conservación también influyen en el desarrollo' },
+          { id: 'b', text: 'El continente con más minerales es automáticamente el más desarrollado' },
+          { id: 'c', text: 'Todos los continentes poseen exactamente los mismos recursos' },
+        ], correct: ['a'] },
+      ),
+      S.tf(
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:1.2.1', 'ccss:2.2.1', 'ccss:2.1.1', 'ccss:2.3.1'], prompt: 'Salida: compara clima, ecosistemas, recursos de América y otros continentes, y su relación con el desarrollo.' },
+        { statements: [
+          { text: 'América y África pueden compartir selvas tropicales porque algunas regiones tienen climas parecidos.', answer: true },
+          { text: 'La cantidad de recursos naturales determina por sí sola el nivel de desarrollo de un continente.', answer: false },
+          { text: 'Educación, salud, tecnología, distribución y conservación también influyen en el desarrollo.', answer: true },
+        ] },
+      ),
+      S.choice(
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:1.2.1', 'ccss:2.2.1', 'ccss:2.1.1', 'ccss:2.3.1'], prompt: 'Salida nueva. América tiene agua y cobre; otra región posee petróleo y arrozales. ¿Qué conclusión compara recursos continentales y niveles de desarrollo con cuidado?' },
+        { options: [
+          { id: 'a', text: 'Los recursos difieren, y su aprovechamiento, distribución y conservación se relacionan con el desarrollo sin garantizarlo' },
+          { id: 'b', text: 'Un solo recurso permite conocer toda la calidad de vida de un continente' },
+          { id: 'c', text: 'Los ecosistemas y el clima no se relacionan con ningún recurso' },
         ], correct: ['a'] },
       ),
     ],

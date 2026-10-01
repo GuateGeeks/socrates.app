@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { registerAll } from '../src/activities/index';
-import { getActivity } from '../src/core/registry';
+import { getActivity, isAssessmentEvidence } from '../src/core/registry';
 import { WEEKS } from '../src/content/index';
 import type { Lesson, StepBase } from '../src/core/types';
 import { MEDIA_ASSETS } from '../src/media/assets';
@@ -1759,18 +1759,10 @@ test('Semana 1 no reutiliza payloads de práctica guiada en reto o banco', () =>
   assert.deepEqual(reused, []);
 });
 
-test('Semana 2 preserva las lecciones y referencias CNB aprobadas', () => {
+test('Semana 2 preserva la cantidad aprobada de lecciones por materia', () => {
   const expectedLessonCounts = new Map([
     ['mat', 5], ['l1', 5], ['cnt', 3], ['ccss', 3], ['l2', 2],
     ['l3', 2], ['fc', 2], ['art', 2], ['ef', 2], ['pyd', 1],
-  ]);
-  const expectedCnb = new Set([
-    'mat:1.1.6', 'mat:1.1.7', 'mat:1.1.8', 'mat:1.1.9', 'mat:1.1.10',
-    'l1:4.2.1', 'l1:4.2.2',
-    'cnt:1.4.1', 'cnt:2.1.1', 'cnt:1.5.1', 'cnt:1.5.2', 'cnt:1.5.3',
-    'ccss:2.3.1', 'ccss:2.1.1', 'ccss:3.1.1', 'ccss:3.2.1', 'ccss:3.2.5', 'ccss:3.2.6',
-    'l2:1.3.1', 'l2:2.1.1', 'l3:1.1.2', 'fc:1.2.2', 'art:1.1.2',
-    'ef:1.3.3', 'ef:1.3.5', 'ef:1.3.6', 'pyd:1.2.1', 'pyd:1.4.4',
   ]);
   const lessons = weekTwo.lessons.filter((lesson) => lesson.kind === 'materia');
   const actualCounts = new Map<string, number>();
@@ -1780,7 +1772,6 @@ test('Semana 2 preserva las lecciones y referencias CNB aprobadas', () => {
     actualCounts.set(area, (actualCounts.get(area) ?? 0) + 1);
   }
   assert.deepEqual(actualCounts, expectedLessonCounts);
-  assert.deepEqual(new Set(lessons.flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb))), expectedCnb);
 });
 
 test('Semana 2 enseña antes de calificar y mantiene fases monotónicas', () => {
@@ -3699,6 +3690,64 @@ function comparesWomenRolesAcrossCultures(value: unknown): boolean {
     && /(?:compara|cambio|continuidad|diferencia)/.test(text);
 }
 
+function reflectsOnContinentalDemography(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const continents = ['africa', 'asia', 'america', 'europa', 'oceania']
+    .filter((continent) => text.includes(continent)).length;
+  const indicators = /(?:poblacion|proporcion|porcentaje)/.test(text)
+    && /(?:edad|joven|mayor|densidad|migracion|natalidad|esperanza de vida)/.test(text);
+  const caution = /(?:datos? (?:didacticos?|redondeados?|de escenario)|fecha de referencia|no (?:describe|representa).{0,40}(?:cada pais|toda la realidad)|no basta|limite)/.test(text);
+  const reflection = /(?:reflexiona|infiere|necesidad|decision|compar|conclusion)/.test(text);
+  return continents >= 3 && indicators && caution && reflection;
+}
+
+function comparesTechnologyEffectsAcrossCountries(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const countries = ['guatemala', 'corea del sur', 'kenia', 'japon', 'brasil', 'india']
+    .filter((country) => text.includes(country)).length;
+  const change = /(?:antes|decadas?|paso de|cambio|transform|actualmente|hoy)/.test(text)
+    && /(?:radio|telefono|internet|automatizacion|pago digital|tecnologia)/.test(text);
+  const effects = /cultur/.test(text) && /econom/.test(text)
+    && /(?:valor|privacidad|respeto|equidad|responsabilidad|inclusion)/.test(text);
+  return countries >= 2 && change && effects && /(?:compara|ambos|diferencia|semejanza)/.test(text);
+}
+
+function practicesHeritageProtectionAndRespect(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const heritage = /patrimonio/.test(text)
+    && /(?:proteccion|proteger|conservacion|conservar|desarrollo|promover|difundir)/.test(text);
+  const respect = /(?:diferencia|diversidad)/.test(text)
+    && /(?:etnica|cultural|linguistica|idioma)/.test(text)
+    && /(?:aceptacion|tolerancia|respeto|sin burla|sin discriminacion)/.test(text);
+  const contribution = /(?:contribucion|participa|realiza|escribe|redacta|crea|publica|ficha|mensaje)/.test(text);
+  return heritage && respect && contribution;
+}
+
+function hasHeritageEvidenceAtStages(lesson: Lesson): boolean {
+  const refs = ['ccss:3.2.5', 'ccss:3.2.6'];
+  const tagged = (step: StepBase) => refs.every((ref) => step.cnb.includes(ref));
+  const teaching = lesson.steps.some((step) => tagged(step)
+    && INSTRUCTION_TYPES.has(step.type) && practicesHeritageProtectionAndRespect(step));
+  const application = lesson.steps.some((step) => tagged(step)
+    && step.fase === 'aplicar' && !step.hint
+    && isAssessmentEvidence(step, 'ccss') && practicesHeritageProtectionAndRespect(step));
+  const exits = lesson.steps.filter((step) => tagged(step)
+    && step.fase === 'comprobar' && !step.hint && !step.explain);
+  return teaching && application && exits.length >= 2
+    && exits.every((step) => isAssessmentEvidence(step, 'ccss') && practicesHeritageProtectionAndRespect(step));
+}
+
+function participatesInSimpleRhythmicStructure(value: unknown): boolean {
+  if (!value || typeof value !== 'object') return false;
+  const step = value as Partial<StepBase>;
+  const text = normalizeFactText(JSON.stringify(value));
+  const structure = /(?:cuatro tiempos|estructura ritmica|patron ritmico)/.test(text)
+    && /preparar/.test(text) && /apuntar/.test(text) && /lanzar/.test(text) && /recibir/.test(text);
+  const participation = step.type === 'pulse-lab' && /(?:haz|hagan|realiza|practica|participa)/.test(text)
+    && /(?:pases?|movimiento)/.test(text);
+  return structure && participation;
+}
+
 test('Los contratos semanticos rechazan identificacion, inserciones y volcados de cobertura', () => {
   assert.equal(demandsL2MessageProduction({
     type: 'choice',
@@ -3716,6 +3765,24 @@ test('Los contratos semanticos rechazan identificacion, inserciones y volcados d
   assert.equal(connectsExchangeRoutesAcrossTime({ prompt: 'Los mayas usaron caminos; hoy Centroamerica exporta cafe.' }), false);
   assert.equal(analyzesGuatemalaWorkConditions({ prompt: 'La tecnologia cambia el trabajo y las mujeres participan en la economia.' }), false);
   assert.equal(comparesWomenRolesAcrossCultures({ prompt: 'La tecnologia y el ciberacoso afectan hoy a mujeres y hombres.' }), false);
+  assert.equal(reflectsOnContinentalDemography({ prompt: 'Asia tiene mucha poblacion.' }), false);
+  assert.equal(comparesTechnologyEffectsAcrossCountries({ prompt: 'Una radio de Guatemala difunde patrimonio.' }), false);
+  assert.equal(practicesHeritageProtectionAndRespect({ prompt: 'Identifica Tikal y afirma que respetas la diversidad.' }), false);
+  assert.equal(participatesInSimpleRhythmicStructure({
+    type: 'choice', cnb: ['ef:1.4.14'], prompt: 'Elige el patron: preparar, apuntar, lanzar y recibir en cuatro tiempos.',
+    props: { options: [{ id: 'a', text: 'Cuatro tiempos' }], correct: ['a'] },
+  }), false);
+});
+
+test('La evidencia de evaluacion exige capacidad registrada y una referencia del area', () => {
+  const base = {
+    id: 'fixture-write', type: 'short-answer', fase: 'comprobar' as const, areas: ['l2' as const],
+    prompt: 'Produce un mensaje.', props: { model: 'Modelo.', rubric: ['Produje el mensaje'] },
+  };
+  assert.equal(isAssessmentEvidence({ ...base, cnb: ['l2:1.2.2'] }, 'l2'), true);
+  assert.equal(isAssessmentEvidence({ ...base, cnb: [] }, 'l2'), false);
+  assert.equal(isAssessmentEvidence({ ...base, cnb: ['ccss:3.1.1'] }, 'l2'), false);
+  assert.equal(isAssessmentEvidence({ ...base, type: 'reflection', cnb: ['l2:1.2.2'], props: { statements: ['Lo hice'] } }, 'l2'), false);
 });
 
 test('L2 Semana 1 usa exactamente su asignacion del plan y evidencia produccion y escucha en tres etapas', () => {
@@ -3729,6 +3796,24 @@ test('L2 Semana 1 usa exactamente su asignacion del plan y evidencia produccion 
   assert.equal(hasL2MessageProductionAtStages(lessons[0]!), true);
   assert.equal(hasIndicatorAtStages(lessons[1]!, 'l2:1.2.4', teachesListeningAnticipationAndIntent), true);
   assert.equal(hasIndicatorAtStages(lessons[1]!, 'l2:1.2.6', teachesListeningAnticipationAndIntent), true);
+});
+
+test('CCSS Semana 2 usa exactamente el plan y evidencia sus tres resultados en etapas completas', () => {
+  const lessons = ['s02-ccss-1', 's02-ccss-2', 's02-ccss-3']
+    .map((id) => weekTwo.lessons.find((lesson) => lesson.id === id));
+  assert.ok(lessons.every(Boolean));
+  assert.deepEqual(
+    new Set(lessons.flatMap((lesson) => lesson!.steps.flatMap((step) => step.cnb))),
+    plannedRefsForAreas(2, ['ccss']),
+  );
+  assert.deepEqual(lessons.map((lesson) => new Set(lesson!.steps.flatMap((step) => step.cnb))), [
+    new Set(['ccss:3.1.1']),
+    new Set(['ccss:3.2.1']),
+    new Set(['ccss:3.2.5', 'ccss:3.2.6']),
+  ]);
+  assert.equal(hasIndicatorAtStages(lessons[0]!, 'ccss:3.1.1', reflectsOnContinentalDemography), true);
+  assert.equal(hasIndicatorAtStages(lessons[1]!, 'ccss:3.2.1', comparesTechnologyEffectsAcrossCountries), true);
+  assert.equal(hasHeritageEvidenceAtStages(lessons[2]!), true);
 });
 
 test('CNT y CCSS Semana 3 usan exactamente el plan y evidencian cada indicador en tres etapas', () => {
@@ -3783,12 +3868,14 @@ test('Cada evidencia auditiva calificada de L2 Semana 1 tiene un audio propio co
   assert.deepEqual(failures, []);
 });
 
-test('CNT y CCSS Semana 4 usan exactamente su plan y evidencian cada indicador en tres etapas', () => {
+test('CNT, CCSS y EF Semana 4 usan exactamente su plan y evidencian cada indicador', () => {
   const science = ['s04-cnt-1', 's04-cnt-2', 's04-cnt-3'].map((id) => weekFour.lessons.find((lesson) => lesson.id === id));
   const social = ['s04-ccss-1', 's04-ccss-2', 's04-ccss-3'].map((id) => weekFour.lessons.find((lesson) => lesson.id === id));
-  assert.ok([...science, ...social].every(Boolean));
+  const physical = ['s04-ef-1', 's04-ef-2'].map((id) => weekFour.lessons.find((lesson) => lesson.id === id));
+  assert.ok([...science, ...social, ...physical].every(Boolean));
   assert.deepEqual(new Set(science.flatMap((lesson) => lesson!.steps.flatMap((step) => step.cnb))), plannedRefsForAreas(4, ['cnt']));
   assert.deepEqual(new Set(social.flatMap((lesson) => lesson!.steps.flatMap((step) => step.cnb))), plannedRefsForAreas(4, ['ccss']));
+  assert.deepEqual(new Set(physical.flatMap((lesson) => lesson!.steps.flatMap((step) => step.cnb))), plannedRefsForAreas(4, ['ef']));
   assert.deepEqual(science.map((lesson) => new Set(lesson!.steps.flatMap((step) => step.cnb))), [
     new Set(['cnt:3.1.1']), new Set(['cnt:3.2.1']), new Set(['cnt:3.3.1', 'cnt:3.5.1']),
   ]);
@@ -3803,6 +3890,11 @@ test('CNT y CCSS Semana 4 usan exactamente su plan y evidencian cada indicador e
   assert.equal(hasIndicatorAtStages(social[0]!, 'ccss:5.1.4', teachesSocialInquiry), true);
   assert.equal(hasIndicatorAtStages(social[1]!, 'ccss:5.3.1', usesInformationGatheringTools), true);
   assert.equal(hasIndicatorAtStages(social[2]!, 'ccss:6.2.1', teachesSocietyEvolution), true);
+  assert.equal(physical[1]!.steps.some((step) => (
+    step.fase === 'aplicar'
+    && step.cnb.includes('ef:1.4.14')
+    && participatesInSimpleRhythmicStructure(step)
+  )), true);
 });
 
 test('CNT Semana 6 asigna un resultado coherente por leccion y evidencia cada indicador en tres etapas', () => {

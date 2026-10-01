@@ -1,3 +1,4 @@
+import type { AreaId } from '@/cnb/model';
 import type { ActivityDefinition, StepBase } from './types';
 
 /**
@@ -25,6 +26,15 @@ export function getActivity(type: string): ActivityDefinition | undefined {
 
 export function listActivities(): ActivityDefinition[] {
   return [...registry.values()];
+}
+
+/** Evidencia evaluable: corrección automática o producción registrada para revisión. */
+export function isAssessmentEvidence(step: StepBase, area: AreaId): boolean {
+  const def = getActivity(step.type);
+  return Boolean(
+    (def?.graded || def?.recordsEvidence)
+    && step.cnb.some((ref) => ref.startsWith(`${area}:`)),
+  );
 }
 
 /** Helper tipado para autores de contenido: step('choice', {...}) */

@@ -166,6 +166,8 @@ export interface ActivityDefinition<P = any, A = any> {
   description: string;
   /** graded=false → actividad exploratoria/reflexiva; no hay "incorrecto" */
   graded: boolean;
+  /** La respuesta abierta se conserva como evidencia revisable, aunque no tenga clave automática. */
+  recordsEvidence?: boolean;
   Component: ComponentType<ActivityProps<P, A>>;
   /** ¿puede el niño pulsar "Comprobar"? */
   isReady?(props: P, value: A | undefined): boolean;
