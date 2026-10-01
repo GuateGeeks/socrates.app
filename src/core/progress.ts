@@ -39,6 +39,9 @@ export interface JournalEntry {
   status: JournalStatus;
   primaryArea?: AreaId;
   cnb: string[];
+  /** Referencias que este espacio estable ya acreditó; sobreviven a reenvíos. */
+  creditedRefs: string[];
+  creditedAt?: string;
   review?: { criteria: string[]; selfChecks: boolean[] };
   reviewedAt?: string;
 }
@@ -112,12 +115,24 @@ function hydrate(raw: Progress | null): Progress {
     const statuses: JournalStatus[] = ['pending-review', 'approved', 'needs-revision', 'self-recorded', 'legacy'];
     const status = statuses.includes(entry.status as JournalStatus) ? entry.status as JournalStatus : 'legacy';
     const cnb = Array.isArray(entry.cnb) ? entry.cnb.filter((ref): ref is string => typeof ref === 'string') : [];
-    const inferredArea = cnb.length > 0 && cnb.every((ref) => areaOf(ref) === areaOf(cnb[0])) ? areaOf(cnb[0]) : undefined;
+    const validCnb = cnb.filter((ref) => Boolean(lookup(ref)));
+    // Los registros anteriores no guardaban areas: el primer ref valido conserva el orden autorado del paso.
+    const inferredArea = validCnb.length > 0 ? areaOf(validCnb[0]) : undefined;
     const primaryArea = entry.primaryArea ?? inferredArea;
     const review = entry.review && Array.isArray(entry.review.criteria) && Array.isArray(entry.review.selfChecks)
       ? { criteria: entry.review.criteria.filter((item): item is string => typeof item === 'string'), selfChecks: entry.review.selfChecks.map(Boolean) }
       : undefined;
-    const safeStatus = status === 'pending-review' && (!primaryArea || cnb.length === 0 || !review) ? 'legacy' : status;
+    const validPrimaryRefs = primaryArea ? validCnb.filter((ref) => areaOf(ref) === primaryArea) : [];
+    const storedCredits = Array.isArray(entry.creditedRefs)
+      ? entry.creditedRefs.filter((ref): ref is string => typeof ref === 'string' && Boolean(lookup(ref)))
+      : [];
+    const creditedRefs = storedCredits.length > 0
+      ? [...new Set(storedCredits)]
+      : status === 'approved' ? [...new Set(validPrimaryRefs)] : [];
+    const safeStatus = status === 'pending-review' && (!primaryArea || validPrimaryRefs.length === 0 || !review) ? 'legacy' : status;
+    const creditedAt = typeof entry.creditedAt === 'string'
+      ? entry.creditedAt
+      : creditedRefs.length > 0 ? entry.reviewedAt ?? entry.at : undefined;
     return [key, {
       stepId: typeof entry.stepId === 'string' ? entry.stepId : key.split('/').at(-1) ?? key,
       value: typeof entry.value === 'string' ? entry.value : '',
@@ -125,6 +140,8 @@ function hydrate(raw: Progress | null): Progress {
       status: safeStatus,
       ...(primaryArea ? { primaryArea } : {}),
       cnb,
+      creditedRefs,
+      ...(creditedAt ? { creditedAt } : {}),
       ...(review ? { review } : {}),
       ...(typeof entry.reviewedAt === 'string' ? { reviewedAt: entry.reviewedAt } : {}),
     } satisfies JournalEntry];
@@ -224,13 +241,17 @@ export function recordLesson(mission: Mission, lesson: Lesson, outcomes: StepOut
         const value = typeof o.value === 'string' ? o.value : JSON.stringify(o.value);
         const props = o.step.props as { rubric?: string[] };
         const response = o.value as { checks?: boolean[] } | undefined;
-        n.journal[`${lesson.id}/${o.step.id}`] = {
+        const journalKey = `${lesson.id}/${o.step.id}`;
+        const previous = n.journal[journalKey];
+        n.journal[journalKey] = {
           stepId: o.step.id,
           value,
           at: d,
           status: def?.evidenceMode === 'journal-pending-review' ? 'pending-review' : 'self-recorded',
           primaryArea: o.step.areas[0],
           cnb: [...o.step.cnb],
+          creditedRefs: [...(previous?.creditedRefs ?? [])],
+          ...(previous?.creditedAt ? { creditedAt: previous.creditedAt } : {}),
           ...(def?.evidenceMode === 'journal-pending-review' && props.rubric
             ? { review: { criteria: [...props.rubric], selfChecks: [...(response?.checks ?? [])] } }
             : {}),
@@ -276,17 +297,22 @@ export function reviewJournalEntry(key: string, decision: 'approve' | 'revision'
     if (decision === 'revision' || !entry.primaryArea) return n;
 
     const refs = [...new Set(entry.cnb.filter((ref) => lookup(ref) && areaOf(ref) === entry.primaryArea))];
-    const indicators = new Set(refs.map(indicadorOf));
-    for (const indicator of indicators) {
+    const creditedRefs = new Set(entry.creditedRefs);
+    const newRefs = refs.filter((ref) => !creditedRefs.has(ref));
+    const creditedIndicators = new Set([...creditedRefs].map(indicadorOf));
+    const newIndicators = new Set(newRefs.map(indicadorOf).filter((indicator) => !creditedIndicators.has(indicator)));
+    for (const indicator of newIndicators) {
       const evidence = n.evidence[indicator] ?? { ok: 0, total: 0, last: reviewedAt };
       n.evidence[indicator] = { ok: evidence.ok + 1, total: evidence.total + 1, last: reviewedAt };
     }
     n.contenidos ??= {};
-    for (const ref of refs) {
+    for (const ref of newRefs) {
       if (lookup(ref)?.kind !== 'contenido') continue;
       const evidence = n.contenidos[ref] ?? { ok: 0, total: 0, last: reviewedAt };
       n.contenidos[ref] = { ok: evidence.ok + 1, total: evidence.total + 1, last: reviewedAt };
     }
+    next.creditedRefs = [...creditedRefs, ...newRefs];
+    if (newRefs.length > 0) next.creditedAt = reviewedAt;
     return n;
   });
 }

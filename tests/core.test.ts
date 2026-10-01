@@ -123,6 +123,7 @@ test('respuesta escrita se guarda pendiente de revision sin acreditar dominio', 
     status: 'pending-review',
     primaryArea: 'l1',
     cnb: ['l1:3.4.2'],
+    creditedRefs: [],
     review: { criteria: ['Inclui evidencia', 'Revise claridad'], selfChecks: [true, true] },
   });
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
@@ -141,6 +142,54 @@ test('hidratacion recupera el area segura de diarios pendientes creados antes de
   setStorageAdapter({ load: () => stored, save: () => {} });
   assert.equal(getProgress().journal['lesson/step'].status, 'pending-review');
   assert.equal(getProgress().journal['lesson/step'].primaryArea, 'l1');
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('hidratacion mantiene revisable un diario multiarea y usa la primera referencia CNB valida como area primaria', () => {
+  const stored = {
+    ...emptyProgress(),
+    journal: {
+      's07-d5-taller/report': {
+        stepId: 'report', value: '{}', at: '2026-02-20', status: 'pending-review',
+        cnb: ['cnt:6.4.1', 'l1:8.2.3', 'fc:4.2.2', 'pyd:5.3.2'],
+        review: { criteria: ['Separé evidencia e inferencia'], selfChecks: [true] },
+      },
+    },
+  } as unknown as Progress;
+  setStorageAdapter({ load: () => stored, save: () => {} });
+
+  const migrated = getProgress().journal['s07-d5-taller/report'];
+  assert.equal(migrated.status, 'pending-review');
+  assert.equal(migrated.primaryArea, 'cnt');
+  assert.deepEqual(migrated.creditedRefs, []);
+  reviewJournalEntry('s07-d5-taller/report', 'approve');
+  assert.deepEqual(getProgress().journal['s07-d5-taller/report'].creditedRefs, ['cnt:6.4.1']);
+  assert.deepEqual(getProgress().evidence['cnt:6.4'], { ok: 1, total: 1, last: getProgress().journal['s07-d5-taller/report'].creditedAt });
+  assert.equal(getProgress().evidence['l1:8.2'], undefined);
+  assert.equal(getProgress().evidence['fc:4.2'], undefined);
+  assert.equal(getProgress().evidence['pyd:5.3'], undefined);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('hidratacion conserva como acreditadas las referencias de diarios aprobados antes de guardar procedencia', () => {
+  const stored = {
+    ...emptyProgress(),
+    evidence: { 'l1:3.4': { ok: 1, total: 1, last: '2026-02-21' } },
+    contenidos: { 'l1:3.4.2': { ok: 1, total: 1, last: '2026-02-21' } },
+    journal: {
+      'lesson/step': {
+        stepId: 'step', value: '{}', at: '2026-02-20', status: 'approved', primaryArea: 'l1',
+        cnb: ['l1:3.4.2', 'ccss:7.1.3'], reviewedAt: '2026-02-21',
+        review: { criteria: ['Es claro'], selfChecks: [true] },
+      },
+    },
+  } as unknown as Progress;
+  setStorageAdapter({ load: () => stored, save: () => {} });
+
+  const migrated = getProgress().journal['lesson/step'];
+  assert.deepEqual(migrated.creditedRefs, ['l1:3.4.2']);
+  assert.equal(migrated.creditedAt, '2026-02-21');
+  assert.equal(migrated.creditedRefs.includes('ccss:7.1.3'), false);
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
@@ -184,6 +233,65 @@ test('aprobar un diario acredita sus referencias de la misma area exactamente un
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
+test('aprobar, repetir la leccion y volver a aprobar el mismo diario no duplica dominio', () => {
+  let mem: Progress | null = null;
+  setStorageAdapter({ load: () => mem, save: (p) => { mem = structuredClone(p); } });
+  const mission = COURSE.missions[0];
+  const step = {
+    id: 'repeat-fixture', type: 'short-answer', fase: 'aplicar' as const, areas: ['l1' as const],
+    cnb: ['l1:3.4.2'], prompt: 'Escribe.', props: { minWords: 6, model: 'Modelo.', rubric: ['Inclui evidencia'] },
+  };
+  const lesson = { id: 'repeat-lesson', title: 'Diario', minutes: 5, steps: [step] };
+  const submit = (text: string) => recordLesson(mission, lesson, [{
+    step, graded: false, correct: true, firstTry: true, score: 1,
+    value: { text, checks: [true], seen: true },
+  }], () => []);
+
+  submit('Primera respuesta con evidencia suficiente para revisar');
+  reviewJournalEntry('repeat-lesson/repeat-fixture', 'approve');
+  const firstCredit = structuredClone(getProgress().evidence['l1:3.4']);
+  submit('Respuesta cambiada con una explicacion nueva y concreta');
+  const resubmitted = getProgress().journal['repeat-lesson/repeat-fixture'];
+  assert.equal(resubmitted.status, 'pending-review');
+  assert.deepEqual(resubmitted.creditedRefs, ['l1:3.4.2']);
+  assert.match(resubmitted.creditedAt ?? '', /^\d{4}-\d{2}-\d{2}$/);
+  reviewJournalEntry('repeat-lesson/repeat-fixture', 'approve');
+
+  assert.deepEqual(getProgress().evidence['l1:3.4'], firstCredit);
+  assert.deepEqual(getProgress().contenidos?.['l1:3.4.2'], { ok: 1, total: 1, last: resubmitted.creditedAt });
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('una respuesta cambiada acredita solo referencias nuevas sin repetir indicador ni aceptar otra area', () => {
+  let mem: Progress | null = null;
+  setStorageAdapter({ load: () => mem, save: (p) => { mem = structuredClone(p); } });
+  const mission = COURSE.missions[0];
+  const base = {
+    id: 'expanded-fixture', type: 'short-answer', fase: 'aplicar' as const, areas: ['l1' as const], prompt: 'Escribe.',
+    props: { minWords: 6, model: 'Modelo.', rubric: ['Inclui evidencia'] },
+  };
+  const submit = (cnb: string[], text: string) => {
+    const step = { ...base, cnb };
+    recordLesson(mission, { id: 'expanded-lesson', title: 'Diario', minutes: 5, steps: [step] }, [{
+      step, graded: false, correct: true, firstTry: true, score: 1,
+      value: { text, checks: [true], seen: true },
+    }], () => []);
+  };
+
+  submit(['l1:3.4.1'], 'Primera respuesta con una evidencia concreta y clara');
+  reviewJournalEntry('expanded-lesson/expanded-fixture', 'approve');
+  submit(['l1:3.4.1', 'l1:3.4.2', 'ccss:7.1.3'], 'Respuesta revisada con una evidencia distinta y suficiente');
+  reviewJournalEntry('expanded-lesson/expanded-fixture', 'approve');
+
+  const progress = getProgress();
+  assert.deepEqual(progress.journal['expanded-lesson/expanded-fixture'].creditedRefs, ['l1:3.4.1', 'l1:3.4.2']);
+  assert.deepEqual(progress.evidence['l1:3.4'], { ok: 1, total: 1, last: progress.journal['expanded-lesson/expanded-fixture'].creditedAt });
+  assert.equal(progress.contenidos?.['l1:3.4.1'].total, 1);
+  assert.equal(progress.contenidos?.['l1:3.4.2'].total, 1);
+  assert.equal(progress.evidence['ccss:7.1'], undefined);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
 test('solicitar revision persiste la decision sin acreditar dominio ni permitir aprobacion tardia directa', () => {
   let mem: Progress | null = null;
   const pending = {
@@ -223,6 +331,7 @@ test('hidratacion normaliza diarios v1 antiguos como registros legacy sin eviden
     at: '2026-01-20',
     status: 'legacy',
     cnb: [],
+    creditedRefs: [],
   });
   assert.equal(getProgress().evidence['l1:3.4'], undefined);
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
