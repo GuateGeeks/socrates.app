@@ -1,7 +1,6 @@
 /**
  * L2 (español como segundo idioma) · Unidad 1 · Semana 7
- * La música de las palabras: separar sílabas al oído, encontrar la sílaba tónica y usarla
- * para descubrir el ritmo y la rima de un poema.
+ * Lenguaje para investigar el agua: sílabas y tonicidad; ritmo y rima en poesía ambiental.
  */
 import { lesson, S } from '../../../../dsl';
 
@@ -14,30 +13,33 @@ export default [
     minutes: 14,
     gancho: 'No es lo mismo decir "mi papa" que "mi papá". ¡Una sola sílaba más fuerte cambia la papa por tu papá!',
     objetivos: [
-      'Separar palabras en sílabas escuchando cada golpe de voz',
-      'Encontrar la sílaba tónica: la que suena con más fuerza',
-      'Clasificar palabras en agudas, llanas y esdrújulas',
+      'Clasificar vocabulario del agua por separación silábica y sílaba tónica',
     ],
     resumen: [
-      'Una sílaba es cada golpe de voz de una palabra: ma-rim-ba tiene 3. Toda sílaba tiene al menos una vocal.',
-      'Ch, ll, rr y qu no se separan (cho-co-la-te, to-rre). Dos vocales que se dicen en un solo golpe (diptongo) van en la misma sílaba: es-cue-la, a-gua.',
+      'Una sílaba es cada golpe de voz: cau-dal tiene 2. Toda sílaba tiene al menos una vocal.',
+      'Ch, ll, rr y qu no se separan. Dos vocales que se dicen en un solo golpe (diptongo) van juntas: a-gua, llu-via.',
       'La sílaba tónica es la que se pronuncia con más fuerza. Cambiarla puede cambiar la palabra: papa / papá.',
-      'Aguda: tónica en la última sílaba (can-CIÓN). Llana: en la penúltima (ME-sa). Esdrújula: en la antepenúltima (PÁ-ja-ro).',
+      'Aguda: tónica al final (cau-DAL). Llana: en la penúltima (A-gua). Esdrújula: en la antepenúltima (HÍ-dri-co).',
     ],
     media: {
       id: 's07-l2-1-palmadas', kind: 'audio', title: 'Palabras con palmadas', duration: 45,
       alt: 'Una voz dice palabras despacio y da una palmada en cada sílaba; en la sílaba tónica la palmada suena más fuerte.',
-      brief: 'Audio de 45 s. Voz adulta femenina, clara y pausada, español de Guatemala. Para cada palabra: se dice completa, luego separada en sílabas con una palmada por sílaba, y la palmada de la sílaba tónica suena más fuerte (tambor o palmada doble). Palabras en este orden: "ma-rim-ba", "can-ción", "pá-ja-ro", "cho-co-la-te", "es-cue-la", "pa-pa" y "pa-pá" (marcar bien la diferencia). Pausa de 2 s entre palabras. Sin música de fondo.',
+      brief: 'Audio de 45 s. Voz adulta femenina, clara y pausada, español de Guatemala. Para cada palabra: decirla completa, separarla con una palmada por sílaba y marcar la tónica con una palmada doble. Guion exacto y orden: "a-gua", "cau-dal", "llu-via", "na-ci-mien-to", "tu-be-rí-a", "hí-dri-co" y "po-ta-bi-li-za-ción". Pausa de 2 s entre palabras. Sin música.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:4.1.6', 'l2:4.1.8'], title: 'Palabras del agua por golpes de voz',
+          prompt: 'Cada palabra puede dividirse en sílabas y una recibe mayor intensidad. Esa posición permite clasificarla como aguda, llana o esdrújula.' },
+        { icon: 'Waves', body: 'Usaremos palabras de la investigación: **agua, caudal, río, hídrico y nacimiento**.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:4.1.6'], ambito: 'conocer',
-          prompt: 'Di en voz alta **"marimba"** y da una palmada cada vez que abres la boca para un golpe de voz. ¿Cuántas palmadas diste?',
-          explain: '**Ma-rim-ba**: tres golpes de voz, tres palmadas. Cada golpe se llama **sílaba**. Hoy aprenderás a separarlas y a encontrar la más fuerte.' },
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.6'], ambito: 'conocer',
+          prompt: 'Di en voz alta **"caudal"** y da una palmada por cada golpe de voz. ¿Cuántas palmadas diste?',
+          explain: '**Cau-dal**: dos golpes de voz. Cada golpe se llama **sílaba**.' },
         { options: [
-          { id: 'a', text: '2 palmadas', feedback: 'Dilo más despacio: ma… rim… ba. ¿Cuántos golpes escuchas?' },
-          { id: 'b', text: '3 palmadas' },
-          { id: 'c', text: '7 palmadas', feedback: 'Marimba tiene 7 letras, pero no damos una palmada por letra, sino por golpe de voz.' },
+          { id: 'a', text: '1 palmada', feedback: 'Dilo despacio: cau-dal. Escucharás dos golpes.' },
+          { id: 'b', text: '2 palmadas' },
+          { id: 'c', text: '6 palmadas', feedback: 'Contaste letras; cuenta golpes de voz.' },
         ], correct: ['b'] },
       ),
       S.explain(
@@ -53,33 +55,33 @@ export default [
       S.ejemplo(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.6'], ambito: 'hacer', title: 'Ejemplo resuelto: separar en sílabas',
           prompt: 'Mira cómo Juana separa dos palabras difíciles.' },
-        { icon: 'Scissors', problem: '¿Cuántas sílabas tienen **chocolate** y **escuela**?',
+        { icon: 'Scissors', problem: '¿Cuántas sílabas tienen **nacimiento** y **agua**?',
           steps: [
-            { text: '"Chocolate", despacio y con palmadas: **cho – co – la – te**. Son **4** golpes.', why: 'La ch es un solo sonido: no se separa en c y h.' },
-            { text: '"Escuela": **es – cue – la**. Son **3** golpes.' },
-            { text: 'Revisa "cue": la **u** y la **e** se dicen en un solo golpe (diptongo), por eso quedan juntas.', why: 'Si las separaras (es-cu-e-la) la palabra sonaría rara, con un golpe de más.' },
+            { text: '"Nacimiento": **na – ci – mien – to**. Son **4** golpes.' },
+            { text: '"Agua": **a – gua**. Son **2** golpes.' },
+            { text: 'En "gua", la **u** y la **a** se dicen en un solo golpe: forman diptongo.', why: 'Contamos sonidos, no letras aisladas.' },
           ],
-          answer: '**Cho-co-la-te** tiene 4 sílabas y **es-cue-la** tiene 3.',
+          answer: '**Na-ci-mien-to** tiene 4 sílabas y **a-gua** tiene 2.',
           tip: 'Cuenta golpes de voz, no letras.' },
       ),
       S.sort(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.6'], ambito: 'hacer',
           prompt: 'Ahora tú, con ayuda: di cada palabra con palmadas y colócala según su número de sílabas.',
           hint: 'Recuerda: ll y rr no se separan, y "ua", "ue", "ie" se dicen en un solo golpe.',
-          explain: 'pan (1) · me-sa, tie-rra (2) · tor-ti-lla, ca-mi-no (3) · ma-ri-po-sa, a-gua-ca-te (4).' },
+          explain: 'río (2) · lluvia, caudal (2) · arroyo (3) · nacimiento (4) · potabilización (6).' },
         { buckets: [
           { id: 'b1', label: '1 sílaba', icon: 'Circle' },
           { id: 'b2', label: '2 sílabas', icon: 'Copy' },
           { id: 'b3', label: '3 sílabas', icon: 'Layers' },
           { id: 'b4', label: '4 sílabas', icon: 'Blocks' },
         ], items: [
-          { id: 'w1', text: 'pan', bucket: 'b1' },
-          { id: 'w2', text: 'mesa', bucket: 'b2' },
-          { id: 'w3', text: 'tierra', bucket: 'b2', feedback: 'Tie-rra: "ie" es diptongo y la rr no se separa. Son 2.' },
-          { id: 'w4', text: 'tortilla', bucket: 'b3' },
-          { id: 'w5', text: 'camino', bucket: 'b3' },
-          { id: 'w6', text: 'mariposa', bucket: 'b4' },
-          { id: 'w7', text: 'aguacate', bucket: 'b4', feedback: 'A-gua-ca-te: "gua" va en un solo golpe. Son 4.' },
+          { id: 'w1', text: 'sol', bucket: 'b1' },
+          { id: 'w2', text: 'lluvia', bucket: 'b2' },
+          { id: 'w3', text: 'caudal', bucket: 'b2' },
+          { id: 'w4', text: 'arroyo', bucket: 'b3' },
+          { id: 'w5', text: 'hídrico', bucket: 'b3' },
+          { id: 'w6', text: 'nacimiento', bucket: 'b4' },
+          { id: 'w7', text: 'tubería', bucket: 'b4', feedback: 'Tu-be-rí-a: la tilde separa í-a. Son 4.' },
         ] },
       ),
       S.explain(
@@ -107,63 +109,63 @@ export default [
       ),
       S.choice(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.8'], ambito: 'hacer',
-          prompt: 'Ahora tú, con ayuda: la palabra **tortilla** se separa **tor-ti-lla**. ¿Cuál es su sílaba tónica?',
-          hint: 'Dila como si llamaras a alguien: "¡tor-TIIII-lla!". ¿Dónde se alarga?',
-          explain: 'Tor-**TI**-lla: la fuerza está en la penúltima sílaba. Es una palabra **llana**.' },
+          prompt: 'Ahora tú, con ayuda: **caudal** se separa **cau-dal**. ¿Cuál es su sílaba tónica?',
+          hint: 'Dila como si llamaras a alguien: “¡cau-DAAAL!”.',
+          explain: 'Cau-**DAL**: la fuerza está en la última sílaba. Es **aguda**.' },
         { options: [
-          { id: 'a', text: 'tor', feedback: 'Si la fuerza estuviera al inicio sonaría "TÓR-ti-lla". Escucha otra vez.' },
-          { id: 'b', text: 'ti' },
-          { id: 'c', text: 'lla', feedback: 'Sonaría "tor-ti-LLÁ", como aguda. Así no la decimos.' },
+          { id: 'a', text: 'cau', feedback: 'Escucha otra vez dónde cae la mayor fuerza.' },
+          { id: 'b', text: 'dal' },
+          { id: 'c', text: 'Las dos suenan igual de fuertes', feedback: 'Toda palabra tiene una sílaba tónica.' },
         ], correct: ['b'] },
       ),
       S.sort(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:4.1.8'], ambito: 'hacer',
           prompt: 'Di cada palabra en voz alta, busca su sílaba tónica y clasifícala.',
-          explain: 'Agudas: café, Cobán, reloj. Llanas: lápiz, cuaderno, volcanes. Esdrújulas: murciélago, teléfono.' },
+          explain: 'Agudas: caudal, manantial. Llanas: agua, lluvia, tubería. Esdrújulas: hídrico, acuífero.' },
         { buckets: [
           { id: 'ag', label: 'Aguda', icon: 'ArrowRight' },
           { id: 'll', label: 'Llana', icon: 'ArrowLeftRight' },
           { id: 'es', label: 'Esdrújula', icon: 'ArrowLeft' },
         ], items: [
-          { id: 'x1', text: 'café', bucket: 'ag' },
-          { id: 'x2', text: 'Cobán', bucket: 'ag' },
-          { id: 'x3', text: 'reloj', bucket: 'ag', feedback: 'Re-LOJ: la fuerza cae al final, aunque no lleva tilde.' },
-          { id: 'x4', text: 'lápiz', bucket: 'll' },
-          { id: 'x5', text: 'cuaderno', bucket: 'll' },
-          { id: 'x6', text: 'volcanes', bucket: 'll', feedback: '"Vol-CÁN" es aguda, pero en plural se dice vol-CA-nes: la tónica pasa a ser la penúltima.' },
-          { id: 'x7', text: 'murciélago', bucket: 'es' },
-          { id: 'x8', text: 'teléfono', bucket: 'es' },
+          { id: 'x1', text: 'caudal', bucket: 'ag' },
+          { id: 'x2', text: 'manantial', bucket: 'ag' },
+          { id: 'x3', text: 'captación', bucket: 'ag' },
+          { id: 'x4', text: 'agua', bucket: 'll' },
+          { id: 'x5', text: 'lluvia', bucket: 'll' },
+          { id: 'x6', text: 'tubería', bucket: 'll' },
+          { id: 'x7', text: 'hídrico', bucket: 'es' },
+          { id: 'x8', text: 'acuífero', bucket: 'es' },
         ] },
       ),
       S.highlight(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:4.1.8'], ambito: 'hacer',
           prompt: 'Lee la oración en voz alta. Toca todas las palabras **esdrújulas**.',
-          explain: 'Sábado (SÁ-ba-do), pájaro (PÁ-ja-ro) y música (MÚ-si-ca) llevan la fuerza en la antepenúltima sílaba. Marimba, parque y escuchamos son llanas.' },
-        { target: 'palabras esdrújulas', text: 'El {sábado} vimos un {pájaro} en el parque y escuchamos {música} de marimba.' },
+          explain: 'Hídrico, acuífero y científico llevan la fuerza en la antepenúltima sílaba.' },
+        { target: 'palabras esdrújulas', text: 'El informe {hídrico} describe un {acuífero} con lenguaje {científico}.' },
       ),
       S.number(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:4.1.6'], ambito: 'hacer',
-          prompt: 'Di con palmadas el nombre de esta ciudad: **Quetzaltenango**. ¿Cuántas sílabas tiene?',
-          explain: 'Quet-zal-te-nan-go: 5 sílabas. La u de "que" no suena, así que "quet" es un solo golpe.' },
-        { answer: 5, unit: 'sílabas', misconceptions: [
-          { value: 6, msg: 'La u de "que" no se pronuncia: "quet" es un solo golpe de voz. Cuenta otra vez.' },
-          { value: 14, msg: 'Contaste letras. Cuenta golpes de voz con palmadas.' },
+          prompt: 'Di con palmadas **potabilización**. ¿Cuántas sílabas tiene?',
+          explain: 'Po-ta-bi-li-za-ción: 6 sílabas.' },
+        { answer: 6, unit: 'sílabas', misconceptions: [
+          { value: 5, msg: 'Pronuncia despacio: po-ta-bi-li-za-ción.' },
+          { value: 15, msg: 'Contaste letras. Cuenta golpes de voz.' },
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.8', 'l2:4.1.6'], prompt: 'Boleto de salida: la palabra **computadora** se separa com-pu-ta-do-ra. ¿Cuál es su sílaba tónica?' },
+        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.8', 'l2:4.1.6'], prompt: 'Boleto de salida: **nacimiento** se separa na-ci-mien-to. ¿Cuál es su sílaba tónica?' },
         { options: [
-          { id: 'a', text: 'com' },
-          { id: 'b', text: 'ta' },
-          { id: 'c', text: 'do' },
-          { id: 'd', text: 'ra' },
+          { id: 'a', text: 'na' },
+          { id: 'b', text: 'ci' },
+          { id: 'c', text: 'mien' },
+          { id: 'd', text: 'to' },
         ], correct: ['c'] },
       ),
       S.tf(
         { fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.6', 'l2:4.1.8'], prompt: '¿Verdadero o falso?' },
         { statements: [
-          { text: '"Pájaro" es una palabra esdrújula.', answer: true },
-          { text: '"Perro" se separa per-ro.', answer: false, why: 'La rr no se separa: pe-rro.' },
+          { text: '"Hídrico" es una palabra esdrújula.', answer: true },
+          { text: '"Arroyo" se separa ar-ro-yo.', answer: false, why: 'La rr no se separa: a-rro-yo.' },
           { text: 'Si una palabra no lleva tilde, no tiene sílaba tónica.', answer: false, why: 'Todas las palabras de dos o más sílabas tienen una sílaba tónica; la tilde solo aparece en algunas.' },
         ] },
       ),
@@ -176,26 +178,29 @@ export default [
     title: 'Ritmo y rima en la poesía',
     icon: 'Music',
     minutes: 15,
-    gancho: 'Las canciones y los poemas se aprenden de memoria más fácil que una lista de compras. ¿Qué tienen que los hace pegajosos?',
+    gancho: 'El agua tiene pulsos: gota, lluvia, río. ¿Cómo puede un poema convertir esos sonidos en ritmo?',
     objetivos: [
-      'Reconocer versos, estrofas y rima en un poema',
-      'Distinguir la rima consonante de la rima asonante',
-      'Recitar un poema marcando su ritmo',
+      'Interpretar ritmo y rima en poemas breves sobre el agua',
     ],
     resumen: [
       'Un poema se escribe en versos (cada línea) que se agrupan en estrofas.',
       'La rima es la repetición de sonidos al final de los versos, desde la vocal de la sílaba tónica.',
-      'Rima consonante: se repiten vocales y consonantes (tambor / calor). Rima asonante: solo se repiten las vocales (paz / escuchar).',
+      'Rima consonante: se repiten vocales y consonantes (caudal / manantial). Rima asonante: solo las vocales (río / limpio).',
       'El ritmo nace de repetir los golpes fuertes de la voz y de hacer una pausa al final de cada verso. Se puede marcar con palmadas.',
     ],
     media: {
       id: 's07-l2-2-recital', kind: 'video', title: 'Recitamos con ritmo', aspect: '16:9', duration: 55,
       alt: 'Una niña recita un poema de dos estrofas; en pantalla se iluminan las palabras que riman y aparece una palmada en cada golpe fuerte.',
-      brief: 'Video animado de 55 s. Una niña de unos 11 años, con uniforme escolar, recita frente a su grado el poema "Mural de cuatro pueblos" (texto exacto en el paso de lectura de esta lección). En pantalla aparece el texto verso por verso; las palabras que riman se iluminan del mismo color (tambor/calor en naranja; paz/escuchar en verde) y un ícono de palmada marca los golpes fuertes. Hace una pausa breve al final de cada verso y una más larga entre estrofas. Voz clara, español de Guatemala, subtítulos. Fondo: aula con un mural de colores, sin logotipos.',
+      brief: 'Video animado de 55 s. Una niña de 11 años recita el poema "Preguntas al río", con el texto exacto del paso de lectura. Iluminar caudal/manantial y río/limpio; un icono de palmada marca golpes fuertes y las pausas entre versos. Fondo de aula con mapa de microcuenca y fichas de fuentes. Voz clara, español de Guatemala, subtítulos, sin marcas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l2'], cnb: ['l2:4.1.4', 'l2:4.1.8'], title: 'El agua también marca ritmo',
+          prompt: 'En un poema, los versos se agrupan en estrofas; la repetición de sonidos finales crea rima y las sílabas acentuadas sostienen el ritmo.' },
+        { icon: 'AudioLines', body: 'Leeremos poemas del agua para reconocer su forma y preparar una recitación expresiva.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l2'], cnb: ['l2:4.1.4'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.4'], ambito: 'conocer',
           prompt: 'Lee en voz alta: _"Canta el río su **canción**…"_ ¿Qué palabra terminaría mejor el siguiente verso para que **suene parecido**?',
           explain: '"Canción" y "corazón" terminan igual: **-ón**. Esa repetición de sonidos se llama **rima**, y es parte de la música de los poemas.' },
         { options: [
@@ -247,77 +252,77 @@ export default [
       S.reading(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.4'], ambito: 'hacer', title: 'Lectura',
           prompt: 'Lee el poema en voz alta, con una pausa al final de cada verso. Luego responde.' },
-        { genre: 'Poema', heading: 'Mural de cuatro pueblos', passage:
-          'Del maíz nació mi pueblo,\ndel mar llegó el tambor,\nla marimba junta a todos\ncon su canto y su calor.\n\nPintemos en la pared\nun quetzal que vuela en paz,\ncon manos de cuatro pueblos\nque se aprenden a escuchar.',
+        { genre: 'Poema', heading: 'Preguntas al río', passage:
+          'Anotamos el caudal,\nbuscamos el manantial,\nla lluvia deja señales\nque aprendemos a observar.\n\nPreguntamos por el río,\nsin decir que siempre es limpio,\ncomparamos nuestras fuentes\ny escribimos lo aprendido.',
           questions: [
             { q: '¿Cuántos versos y cuántas estrofas tiene el poema?', options: [
               { id: 'a', text: '8 versos en 2 estrofas' },
               { id: 'b', text: '2 versos en 8 estrofas' },
               { id: 'c', text: '4 versos en 1 estrofa' },
             ], correct: 'a', why: 'Cada línea es un verso (8 en total) y hay dos grupos de 4 separados por un espacio.' },
-            { q: 'En la primera estrofa, ¿qué palabras riman y cómo?', options: [
-              { id: 'a', text: 'Tambor y calor, con rima consonante (-or)' },
-              { id: 'b', text: 'Pueblo y todos, con rima consonante' },
-              { id: 'c', text: 'Maíz y mar, con rima asonante' },
-            ], correct: 'a', why: 'Riman los versos 2 y 4. Desde la vocal tónica, las dos terminan en "-or".' },
-            { q: 'En la segunda estrofa riman "paz" y "escuchar". ¿Qué tipo de rima es?', options: [
-              { id: 'a', text: 'Asonante: solo se repite la vocal a' },
+            { q: 'En los primeros versos, ¿qué palabras riman y cómo?', options: [
+              { id: 'a', text: 'Caudal y manantial, con rima consonante (-al)' },
+              { id: 'b', text: 'Lluvia y señales, con rima consonante' },
+              { id: 'c', text: 'Río y fuentes, con rima asonante' },
+            ], correct: 'a', why: 'Desde la vocal tónica, ambas terminan en "-al".' },
+            { q: 'En la segunda estrofa, “río” y “limpio” comparten vocales. ¿Qué tipo de rima es?', options: [
+              { id: 'a', text: 'Asonante: se repiten las vocales í-o' },
               { id: 'b', text: 'Consonante: se repite todo' },
               { id: 'c', text: 'No riman' },
-            ], correct: 'a', why: '-az y -ar: la vocal coincide, pero la consonante final no.' },
+            ], correct: 'a', why: 'Desde la vocal tónica, río y limpio comparten í-o, pero no las mismas consonantes.' },
             { q: '¿Qué mensaje quiere dejar el poema?', options: [
-              { id: 'a', text: 'Los pueblos de Guatemala pueden convivir en paz y aprender unos de otros' },
-              { id: 'b', text: 'La marimba es mejor que el tambor' },
-              { id: 'c', text: 'Solo un pueblo debe pintar el mural' },
-            ], correct: 'a', why: 'Habla de "manos de cuatro pueblos" que pintan juntas y "se aprenden a escuchar".' },
+              { id: 'a', text: 'Conviene preguntar, comparar fuentes y registrar lo aprendido' },
+              { id: 'b', text: 'Todo río es limpio por naturaleza' },
+              { id: 'c', text: 'Una observación basta para asegurar la calidad del agua' },
+            ], correct: 'a', why: 'El poema presenta preguntas, observaciones y comparación de fuentes sin afirmar algo que no se comprobó.' },
           ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:4.1.4'], ambito: 'hacer', title: 'Marca el ritmo',
           prompt: 'El **ritmo** de un poema es su "pulso": golpes fuertes que se repiten y pausas en el mismo lugar. Mira el video de la lección y recita contigo mismo.' },
-        { icon: 'Drum', body: 'Recita "Mural de cuatro pueblos" siguiendo estos pasos. Hazlo dos veces: la segunda, sin mirar la pantalla.', reveal: [
-          { icon: 'Hand', front: '1. Palmadas', back: 'Da una palmada en las sílabas que suenan fuerte: "del ma-**ÍZ** na-**CIÓ** mi **PUE**-blo".' },
+        { icon: 'Drum', body: 'Recita "Preguntas al río" siguiendo estos pasos. Hazlo dos veces: la segunda, sin mirar la pantalla.', reveal: [
+          { icon: 'Hand', front: '1. Palmadas', back: 'Da una palmada en las sílabas que suenan fuerte: "a-no-**TA**-mos el cau-**DAL**".' },
           { icon: 'Timer', front: '2. Pausas', back: 'Haz una pausa corta al final de cada verso y una pausa más larga entre las dos estrofas.' },
-          { icon: 'Volume2', front: '3. Rima', back: 'Pronuncia un poco más claro las palabras que riman (tambor, calor, paz, escuchar): son como el eco del poema.' },
+          { icon: 'Volume2', front: '3. Rima', back: 'Pronuncia un poco más claro las palabras que riman (caudal, manantial, río, limpio): son como el eco del poema.' },
           { icon: 'Smile', front: '4. Expresión', back: 'Mira a tu público y usa un volumen que todos escuchen, como practicaste en la semana 4.' },
         ] },
       ),
       S.choice(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:4.1.4', 'l2:4.1.8'], ambito: 'hacer',
-          prompt: 'Recita en voz alta el verso _"la marimba junta a todos"_ dando una palmada en cada **sílaba tónica**. ¿Qué opción marca bien los golpes fuertes (en mayúsculas)?',
-          explain: 'La ma-**RIM**-ba **JUN**-ta a **TO**-dos: las palmadas caen en la sílaba tónica de cada palabra importante. Esos golpes que se repiten verso tras verso forman el **ritmo** del poema.' },
+          prompt: 'Recita en voz alta _"anotamos el caudal"_ dando una palmada en cada **sílaba tónica**. ¿Qué opción marca bien los golpes fuertes (en mayúsculas)?',
+          explain: 'A-no-**TA**-mos el cau-**DAL**: las palmadas caen en la sílaba tónica de cada palabra importante. Esos golpes repetidos forman el **ritmo**.' },
         { options: [
-          { id: 'a', text: 'la ma-RIM-ba JUN-ta a TO-dos' },
-          { id: 'b', text: 'LA ma-rim-BA jun-TA a to-DOS', feedback: 'Así las palabras suenan agudas y extrañas: marimBA, junTA. Di cada palabra como la dices normalmente.' },
-          { id: 'c', text: 'la MA-rim-ba jun-ta A to-dos', feedback: 'Nadie dice "MÁ-rim-ba": marimba es llana (ma-RIM-ba). Busca la sílaba tónica de cada palabra.' },
+          { id: 'a', text: 'a-no-TA-mos el cau-DAL' },
+          { id: 'b', text: 'A-no-ta-MOS EL CAU-dal', feedback: 'Di las palabras como las pronuncias normalmente: anotamos es llana y caudal es aguda.' },
+          { id: 'c', text: 'a-NO-ta-mos el CAU-dal', feedback: 'Busca la sílaba que realmente recibe la mayor intensidad en cada palabra.' },
         ], correct: ['a'] },
       ),
       S.fill(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:4.1.4'], ambito: 'hacer',
-          prompt: 'Completa la copla con las palabras que **riman** con los versos 2 y 4. Luego recítala con palmadas.',
-          explain: 'Color y amor riman en "-or" (rima consonante): desde la vocal tónica se repiten la o y la r. Así los versos 2 y 4 suenan como un eco.' },
-        { text: 'Mi abuela teje en su telar / hilos de todo [[color]]; / en cada güipil que borda / deja un poco de su [[amor]].', distractors: ['tela', 'cariño', 'rojo'] },
+          prompt: 'Completa la copla para que **rimen los versos 1 y 3**. Luego recítala con palmadas.',
+          explain: 'Caudal y manantial riman en "-al" (rima consonante): desde la vocal tónica se repiten vocales y consonantes.' },
+        { text: 'Registramos el [[caudal]]; / dibujamos su recorrido; / buscamos el [[manantial]] / y comparamos lo aprendido.', distractors: ['río', 'lluvia', 'fuente'] },
       ),
       S.write(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:4.1.4'], ambito: 'hacer',
-          prompt: 'Escribe **cuatro versos** sobre algo de tu comunidad (el mercado, el río, la feria…). Haz que **rimen el verso 2 y el verso 4**. Después, escribe qué tipo de rima usaste.' },
+          prompt: 'Escribe **cuatro versos** sobre investigar o cuidar el agua. Haz que rimen los versos 2 y 4. Después, nombra el tipo de rima.' },
         { minWords: 16, placeholder: 'Verso 1…\nVerso 2…\nVerso 3…\nVerso 4…\nTipo de rima: …',
-          model: 'En el mercado del pueblo\nhuele a pan y a café,\nlas señoras venden flores\ny yo compro un güisquil también.\nTipo de rima: asonante, porque "café" y "también" repiten la vocal e, pero no las consonantes.',
-          rubric: ['Escribí cuatro versos sobre mi comunidad', 'El verso 2 y el verso 4 riman', 'Dije si la rima es consonante o asonante'] },
+          model: 'Preguntamos por el río,\nconsultamos una fuente,\nanotamos cada dato\ny revisamos cuidadosamente.\nTipo de rima: asonante entre fuente y cuidadosamente.',
+          rubric: ['Escribí cuatro versos sobre el agua', 'El verso 2 y el verso 4 riman', 'Dije si la rima es consonante o asonante'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.4'], prompt: 'Boleto de salida: ¿qué palabra tiene **rima asonante** con **luna**?' },
+        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.4'], prompt: 'Boleto de salida: ¿qué palabra tiene **rima asonante** con **río**?' },
         { options: [
-          { id: 'a', text: 'cuna' },
-          { id: 'b', text: 'pluma' },
-          { id: 'c', text: 'sol' },
+          { id: 'a', text: 'frío' },
+          { id: 'b', text: 'limpio' },
+          { id: 'c', text: 'caudal' },
         ], correct: ['b'] },
       ),
       S.tf(
         { fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.4', 'l2:4.1.8'], prompt: '¿Verdadero o falso?' },
         { statements: [
           { text: 'Una estrofa es un grupo de versos.', answer: true },
-          { text: '"Tambor" y "calor" tienen rima asonante.', answer: false, why: 'Repiten vocal y consonante (-or): es rima consonante.' },
+          { text: '"Caudal" y "manantial" tienen rima asonante.', answer: false, why: 'Repiten vocales y consonantes (-al): es rima consonante.' },
           { text: 'Para encontrar la rima, se compara desde la vocal de la sílaba tónica hasta el final.', answer: true },
         ] },
       ),

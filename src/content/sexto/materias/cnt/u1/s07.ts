@@ -4,7 +4,7 @@
  * (morbilidad) → crecimiento de la población, frontera urbana y pérdida de áreas verdes →
  * reforestación para proteger el agua.
  */
-import { lesson, S, cierre } from '../../../../dsl';
+import { lesson, S } from '../../../../dsl';
 
 export default [
   /* ───────────────────────── 1. Ambiente sano y morbilidad ───────────────────────── */
@@ -12,12 +12,10 @@ export default [
     id: 's07-cnt-1',
     title: 'Ambiente sano, ambiente contaminado y salud',
     icon: 'Stethoscope',
-    minutes: 16,
+    minutes: 15,
     gancho: 'En una aldea el río tiene basura y en otra el agua corre limpia. ¿En cuál crees que se enferman más niños? ¿Cómo se podría comprobar?',
     objetivos: [
-      'Diferenciar un ambiente sano de uno contaminado',
-      'Relacionar la contaminación con enfermedades frecuentes',
-      'Calcular e interpretar índices de morbilidad de una comunidad',
+      'Interpretar evidencia ambiental y de morbilidad en un caso simulado',
     ],
     resumen: [
       'Un ambiente sano tiene agua limpia, aire limpio, suelo sin basura y manejo adecuado de desechos. Un ambiente contaminado tiene sustancias o basura que dañan la salud de los seres vivos.',
@@ -31,8 +29,13 @@ export default [
       brief: 'Ilustración horizontal en dos mitades de la misma aldea guatemalteca (casas de block y adobe, milpa, montañas). Izquierda "Ambiente contaminado": bolsas en el río, aguas grises corriendo por la calle, basura quemándose con humo, llantas con agua estancada y zancudos, moscas sobre comida. Derecha "Ambiente sano": río limpio, recipientes para clasificar basura, letrina limpia, pila tapada, árboles, niños jugando. Colores claros, sin personas enfermas ni imágenes grotescas. Rótulos grandes.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:6.1.1', 'cnt:6.5.1'], title: 'Ambiente y salud: buscar evidencia',
+          prompt: 'Una observación ambiental puede sugerir un riesgo, pero no demuestra por sí sola la causa de una enfermedad. Se contrastan condiciones, casos registrados y otras explicaciones.' },
+        { icon: 'Microscope', body: 'Trabajaremos con **casos y datos simulados**, no con mediciones actuales de tu comunidad.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:6.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:6.1.1'], ambito: 'conocer',
           prompt: 'Mira la imagen de las dos aldeas. ¿En cuál crees que habrá **más niños con diarrea** y tos?',
           explain: 'En la aldea contaminada. El agua sucia, el humo, la basura y el agua estancada causan enfermedades. Hoy aprenderás también a **medirlo** con números.' },
         { options: [
@@ -181,9 +184,7 @@ export default [
     minutes: 15,
     gancho: 'Tu abuela recuerda que donde hoy hay colonias y calles antes había bosque y milpa. ¿Por qué cambió tanto el paisaje?',
     objetivos: [
-      'Relacionar el crecimiento de la población con el avance de la frontera urbana y la tala de bosques',
-      'Explicar qué se pierde cuando desaparecen las áreas verdes de una ciudad',
-      'Proponer formas de crecer con planificación',
+      'Explicar relaciones posibles entre crecimiento urbano, áreas verdes y agua',
     ],
     resumen: [
       'Cuando la población crece, se necesitan más viviendas, calles, agua y servicios. La frontera urbana (el límite entre lo construido y el campo o el bosque) avanza.',
@@ -197,8 +198,13 @@ export default [
       brief: 'Animación 2D de 45 s, vista aérea de un valle guatemalteco con un río y montañas. Contador de años: 1990, 2000, 2010, 2020. Un pueblo pequeño crece: aparecen colonias, calles y casas que avanzan sobre la milpa y el bosque (línea punteada roja = "frontera urbana"). Hacia 2010, casas suben por las laderas y bajan a un barranco. En 2020 queda poco bosque; aparecen íconos de riesgo (deslave, inundación). Final alternativo: el mismo valle con crecimiento planificado (parques, bosque protegido en las laderas). Narración en español con subtítulos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:6.2.1', 'cnt:6.4.1'], title: 'Una ciudad cambia varias condiciones',
+          prompt: 'Cuando una zona se urbaniza cambian la cobertura del suelo, el drenaje y la demanda de agua. El efecto depende del diseño, el suelo, la lluvia y el cuidado de las áreas verdes.' },
+        { icon: 'Trees', body: 'Relacionar factores no significa afirmar que uno solo causa todos los cambios.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:6.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:6.2.1'], ambito: 'conocer',
           prompt: '¿Por qué crees que donde antes había bosque y milpa hoy hay colonias?',
           explain: 'La **población creció** y necesitó más viviendas, calles y servicios. Mira la animación de la lección: así avanza la **frontera urbana**.' },
         { options: [
@@ -293,7 +299,7 @@ export default [
           prompt: 'Supongamos que en tu municipio quieren **lotificar una ladera con bosque** que está arriba del nacimiento que da agua a tres aldeas. ¿Qué propuesta cuida mejor a la comunidad?',
           explain: 'La ladera con bosque protege el suelo y el agua del nacimiento. Construir en lugares seguros y planificados evita deslaves y protege el agua de todos.' },
         { options: [
-          { id: 'a', text: 'Lotificar toda la ladera, porque hay mucha demanda de casas', icon: 'Home', feedback: 'Sin bosque aumenta el riesgo de deslaves y el nacimiento puede secarse o contaminarse.' },
+          { id: 'a', text: 'Lotificar toda la ladera, porque hay mucha demanda de casas', icon: 'Home', feedback: 'Retirar cobertura y alterar la pendiente puede aumentar erosión y escorrentía; el efecto sobre un nacimiento depende también del suelo, la lluvia, la geología y el manejo.' },
           { id: 'b', text: 'Proteger el bosque de la ladera y construir en un terreno plano y seguro', icon: 'Trees' },
           { id: 'c', text: 'Talar el bosque y sembrar grama', icon: 'Sprout', feedback: 'La grama no sostiene el suelo ni retiene el agua como un bosque.' },
         ], correct: ['b'] },
@@ -339,70 +345,73 @@ export default [
     id: 's07-cnt-3',
     title: 'Reforestar para proteger el agua',
     icon: 'TreePine',
-    minutes: 17,
+    minutes: 15,
     gancho: 'Piensa en una esponja: si le echas agua despacio, la guarda y la suelta poco a poco. ¿Qué tiene que ver una esponja con un bosque y con el agua que llega a tu casa?',
     objetivos: [
-      'Explicar cómo el bosque ayuda a que el agua de lluvia se infiltre y alimente nacimientos y ríos',
-      'Relacionar la reforestación con la protección de los recursos hídricos',
-      'Describir cómo reforestar bien y diseñar una acción sencilla',
+      'Explicar con condiciones cómo la cobertura forestal puede contribuir al ciclo local del agua',
     ],
     resumen: [
-      'El bosque funciona como una esponja: las copas frenan la lluvia, la hojarasca y las raíces ayudan a que el agua se infiltre y recargue el agua subterránea, que alimenta nacimientos y ríos todo el año.',
-      'Sin bosque, el agua corre por la superficie: arrastra el suelo (erosión), ensucia los ríos, provoca inundaciones en invierno y los nacimientos se secan en verano.',
-      'Reforestar es volver a sembrar árboles donde se perdieron. Protege mejor el agua si se hace en las partes altas de las cuencas (zonas de recarga) y en las orillas de ríos, con especies nativas.',
+      'La hojarasca, las raíces y la estructura del suelo forestal pueden frenar la escorrentía y favorecer infiltración; el efecto depende de las condiciones de cada cuenca.',
+      'Al perder cobertura vegetal puede aumentar la erosión y la llegada rápida de agua y sedimentos a los cauces, aunque no todos los nacimientos responden igual.',
+      'Reforestar es volver a establecer árboles donde se perdieron. Puede contribuir al cuidado del agua si el sitio, las especies y el manejo se eligen con evidencia local.',
       'Un árbol sembrado necesita cuidado: riego, protección y seguimiento, sobre todo sus primeros años.',
     ],
     media: {
       id: 's07-cnt-3-esponja', kind: 'animation', title: 'El bosque, una esponja de agua', aspect: '16:9', duration: 50,
-      alt: 'Animación de dos cerros bajo la misma lluvia: en el cerro con bosque el agua se infiltra y sale limpia por un nacimiento; en el cerro pelado el agua corre, arrastra lodo al río y el nacimiento se seca en verano.',
-      brief: 'Animación 2D de 50 s en pantalla dividida. Cerro A con bosque de pino y encino: la lluvia cae sobre las copas, gotea a la hojarasca, se infiltra (flechas azules hacia abajo) y llega a una capa de agua subterránea que alimenta un nacimiento limpio; rótulo "infiltración" y "zona de recarga". Cerro B sin árboles: la lluvia corre por la superficie (flechas rápidas), arrastra tierra café al río (erosión), el río se desborda; luego, en verano (sol), el nacimiento del cerro B se seca y el del cerro A sigue dando agua. Final: personas sembrando arbolitos en el cerro B. Narración en español con subtítulos.',
+      alt: 'Animación comparativa de dos laderas hipotéticas: una con cobertura forestal y otra con suelo expuesto; flechas muestran posibles diferencias de infiltración, escorrentía y erosión.',
+      brief: 'Animación 2D de 50 s en pantalla dividida y rotulada "modelo simplificado". Misma pendiente, lluvia y tipo de suelo. Ladera A con bosque: parte de la lluvia se intercepta, se infiltra y otra parte escurre. Ladera B con suelo expuesto: mayor escorrentía y sedimentos en este escenario. Incluir rótulo: "El bosque por sí solo es evidencia insuficiente para demostrar cantidad o calidad del agua; el resultado depende del suelo, la pendiente, la lluvia, las especies y el manejo". Final: personas comparan datos antes de planificar restauración. Narración en español y subtítulos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:6.3.1'], title: 'Bosque y agua: una relación con condiciones',
+          prompt: 'La hojarasca, las raíces y el suelo forestal **pueden ayudar** a frenar escorrentía y favorecer infiltración. El resultado cambia según el suelo, la pendiente, la lluvia, las especies y el manejo de la cuenca.' },
+        { icon: 'TreePine', body: 'Un bosque por sí solo es evidencia insuficiente para demostrar cantidad o calidad del agua; aporta procesos que deben estudiarse.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:6.3.1'], ambito: 'conocer',
-          prompt: 'Llueve igual sobre un cerro **con bosque** y sobre un cerro **pelado**. ¿En cuál el agua llega más **limpia** y dura más tiempo en los nacimientos?',
-          explain: 'En el cerro con bosque. Mira la animación: el bosque funciona como una **esponja** que guarda el agua y la suelta poco a poco.' },
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:6.3.1'], ambito: 'conocer',
+          prompt: 'En el **modelo simplificado** de la animación, con igual lluvia, pendiente y suelo, ¿qué ladera muestra menor escorrentía y erosión?',
+          explain: 'En este modelo, la ladera con bosque muestra menor escorrentía y erosión. No permite asegurar cómo responderá cualquier cuenca real.' },
         { options: [
-          { id: 'a', text: 'En el cerro con bosque', icon: 'Trees' },
-          { id: 'b', text: 'En el cerro pelado, porque el agua baja más rápido', icon: 'Mountain', feedback: 'Bajar rápido no es bueno: el agua arrastra lodo y no se guarda para el verano.' },
-          { id: 'c', text: 'Da igual', icon: 'Copy', feedback: 'El bosque hace una gran diferencia. Veamos por qué.' },
+          { id: 'a', text: 'La ladera con cobertura forestal del modelo', icon: 'Trees' },
+          { id: 'b', text: 'La ladera con suelo expuesto', icon: 'Mountain', feedback: 'En el modelo, el flujo rápido arrastra más sedimentos.' },
+          { id: 'c', text: 'No puede observarse ninguna diferencia', icon: 'Copy', feedback: 'Las flechas y los sedimentos permiten comparar ambos resultados simulados.' },
         ], correct: ['a'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:6.3.1'], ambito: 'conocer', title: 'El bosque como esponja',
           prompt: 'Sigue el camino de una gota de lluvia en un bosque. Toca las tarjetas en orden.' },
-        { icon: 'Droplets', body: 'La mayor parte del agua de los nacimientos viene de lluvia que se **infiltró** en el suelo, a veces meses antes.', reveal: [
+        { icon: 'Droplets', body: 'Parte del agua de lluvia puede infiltrarse y desplazarse bajo tierra; su aporte a un nacimiento depende de la geología y otras condiciones.', reveal: [
           { icon: 'CloudRain', front: '1. Las copas frenan la lluvia', back: 'Las hojas reciben el golpe de las gotas: el agua llega al suelo **despacio**.' },
           { icon: 'Leaf', front: '2. La hojarasca la retiene', back: 'La capa de hojas secas y el suelo con materia orgánica **absorben** el agua como una esponja.' },
           { icon: 'Sprout', front: '3. Las raíces abren caminos', back: 'Las raíces hacen canales por donde el agua **se infiltra** hacia abajo y, además, **sostienen** el suelo.' },
-          { icon: 'Waves', front: '4. Agua subterránea', back: 'El agua se guarda bajo tierra (**acuíferos**) y sale poco a poco por **nacimientos** y ríos, **también en verano**.' },
+          { icon: 'Waves', front: '4. Agua subterránea', back: 'Parte del agua infiltrada puede recargar agua subterránea y alimentar nacimientos; el tiempo y la cantidad varían.' },
         ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:6.3.1'], ambito: 'conocer', title: '¿Qué pasa cuando se pierde el bosque?',
           prompt: 'Ahora mira el cerro pelado de la animación. Toca las tarjetas.' },
-        { icon: 'Mountain', body: 'Sin árboles, el agua ya no se guarda: **corre** por la superficie. A eso se le llama **escorrentía**.', reveal: [
+        { icon: 'Mountain', body: 'Con suelo expuesto **puede aumentar** el agua que corre por la superficie. A ese flujo se le llama **escorrentía**.', reveal: [
           { icon: 'CloudRain', front: 'Erosión', back: 'El agua que corre **arrastra el suelo fértil**: la tierra pierde su capa buena para sembrar.' },
           { icon: 'Droplets', front: 'Ríos con lodo', back: 'El suelo arrastrado llega a los ríos y los **ensucia**: el agua cuesta más de limpiar.' },
-          { icon: 'Waves', front: 'Inundaciones', back: 'En **invierno** (la época de lluvias), mucha agua llega **de golpe** a los ríos, que se desbordan.' },
-          { icon: 'Sun', front: 'Nacimientos secos', back: 'En **verano** (la época seca), como el agua no se guardó bajo tierra, los nacimientos **se secan** y las aldeas se quedan sin agua.' },
+          { icon: 'Waves', front: 'Crecidas', back: 'En ciertas cuencas, mayor escorrentía puede contribuir a crecidas junto con la intensidad de lluvia, el suelo y la ocupación del territorio.' },
+          { icon: 'Sun', front: 'Caudal variable', back: 'La pérdida de cobertura puede influir en el caudal seco, pero se necesitan datos de lluvia, suelo, geología y uso del agua para explicarlo.' },
         ] },
       ),
       S.sort(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:6.3.1'], ambito: 'conocer',
           prompt: '¿Qué ocurre en una montaña **con bosque** y qué en una **sin bosque**?',
-          hint: 'Con bosque, el agua se infiltra y se guarda. Sin bosque, corre, arrastra y se pierde.',
-          explain: 'El bosque favorece la infiltración y los nacimientos; sin bosque hay escorrentía, erosión e inundaciones.' },
+          hint: 'Clasifica procesos probables del modelo, no promesas sobre cualquier cuenca.',
+          explain: 'En el modelo, la cobertura favorece infiltración y estabilidad; el suelo expuesto muestra mayor escorrentía y erosión.' },
         { buckets: [
           { id: 'con', label: 'Con bosque', icon: 'Trees', color: 'var(--c-ok)' },
           { id: 'sin', label: 'Sin bosque', icon: 'Mountain', color: 'var(--c-maiz-strong)' },
         ], items: [
           { id: 'b1', text: 'El agua se infiltra en el suelo', bucket: 'con' },
           { id: 'b2', text: 'La lluvia arrastra el suelo al río', bucket: 'sin' },
-          { id: 'b3', text: 'El nacimiento da agua todo el año', bucket: 'con' },
+          { id: 'b3', text: 'La hojarasca reduce el golpe directo de la lluvia', bucket: 'con' },
           { id: 'b4', text: 'El río se llena de lodo', bucket: 'sin' },
           { id: 'b5', text: 'Las raíces sostienen el suelo', bucket: 'con' },
-          { id: 'b6', text: 'El nacimiento se seca en verano', bucket: 'sin' },
+          { id: 'b6', text: 'Aumenta el transporte de sedimentos en el modelo', bucket: 'sin' },
         ] },
       ),
       S.ejemplo(
@@ -480,17 +489,17 @@ export default [
         ] },
       ),
       S.project(
-        { fase: 'aplicar', areas: ['cnt', 'pyd'], cnb: ['cnt:6.3.1'], ambito: 'hacer', title: 'Reto: mi arbolito',
-          prompt: 'Con ayuda de tu familia o de tu escuela, **siembra un arbolito** o prepara un **mini vivero** con semillas de un árbol nativo.' },
-        { goal: 'Sembrar y cuidar un árbol nativo, registrando cómo crece.',
+        { fase: 'aplicar', areas: ['cnt', 'pyd'], cnb: ['cnt:6.3.1'], ambito: 'hacer', title: 'Plan para un sitio simulado',
+          prompt: 'En una ficha preparada, diseña una restauración para una **ladera hipotética** con erosión. No afirmes resultados garantizados.' },
+        { goal: 'Proponer una acción condicionada a la evidencia disponible.',
           steps: [
-            { title: 'Investiga', detail: 'Pregunta en tu comunidad qué árboles nativos crecen bien allí y dónde se puede sembrar con permiso.' },
-            { title: 'Consigue el arbolito o la semilla', detail: 'Pide en un vivero municipal o comunitario, o recoge semillas de un árbol de la zona. Usa una bolsa o recipiente reutilizado con tierra.' },
-            { title: 'Siembra', detail: 'Sigue los pasos que ordenaste en esta lección, de preferencia al inicio de las lluvias.' },
-            { title: 'Registra', detail: 'Cada semana anota la altura y cuántas hojas tiene, y toma una foto o haz un dibujo.' },
+            { title: 'Evidencia dada', detail: 'Marca: pendiente fuerte, suelo expuesto y surcos después de lluvia en el caso simulado.' },
+            { title: 'Acción posible', detail: 'Propón cobertura vegetal y barreras siguiendo orientación técnica; no elijas una especie sin información del sitio.' },
+            { title: 'Dato pendiente', detail: 'Anota qué falta conocer: suelo, lluvia, propiedad, especies apropiadas o permiso.' },
+            { title: 'Seguimiento', detail: 'Elige un indicador: supervivencia de plantas, cobertura del suelo o sedimentos después de lluvia.' },
           ],
-          evidence: 'Una tabla de registro con fechas, alturas y dibujos o fotos del arbolito.',
-          rubric: ['Elegí una especie nativa y un lugar adecuado', 'Seguí los pasos de siembra', 'Registré su crecimiento al menos cuatro semanas', 'Expliqué cómo mi árbol ayuda al agua'] },
+          evidence: 'Una ficha breve con evidencia, acción posible, dato pendiente e indicador.',
+          rubric: ['Usé solo datos del caso simulado', 'No prometí un resultado', 'Identifiqué información pendiente', 'Definí un indicador observable'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:6.3.1'], prompt: '¿Por qué reforestar la parte alta de una montaña protege el agua de un nacimiento?' },
@@ -505,14 +514,11 @@ export default [
         { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:6.3.1'], prompt: '¿Verdadero o falso?' },
         { statements: [
           { text: 'Las raíces de los árboles ayudan a sostener el suelo y evitar la erosión.', answer: true },
-          { text: 'Sin bosque, los nacimientos tienen más agua en verano.', answer: false, why: 'Sin bosque el agua no se infiltra y los nacimientos se secan en verano.' },
+          { text: 'La cobertura forestal garantiza que un nacimiento tendrá agua todo el año.', answer: false, why: 'El caudal también depende de lluvia, suelo, geología, extracción y manejo de la cuenca.' },
           { text: 'Conviene reforestar con especies nativas de la región.', answer: true },
           { text: 'Después de sembrar un árbol ya no hay que cuidarlo.', answer: false, why: 'Necesita riego, protección y seguimiento, sobre todo los primeros años.' },
         ] },
       ),
-      cierre({ areas: ['cnt'], cnb: [] },
-        ['Diferencio un ambiente sano de uno contaminado y lo relaciono con la salud', 'Calculo e interpreto un índice de morbilidad', 'Explico cómo el crecimiento urbano afecta bosques y áreas verdes', 'Explico por qué reforestar protege el agua'],
-        ['No quemaré basura y la separaré en casa', 'Participaré en una siembra de árboles', 'Eliminaré el agua estancada en mi casa']),
     ],
   }),
 ];

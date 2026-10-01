@@ -15,9 +15,7 @@ export default [
     minutes: 15,
     gancho: 'Guatemala firmó la paz en 1996, después de 36 años de conflicto. ¿Fue el único país que lo logró? ¿Quién ayuda a que dos partes enfrentadas se sienten a dialogar?',
     objetivos: [
-      'Identificar procesos de paz en distintas naciones del mundo',
-      'Reconocer el papel de los organismos internacionales en la solución de conflictos',
-      'Explicar la importancia de la niñez y la juventud en la cultura de paz',
+      'Comparar procesos de paz mediante acuerdos, actores y participación',
     ],
     resumen: [
       'Un proceso de paz es un camino de diálogo y acuerdos entre partes enfrentadas para terminar un conflicto y atender sus causas.',
@@ -31,8 +29,13 @@ export default [
       brief: 'Mapamundi simple en tonos claros con marcadores de paloma blanca: Centroamérica "Esquipulas II, 1987", El Salvador "1992", Sudáfrica "1994", Guatemala "1996", Irlanda del Norte "1998" y Colombia "2016". Cada marcador con una etiqueta breve: país, año y nombre corto del acuerdo. En una esquina, un recuadro con una mesa redonda y sillas vacías, símbolo del diálogo. Sin banderas ni retratos de personas reales.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:7.2.1', 'ccss:7.1.2'], title: 'La paz es un proceso',
+          prompt: 'Los procesos de paz combinan diálogo, acuerdos, verificación y participación social. Cada caso ocurre en un contexto histórico distinto.' },
+        { icon: 'Handshake', body: 'Compararemos casos sin asumir que una misma fórmula resuelve todos los conflictos.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:7.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:7.2.1'], ambito: 'conocer',
           prompt: 'Dos compañeros llevan semanas peleados y ya ni se hablan. ¿Qué suele ayudar más a que se reconcilien?',
           explain: 'Una **persona mediadora** en quien ambos confían, que los escucha y los ayuda a llegar a **acuerdos**. Así funcionan también los procesos de paz entre países o dentro de ellos.' },
         { options: [
@@ -150,9 +153,7 @@ export default [
     minutes: 15,
     gancho: 'Tus abuelos quizá vivieron años en que no se podía elegir libremente a las autoridades. Hoy en Guatemala hay elecciones cada cuatro años. ¿Qué cambió? ¿Ya está todo resuelto?',
     objetivos: [
-      'Relacionar los procesos políticos con las condiciones económicas y sociales de la población',
-      'Explicar qué fue la apertura democrática en Latinoamérica',
-      'Distinguir avances y desafíos de la democracia',
+      'Relacionar la apertura democrática latinoamericana con avances y desafíos sociales',
     ],
     resumen: [
       'En la democracia el poder viene del pueblo: se eligen autoridades en elecciones libres, se respetan los derechos humanos y hay separación de poderes.',
@@ -166,8 +167,13 @@ export default [
       brief: 'Ilustración de un día de elecciones en una escuela de Guatemala. Personas diversas (mujeres y hombres mayas, garífunas, xinkas y ladinos, jóvenes y mayores, una persona en silla de ruedas) hacen fila en orden; en una mesa, integrantes de la junta receptora de votos con chalecos; una señora mayor deposita su papeleta en una urna transparente; un joven sonríe mostrando el dedo con tinta. Sin logos de partidos ni nombres de candidatos. Colores luminosos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.7.4', 'ccss:6.7.1'], title: 'Democracia: proceso y condiciones',
+          prompt: 'La apertura democrática describe transiciones desde regímenes autoritarios hacia elecciones e instituciones civiles; no elimina automáticamente desigualdad, violencia o corrupción.' },
+        { icon: 'Landmark', body: 'Para analizarla distinguiremos cambios políticos de sus efectos sociales posibles.' },
+      ),
       S.sort(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.7.4'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.7.4'], ambito: 'conocer',
           prompt: 'Según lo que ya sabes, ¿cada situación es propia de una **democracia** o de una **dictadura**?',
           explain: 'En una democracia el poder viene del pueblo y se respetan los derechos. En una dictadura una persona o un grupo concentra el poder sin elecciones libres.' },
         { buckets: [
@@ -287,9 +293,7 @@ export default [
     minutes: 14,
     gancho: 'Con tu DPI, una persona adulta guatemalteca puede viajar por tierra a El Salvador, Honduras o Nicaragua sin pasaporte. ¿Por qué? ¿Qué ganan los países al unirse?',
     objetivos: [
-      'Explicar qué es la integración regional y para qué sirve',
-      'Esquematizar los principales bloques de integración y cooperación del continente americano',
-      'Ubicar a Guatemala dentro del SICA y reconocer sus beneficios',
+      'Ubicar a Guatemala en redes americanas de integración y cooperación',
     ],
     resumen: [
       'La integración regional es la unión de países vecinos para cooperar en comercio, paz, salud, ambiente, migración y más: juntos son más fuertes.',
@@ -303,9 +307,15 @@ export default [
       brief: 'Mapa vertical del continente americano. Colores suaves por bloque: SICA (verde) en Centroamérica y República Dominicana; CARICOM (turquesa) en las islas del Caribe, Guyana y Surinam; Comunidad Andina (naranja) en Bolivia, Colombia, Ecuador y Perú; Mercosur (azul) en Argentina, Brasil, Paraguay y Uruguay. Un contorno punteado alrededor de todo el continente con la etiqueta "OEA: casi todos los países de América". Guatemala señalada con una estrella y "sede del Parlamento Centroamericano". Leyenda clara. Sin banderas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.6.6'], title: 'Cooperar entre países',
+          prompt: 'Los bloques regionales coordinan asuntos como comercio, movilidad, salud, ambiente y respuesta ante riesgos, con alcances distintos.' },
+        { icon: 'Map', body: 'Guatemala participa en el **SICA**, una red centroamericana de integración.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:6.6.6'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.6.6'], ambito: 'conocer',
           prompt: 'Si un solo grado quiere sembrar 500 árboles, parece imposible. ¿Y si se unen todos los grados, las familias y la municipalidad? ¿Qué idea explica esto?',
+          hint: 'Piensa en lo que cambia cuando varias partes comparten recursos y responsabilidades.',
           explain: '**Unidos se logra más.** Los países piensan igual: al unirse en **bloques** comercian más, enfrentan juntos los desastres y resuelven problemas comunes.' },
         { options: [
           { id: 'a', text: 'Unidos se logran metas que solos serían muy difíciles', icon: 'Users' },

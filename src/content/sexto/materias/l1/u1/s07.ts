@@ -16,24 +16,27 @@ export default [
     minutes: 13,
     gancho: '"Voy a investigar el agua." ¿Toda el agua del planeta? ¿La de los ríos? ¿La de tu casa? Un tema sin pregunta es un camino sin destino.',
     objetivos: [
-      'Diferenciar un tema de una pregunta de investigación',
-      'Delimitar un tema amplio: qué aspecto, dónde y cuándo',
-      'Escribir preguntas abiertas que se puedan investigar',
+      'Escribir una pregunta investigable y delimitada sobre el agua',
     ],
     resumen: [
-      'El tema es el asunto general (el agua, la energía). La pregunta de investigación dice exactamente qué quieres averiguar.',
+      'El tema es el asunto general (el agua). La pregunta de investigación dice exactamente qué quieres averiguar.',
       'Delimitar es hacer el tema más pequeño y concreto: elegir un aspecto, un lugar y un tiempo.',
       'Las preguntas abiertas (¿cómo?, ¿por qué?, ¿de dónde?) permiten investigar; las cerradas se responden con sí o no.',
       'Una buena pregunta de investigación se puede responder buscando información, en el tiempo que tienes.',
     ],
     media: {
       id: 's07-l1-1-embudo', kind: 'diagram', title: 'El embudo de la pregunta', aspect: '3:4',
-      alt: 'Un embudo: arriba, ancho, dice "La energía"; en medio, "La energía en mi comunidad"; abajo, en la punta, "¿Qué usan las familias de mi aldea para cocinar y por qué?".',
-      brief: 'Diagrama vertical de un embudo con tres franjas de color que se van angostando. Franja 1 (ancha, arriba): "TEMA: La energía". Franja 2: "Delimito: la energía en mi comunidad, hoy". Franja 3 (angosta): "PREGUNTA: ¿Qué usan las familias de mi aldea para cocinar y por qué?". A la derecha, tres etiquetas con flechas: "¿Qué aspecto?", "¿Dónde?", "¿Cuándo?". Fondo claro, letra grande.',
+      alt: 'Un embudo pasa de "El agua" a "El agua de la escuela" y termina en la pregunta "¿De dónde viene el agua que llega a nuestra escuela?".',
+      brief: 'Diagrama vertical de un embudo con tres franjas que se angostan. Texto exacto: arriba, "TEMA: El agua"; centro, "DELIMITO: el agua de la escuela, hoy"; abajo, "PREGUNTA: ¿De dónde viene el agua que llega a nuestra escuela?". A la derecha: "¿Qué aspecto?", "¿Dónde?", "¿Cuándo?". Fondo claro, letra grande, iconos descriptivos de gota, escuela y lupa; no usar círculos o cuadrados como objetos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.2'], title: 'Del tema a una pregunta posible',
+          prompt: '“El agua” es un tema amplio. Una investigación escolar necesita una pregunta abierta que indique el aspecto, el lugar y un periodo o situación.' },
+        { icon: 'MessageCircleQuestion', body: 'Una buena pregunta puede responderse con fuentes disponibles y no presupone la respuesta.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'conocer',
           prompt: 'Tienes **dos semanas** para investigar. ¿Cuál de estas opciones podrías responder mejor?',
           explain: 'La segunda es una pregunta concreta: dice qué (de dónde viene el agua), dónde (la escuela) y se puede averiguar preguntando y observando. "El agua" es un tema enorme.' },
         { options: [
@@ -46,22 +49,22 @@ export default [
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'conocer', title: 'Tema y pregunta de investigación',
           prompt: 'Investigar empieza con una **pregunta**. Observa el embudo y toca cada tarjeta.' },
         { icon: 'Filter', body: 'La pregunta es la brújula de la investigación: todo lo que busques debe ayudar a responderla.', reveal: [
-          { icon: 'Globe', front: 'Tema', back: 'Es el **asunto general**: _la energía, el agua, los oficios, las fiestas_. Es muy amplio.' },
-          { icon: 'Filter', front: 'Delimitar', back: 'Hacer el tema más pequeño respondiendo: **¿qué aspecto?** (para cocinar), **¿dónde?** (en mi aldea), **¿cuándo?** (hoy, este año).' },
-          { icon: 'HelpCircle', front: 'Pregunta de investigación', back: 'Dice **exactamente** qué quieres averiguar: _¿Qué usan las familias de mi aldea para cocinar y por qué?_' },
+          { icon: 'Globe', front: 'Tema', back: 'Es el **asunto general**: _el agua_. Todavía es demasiado amplio para una investigación escolar.' },
+          { icon: 'Filter', front: 'Delimitar', back: 'Hacer el tema más pequeño respondiendo: **¿qué aspecto?** (origen), **¿dónde?** (en la escuela), **¿cuándo?** (actualmente).' },
+          { icon: 'HelpCircle', front: 'Pregunta de investigación', back: 'Dice **exactamente** qué quieres averiguar: _¿De dónde viene el agua que llega a nuestra escuela?_' },
         ] },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'hacer', title: 'Ejemplo resuelto: pasar por el embudo',
           prompt: 'Mira cómo Daniela convierte un tema amplio en una pregunta.' },
-        { icon: 'Filter', problem: 'Tema: **los oficios**. Daniela tiene dos semanas y vive en un pueblo donde hay varias panaderías.',
+        { icon: 'Filter', problem: 'Tema: **el agua**. Daniela tiene dos semanas y puede consultar los registros disponibles de su escuela.',
           steps: [
-            { text: '**¿Qué aspecto?** De todos los oficios, elige uno cercano: **la panadería**.' },
-            { text: '**¿Dónde?** En su pueblo, donde puede visitar y preguntar.', why: 'Un lugar cercano permite observar y entrevistar: son fuentes que sí puede alcanzar.' },
-            { text: '**¿Qué quiere saber?** Cómo es el trabajo de un panadero.' },
-            { text: 'Redacta una **pregunta abierta**: "¿Cómo es un día de trabajo de un panadero en mi pueblo?"' },
+            { text: '**¿Qué aspecto?** De todo lo relacionado con el agua, elige su **origen y recorrido**.' },
+            { text: '**¿Dónde?** En su escuela, donde hay fuentes disponibles.', why: 'Un lugar cercano permite revisar mapas, fichas y testimonios ya documentados.' },
+            { text: '**¿Qué quiere saber?** De dónde viene el agua que llega a los chorros.' },
+            { text: 'Redacta una **pregunta abierta**: "¿De dónde viene el agua de la escuela y cómo llega a los chorros?"' },
           ],
-          answer: 'Pregunta de investigación: **¿Cómo es un día de trabajo de un panadero en mi pueblo?**',
+          answer: 'Pregunta de investigación: **¿De dónde viene el agua de la escuela y cómo llega a los chorros?**',
           tip: 'Si tu pregunta se puede responder con un "sí" o un "no", ábrela con ¿cómo?, ¿por qué?, ¿qué? o ¿de dónde?' },
       ),
       S.sort(
@@ -71,42 +74,42 @@ export default [
           { id: 'tema', label: 'Tema amplio', icon: 'Globe', color: 'var(--c-maiz-strong)' },
           { id: 'preg', label: 'Pregunta delimitada', icon: 'Target', color: 'var(--area-l1)' },
         ], items: [
-          { id: 'q1', text: 'Los animales', bucket: 'tema' },
-          { id: 'q2', text: '¿Qué aves visitan el patio de la escuela por la mañana?', bucket: 'preg' },
-          { id: 'q3', text: 'La electricidad', bucket: 'tema' },
-          { id: 'q4', text: '¿Cómo se prepara el pepián en mi familia?', bucket: 'preg' },
-          { id: 'q5', text: 'Las fiestas', bucket: 'tema' },
-          { id: 'q6', text: '¿Por qué se celebra la feria de mi municipio en esa fecha?', bucket: 'preg' },
+          { id: 'q1', text: 'El agua', bucket: 'tema' },
+          { id: 'q2', text: '¿Qué fuentes aparecen en el mapa del caso escolar?', bucket: 'preg' },
+          { id: 'q3', text: 'La calidad del agua', bucket: 'tema' },
+          { id: 'q4', text: '¿Qué evidencia presenta el caso sobre el tratamiento del agua?', bucket: 'preg' },
+          { id: 'q5', text: 'El cuidado del agua', bucket: 'tema' },
+          { id: 'q6', text: '¿Qué fuga registra la tabla de observación de esta semana?', bucket: 'preg' },
         ] },
       ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'conocer', title: 'Preguntas abiertas y cerradas',
           prompt: 'No todas las preguntas sirven igual para investigar. Toca cada tarjeta.' },
         { icon: 'MessageCircle', body: 'Para investigar, prefiere las preguntas **abiertas**: te obligan a buscar, comparar y explicar.', reveal: [
-          { icon: 'Lock', front: 'Cerrada', back: 'Se responde con **sí o no**, o con un solo dato: "¿Hay panaderías en mi pueblo?" → Sí. Se acaba ahí.' },
-          { icon: 'Unlock', front: 'Abierta', back: 'Pide una explicación: "¿**Cómo** trabajan las panaderías de mi pueblo?", "¿**Por qué** se hornea de madrugada?".' },
-          { icon: 'X', front: 'No se investiga', back: 'Las preguntas de **gusto personal** ("¿Cuál es el pan más rico?") o que nadie puede averiguar ("¿Qué pensaba el primer panadero del mundo?").' },
+          { icon: 'Lock', front: 'Cerrada', back: 'Se responde con **sí o no**, o con un solo dato: "¿Hay un tanque en la escuela?". Se acaba ahí.' },
+          { icon: 'Unlock', front: 'Abierta', back: 'Pide una explicación: "¿**Cómo** llega el agua al tanque?", "¿**Por qué** cambia su disponibilidad?".' },
+          { icon: 'X', front: 'No se investiga', back: 'Las preguntas de **gusto personal** ("¿Cuál agua sabe mejor?") o imposibles con las fuentes y el tiempo disponibles.' },
         ] },
       ),
       S.choice(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'hacer',
-          prompt: 'Ahora tú. La pregunta "**¿Usan leña en mi aldea?**" es cerrada. ¿Cuál es la mejor forma de **abrirla**?',
-          hint: 'Busca la que empieza con una palabra que pide explicación y sigue hablando de la leña en la aldea.',
-          explain: 'Con "¿Para qué… y de dónde…?" la respuesta ya no es un simple sí: hay que investigar usos y origen.' },
+          prompt: 'Ahora tú. La pregunta "**¿Hay agua en el tanque?**" es cerrada. ¿Cuál es la mejor forma de **abrirla**?',
+          hint: 'Busca la que pide explicar el origen y recorrido del agua del tanque.',
+          explain: 'Con "¿De dónde… y cómo…?" la respuesta ya no es un simple sí: hay que investigar origen y recorrido.' },
         { options: [
-          { id: 'a', text: '¿Para qué usan leña las familias de mi aldea y de dónde la obtienen?' },
-          { id: 'b', text: '¿Usan mucha leña en mi aldea?', feedback: 'Sigue siendo casi cerrada: "sí, mucha".' },
-          { id: 'c', text: '¿Qué es la energía del universo?', feedback: 'Se abrió… ¡pero se fue lejísimos del tema!' },
+          { id: 'a', text: '¿De dónde viene el agua del tanque y cómo llega hasta allí?' },
+          { id: 'b', text: '¿Hay mucha agua en el tanque?', feedback: 'Sigue siendo casi cerrada y no pide explicar el sistema.' },
+          { id: 'c', text: '¿Por qué todos los océanos son salados?', feedback: 'Es abierta, pero se aleja del sistema de agua investigado.' },
         ], correct: ['a'] },
       ),
       S.match(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'hacer', prompt: 'Une cada tema amplio con una pregunta de investigación **delimitada** sobre ese tema.',
           explain: 'Cada pregunta toma un aspecto del tema y lo ubica en un lugar cercano.' },
         { leftTitle: 'Tema', rightTitle: 'Pregunta delimitada', pairs: [
-          { id: 'm1', left: 'La energía', leftIcon: 'Zap', right: '¿Cómo llega la electricidad hasta las casas de mi colonia?' },
-          { id: 'm2', left: 'La basura', leftIcon: 'Trash2', right: '¿Qué hacen con la basura las familias de mi cuadra?' },
-          { id: 'm3', left: 'Los idiomas', leftIcon: 'Languages', right: '¿Qué idiomas hablan las personas de mi familia y dónde los aprendieron?' },
-          { id: 'm4', left: 'Los juegos', leftIcon: 'Puzzle', right: '¿A qué jugaban mis abuelos cuando tenían mi edad?' },
+          { id: 'm1', left: 'Fuentes de agua', leftIcon: 'Waves', right: '¿Qué fuentes abastecen el sistema descrito en el caso de la escuela?' },
+          { id: 'm2', left: 'Recorrido del agua', leftIcon: 'Route', right: '¿Por qué lugares pasa el agua antes de llegar al tanque?' },
+          { id: 'm3', left: 'Calidad del agua', leftIcon: 'Microscope', right: '¿Qué evidencias permiten juzgar si el agua es apta para un uso?' },
+          { id: 'm4', left: 'Cuidado del agua', leftIcon: 'HandHeart', right: '¿Qué acción factible puede reducir una pérdida observada?' },
         ] },
       ),
       S.write(
@@ -124,9 +127,9 @@ export default [
       S.choice(
         { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.2'], prompt: '¿Cuál es una **pregunta de investigación** bien delimitada?' },
         { options: [
-          { id: 'a', text: '¿Cómo se cultiva el café en las fincas de mi municipio?' },
-          { id: 'b', text: 'El café' },
-          { id: 'c', text: '¿Te gusta el café?' },
+          { id: 'a', text: '¿Cómo llega el agua desde el tanque hasta los chorros de la escuela?' },
+          { id: 'b', text: 'El agua' },
+          { id: 'c', text: '¿Te gusta el agua fría?' },
         ], correct: ['a'] },
       ),
       S.tf(
@@ -148,9 +151,7 @@ export default [
     minutes: 14,
     gancho: 'Una pregunta grande se responde con varias preguntas pequeñas. ¿Cuáles son las que de verdad importan?',
     objetivos: [
-      'Dividir la pregunta de investigación en preguntas clave',
-      'Usar qué, quién, dónde, cuándo, cómo, por qué y para qué',
-      'Descartar preguntas que no ayudan a la investigación',
+      'Seleccionar preguntas clave que guían una investigación sobre el agua',
     ],
     resumen: [
       'Las preguntas clave son preguntas más pequeñas que, juntas, responden la pregunta de investigación.',
@@ -164,8 +165,13 @@ export default [
       brief: 'Mapa radial: círculo central azul con la pregunta de investigación "¿De dónde viene el agua que llega a nuestra escuela?". Cinco burbujas alrededor, cada una con un ícono y una pregunta: gota "¿De qué nacimiento o pozo sale?"; camino "¿Por dónde viaja hasta la escuela?"; personas "¿Quién se encarga de mantener el sistema?"; filtro "¿Se limpia o se trata antes de usarla?"; mano "¿Cómo podemos cuidarla?". Colores suaves, letra grande.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.2'], title: 'Una pregunta grande necesita rutas',
+          prompt: 'Las preguntas clave dividen la investigación en partes relacionadas, claras y posibles de responder.' },
+        { icon: 'ListChecks', body: 'Qué, quién, dónde, cuándo, cómo, por qué y para qué ayudan a buscar evidencia distinta.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'conocer',
           prompt: 'Sofía investiga "**¿De dónde viene el agua que llega a nuestra escuela?**". ¿Cuál de estas preguntas le **ayuda** a responderla?',
           explain: 'Saber de qué nacimiento o pozo sale el agua es una parte de la respuesta. Las otras preguntas se alejan del tema.' },
         { options: [
@@ -211,48 +217,48 @@ export default [
       ),
       S.choice(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'hacer',
-          prompt: 'Ahora tú. Investigación: "**¿Qué organizaciones trabajan por la convivencia pacífica en mi comunidad?**". Elige **todas** las preguntas clave útiles.',
+          prompt: 'Ahora tú. Investigación: "**¿Cómo se cuida el agua en el caso escolar presentado?**". Elige **todas** las preguntas clave útiles.',
           hint: 'Aplica los filtros: ¿está relacionada?, ¿es clara?, ¿se puede investigar?',
-          explain: 'Las preguntas clave guían la búsqueda: quiénes son, qué hacen, cómo se participa. La del color favorito es de gusto personal.' },
+          explain: 'Las preguntas clave buscan pérdidas registradas, acciones documentadas y una respuesta factible. La del color favorito es de gusto personal.' },
         { multiple: true, options: [
-          { id: 'a', text: '¿Qué organizaciones de servicio hay en mi comunidad?', icon: 'Search' },
-          { id: 'b', text: '¿Qué actividades realizan para promover la convivencia?', icon: 'Users' },
-          { id: 'c', text: '¿Cómo pueden participar niñas y niños?', icon: 'Hand' },
+          { id: 'a', text: '¿Qué pérdidas de agua aparecen en el registro del caso?', icon: 'Search' },
+          { id: 'b', text: '¿Qué acciones de cuidado ya están documentadas?', icon: 'Users' },
+          { id: 'c', text: '¿Qué acción factible puede realizar el grupo?', icon: 'Hand' },
           { id: 'd', text: '¿Cuál es mi color favorito?', icon: 'Palette', feedback: 'No se relaciona con el tema y es de gusto personal.' },
         ], correct: ['a', 'b', 'c'] },
       ),
       S.sort(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'hacer',
-          prompt: 'Investigación de Daniela: "**¿Cómo es un día de trabajo de un panadero en mi pueblo?**". ¿Qué preguntas sirven como preguntas clave?',
-          explain: 'Sirven las que ayudan a describir el día del panadero. Las que hablan de gustos o se alejan del pueblo no ayudan.' },
+          prompt: 'Investigación de Daniela: "**¿Cómo llega el agua al tanque del caso escolar?**". ¿Qué preguntas sirven como preguntas clave?',
+          explain: 'Sirven las que ayudan a explicar el origen, el recorrido y el mantenimiento del sistema. Gustos y temas lejanos no ayudan.' },
         { buckets: [
           { id: 'si', label: 'Sirve', icon: 'Check', color: 'var(--c-ok)' },
           { id: 'no', label: 'No sirve', icon: 'X', color: 'var(--c-maiz-strong)' },
         ], items: [
-          { id: 'k1', text: '¿A qué hora empieza a trabajar?', bucket: 'si' },
-          { id: 'k2', text: '¿Qué ingredientes y herramientas usa?', bucket: 'si' },
-          { id: 'k3', text: '¿Cuál pan es el más sabroso del mundo?', bucket: 'no' },
-          { id: 'k4', text: '¿Cómo aprendió el oficio?', bucket: 'si' },
-          { id: 'k5', text: '¿Quién inventó el primer pan de la historia?', bucket: 'no', feedback: 'Se aleja de la pregunta: habla de la historia mundial del pan, no del panadero de tu pueblo.' },
-          { id: 'k6', text: '¿A quiénes vende su pan?', bucket: 'si' },
+          { id: 'k1', text: '¿De qué fuente sale el agua del caso?', bucket: 'si' },
+          { id: 'k2', text: '¿Por qué tuberías pasa antes del tanque?', bucket: 'si' },
+          { id: 'k3', text: '¿Cuál bebida sabe mejor?', bucket: 'no' },
+          { id: 'k4', text: '¿Quién revisa el sistema descrito?', bucket: 'si' },
+          { id: 'k5', text: '¿Cuánta agua existe en otros planetas?', bucket: 'no', feedback: 'Se aleja del sistema escolar que delimita la investigación.' },
+          { id: 'k6', text: '¿Qué registro muestra el recorrido?', bucket: 'si' },
         ] },
       ),
       S.match(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'hacer',
-          prompt: 'Investigación: "¿Qué usan las familias de mi aldea para cocinar y por qué?". Une cada **palabra de pregunta** con la pregunta clave que forma.',
+          prompt: 'Investigación: "¿Cómo funciona el sistema de agua del caso escolar?". Une cada **palabra de pregunta** con la pregunta clave que forma.',
           explain: 'Cada palabra de pregunta abre una parte distinta del tema.' },
         { leftTitle: 'Palabra', rightTitle: 'Pregunta clave', pairs: [
-          { id: 'w1', left: '¿Qué…?', right: '¿Qué combustibles usan: leña, gas u otro?' },
-          { id: 'w2', left: '¿Dónde…?', right: '¿Dónde consiguen la leña o el gas?' },
-          { id: 'w3', left: '¿Por qué…?', right: '¿Por qué prefieren ese combustible?' },
-          { id: 'w4', left: '¿Cómo…?', right: '¿Cómo afecta el humo a la salud dentro de la cocina?' },
+          { id: 'w1', left: '¿Qué…?', right: '¿Qué componentes tiene el sistema?' },
+          { id: 'w2', left: '¿Dónde…?', right: '¿Dónde se almacena el agua?' },
+          { id: 'w3', left: '¿Por qué…?', right: '¿Por qué se revisa la tubería?' },
+          { id: 'w4', left: '¿Cómo…?', right: '¿Cómo llega el agua hasta los chorros?' },
         ] },
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.2'], ambito: 'hacer',
           prompt: 'Escribe tu **pregunta de investigación** y, debajo, **entre 4 y 6 preguntas clave**. Revísalas con los cuatro filtros: relacionada, clara, investigable, no repetida.' },
         { minWords: 30, placeholder: 'Pregunta de investigación: ¿…?\n1. ¿…?\n2. ¿…?\n3. ¿…?\n4. ¿…?',
-          model: 'Pregunta de investigación: ¿Cómo es un día de trabajo de un panadero en mi pueblo?\n1. ¿A qué hora empieza y termina su jornada?\n2. ¿Qué ingredientes y herramientas usa?\n3. ¿Qué panes prepara y cómo los hornea?\n4. ¿Cómo aprendió el oficio?\n5. ¿Qué dificultades tiene su trabajo?',
+          model: 'Pregunta de investigación: ¿Cómo llega el agua al tanque del caso escolar?\n1. ¿De qué fuente sale?\n2. ¿Por dónde viaja?\n3. ¿Quién mantiene el sistema?\n4. ¿Qué registro describe el recorrido?\n5. ¿Qué acción ayudaría a cuidarlo?',
           rubric: [
             'Escribí mi pregunta de investigación',
             'Escribí entre 4 y 6 preguntas clave',
@@ -262,11 +268,11 @@ export default [
           ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.2'], prompt: 'Investigación: "¿Cómo se elabora la cerámica en mi comunidad?". ¿Cuál **no** es una buena pregunta clave?' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.2'], prompt: 'Investigación: "¿Cómo se almacena el agua en el caso escolar?". ¿Cuál **no** es una buena pregunta clave?' },
         { options: [
-          { id: 'a', text: '¿Qué color me gusta más para una olla?' },
-          { id: 'b', text: '¿De dónde sacan el barro?' },
-          { id: 'c', text: '¿Cómo cuecen las piezas?' },
+          { id: 'a', text: '¿Qué color de tanque me gusta más?' },
+          { id: 'b', text: '¿Qué capacidad tiene el tanque del escenario?' },
+          { id: 'c', text: '¿Cómo entra y sale el agua del tanque?' },
         ], correct: ['a'] },
       ),
       S.tf(
@@ -286,11 +292,9 @@ export default [
     title: 'Fuentes escritas y tecnológicas',
     icon: 'Library',
     minutes: 13,
-    gancho: 'Para saber cuántos habitantes tiene tu municipio, ¿le preguntas a tu vecino o buscas en otro lugar?',
+    gancho: 'Para saber de dónde viene el agua de una escuela, ¿basta un rumor o hace falta buscar fuentes relacionadas con el sistema?',
     objetivos: [
-      'Distinguir fuentes de información escritas y tecnológicas',
       'Elegir la fuente adecuada según lo que se quiere averiguar',
-      'Reconocer que las personas también pueden ser fuentes de información',
     ],
     resumen: [
       'Una fuente de información es todo aquello de donde obtenemos datos para responder nuestras preguntas.',
@@ -304,14 +308,19 @@ export default [
       brief: 'Ilustración cálida de una mesa en una biblioteca comunitaria. A la izquierda, fuentes escritas: libro abierto, enciclopedia, diccionario, periódico doblado, folleto. A la derecha, fuentes tecnológicas: computadora con un mapa en pantalla, tableta con un video educativo (sin logotipos), radio antiguo. Al fondo, una niña con cuaderno entrevista a una señora mayor con traje típico. Rótulos: "Escritas", "Tecnológicas", "Personas". Sin marcas comerciales.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.3'], title: 'Cada pregunta pide una fuente',
+          prompt: 'Una fuente sirve cuando puede aportar el tipo de evidencia que la pregunta necesita: documentos, recursos tecnológicos u observaciones y testimonios identificados.' },
+        { icon: 'Library', body: 'Elegir bien la fuente evita buscar una respuesta en el lugar equivocado.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'conocer',
-          prompt: 'Para investigar **cuántos habitantes tiene tu municipio**, ¿qué fuente es más confiable?',
-          explain: 'El Instituto Nacional de Estadística (INE) es la institución que hace los censos del país. Una opinión o un rumor no son datos confiables.' },
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'conocer',
+          prompt: 'Para investigar el **recorrido del agua en un sistema escolar**, ¿qué fuente es más pertinente?',
+          explain: 'Un plano identificado del sistema muestra el recorrido. Una opinión o un mensaje sin origen no aportan esa evidencia.' },
         { options: [
-          { id: 'a', text: 'Los datos del censo publicados por el Instituto Nacional de Estadística', icon: 'BarChart3' },
-          { id: 'b', text: 'Lo que calcula a ojo un vecino', icon: 'User', feedback: 'Tu vecino puede saber mucho del pueblo, pero no ha contado a todos los habitantes.' },
-          { id: 'c', text: 'Un mensaje en cadena que alguien reenvió', icon: 'MessageCircle', feedback: 'No sabemos quién lo escribió ni de dónde sacó el dato.' },
+          { id: 'a', text: 'Un plano identificado del sistema y su ficha técnica', icon: 'Map' },
+          { id: 'b', text: 'Lo que una persona imagina al ver un chorro', icon: 'User', feedback: 'La apariencia del chorro no muestra todo el recorrido.' },
+          { id: 'c', text: 'Un mensaje reenviado sin autor ni fuente', icon: 'MessageCircle', feedback: 'No sabemos quién lo escribió ni de dónde obtuvo el dato.' },
         ], correct: ['a'] },
       ),
       S.explain(
@@ -326,7 +335,8 @@ export default [
       ),
       S.sort(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3'], prompt: 'Clasifica cada fuente.',
-          hint: '¿Está impresa en papel (escrita) o necesita un aparato para consultarla (tecnológica)?' },
+          hint: '¿Está impresa en papel (escrita) o necesita un aparato para consultarla (tecnológica)?',
+          explain: 'Una fuente escrita queda en papel; una tecnológica requiere un dispositivo para consultarla.' },
         { buckets: [
           { id: 'esc', label: 'Escrita', icon: 'BookOpen', color: 'var(--area-l1)' },
           { id: 'tec', label: 'Tecnológica', icon: 'Monitor', color: 'var(--area-cnt)' },
@@ -355,30 +365,30 @@ export default [
       ),
       S.match(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer', prompt: 'Une cada necesidad con la **mejor** fuente.',
-          explain: 'Documentos oficiales para leyes y acuerdos; el INE para población; medios locales para noticias recientes; personas para conocer cómo funciona algo de la comunidad.' },
+          explain: 'Cada necesidad pide evidencia distinta: definiciones, recorridos, tratamiento documentado o funcionamiento del sistema.' },
         { leftTitle: 'Quiero saber…', rightTitle: 'Fuente', pairs: [
-          { id: 'n1', left: 'Qué dicen los Acuerdos de Paz', leftIcon: 'ScrollText', right: 'El texto de los acuerdos en un libro o documento oficial' },
-          { id: 'n2', left: 'Cuántos habitantes tiene mi municipio', leftIcon: 'BarChart3', right: 'Los datos del censo del Instituto Nacional de Estadística' },
-          { id: 'n3', left: 'Qué pasó ayer en la feria del pueblo', leftIcon: 'Newspaper', right: 'El periódico o la radio local' },
-          { id: 'n4', left: 'Cómo se organiza el COCODE de mi comunidad', leftIcon: 'Users', right: 'Una entrevista a un miembro del COCODE' },
-          { id: 'n5', left: 'Qué significa la palabra "cronograma"', leftIcon: 'BookOpen', right: 'Un diccionario' },
+          { id: 'n1', left: 'Qué significa "potabilizar"', leftIcon: 'BookOpen', right: 'Un diccionario o libro de Ciencias' },
+          { id: 'n2', left: 'Por dónde pasa una tubería del caso', leftIcon: 'Route', right: 'El plano identificado del sistema' },
+          { id: 'n3', left: 'Qué tratamiento registra el caso', leftIcon: 'FileText', right: 'La ficha técnica o informe del sistema' },
+          { id: 'n4', left: 'Cómo se revisa una llave del sistema', leftIcon: 'Users', right: 'Un testimonio documentado de la persona responsable' },
+          { id: 'n5', left: 'Qué cambios muestran varios registros', leftIcon: 'BarChart3', right: 'La tabla fechada de observaciones' },
         ] },
       ),
       S.choice(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer',
-          prompt: 'Daniela investiga "¿Cómo es un día de trabajo de un panadero en mi pueblo?". ¿Cuál es su **fuente principal**?',
-          explain: 'Nadie sabe mejor cómo es su día que el propio panadero. Un libro puede ayudar con información general sobre el pan, pero no sobre el panadero de su pueblo.' },
+          prompt: 'Daniela investiga "¿Por dónde viaja el agua en el sistema del caso?". ¿Cuál es su **fuente principal**?',
+          explain: 'El plano identificado y su ficha describen ese recorrido. Un texto general sobre agua no muestra el sistema específico.' },
         { options: [
-          { id: 'a', text: 'Una entrevista al panadero y la observación de su trabajo' },
-          { id: 'b', text: 'Una enciclopedia sobre la historia del pan en Europa', feedback: 'Habla del pan en general, no del panadero de su pueblo.' },
-          { id: 'c', text: 'Un video de recetas de pasteles', feedback: 'No responde cómo es el día de trabajo del panadero.' },
+          { id: 'a', text: 'El plano identificado del sistema y su ficha' },
+          { id: 'b', text: 'Una enciclopedia general sobre océanos', feedback: 'Habla del agua en general, no del recorrido del sistema.' },
+          { id: 'c', text: 'Un video publicitario de agua embotellada', feedback: 'No describe el sistema del caso.' },
         ], correct: ['a'] },
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer',
           prompt: 'Copia **tres** de tus preguntas clave y escribe junto a cada una **qué fuente** usarás y de **qué tipo** es (escrita, tecnológica o persona). Usa al menos **dos tipos** distintos.' },
         { minWords: 30, placeholder: '1. ¿…? → Fuente: … (tipo: …)\n2. ¿…? → …\n3. ¿…? → …',
-          model: '1. ¿Cómo aprendió el oficio? → Fuente: entrevista a don Julio, el panadero (persona).\n2. ¿Qué ingredientes usa? → Fuente: observación en la panadería y el libro de Ciencias Naturales sobre la levadura (escrita).\n3. ¿Qué panes tradicionales hay en Guatemala? → Fuente: un video educativo de una institución cultural (tecnológica).',
+          model: '1. ¿Por dónde viaja el agua? → Fuente: plano identificado del sistema (escrita).\n2. ¿Qué significa potabilizar? → Fuente: libro de Ciencias Naturales (escrita).\n3. ¿Qué acción reduce una fuga? → Fuente: video educativo de una institución pública (tecnológica).',
           rubric: [
             'Escribí tres preguntas clave con una fuente para cada una',
             'Indiqué el tipo de cada fuente',
@@ -398,8 +408,8 @@ export default [
         { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.3'], prompt: 'Une cada pregunta con la fuente más adecuada.' },
         { leftTitle: 'Pregunta', rightTitle: 'Fuente', pairs: [
           { id: 'e1', left: '¿Qué significa "caudal"?', right: 'Diccionario' },
-          { id: 'e2', left: '¿Cómo se previene la gripe, según el personal de salud?', right: 'Folleto o sitio web del Ministerio de Salud' },
-          { id: 'e3', left: '¿Cómo se celebraba la feria hace 50 años?', right: 'Entrevista a una persona mayor del pueblo' },
+          { id: 'e2', left: '¿Qué tratamiento describe el caso?', right: 'Ficha técnica identificada del sistema' },
+          { id: 'e3', left: '¿Cómo se reparó una fuga registrada?', right: 'Informe fechado de mantenimiento' },
         ] },
       ),
     ],
@@ -411,11 +421,9 @@ export default [
     title: '¿Es confiable esta fuente?',
     icon: 'ShieldCheck',
     minutes: 15,
-    gancho: 'Un anuncio dice: "¡Con este imán tendrás electricidad gratis para siempre!". ¿Le crees? ¿Cómo lo averiguas?',
+    gancho: 'Un anuncio dice: "¡Este filtro vuelve potable cualquier agua para siempre!". ¿Le crees? ¿Cómo lo averiguas?',
     objetivos: [
       'Aplicar cinco preguntas para evaluar si una fuente es confiable',
-      'Distinguir un texto que informa de uno que quiere vender o convencer sin pruebas',
-      'Comparar dos fuentes sobre el mismo tema',
     ],
     resumen: [
       'Antes de usar una fuente, pregúntate: ¿quién lo escribió?, ¿cuándo?, ¿para qué?, ¿de dónde saca sus datos?, ¿otras fuentes dicen lo mismo?',
@@ -426,11 +434,16 @@ export default [
     media: {
       id: 's07-l1-4-lupa', kind: 'animation', title: 'Cinco preguntas antes de creer', aspect: '16:9', duration: 50,
       alt: 'Una lupa pasa sobre un texto y van apareciendo cinco preguntas: quién, cuándo, para qué, de dónde salen los datos y qué dicen otras fuentes.',
-      brief: 'Animación 2D de 50 s. Una pantalla muestra un texto sobre energía; una lupa recorre sus partes y aparece un ícono por pregunta: persona (¿Quién lo escribió?), calendario (¿Cuándo?), diana (¿Para qué: informar o vender?), libro (¿De dónde saca sus datos?), dos documentos lado a lado (¿Otras fuentes dicen lo mismo?). Cada respuesta se marca con un cheque verde. Luego un anuncio con estrellas y "¡GRATIS PARA SIEMPRE!" recibe tachas rojas. Narración en español, subtítulos. Sin marcas.',
+      brief: 'Animación 2D de 50 s. Una pantalla muestra una guía identificada sobre calidad del agua; una lupa recorre autor, fecha, propósito, evidencia y comparación con otra fuente. Después aparece un anuncio sin autor: "¡FILTRO MÁGICO! Vuelve potable cualquier agua para siempre"; la animación marca la afirmación como no comprobada. Narración en español de Guatemala, subtítulos, sin marcas. No mostrar resultados de laboratorio inventados.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.3', 'l1:4.2.1'], title: 'La confianza se justifica',
+          prompt: 'Una fuente no es confiable solo por verse formal. Hay que revisar autoría, fecha, propósito, evidencia y coincidencia con otras fuentes.' },
+        { icon: 'ShieldCheck', body: 'El juicio sobre una fuente debe mencionar criterios observables, no gustos.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'conocer',
           prompt: 'En un grupo de chat alguien envía: "**URGENTE: mañana cortarán el agua en todo el país. Reenvía a todos.**" No tiene firma. ¿Qué haces?',
           explain: 'Un mensaje sin autor, alarmante y que pide reenviar "urgente" suele ser falso. Lo correcto es verificarlo en una fuente oficial antes de creerlo o compartirlo.' },
         { options: [
@@ -452,34 +465,35 @@ export default [
       ),
       S.reading(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3', 'l1:4.2.1'], ambito: 'hacer',
-          prompt: 'Lee **dos fuentes** que encontró Mateo sobre la electricidad en Guatemala. Aplica las cinco preguntas y responde.',
-          hint: 'Fíjate en quién escribió cada texto, para qué y si explica de dónde saca lo que dice.' },
-        { genre: 'Dos fuentes para comparar', heading: '¿De dónde viene la electricidad?', passage:
-          'FUENTE A. Libro de Ciencias Naturales para sexto grado, capítulo "La energía", edición reciente.\n\n' +
-          '"La electricidad que llega a nuestras casas se produce en centrales generadoras. En Guatemala hay varias formas de producirla. En las hidroeléctricas, la fuerza del agua de los ríos hace girar unas máquinas llamadas turbinas. En algunos ingenios, se quema el bagazo, que es lo que sobra de la caña de azúcar después de exprimirla. En las plantas geotérmicas se aprovecha el calor que hay bajo la tierra cerca de los volcanes. También hay parques de paneles solares y de aerogeneradores que usan el sol y el viento, y plantas que queman combustibles como el búnker o el carbón. Después, la electricidad viaja por cables de alta tensión y llega a las casas a través de la red de distribución."\n\n' +
-          'FUENTE B. Anuncio compartido en una red social, sin nombre de autor ni fecha.\n\n' +
-          '"¡¡ATENCIÓN!! Las empresas no quieren que sepas esto: con nuestro IMÁN MÁGICO tendrás electricidad GRATIS PARA SIEMPRE. Solo pégalo en tu contador y la factura bajará a cero. ¡Miles de personas ya lo usan! Últimas unidades a Q99. ¡Compra YA!"',
+          prompt: 'Lee **dos fuentes de ejemplo** que encontró Mateo sobre la calidad del agua. Aplica las cinco preguntas y responde.',
+          hint: 'Fíjate en quién escribió cada texto, para qué y si explica de dónde saca lo que dice.',
+          explain: 'La fuente A identifica su origen y explica procesos; la B intenta vender con promesas sin autor, fecha ni evidencia.' },
+        { genre: 'Dos fuentes simuladas para comparar', heading: '¿La apariencia demuestra que el agua es potable?', passage:
+          'FUENTE A. Guía escolar de salud, con institución responsable, fecha reciente y referencias a normas de calidad.\n\n' +
+          '"El agua transparente no es automáticamente potable. Para decidir si es apta para beber se necesitan controles adecuados y registros del tratamiento, porque algunos contaminantes no se observan a simple vista. El origen del agua, por sí solo, tampoco permite asegurar su calidad."\n\n' +
+          'FUENTE B. Anuncio simulado compartido en una red social, sin autor, fecha ni pruebas.\n\n' +
+          '"¡FILTRO MÁGICO! Vuelve potable cualquier agua para siempre. No necesita mantenimiento ni pruebas. Miles lo recomiendan. Últimas unidades a Q99. ¡Compra ya!"',
           questions: [
             { q: '¿Quién escribió la Fuente A?', options: [
-              { id: 'a', text: 'Los autores de un libro de texto de Ciencias Naturales' },
+              { id: 'a', text: 'La institución responsable de una guía escolar de salud' },
               { id: 'b', text: 'No se sabe' },
-              { id: 'c', text: 'Una empresa que vende imanes' },
-            ], correct: 'a', why: 'La Fuente A dice su origen: un libro de Ciencias para sexto, edición reciente.' },
+              { id: 'c', text: 'La persona anónima del anuncio' },
+            ], correct: 'a', why: 'La Fuente A identifica una institución responsable, fecha y referencias.' },
             { q: '¿Cuál es la intención principal de la Fuente B?', options: [
               { id: 'a', text: 'Vender un producto' },
-              { id: 'b', text: 'Explicar cómo se produce la electricidad' },
-              { id: 'c', text: 'Informar sobre los volcanes' },
-            ], correct: 'a', why: '"Últimas unidades a Q99. ¡Compra YA!": su propósito es vender.' },
+              { id: 'b', text: 'Explicar cómo se comprueba la calidad del agua' },
+              { id: 'c', text: 'Informar sobre el recorrido de una tubería' },
+            ], correct: 'a', why: '"Últimas unidades a Q99. ¡Compra ya!" muestra que su propósito es vender.' },
             { q: '¿Qué señales muestran que la Fuente B **no** es confiable?', options: [
               { id: 'a', text: 'No tiene autor ni fecha, promete algo exagerado y no explica de dónde saca lo que dice' },
               { id: 'b', text: 'Está escrita con palabras difíciles' },
               { id: 'c', text: 'Es demasiado larga' },
             ], correct: 'a', why: 'Faltan autor y fecha, hay promesas exageradas ("gratis para siempre") y ninguna prueba.' },
-            { q: 'Mateo necesita explicar **cómo se produce la electricidad en Guatemala**. ¿Qué debe hacer?', options: [
+            { q: 'Mateo necesita explicar **cómo se juzga si el agua es apta para beber**. ¿Qué debe hacer?', options: [
               { id: 'a', text: 'Usar la Fuente A y compararla con otra fuente confiable' },
               { id: 'b', text: 'Usar la Fuente B porque "miles de personas ya lo usan"' },
               { id: 'c', text: 'Mezclar las dos fuentes por igual' },
-            ], correct: 'a', why: 'La Fuente A es confiable; comparar con otra fuente seria (otro libro, un sitio de una institución) la confirma.' },
+            ], correct: 'a', why: 'La Fuente A ofrece criterios y referencias; compararla con otra fuente especializada fortalece el juicio.' },
           ] },
       ),
       S.ejemplo(
@@ -513,11 +527,11 @@ export default [
       ),
       S.choice(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer',
-          prompt: 'Dos fuentes dan datos distintos sobre la altura del volcán Tajumulco: un blog personal sin fecha y el sitio de una institución geográfica oficial. ¿Qué dato usarías?',
-          explain: 'La institución oficial es especialista en medir el territorio y dice de dónde vienen sus datos. Ante una diferencia, confía en la fuente experta y, si puedes, confirma con una tercera.' },
+          prompt: 'Dos fuentes describen de forma distinta el tratamiento del agua de un sistema: un mensaje sin fecha y una ficha técnica identificada. ¿Cuál usarías?',
+          explain: 'La ficha identificada permite revisar responsable, fecha y datos. Ante una diferencia, se compara con otra fuente pertinente.' },
         { options: [
-          { id: 'a', text: 'El de la institución geográfica oficial, y lo confirmaría con otra fuente seria' },
-          { id: 'b', text: 'El del blog, porque es más fácil de leer', feedback: 'Que sea fácil de leer no lo hace confiable.' },
+          { id: 'a', text: 'La ficha técnica identificada, y la confirmaría con otra fuente pertinente' },
+          { id: 'b', text: 'El mensaje, porque es más corto', feedback: 'Que sea corto no lo hace confiable.' },
           { id: 'c', text: 'Sacaría un promedio de los dos', feedback: 'Promediar un dato confiable con uno dudoso no da un dato correcto.' },
         ], correct: ['a'] },
       ),
@@ -525,7 +539,7 @@ export default [
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer',
           prompt: 'Elige **una fuente** que usarás en tu mini-investigación (un libro, un folleto, un sitio web o una persona). Respóndele las **cinco preguntas** y decide si es confiable.' },
         { minWords: 35, placeholder: 'Fuente: …\n¿Quién? …\n¿Cuándo? …\n¿Para qué? …\n¿Datos? …\n¿Coincide? …\nConclusión: …',
-          model: 'Fuente: libro de Ciencias Naturales de sexto grado.\n¿Quién? Autores de un libro escolar revisado para escuelas.\n¿Cuándo? Edición de hace dos años.\n¿Para qué? Para enseñar, no vende nada.\n¿Datos? Explica el ciclo del agua con dibujos y ejemplos.\n¿Coincide? Sí, con lo que me explicó el conserje sobre el nacimiento.\nConclusión: es confiable para mi pregunta sobre el origen del agua.',
+          model: 'Ejemplo hipotético. Fuente: guía escolar sobre agua.\n¿Quién? Institución responsable identificada.\n¿Cuándo? Tiene fecha de publicación.\n¿Para qué? Informar.\n¿Datos? Explica el ciclo del agua y cita sus referencias.\n¿Coincide? Sus conceptos coinciden con un libro de Ciencias.\nConclusión: puede apoyar conceptos generales; no demuestra hechos de una comunidad específica.',
           rubric: [
             'Nombré la fuente',
             'Respondí las cinco preguntas',
@@ -534,11 +548,11 @@ export default [
           ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.3'], prompt: '¿Cuál fuente es **más confiable** para saber cómo prevenir el dengue?' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.3'], prompt: '¿Cuál fuente es **más confiable** para conocer recomendaciones sobre agua para consumo?' },
         { options: [
-          { id: 'a', text: 'Un folleto del Ministerio de Salud con fecha reciente' },
+          { id: 'a', text: 'Un folleto de una institución de salud con fecha y referencias' },
           { id: 'b', text: 'Un audio anónimo que circula en un chat' },
-          { id: 'c', text: 'Un anuncio que vende un repelente "milagroso"' },
+          { id: 'c', text: 'Un anuncio que vende un filtro "milagroso"' },
         ], correct: ['a'] },
       ),
       S.tf(
@@ -560,9 +574,7 @@ export default [
     minutes: 15,
     gancho: 'Si escribes en un buscador "cosas del agua que llega a la escuela de mi aldea en la montaña", ¿qué encontrarás? Probablemente… nada útil.',
     objetivos: [
-      'Elegir palabras clave para buscar información en libros e internet',
-      'Buscar de forma segura en fuentes tecnológicas',
-      'Registrar los datos de cada fuente en una ficha',
+      'Registrar una búsqueda sobre el agua con palabras clave y ficha de fuente',
     ],
     resumen: [
       'Las palabras clave son las 2 a 4 palabras más importantes de tu pregunta: sustantivos y lugares (agua potable, nacimiento, Guatemala).',
@@ -573,11 +585,16 @@ export default [
     media: {
       id: 's07-l1-5-ficha', kind: 'image', title: 'Ficha de una fuente', aspect: '4:3',
       alt: 'Una tarjeta de cartulina con los campos Autor, Título, Año, Editorial o sitio, Qué información me dio, llenos con los datos de un libro de Ciencias Naturales.',
-      brief: 'Ilustración de una ficha de cartulina rayada, con clip, sobre un cuaderno. Campos escritos a mano con letra clara: "Autor: (institución o persona)", "Título: Ciencias Naturales 6", "Año: 2024", "Editorial o sitio: (nombre genérico)", "¿Qué información me dio?: el ciclo del agua, pág. 34". Al lado, una segunda ficha para una entrevista: "Persona: don Rafael, conserje de la escuela; Fecha: 12 de marzo". Sin marcas reales.',
+      brief: 'Ilustración de una ficha de cartulina rayada, con clip, sobre un cuaderno. Campos escritos a mano con letra clara: "Autor: institución de ejemplo", "Título: Ciencias Naturales 6", "Año: 2024", "Editorial o sitio: ejemplo", "¿Qué información me dio?: el ciclo del agua, pág. 34". Al lado, una ficha rotulada "ENTREVISTA SIMULADA · PERSONAJE FICTICIO" con "don Rafael, conserje del caso; fecha del escenario: 12 de marzo". Sin marcas ni fuentes reales inventadas.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.3', 'l1:8.2.4', 'l1:4.2.2'], title: 'Buscar y dejar rastro',
+          prompt: 'Las palabras clave localizan información; la ficha registra quién la publicó, cuándo, dónde y qué dato se tomó.' },
+        { icon: 'NotebookPen', body: 'Sin ficha, un hallazgo queda separado de su fuente y no puede revisarse.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'conocer',
           prompt: 'Quieres saber **cómo se potabiliza el agua**. ¿Qué escribirías en un buscador?',
           explain: 'Las palabras clave son pocas y precisas: "potabilizar agua" o "potabilización del agua". Las frases largas y las palabras vagas ("cosas", "eso") confunden al buscador.' },
         { options: [
@@ -598,23 +615,23 @@ export default [
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer', title: 'Ejemplo resuelto: de la pregunta a las palabras clave',
-          prompt: 'Mira cómo Daniela prepara su búsqueda sobre el panadero.' },
-        { icon: 'Key', problem: 'Pregunta clave de Daniela: "¿Qué hace la levadura en la masa del pan?"',
+          prompt: 'Mira cómo Daniela prepara una búsqueda sobre tratamiento del agua.' },
+        { icon: 'Key', problem: 'Pregunta clave de Daniela: "¿Qué métodos se usan para potabilizar el agua?"',
           steps: [
-            { text: 'Quito las palabras de relleno: ¿qué, hace, la, en, del.' },
-            { text: 'Me quedan las palabras que nombran: **levadura**, **masa**, **pan**.', why: 'Son sustantivos: nombran el tema.' },
-            { text: 'En el libro de Ciencias busco "levadura" en el índice: está en la **L**, página 58.' },
-            { text: 'En internet, con mi papá, escribo: "levadura masa pan" y elijo el resultado de un museo de ciencias.' },
+            { text: 'Quito las palabras de relleno: ¿qué, se, usan, para, el.' },
+            { text: 'Me quedan las palabras que nombran: **métodos**, **potabilizar**, **agua**.', why: 'Nombran el proceso y el tema.' },
+            { text: 'En el libro de Ciencias busco "potabilización" en el índice.' },
+            { text: 'En internet, con una persona adulta, escribo "métodos potabilización agua" y elijo una fuente institucional.' },
           ],
-          answer: 'Palabras clave: **levadura, masa, pan**. Fuentes: libro (índice, pág. 58) y sitio de una institución educativa.',
-          tip: 'Si no aparece nada, cambia una palabra por un sinónimo: "fermentación" en lugar de "levadura".' },
+          answer: 'Palabras clave: **métodos, potabilización, agua**. Fuentes posibles: libro de Ciencias y sitio de una institución de salud.',
+          tip: 'Si no aparece nada, cambia una palabra por un sinónimo: "tratamiento" en lugar de "potabilización".' },
       ),
       S.highlight(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer',
           prompt: 'Toca las **palabras clave** de esta pregunta de investigación.',
-          hint: 'Busca las palabras que nombran el tema, las personas, el lugar y la acción principal (¿para qué usan los combustibles?). Deja fuera palabras de relleno como "qué", "usan", "las", "de", "mi", "para".',
-          explain: 'Combustibles, cocinar, familias y aldea nombran lo esencial. Con ellas puedes buscar en un índice o en internet.' },
-        { target: 'palabras clave', text: '¿Qué {combustibles} usan las {familias} de mi {aldea} para {cocinar}?' },
+          hint: 'Busca las palabras que nombran el tema, el lugar y la acción principal. Deja fuera palabras de relleno como "cómo", "el", "a" y "de".',
+          explain: 'Agua, tanque, escuela y llega nombran lo esencial de la pregunta.' },
+        { target: 'palabras clave', text: '¿Cómo {llega} el {agua} al {tanque} de la {escuela}?' },
       ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.3', 'l1:8.2.4'], ambito: 'conocer', title: 'La ficha de la fuente',
@@ -623,14 +640,14 @@ export default [
           { icon: 'BookOpen', front: 'Libro', back: 'Autor, título, año, editorial y **páginas** que usaste.' },
           { icon: 'Monitor', front: 'Sitio web o video', back: 'Institución o autor, título del artículo o video, nombre del sitio y **fecha en que lo consultaste**.' },
           { icon: 'Mic', front: 'Entrevista', back: 'Nombre de la persona, qué hace o por qué sabe del tema, y **fecha** de la entrevista.' },
-          { icon: 'PenLine', front: 'Qué me dio', back: 'Una línea con la información que te sirvió: "explica qué es el bagazo".' },
+          { icon: 'PenLine', front: 'Qué me dio', back: 'Una línea con la información que te sirvió: "explica qué es la potabilización".' },
         ] },
       ),
       S.fill(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.3'], ambito: 'hacer',
-          prompt: 'Completa la ficha de la **entrevista** que hizo Sofía.',
+          prompt: 'Completa la ficha de una **entrevista simulada** del caso de Sofía. No representa una consulta real.',
           explain: 'En una entrevista se registra quién es la persona, por qué sabe del tema, la fecha y qué información dio.' },
-        { text: 'Tipo de fuente: [[entrevista]]. Persona: don Rafael, [[conserje]] de la escuela desde hace 15 años. Fecha: 12 de marzo. Qué información me dio: el agua viene de un [[nacimiento]] en el cerro y llega por [[tubería]] hasta el tanque.',
+        { text: 'Tipo de fuente: [[entrevista]]. Personaje ficticio: don Rafael, [[conserje]] de la escuela del caso. Fecha del escenario: 12 de marzo. Afirmación por comprobar: el agua viene de un [[nacimiento]] y llega por [[tubería]] hasta el tanque.',
           distractors: ['enciclopedia', 'alcalde', 'volcán'] },
       ),
       S.sort(
@@ -659,19 +676,19 @@ export default [
           ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.3'], prompt: 'Pregunta: "¿Cómo se elabora la cerámica en Chinautla?". ¿Cuáles son las mejores **palabras clave**?' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.3'], prompt: 'Pregunta: "¿Cómo llega el agua al tanque de la escuela?". ¿Cuáles son las mejores **palabras clave**?' },
         { options: [
-          { id: 'a', text: 'cerámica, Chinautla, elaboración' },
-          { id: 'b', text: 'cómo, se, en' },
-          { id: 'c', text: 'cosas de barro bonitas' },
+          { id: 'a', text: 'agua, tanque, escuela, recorrido' },
+          { id: 'b', text: 'cómo, el, al, de' },
+          { id: 'c', text: 'cosas líquidas interesantes' },
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.3', 'l1:4.2.2'], prompt: 'Buscas "turbina" en el **índice alfabético** de un libro. ¿Entre qué palabras aparecerá?' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.3', 'l1:4.2.2'], prompt: 'Buscas "tubería" en el **índice alfabético** de un libro. ¿Entre qué palabras aparecerá?' },
         { options: [
-          { id: 'a', text: 'Entre "tubería" y "volcán"' },
-          { id: 'b', text: 'Entre "agua" y "bagazo"' },
-          { id: 'c', text: 'Entre "tubería" y "tierra"' },
+          { id: 'a', text: 'Entre "tratamiento" y "volumen"' },
+          { id: 'b', text: 'Entre "agua" y "caudal"' },
+          { id: 'c', text: 'Entre "volumen" y "zona"' },
         ], correct: ['a'] },
       ),
       S.reflect(

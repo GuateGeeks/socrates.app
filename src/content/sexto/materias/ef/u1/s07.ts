@@ -15,9 +15,7 @@ export default [
     minutes: 15,
     gancho: 'Imagina un partido donde nadie respeta las reglas y todos discuten cada decisión del árbitro. ¿Sería divertido jugarlo?',
     objetivos: [
-      'Explicar por qué las reglas y los árbitros hacen posible el juego',
-      'Reaccionar con respeto ante las decisiones de árbitros y jueces, aunque no estés de acuerdo',
-      'Tomar decisiones que benefician al equipo por encima del lucimiento personal',
+      'Aplicar juego limpio y decisiones cooperativas durante un reto de equipo',
     ],
     resumen: [
       'Las reglas hacen que el juego sea justo, seguro y posible: todos saben qué se vale y qué no.',
@@ -31,8 +29,13 @@ export default [
       brief: 'Video de 50 s de un partido escolar mixto de fútbol o balonmano, recreado con estudiantes (rostros no protagonistas). Cuatro momentos con rótulo: (1) "Pienso en el equipo": una niña ve a un compañero libre y le pasa en lugar de tirar desde lejos; él anota y lo celebran juntos. (2) "Ayudo al rival": un niño tiende la mano a un rival caído. (3) "Respeto al árbitro": la árbitra (estudiante con silbato) marca falta; el capitán pregunta tranquilo, ella explica y el juego sigue. (4) "Saludo final": los equipos forman fila y se dan la mano. Sin gestos agresivos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:4.1.8', 'ef:4.1.4'], title: 'Reglas para cooperar',
+          prompt: 'Las reglas, el arbitraje y la comunicación permiten un juego seguro. Cooperar implica pasar, incluir y resolver desacuerdos con calma.' },
+        { icon: 'UsersRound', body: 'Practicarás decisiones de equipo en un reto breve inspirado en transportar agua sin derramarla.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:4.1.8'], ambito: 'convivir',
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:4.1.8'], ambito: 'convivir',
           prompt: '¿Para qué sirven las **reglas** en un juego?',
           explain: 'Las reglas hacen que el juego sea **justo** (las mismas para todos), **seguro** (evitan golpes y lesiones) y **posible** (todos saben qué hacer). Sin reglas, cada quien jugaría a otra cosa.' },
         { options: [
@@ -151,9 +154,7 @@ export default [
     minutes: 15,
     gancho: 'Después de clases y los fines de semana tienes tiempo libre. ¿Cuánto de ese tiempo pasas moviéndote y jugando, y cuánto frente a una pantalla?',
     objetivos: [
-      'Explicar por qué la actividad física en el tiempo libre es buena para el cuerpo, la mente y la convivencia',
-      'Organizar una sesión de juego con calentamiento, juego principal y vuelta a la calma',
-      'Planificar actividades físicas para disfrutar con la familia o la comunidad, de forma segura e incluyente',
+      'Organizar una sesión recreativa breve, segura e incluyente',
     ],
     resumen: [
       'El ocio es el tiempo libre que usamos para descansar y disfrutar. Jugar, descansar y recrearse es un derecho de niñas y niños (Convención sobre los Derechos del Niño, artículo 31).',
@@ -167,8 +168,13 @@ export default [
       brief: 'Ilustración cálida, estilo cuento, de una tarde de sábado en una cancha comunitaria de tierra con montañas al fondo. Estaciones: salta cuerda con una abuela dando vuelta a la cuerda; pases de pelota en círculo con un niño en silla de ruedas; carrera de costales; niñas pequeñas jugando tenta. Un cartel de cartón: "Tarde activa: 1. Calentamiento 2. Juegos 3. Calma". Un garrafón de agua y un bote de basura. Diversidad de pueblos y edades sin estereotipos; ropa cotidiana.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:3.2.3'], title: 'Una sesión tiene estructura',
+          prompt: 'Calentamiento, juego principal, pausas de hidratación y vuelta a la calma cumplen funciones distintas.' },
+        { icon: 'Footprints', body: 'Una propuesta recreativa también adapta espacio, intensidad y reglas para que todas las personas participen.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:3.2.3'], ambito: 'ser',
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:3.2.3'], ambito: 'ser',
           prompt: '¿Cuánta actividad física recomienda la Organización Mundial de la Salud para niñas y niños de tu edad?',
           explain: 'Al menos **60 minutos al día**, en promedio, de actividad moderada a intensa (que te haga respirar más rápido). Pueden sumarse en varios ratos: caminar a la escuela, jugar en el recreo, un partido por la tarde.' },
         { options: [

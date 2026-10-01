@@ -13,29 +13,32 @@ export default [
     title: 'El producto cartesiano',
     icon: 'Grid3x3',
     minutes: 13,
-    gancho: 'En la refacción puedes elegir una bebida y un pan. ¿Cuántas refacciones distintas puedes armar?',
+    gancho: 'Si observas cada punto de agua en cada fecha del plan, ¿cuántos registros diferentes debes preparar?',
     objetivos: [
-      'Formar el producto cartesiano A × B de dos conjuntos con dos o tres elementos',
-      'Organizar los pares en una tabla o en un diagrama de árbol',
-      'Calcular cuántos pares tiene A × B',
+      'Formar productos cartesianos completos con pares ordenados',
     ],
     resumen: [
       'El producto cartesiano A × B es el conjunto de todos los pares ordenados (a, b): el primer elemento sale de A y el segundo de B.',
       'Una tabla de doble entrada o un diagrama de árbol ayudan a no olvidar ningún par.',
       'Número de pares de A × B = (elementos de A) × (elementos de B).',
-      'El orden importa: (azul, sol) está en A × B, pero (sol, azul) está en B × A.',
+      'El orden importa: (tanque, lunes) está en Puntos × Fechas, pero (lunes, tanque) está en Fechas × Puntos.',
     ],
     media: {
-      id: 's07-mat-1-refaccion', kind: 'image', title: 'Refacción para elegir', aspect: '4:3',
-      alt: 'Una mesa de refacción escolar con dos tipos de atol y tres tipos de pan; una niña señala una bebida y un pan.',
-      brief: 'Ilustración de una tienda escolar guatemalteca. A la izquierda, dos ollas rotuladas "atol de elote" y "atol de plátano". A la derecha, tres canastos: "pan dulce", "tamalito", "champurradas". Una niña de 11 años señala una olla y un canasto con cara de estar decidiendo. Arriba, líneas punteadas unen cada olla con cada canasto (6 líneas). Estilo plano, colores cálidos.',
+      id: 's07-mat-1-refaccion', kind: 'diagram', title: 'Puntos y fechas de observación', aspect: '4:3',
+      alt: 'Tabla que combina dos puntos de observación del agua con tres fechas y muestra seis registros posibles.',
+      brief: 'Diagrama de doble entrada. Filas con iconos descriptivos y rótulos "tanque" y "chorro"; columnas "lunes", "miércoles" y "viernes". Cada celda contiene el par ordenado correspondiente, para un total de seis. Incluir tubería y llave reconocibles; no usar círculos o cuadrados como sustitutos de objetos. Datos claramente rotulados "PLAN SIMULADO".',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.2.4'], title: 'Dos decisiones forman un par',
+          prompt: 'Observa dos listas: cada opción de la primera puede combinarse con cada opción de la segunda. El orden del par indica de cuál lista sale cada elemento.' },
+        { icon: 'ListTree', body: 'Hoy organizarás **todas** esas combinaciones sin repetir ni omitir pares.' },
+      ),
       S.number(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.2.4'], ambito: 'conocer',
-          prompt: 'Bebidas: {atol de elote, atol de plátano}. Panes: {pan dulce, tamalito, champurrada}. Si eliges **una bebida y un pan**, ¿cuántas refacciones distintas puedes armar?',
-          explain: 'Cada bebida se combina con cada uno de los 3 panes: 2 × 3 = **6** refacciones. Cada combinación es un **par ordenado** (bebida, pan).' },
-        { answer: 6, misconceptions: [{ value: 5, msg: 'Sumaste 2 + 3. Cada bebida se combina con los 3 panes: 3 + 3.' }] },
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.4'], ambito: 'conocer',
+          prompt: 'Puntos: {tanque, chorro}. Fechas: {lunes, miércoles, viernes}. Si se prepara un registro por cada combinación **(punto, fecha)**, ¿cuántos registros hay?',
+          explain: 'Cada uno de los 2 puntos se combina con las 3 fechas: 2 × 3 = **6** registros. Cada uno es un **par ordenado** (punto, fecha).' },
+        { answer: 6, misconceptions: [{ value: 5, msg: 'Sumaste 2 + 3. Cada punto se combina con las 3 fechas.' }] },
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.4'], ambito: 'conocer', title: '¿Qué es el producto cartesiano?',
@@ -48,44 +51,44 @@ export default [
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.4'], ambito: 'hacer', title: 'Ejemplo resuelto: el mural',
-          prompt: 'Para un mural, cada estudiante combina un color con un símbolo.',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.4'], ambito: 'hacer', title: 'Ejemplo resuelto: plan de observación',
+          prompt: 'Un plan simulado combina cada punto con cada momento del día.',
           media: { id: 's07-mat-1-tabla', kind: 'diagram', title: 'A × B en tabla y en árbol', aspect: '16:9',
-            alt: 'A la izquierda, una tabla con filas rojo y azul y columnas maíz, quetzal y sol; cada casilla tiene un par. A la derecha, un diagrama de árbol con las mismas 6 combinaciones.',
-            brief: 'Diagrama con dos partes. Izquierda: tabla de doble entrada; filas "rojo" y "azul" (con manchitas de color), columnas "maíz", "quetzal", "sol" (con dibujos sencillos); en cada casilla, el par escrito: (rojo, maíz), (rojo, quetzal), (rojo, sol), (azul, maíz), (azul, quetzal), (azul, sol). Derecha: diagrama de árbol; de "rojo" y de "azul" salen tres ramas cada uno hacia maíz, quetzal y sol. Abajo: "2 × 3 = 6 pares". Fondo blanco.' } },
-        { icon: 'Palette', problem: 'A = {rojo, azul} y B = {maíz, quetzal, sol}. Escribe **A × B**.',
+            alt: 'Tabla y árbol combinan tanque y chorro con mañana, mediodía y tarde para formar seis pares.',
+            brief: 'Diagrama con dos partes y rótulo "PLAN SIMULADO". Izquierda: tabla con filas "tanque" y "chorro", columnas "mañana", "mediodía", "tarde" y los seis pares escritos. Derecha: árbol con las mismas ramas. Usar iconos descriptivos de tanque, llave y reloj; no formas genéricas como objetos. Abajo: "2 × 3 = 6 pares".' } },
+        { icon: 'Table2', problem: 'A = {tanque, chorro} y B = {mañana, mediodía, tarde}. Escribe **A × B**.',
           steps: [
-            { text: 'Tomo el primer elemento de A, **rojo**, y lo combino con cada elemento de B: (rojo, maíz), (rojo, quetzal), (rojo, sol).' },
-            { text: 'Tomo el segundo, **azul**: (azul, maíz), (azul, quetzal), (azul, sol).', why: 'Así recorro A en orden y no olvido ningún par.' },
+            { text: 'Tomo el primer elemento de A, **tanque**, y lo combino con cada elemento de B: (tanque, mañana), (tanque, mediodía), (tanque, tarde).' },
+            { text: 'Tomo el segundo, **chorro**: (chorro, mañana), (chorro, mediodía), (chorro, tarde).', why: 'Así recorro A en orden y no olvido ningún par.' },
             { text: 'Cuento: 2 × 3 = **6** pares.' },
           ],
-          answer: 'A × B = {(rojo, maíz), (rojo, quetzal), (rojo, sol), (azul, maíz), (azul, quetzal), (azul, sol)}.',
+          answer: 'A × B = {(tanque, mañana), (tanque, mediodía), (tanque, tarde), (chorro, mañana), (chorro, mediodía), (chorro, tarde)}.',
           tip: 'Cada par empieza con un elemento de A, porque A se escribe primero en A × B.' },
       ),
       S.choice(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.4'], prompt: 'Con A = {rojo, azul} y B = {maíz, quetzal, sol}, ¿qué par **sí** pertenece a A × B?',
-          hint: 'En A × B, el primer lugar es para un color (de A) y el segundo para un símbolo (de B).',
-          explain: '(azul, sol): azul viene de A y sol de B, en ese orden.' },
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.4'], prompt: 'Con A = {tanque, chorro} y B = {mañana, mediodía, tarde}, ¿qué par **sí** pertenece a A × B?',
+          hint: 'En A × B, el primer lugar es para un punto (de A) y el segundo para un momento (de B).',
+          explain: '(chorro, tarde): chorro viene de A y tarde de B, en ese orden.' },
         { options: [
-          { id: 'a', text: '(sol, azul)', feedback: 'Está al revés: ese par pertenece a B × A.' },
-          { id: 'b', text: '(azul, sol)' },
-          { id: 'c', text: '(rojo, azul)', feedback: 'Azul no está en B.' },
+          { id: 'a', text: '(tarde, chorro)', feedback: 'Está al revés: ese par pertenece a B × A.' },
+          { id: 'b', text: '(chorro, tarde)' },
+          { id: 'c', text: '(tanque, chorro)', feedback: 'Chorro no está en B.' },
         ], correct: ['b'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.4'], ambito: 'conocer', title: 'A × B y B × A',
           prompt: '¿Es lo mismo A × B que B × A? Toca cada tarjeta.' },
         { icon: 'ArrowRightLeft', body: 'Tienen **la misma cantidad** de pares, pero **no los mismos** pares.', reveal: [
-          { icon: 'Grid3x3', front: 'A × B', back: '(rojo, maíz), (rojo, quetzal)… el color va primero.' },
-          { icon: 'Grid3x3', front: 'B × A', back: '(maíz, rojo), (quetzal, rojo)… el símbolo va primero.' },
+          { icon: 'Grid3x3', front: 'A × B', back: '(tanque, mañana), (tanque, mediodía)… el punto va primero.' },
+          { icon: 'Grid3x3', front: 'B × A', back: '(mañana, tanque), (mediodía, tanque)… el momento va primero.' },
           { icon: 'Calculator', front: 'La cantidad', back: 'A × B: 2 × 3 = 6. B × A: 3 × 2 = 6. Es igual, porque en la multiplicación el orden no cambia el producto.' },
         ] },
       ),
       S.number(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:3.2.4'],
-          prompt: 'Supongamos que la escuela quiere un ensayo de cada instrumento en cada día. C = {tambor, marimba, chirimía} y D = {lunes, miércoles, viernes}. ¿Cuántos pares tiene **C × D**?',
+          prompt: 'Un plan combina C = {tanque, pila, chorro} con D = {lunes, miércoles, viernes}. ¿Cuántos pares tiene **C × D**?',
           hint: 'Multiplica los elementos de C por los elementos de D.',
-          explain: '3 × 3 = 9 pares, desde (tambor, lunes) hasta (chirimía, viernes).' },
+          explain: '3 × 3 = 9 pares, desde (tanque, lunes) hasta (chorro, viernes).' },
         { answer: 9, misconceptions: [{ value: 6, msg: 'Sumaste 3 + 3. En el producto cartesiano se multiplica: 3 × 3.' }] },
       ),
       S.fill(
@@ -101,9 +104,9 @@ export default [
       ),
       S.number(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:3.2.4'],
-          prompt: 'Supongamos que una cooperativa de tejedoras hace camisas en **3 tallas** {pequeña, mediana, grande} y **4 colores** {rojo, azul, verde, morado}. ¿Cuántas camisas diferentes (talla, color) ofrece?',
-          explain: 'Es el producto cartesiano Tallas × Colores: 3 × 4 = 12 pares.' },
-        { answer: 12, misconceptions: [{ value: 7, msg: 'Sumaste 3 + 4. Cada talla se combina con los 4 colores.' }] },
+          prompt: 'Un caso simulado combina **3 puntos** {tanque, pila, chorro} con **4 fechas** {lunes, martes, miércoles, jueves}. ¿Cuántos registros (punto, fecha) requiere?',
+          explain: 'Es el producto cartesiano Puntos × Fechas: 3 × 4 = 12 pares.' },
+        { answer: 12, misconceptions: [{ value: 7, msg: 'Sumaste 3 + 4. Cada punto se combina con las 4 fechas.' }] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.4'], prompt: 'A = {p, q} y B = {1, 2, 3}. ¿Qué par **no** pertenece a A × B?' },
@@ -114,7 +117,7 @@ export default [
         ], correct: ['c'] },
       ),
       S.number(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.4'], prompt: 'A = {sol, luna, estrella} y B = {verde, amarillo}. ¿Cuántos pares tiene **B × A**?' },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.4'], prompt: 'A = {tanque, pila, chorro} y B = {mañana, tarde}. ¿Cuántos pares tiene **B × A**?' },
         { answer: 6 },
       ),
     ],
@@ -126,11 +129,9 @@ export default [
     title: 'Naturales, enteros y fraccionarios',
     icon: 'Hash',
     minutes: 14,
-    gancho: 'Con unos números cuentas elotes, con otros mides el frío de una helada y con otros repartes una pizza. ¿Son todos de la misma familia?',
+    gancho: 'Puedes contar 4 fuentes, registrar un cambio de −2 centímetros o analizar 3/4 de una muestra. ¿Son números de la misma familia?',
     objetivos: [
-      'Identificar los elementos de los conjuntos de números naturales, enteros y fraccionarios',
       'Clasificar un número en el conjunto más pequeño al que pertenece',
-      'Reconocer que los naturales están dentro de los enteros, y los enteros dentro de los fraccionarios',
     ],
     resumen: [
       'Naturales (N): los números para contar, 1, 2, 3, 4, … En esta lección no incluimos el 0 en N (algunos libros sí lo incluyen).',
@@ -139,19 +140,24 @@ export default [
       'Todo natural es entero y todo entero es fraccionario (5 = 5/1). Por eso N ⊂ Z ⊂ fraccionarios.',
     ],
     media: {
-      id: 's07-mat-2-familias', kind: 'image', title: 'Tres familias de números', aspect: '16:9',
-      alt: 'Tres escenas: una niña cuenta elotes, un termómetro marca 2 grados bajo cero y una familia reparte un pastel en cuartos.',
-      brief: 'Ilustración horizontal en tres escenas unidas: 1) una niña cuenta elotes en un canasto con los números 1, 2, 3 flotando; 2) un termómetro en una ventana con escarcha marca −2 °C; 3) una familia reparte un pastel en 4 partes iguales y aparece "1/4" junto a un trozo. Estilo plano, colores cálidos, poco texto.',
+      id: 's07-mat-2-familias', kind: 'diagram', title: 'Tres familias de números', aspect: '16:9',
+      alt: 'Tres registros simulados: cuatro puntos de agua, un cambio de menos dos centímetros y tres cuartos de una muestra.',
+      brief: 'Diagrama horizontal rotulado "DATOS SIMULADOS" con tres escenas: un mapa con cuatro puntos de agua reconocibles y el natural 4; una regla vertical junto a un tanque que muestra un cambio de −2 cm; y un recipiente graduado con 3/4 de una muestra. Etiquetas "natural", "entero" y "fraccionario". No usar formas genéricas como objetos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.3.1'], title: 'Familias numéricas',
+          prompt: 'Los números se agrupan por sus propiedades. Un número puede pertenecer a varias familias, pero podemos nombrar la más pequeña que lo contiene.' },
+        { icon: 'Boxes', body: 'Usaremos **N** para naturales, **Z** para enteros y fraccionarios para cocientes de enteros.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:3.3.1'], ambito: 'conocer',
-          prompt: '¿Qué número **no** sirve para contar cuántos elotes hay en un canasto?',
-          explain: 'No existen "−3 elotes" en un canasto. Para contar usamos 1, 2, 3, …: los **números naturales**. Los negativos pertenecen a otro conjunto más grande: los **enteros**.' },
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:3.3.1'], ambito: 'conocer',
+          prompt: '¿Qué número **no** sirve para contar cuántos puntos de agua aparecen en un mapa?',
+          explain: 'No puede haber −3 puntos dibujados en un mapa. Para contar usamos 1, 2, 3, …: los **números naturales**. Los negativos sirven para registrar cambios y pertenecen a los **enteros**.' },
         { options: [
-          { id: 'a', text: '12', feedback: 'Doce elotes sí se pueden contar.' },
+          { id: 'a', text: '12', feedback: 'Doce puntos sí se pueden contar.' },
           { id: 'b', text: '−3' },
-          { id: 'c', text: '1', feedback: 'Un elote sí se puede contar.' },
+          { id: 'c', text: '1', feedback: 'Un punto sí se puede contar.' },
         ], correct: ['b'] },
       ),
       S.explain(
@@ -265,10 +271,9 @@ export default [
     title: 'Leer y escribir números hasta 999,999,999',
     icon: 'Binary',
     minutes: 15,
-    gancho: 'Presupuestos de un país, habitantes de una región, kilómetros hasta la Luna… ¿Cómo se lee un número de nueve cifras sin enredarse?',
+    gancho: 'Un conjunto de datos puede registrar millones de litros. ¿Cómo se lee una cantidad de nueve cifras sin enredarse?',
     objetivos: [
-      'Leer cantidades de hasta nueve cifras usando las clases de unidades, millares y millones',
-      'Escribir con cifras cantidades dictadas en palabras, colocando bien los ceros',
+      'Representar cantidades de hasta nueve cifras entre palabras y cifras',
     ],
     resumen: [
       'Las cifras se agrupan de tres en tres, de derecha a izquierda: clase de las unidades, de los millares (mil) y de los millones. Cada grupo se separa con una coma: 245,380,017.',
@@ -282,9 +287,14 @@ export default [
       brief: 'Animación 2D de 40 s. Aparece el número 245380017 sin comas. De derecha a izquierda, las cifras se agrupan de tres en tres en cajas de colores: verde "unidades" (017), azul "millares" (380), naranja "millones" (245), y aparecen las comas. Una narradora lee cada caja mientras se ilumina: "doscientos cuarenta y cinco millones… trescientos ochenta mil… diecisiete". Al final, el texto completo en pantalla. Narración en español de Guatemala, subtítulos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.1', 'mat:4.1.3'], title: 'Tres cifras por clase',
+          prompt: 'Para leer o escribir un número grande, separa sus cifras en grupos de tres: millones, millares y unidades.' },
+        { icon: 'Binary', body: 'Cada clase conserva tres lugares, incluso cuando alguno vale cero.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.1'], ambito: 'conocer',
-          prompt: 'Supongamos que un país tiene **17,000,000** de habitantes. ¿Cómo se lee?',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.1'], ambito: 'conocer',
+          prompt: 'En un **escenario matemático**, varios depósitos suman **17,000,000** de litros. ¿Cómo se lee la cantidad?',
           explain: 'Se lee "diecisiete millones". El grupo de la izquierda (17) va seguido de la palabra **millones**. Hoy aprenderás a leer cualquier número de hasta nueve cifras.' },
         { options: [
           { id: 'a', text: 'Diecisiete mil', feedback: 'Diecisiete mil es 17,000: tiene tres ceros menos.' },
@@ -365,9 +375,9 @@ export default [
         ], correct: ['a'] },
       ),
       S.number(
-        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.1'], prompt: 'Supongamos que una municipalidad aprueba "**doce millones cuatrocientos mil** quetzales" para un mercado nuevo. Escribe la cantidad con cifras (sin comas).',
+        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.1'], prompt: 'En un **escenario matemático**, un sistema almacena "**doce millones cuatrocientos mil** litros". Escribe la cantidad con cifras (sin comas).',
           explain: '12 | 400 | 000 → 12,400,000.' },
-        { answer: 12400000, unit: 'Q', misconceptions: [{ value: 12400, msg: 'Falta la clase de los millones: doce millones… lleva seis cifras después del 12.' }] },
+        { answer: 12400000, unit: 'litros', misconceptions: [{ value: 12400, msg: 'Falta la clase de los millones: doce millones… lleva seis cifras después del 12.' }] },
       ),
       S.order(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.1'], prompt: 'Ordena de **menor a mayor**.',
@@ -405,27 +415,31 @@ export default [
     title: '¿Cuántas decenas, centenas o millares hay?',
     icon: 'Banknote',
     minutes: 14,
-    gancho: 'En el banco te cambian Q36,700 por billetes de Q100. ¿Cuántos billetes te dan?',
+    gancho: 'Un registro simulado reúne 36,700 litros en grupos de 100. ¿Cuántos grupos completos hay?',
     objetivos: [
-      'Reconocer el valor de cada cifra según su posición',
       'Determinar cuántas unidades, decenas, centenas, millares y millones completos hay en una cantidad',
     ],
     resumen: [
       'El valor de una cifra depende de su lugar: en 7,352,819 el 3 vale 300,000 (3 centenas de millar).',
       '"¿Qué cifra está en las decenas?" pide UNA cifra. "¿Cuántas decenas hay?" pide TODAS las decenas completas.',
       'Para saber cuántas decenas, centenas o millares completos hay, tapa las cifras a la derecha de ese lugar: lo que queda es la respuesta. En 5,280 hay 528 decenas, 52 centenas y 5 millares.',
-      'Es como cambiar dinero: Q36,700 alcanzan para 367 billetes de Q100.',
+      'Es como agrupar 36,700 litros en unidades de 100 litros: se forman 367 grupos.',
     ],
     media: {
-      id: 's07-mat-4-billetes', kind: 'image', title: 'Cambiar dinero en billetes', aspect: '4:3',
-      alt: 'Una ventanilla de banco donde una señora recibe fajos de billetes de 100 quetzales; en un pizarrón se ve la cantidad 36,700.',
-      brief: 'Ilustración de la ventanilla de un banco genérico guatemalteco (sin logotipos ni nombres reales). Una señora con su hija recibe fajos de billetes genéricos de color rojo con el número 100 (sin reproducir diseños reales de billetes). Un pizarrón detrás muestra "Q36,700 = 367 billetes de Q100", con las dos últimas cifras (00) tapadas por una mano dibujada. Estilo plano, colores suaves.',
+      id: 's07-mat-4-billetes', kind: 'diagram', title: 'Agrupar una cantidad de agua', aspect: '4:3',
+      alt: 'Diagrama de un registro simulado de 36,700 litros agrupado en 367 unidades de 100 litros.',
+      brief: 'Diagrama matemático rotulado "DATOS SIMULADOS". Mostrar un tanque de agua reconocible junto a "36,700 L" y una flecha hacia "367 grupos de 100 L". Debajo, el procedimiento 36,700 ÷ 100 = 367 con los dos ceros finales resaltados. No dibujar 367 recipientes ni usar formas genéricas como tanques.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.3'], title: 'Valor y cantidad no son lo mismo',
+          prompt: 'Una cifra tiene un valor por su posición; otra pregunta distinta es cuántos grupos completos de ese tamaño caben en toda la cantidad.' },
+        { icon: 'Table2', body: 'Para contar grupos completos, divide entre 10, 100, 1,000 o 1,000,000 y conserva la parte entera.' },
+      ),
       S.number(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.3'], ambito: 'conocer',
-          prompt: 'Supongamos que tienes **Q3,500** y los cambias por billetes de **Q100**. ¿Cuántos billetes recibes?',
-          explain: 'Q3,500 = 35 grupos de Q100: recibes **35** billetes. Tapa las dos últimas cifras (00) y lee lo que queda: 35. Hoy verás por qué funciona.' },
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.3'], ambito: 'conocer',
+          prompt: 'En un escenario simulado hay **3,500 litros** agrupados de **100 en 100**. ¿Cuántos grupos completos hay?',
+          explain: '3,500 = 35 grupos de 100. Tapa las dos últimas cifras (00) y lee lo que queda: 35. Hoy verás por qué funciona.' },
         { answer: 35, misconceptions: [{ value: 5, msg: 'El 5 es la cifra de las centenas, pero hay más centenas "escondidas" en los millares: 3 millares = 30 centenas.' }] },
       ),
       S.explain(
@@ -461,7 +475,7 @@ export default [
       S.ejemplo(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.3'], ambito: 'hacer', title: 'Ejemplo resuelto: una cantidad grande',
           prompt: 'Apliquemos el truco a una cantidad de millones.' },
-        { icon: 'Calculator', problem: 'Supongamos que un municipio recibe **Q4,528,000** para un parque. ¿Cuántos millares y cuántos millones completos hay?',
+        { icon: 'Calculator', problem: 'Un conjunto de **datos simulados** registra **4,528,000 litros**. ¿Cuántos millares y cuántos millones completos hay?',
           steps: [
             { text: 'Millares: tapo las tres cifras de la derecha (000). Quedan **4,528** millares.', why: '4,528 × 1,000 = 4,528,000.' },
             { text: 'Millones: tapo las seis cifras de la derecha (528,000). Queda **4** millones completos.' },
@@ -470,9 +484,9 @@ export default [
           answer: 'Hay 4,528 millares y 4 millones completos.' },
       ),
       S.number(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.3'], prompt: '¿Cuántas **centenas** completas hay en **36,700**? (Son los billetes de Q100 del inicio.)',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.3'], prompt: '¿Cuántas **centenas** completas hay en **36,700**? (Son los grupos de 100 del inicio.)',
           hint: 'Tapa las dos últimas cifras.',
-          explain: 'Tapo 00 y quedan 367 centenas: 367 billetes de Q100.' },
+          explain: 'Tapo 00 y quedan 367 centenas: 367 grupos de 100.' },
         { answer: 367, misconceptions: [
           { value: 7, msg: '7 es la cifra que está en las centenas. La pregunta es cuántas centenas hay en total.' },
           { value: 36, msg: 'Esos son los millares. Para centenas tapa solo dos cifras.' },
@@ -484,9 +498,9 @@ export default [
         { text: '3,406,250 = [[3]] millones + [[4]] centenas de millar + 0 decenas de millar + [[6]] millares + 2 centenas + [[5]] decenas + 0 unidades', distractors: ['0', '2', '40'] },
       ),
       S.number(
-        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.3'], prompt: 'Supongamos que una fábrica empaca **1,284,500** lápices en cajas de **100**. ¿Cuántas cajas llenas salen?',
-          explain: 'Cajas de 100 = centenas. Tapo las dos últimas cifras: 12,845 cajas.' },
-        { answer: 12845, misconceptions: [{ value: 128450, msg: 'Tapaste una sola cifra (eso da decenas). Para cajas de 100, tapa dos.' }] },
+        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.3'], prompt: 'Un escenario simulado agrupa **1,284,500 litros** en unidades de **100 litros**. ¿Cuántos grupos completos salen?',
+          explain: 'Grupos de 100 = centenas. Tapo las dos últimas cifras: 12,845 grupos.' },
+        { answer: 12845, misconceptions: [{ value: 128450, msg: 'Tapaste una sola cifra (eso da decenas). Para grupos de 100, tapa dos.' }] },
       ),
       S.choice(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.3'], prompt: '¿Cuántos **millones** completos hay en **845,000,000**?',
@@ -521,7 +535,6 @@ export default [
     gancho: 'Vivimos en el siglo XXI. En relojes, libros y placas aparecen letras que en realidad son números. ¿Cómo se leen?',
     objetivos: [
       'Leer y escribir números romanos hasta M (1,000)',
-      'Aplicar las reglas de suma, resta y repetición de los símbolos romanos',
     ],
     resumen: [
       'Siete símbolos: I = 1, V = 5, X = 10, L = 50, C = 100, D = 500, M = 1,000.',
@@ -535,8 +548,13 @@ export default [
       brief: 'Ilustración en collage: 1) un reloj de pared antiguo con números romanos del I al XII; 2) un libro abierto con el título "Capítulo XIV"; 3) un cartel escolar que dice "Siglo XXI"; 4) una placa conmemorativa genérica con el año escrito en romanos. Estilo plano, colores sobrios, letras claras y legibles.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.2'], title: 'Símbolos con reglas',
+          prompt: 'Los números romanos combinan siete símbolos. Un símbolo menor antes de uno mayor puede restar; después, suma.' },
+        { icon: 'Landmark', body: 'Leeremos cada bloque y luego aplicaremos las reglas para escribir cantidades nuevas.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.2'], ambito: 'conocer',
           prompt: 'En un reloj con números romanos, justo antes del **X** (diez) está el número 9. ¿Cómo crees que se escribe?',
           explain: 'Se escribe **IX**: una I antes de la X significa "uno menos que diez". Los romanos escribían números con letras y con reglas de suma y resta.' },
         { options: [

@@ -15,9 +15,7 @@ export default [
     minutes: 15,
     gancho: 'Una pared es completamente plana. Entonces, ¿cómo logran algunos murales que una mazorca parezca redonda y que un volcán se vea lejísimos?',
     objetivos: [
-      'Usar la luz, la sombra y el degradado para dar sensación de volumen',
-      'Distinguir la sombra propia de la sombra proyectada',
-      'Crear sensación de espacio y profundidad con el tamaño, la superposición y la posición',
+      'Representar volumen y profundidad en una escena del agua',
     ],
     resumen: [
       'Para dar volumen, primero se decide de dónde viene la luz. El lado que mira a la luz es claro; el lado contrario es oscuro (sombra propia).',
@@ -31,13 +29,18 @@ export default [
       brief: 'Animación 2D de 45 s en estilo de pintura escolar. (1) Círculo amarillo plano sobre una mesa. (2) Aparece un sol pequeño arriba a la izquierda con una flecha de luz. (3) Se pinta el brillo (casi blanco) del lado de la luz, luego el degradado a naranja oscuro del lado contrario: rótulos "luz", "degradado", "sombra propia". (4) En la mesa aparece una mancha oscura alargada hacia la derecha: rótulo "sombra proyectada". (5) Segunda parte: paisaje con tres volcanes; el lejano se vuelve pequeño y azulado, el cercano grande y verde intenso, y una casa tapa parte de un árbol: rótulos "tamaño", "color pálido a lo lejos", "superposición". Narración en español, subtítulos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.7'], title: 'Una gota puede verse plana o con volumen',
+          prompt: 'La dirección de la luz organiza zonas claras, sombra propia y sombra proyectada; tamaño y superposición sugieren profundidad.' },
+        { icon: 'Droplet', body: 'Aplicarás estos recursos a una escena informativa sobre el recorrido del agua.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'conocer',
-          prompt: 'Imagina dos círculos pintados en una pared: uno de un solo amarillo parejo y otro que pasa de amarillo claro a naranja oscuro. ¿Cuál parece una **naranja redonda**?',
+        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'conocer',
+          prompt: 'Imagina dos gotas pintadas en una pared: una de un solo azul parejo y otra que pasa de azul claro a azul oscuro. ¿Cuál parece tener **volumen**?',
           explain: 'El que tiene **degradado** de claro a oscuro. Nuestro ojo interpreta ese cambio como luz que llega a un objeto redondo. Es un "truco" que los pintores usan desde hace siglos.' },
         { options: [
-          { id: 'a', text: 'El de un solo amarillo parejo', icon: 'Circle', feedback: 'Un color parejo se ve plano, como una calcomanía.' },
-          { id: 'b', text: 'El que pasa de claro a oscuro', icon: 'Sunset' },
+          { id: 'a', text: 'La de un solo azul parejo', icon: 'Droplet', feedback: 'Un color parejo se ve plano, como una calcomanía.' },
+          { id: 'b', text: 'La que pasa de claro a oscuro', icon: 'Sunset' },
         ], correct: ['b'] },
       ),
       S.explain(
@@ -47,7 +50,7 @@ export default [
           { icon: 'Sparkles', front: 'Brillo', back: 'La parte que mira **directo a la luz**. Es la más clara; a veces casi blanca.' },
           { icon: 'Sunset', front: 'Degradado', back: 'El paso **gradual** de claro a oscuro sobre la forma. Hace que se vea redonda. Puedes lograrlo con presión, capas o marcas más juntas (como aprendiste).' },
           { icon: 'Moon', front: 'Sombra propia', back: 'La parte del objeto que **no recibe luz**, del lado contrario. Es la más oscura del objeto.' },
-          { icon: 'Square', front: 'Sombra proyectada', back: 'La mancha oscura que el objeto deja **sobre el suelo o la pared**, también del lado contrario a la luz. "Pega" el objeto al piso.' },
+          { icon: 'Contrast', front: 'Sombra proyectada', back: 'La mancha oscura que el objeto deja **sobre el suelo o la pared**, también del lado contrario a la luz. "Pega" el objeto al piso.' },
         ] },
       ),
       S.explain(
@@ -149,9 +152,7 @@ export default [
     minutes: 15,
     gancho: 'En un mural nada se mueve de verdad. Sin embargo, algunos parecen tener viento, danza y música. ¿Qué hicieron sus artistas?',
     objetivos: [
-      'Usar trazos diagonales, curvos y repetidos para dar sensación de movimiento',
-      'Organizar un mural colectivo con temática multicultural: tema, boceto y cuadrícula',
-      'Combinar volumen, movimiento y texturas con respeto por las culturas representadas',
+      'Diseñar una composición mural dinámica y respetuosa sobre el cuidado del agua',
     ],
     resumen: [
       'Las líneas transmiten sensaciones: horizontales = calma; verticales = firmeza; diagonales = acción; curvas y ondas = fluidez, danza, agua o viento.',
@@ -165,8 +166,13 @@ export default [
       brief: 'Lámina didáctica en 4 recuadros "antes → después", estilo mural escolar con colores planos y contorno negro: (1) línea horizontal → línea diagonal y curva con flechas; (2) barrilete quieto → barrilete con cola ondulada y líneas de viento repetidas; (3) tres pájaros alineados en horizontal → siete pájaros repetidos en diagonal ascendente, más pequeños a lo lejos; (4) una danzante con falda recta → misma figura con falda en curvas y listones ondulados. Rótulos: "diagonal", "curva", "repetición", "líneas de movimiento". Fondo claro. Evitar trajes de una comunidad concreta mal representados: vestimenta genérica y respetuosa.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.7'], title: 'Movimiento con intención',
+          prompt: 'Líneas curvas y diagonales, repetición y dirección visual pueden guiar la mirada por una historia del agua.' },
+        { icon: 'Paintbrush', body: 'El boceto colectivo necesita tema, recorrido visual y representaciones culturales verificadas, sin estereotipos.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'conocer',
+        { fase: 'construir', areas: ['art'], cnb: ['art:3.2.7'], ambito: 'conocer',
           prompt: 'Observa la lámina. ¿Qué barrilete parece estar **volando con el viento**?',
           explain: 'El que tiene la **cola ondulada** y **líneas de viento repetidas**. Las curvas y la repetición le dicen a nuestro ojo que algo se mueve.' },
         { options: [

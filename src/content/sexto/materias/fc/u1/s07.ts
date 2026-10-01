@@ -16,9 +16,7 @@ export default [
     minutes: 15,
     gancho: 'Dos equipos discuten por la cancha. La historia puede terminar de dos formas. ¿Cuál final deja a todos jugando la próxima semana?',
     objetivos: [
-      'Explicar la diferencia entre conflicto, violencia y paz',
-      'Comparar la cultura de paz y la cultura de violencia con cinco criterios',
-      'Resolver un conflicto con los cinco pasos del diálogo',
+      'Resolver desacuerdos comunitarios mediante diálogo y acuerdos verificables',
     ],
     resumen: [
       'Un conflicto es un desacuerdo: es normal. La violencia es una MANERA de responder al conflicto (dañando); la paz es otra manera (dialogando).',
@@ -32,8 +30,13 @@ export default [
       brief: 'Animación 2D de 55 s. Escena inicial: cancha de tierra de una aldea, dos equipos mixtos (niñas y niños) llegan a la misma hora. Pantalla dividida: FINAL A (tonos grises): gritos, empujones, la pelota se va al barranco, todos se van enojados; al día siguiente nadie se habla. FINAL B (colores vivos): una niña propone "hablemos", cada capitán explica, acuerdan jugar 20 minutos cada equipo y el último partido juntos; se ríen al final. Texto en pantalla: "El conflicto era el mismo. La respuesta fue distinta." Narración en español, subtítulos, sin golpes explícitos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:4.2.2'], title: 'Desacuerdo no significa violencia',
+          prompt: 'Dos grupos pueden necesitar el agua de maneras distintas. Una respuesta pacífica escucha necesidades, propone opciones y deja un acuerdo que puede revisarse.' },
+        { icon: 'MessagesSquare', body: 'El diálogo no obliga a pensar igual: permite decidir sin daño ni amenazas.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:4.2.2'], ambito: 'convivir',
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:4.2.2'], ambito: 'convivir',
           prompt: 'Los equipos de quinto y sexto llegan a la cancha a la misma hora. ¿Qué final crees que deja a todos jugando **la próxima semana**?',
           explain: 'El conflicto (dos equipos, una cancha) era el mismo. Lo que cambia el futuro es **cómo se responde**. Hoy compararás esas dos respuestas.' },
         { options: [
@@ -174,9 +177,7 @@ export default [
     minutes: 15,
     gancho: 'En tu desayuno puede haber tortilla, frijol, pan y café. ¿Sabías que vienen de continentes distintos?',
     objetivos: [
-      'Explicar qué es un intercambio cultural y dar ejemplos de la historia de Guatemala',
-      'Distinguir intercambios voluntarios de intercambios impuestos',
-      'Discutir con respeto y con argumentos qué nos dejaron esos encuentros',
+      'Argumentar con respeto sobre intercambios culturales voluntarios e impuestos',
     ],
     resumen: [
       'Un intercambio cultural ocurre cuando pueblos distintos comparten alimentos, palabras, técnicas, música o creencias.',
@@ -190,8 +191,13 @@ export default [
       brief: 'Ilustración cenital de una mesa de madera con mantel típico. Sobre ella: tortillas y frijoles (etiqueta "América"), chocolate (etiqueta "América"), pan de trigo (etiqueta "llegó de Europa"), taza de café (etiqueta "origen en África, llegó por Europa"), plátano (etiqueta "Asia/África"). Un pequeño globo terráqueo en la esquina con flechas punteadas de colores hacia la mesa. Estilo cálido, sin marcas comerciales.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:5.1.1', 'fc:4.2.2'], title: 'Intercambios con relaciones distintas',
+          prompt: 'Los encuentros culturales pueden incluir cooperación, mezcla, imposición o resistencia. Para valorarlos hay que mirar quién decidió, quién tuvo poder y qué huellas permanecen.' },
+        { icon: 'Scale', body: 'Una discusión respetuosa usa evidencia histórica y evita declarar una cultura superior a otra.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:5.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:5.1.1'], ambito: 'conocer',
           prompt: '¿Cuáles de estos alimentos se cultivaban en **América** antes de que llegaran los europeos? Marca todos los que creas.',
           explain: 'Maíz, frijol, cacao y aguacate son **americanos**. El **trigo** llegó con los españoles y el **café** tiene su origen en África. ¡Tu desayuno es un encuentro de culturas!' },
         { multiple: true, layout: 'grid', options: [

@@ -14,12 +14,10 @@ export default [
     minutes: 15,
     gancho: 'Si se tala el bosque de un cerro en tu municipio, ¿eso tiene algo que ver con lo que pasa en el resto del planeta?',
     objetivos: [
-      'Describir cuatro problemas ambientales mundiales: pérdida de bosques, pérdida de biodiversidad, desertificación y más desastres',
-      'Explicar por qué los desastres se llaman "naturales" pero dependen también de lo que hacemos',
-      'Proponer alternativas de solución en la familia, la comunidad, el país y el mundo',
+      'Diseñar una acción ambiental factible a partir de una cadena de causas y responsabilidades',
     ],
     resumen: [
-      'Cuatro problemas mundiales: se pierde cobertura vegetal (bosques), se pierde biodiversidad (especies), avanza la desertificación (tierras secas que se degradan) y aumentan la magnitud y frecuencia de los desastres.',
+      'Cuatro problemas mundiales relacionados: pérdida de cobertura vegetal, pérdida de biodiversidad, desertificación y cambios del riesgo que pueden agravar los impactos de algunos desastres.',
       'Un fenómeno natural (lluvia fuerte, huracán, sequía) se vuelve desastre cuando encuentra a una población vulnerable: laderas sin bosque, casas en zonas de riesgo, ríos llenos de basura.',
       'En Guatemala: tormentas como Stan (2005), Agatha (2010), Eta e Iota (2020) causaron deslaves e inundaciones; en el Corredor Seco del oriente las sequías afectan las cosechas.',
       'Los países se reúnen en cumbres ambientales (Estocolmo 1972, Río de Janeiro 1992, París 2015). Las soluciones van del nivel personal al mundial: reforestar, ahorrar agua y energía, reducir basura, proteger áreas naturales y cumplir acuerdos.',
@@ -30,8 +28,13 @@ export default [
       brief: 'Animación 2D de 50 s con tres escenas del mismo cerro sobre una aldea. (1) Cerro con bosque: las raíces sostienen el suelo y la lluvia se infiltra (flechas azules hacia abajo). (2) El bosque talado: la lluvia corre por encima arrastrando tierra; aparece la palabra "vulnerable"; llega una tormenta y un deslave se detiene cerca de las casas (sin personas heridas, sin dramatismo). (3) Jóvenes y adultos siembran árboles y hacen barreras vivas; el cerro reverdece. Texto final: "La amenaza es natural. El desastre también depende de nosotros." Narración en español, subtítulos.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:5.3.2', 'pyd:5.1.2'], title: 'Del problema a una acción posible',
+          prompt: 'Una acción ambiental útil responde a una causa identificada, señala responsables, recursos y una forma de comprobar el avance.' },
+        { icon: 'ClipboardCheck', body: 'Usaremos casos hipotéticos para distinguir acciones familiares, comunitarias y públicas.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:5.3.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.3.2'], ambito: 'conocer',
           prompt: '¿Crees que los problemas ambientales de tu comunidad tienen relación con los del resto del **mundo**?',
           explain: 'Sí: cada bosque talado en cualquier lugar suma a la pérdida mundial de bosques, y lo que pasa en el planeta (como el aumento de tormentas fuertes) llega a tu comunidad. Lo local y lo global están conectados.' },
         { options: [

@@ -14,9 +14,7 @@ export default [
     minutes: 14,
     gancho: 'Ayer a las 5 de la tarde se fue la luz en tu colonia. ¿Qué estaba haciendo cada persona de tu casa en ese momento?',
     objetivos: [
-      'Formar el pasado continuo: was / were + verbo con -ing',
-      'Escribir correctamente los verbos con -ing',
-      'Decir qué estaba pasando en un momento del pasado',
+      'Describir acciones en progreso durante un evento pasado con was o were',
     ],
     resumen: [
       'El pasado continuo dice lo que estaba pasando en un momento del pasado: It was raining. (Estaba lloviendo.)',
@@ -30,8 +28,13 @@ export default [
       brief: 'Ilustración nocturna de una familia guatemalteca (abuela, papá, mamá, niña y niño) sentada a la mesa con dos candelas encendidas. El foco del techo y el televisor están apagados; por la ventana se ve lluvia fuerte y un poste de luz apagado. En la mesa, un rompecabezas a medio armar y tazas de café. Colores cálidos de candela, sin texto.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:4.3.3'], title: 'Actions during a water event',
+          prompt: 'El pasado continuo cuenta una acción que estaba en progreso: **was / were + verb-ing**.' },
+        { icon: 'Clock3', body: '**They were checking the water when it started to rain.** La acción larga estaba ocurriendo cuando sucedió otra.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:4.3.3'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:4.3.3'], ambito: 'conocer',
           prompt: 'Mira la imagen de la lección. La niña cuenta: _"**It was raining** and the lights went out."_ ¿Qué significa **It was raining**?',
           explain: '**It was raining** = Estaba lloviendo. Describe algo que **estaba pasando** en ese momento del pasado. Hoy aprenderás a formar estas oraciones.' },
         { options: [
@@ -154,9 +157,7 @@ export default [
     minutes: 15,
     gancho: 'Ves una foto: la calle está mojada y hay charcos, pero ya salió el sol. Sin que nadie te lo diga, ¿qué pasó antes?',
     objetivos: [
-      'Buscar pistas en una ilustración para deducir lo que pasó antes',
-      'Describir lo que ocurrió antes con el pasado simple y el pasado continuo',
-      'Distinguir lo que pasa en la imagen (ahora) de lo que pasó antes',
+      'Inferir un evento pasado a partir de pistas visuales y describirlo en inglés',
     ],
     resumen: [
       'Método del detective: 1) mira las pistas, 2) piensa qué las causó, 3) dilo en pasado.',
@@ -170,8 +171,13 @@ export default [
       brief: 'Ilustración de una calle empedrada de un pueblo guatemalteco justo después de una tormenta: charcos grandes que reflejan el cielo, hojas y ramas pequeñas en el suelo, techos goteando, un arcoíris tenue y el sol saliendo entre nubes. En primer plano, un niño sonriente con las botas y el pantalón llenos de lodo sostiene una pelota de fútbol sucia. Un paraguas cerrado y mojado recostado en una puerta. Sin texto.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:4.3.3'], title: 'Clues, not certainty',
+          prompt: 'Una imagen muestra pistas. En inglés distinguimos lo visible ahora de una inferencia sobre lo ocurrido antes.' },
+        { icon: 'Search', body: '**The ground is wet** es observación. **It rained** es una inferencia apoyada por esa pista.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:4.3.3'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:4.3.3'], ambito: 'conocer',
           prompt: 'Mira la imagen de la lección: charcos, ramas en el suelo, techos goteando. **What happened before the picture?**',
           explain: 'Las pistas (charcos, ramas, techos mojados) indican que **it rained a lot** (llovió mucho). Eres un detective de imágenes: hoy aprenderás a contar en inglés lo que pasó antes.' },
         { options: [
