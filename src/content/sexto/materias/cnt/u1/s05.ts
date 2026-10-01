@@ -10,11 +10,11 @@ export default [
   /* ───────────────────────── 1. VIH y SIDA ───────────────────────── */
   lesson({
     id: 's05-cnt-1',
-    title: 'VIH y SIDA: conocer para prevenir y no discriminar',
+    title: 'VIH, lactancia y decisiones informadas',
     icon: 'Shield',
     minutes: 15,
     gancho: 'Muchas personas usan "VIH" y "SIDA" como si fueran lo mismo, y hay muchos mitos que lastiman a quienes viven con el virus. ¿Qué dice la ciencia?',
-    objetivos: ['Explicar la relación entre VIH, defensas y SIDA sin discriminación'],
+    objetivos: ['Evaluar información sobre el virus, la lactancia y el cuidado sin discriminación'],
     resumen: [
       'El sistema inmunológico son las defensas del cuerpo: glóbulos blancos que combaten microbios.',
       'El VIH (Virus de Inmunodeficiencia Humana) es el virus que ataca y debilita esas defensas. El SIDA (Síndrome de Inmunodeficiencia Adquirida) es la etapa avanzada de la infección, cuando las defensas están tan bajas que aparecen otras enfermedades.',
@@ -87,7 +87,7 @@ export default [
         ] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.5.1'], ambito: 'convivir', title: 'Cómo se transmite… y cómo no',
+        { fase: 'construir', areas: ['cnt', 'fc'], cnb: ['cnt:3.5.1', 'cnt:5.2.1'], ambito: 'convivir', title: 'Cómo se transmite… y cómo no',
           prompt: 'Conocer las formas **reales** de transmisión protege tu salud y evita la **discriminación**. Toca las tarjetas.',
           media: { id: 's05-cnt-1-transmision', kind: 'diagram', title: 'El VIH: cómo sí y cómo no se transmite', aspect: '16:9',
             alt: 'Infografía en dos columnas: a la izquierda, con marco naranja, tres íconos de las formas de transmisión (jeringa, protección en relaciones sexuales de adultos, madre embarazada con tratamiento); a la derecha, con marco verde, muchas escenas de convivencia que no transmiten el virus.',
@@ -95,7 +95,7 @@ export default [
         { icon: 'Droplet', body: 'El VIH vive en ciertos líquidos del cuerpo, sobre todo la **sangre**. Fuera del cuerpo sobrevive muy poco tiempo.', reveal: [
           { icon: 'Syringe', front: 'Por sangre', back: 'Al **compartir jeringas, agujas** u objetos con sangre, o por transfusiones de sangre que no fueron analizadas.' },
           { icon: 'HeartHandshake', front: 'Relaciones sexuales sin protección', back: 'Es una forma de transmisión entre personas adultas. Por eso la educación y la protección son importantes.' },
-          { icon: 'Baby', front: 'De madre a bebé', back: 'Durante el embarazo, el parto o la lactancia, **si no hay tratamiento**. Con tratamiento, el riesgo baja muchísimo.' },
+          { icon: 'Baby', front: 'Lactancia y cuidado', back: 'La leche materna aporta nutrientes y componentes inmunitarios. La recomendación general es lactancia exclusiva durante los primeros 6 meses; si la madre vive con VIH, necesita tratamiento y orientación clínica individual para reducir la transmisión y decidir una alimentación segura, sin culpa ni estigma.' },
           { icon: 'X', front: 'NO se transmite por…', back: 'Abrazos, dar la mano, besos en la mejilla, compartir platos o vasos, el baño, la piscina, el sudor, las lágrimas, la tos ni la **picadura de zancudos**.' },
         ] },
       ),
@@ -125,13 +125,13 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:3.5.1'], ambito: 'hacer',
-          prompt: '¿Cuál de estas medidas **sí** ayuda a prevenir la transmisión del VIH por sangre?',
-          explain: 'No compartir objetos que pueden tener sangre (jeringas, agujas, navajas de afeitar o cepillos de dientes) evita el contacto con sangre de otra persona.' },
+        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:3.5.1', 'cnt:5.2.1'], ambito: 'hacer',
+          prompt: 'Una madre que vive con VIH pregunta cómo alimentar a su bebé. ¿Qué respuesta reconoce el valor de la lactancia y el riesgo de transmisión sin imponer una decisión?',
+          explain: 'La leche materna aporta nutrición y defensas, pero el VIH requiere tratamiento y orientación clínica individual. La familia necesita una alternativa segura y viable, sin culpa ni estigma.' },
         { options: [
-          { id: 'a', text: 'No compartir jeringas, agujas ni navajas de afeitar', icon: 'Syringe' },
-          { id: 'b', text: 'No abrazar a personas con VIH', icon: 'X', feedback: 'Los abrazos no transmiten el VIH. Evitar el contacto solo discrimina.' },
-          { id: 'c', text: 'Usar repelente contra zancudos', icon: 'Bug', feedback: 'El repelente protege del dengue, pero los zancudos no transmiten el VIH.' },
+          { id: 'a', text: 'Buscar orientación clínica, mantener el tratamiento y acordar una alimentación infantil segura para su situación', icon: 'Stethoscope' },
+          { id: 'b', text: 'Suspender cualquier alimentación sin consultar porque toda lactancia transmite el virus', icon: 'X', feedback: 'El riesgo depende del tratamiento y la situación clínica; una afirmación absoluta puede causar daño.' },
+          { id: 'c', text: 'Ignorar el diagnóstico porque la leche materna siempre elimina cualquier riesgo', icon: 'ShieldAlert', feedback: 'La lactancia tiene beneficios, pero no elimina por sí sola el riesgo de transmisión del VIH.' },
         ], correct: ['a'] },
       ),
       S.choice(
@@ -144,11 +144,12 @@ export default [
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:3.5.1'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:3.5.1', 'cnt:5.2.1'], prompt: 'Evalúa afirmaciones sobre VIH, lactancia y cuidado sin discriminación.' },
         { statements: [
           { text: 'El VIH ataca las defensas del cuerpo.', answer: true },
           { text: 'Se puede saber si alguien tiene VIH solo con mirarlo.', answer: false, why: 'Solo una prueba de sangre lo dice; muchas personas con VIH se ven sanas.' },
           { text: 'Con tratamiento, una persona con VIH puede vivir muchos años sin llegar al SIDA.', answer: true },
+          { text: 'La leche materna aporta nutrientes y componentes inmunitarios, y una madre con VIH necesita orientación clínica y tratamiento para decidir una opción segura.', answer: true },
           { text: 'Compartir la refacción con una persona con VIH transmite el virus.', answer: false, why: 'El VIH no se transmite por compartir comida, platos ni vasos.' },
         ] },
       ),
@@ -298,11 +299,11 @@ export default [
   /* ───────────────────────── 3. Vida sana libre de drogas ───────────────────────── */
   lesson({
     id: 's05-cnt-3',
-    title: 'Una vida sana libre de drogas',
+    title: 'Un plan diario de protección',
     icon: 'Trophy',
     minutes: 15,
     gancho: 'Un partido de fútbol con amigos, ensayar con la marimba de la escuela, bailar en la feria del pueblo: ¿cómo pueden estas actividades protegerte de las drogas?',
-    objetivos: ['Aplicar factores de protección y respuestas asertivas ante el consumo de drogas'],
+    objetivos: ['Evaluar un plan diario que combine funciones nutritivas y protección ante las drogas'],
     resumen: [
       'Los factores de protección (familia que escucha, amistades sanas, deporte, metas, buena autoestima) reducen el riesgo de consumir drogas; los factores de riesgo (presión de grupo, tiempo libre sin actividades, falta de información) lo aumentan.',
       'El deporte y el juego liberan en el cerebro sustancias naturales de bienestar, reducen el estrés, fortalecen la autoestima y crean amistades sanas.',
@@ -356,9 +357,10 @@ export default [
         ] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['cnt', 'ef'], cnb: ['cnt:4.2.1'], ambito: 'ser', title: 'Por qué el deporte y el juego protegen',
-          prompt: 'Mira el video de la lección. El deporte, el juego, la convivencia y la recreación hacen más que divertirte. Toca las tarjetas.' },
-        { icon: 'Trophy', body: 'Estas actividades cuidan tu **cuerpo**, tu **mente** y tus **relaciones**.', reveal: [
+        { fase: 'construir', areas: ['cnt', 'ef'], cnb: ['cnt:4.2.1', 'cnt:5.1.1'], ambito: 'ser', title: 'Un plan combina varias protecciones',
+          prompt: 'Relaciona nutrientes, actividad, apoyo y decisiones asertivas dentro de un plan diario.' },
+        { icon: 'Trophy', body: 'Una práctica aislada no garantiza salud. Un plan posible combina alimentación variada, actividad, redes de apoyo e información confiable.', reveal: [
+          { icon: 'Utensils', front: 'Nutrientes y funciones', back: 'Los alimentos pueden aportar carbohidratos para energía; proteínas para construir y reparar tejidos; grasas como reserva; vitaminas y minerales para procesos del cuerpo; y agua para transporte y regulación de temperatura.' },
           { icon: 'Smile', front: 'Bienestar natural', back: 'Al hacer ejercicio, el cerebro libera **sustancias naturales de bienestar** (como las endorfinas): te sientes bien **sin necesidad de drogas**.' },
           { icon: 'Heart', front: 'Menos estrés', back: 'Correr, bailar o tocar música ayuda a **descargar** la tensión y la tristeza.' },
           { icon: 'Users', front: 'Amistades sanas', back: 'En un equipo, un grupo de danza o un club conoces personas con **metas parecidas** a las tuyas.' },
@@ -406,25 +408,27 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:4.2.1'], ambito: 'convivir', prompt: 'En una fiesta, un grupo te presiona para probar una sustancia. ¿Qué respuesta asertiva y qué factor de protección elegirías?' },
+        { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:4.2.1', 'cnt:5.1.1'], ambito: 'convivir', prompt: 'En una jornada larga, un grupo presiona a Rosa para probar una sustancia. ¿Qué opciones completan su plan de protección físico y social?' },
         { multiple: true, options: [
           { id: 'a', icon: 'Users', text: 'Ir para no quedar mal con el grupo', feedback: 'Ceder a la presión aumenta el riesgo.' },
-          { id: 'b', icon: 'Hand', text: 'Decir "no, gracias" y proponer otra celebración' },
-          { id: 'c', icon: 'MessageCircle', text: 'Avisar a una persona adulta de confianza' },
+          { id: 'b', icon: 'Hand', text: 'Decir "no, gracias", retirarse y pedir apoyo a una persona adulta de confianza' },
+          { id: 'c', icon: 'Salad', text: 'Elegir entre lo disponible agua segura y alimentos que aporten energía, construcción y regulación' },
         ], correct: ['b', 'c'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:4.2.1'], prompt: '¿Cuál de estas prácticas favorece una vida sana libre de drogas?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:4.2.1', 'cnt:5.1.1'], prompt: '¿Qué plan relaciona funciones nutritivas y factores de protección ante las drogas?' },
         { options: [
           { id: 'a', text: 'Pasar el tiempo libre solo y sin actividades' },
-          { id: 'b', text: 'Participar en un equipo deportivo o un grupo de música' },
+          { id: 'b', text: 'Combinar alimentos disponibles que aporten energía, construcción y regulación; participar en actividades con apoyo; y responder con un no claro' },
           { id: 'c', text: 'Hacer lo que el grupo diga para encajar' },
           { id: 'd', text: 'No hablar nunca de los problemas' },
         ], correct: ['b'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:4.2.1'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:4.2.1', 'cnt:5.1.1'], prompt: 'Comprueba funciones nutritivas y factores de protección en un plan diario.' },
         { statements: [
+          { text: 'Los carbohidratos pueden aportar energía y las proteínas ayudan a construir y reparar tejidos.', answer: true },
+          { text: 'Vitaminas, minerales y agua participan en procesos de regulación y transporte del cuerpo.', answer: true },
           { text: 'Al hacer ejercicio, el cerebro libera sustancias naturales que dan bienestar.', answer: true },
           { text: 'Decir "no, gracias" y retirarse es una forma asertiva de rechazar una droga.', answer: true },
           { text: 'La presión de grupo es un factor de protección.', answer: false, why: 'La presión de grupo es un factor de riesgo.' },

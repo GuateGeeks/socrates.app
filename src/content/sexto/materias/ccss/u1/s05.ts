@@ -268,16 +268,17 @@ export default [
   /* ───────────────────────── 3. Mesopotamia y Egipto ───────────────────────── */
   lesson({
     id: 's05-ccss-3',
-    title: 'Mesopotamia y Egipto: civilizaciones de ríos',
+    title: 'Condiciones que impulsan procesos históricos',
     icon: 'Sun',
     minutes: 15,
     gancho: 'Si hoy sabes que una hora tiene 60 minutos y que el año tiene 365 días, es gracias a pueblos que vivieron hace más de 5,000 años junto a unos ríos. ¿Cuáles?',
-    objetivos: ['Comparar Mesopotamia y Egipto mediante sus ríos, organización y aportes'],
+    objetivos: ['Comparar condiciones geográficas, económicas y tecnológicas que impulsaron civilizaciones y viajes'],
     resumen: [
       'Mesopotamia ("tierra entre ríos") se desarrolló entre los ríos Tigris y Éufrates, en el actual Irak. Egipto creció a lo largo del río Nilo, en el norte de África.',
       'Ambas controlaron el agua con canales y diques para regar sus cultivos de trigo y cebada. Las crecidas del Nilo dejaban cada año un limo fértil sobre los campos.',
       'Aportes de Mesopotamia: la escritura cuneiforme, la rueda, el arado, el sistema de base 60 (60 minutos, 60 segundos) y el Código de Hammurabi. Aportes de Egipto: calendario de 365 días, jeroglíficos y papiro, pirámides, avances en medicina y geometría.',
       'Eran gobiernos autoritarios: reyes y faraones concentraban el poder y se decían elegidos por los dioses. Un esquema ordena los aportes en políticos, económicos y culturales.',
+      'Siglos después, el Renacimiento, la imprenta, la expansión comercial y las innovaciones de navegación se combinaron para favorecer viajes europeos por el Atlántico y la llegada a América.',
     ],
     media: {
       id: 's05-ccss-3-mapa', kind: 'diagram', title: 'El Cercano Oriente antiguo', aspect: '4:3',
@@ -290,15 +291,14 @@ export default [
           prompt: 'Ubica las civilizaciones fluviales y relaciona el agua con su desarrollo.' },
         { icon: 'Landmark', body: 'Mesopotamia se desarrolló entre los ríos Tigris y Éufrates; Egipto, junto al Nilo. El riego favoreció la agricultura y también requirió organización colectiva.' },
       ),
-      S.choice(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.3.1'], ambito: 'conocer',
-          prompt: 'Mira el mapa: alrededor de los ríos hay franjas verdes y, más allá, **desierto**. ¿Por qué crees que las primeras grandes civilizaciones crecieron junto a ríos?',
-          explain: 'El río daba **agua para beber y regar**, **suelo fértil**, peces y un **camino** para los barcos. Sin el Nilo, Egipto sería casi todo desierto.' },
-        { options: [
-          { id: 'a', text: 'Porque el río daba agua para los cultivos, suelo fértil y un camino para transportarse', icon: 'Waves' },
-          { id: 'b', text: 'Porque en el desierto llueve mucho', icon: 'CloudRain', feedback: 'En el desierto casi no llueve: por eso el agua del río era tan valiosa.' },
-          { id: 'c', text: 'Porque los ríos protegían del frío', icon: 'Snowflake', feedback: 'Es una región calurosa. El valor del río estaba en el agua y el suelo fértil.' },
-        ], correct: ['a'] },
+      S.ejemplo(
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.4.4'], ambito: 'conocer', title: 'Factores combinados de los viajes europeos',
+          prompt: 'Relaciona ideas, información, comercio y navegación con los viajes europeos de los siglos XV y XVI.' },
+        { icon: 'Compass', problem: '¿Por qué aumentaron los viajes europeos por el Atlántico?', steps: [
+          { text: 'Ideas e información: el Renacimiento impulsó estudio y la imprenta difundió mapas y conocimientos.' },
+          { text: 'Economía: la expansión comercial motivó buscar rutas hacia Asia.' },
+          { text: 'Tecnología: brújula, astrolabio y carabela facilitaron viajes largos.' },
+        ], answer: 'Ningún factor actuó solo: juntos favorecieron el cruce del Atlántico y la llegada europea a América.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:6.3.1'], ambito: 'conocer', title: 'Mesopotamia: la tierra entre ríos',
@@ -364,31 +364,31 @@ export default [
           { id: 'q6', text: 'Escritura jeroglífica', bucket: 'cul' },
         ] },
       ),
-      S.choice(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.3.1'], ambito: 'conocer',
-          prompt: 'Si hoy miras un reloj y ves que una hora tiene **60 minutos**, ¿qué civilización antigua estás recordando sin saberlo?',
-          explain: 'El sistema de base 60 de **Mesopotamia** sigue vivo en la forma en que medimos el tiempo y los ángulos.' },
-        { options: [
-          { id: 'a', text: 'Mesopotamia' },
-          { id: 'b', text: 'Egipto', feedback: 'Egipto nos dejó el calendario de 365 días. Los 60 minutos vienen de Mesopotamia.' },
-          { id: 'c', text: 'Roma', feedback: 'Los romanos usaron otros números; la base 60 es de Mesopotamia.' },
-        ], correct: ['a'] },
+      S.sort(
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:6.4.4'], ambito: 'conocer',
+          prompt: 'Organiza factores que favorecieron los viajes europeos y una afirmación que los simplifica.' },
+        { buckets: [{ id: 'f', label: 'Factor histórico', icon: 'Compass', color: 'var(--area-ccss)' }, { id: 's', label: 'Simplificación', icon: 'TriangleAlert', color: 'var(--c-maiz-strong)' }], items: [
+          { id: 'a', text: 'Imprenta que difundió mapas y conocimientos', bucket: 'f' },
+          { id: 'b', text: 'Expansión comercial y búsqueda de rutas hacia Asia', bucket: 'f' },
+          { id: 'c', text: 'Brújula, astrolabio y carabela para navegar', bucket: 'f' },
+          { id: 'd', text: 'Una sola herramienta causó por sí misma la llegada a América', bucket: 's' },
+        ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.3.1'], prompt: 'Al comparar Egipto con otras civilizaciones fluviales, ¿por qué las crecidas del Nilo eran importantes para la agricultura egipcia?' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.4.4'], prompt: '¿Qué explicación combina condiciones económicas, tecnológicas y de ideas que favorecieron los viajes europeos y la llegada a América?' },
         { options: [
-          { id: 'a', text: 'Porque dejaban un limo fértil sobre los campos' },
-          { id: 'b', text: 'Porque destruían todos los cultivos cada año' },
-          { id: 'c', text: 'Porque llevaban arena del desierto a los campos' },
+          { id: 'a', text: 'Renacimiento e imprenta difundieron saberes; el comercio motivó nuevas rutas; brújula, astrolabio y carabela facilitaron navegar' },
+          { id: 'b', text: 'La carabela actuó sola, sin comercio ni conocimientos' },
+          { id: 'c', text: 'Los viajes ocurrieron porque dejaron de existir rutas comerciales' },
         ], correct: ['a'] },
       ),
       S.match(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.3.1', 'ccss:6.3.5'], prompt: 'Une cada civilización o aporte con su descripción.' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:6.3.1', 'ccss:6.3.5', 'ccss:6.4.4'], prompt: 'Une cada proceso o aporte con la condición histórica que le corresponde.' },
         { pairs: [
           { id: 'x1', left: 'Mesopotamia', right: 'Entre los ríos Tigris y Éufrates' },
           { id: 'x2', left: 'Egipto', right: 'A lo largo del río Nilo' },
-          { id: 'x3', left: 'Código de Hammurabi', right: 'Aporte político: leyes escritas' },
-          { id: 'x4', left: 'Canales de riego', right: 'Aporte económico: más cosechas' },
+          { id: 'x3', left: 'Imprenta y Renacimiento', right: 'Difusión de mapas, conocimientos e ideas de exploración' },
+          { id: 'x4', left: 'Expansión comercial y navegación', right: 'Motivación de nuevas rutas y medios para cruzar el Atlántico' },
         ] },
       ),
       cierre({ areas: ['ccss'], cnb: [] }, ['Elijo la herramienta adecuada para investigar', 'Explico cómo la agricultura cambió la vida humana', 'Organizo en un esquema los aportes de Mesopotamia y Egipto'],

@@ -1205,7 +1205,8 @@ function unsupportedProductCapabilityClaims(value: unknown): string[] {
     const record = item as Record<string, unknown>;
     if (record.type === 'project') {
       const text = normalizeFactText(JSON.stringify({ prompt: record.prompt, props: record.props }));
-      if (/\b(?:lienzo|canvas|editor|plantilla (?:digital|de la actividad)|sube|carga|adjunta|guarda aqui|escribe aqui)\b/.test(text)
+      if (/\b(?:lienzo|canvas|editor|plantilla (?:digital|de la actividad|preparada|impresa|de una pagina)|hoja de trabajo preparada|guarda aqui|escribe aqui)\b/.test(text)
+        || /\b(?:sube|carga|adjunta)\b.{0,40}\b(?:archivo|foto|imagen|documento)\b/.test(text)
         || /\bcaptura\b/.test(text.replace(/\bno captura\b/g, ''))) {
         failures.push(`${path}: project promete captura o editor`);
       }
@@ -1230,11 +1231,14 @@ test('Los contratos detectan reutilizacion directa dentro de payloads anidados',
   assert.equal(repeatsStructuredFact(bank, lesson), true);
 });
 
-test('Project no se presenta como editor, lienzo, plantilla o carga de archivos', () => {
+test('Project no se presenta como editor, lienzo, plantilla preparada o carga de archivos en Unidad 1', () => {
   assert.deepEqual(unsupportedProductCapabilityClaims({
     type: 'project', prompt: 'Dibuja en el lienzo y sube tu imagen.', props: { goal: 'Usar la plantilla digital.' },
   }), ['root: project promete captura o editor']);
-  assert.deepEqual(unsupportedProductCapabilityClaims(weekSeven), []);
+  assert.deepEqual(unsupportedProductCapabilityClaims({
+    type: 'project', prompt: 'Completa el canvas preparado de una pagina.', props: { goal: 'Entregar la ficha.' },
+  }), ['root: project promete captura o editor']);
+  assert.deepEqual(unsupportedProductCapabilityClaims(unitWeeks), []);
 });
 
 function quantifiedActionCount(value: unknown): number {
@@ -1354,26 +1358,6 @@ function organizesBlocEfforts(value: unknown): boolean {
   const effort = /(?:coordina|intercambio|monitoreo|informacion|acciones conjuntas|cooperacion regional)/.test(text);
   const schema = /(?:esquema|organiza|clasifica|bloque.{0,50}(?:miembros|subregion).{0,80}(?:esfuerzo|instrumento)|instrumento.{0,80}esfuerzo)/.test(text);
   return blocs >= 2 && concern && instrument && effort && schema;
-}
-
-function distinguishesHealthyEnvironment(value: unknown): boolean {
-  const text = normalizeFactText(JSON.stringify(value));
-  return /ambiente sano/.test(text) && /contaminad/.test(text)
-    && /(?:humo|basura|aguas residuales)/.test(text);
-}
-
-function relatesUrbanGrowthAndForestUse(value: unknown): boolean {
-  const text = normalizeFactText(JSON.stringify(value));
-  return /(?:crecimiento poblacional|poblacion)/.test(text)
-    && /(?:frontera urbana|vivienda|construir)/.test(text)
-    && /(?:eliminar|reemplazar|bosque|cobertura)/.test(text);
-}
-
-function qualifiesReforestationAndWater(value: unknown): boolean {
-  const text = normalizeFactText(JSON.stringify(value));
-  return /reforestar|reforestacion/.test(text)
-    && /(?:agua|hidric|infiltracion|erosion)/.test(text)
-    && /(?:puede|condicion|no garantiza)/.test(text);
 }
 
 function nestedGradedAssessments(values: unknown[]): Array<{ type: string; prompt?: string; areas: string[] }> {
@@ -2719,8 +2703,8 @@ test('Semana 5 preserva 27 lecciones, cobertura CNB y una idea central por lecci
   const expectedCnb = new Set([
     'mat:1.5.1', 'mat:1.5.2', 'mat:1.5.3', 'mat:2.1.1', 'mat:2.1.2',
     'l1:5.2.2', 'l1:7.1.2',
-    'cnt:3.5.1', 'cnt:4.1.1', 'cnt:4.2.1',
-    'ccss:5.1.4', 'ccss:5.3.1', 'ccss:6.2.1', 'ccss:6.3.1', 'ccss:6.3.5',
+    'cnt:3.5.1', 'cnt:4.1.1', 'cnt:4.2.1', 'cnt:5.1.1', 'cnt:5.2.1',
+    'ccss:5.1.4', 'ccss:5.3.1', 'ccss:6.2.1', 'ccss:6.3.1', 'ccss:6.3.5', 'ccss:6.4.4',
     'l2:1.2.2', 'l2:2.2.3', 'l2:2.2.5', 'l2:3.3.4', 'l3:2.2.3',
     'fc:3.2.1', 'fc:3.2.2', 'art:3.2.1',
     'ef:2.1.5', 'ef:2.1.9', 'ef:2.1.13', 'pyd:3.2.3', 'pyd:3.2.4',
@@ -3269,7 +3253,7 @@ test('Semana 6 preserva 27 lecciones, cobertura CNB y un resultado central por l
   }
   assert.deepEqual(actualCounts, expectedLessonCounts);
   const actualCnb = new Set(lessons.flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb)));
-  assert.deepEqual([...expectedCnb].filter((ref) => !actualCnb.has(ref)), [], 'Semana 6 omite referencias asignadas por plan.json');
+  assert.deepEqual(actualCnb, expectedCnb, 'Semana 6 debe usar exactamente las referencias asignadas por plan.json');
   assert.deepEqual(failures, []);
 });
 
@@ -3537,35 +3521,49 @@ test('Semana 6 usa estimulos auditivos especificos y honestamente registrados pa
   assert.deepEqual(failures, []);
 });
 
-test('CNT1 Semana 6 evidencia una sola relacion alimento nutriente funcion en toda la secuencia', () => {
-  const lesson = weekSix.lessons.find((item) => item.id === 's06-cnt-1');
-  assert.ok(lesson, 'Falta s06-cnt-1');
-  assert.equal((lesson.objetivos ?? []).length, 1);
-  assert.match(normalizeFactText((lesson.objetivos ?? []).join(' ')),
-    /relacionar alimentos cotidianos con sus nutrientes y funciones.{0,80}distinguiendo alimento de nutriente/);
-  const dimensions = (step: typeof lesson.steps[number]) => {
-    const text = normalizeFactText(JSON.stringify(step));
-    return {
-      distinction: /\balimento\w*.{0,100}\bnutriente\w*|\bnutriente\w*.{0,100}\balimento\w*/.test(text),
-      source: /tortilla|frijol|huevo|aguacate|papaya|guayaba|zanahoria|papa|arroz/.test(text),
-      function: /energia|constru|repar|procesos|transporta|regula|huesos|sangre/.test(text),
-    };
+function hasIndicatorAtStages(lesson: Lesson, ref: string, matcher: (value: unknown) => boolean): boolean {
+  const teaching = lesson.steps.filter((step) => INSTRUCTION_TYPES.has(step.type));
+  const application = lesson.steps.filter((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded && !step.hint);
+  const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded && !step.hint && !step.explain);
+  return teaching.some((step) => step.cnb.includes(ref) && matcher(step))
+    && application.some((step) => step.cnb.includes(ref) && matcher(step))
+    && exits.length >= 2
+    && exits.every((step) => step.cnb.includes(ref) && matcher(step));
+}
+
+test('CNT Semana 6 asigna un resultado coherente por leccion y evidencia cada indicador en tres etapas', () => {
+  const nutrition = (value: unknown) => {
+    const text = normalizeFactText(JSON.stringify(value));
+    return /habitos? nutricionales?|patron alimentario/.test(text)
+      && /variedad|agua segura|higiene|regularidad/.test(text)
+      && /decision|practica|mejorar|comparar|elegir/.test(text);
   };
-  const model = lesson.steps.find((step) => step.type === 'worked-example');
-  assert.ok(model, 'Falta modelo CNT1');
-  assert.deepEqual(dimensions(model), { distinction: true, source: true, function: true });
-  const guided = lesson.steps.filter((step) => step.fase === 'construir' && step.hint && step.explain);
-  assert.ok(guided.some((step) => step.type === 'sort') && guided.some((step) => step.type === 'match'));
-  const guidedEvidence = dimensions({ ...guided[0], props: guided.map((step) => step.props) });
-  assert.deepEqual(guidedEvidence, { distinction: true, source: true, function: true });
-  const transfer = lesson.steps.filter((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded);
-  assert.ok(transfer.length >= 2);
-  assert.ok(transfer.some((step) => step.type === 'sort') && transfer.some((step) => step.type === 'match'));
-  const transferEvidence = dimensions({ ...transfer[0], props: transfer.map((step) => step.props) });
-  assert.deepEqual(transferEvidence, { distinction: true, source: true, function: true });
-  const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
-  assert.equal(exits.length, 2);
-  assert.ok(exits.every((step) => Object.values(dimensions(step)).every(Boolean)), 'Una salida no evidencia el resultado integrado');
+  const environment = (value: unknown) => {
+    const text = normalizeFactText(JSON.stringify(value));
+    return /ambiente sano/.test(text) && /ambiente contaminado|contaminacion/.test(text)
+      && /agua|aire|suelo|residuos|humo/.test(text);
+  };
+  const landWater = (value: unknown) => {
+    const text = normalizeFactText(JSON.stringify(value));
+    const land = /crecimiento (?:poblacional|urbano)|frontera urbana/.test(text)
+      && /elimina|remocion|tala|perdida/.test(text) && /bosque/.test(text)
+      && /vivienda|uso (?:inadecuado|del suelo)/.test(text);
+    const water = /reforestacion|restaurar vegetacion/.test(text) && /agua|recurso hidrico/.test(text)
+      && /puede|segun|depende|no garantiza/.test(text);
+    return land && water;
+  };
+  assert.equal(landWater('Sembrar arboles garantiza agua y evita que un manantial se seque.'), false);
+
+  const lessons = ['s06-cnt-1', 's06-cnt-2', 's06-cnt-3'].map((id) => weekSix.lessons.find((lesson) => lesson.id === id));
+  assert.ok(lessons.every(Boolean));
+  assert.deepEqual(lessons.map((lesson) => new Set(lesson!.steps.flatMap((step) => step.cnb))), [
+    new Set(['cnt:5.3.1']), new Set(['cnt:6.1.1']), new Set(['cnt:6.2.1', 'cnt:6.3.1']),
+  ]);
+  assert.equal(hasIndicatorAtStages(lessons[0]!, 'cnt:5.3.1', nutrition), true);
+  assert.equal(hasIndicatorAtStages(lessons[1]!, 'cnt:6.1.1', environment), true);
+  assert.equal(hasIndicatorAtStages(lessons[2]!, 'cnt:6.2.1', landWater), true);
+  assert.equal(hasIndicatorAtStages(lessons[2]!, 'cnt:6.3.1', landWater), true);
+  assert.doesNotMatch(normalizeFactText(JSON.stringify(lessons[2])), /nutriente|refaccion|alimento|lactancia/);
 });
 
 test('L2-1 Semana 6 evalua reglas visuales de r y rr, no pronunciacion sin registro', () => {
@@ -3685,24 +3683,25 @@ test('L3 Semana 6 arma y prueba un mini barrilete reutilizable sin preparacion e
   assert.match(normalizeFactText(JSON.stringify(kitMedia)), /preparacion centralizada|preparado centralmente|commercial|comercial/);
 });
 
-test('PyD Semana 6 completa un solo canvas de proyecto dentro de quince minutos', () => {
+test('PyD Semana 6 completa un plan en papel sin prometer un canvas disponible en la actividad', () => {
   const lesson = weekSix.lessons.find((item) => item.id === 's06-pyd-1');
   assert.ok(lesson, 'Falta s06-pyd-1');
   assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 10, `PyD tiene ${lesson.steps.length} pasos`);
   const text = normalizeFactText(JSON.stringify(lesson));
-  assert.match(text, /canvas.{0,40}(?:preparado|impreso).{0,40}una pagina|(?:plantilla|canvas) de una pagina.{0,40}(?:preparad|impres)/);
+  assert.match(text, /papel|cuaderno|hoja/);
+  assert.doesNotMatch(text, /canvas|plantilla preparada|plantilla impresa/);
   assert.doesNotMatch(text, /stand|cartel para|demostracion|maqueta|explicacion de un minuto|practica tu explicacion|ensay/);
   assert.ok(!lesson.steps.some((step) => step.type === 'chart-builder'), 'El canvas no requiere una grafica preliminar');
-  const canvas = lesson.steps.find((step) => step.type === 'project');
-  assert.ok(canvas, 'Falta el canvas aplicado');
-  const canvasText = normalizeFactText(JSON.stringify(canvas));
-  for (const field of [/objetivo/, /actividad 1/, /actividad 2/, /responsable/, /fecha/, /presupuesto/]) assert.match(canvasText, field);
+  const plan = lesson.steps.find((step) => step.type === 'project');
+  assert.ok(plan, 'Falta el plan aplicado');
+  const planText = normalizeFactText(JSON.stringify(plan));
+  for (const field of [/objetivo/, /actividad 1/, /actividad 2/, /responsable/, /fecha/, /presupuesto/]) assert.match(planText, field);
   const label = lesson.steps.find((step) => step.type === 'short-answer'
     && /etiqueta|label/.test(normalizeFactText(`${step.title ?? ''} ${step.prompt}`)));
   assert.ok(label, 'Falta una etiqueta visual concisa');
   assert.ok(Number((label.props as { minWords?: number }).minWords ?? 99) <= 8, 'La etiqueta debe ser concisa');
   assert.match(text, /20 segundos|20 second|lista de cotejo|checklist/);
-  assert.ok(lesson.steps.findIndex((step) => step.type === 'project') <= 3, 'El canvas empieza demasiado tarde');
+  assert.ok(lesson.steps.findIndex((step) => step.type === 'project') <= 3, 'El plan empieza demasiado tarde');
 });
 
 test('PyD Semana 6 modela y evalua una mini feria con retroalimentacion y revision acotadas', () => {
@@ -3774,40 +3773,17 @@ test('Semana 6 usa lenguaje nutricional preciso, respetuoso y adaptable', () => 
   assert.doesNotMatch(text, /se consigue en (?:toda|cualquier) comunidad|todas las familias tienen/);
 });
 
-test('Semana 6 ensena funciones de micronutrientes sin prometer prevenir enfermedades', () => {
-  const scienceLessons = weekSix.lessons.filter((lesson) => lesson.area === 'cnt');
-  const scienceAssessments = [
-    ...weekSix.lessons.filter((lesson) => lesson.kind === 'reto').flatMap((lesson) => lesson.steps),
-    ...weekSixBank,
-  ].filter((step) => step.areas.includes('cnt'));
-  const text = normalizeFactText(JSON.stringify([...scienceLessons, ...scienceAssessments]));
-  assert.doesNotMatch(text, /para no enfermar|(?:evitar|prevenir) resfriados|vitaminas?.{0,80}(?:evitan?|previenen?|impiden?) (?:enfermedades?|resfriados?)/);
-  assert.match(text, /micronutrientes?|vitaminas? y minerales?.{0,120}(?:procesos|funcionamiento inmunitario|crecimiento|sangre|huesos|nervios)/);
-
-  const nutrientLesson = scienceLessons.find((lesson) => lesson.id === 's06-cnt-1');
-  assert.ok(nutrientLesson, 'Falta la leccion de nutrientes');
-  const scoredText = normalizeFactText(JSON.stringify(nutrientLesson.steps
-    .filter((step) => getActivity(step.type)?.graded)));
-  assert.match(scoredText, /funcionamiento normal del sistema inmunitario/);
-  assert.doesNotMatch(scoredText, /resfriados?|no enfermar/);
-});
-
-test('Semana 6 contextualiza la variedad escolar sin contradecir la lactancia exclusiva', () => {
-  const schoolAgeContent = [
-    ...weekSix.lessons.filter((lesson) => lesson.id === 's06-cnt-1' || lesson.id === 's06-cnt-3'),
-    ...weekSix.lessons.filter((lesson) => lesson.kind === 'taller' || lesson.kind === 'reto'),
-    ...weekSixBank,
-  ];
-  const schoolAgeText = normalizeFactText(JSON.stringify(schoolAgeContent));
-  assert.doesNotMatch(schoolAgeText, /ningun alimento (?:los )?tiene todos|un solo alimento tiene todos los nutrientes/);
-  assert.match(schoolAgeText, /(?:refaccion|menu|combinacion).{0,160}(?:ayuda|puede).{0,80}(?:cubrir|reunir).{0,80}(?:funciones|necesidades|nutrientes)/);
-  assert.match(schoolAgeText, /ningun (?:ingrediente|alimento) de (?:una|la) refaccion.{0,120}(?:por si solo|solo).{0,120}(?:todo|todas las necesidades)/);
-
-  const lactation = weekSix.lessons.find((lesson) => lesson.id === 's06-cnt-2');
-  assert.ok(lactation, 'Falta la leccion de lactancia');
-  const lactationText = normalizeFactText(JSON.stringify(lactation));
-  assert.match(lactationText, /lactancia materna exclusiva.{0,80}primeros 6 meses/);
-  assert.match(lactationText, /desde los 6 meses.{0,120}alimentos complementarios/);
+test('Semana 6 conserva cohesion nutricional entre CNT1 y el producto del taller', () => {
+  const nutrition = weekSix.lessons.find((lesson) => lesson.id === 's06-cnt-1');
+  const workshop = weekSix.lessons.find((lesson) => lesson.kind === 'taller');
+  assert.ok(nutrition && workshop);
+  const lessonText = normalizeFactText(JSON.stringify(nutrition));
+  const workshopText = normalizeFactText(JSON.stringify(workshop));
+  for (const criterion of [/variedad/, /agua segura/, /higiene/, /restriccion|alergia|intolerancia/]) {
+    assert.match(lessonText, criterion);
+    assert.match(workshopText, criterion);
+  }
+  assert.doesNotMatch(workshopText, /garantiza la salud|cura|evita todas las enfermedades/);
 });
 
 test('Semana 6 construye los cuatro componentes del producto con prerrequisitos y tiempo realistas', () => {
@@ -3841,12 +3817,14 @@ test('Semana 6 construye los cuatro componentes del producto con prerrequisitos 
   assert.match(text, /precios? (?:del escenario|ilustrativos?|supuestos?)/);
   assert.match(text, /cantidad.{0,30}precio.{0,40}subtotal|subtotal.{0,40}total/);
   assert.match(text, /revision|revisa|verifica|comprueba/);
-  assert.match(text, /plantilla (?:preparada|impresa) de una pagina|plantilla de una pagina (?:preparada|impresa)/);
-  assert.doesNotMatch(text, /dividan la ficha|dibujen la plantilla|rotulen (?:la|las|cuatro)/);
+  assert.match(text, /papel|cuaderno|hoja/);
+  assert.doesNotMatch(text, /plantilla (?:preparada|impresa)|canvas|editor|sube|carga|adjunta/);
   assert.equal(workshop.steps.at(-1)?.type, 'reflection');
   const projects = workshop.steps.filter((step) => step.type === 'project');
   assert.ok(projects.length >= 3, 'El producto debe construirse y revisarse en pasos de proyecto');
   assert.ok(workshop.steps.findIndex((step) => step.type === 'project') <= 1, 'El taller debe empezar a producir tras el encargo');
+  assert.ok(workshop.steps.some((step) => step.type === 'short-answer'), 'El taller necesita evidencia textual guardada');
+  assert.deepEqual(unsupportedProductCapabilityClaims(workshop), []);
 });
 
 test('El taller de Semana 6 limita escritura, calculos, campos y revision entre pares', () => {
@@ -3903,7 +3881,7 @@ test('El taller relaciona menu, conjuntos y presupuesto por cobertura, no por ig
   const workshop = weekSix.lessons.find((lesson) => lesson.kind === 'taller');
   assert.ok(workshop, 'Semana 6 sin taller');
   const menu = workshop.steps.find((step) => step.type === 'project'
-    && /menu/.test(normalizeFactText(`${step.title ?? ''} ${step.prompt}`)));
+    && /\bM\s*=/.test(JSON.stringify(step)));
   const sets = workshop.steps.find((step) => step.areas.includes('mat')
     && /l .* p|interseccion|l ∩ p/.test(normalizeFactText(step.prompt)));
   const budget = workshop.steps.find((step) => step.type === 'number-input'
@@ -3969,15 +3947,17 @@ test('El reto CCSS de Semana 6 evalua una relacion historica ensenada, no aritme
   assert.ok(challenge, 'Semana 6 sin reto');
   const item = challenge.steps.find((step) => step.areas[0] === 'ccss');
   assert.ok(item, 'Reto sin CCSS');
-  assert.equal(item.type, 'choice');
-  assert.ok(item.cnb.includes('ccss:6.5.1'));
+  assert.equal(item.type, 'sort');
+  assert.deepEqual(new Set(item.cnb), new Set(['ccss:6.7.1', 'ccss:6.7.4']));
   const prompt = normalizeFactText(item.prompt);
-  assert.match(prompt, /causa|consecuencia|relacion/);
+  assert.match(prompt, /argentina/);
+  assert.match(prompt, /gobierno constitucional civil/);
   assert.doesNotMatch(prompt, /cuantos anos|resta|diferencia entre fechas/);
-  const props = item.props as { options?: Array<{ id: string; text: string }>; correct?: string[] };
-  assert.equal(props.correct?.length, 1);
-  assert.ok((props.options?.length ?? 0) >= 3);
-  assert.equal(new Set(props.options?.map((option) => normalizeFactText(option.text))).size, props.options?.length);
+  const payload = normalizeFactText(JSON.stringify(item.props));
+  assert.match(payload, /avance de apertura democratica/);
+  assert.match(payload, /condicion socioeconomica persistente/);
+  assert.match(payload, /autoridades civiles elegidas/);
+  assert.match(payload, /inflacion/);
 });
 
 test('El banco L3 de Semana 6 da una secuencia completa con un solo conector valido', () => {
@@ -4262,21 +4242,13 @@ test('CCSS2 practica cultura de paz juvenil y CCSS3 realiza un microservicio dur
   assert.match(serviceText, /queda guardad|respuesta guardada/);
 });
 
-test('Semana 6 ensena y evalua factores diversos de la llegada europea', () => {
-  const identifiesArrivalFactors = (value: unknown) => {
+test('CCSS Semana 6 organiza los tres resultados planificados y evidencia cada indicador en tres etapas', () => {
+  const coldWarCivilSociety = (value: unknown) => {
     const text = normalizeFactText(JSON.stringify(value));
-    const factors = [/renacimiento/, /imprenta/, /expansion comercial|rutas? comerciales?/, /brujula|astrolabio|carabela|innovaciones? de navegacion/];
-    return factors.filter((pattern) => pattern.test(text)).length >= 3 && /viajes?|llegada europea|cruzar el atlantico/.test(text);
+    return /guerra fria/.test(text) && /conflicto armado interno/.test(text)
+      && /sociedad civil|poblacion civil|comunidades|habitantes/.test(text)
+      && /impacto|afecto|desplaz|violencia|organizacion|derechos/.test(text);
   };
-  assert.equal(identifiesArrivalFactors('La carabela ayudo a viajar.'), false);
-  const lessons = weekSix.lessons.filter((lesson) => lesson.area === 'ccss');
-  const teaching = lessons.flatMap((lesson) => lesson.steps.filter((step) => INSTRUCTION_TYPES.has(step.type)));
-  const scored = lessons.flatMap((lesson) => lesson.steps.filter((step) => getActivity(step.type)?.graded));
-  assert.ok(teaching.some(identifiesArrivalFactors), 'Falta ensenar el conjunto de factores de la llegada europea');
-  assert.ok(scored.some((step) => step.cnb.includes('ccss:6.4.4') && identifiesArrivalFactors(step)), 'Falta evaluar semanticamente ccss:6.4.4');
-});
-
-test('Semana 6 ensena y evalua las referencias continentales asignadas por plan.json', () => {
   const schoolSubstitution = {
     prompt: 'Una asamblea escolar abre participacion para cambiar el horario de una pila.',
     props: { options: [{ text: 'Escuchar al grupo que llega tarde es un avance democratico.' }] },
@@ -4288,50 +4260,22 @@ test('Semana 6 ensena y evalua las referencias continentales asignadas por plan.
   assert.equal(teachesPoliticalConditions(schoolSubstitution), false);
   assert.equal(teachesDemocraticOpening(schoolSubstitution), false);
   assert.equal(organizesBlocEfforts(blocNameMatch), false);
+  assert.equal(coldWarCivilSociety('La Guerra Fria ocurrio antes del conflicto armado interno.'), false);
 
   const ccss1 = weekSix.lessons.find((item) => item.id === 's06-ccss-1');
   const ccss2 = weekSix.lessons.find((item) => item.id === 's06-ccss-2');
   const ccss3 = weekSix.lessons.find((item) => item.id === 's06-ccss-3');
   assert.ok(ccss1 && ccss2 && ccss3, 'Faltan lecciones CCSS de Semana 6');
-  const ccss2Teaching = ccss2.steps.filter((step) => step.fase === 'explorar' || step.fase === 'construir');
-  const ccss2Application = ccss2.steps.filter((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded);
-  const ccss2Exits = ccss2.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
-  assert.equal(teachesPoliticalConditions(ccss2Teaching), true, 'CCSS2 no ensena proceso politico -> condiciones');
-  assert.ok(ccss2Application.some(teachesPoliticalConditions),
-    'CCSS2 no aplica la relacion politica y condiciones en contexto continental');
-  assert.ok(ccss2Exits.some(teachesPoliticalConditions), 'CCSS2 no comprueba condiciones economicas/sociales');
-
-  const ccss3Teaching = ccss3.steps.filter((step) => step.fase === 'explorar' || step.fase === 'construir');
-  const ccss3Application = ccss3.steps.filter((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded);
-  const ccss3Exits = ccss3.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
-  assert.equal(teachesDemocraticOpening(ccss3Teaching), true, 'CCSS3 no ensena apertura democratica latinoamericana');
-  assert.ok(ccss3Application.some(teachesDemocraticOpening), 'CCSS3 no aplica apertura democratica');
-  assert.ok(ccss3Exits.some(teachesDemocraticOpening), 'CCSS3 no comprueba apertura democratica');
-
-  const ccss1Teaching = ccss1.steps.filter((step) => step.fase === 'explorar' || step.fase === 'construir');
-  const ccss1Application = ccss1.steps.filter((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded);
-  const ccss1Exits = ccss1.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
-  assert.equal(organizesBlocEfforts(ccss1Teaching), true, 'CCSS1 no ensena esfuerzos concretos de dos bloques');
-  assert.ok(ccss1Application.some(organizesBlocEfforts), 'CCSS1 no aplica un esquema de esfuerzos regionales');
-  assert.ok(ccss1Exits.some(organizesBlocEfforts), 'CCSS1 no comprueba el esquema de esfuerzos regionales');
-});
-
-test('Semana 6 ensena y evalua las tres relaciones ambientales asignadas por plan.json', () => {
-  assert.equal(distinguishesHealthyEnvironment('Un comedor limpio es bonito.'), false);
-  assert.equal(relatesUrbanGrowthAndForestUse('Hay más casas en una ciudad.'), false);
-  assert.equal(qualifiesReforestationAndWater('Sembrar árboles garantiza agua.'), false);
-  const science = weekSix.lessons.filter((lesson) => lesson.area === 'cnt');
-  const teaching = science.flatMap((lesson) => lesson.steps.filter((step) => INSTRUCTION_TYPES.has(step.type)));
-  const scored = science.flatMap((lesson) => lesson.steps.filter((step) => getActivity(step.type)?.graded));
-  assert.ok(teaching.some(distinguishesHealthyEnvironment), 'Falta enseñar ambiente sano y contaminado');
-  assert.ok(scored.some((step) => step.cnb.includes('cnt:6.1.1') && distinguishesHealthyEnvironment(step)),
-    'cnt:6.1.1 no tiene evidencia evaluada');
-  assert.ok(teaching.some(relatesUrbanGrowthAndForestUse), 'Falta enseñar crecimiento, frontera urbana y bosque');
-  assert.ok(scored.some((step) => step.cnb.includes('cnt:6.2.1') && relatesUrbanGrowthAndForestUse(step)),
-    'cnt:6.2.1 no tiene evidencia evaluada');
-  assert.ok(teaching.some(qualifiesReforestationAndWater), 'Falta enseñar reforestación y protección hídrica con límites');
-  assert.ok(scored.some((step) => step.cnb.includes('cnt:6.3.1') && qualifiesReforestationAndWater(step)),
-    'cnt:6.3.1 no tiene evidencia evaluada');
+  assert.deepEqual([ccss1, ccss2, ccss3].map((lesson) => new Set(lesson.steps.flatMap((step) => step.cnb))), [
+    new Set(['ccss:6.5.5', 'ccss:6.5.6']),
+    new Set(['ccss:6.7.1', 'ccss:6.7.4']),
+    new Set(['ccss:6.6.6']),
+  ]);
+  assert.equal(hasIndicatorAtStages(ccss1, 'ccss:6.5.5', coldWarCivilSociety), true);
+  assert.equal(hasIndicatorAtStages(ccss1, 'ccss:6.5.6', coldWarCivilSociety), true);
+  assert.equal(hasIndicatorAtStages(ccss2, 'ccss:6.7.1', teachesPoliticalConditions), true);
+  assert.equal(hasIndicatorAtStages(ccss2, 'ccss:6.7.4', teachesDemocraticOpening), true);
+  assert.equal(hasIndicatorAtStages(ccss3, 'ccss:6.6.6', organizesBlocEfforts), true);
 });
 
 test('Los mocks de Semana 7 tienen especificacion de formato, produccion y accesibilidad', () => {

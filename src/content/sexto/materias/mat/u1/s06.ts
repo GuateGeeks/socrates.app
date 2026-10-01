@@ -651,14 +651,6 @@ export default [
           explain: 'Un conjunto de 2 elementos tiene 4 subconjuntos: ∅, {Carla}, {Dany} y {Carla, Dany}.' },
         { answer: 4, misconceptions: [{ value: 2, msg: 'Olvidaste el vacío y el conjunto completo: ∅, {Carla}, {Dany}, {Carla, Dany}.' }] },
       ),
-      S.tf(
-        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.5.2', 'mat:1.5.3'], prompt: 'Repaso de la semana pasada. ¿Verdadero o falso?' },
-        { statements: [
-          { text: '−3 es mayor que −8.', answer: true },
-          { text: 'El punto (−2, 5) está en el cuadrante IV.', answer: false, why: 'x negativa y y positiva: cuadrante II.' },
-          { text: 'Entre −4 y 3 hay 7 espacios en la recta numérica.', answer: true },
-        ] },
-      ),
       S.choice(
         { fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.2'], prompt: 'Resuelve la operación combinada de conjuntos: P = {a, b, c, d}, Q = {c, d, e} y R = {d, e, f}. ¿Cuál es **(P ∩ Q) ∪ R**?' },
         { options: [

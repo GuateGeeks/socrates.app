@@ -81,7 +81,7 @@ export default [
         ] },
       ),
       S.reading(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6', 'l1:4.2.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'conocer',
           prompt: 'Lee este texto expositivo. Además de entenderlo, fíjate en sus oraciones: casi todas son **bimembres**.' },
         { genre: 'Texto expositivo', heading: 'La ceiba: raíces que sostienen', passage:
           'La ceiba es el árbol nacional de Guatemala. Crece en las tierras cálidas del país y puede superar los cuarenta metros de altura. Su tronco es grueso y recto, y sus ramas se abren arriba como una sombrilla.\n\n' +
@@ -338,7 +338,7 @@ export default [
         ] },
       ),
       S.fill(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:7.2.6', 'l1:7.1.2'], ambito: 'hacer',
+        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:7.2.6'], ambito: 'hacer',
           prompt: 'Completa cada oración con el **verbo** que concuerda con su sujeto.',
           explain: 'Los pinos (plural) → crecen. La raíz (singular) → absorbe. Mis abuelos (plural) → cuentan. El río (singular) → baja.' },
         { text: 'Los pinos [[crecen]] en la montaña. La raíz [[absorbe]] el agua del suelo. Mis abuelos [[cuentan]] historias por la noche. El río [[baja]] crecido en invierno.',
