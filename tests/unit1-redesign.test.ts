@@ -315,6 +315,60 @@ test('La comparación estructurada permite el mismo objeto cuando evalúa concep
   assert.equal(repeatsStructuredFact(serviceSign, prohibitionSign), false);
 });
 
+test('La comparación estructurada detecta reutilización desde un pulse-lab hacia otro tipo', () => {
+  const pulseLab = {
+    type: 'pulse-lab',
+    prompt: '¡Tu secuencia! **Calentamiento:** muévete por el espacio en trayectoria recta, curva y zigzag, cambiando de nivel cuando alguien diga “bajo”, “medio” o “alto”. **Parte principal:** crea una secuencia de 4 partes de 8 tiempos sobre “La milpa crece”. Usa al menos 2 niveles, 2 trayectorias y cambios de velocidad.',
+    props: {
+      seconds: 15,
+      rounds: [
+        { label: 'En reposo' },
+        { label: 'Después de tu secuencia', exercise: { name: 'Secuencia expresiva de 4 × 8 tiempos', icon: 'Sparkles', seconds: 90 } },
+      ],
+    },
+  };
+  const reusedChoice = {
+    type: 'choice',
+    prompt: 'Quieres representar una semilla que brota y crece. ¿Qué secuencia comunica mejor esa transformación?',
+    props: {
+      options: [
+        { id: 'a', text: 'Empieza encogido en nivel bajo y lento; luego se eleva, abre los brazos y acelera' },
+        { id: 'b', text: 'Permanece inmóvil en nivel medio' },
+      ],
+      correct: ['a'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(reusedChoice, pulseLab), true);
+});
+
+test('La comparación estructurada permite el mismo tema cuando cambia la habilidad evaluada', () => {
+  const pulseLab = {
+    type: 'pulse-lab',
+    prompt: 'Crea una secuencia expresiva sobre “La milpa crece” usando niveles, trayectorias y cambios de velocidad.',
+    props: {
+      seconds: 15,
+      rounds: [
+        { label: 'En reposo' },
+        { label: 'Después de la secuencia', exercise: { name: 'Movimiento expresivo', icon: 'Sparkles', seconds: 60 } },
+      ],
+    },
+  };
+  const rhythmChoice = {
+    type: 'choice',
+    prompt: 'La danza también representa el crecimiento de la milpa. ¿Qué acción mantiene el pulso musical?',
+    props: {
+      options: [
+        { id: 'a', text: 'Dar una palmada en cada pulso de la música' },
+        { id: 'b', text: 'Cambiar el ritmo al azar' },
+      ],
+      correct: ['a'],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(rhythmChoice, pulseLab), false);
+});
+
 type StructuredFact = { context: Set<string>; values: string[]; role: 'answer' | 'support' };
 
 function normalizeFactText(value: unknown): string {
@@ -322,7 +376,7 @@ function normalizeFactText(value: unknown): string {
     .toLocaleLowerCase('es')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[·*_"¿?¡!.,;:()[\]{}]/g, ' ')
+    .replace(/[·*_"“”‘’«»¿?¡!.,;:()[\]{}]/g, ' ')
     .replace(/\btres\b/g, '3')
     .replace(/\s+/g, ' ')
     .trim();
@@ -334,6 +388,47 @@ function factTokens(value: unknown): Set<string> {
     .split(' ')
     .filter((token) => token.length > 1 && !stop.has(token))
     .map((token) => (token.length > 5 ? token.slice(0, 5) : token)));
+}
+
+const CUSTOM_STRUCTURED_TEXT_FIELDS = new Map<string, Set<string>>([
+  ['pulse-lab', new Set(['label', 'name'])],
+]);
+
+function meaningfulCollisionTokens(value: unknown): Set<string> {
+  const generic = new Set([
+    'activ', 'al', 'comun', 'cual', 'de', 'el', 'en', 'hacer', 'la', 'lo', 'mejor', 'o', 'parte', 'poco', 'propi', 'quier', 'repre',
+    'se', 'secue', 'su', 'tema', 'trans', 'un', 'usar',
+  ]);
+  return new Set([...factTokens(value)].filter((token) => !generic.has(token) && !/^\d+$/.test(token)));
+}
+
+function scenarioCollisionTokens(value: unknown): Set<string> {
+  const skillVocabulary = new Set(['energ', 'nivel', 'movim', 'patro', 'pulso', 'ritmo', 'tiemp', 'traye', 'veloc']);
+  return new Set([...meaningfulCollisionTokens(value)].filter((token) => !skillVocabulary.has(token)));
+}
+
+function customStructuredPayload(value: unknown): { prompt: Set<string>; scenario: Set<string>; entries: Set<string> } | undefined {
+  if (!value || typeof value !== 'object') return undefined;
+  const step = value as { type?: string; prompt?: string; props?: unknown };
+  const textFields = step.type ? CUSTOM_STRUCTURED_TEXT_FIELDS.get(step.type) : undefined;
+  if (!textFields) return undefined;
+  const entries: string[] = [];
+  const visit = (item: unknown, field?: string): void => {
+    if (typeof item === 'string') {
+      if (field && textFields.has(field)) entries.push(item);
+      return;
+    }
+    if (Array.isArray(item)) { item.forEach((entry) => visit(entry, field)); return; }
+    if (!item || typeof item !== 'object') return;
+    Object.entries(item as Record<string, unknown>).forEach(([key, entry]) => visit(entry, key));
+  };
+  visit(step.props);
+  if (entries.length === 0) return undefined;
+  return {
+    prompt: meaningfulCollisionTokens(step.prompt),
+    scenario: scenarioCollisionTokens(step.prompt),
+    entries: meaningfulCollisionTokens(entries.join(' ')),
+  };
 }
 
 function canonicalFactValues(value: unknown): string[] {
@@ -459,6 +554,29 @@ function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
 
   const left = structuredAssessment(candidate);
   const right = structuredAssessment(source);
+  const customReuse = (
+    assessmentValue: unknown,
+    assessment: { prompt: Set<string>; facts: StructuredFact[] },
+    custom: { prompt: Set<string>; scenario: Set<string>; entries: Set<string> } | undefined,
+  ): boolean => {
+    if (!custom) return false;
+    const assessmentPrompt = (assessmentValue as { prompt?: string } | undefined)?.prompt;
+    const answerTokens = meaningfulCollisionTokens(
+      assessment.facts
+        .filter((fact) => fact.role === 'answer')
+        .flatMap((fact) => fact.values)
+        .join(' '),
+    );
+    const customContent = new Set([...custom.prompt, ...custom.entries]);
+    const sharedPrompt = [...scenarioCollisionTokens(assessmentPrompt)].filter((token) => custom.scenario.has(token));
+    const sharedAnswer = [...answerTokens].filter((token) => customContent.has(token));
+    return sharedPrompt.length >= 1 && sharedAnswer.length >= 2;
+  };
+  if (
+    customReuse(candidate, left, customStructuredPayload(source))
+    || customReuse(source, right, customStructuredPayload(candidate))
+  ) return true;
+
   const numericPattern = /^-?\d+(?:[.,]\d+)?(?:\s*\D+)?$/;
   const isNumericFact = (fact: StructuredFact) => fact.values.some((item) => numericPattern.test(item));
   const isPairFact = (fact: StructuredFact) => !isNumericFact(fact) && fact.values.length >= 2;

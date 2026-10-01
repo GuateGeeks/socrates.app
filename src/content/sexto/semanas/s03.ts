@@ -249,11 +249,11 @@ export default semana({
           ] },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.2', 'ef:1.4.12'], prompt: 'Quieres representar una semilla que brota y crece. ¿Qué secuencia comunica mejor esa transformación?' },
+          { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.2', 'ef:1.4.12'], prompt: 'Sin palabras, quieres representar un juguete de cuerda que empieza con mucha energía y poco a poco se detiene. ¿Qué secuencia lo comunica mejor?' },
           { options: [
-            { id: 'a', text: 'Empieza encogido en nivel bajo y lento; luego se eleva, abre los brazos y acelera' },
-            { id: 'b', text: 'Permanece inmóvil en nivel medio con la misma postura' },
-            { id: 'c', text: 'Empieza alto y termina encogido sin cambiar velocidad ni energía' },
+            { id: 'a', text: 'Inicia con movimientos rápidos y cortantes; reduce la velocidad y la energía hasta terminar quieto' },
+            { id: 'b', text: 'Mantiene la misma velocidad y energía durante toda la secuencia' },
+            { id: 'c', text: 'Empieza inmóvil y termina con movimientos cada vez más rápidos y fuertes' },
           ], correct: ['a'] },
         ),
         S.sort(
