@@ -1250,6 +1250,35 @@ function semanticCnbFailures(step: Pick<StepBase, 'cnb' | 'prompt' | 'props'>): 
   return failures;
 }
 
+function teachesPoliticalConditions(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const continentalHistory = /america latina|latinoamerica|continente americano/.test(text)
+    && /(?:transicion|regimen autoritario|gobierno civil|eleccion|constitucion|proceso politico)/.test(text);
+  const livingConditions = /(?:empleo|ingreso|pobreza|desigualdad|servicios|salud|educacion|agua)/.test(text);
+  const relationship = /(?:se relaciona|puede influir|condiciona|limita|no garantiza|no resolvio|afecto)/.test(text);
+  return continentalHistory && livingConditions && relationship;
+}
+
+function teachesDemocraticOpening(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const continentalHistory = /america latina|latinoamerica/.test(text)
+    && /(?:transicion|regimen autoritario|gobierno civil|eleccion|constitucion|apertura democratica)/.test(text);
+  const advance = /(?:avance|amplio|elecciones competitivas|participacion politica|derechos politicos)/.test(text);
+  const challenge = /(?:desafio|persist|limite|exclusion|desigualdad|violencia|instituciones debiles)/.test(text);
+  return continentalHistory && advance && challenge;
+}
+
+function organizesBlocEfforts(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const blocs = [/(?:comunidad andina|\bcan\b)/, /caricom/, /sica/, /mercosur/]
+    .filter((pattern) => pattern.test(text)).length;
+  const concern = /(?:agua|recursos hidricos|cuencas|clima|ambiente)/.test(text);
+  const instrument = /(?:estrategia|marco|protocolo|centro|politica|plan)/.test(text);
+  const effort = /(?:coordina|intercambio|monitoreo|informacion|acciones conjuntas|cooperacion regional)/.test(text);
+  const schema = /(?:esquema|organiza|clasifica|bloque.{0,50}(?:miembros|subregion).{0,80}(?:esfuerzo|instrumento)|instrumento.{0,80}esfuerzo)/.test(text);
+  return blocs >= 2 && concern && instrument && effort && schema;
+}
+
 function nestedGradedAssessments(values: unknown[]): Array<{ type: string; prompt?: string; areas: string[] }> {
   const found: Array<{ type: string; prompt?: string; areas: string[] }> = [];
   const visit = (value: unknown): void => {
@@ -3897,9 +3926,9 @@ test('Semana 7 preserva 27 lecciones, cobertura CNB y un resultado central por l
     ['cnt:6.1.1', { fromWeek: 6, reason: 'La morbilidad se interpreta junto con condiciones ambientales sin atribuir causalidad automática.' }],
     ['cnt:6.2.1', { fromWeek: 6, reason: 'El crecimiento poblacional se estudia en la lección de expansión urbana y áreas verdes.' }],
     ['cnt:6.3.1', { fromWeek: 6, reason: 'La relación bosque-agua se enseña con condiciones y límites de inferencia.' }],
-    ['ccss:6.6.6', { fromWeek: 6, reason: 'La organización comunitaria se compara con redes de cooperación regional según su escala y participantes.' }],
-    ['ccss:6.7.1', { fromWeek: 6, reason: 'La mediación juvenil analiza condiciones sociales que influyen en el acceso y la convivencia.' }],
-    ['ccss:6.7.4', { fromWeek: 6, reason: 'La participación juvenil se estudia como práctica de apertura democrática con avances y desafíos.' }],
+    ['ccss:6.6.6', { fromWeek: 6, reason: 'Se esquematizan instrumentos y esfuerzos verificables de cooperación hídrica de la CAN y CARICOM.' }],
+    ['ccss:6.7.1', { fromWeek: 6, reason: 'Se relacionan transiciones políticas latinoamericanas con condiciones económicas y sociales sin atribuir mejoras automáticas.' }],
+    ['ccss:6.7.4', { fromWeek: 6, reason: 'Se analizan avances electorales y desafíos sociales e institucionales de la apertura democrática latinoamericana.' }],
   ] as const);
   const unitPlan = plan.unidades.find((unit) => unit.unidad === 1);
   assert.ok(unitPlan);
@@ -4078,6 +4107,40 @@ test('CCSS distribuye las transferencias sin cargar resultados ajenos en la comp
   assert.deepEqual(refs[2], new Set(['ccss:7.1.3', 'ccss:6.6.6']));
   const firstText = normalizeFactText(JSON.stringify(lessons[0]));
   assert.doesNotMatch(firstText, /\bsica\b|\boea\b|condiciones socioeconomicas|apertura democratica/);
+});
+
+test('CCSS ensena y evalua la semantica continental de las transferencias', () => {
+  const schoolSubstitution = {
+    prompt: 'Una asamblea escolar abre participacion para cambiar el horario de una pila.',
+    props: { options: [{ text: 'Escuchar al grupo que llega tarde es un avance democratico.' }] },
+  };
+  const blocNameMatch = {
+    prompt: 'Relaciona el bloque con su subregion.',
+    props: { pairs: [{ left: 'CAN', right: 'Region andina' }, { left: 'CARICOM', right: 'Caribe' }] },
+  };
+  assert.equal(teachesPoliticalConditions(schoolSubstitution), false);
+  assert.equal(teachesDemocraticOpening(schoolSubstitution), false);
+  assert.equal(organizesBlocEfforts(blocNameMatch), false);
+
+  const ccss2 = weekSeven.lessons.find((item) => item.id === 's07-ccss-2');
+  const ccss3 = weekSeven.lessons.find((item) => item.id === 's07-ccss-3');
+  assert.ok(ccss2 && ccss3, 'Faltan CCSS2 o CCSS3');
+  const ccss2Teaching = ccss2.steps.filter((step) => step.fase === 'explorar' || step.fase === 'construir');
+  const ccss2Application = ccss2.steps.filter((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded);
+  const ccss2Exits = ccss2.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
+  assert.equal(teachesPoliticalConditions(ccss2Teaching), true, 'CCSS2 no ensena proceso politico -> condiciones');
+  assert.equal(teachesDemocraticOpening(ccss2Teaching), true, 'CCSS2 no ensena apertura democratica latinoamericana');
+  assert.ok(ccss2Application.some((step) => teachesPoliticalConditions(step) && teachesDemocraticOpening(step)),
+    'CCSS2 no aplica ambas relaciones en contexto continental');
+  assert.ok(ccss2Exits.some(teachesPoliticalConditions), 'CCSS2 no comprueba condiciones economicas/sociales');
+  assert.ok(ccss2Exits.some(teachesDemocraticOpening), 'CCSS2 no comprueba avances y desafios democraticos');
+
+  const ccss3Teaching = ccss3.steps.filter((step) => step.fase === 'explorar' || step.fase === 'construir');
+  const ccss3Application = ccss3.steps.filter((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded);
+  const ccss3Exits = ccss3.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
+  assert.equal(organizesBlocEfforts(ccss3Teaching), true, 'CCSS3 no ensena esfuerzos concretos de dos bloques');
+  assert.ok(ccss3Application.some(organizesBlocEfforts), 'CCSS3 no aplica un esquema de esfuerzos regionales');
+  assert.ok(ccss3Exits.some(organizesBlocEfforts), 'CCSS3 no comprueba el esquema de esfuerzos regionales');
 });
 
 test('Los mocks de Semana 7 tienen especificacion de formato, produccion y accesibilidad', () => {
