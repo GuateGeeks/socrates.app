@@ -18,7 +18,7 @@ export default [
       'Las señales se entienden por su forma, su color y su dibujo, aunque no sepas leer el idioma.',
       'Reglamentarias (obligan o prohíben): el ALTO es un octágono rojo; muchas llevan un círculo con borde rojo, y si está tachado, prohíbe.',
       'Preventivas (avisan un peligro): rombo amarillo con dibujo negro, como curva o derrumbe. Informativas (orientan): rectángulos azules para servicios y verdes para destinos.',
-      'En escuelas y edificios, las señales verdes de ruta de evacuación y punto de reunión indican por dónde salir en una emergencia.',
+      'En escuelas y edificios, las señales verdes muestran la dirección de evacuación designada y el punto de reunión; se siguen atendiendo los riesgos actuales y las instrucciones responsables.',
     ],
     media: {
       id: 's03-l2-1-familias-senales', kind: 'diagram', title: 'Tres familias de señales', aspect: '16:9',
@@ -32,7 +32,7 @@ export default [
         { icon: 'Signpost', body: 'Mira primero el **color** y la **forma**; después, el **dibujo** te dice el detalle.', reveal: [
           { icon: 'Octagon', front: 'Reglamentarias', back: '**Obligan o prohíben.** El ALTO es un octágono rojo; "Ceda el paso", un triángulo con la punta hacia abajo. Muchas tienen un **círculo de borde rojo**; si el dibujo está **tachado**, está prohibido.' },
           { icon: 'Diamond', front: 'Preventivas', back: '**Avisan un peligro** que viene adelante. Son **rombos amarillos** con dibujo negro: curva, derrumbe, animales en la vía, cruce de peatones.' },
-          { icon: 'Square', front: 'Informativas', back: '**Orientan.** Son rectángulos: **azules** para servicios (hospital, teléfono, gasolinera) y **verdes** para destinos y distancias ("Antigua Guatemala 25 km").' },
+          { icon: 'Signpost', front: 'Informativas', back: '**Orientan.** Son rectángulos: **azules** para servicios (hospital, teléfono, gasolinera) y **verdes** para destinos y distancias ("Antigua Guatemala 25 km").' },
         ] },
       ),
       S.choice(
@@ -47,10 +47,10 @@ export default [
       ),
       S.explain(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:2.1.5'], ambito: 'conocer', title: 'Señales para ubicar sitios importantes',
-          prompt: 'En la escuela, el mercado, el centro de salud o la municipalidad también hay señales. Te ayudan a **encontrar lugares** y a **salir seguro** en una emergencia.' },
-        { icon: 'MapPin', body: 'Las señales de **emergencia y evacuación** son **verdes con dibujos blancos**, porque el verde significa "seguro".', reveal: [
-          { icon: 'Footprints', front: 'Ruta de evacuación', back: 'Una **persona corriendo** con una **flecha**: indica hacia dónde caminar para salir.' },
-          { icon: 'Users', front: 'Punto de reunión', back: 'Cuatro flechas que apuntan hacia un grupo de personas: el lugar seguro donde todos se juntan.' },
+          prompt: 'En la escuela, el mercado, el centro de salud o la municipalidad también hay señales. Te ayudan a **encontrar lugares** y muestran la **dirección designada para evacuar**; hay que atender los riesgos actuales y las instrucciones de las autoridades.' },
+        { icon: 'MapPin', body: 'Las señales de **emergencia y evacuación** son **verdes con dibujos blancos**: identifican información de seguridad, pero no garantizan que las condiciones del trayecto no hayan cambiado.', reveal: [
+          { icon: 'Footprints', front: 'Ruta de evacuación', back: 'Una **persona corriendo** con una **flecha**: indica la dirección designada para evacuar, siempre que no haya un riesgo inmediato y el personal responsable mantenga esa instrucción.' },
+          { icon: 'Users', front: 'Punto de reunión', back: 'Cuatro flechas que apuntan hacia un grupo de personas: el lugar designado donde todos se reúnen.' },
           { icon: 'Building2', front: 'Letra H', back: 'Hospital o centro de salud cercano.' },
           { icon: 'Info', front: 'Letra i', back: 'Información: allí puedes preguntar cómo llegar a otros lugares.' },
         ] },
@@ -63,7 +63,7 @@ export default [
         { buckets: [
           { id: 'reg', label: 'Reglamentaria', icon: 'Octagon', color: 'var(--c-bad)' },
           { id: 'pre', label: 'Preventiva', icon: 'Diamond', color: 'var(--c-maiz-strong)' },
-          { id: 'inf', label: 'Informativa', icon: 'Square', color: 'var(--area-l2)' },
+          { id: 'inf', label: 'Informativa', icon: 'Signpost', color: 'var(--area-l2)' },
         ], items: [
           { id: 's1', text: 'Octágono rojo con la palabra ALTO', bucket: 'reg' },
           { id: 's2', text: 'Rombo amarillo con una curva negra', bucket: 'pre' },
@@ -99,13 +99,13 @@ export default [
       S.choice(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:2.1.5'], ambito: 'hacer',
           prompt: 'Durante un simulacro de sismo en tu escuela, sales del aula y ves en la pared un **rectángulo verde** con una **persona corriendo** y una **flecha hacia la izquierda**. ¿Qué haces?',
-          explain: 'Es la señal de **ruta de evacuación**: indica la dirección para salir. Hay que caminar (sin correr ni empujar) en esa dirección hasta el **punto de reunión**.',
+          explain: 'Es la señal de **ruta de evacuación**: indica la dirección designada para evacuar. Hay que caminar (sin correr ni empujar) en esa dirección si no hay un riesgo inmediato y seguir las instrucciones del personal responsable.',
           media: { id: 's03-l2-1-evacuacion', kind: 'image', title: 'Pasillo con ruta de evacuación', aspect: '4:3',
             alt: 'Pasillo de una escuela con una señal verde de persona corriendo y flecha hacia la izquierda; al fondo, un patio con la señal de punto de reunión.',
             brief: 'Ilustración de un pasillo de escuela pública guatemalteca (paredes pintadas a media altura, puertas de aulas). En la pared, a la altura de los ojos de un niño, una señal verde rectangular con una figura blanca corriendo hacia una puerta y una flecha blanca hacia la izquierda. Al fondo, a la izquierda, se ve el patio con un poste y la señal verde de punto de reunión (cuatro flechas hacia un grupo de personas). Niñas y niños caminando en fila, tranquilos. Sin texto adicional.' } },
         { options: [
-          { id: 'a', text: 'Camino con calma hacia la izquierda, siguiendo las flechas verdes', icon: 'Footprints' },
-          { id: 'b', text: 'Corro hacia la derecha porque es más cerca de mi casa', icon: 'Wind', feedback: 'La flecha indica la ruta segura; otras rutas pueden estar bloqueadas o ser peligrosas.' },
+          { id: 'a', text: 'Camino con calma hacia la izquierda si la ruta sigue habilitada y el personal lo indica', icon: 'Footprints' },
+          { id: 'b', text: 'Corro hacia la derecha porque es más cerca de mi casa', icon: 'Wind', feedback: 'La flecha marca la dirección de evacuación designada, no una garantía: hay que comprobar los riesgos actuales y atender al personal responsable.' },
           { id: 'c', text: 'Me quedo en el pasillo esperando', icon: 'Clock', feedback: 'La señal pide avanzar hacia la salida y el punto de reunión.' },
         ], correct: ['a'] },
       ),
@@ -147,7 +147,7 @@ export default [
       'Un símbolo comunica sin palabras. Para leerlo, observa: la figura (quién o qué), el color, la forma y las marcas (tachado, flechas).',
       'Símbolos que describen personas: baño de mujeres u hombres, persona en silla de ruedas (acceso para personas con discapacidad), asiento para personas mayores o embarazadas.',
       'Símbolos de animales y objetos: perro con dientes (cuidado con el perro), copa quebrada (frágil), flechas en triángulo (reciclable).',
-      'En noticias y anuncios: sol, nube, rayo y gotas en un mapa del tiempo; círculo rojo tachado = no hagas eso; rojo = peligro, amarillo = precaución, verde = seguro.',
+      'En noticias y anuncios: sol, nube, rayo y gotas en un mapa del tiempo; círculo rojo tachado = no hagas eso; rojo = peligro, amarillo = precaución, verde = información de seguridad o permiso según el contexto.',
     ],
     media: {
       id: 's03-l2-2-simbolos', kind: 'diagram', title: 'Símbolos de todos los días', aspect: '1:1',
@@ -160,7 +160,7 @@ export default [
           prompt: 'Un **símbolo** (o pictograma) es un dibujo sencillo que comunica una idea **sin palabras**. Lo entienden personas que hablan distintos idiomas. Para leerlo, revisa cuatro cosas.' },
         { icon: 'Eye', body: 'Muchos símbolos **describen** a una persona, un animal o un objeto, y a la vez dan un mensaje sobre él.', reveal: [
           { icon: 'User', front: '1. La figura', back: '¿Quién o qué aparece? Una persona con bastón = persona mayor. Una silla de ruedas = persona con discapacidad. Un perro = un animal.' },
-          { icon: 'Palette', front: '2. El color', back: '**Rojo**: peligro o prohibición. **Amarillo**: precaución. **Verde**: seguro o permitido. **Azul**: información o servicio.' },
+          { icon: 'Palette', front: '2. El color', back: '**Rojo**: peligro o prohibición. **Amarillo**: precaución. **Verde**: información de seguridad o permiso según el contexto. **Azul**: información o servicio.' },
           { icon: 'Slash', front: '3. Las marcas', back: 'Una **línea que tacha** = no se permite. Una **flecha** = dirección. **Líneas de movimiento** = algo se mueve.' },
           { icon: 'MapPin', front: '4. El lugar', back: 'Una figura con vestido en una **puerta** indica baño de mujeres. Una mujer embarazada o una persona con bastón dibujada **junto a un asiento del bus** indica un asiento preferencial para ellas. El lugar completa el mensaje.' },
         ] },
@@ -223,11 +223,11 @@ export default [
       S.sort(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:2.1.2', 'l2:2.1.3'], ambito: 'hacer',
           prompt: '¿Qué comunica el **color** de cada símbolo? Clasifícalos.',
-          explain: 'Rojo = peligro o prohibición; amarillo = precaución; verde = seguro o permitido. Este código de colores se usa en señales, anuncios y semáforos.' },
+          explain: 'Rojo = peligro o prohibición; amarillo = precaución; verde = información de seguridad o permiso según el contexto. Este código de colores se usa en señales, anuncios y semáforos.' },
         { buckets: [
           { id: 'r', label: 'Rojo: peligro o prohibido', icon: 'Octagon', color: 'var(--c-bad)' },
           { id: 'a', label: 'Amarillo: precaución', icon: 'TriangleAlert', color: 'var(--c-maiz-strong)' },
-          { id: 'v', label: 'Verde: seguro', icon: 'ShieldCheck', color: 'var(--c-ok)' },
+          { id: 'v', label: 'Verde: seguridad o permiso', icon: 'ShieldCheck', color: 'var(--c-ok)' },
         ], items: [
           { id: 'c1', text: 'Círculo rojo con un cigarro tachado', bucket: 'r' },
           { id: 'c2', text: 'Triángulo amarillo con un rayo: electricidad', bucket: 'a' },

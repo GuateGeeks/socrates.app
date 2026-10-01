@@ -135,7 +135,7 @@ export default [
     id: 's03-l1-2',
     title: '¿Me sirve esta información? La pertinencia',
     icon: 'Filter',
-    minutes: 13,
+    minutes: 14,
     gancho: 'Buscas qué come el quetzal y encuentras un texto larguísimo sobre aves. ¿Tienes que leerlo todo?',
     objetivos: ['Localizar información pertinente para una pregunta usando títulos, índices y subtítulos'],
     resumen: [
@@ -192,6 +192,21 @@ export default [
           { id: 'b', text: 'Capítulo 5: Cuidemos el suelo' },
           { id: 'c', text: 'Capítulo 4: Los volcanes de Guatemala', feedback: 'No habla de cuidar el suelo.' },
         ], correct: ['b'] },
+      ),
+      S.sort(
+        { fase: 'construir', areas: ['l1'], cnb: ['l1:4.2.3'], ambito: 'hacer',
+          prompt: 'Práctica guiada: investigas **por qué se contamina el río de tu comunidad**. Clasifica estos títulos según ayuden o no a responder.',
+          hint: 'Busca palabras relacionadas con las causas de contaminación del río, no solo la palabra “agua”.',
+          explain: 'Un título es pertinente cuando apunta a la pregunta exacta. “Aves del humedal” se relaciona con el río, pero no explica por qué se contamina.' },
+        { buckets: [
+          { id: 'si', label: 'Pertinente', icon: 'CheckCircle' },
+          { id: 'no', label: 'No pertinente', icon: 'X' },
+        ], items: [
+          { id: 'a', text: 'Basura y aguas residuales: causas de contaminación del río', bucket: 'si' },
+          { id: 'b', text: 'Aves que viven cerca de los humedales', bucket: 'no' },
+          { id: 'c', text: 'Cómo llegan los desechos de las calles al agua', bucket: 'si' },
+          { id: 'd', text: 'Deportes que se practican en lagos', bucket: 'no' },
+        ] },
       ),
       S.highlight(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:4.2.3'], ambito: 'hacer',

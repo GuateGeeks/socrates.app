@@ -1,4 +1,4 @@
-import { S, cierre, lesson, semana } from '../../dsl';
+import { S, lesson, semana } from '../../dsl';
 
 /**
  * SEMANA 3 · Unidad 1
@@ -85,27 +85,25 @@ export default semana({
             prompt: 'En una hoja, representa una ruta real observada con una persona adulta o usa las dos rutas ficticias de la imagen.' },
           { goal: 'Construir una representación de ruta que otra persona pueda seguir.',
             steps: [
-              { title: 'Traza', detail: 'Marca inicio, escuela y una línea continua para el trayecto.' },
-              { title: 'Ubica', detail: 'Añade tres referencias visibles, un cruce y las señales que realmente existan; crea una clave para los íconos.' },
-              { title: 'Distingue', detail: 'Usa una flecha para indicar el sentido de avance y rotula Ruta A o Ruta B sin llamarla todavía “segura”.' },
+              { title: 'Traza', detail: 'Marca inicio, escuela, una línea continua y dos referencias visibles.' },
+              { title: 'Orienta', detail: 'Añade un cruce o señal observada, una flecha de avance y una clave breve, sin llamar a la ruta “segura”.' },
             ],
-            evidence: 'Representación de la ruta con inicio, destino, trayecto, tres referencias, cruce, señales y clave.',
-            rubric: ['Otra persona puede seguir el trayecto', 'La clave explica cada ícono', 'Solo muestra elementos observados o dados en el caso'] },
+            evidence: 'Representación de la ruta con inicio, destino, trayecto, dos referencias, un cruce o señal, flecha y clave.',
+            rubric: ['Otra persona puede seguir el trayecto', 'La clave explica los íconos', 'Solo muestra elementos observados o dados en el caso'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:2.3.1', 'pyd:2.3.2'], ambito: 'emprender', title: 'Etapa 2: análisis de riesgos · 3 min',
+          { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:2.3.1', 'pyd:2.3.2'], ambito: 'emprender', title: 'Etapa 2: análisis de riesgos · 2 min',
             prompt: 'Junto a la ruta, abre una tabla de tres columnas: **evidencia**, **causa** y **riesgo posible**.' },
           { goal: 'Sustentar el análisis de la ruta sin convertir posibilidades en certezas.',
             steps: [
-              { title: 'Registra', detail: 'Escribe dos evidencias observables del trayecto o del caso ficticio.' },
-              { title: 'Relaciona', detail: 'Para cada evidencia, anota una causa y un efecto posible usando “si… entonces podría…”.' },
-              { title: 'Prioriza', detail: 'Marca el riesgo que el círculo de calidad debería consultar primero con una persona adulta o autoridad.' },
+              { title: 'Registra', detail: 'Escribe una evidencia observable del trayecto o del caso ficticio.' },
+              { title: 'Relaciona', detail: 'Completa una cadena con su causa y un riesgo usando “si… entonces podría…”.' },
             ],
-            evidence: 'Dos cadenas completas de evidencia, causa y riesgo posible.',
-            rubric: ['Las evidencias se pueden observar', 'Las causas explican las condiciones', 'Los riesgos se expresan como posibilidades condicionadas'] },
+            evidence: 'Una cadena completa de evidencia, causa y riesgo posible.',
+            rubric: ['La evidencia se puede observar', 'La causa explica la condición', 'El riesgo se expresa como posibilidad condicionada'] },
         ),
         S.choice(
-          { fase: 'aplicar', areas: ['mat', 'l2'], cnb: ['mat:1.1.11', 'l2:2.1.2', 'l2:2.1.5'], ambito: 'hacer', title: 'Pausa de diseño · 2 min',
+          { fase: 'aplicar', areas: ['mat', 'l2'], cnb: ['mat:1.1.11', 'l2:2.1.2', 'l2:2.1.5'], ambito: 'hacer', title: 'Pausa de diseño · 1 min',
             prompt: 'Para un mensaje escolar de orientación, ¿qué boceto ofrece una forma reconocible y permite comprobar simetría?' },
           { options: [
             { id: 'a', text: 'Un rectángulo con flecha central y un eje que divide la forma y el ícono en mitades reflejadas' },
@@ -118,16 +116,14 @@ export default semana({
             prompt: 'Convierte el boceto en una señal de comunicación escolar que pueda entenderse con rapidez.' },
           { goal: 'Diseñar una señal clara con forma reconocible, simetría y recursos visuales aprendidos.',
             steps: [
-              { title: 'Forma', detail: 'Elige una forma adecuada, marca un eje de simetría y conserva la misma distancia a ambos lados.' },
-              { title: 'Ícono', detail: 'Dibuja un ícono grande y descriptivo del mensaje.' },
-              { title: 'Texto y contraste', detail: 'Usa de dos a cinco palabras, letras grandes y colores que contrasten.' },
-              { title: 'Técnica', detail: 'Aplica crayón, lápiz, pastel, tinta o técnica mixta según los materiales disponibles.' },
+              { title: 'Forma e ícono', detail: 'Boceta una forma reconocible, marca un eje de simetría y dibuja un ícono grande.' },
+              { title: 'Lectura rápida', detail: 'Añade de dos a cinco palabras y dos colores con contraste.' },
             ],
-            evidence: 'Señal terminada con forma y eje de simetría, ícono, texto breve, contraste y técnica gráfica intencional.',
-            rubric: ['La forma y el ícono conservan la simetría prevista', 'El texto se lee con rapidez', 'Los colores y la técnica mantienen buen contraste'] },
+            evidence: 'Boceto claro de señal con forma, eje de simetría, ícono, texto breve y contraste.',
+            rubric: ['La forma y el ícono conservan la simetría prevista', 'El mensaje se reconoce con rapidez', 'El texto y los colores tienen contraste'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['mat', 'l2', 'art', 'pyd'], cnb: ['mat:1.1.11', 'l2:2.1.5', 'l2:2.1.3', 'art:2.2.1', 'pyd:2.3.1'], ambito: 'emprender', title: 'Etapa 5: integra la propuesta · 2 min',
+          { fase: 'aplicar', areas: ['mat', 'l2', 'art', 'pyd'], cnb: ['mat:1.1.11', 'l2:2.1.5', 'l2:2.1.3', 'art:2.2.1', 'pyd:2.3.1'], ambito: 'emprender', title: 'Etapa 4: integra la propuesta · 2 min',
             prompt: 'Coloca la señal en la representación y escribe una recomendación condicional debajo.' },
           { goal: 'Entregar una propuesta de ruta sustentada y comprensible.',
             steps: [
@@ -149,27 +145,26 @@ export default semana({
             prompt: 'Haz una corrección concreta basada en la prueba: aclara el trayecto, precisa el riesgo o mejora la señal.' },
           { goal: 'Mejorar la comunicación del producto.',
             steps: [
-              { title: 'Elige', detail: 'Decide si la duda exige aclarar el trayecto, precisar el riesgo o mejorar la señal.' },
-              { title: 'Corrige', detail: 'Cambia ese elemento y encierra la mejora con una línea punteada.' },
+              { title: 'Elige', detail: 'Marca si la duda pide aclarar el trayecto, precisar el riesgo o mejorar la señal.' },
+              { title: 'Corrige', detail: 'Cambia solo ese elemento y encierra la mejora.' },
             ],
             evidence: 'Una mejora visible y relacionada con la revisión.',
             rubric: ['La corrección responde a la duda de la persona revisora', 'La mejora se puede localizar en la hoja'] },
         ),
-        S.project(
+        S.choice(
           { fase: 'aplicar', areas: ['mat', 'l2', 'art', 'pyd'], cnb: ['mat:1.1.11', 'l2:2.1.5', 'l2:2.1.3', 'art:2.2.1', 'pyd:2.3.1', 'pyd:2.3.2'], ambito: 'emprender', title: 'Producto final: Ruta segura a la escuela · 1 min',
-            prompt: 'Revisa que la hoja reúna las cuatro partes y entrégala como propuesta para conversación, no como permiso para cambiar la vía pública.' },
-          { goal: 'Presentar una propuesta breve para revisión adulta y comunitaria.',
-            steps: [
-              { title: 'Verifica el producto', detail: 'Representación de ruta + análisis de riesgos + señal clara + recomendación condicional.' },
-              { title: 'Identifica el uso', detail: 'Escribe “Propuesta para revisión” junto al nombre del círculo de calidad.' },
-            ],
-            evidence: 'Producto final firmado por el círculo de calidad.',
-            rubric: ['La ruta se puede seguir', 'El riesgo tiene evidencia', 'La señal es clara y simétrica', 'La recomendación es condicional y pide revisión responsable'] },
+            prompt: 'Antes de entregar, ¿qué lista confirma que la hoja es una propuesta completa para revisión?' },
+          { options: [
+            { id: 'a', text: 'Ruta legible + una cadena de riesgo + señal clara + recomendación condicional + “Propuesta para revisión”' },
+            { id: 'b', text: 'Ruta sin referencias + riesgo sin evidencia + señal sin vínculo' },
+            { id: 'c', text: 'Afirmación de que la ruta siempre es segura y permiso para instalar la señal' },
+          ], correct: ['a'] },
         ),
-        cierre(
-          { areas: ['mat', 'l2', 'art', 'pyd'], cnb: ['mat:1.1.11', 'l2:2.1.5', 'art:2.2.1', 'pyd:2.3.1'] },
-          ['Representé una ruta', 'Analicé riesgos con evidencia', 'Diseñé una señal clara', 'Escribí una recomendación condicional'],
-          ['Observaré el tránsito solo con una persona adulta y desde un lugar apartado', 'Consultaré a la autoridad responsable antes de proponer cambios'],
+        S.reflect(
+          { fase: 'reflexionar', areas: ['mat', 'l2', 'art', 'pyd'], cnb: ['mat:1.1.11', 'l2:2.1.5', 'art:2.2.1', 'pyd:2.3.1'], ambito: 'ser',
+            prompt: 'Cierre · 2 min. Revisa lo que lograste y elige un compromiso.' },
+          { statements: ['Representé una ruta', 'Analicé un riesgo con evidencia', 'Diseñé una señal clara', 'Escribí una recomendación condicional'],
+            commitments: ['Observaré el tránsito solo con una persona adulta y desde un lugar apartado', 'Consultaré a la autoridad responsable antes de proponer cambios'] },
         ),
       ],
     }),
@@ -222,11 +217,11 @@ export default semana({
           ] },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['l2'], cnb: ['l2:2.1.3'], prompt: 'Un anuncio muestra una bicicleta tachada dentro de un círculo rojo. ¿Qué comunica?' },
+          { fase: 'comprobar', areas: ['l2'], cnb: ['l2:2.1.5'], prompt: 'En una carretera ves un rectángulo azul con un tenedor, un cuchillo y una flecha hacia la derecha. ¿Cómo lo interpretas?' },
           { options: [
-            { id: 'a', text: 'En ese espacio no se permite circular en bicicleta' },
-            { id: 'b', text: 'Hay un taller de bicicletas' },
-            { id: 'c', text: 'La ruta es obligatoria para bicicletas' },
+            { id: 'a', text: 'Es una señal informativa: hay servicio de comida a la derecha' },
+            { id: 'b', text: 'Es una señal preventiva: hay cubiertos sobre la carretera' },
+            { id: 'c', text: 'Es una señal reglamentaria: está prohibido comer' },
           ], correct: ['a'] },
         ),
         S.fill(
@@ -254,11 +249,11 @@ export default semana({
           ] },
         ),
         S.choice(
-          { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.2', 'ef:1.4.12'], prompt: '¿Qué movimiento comunica mejor que una persona busca avanzar con cuidado por un espacio reducido?' },
+          { fase: 'comprobar', areas: ['ef'], cnb: ['ef:1.4.2', 'ef:1.4.12'], prompt: 'Quieres representar una semilla que brota y crece. ¿Qué secuencia comunica mejor esa transformación?' },
           { options: [
-            { id: 'a', text: 'Pasos cortos y lentos, mirada al frente y trayectoria controlada' },
-            { id: 'b', text: 'Saltos amplios y rápidos con los ojos cerrados' },
-            { id: 'c', text: 'Carrera veloz en zigzag sin cambiar la mirada' },
+            { id: 'a', text: 'Empieza encogido en nivel bajo y lento; luego se eleva, abre los brazos y acelera' },
+            { id: 'b', text: 'Permanece inmóvil en nivel medio con la misma postura' },
+            { id: 'c', text: 'Empieza alto y termina encogido sin cambiar velocidad ni energía' },
           ], correct: ['a'] },
         ),
         S.sort(

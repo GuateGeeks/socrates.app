@@ -55,7 +55,7 @@ export default [
             brief: 'Ilustración de un chasqui (mensajero inca) corriendo por un tramo de camino empedrado del Qhapaq Ñan en los Andes, con montañas nevadas al fondo y una llama cargada a un lado. En su mano, un quipu: una cuerda principal de la que cuelgan cuerdas de colores con nudos. Un recuadro ampliado explica: "Cada nudo y cada color representa un dato". Estilo educativo, colores naturales.' } },
         { icon: 'Globe', body: 'La **rueda** se inventó en Mesopotamia hace más de 5,000 años. En Mesoamérica se conocía en juguetes, pero no se usó para transportar: no había animales de tiro y el terreno era de selva y montaña.', reveal: [
           { icon: 'Mountain', front: 'Incas (Andes)', back: 'Red de caminos **Qhapaq Ñan**. Los **chasquis** corrían por relevos llevando mensajes. Registraban datos en **quipus**. Las **llamas** cargaban bultos.' },
-          { icon: 'Circle', front: 'Mesopotamia', back: 'Inventaron la **rueda** y la **escritura cuneiforme**, con marcas en forma de cuña sobre tablillas de arcilla.' },
+          { icon: 'Landmark', front: 'Mesopotamia', back: 'Inventaron la **rueda** y la **escritura cuneiforme**, con marcas en forma de cuña sobre tablillas de arcilla.' },
           { icon: 'Sailboat', front: 'Egipto', back: 'El **río Nilo** era su gran camino: barcos de vela y remo. Escribían **jeroglíficos** en **papiro**.' },
           { icon: 'Route', front: 'Roma', back: 'Construyó miles de kilómetros de **calzadas** de piedra para mover ejércitos y comerciantes.' },
           { icon: 'Package', front: 'China', back: 'La **Ruta de la Seda**: caminos de caravanas que llevaban seda, papel y especias hasta Europa. En China se inventó el **papel**.' },
@@ -69,7 +69,7 @@ export default [
           { id: 'ma', left: 'Mayas', leftIcon: 'Sprout', right: 'Sacbeob y canoas' },
           { id: 'in', left: 'Incas', leftIcon: 'Mountain', right: 'Chasquis y quipus' },
           { id: 'eg', left: 'Egipcios', leftIcon: 'Sun', right: 'Barcos en el Nilo y papiro' },
-          { id: 'me', left: 'Mesopotamios', leftIcon: 'Circle', right: 'La rueda y tablillas de arcilla' },
+          { id: 'me', left: 'Mesopotamios', leftIcon: 'Landmark', right: 'La rueda y tablillas de arcilla' },
         ] },
       ),
       S.sort(

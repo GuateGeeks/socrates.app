@@ -128,6 +128,14 @@ function semanticAssessmentFacts(value: unknown): string[] {
   if (/que es un gen/.test(text) && /adn/.test(text) && /instruccion|caracteristica/.test(text)) {
     facts.push('definicion-directa-de-gen');
   }
+  if (/biciclet/.test(text) && /tachad|circulo rojo/.test(text) && /prohib|no se permite|no pueden pasar/.test(text)) {
+    facts.push('transfer-prohibicion-bicicleta');
+  }
+  const cautiousMovementCues = [/(?:pasos?|movimientos?) (?:cortos?|lentos?)/, /mirada/, /controlad/, /energia suave/]
+    .filter((pattern) => pattern.test(text)).length;
+  if (/cautel|cuidado/.test(text) && /avanz|movim|trayectoria/.test(text) && cautiousMovementCues >= 2) {
+    facts.push('transfer-movimiento-cauteloso');
+  }
   return facts;
 }
 
@@ -258,6 +266,53 @@ test('La comparación estructurada tolera el mismo número en conceptos distinto
   };
 
   assert.equal(repeatsStructuredFact(geometry, music), false);
+});
+
+test('La comparación estructurada detecta reutilización significativa entre tipos de actividad', () => {
+  const challengeChoice = {
+    type: 'choice',
+    prompt: 'Un anuncio muestra una bicicleta tachada dentro de un círculo rojo. ¿Qué comunica?',
+    props: {
+      options: [
+        { id: 'a', text: 'En ese espacio no se permite circular en bicicleta' },
+        { id: 'b', text: 'Hay un taller de bicicletas' },
+      ],
+      correct: ['a'],
+    },
+  };
+  const lessonSort = {
+    type: 'sort',
+    prompt: 'Clasifica cada señal según su familia.',
+    props: {
+      buckets: [{ id: 'reg', label: 'Reglamentaria' }, { id: 'inf', label: 'Informativa' }],
+      items: [
+        { text: 'Círculo rojo con una bicicleta tachada', bucket: 'reg', feedback: 'La marca tachada prohíbe el paso de bicicletas.' },
+      ],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(challengeChoice, lessonSort), true);
+});
+
+test('La comparación estructurada permite el mismo objeto cuando evalúa conceptos distintos', () => {
+  const serviceSign = {
+    type: 'choice',
+    prompt: 'Una señal azul muestra una bicicleta y una llave inglesa. ¿Qué informa?',
+    props: {
+      options: [{ id: 'a', text: 'Hay un taller de reparación de bicicletas' }],
+      correct: ['a'],
+    },
+  };
+  const prohibitionSign = {
+    type: 'sort',
+    prompt: 'Clasifica cada señal según su familia.',
+    props: {
+      buckets: [{ id: 'reg', label: 'Reglamentaria' }],
+      items: [{ text: 'Círculo rojo con una bicicleta tachada', bucket: 'reg' }],
+    },
+  };
+
+  assert.equal(repeatsStructuredFact(serviceSign, prohibitionSign), false);
 });
 
 type StructuredFact = { context: Set<string>; values: string[]; role: 'answer' | 'support' };
@@ -398,6 +453,10 @@ function factValuesMatch(left: string, right: string): boolean {
 }
 
 function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
+  const candidateSemanticFacts = semanticAssessmentFacts(candidate).filter((fact) => fact.startsWith('transfer-'));
+  const sourceSemanticFacts = new Set(semanticAssessmentFacts(source).filter((fact) => fact.startsWith('transfer-')));
+  if (candidateSemanticFacts.some((fact) => sourceSemanticFacts.has(fact))) return true;
+
   const left = structuredAssessment(candidate);
   const right = structuredAssessment(source);
   const numericPattern = /^-?\d+(?:[.,]\d+)?(?:\s*\D+)?$/;
@@ -477,7 +536,7 @@ const SUPPORTING_ICON_FIELDS = new Set(['back', 'alt', 'brief']);
 
 const CONCRETE_OBJECT = /(?:^|[^\p{L}])(?:comidas?|alimentos?|mercados?|escuelas?|parques?|casas?|edificios?|tiendas?|hospital(?:es)?|iglesias?|calles?|puentes?|rivers?|r[ií]os?|monta(?:n|ñ)as?|volc[aá]n(?:es)?|[aá]rbol(?:es)?|fruits?|frutas?|pan(?:es)?|ma[ií](?:z|ces)|frijoles?|huevos?|tortillas?|ventanas?|panelas?|pozos?|canchas?|herramientas?|tables?|mesas?)(?=$|[^\p{L}])/iu;
 const WEEK_TWO_CONCRETE_OBJECT = /(?:^|[^\p{L}])(?:c[eé]lulas?|oranges?|naranjas?)(?=$|[^\p{L}])/iu;
-const WEEK_THREE_CONCRETE_OBJECT = /(?:^|[^\p{L}])(?:ruedas?|tablillas?|escenarios?|señales? informativas?|rutas?|carreteras?|motocicletas?|motos?|autobuses?|buses?)(?=$|[^\p{L}])/iu;
+const WEEK_THREE_CONCRETE_OBJECT = /(?:^|[^\p{L}])(?:mesopotamia|mesopot[aá]micos?|ruedas?|tablillas?|escenarios?|señales?|letreros?|carteles?|informativas?|rutas?|carreteras?|motocicletas?|motos?|autobuses?|buses?)(?=$|[^\p{L}])/iu;
 
 function inspectConcreteIcon(value: unknown, path: string, failures: string[]): void {
   if (Array.isArray(value)) {
@@ -507,6 +566,20 @@ function inspectConcreteIcon(value: unknown, path: string, failures: string[]): 
   }
   Object.entries(record).forEach(([key, item]) => inspectConcreteIcon(item, `${path}.${key}`, failures));
 }
+
+test('El escáner de íconos distingue conceptos de Semana 3 de geometría genuina', () => {
+  const failures: string[] = [];
+  inspectConcreteIcon([
+    { icon: 'Circle', front: 'Mesopotamia', back: 'Los mesopotámicos escribían sobre tablillas.' },
+    { icon: 'Square', front: 'Señal informativa', back: 'El letrero orienta a la comunidad.' },
+    { icon: 'Circle', front: 'Círculo', back: 'Figura cuyos puntos están a la misma distancia del centro.' },
+    { icon: 'Square', front: 'Cuadrado', back: 'Figura geométrica de cuatro lados iguales.' },
+  ], 's03.fixture', failures);
+
+  assert.equal(failures.length, 2);
+  assert.match(failures[0], /Mesopotamia/);
+  assert.match(failures[1], /Señal informativa/);
+});
 
 test('Unidad 1 usa las ocho investigaciones aprobadas', () => {
   assert.equal(unitWeeks.length, 8);
@@ -1193,12 +1266,42 @@ test('Semana 3 ofrece guía, transferencia independiente y dos salidas justas po
   assert.deepEqual(failures, []);
 });
 
+test('Semana 3 mantiene s03-l1-2 en una secuencia sustantiva de 9 a 14 actividades', () => {
+  const lesson = weekThree.lessons.find((item) => item.id === 's03-l1-2');
+  assert.ok(lesson, 'Falta s03-l1-2');
+  assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 14, `s03-l1-2 tiene ${lesson.steps.length} actividades`);
+  assert.ok(lesson.minutes >= 14, `s03-l1-2 asigna solo ${lesson.minutes} minutos a ${lesson.steps.length} actividades`);
+  assert.equal(lesson.steps.filter((step) => step.fase === 'comprobar').length, 2);
+});
+
+test('Semana 3 presenta la evacuación como dirección designada sujeta a riesgos actuales', () => {
+  const lesson = weekThree.lessons.find((item) => item.id === 's03-l2-1');
+  assert.ok(lesson, 'Falta s03-l2-1');
+  const text = normalizeFactText(JSON.stringify(lesson));
+
+  assert.doesNotMatch(text, /flecha indica la ruta segura/);
+  assert.doesNotMatch(text, /flecha garantiza|ruta garantiza|libre de riesgos/);
+  assert.match(text, /direccion (?:designada|indicada) para evacuar|ruta de evacuacion designada/);
+  assert.match(text, /riesgos? actuales?|condiciones? del momento|instrucciones? de (?:una persona adulta|las autoridades?)/);
+});
+
 test('Semana 3 construye una ruta segura con prerrequisitos, producto y carga factibles', () => {
   const workshop = weekThree.lessons.find((lesson) => lesson.kind === 'taller');
   assert.ok(workshop, 'Semana 3 sin taller');
   assert.equal(workshop.title, 'Ruta segura a la escuela');
   assert.ok(workshop.minutes <= 20, `Taller declara ${workshop.minutes} minutos`);
   assert.ok(workshop.steps.length >= 10 && workshop.steps.length <= 14, `Taller tiene ${workshop.steps.length} pasos`);
+
+  const minuteLabels = workshop.steps.map((step) => {
+    const label = `${step.title ?? ''} ${step.prompt}`;
+    const match = label.match(/(?:^|[· ])(\d+) min(?:\.|utos?)?(?:$|[ .])/i);
+    return match ? Number(match[1]) : 0;
+  });
+  assert.ok(minuteLabels.every((minutes) => minutes > 0), 'Cada paso, incluida la reflexión, debe tener minutos explícitos');
+  assert.ok(
+    minuteLabels.reduce((total, minutes) => total + minutes, 0) <= workshop.minutes,
+    `La agenda etiqueta ${minuteLabels.reduce((total, minutes) => total + minutes, 0)} minutos para ${workshop.minutes} disponibles`,
+  );
 
   const contributors = new Set(
     workshop.steps
@@ -1222,11 +1325,18 @@ test('Semana 3 construye una ruta segura con prerrequisitos, producto y carga fa
   assert.ok(projects.length >= 4, 'La ruta, el análisis, la señal y la integración deben construirse por etapas');
   assert.ok(workshop.steps.slice(firstProjectIndex, -1).length >= 7, 'La mayoría del taller debe dedicarse al producto y su revisión');
 
+  const projectActions = projects.reduce((total, step) => {
+    const props = step.props as { steps?: unknown[] };
+    return total + (props.steps?.length ?? 0);
+  }, 0);
+  assert.ok(projectActions <= 10, `El producto exige ${projectActions} operaciones internas`);
+
   const productText = JSON.stringify(projects).toLocaleLowerCase('es');
   assert.match(productText, /representaci[oó]n.+ruta|ruta.+representaci[oó]n/s);
   assert.match(productText, /riesgo.+(?:evidencia|observ|registro)|(?:evidencia|observ|registro).+riesgo/s);
   assert.match(productText, /señal.+(?:forma|color|[ií]cono)|(?:forma|color|[ií]cono).+señal/s);
   assert.match(productText, /depende|seg[uú]n|si .+ entonces|con la evidencia/s, 'La conclusión de seguridad debe ser condicional');
+  assert.doesNotMatch(productText, /dos (?:cadenas|evidencias)|t[eé]cnica mixta|pastel|tinta/);
 });
 
 test('Semana 3 evalúa las diez áreas con contenido enseñado y payloads frescos', () => {
@@ -1249,7 +1359,7 @@ test('Semana 3 evalúa las diez áreas con contenido enseñado y payloads fresco
   for (const [source, steps] of [['reto', challenge.steps], ['banco', weekThreeBank]] as const) {
     for (const assessment of steps.filter((step) => getActivity(step.type)?.graded)) {
       for (const practice of subjectSteps) {
-        if (practice.areas[0] !== assessment.areas[0] || practice.type !== assessment.type) continue;
+        if (practice.areas[0] !== assessment.areas[0]) continue;
         if (repeatsStructuredFact(assessment, practice)) {
           reused.push(source + '/' + assessment.areas[0] + '/' + assessment.type + ' <= ' + normalizeFactText(practice.prompt));
           break;
