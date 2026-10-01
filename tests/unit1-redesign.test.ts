@@ -34,7 +34,12 @@ function comparableEntries(value: unknown): string[] {
   if (!value || typeof value !== 'object') return [];
   const step = value as {
     type?: string;
+    prompt?: string;
     props?: {
+      answer?: string | number;
+      tolerance?: number;
+      unit?: string;
+      stimulus?: string;
       pairs?: Array<{ left?: string; right?: string }>;
       buckets?: Array<{ id?: string; label?: string }>;
       items?: Array<{ id?: string; text?: string; bucket?: string }>;
@@ -62,6 +67,16 @@ function comparableEntries(value: unknown): string[] {
     })[duration.split(' ')[0]] ?? duration)
     .replace(/ tiempos?$/, '');
   const props = step.props ?? {};
+  if (step.type === 'number-input') {
+    const givens = ((step.prompt ?? '') + ' ' + (props.stimulus ?? '')).match(/-?\d+(?:[.,]\d+)?/g) ?? [];
+    return [
+      'prompt:' + normalize(step.prompt),
+      'givens:' + givens.join(','),
+      'answer:' + String(props.answer ?? ''),
+      'tolerance:' + String(props.tolerance ?? ''),
+      'unit:' + normalize(props.unit),
+    ];
+  }
   if (step.type === 'match') {
     return (props.pairs ?? []).map((pair) => `${normalize(pair.left)}=>${normalize(pair.right)}`);
   }
@@ -126,6 +141,141 @@ test('Las firmas de frescura reconocen hechos repetidos aunque cambie el formato
     'La firma debe ignorar el énfasis Markdown del concepto',
   );
 });
+
+test('La comparación estructurada conserva datos y respuesta de entradas numéricas', () => {
+  const entries = comparableEntries({
+    type: 'number-input',
+    prompt: 'Un círculo de radio 3 cm tiene diámetro de 6 cm. ¿Cuánto mide el radio?',
+    props: { answer: 3, tolerance: 0.1, unit: 'cm', stimulus: '6 ÷ 2' },
+  });
+  assert.deepEqual(entries, [
+    'prompt:un círculo de radio 3 cm tiene diámetro de 6 cm. ¿cuánto mide el radio?',
+    'givens:3,6,6,2',
+    'answer:3',
+    'tolerance:0.1',
+    'unit:cm',
+  ]);
+});
+
+type StructuredFact = { context: Set<string>; values: string[] };
+
+function normalizeFactText(value: unknown): string {
+  return String(value ?? '')
+    .toLocaleLowerCase('es')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[·*_"¿?¡!.,;:()[\]{}]/g, ' ')
+    .replace(/\btres\b/g, '3')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function factTokens(value: unknown): Set<string> {
+  const stop = new Set(['una', 'uno', 'unos', 'unas', 'para', 'como', 'cada', 'estas', 'estos', 'esta', 'este', 'que', 'del', 'las', 'los', 'con', 'por', 'sus']);
+  return new Set(normalizeFactText(value)
+    .split(' ')
+    .filter((token) => token.length > 1 && !stop.has(token))
+    .map((token) => (token.length > 5 ? token.slice(0, 5) : token)));
+}
+
+function canonicalFactValues(value: unknown): string[] {
+  const normalized = normalizeFactText(value);
+  if (!normalized) return [];
+  const values = [normalized];
+  const tokens = normalized.split(' ');
+  if (tokens.length > 1 && tokens.every((token) => token === tokens[0])) {
+    values.push(`${tokens.length} ${tokens[0]}s`);
+  }
+  return values;
+}
+
+function structuredAssessment(value: unknown): { prompt: Set<string>; facts: StructuredFact[] } {
+  if (!value || typeof value !== 'object') return { prompt: new Set(), facts: [] };
+  const step = value as {
+    type?: string; prompt?: string; explain?: string;
+    props?: {
+      answer?: string | number; unit?: string; stimulus?: string;
+      options?: Array<{ id?: string; text?: string }>; correct?: string[];
+      buckets?: Array<{ id?: string; label?: string }>;
+      items?: Array<{ text?: string; bucket?: string }>;
+      pairs?: Array<{ left?: string; right?: string }>;
+      statements?: Array<{ text?: string; answer?: boolean }>;
+      text?: string;
+      questions?: Array<{ q?: string; options?: Array<{ id?: string; text?: string }>; correct?: string }>;
+    };
+  };
+  const props = step.props ?? {};
+  const prompt = factTokens(step.prompt);
+  const makeFact = (context: unknown, values: unknown[]): StructuredFact => ({
+    context: factTokens((step.prompt ?? '') + ' ' + String(context ?? '') + ' ' + values.join(' ')),
+    values: values.flatMap(canonicalFactValues),
+  });
+  if (step.type === 'choice') {
+    const correct = new Set(props.correct ?? []);
+    return { prompt, facts: (props.options ?? []).filter((option) => correct.has(option.id ?? '')).map((option) => makeFact('', [option.text])) };
+  }
+  if (step.type === 'number-input') {
+    return { prompt, facts: [makeFact(props.stimulus, [props.answer, String(props.answer ?? '') + ' ' + (props.unit ?? '')])] };
+  }
+  if (step.type === 'sort') {
+    const labels = new Map((props.buckets ?? []).map((bucket) => [bucket.id, bucket.label]));
+    return { prompt, facts: (props.items ?? []).map((item) => makeFact(item.text, [item.text, labels.get(item.bucket)])) };
+  }
+  if (step.type === 'match') return { prompt, facts: (props.pairs ?? []).map((pair) => makeFact(pair.left, [pair.left, pair.right])) };
+  if (step.type === 'order') return { prompt, facts: (props.items ?? []).map((item) => makeFact(item.text, [item.text])) };
+  if (step.type === 'true-false') return { prompt, facts: (props.statements ?? []).map((item) => makeFact(item.text, [String(item.text) + '=' + item.answer])) };
+  if (step.type === 'fill-blank') {
+    const answers = [...(props.text ?? '').matchAll(/\[\[([^\]]+)\]\]/g)].map((match) => match[1]);
+    return { prompt, facts: answers.map((answer) => makeFact(props.text, [answer])) };
+  }
+  if (step.type === 'reading') {
+    return { prompt, facts: (props.questions ?? []).map((question) => {
+      const answer = question.options?.find((option) => option.id === question.correct)?.text;
+      return makeFact(question.q, [answer]);
+    }) };
+  }
+  if (step.explain) return { prompt, facts: [makeFact(step.explain, [step.explain])] };
+  return { prompt, facts: [] };
+}
+
+function directionalOverlap(left: Set<string>, right: Set<string>): number {
+  if (left.size === 0 || right.size === 0) return 0;
+  return [...left].filter((token) => right.has(token)).length / left.size;
+}
+
+function repeatsStructuredFact(candidate: unknown, source: unknown): boolean {
+  const left = structuredAssessment(candidate);
+  const right = structuredAssessment(source);
+  return left.facts.some((candidateFact) => right.facts.some((sourceFact) => {
+    const sameValue = candidateFact.values.some((candidateValue) => sourceFact.values.some((sourceValue) => (
+      candidateValue === sourceValue
+      || (candidateValue.length >= 3 && sourceValue.includes(candidateValue))
+      || (sourceValue.length >= 3 && candidateValue.includes(sourceValue))
+    )));
+    const sharedContext = [...candidateFact.context].filter((token) => sourceFact.context.has(token)).length;
+    const numericValue = candidateFact.values.some((item) => /\d/.test(item))
+      && sourceFact.values.some((item) => /\d/.test(item));
+    return sameValue && numericValue && candidateFact.context.size >= 3 && (
+      directionalOverlap(candidateFact.context, sourceFact.context) >= 0.6
+      || (sharedContext >= 3 && directionalOverlap(candidateFact.context, sourceFact.context) >= 0.25)
+    );
+  }));
+}
+
+function nestedGradedAssessments(values: unknown[]): Array<{ type: string; prompt?: string; areas: string[] }> {
+  const found: Array<{ type: string; prompt?: string; areas: string[] }> = [];
+  const visit = (value: unknown): void => {
+    if (Array.isArray(value)) { value.forEach(visit); return; }
+    if (!value || typeof value !== 'object') return;
+    const record = value as Record<string, unknown>;
+    if (typeof record.type === 'string' && Array.isArray(record.areas) && getActivity(record.type)?.graded) {
+      found.push(record as { type: string; prompt?: string; areas: string[] });
+    }
+    Object.values(record).forEach(visit);
+  };
+  visit(values);
+  return found;
+}
 
 const PRIMARY_ICON_FIELDS = new Set([
   'text',
@@ -590,14 +740,37 @@ test('Semana 2 modela y guía el procedimiento de higiene antes del taller', () 
   const prerequisiteText = JSON.stringify([model, guided]).toLocaleLowerCase('es');
   assert.match(prerequisiteText, /persona adulta.+(?:cort|cuchillo)|(?:cort|cuchillo).+persona adulta/s);
   assert.match(prerequisiteText, /(?:tap|cubr|prote).+moscas|moscas.+(?:tap|cubr|prote)/s);
-  assert.match(prerequisiteText, /dinero.+(?:separ|lejos).+(?:comida|alimento)|(?:comida|alimento).+(?:separ|lejos).+dinero/s);
+  assert.match(prerequisiteText, /(?:separ|lejos).+dinero.+(?:comida|alimento)|dinero.+(?:separ|lejos).+(?:comida|alimento)|(?:comida|alimento).+(?:separ|lejos).+dinero/s);
   assert.match(prerequisiteText, /(?:cobr|dinero).+(?:lav|limpi).+manos|(?:lav|limpi).+manos.+(?:cobr|dinero)/s);
 
   const workshop = weekTwo.lessons[workshopIndex];
-  const retrievalText = JSON.stringify(workshop.steps).toLocaleLowerCase('es');
+  const retrievalText = JSON.stringify(workshop).toLocaleLowerCase('es');
   assert.match(retrievalText, /recupera|retoma|aplica.+procedimiento/s);
   assert.match(retrievalText, /l2:2\.1\.1/);
   assert.match(retrievalText, /cnt:1\.5\.3/);
+  assert.doesNotMatch(retrievalText, /agua clorada|bote (?:de basura )?con tapa|limpia (?:la )?mesa/);
+
+  const safetyFacts = (text: string) => {
+    const facts = new Set<string>();
+    if (/agua (?:potable|apta para (?:el )?consumo)/.test(text)) facts.add('agua-apta');
+    if (/(?:separ|lejos).+dinero.+(?:comida|alimento)|dinero.+(?:separ|lejos).+(?:comida|alimento)|(?:comida|alimento).+(?:separ|lejos).+dinero/s.test(text)) facts.add('dinero-separado');
+    if (/persona adulta.+(?:cort|cuchillo)|(?:cort|cuchillo).+persona adulta/s.test(text)) facts.add('cuchillo-adulto');
+    if (/(?:tap|cubr|prote).+(?:comida|alimento|fruta)|(?:comida|alimento|fruta).+(?:tap|cubr|prote)/s.test(text)) facts.add('alimento-tapado');
+    if (/(?:cobr|dinero).+(?:lav|limpi).+manos|(?:lav|limpi).+manos.+(?:cobr|dinero)/s.test(text)) facts.add('manos-despues-dinero');
+    return facts;
+  };
+  const expectedSafety = new Set(['agua-apta', 'dinero-separado', 'cuchillo-adulto', 'alimento-tapado', 'manos-despues-dinero']);
+  assert.deepEqual(safetyFacts(prerequisiteText), expectedSafety, 'L2 debe enseñar los cinco hechos de seguridad');
+  assert.deepEqual(safetyFacts(retrievalText), expectedSafety, 'El taller debe recuperar solo los cinco hechos enseñados');
+
+  const project = workshop.steps.find((step) => step.type === 'project') as typeof workshop.steps[number] & {
+    props: { steps?: Array<{ title?: string; detail?: string }>; rubric?: string[] };
+  };
+  assert.ok(project, 'Falta el producto del taller');
+  const hygieneProduct = project.props.steps?.find((step) => /higiene/i.test(step.title ?? ''));
+  assert.ok(hygieneProduct, 'Falta el procedimiento de higiene en el producto');
+  assert.deepEqual(safetyFacts(normalizeFactText(hygieneProduct.detail)), expectedSafety);
+  assert.deepEqual(safetyFacts(normalizeFactText(project.props.rubric?.join(' '))), expectedSafety);
 });
 
 test('Semana 2 construye un puesto sano y respetuoso con alcance y evidencia factibles', () => {
@@ -695,6 +868,27 @@ test('Semana 2 evalúa contenido enseñado, sin pistas y con payloads frescos', 
           }
         }
       }
+    }
+  }
+
+  const gradedChallenge = nestedGradedAssessments(challenge.steps);
+  for (const assessment of weekTwoBank.filter((step) => getActivity(step.type)?.graded)) {
+    const repeatedLessonFact = subjectSteps.some((source) => (
+      source.areas[0] === assessment.areas[0]
+      && source.type !== assessment.type
+      && repeatsStructuredFact(assessment, source)
+    ));
+    const assessmentStructure = structuredAssessment(assessment);
+    const repeatedChallengeFact = gradedChallenge.some((source) => {
+      if (source.areas[0] !== assessment.areas[0]) return false;
+      const sourceStructure = structuredAssessment(source);
+      const sameAnswer = assessmentStructure.facts.some((candidateFact) => sourceStructure.facts.some((sourceFact) => (
+        candidateFact.values.some((value) => sourceFact.values.includes(value))
+      )));
+      return sameAnswer && directionalOverlap(assessmentStructure.prompt, sourceStructure.prompt) >= 0.5;
+    });
+    if (repeatedLessonFact || repeatedChallengeFact) {
+      reused.push(`banco/${assessment.areas[0]}/estructura: ${normalizeFactText(assessment.prompt)}`);
     }
   }
   assert.deepEqual(reused, []);
