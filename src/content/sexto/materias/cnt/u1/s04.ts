@@ -31,17 +31,7 @@ export default [
     steps: [
       S.explain(
         { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:2.3.2'], title: 'Idea central', prompt: 'Estudia la pubertad con nombres científicos y recuerda que cada cuerpo cambia a su ritmo.' },
-        { icon: 'BookOpenCheck', body: "La pubertad es la etapa en que el cuerpo de niña o niño empieza a convertirse en el de una persona adulta. Suele empezar entre los 8 y los 14 años, y cada cuerpo tiene su ritmo." },
-      ),
-      S.choice(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
-          prompt: 'Hoy hablarás del cuerpo con **nombres científicos** y con respeto. Para empezar: ¿qué crees que es la **pubertad**?',
-          explain: 'La pubertad es una **etapa natural** en la que el cuerpo cambia a su propio ritmo. Para una duda de salud, una persona adulta de confianza o un profesional de salud es una **fuente confiable**; una publicación sin autor o evidencia no reemplaza su orientación.' },
-        { options: [
-          { id: 'a', text: 'Una enfermedad que da a los adolescentes', icon: 'Pill', feedback: 'No es una enfermedad: es una etapa natural del crecimiento.' },
-          { id: 'b', text: 'La etapa en que el cuerpo empieza a cambiar de niño a adulto', icon: 'Sprout' },
-          { id: 'c', text: 'Algo que solo les pasa a las mujeres', icon: 'User', feedback: 'La pubertad es una etapa humana. Los cambios concretos y su ritmo varían entre personas.' },
-        ], correct: ['b'] },
+        { icon: 'BookOpenCheck', body: 'La pubertad es una etapa natural del crecimiento. Suele empezar entre los 8 y los 14 años, aproximadamente, y cada cuerpo tiene su ritmo. Para una duda de salud, una persona adulta de confianza o un profesional de salud es una **fuente confiable**; una publicación sin autor o evidencia no sustituye una evaluación de salud.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: '¿Quién da la señal?',
@@ -53,18 +43,39 @@ export default [
           { icon: 'Clock', front: 'Cada quien a su ritmo', back: 'Algunas personas empiezan antes y otras después. **Las dos cosas son normales.** Nadie debe burlarse del cuerpo de otra persona.' },
         ] },
       ),
-      S.explain(
+      S.cards(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: 'Glándulas masculinas y femeninas',
-          prompt: 'Las glándulas sexuales se llaman **gónadas**. Tienen **dos funciones**: producen hormonas y forman células reproductoras. Toca las tarjetas.',
+          prompt: 'Las glándulas sexuales se llaman **gónadas**. Son glándulas de secreción interna: envían hormonas a la sangre y participan en la formación de células reproductoras. Toca las tarjetas.',
           media: { id: 's04-cnt-1-gonadas', kind: 'diagram', title: 'Testículos y ovarios: dos funciones', aspect: '16:9',
             alt: 'Diagrama en dos columnas: a la izquierda los testículos, con flechas hacia testosterona y espermatozoides; a la derecha los ovarios, con flechas hacia estrógenos y progesterona y una etiqueta que indica que contienen ovocitos.',
             brief: 'Diagrama escolar esquemático en dos columnas, sin representar genitales externos: columna izquierda "Glándulas masculinas: testículos" (dos óvalos dentro de un contorno sencillo) con dos flechas: "hormona: testosterona" (gota morada hacia un vaso sanguíneo) y "células: espermatozoides". Columna derecha "Glándulas femeninas: ovarios" (dos óvalos junto a un útero esquemático) con una flecha "hormonas: estrógenos y progesterona" y la etiqueta "contienen ovocitos". Arriba, la hipófisis con flechas hacia ambas columnas. Colores planos, letra grande.' } },
-        { icon: 'Copy', body: 'Las gónadas son glándulas de **secreción interna**: envían sus hormonas a la **sangre**, como aprendiste la semana pasada.', reveal: [
+        { cards: [
           { icon: 'Dna', front: 'Testículos', back: 'Producen principalmente **testosterona** y, desde la pubertad, forman **espermatozoides**.' },
           { icon: 'Microscope', front: 'Ovarios', back: 'Producen principalmente **estrógenos** y **progesterona** y contienen **ovocitos**, células que participan en la ovogénesis.' },
           { icon: 'Droplet', front: 'Testosterona', back: 'Contribuye a cambios como una voz más grave, vello facial y aumento de masa muscular. La intensidad varía entre personas.' },
           { icon: 'Droplets', front: 'Estrógenos y progesterona', back: 'Contribuyen al desarrollo de las mamas y regulan el **ciclo menstrual**. Cada cuerpo responde de manera distinta.' },
         ] },
+      ),
+      S.explain(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: 'Los cambios de la pubertad',
+          prompt: 'Las hormonas contribuyen a cambios que siguen patrones generales, pero cada persona los vive de forma distinta. Toca las tarjetas.' },
+        { icon: 'Users', body: 'Los cambios llegan poco a poco durante varios años. Ningún cambio corporal determina los gustos, capacidades o forma de ser de una persona.', reveal: [
+          { icon: 'Users', front: 'Cambios muy comunes', back: 'Muchas personas tienen **estirón**, vello en axilas y pubis, más sudor y grasa en la piel. No aparecen al mismo tiempo ni con la misma intensidad.' },
+          { icon: 'Mic', front: 'Más testosterona', back: 'Suelen aparecer una voz más grave, vello facial y mayor masa muscular; los testículos empiezan a formar espermatozoides.' },
+          { icon: 'Flower', front: 'Ciclo ovárico', back: 'Suelen desarrollarse las mamas y puede llegar la **primera menstruación** (menarquia). Su fecha varía y no define la madurez de una persona.' },
+        ] },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: 'Ejemplo: la cadena de mensajes',
+          prompt: 'Mira cómo una cadena de hormonas explica un cambio concreto.' },
+        { icon: 'Route', problem: 'A los 13 años, a Andrés se le empieza a "quebrar" la voz y luego se le vuelve más grave. ¿Cómo lo explica la ciencia?',
+          steps: [
+            { text: 'La **hipófisis** de Andrés empezó a enviar hormonas a la sangre.', why: 'Es la glándula maestra: da órdenes a otras glándulas.' },
+            { text: 'Esas hormonas llegaron a sus **testículos**, que comenzaron a producir **testosterona**.' },
+            { text: 'La testosterona contribuyó al crecimiento de la **laringe**; por eso la voz pudo volverse más grave.', why: 'El ritmo y la intensidad varían entre personas.' },
+          ],
+          answer: 'Hipófisis → testículos → testosterona → la laringe crece → voz más grave.',
+          tip: 'Una cadena parecida es hipófisis → ovarios → estrógenos y progesterona → cambios como el desarrollo de las mamas y el ciclo menstrual.' },
       ),
       S.sort(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
@@ -84,47 +95,6 @@ export default [
           { id: 'f6', text: 'Reciben la señal de la hipófisis', bucket: 'amb' },
         ] },
       ),
-      S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: 'Los cambios de la pubertad',
-          prompt: 'Las hormonas contribuyen a cambios que siguen patrones generales, pero cada persona los vive de forma distinta. Toca las tarjetas.' },
-        { icon: 'Users', body: 'Los cambios llegan poco a poco durante varios años. Ningún cambio corporal determina los gustos, capacidades o forma de ser de una persona.', reveal: [
-          { icon: 'Users', front: 'Cambios muy comunes', back: 'Muchas personas tienen **estirón**, vello en axilas y pubis, más sudor y grasa en la piel. No aparecen al mismo tiempo ni con la misma intensidad.' },
-          { icon: 'Mic', front: 'Más testosterona', back: 'Suelen aparecer una voz más grave, vello facial y mayor masa muscular; los testículos empiezan a formar espermatozoides.' },
-          { icon: 'Flower', front: 'Ciclo ovárico', back: 'Suelen desarrollarse las mamas y puede llegar la **primera menstruación** (menarquia). Su fecha varía y no define la madurez de una persona.' },
-        ] },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
-          prompt: 'Clasifica cada cambio de la pubertad.',
-          hint: 'Revisa las tarjetas: distingue cambios muy comunes de los relacionados con ciertos órganos y hormonas.',
-          explain: 'El estirón, el vello axilar y el sudor son muy comunes. Una voz más grave suele relacionarse con mayor testosterona; la menstruación ocurre en personas con útero y ovarios. Hay variación normal.' },
-        { buckets: [
-          { id: 'var', label: 'Común con más testosterona', icon: 'Mic', color: 'var(--area-l1)' },
-          { id: 'muj', label: 'Común en el ciclo ovárico', icon: 'Flower', color: 'var(--area-mat)' },
-          { id: 'tod', label: 'Muy común en la pubertad', icon: 'Users', color: 'var(--area-cnt)' },
-        ], items: [
-          { id: 'c1', text: 'La voz se vuelve más grave', bucket: 'var' },
-          { id: 'c2', text: 'Primera menstruación', bucket: 'muj' },
-          { id: 'c3', text: 'Crecer rápido (estirón)', bucket: 'tod' },
-          { id: 'c4', text: 'Vello en las axilas', bucket: 'tod' },
-          { id: 'c5', text: 'Desarrollo de las mamas', bucket: 'muj' },
-          { id: 'c6', text: 'Vello en la cara', bucket: 'var' },
-          { id: 'c7', text: 'Más sudor y granitos en la piel', bucket: 'tod', feedback: 'Las glándulas sudoríparas y sebáceas trabajan más en muchas personas durante la pubertad.' },
-        ] },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer', title: 'Ejemplo: la cadena de mensajes',
-          prompt: 'Mira cómo una cadena de hormonas explica un cambio concreto.' },
-        { icon: 'Route', problem: 'A los 13 años, a Andrés se le empieza a "quebrar" la voz y luego se le vuelve más grave. ¿Cómo lo explica la ciencia?',
-          steps: [
-            { text: 'La **hipófisis** de Andrés empezó a enviar hormonas a la sangre.', why: 'Es la glándula maestra: da órdenes a otras glándulas.' },
-            { text: 'Esas hormonas llegaron a sus **testículos**, que comenzaron a producir **testosterona**.' },
-            { text: 'La testosterona viajó por la sangre hasta la **laringe** (donde está la voz), que creció, y sus cuerdas vocales se hicieron más largas y gruesas.' },
-            { text: 'Mientras la laringe crece, la voz se "quiebra"; al terminar, queda **más grave**.' },
-          ],
-          answer: 'Hipófisis → testículos → testosterona → la laringe crece → voz más grave.',
-          tip: 'La misma lógica sirve para las mujeres: hipófisis → ovarios → estrógenos → cambios femeninos.' },
-      ),
       S.choice(
         { fase: 'aplicar', areas: ['cnt', 'fc'], cnb: ['cnt:2.3.2'], ambito: 'ser',
           prompt: 'Kevin tiene 12 años. A sus amigos ya les cambió la voz, pero a él no, y está preocupado. ¿Qué le dirías?',
@@ -135,34 +105,26 @@ export default [
           { id: 'c', text: 'Que tome algo para que le cambie más rápido', icon: 'Pill', feedback: 'Nunca se debe tomar nada sin indicación médica. Esperar es lo normal.' },
         ], correct: ['b'] },
       ),
-      S.match(
-        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'conocer',
-          prompt: 'Une cada hormona o célula con la glándula relacionada.',
-          explain: 'Testosterona y espermatozoides: testículos. Estrógenos, progesterona y ovocitos: ovarios. La señal inicial: hipófisis.' },
-        { leftTitle: 'Producto', rightTitle: 'Glándula', pairs: [
-          { id: 't', left: 'Testosterona', right: 'Testículos' },
-          { id: 'e', left: 'Estrógenos', right: 'Ovarios' },
-          { id: 'h', left: 'Hormonas que inician la pubertad', right: 'Hipófisis' },
-        ] },
-      ),
-      S.choice(
+      S.sort(
         { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:2.3.2'], ambito: 'hacer',
-          prompt: 'En la pubertad, las glándulas sudoríparas y sebáceas trabajan más. ¿Qué hábitos ayudan? Elige **todos** los correctos.',
+          prompt: 'En la pubertad, las glándulas sudoríparas y sebáceas trabajan más. Clasifica cada hábito.',
           explain: 'Bañarse a diario, usar ropa limpia y lavarse la cara con agua y jabón ayudan a controlar el olor y los granitos. Apretar los granitos puede infectarlos y dejar marcas.' },
-        { multiple: true, options: [
-          { id: 'a', text: 'Bañarse todos los días', icon: 'Droplets' },
-          { id: 'b', text: 'Usar ropa y calcetines limpios', icon: 'Shirt' },
-          { id: 'c', text: 'Apretar los granitos con las uñas', icon: 'Hand', feedback: 'Apretarlos puede causar infecciones y marcas.' },
-          { id: 'd', text: 'Lavarse la cara con agua y jabón suave', icon: 'Sparkles' },
-        ], correct: ['a', 'b', 'd'] },
+        { buckets: [
+          { id: 'cuida', label: 'Ayuda a cuidar la piel', icon: 'ShieldCheck', color: 'var(--c-ok)' },
+          { id: 'riesgo', label: 'Puede lastimarla', icon: 'TriangleAlert', color: 'var(--c-warn)' },
+        ], items: [
+          { id: 'a', text: 'Bañarse todos los días', bucket: 'cuida' },
+          { id: 'b', text: 'Usar ropa y calcetines limpios', bucket: 'cuida' },
+          { id: 'c', text: 'Apretar los granitos con las uñas', bucket: 'riesgo', feedback: 'Apretarlos puede causar infecciones y marcas.' },
+          { id: 'd', text: 'Lavarse la cara con agua y jabón suave', bucket: 'cuida' },
+        ] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:2.3.2'], prompt: '¿Qué hormonas producen principalmente los **ovarios** y qué células contienen?' },
         { options: [
           { id: 'a', text: 'Testosterona y espermatozoides' },
           { id: 'b', text: 'Estrógenos, progesterona y ovocitos' },
-          { id: 'c', text: 'Insulina' },
-          { id: 'd', text: 'Adrenalina' },
+          { id: 'c', text: 'Insulina y adrenalina' },
         ], correct: ['b'] },
       ),
       S.tf(
@@ -171,7 +133,6 @@ export default [
           { text: 'Los testículos son las glándulas sexuales masculinas.', answer: true },
           { text: 'La pubertad empieza exactamente a la misma edad en todas las personas.', answer: false, why: 'Cada cuerpo tiene su ritmo: empieza entre los 8 y los 14 años, aproximadamente.' },
           { text: 'La hipófisis envía la señal que activa las glándulas sexuales.', answer: true },
-          { text: 'Las glándulas sexuales solo producen células reproductoras y ninguna hormona.', answer: false, why: 'También producen hormonas: testosterona, estrógenos y progesterona.' },
         ] },
       ),
     ],
@@ -203,20 +164,10 @@ export default [
         { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:3.1.1'], title: 'Idea central', prompt: 'Conocer la anatomía con lenguaje preciso ayuda a resolver dudas sin rumores ni vergüenza.' },
         { icon: 'BookOpenCheck', body: "Aparato reproductor masculino: testículos (con túbulos seminíferos donde se forman los espermatozoides), escroto, conductos eferentes, epidídimo, conductos deferentes, vesículas seminales, próstata, uretra y pene, cuyo extremo se llama glande." },
       ),
-      S.choice(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer',
-          prompt: 'Hoy usarás **nombres científicos**, correctos y respetuosos. En la milpa, la **espiga** del maíz suelta polen y el **jilote** lo recibe por sus "pelos de elote". En los seres humanos, ¿qué células se unen para formar una nueva vida?',
-          explain: 'En lenguaje común se dice que se unen el **óvulo** y el **espermatozoide**. Con mayor precisión, la célula liberada por el ovario suele ser un **ovocito secundario**; si ocurre la fecundación, completa la meiosis II. El espermatozoide se forma en los testículos y tiene una cola o flagelo para moverse. Si tienes dudas, conversa con tu familia, tu docente o el personal de salud.' },
-        { options: [
-          { id: 'a', text: 'Un óvulo y un espermatozoide', icon: 'Egg' },
-          { id: 'b', text: 'Dos células de la piel', icon: 'Hand', feedback: 'Las células de la piel tienen 46 cromosomas y no forman nuevos seres. Se necesitan células reproductoras, de 23 cromosomas.' },
-          { id: 'c', text: 'Un grano de polen y una semilla', icon: 'Wheat', feedback: 'Eso se parece a lo que ocurre en las plantas. En las personas son otras células reproductoras.' },
-        ], correct: ['a'] },
-      ),
-      S.explain(
+      S.cards(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer', title: 'Donde se forman los espermatozoides',
-          prompt: 'Observa el esquema de la lección, empezando por los testículos. Toca cada tarjeta.' },
-        { icon: 'Dna', body: 'Los **testículos** son dos glándulas en forma de óvalo. Por dentro tienen tubitos enrollados muy finos.', reveal: [
+          prompt: 'Observa el esquema desde los **testículos**, dos glándulas con túbulos enrollados en su interior. Toca cada tarjeta.' },
+        { cards: [
           { icon: 'Route', front: 'Túbulos seminíferos', back: 'Tubitos enrollados **dentro de los testículos**. En sus paredes se **forman los espermatozoides**.' },
           { icon: 'Thermometer', front: 'Escroto', back: 'Bolsa de piel que **protege** a los testículos y los mantiene **fuera del abdomen**, un poco más frescos: los espermatozoides necesitan una temperatura algo menor que la del resto del cuerpo.' },
           { icon: 'Link', front: 'Conductos eferentes', back: 'Pequeños conductos que **llevan los espermatozoides** desde los túbulos seminíferos hasta el epidídimo.' },
@@ -233,6 +184,28 @@ export default [
           { icon: 'CircleDot', front: 'Pene y glande', back: 'El **pene** es el órgano externo por donde pasa la uretra. Su extremo se llama **glande** y está cubierto por una piel llamada **prepucio**.' },
         ] },
       ),
+      S.explain(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.2.1'], ambito: 'conocer', title: 'Espermatogénesis y ovogénesis',
+          prompt: 'La formación de células reproductoras se llama **gametogénesis**. Hay dos tipos. Toca las tarjetas.' },
+        { icon: 'Dna', body: 'Recuerda la semana 2: las células reproductoras llevan **23 cromosomas**, la mitad que las demás células. Al unirse un óvulo y un espermatozoide, la nueva célula tiene 46.', reveal: [
+          { icon: 'Dna', front: 'Espermatogénesis', back: 'Formación de **espermatozoides** en los **túbulos seminíferos** de los testículos. Empieza en la **pubertad** y puede continuar durante la vida adulta.' },
+          { icon: 'CircleDot', front: 'Ovogénesis', back: 'Empieza **antes de nacer** y se pausa. Desde la pubertad, en un ciclo típico puede liberarse un **ovocito secundario**; los ciclos varían y no siempre ocurre una liberación.' },
+          { icon: 'Hash', front: 'División desigual', back: 'Al completar la ovogénesis se obtiene **una célula funcional grande** y **cuerpos polares** pequeños. No son cuatro células funcionales iguales.' },
+          { icon: 'Egg', front: '“Óvulo” y ovocito', back: '**Óvulo** es el término común simplificado para la célula liberada. Con precisión, suele ser un **ovocito secundario**, y la **meiosis II solo se completa si ocurre la fecundación**.' },
+        ] },
+      ),
+      S.ejemplo(
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.2.1'], ambito: 'hacer', title: 'Ejemplo: nombrar el proceso con precisión',
+          prompt: 'Sigue una secuencia típica sin convertirla en una regla para todos los ciclos.' },
+        { icon: 'Route', problem: 'Un esquema muestra que una célula inicia la ovogénesis, luego aparece una célula grande con un cuerpo polar y, durante un ciclo, esa célula grande es liberada. ¿Cómo se explica?',
+          steps: [
+            { text: 'La división es **desigual**: se conserva una célula funcional grande y se forman cuerpos polares pequeños.' },
+            { text: 'La célula que puede liberarse es un **ovocito secundario**; en lenguaje común suele llamarse “óvulo”.' },
+            { text: 'La **meiosis II** queda incompleta y solo termina si ocurre la fecundación.', why: 'Por eso no conviene decir que cada ciclo produce automáticamente un óvulo completo.' },
+          ],
+          answer: 'Es un **ovocito secundario** que puede ser liberado; la meiosis II solo se completa si ocurre la fecundación.',
+          tip: '“Puede” expresa variación normal: no todos los ciclos son iguales.' },
+      ),
       S.order(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer',
           prompt: 'Ordena el **recorrido de los espermatozoides**, desde donde se forman hasta que salen del cuerpo.',
@@ -248,60 +221,6 @@ export default [
           { id: 'r4', text: 'Conducto deferente', icon: 'Route' },
           { id: 'r5', text: 'Uretra', icon: 'Droplet' },
         ] },
-      ),
-      S.match(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.1.1'], ambito: 'conocer',
-          prompt: 'Une cada estructura con su función.',
-          hint: 'Vuelve a leer las tarjetas si lo necesitas: formar, proteger, madurar, transportar, agregar líquido.',
-          explain: 'Cada estructura tiene un trabajo en el recorrido: formar, proteger, madurar, transportar y agregar líquidos.' },
-        { leftTitle: 'Estructura', rightTitle: 'Función', pairs: [
-          { id: 'ts', left: 'Túbulos seminíferos', right: 'Forman los espermatozoides' },
-          { id: 'es', left: 'Escroto', right: 'Protege a los testículos y regula su temperatura' },
-          { id: 'ep', left: 'Epidídimo', right: 'Donde maduran y se guardan los espermatozoides' },
-          { id: 'de', left: 'Conducto deferente', right: 'Transporta los espermatozoides hacia la uretra' },
-          { id: 'pr', left: 'Próstata', right: 'Produce líquido que forma parte del semen' },
-          { id: 'gl', left: 'Glande', right: 'Extremo del pene, cubierto por el prepucio' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.2.1'], ambito: 'conocer', title: 'Espermatogénesis y ovogénesis',
-          prompt: 'La formación de células reproductoras se llama **gametogénesis**. Hay dos tipos. Toca las tarjetas.' },
-        { icon: 'Dna', body: 'Recuerda la semana 2: las células reproductoras llevan **23 cromosomas**, la mitad que las demás células. Al unirse un óvulo y un espermatozoide, la nueva célula tiene 46.', reveal: [
-          { icon: 'Dna', front: 'Espermatogénesis', back: 'Formación de **espermatozoides** en los **túbulos seminíferos** de los testículos. Empieza en la **pubertad** y puede continuar durante la vida adulta.' },
-          { icon: 'CircleDot', front: 'Ovogénesis', back: 'Empieza **antes de nacer** y se pausa. Desde la pubertad, en un ciclo típico puede liberarse un **ovocito secundario**; los ciclos varían y no siempre ocurre una liberación.' },
-          { icon: 'Hash', front: 'División desigual', back: 'Al completar la ovogénesis se obtiene **una célula funcional grande** y **cuerpos polares** pequeños. No son cuatro células funcionales iguales.' },
-          { icon: 'Egg', front: '“Óvulo” y ovocito', back: '**Óvulo** es el término común simplificado para la célula liberada. Con precisión, suele ser un **ovocito secundario**, y la **meiosis II solo se completa si ocurre la fecundación**.' },
-        ] },
-      ),
-      S.sort(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.2.1'], ambito: 'conocer',
-          prompt: 'Clasifica cada característica: ¿espermatogénesis, ovogénesis o ambas?',
-          hint: 'Piensa en el lugar (testículos u ovarios), cuándo empieza y cuántas células forma.',
-          explain: 'Ambos procesos forman células con 23 cromosomas, pero se diferencian en el lugar, el momento y la cantidad.' },
-        { buckets: [
-          { id: 'esp', label: 'Espermatogénesis', icon: 'Dna', color: 'var(--area-l1)' },
-          { id: 'ovo', label: 'Ovogénesis', icon: 'CircleDot', color: 'var(--area-mat)' },
-          { id: 'amb', label: 'Ambas', icon: 'Copy', color: 'var(--area-cnt)' },
-        ], items: [
-          { id: 'o1', text: 'Ocurre en los testículos', bucket: 'esp' },
-          { id: 'o2', text: 'Ocurre en los ovarios', bucket: 'ovo' },
-          { id: 'o3', text: 'Forma millones de células cada día desde la pubertad', bucket: 'esp' },
-          { id: 'o4', text: 'En un ciclo típico puede liberar un ovocito secundario', bucket: 'ovo' },
-          { id: 'o5', text: 'Comienza antes del nacimiento', bucket: 'ovo' },
-          { id: 'o6', text: 'Forma células con 23 cromosomas', bucket: 'amb' },
-        ] },
-      ),
-      S.ejemplo(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:3.2.1'], ambito: 'hacer', title: 'Ejemplo: nombrar el proceso con precisión',
-          prompt: 'Sigue una secuencia típica sin convertirla en una regla para todos los ciclos.' },
-        { icon: 'Route', problem: 'Un esquema muestra que una célula inicia la ovogénesis, luego aparece una célula grande con un cuerpo polar y, durante un ciclo, esa célula grande es liberada. ¿Cómo se explica?',
-          steps: [
-            { text: 'La división es **desigual**: se conserva una célula funcional grande y se forman cuerpos polares pequeños.' },
-            { text: 'La célula que puede liberarse es un **ovocito secundario**; en lenguaje común suele llamarse “óvulo”.' },
-            { text: 'La **meiosis II** queda incompleta y solo termina si ocurre la fecundación.', why: 'Por eso no conviene decir que cada ciclo produce automáticamente un óvulo completo.' },
-          ],
-          answer: 'Es un **ovocito secundario** que puede ser liberado; la meiosis II solo se completa si ocurre la fecundación.',
-          tip: '“Puede” expresa variación normal: no todos los ciclos son iguales.' },
       ),
       S.number(
         { fase: 'aplicar', areas: ['cnt', 'mat'], cnb: ['cnt:3.2.1'], ambito: 'hacer',

@@ -530,15 +530,15 @@ export default [
       "Construir un prisma recto, una pirámide recta, un cilindro y un cono con plantillas preparadas",
     ],
     resumen: [
-      'El kit preparado incluye cuatro plantillas mini precortadas y premarcadas: prisma triangular recto, pirámide cuadrangular recta, cilindro y cono.',
-      'Línea punteada significa doblar; números iguales indican bordes que se unen; una persona adulta aplica cinta de doble cara en las zonas grises y deja puesto el papel protector.',
+      'Cada kit reutilizable incluye cuatro plantillas mini troqueladas y premarcadas: prisma triangular recto, pirámide cuadrangular recta, cilindro y cono.',
+      'Línea punteada significa doblar; números iguales indican bordes que se unen con broches de gancho y felpa o encastres ya instalados.',
       'Prisma y pirámide se forman al doblar caras planas. Cilindro y cono se forman al enrollar una superficie curva y colocar su base o sus bases.',
-      'El estudiantado recibe las piezas precortadas, premarcadas y con las tiras adhesivas protegidas: solo despega, dobla o enrolla, alinea y presiona; no usa tijeras, cuchillas, grapas ni cinta suelta.',
+      'El estudiantado recibe piezas listas para reutilizar: solo dobla o enrolla, alinea y cierra los broches o encastres; no usa tijeras, cuchillas, grapas ni adhesivos.',
     ],
     media: {
       id: 's04-mat-5-kit', kind: 'diagram', title: 'Kit mini de cuatro sólidos', aspect: '4:3',
-      alt: 'Hoja de preparación con cuatro plantillas pequeñas, líneas de corte y doblez, números de unión y 14 zonas adhesivas sombreadas y medidas.',
-      brief: 'Recurso SVG y PDF para imprimir en tamaño carta al 100 % sobre cartulina blanca de 200 g/m². El SVG/PDF aporta la geometría, los contornos continuos de corte, los dobleces punteados, los bordes con números iguales y las zonas adhesivas sombreadas en gris; la impresión no crea ni incluye adhesivo. Incluye cuatro plantillas mini rotuladas: 1) prisma triangular recto, tira de tres rectángulos con dos triángulos congruentes; 2) pirámide cuadrangular recta, cuadrado con cuatro triángulos congruentes; 3) cilindro, rectángulo y dos círculos con pestañas radiales anchas; 4) cono, sector circular y círculo-base con pestañas radiales anchas. Rotular exactamente 14 zonas grises para 14 tiras de cinta de doble cara de 5 mm de ancho: prisma P1 de 5 × 35 mm en la unión lateral y P2-P5 de 5 × 25 mm, una en cada uno de los dos bordes libres de cada base triangular; pirámide Y1-Y4 de 5 × 40 mm, una en cada unión entre caras triangulares contiguas; cilindro C1 de 5 × 45 mm en la unión lateral y C2-C3 de 5 × 95 mm sobre las bandas de las bases circulares superior e inferior; cono O1 de 5 × 50 mm en la unión lateral y O2 de 5 × 90 mm sobre la banda de la base. Cada zona debe mostrar su código, medida y borde de destino. Leyenda del recurso: "continua = cortar · punteada = marcar y doblar · gris = aplicar adhesivo · números iguales = unir". Las piezas armadas miden entre 4 y 6 cm. Lista de preparación docente o de una persona adulta: 1. imprimir a tamaño carta y 100 % en cartulina de 200 g/m²; 2. recortar los contornos y las ranuras radiales; 3. marcar los dobleces punteados con regla y plegadera sin atravesar la cartulina; 4. aplicar las 14 tiras de cinta de doble cara sobre las zonas grises, siguiendo sus medidas, y conservar cada papel protector desprendible; 5. separar las cuatro etiquetas y guardar un kit por pareja; 6. armar un kit de prueba para comprobar que todas las uniones cierren. Entregar al estudiantado las cuatro piezas ya recortadas y marcadas, con las 14 tiras preaplicadas y sus protectores puestos, cuatro etiquetas y un lápiz. Reemplazar el mock con este SVG/PDF accesible listo para impresión y una miniatura PNG.',
+      alt: 'Ficha de producción de un kit reutilizable con cuatro plantillas pequeñas, dobleces, números de unión y broches ya instalados.',
+      brief: 'Activo de software pendiente: paquete SVG/PDF para proveedor y fabricación, con dielines o líneas de troquel vendor-ready para un kit físico reutilizable. Debe incluir medidas, líneas de corte, dobleces premarcados, números de unión, posiciones de broches y una guía con fotografías o diagramas de un prototipo de ensamblaje. Reemplazo físico normal: 15 juegos para parejas, cada uno con prisma triangular recto, pirámide cuadrangular recta, cilindro y cono de 4 a 6 cm, fabricados una sola vez por un proveedor o taller central en cartulina laminada lavable de 300 g/m² o polipropileno delgado lavable de 0.4 a 0.6 mm. Las piezas van troqueladas y pre-scored o premarcadas, con broches de gancho y felpa de perfil bajo, broches a presión seguros o encastres autoajustables preinstalados; las bases curvas usan pestañas segmentadas con cierres ya instalados. Cada juego incluye cuatro rótulos grandes y se guarda plano en un sobre rotulado del 1 al 15. Lista de fabricación o compra: 1. validar los dielines con un prototipo armado de los cuatro sólidos; 2. producir 15 juegos completos más un juego de repuesto; 3. instalar y probar todos los cierres; 4. redondear esquinas y retirar rebabas o piezas pequeñas sueltas; 5. verificar durabilidad con 30 ciclos de apertura, seguridad sin bordes cortantes y accesibilidad mediante alto contraste, números de unión grandes y marcas táctiles distintas para corte, doblez y cierre; 6. colocar cada juego en su sobre etiquetado y registrar piezas. Rutina docente normal, máximo dos minutos: distribuye un sobre por pareja y al final recoge los 15 sobres usando la lista de piezas; no corta, marca ni aplica adhesivo en cada sesión. Alternativa imprimible de baja tecnología, opcional y no requerida para la lección normal: PDF tamaño carta al 100 % para preparación central anticipada en cartulina; una persona adulta recorta y marca los dobleces fuera del tiempo de clase y coloca encastres reutilizables, nunca cinta de un solo uso por sesión. Registrar el SVG/PDF final y una miniatura PNG en el catálogo de medios.',
     },
     steps: [
       S.explain(
@@ -547,12 +547,12 @@ export default [
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.7'], ambito: 'conocer', title: 'Lee el kit antes de armar',
-          prompt: 'Cada pareja recibe cuatro plantillas mini precortadas y premarcadas, con 14 tiras de doble cara ya aplicadas en las zonas grises y con sus protectores puestos, cuatro etiquetas y un lápiz.' },
-          { icon: 'PackageOpen', body: 'La persona adulta ya imprimió, recortó, marcó y aplicó el adhesivo: **no se usan tijeras, cuchillas, grapas ni cinta suelta**.', reveal: [
+          prompt: 'Cada pareja recibe un kit durable con cuatro plantillas mini troqueladas y premarcadas, cierres reutilizables ya instalados, cuatro etiquetas y un lápiz.' },
+          { icon: 'PackageOpen', body: 'El kit llega listo desde el sobre rotulado: **no se usan tijeras, cuchillas, grapas, cinta ni adhesivos**.', reveal: [
           { icon: 'FoldHorizontal', front: 'Línea punteada', back: 'Haz el **doblez** hacia adentro y presiónalo una vez.' },
           { icon: 'ListOrdered', front: 'Números iguales', back: 'Los bordes con el mismo número deben quedar juntos.' },
-          { icon: 'Sticker', front: 'Zona gris preparada', back: 'La tira de doble cara ya está aplicada: retira el **papel protector**, une los números iguales y presiona.' },
-          { icon: 'Rotate3D', front: 'Curva', back: 'El rectángulo del cilindro y el sector del cono se **enrollan**; sus bases circulares ya tienen pestañas autoadhesivas radiales.' },
+          { icon: 'Link', front: 'Cierre preparado', back: 'Alinea los números iguales y cierra el broche de **gancho y felpa** o el encastre ya instalado.' },
+          { icon: 'Rotate3D', front: 'Curva', back: 'El rectángulo del cilindro y el sector del cono se **enrollan**; sus bases circulares tienen cierres reutilizables segmentados.' },
         ] },
       ),
       S.ejemplo(
@@ -562,7 +562,7 @@ export default [
           steps: [
             { text: 'Repasa con los dedos las líneas punteadas para levantar las caras.' },
             { text: 'Junta los bordes con números iguales; las pestañas quedan dentro.' },
-            { text: 'Retira el papel protector de una zona gris, une los números iguales y presiona.', why: 'La persona adulta ya aplicó la tira de doble cara; durante el armado no se busca ni se corta cinta.' },
+            { text: 'Alinea los números iguales y cierra el broche de gancho y felpa o el encastre.', why: 'Los cierres preinstalados permiten armar, abrir y guardar el modelo muchas veces.' },
           ],
           answer: 'Queda un prisma recto cerrado, con **dos bases triangulares** y **tres caras laterales rectangulares**.',
           tip: 'Primero da forma; después fija. Así puedes corregir una unión antes de cerrarla.' },
@@ -570,9 +570,9 @@ export default [
       S.choice(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:1.3.7'], prompt: 'En una plantilla preparada, ¿qué haces con dos bordes marcados con el número 3?',
           hint: 'Revisa la convención de los números iguales.',
-          explain: 'Los números iguales señalan bordes que deben encontrarse; se juntan con la pestaña autoadhesiva y se presionan.' },
+          explain: 'Los números iguales señalan bordes que deben encontrarse; se alinean y se cierra el broche o encastre preparado.' },
         { options: [
-          { id: 'a', text: 'Los unes con la pestaña autoadhesiva y presionas', icon: 'Link' },
+          { id: 'a', text: 'Los alineas y cierras el broche o encastre', icon: 'Link' },
           { id: 'b', text: 'Los dejas en lados opuestos', icon: 'MoveHorizontal', feedback: 'El mismo número indica que forman una unión.' },
           { id: 'c', text: 'Los arrancas', icon: 'X', feedback: 'El kit ya tiene la forma necesaria; no se quitan bordes.' },
         ], correct: ['a'] },
@@ -582,13 +582,13 @@ export default [
           prompt: 'Ensambla el **kit preparado de cuatro sólidos** con tu pareja. Trabajen en paralelo: cada integrante arma un modelo plano y uno curvo; luego intercambien para comprobar las uniones.' },
         { goal: 'Obtener cuatro modelos terminados: un prisma recto, una pirámide recta, un cilindro y un cono.',
           steps: [
-            { title: '1 min · Organiza el kit', detail: 'Separa las cuatro plantillas precortadas y las etiquetas; identifica las bases sin retirar aún los protectores.' },
-            { title: '3 min · Prisma y pirámide', detail: 'En paralelo, dobla las líneas punteadas, retira los protectores necesarios, une números iguales y presiona las pestañas autoadhesivas.' },
-            { title: '4 min · Cilindro y cono', detail: 'En paralelo, enrolla el rectángulo y el sector, cierra sus uniones autoadhesivas y presiona las bases circulares sobre las pestañas radiales preparadas.' },
+            { title: '1 min · Organiza el kit', detail: 'Separa las cuatro plantillas reutilizables y las etiquetas; identifica las bases y los cierres preparados.' },
+            { title: '3 min · Prisma y pirámide', detail: 'En paralelo, dobla las líneas punteadas, une números iguales y cierra los broches o encastres preinstalados.' },
+            { title: '4 min · Cilindro y cono', detail: 'En paralelo, enrolla el rectángulo y el sector; cierra sus uniones y las bases circulares con los broches segmentados.' },
             { title: '1 min · Etiqueta y compara', detail: 'Rotula cada modelo con su nombre. Compara cuáles tienen vértices y cuáles tienen superficie curva.' },
           ],
           evidence: 'Cuatro modelos armados y de pie, cada uno con su etiqueta: prisma recto, pirámide recta, cilindro y cono.',
-          rubric: ['Armamos los cuatro modelos terminados', 'Las pestañas quedaron dentro y las uniones cierran', 'Cada etiqueta corresponde al sólido', 'Comparamos vértices y superficies curvas'] },
+          rubric: ['Armamos los cuatro modelos terminados', 'Los broches o encastres cierran sin forzarlos', 'Cada etiqueta corresponde al sólido', 'Comparamos vértices y superficies curvas'] },
       ),
       S.sort(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.3.7', 'mat:1.3.3'], prompt: 'Mira tus cuatro modelos y clasifica cada observación.',
@@ -621,8 +621,8 @@ export default [
         ] },
       ),
       cierre({ areas: ['mat'], cnb: [] },
-        ['Construí un prisma recto y una pirámide recta', 'Construí un cilindro y un cono', 'Usé dobleces, rollos y pestañas autoadhesivas', 'Comparé caras, bases, vértices y superficies'],
-        ['Guardaré los cuatro modelos para explicar sus diferencias', 'Pediré ayuda si una plantilla preparada se daña', 'Usaré solo los materiales indicados para cada construcción']),
+        ['Construí un prisma recto y una pirámide recta', 'Construí un cilindro y un cono', 'Usé dobleces, rollos y cierres reutilizables', 'Comparé caras, bases, vértices y superficies'],
+        ['Desarmaré y guardaré las piezas en su sobre', 'Pediré ayuda si un cierre preparado se daña', 'Usaré solo los materiales indicados para cada construcción']),
     ],
   }),
 ];

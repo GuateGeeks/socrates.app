@@ -1989,10 +1989,11 @@ test('s04-mat-5 ensambla cuatro sólidos con un kit preparado dentro de quince m
   assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 10, `La lección tiene ${lesson.steps.length} pantallas`);
   const lessonText = normalizeFactText(JSON.stringify(lesson));
   assert.match(lessonText, /plantillas?.{0,80}(?:preparadas?|precortadas?)|kit.{0,80}(?:preparado|precortado)/);
-  assert.match(lessonText, /autoadhesiv|peel.?and.?stick|encastre|autoajustable/);
-  assert.match(lessonText, /bases? (?:circulares|curvas).{0,120}(?:autoadhesiv|encastre)|(?:autoadhesiv|encastre).{0,120}bases? (?:circulares|curvas)/);
+  assert.match(lessonText, /reutilizable/);
+  assert.match(lessonText, /velcro|gancho y felpa|broche|encastre|autoajustable/);
+  assert.match(lessonText, /bases? (?:circulares|curvas).{0,120}(?:velcro|broche|encastre)|(?:velcro|broche|encastre).{0,120}bases? (?:circulares|curvas)/);
   const studentStepsText = normalizeFactText(JSON.stringify(lesson.steps));
-  assert.doesNotMatch(studentStepsText, /tiras? (?:cortas? )?de cinta|trozos? (?:cortos? )?de cinta/);
+  assert.doesNotMatch(studentStepsText, /(?:aplica|pega|corta).{0,40}(?:cinta|adhesiv)|(?:retira|despega).{0,40}(?:protector|adhesiv)/);
   assert.doesNotMatch(studentStepsText, /(?:estudiante|alumno|tu).{0,60}(?:traza|recorta|corta)|(?:traza|recorta|corta).{0,60}(?:estudiante|alumno|tu)/);
 
   const projects = lesson.steps.filter((step) => step.type === 'project');
@@ -2004,7 +2005,7 @@ test('s04-mat-5 ensambla cuatro sólidos con un kit preparado dentro de quince m
   assert.ok(projectIndex >= 3 && projectIndex <= 4, 'Debe enseñar, modelar y comenzar el armado sin demora');
   const preparation = normalizeFactText(JSON.stringify(lesson.steps.slice(0, projectIndex)));
   assert.match(preparation, /linea punteada|doblez/);
-  assert.match(preparation, /pestana/);
+  assert.match(preparation, /broche|encastre|gancho y felpa|velcro/);
   assert.match(preparation, /modelo|ejemplo/);
 
   const production = normalizeFactText(JSON.stringify(project));
@@ -2012,8 +2013,8 @@ test('s04-mat-5 ensambla cuatro sólidos con un kit preparado dentro de quince m
   assert.match(production, /cuatro modelos (?:armados|ensamblados|terminados)|4 modelos (?:armados|ensamblados|terminados)/);
   assert.match(production, /dobl|enroll|unir|ensambl/);
   assert.doesNotMatch(production, /\b(?:traza|dibuja|recorta|corta|usa tijeras|usa compas)\b/);
-  assert.doesNotMatch(production, /(?:aplica|coloca|corta).{0,40}(?:adhesiv|cinta)|(?:adhesiv|cinta).{0,40}(?:aplica|coloca|corta)/);
-  assert.match(lessonText, /solo despega.{0,40}dobla o enrolla.{0,40}presiona/);
+  assert.doesNotMatch(production, /adhesiv|cinta|papel protector|despega/);
+  assert.match(lessonText, /solo (?:dobla|pliega).{0,40}enrolla.{0,60}(?:encaja|abrocha|cierra)/);
 
   const stages = project.props.steps ?? [];
   assert.ok(stages.length >= 3 && stages.length <= 5, `El proyecto tiene ${stages.length} etapas`);
@@ -2024,21 +2025,28 @@ test('s04-mat-5 ensambla cuatro sólidos con un kit preparado dentro de quince m
   const manualOperations = stages.reduce((total, stage) => total
     + (normalizeFactText(stage.detail).match(/\b(?:dobla|enrolla|une|cierra|fija|presiona|coloca|rotula|compara)\b/g)?.length ?? 0), 0);
   assert.ok(manualOperations <= 10, `El producto exige ${manualOperations} operaciones manuales`);
-  assert.match(production, /autoadhesiv|encastre|autoajustable/);
+  assert.match(production, /velcro|gancho y felpa|broche|encastre|autoajustable/);
   assert.match(production, /etiqueta|rotul|compara/);
 
   const brief = normalizeFactText(lesson.media?.brief ?? '');
-  assert.match(brief, /cartulina.{0,50}(?:180|200|220).{0,20}g\/m|(?:180|200|220).{0,20}g\/m.{0,50}cartulina/);
-  assert.match(brief, /tamano carta.{0,30}100 ?%|100 ?%.{0,30}tamano carta/);
-  assert.match(brief, /zonas? (?:grises?|sombreadas?).{0,50}adhesiv|zonas? adhesivas?.{0,50}(?:grises?|sombreadas?)/);
-  assert.match(brief, /14 tiras?.{0,80}doble cara|doble cara.{0,80}14 tiras?/);
-  assert.match(brief, /p2(?:-| )p5.{0,120}bordes libres.{0,80}base triangular/);
-  assert.match(brief, /y1(?:-| )y4.{0,120}caras triangulares contiguas/);
-  assert.match(brief, /(?:5 mm|5 ×|5 x).{0,100}(?:25|35|40|45|50|90|95) mm/);
-  assert.match(brief, /protector(?:es)? desprendible|papel protector|release liner/);
-  assert.match(brief, /lista de preparacion.{0,500}(?:persona adulta|docente).{0,200}(?:recorta|corta).{0,200}(?:marca|hende|score).{0,300}(?:aplica|pega).{0,100}doble cara/s);
-  assert.match(brief, /(?:svg|pdf).{0,160}(?:aporta|incluye|muestra).{0,160}(?:contornos|dobleces|zonas)/);
-  assert.match(brief, /(?:svg|pdf|impresion).{0,120}no (?:crea|incluye|aplica).{0,40}adhesiv/);
+  assert.match(brief, /15 (?:juegos|sets|kits).{0,80}(?:parejas|sobres)|(?:parejas|sobres).{0,80}15 (?:juegos|sets|kits)/);
+  assert.match(brief, /troquelad|die.?cut/);
+  assert.match(brief, /premarcad|pre.?scored/);
+  assert.match(brief, /lavable.{0,80}(?:polipropileno|cartulina)|(?:polipropileno|cartulina).{0,80}lavable/);
+  assert.match(brief, /reutilizable/);
+  assert.match(brief, /(?:velcro|gancho y felpa|broche|encastre).{0,100}(?:preinstalad|instalad)|(?:preinstalad|instalad).{0,100}(?:velcro|gancho y felpa|broche|encastre)/);
+  assert.match(brief, /sobre.{0,80}(?:rotulad|etiquetad)|(?:rotulad|etiquetad).{0,80}sobre/);
+  assert.match(brief, /(?:svg|pdf).{0,160}(?:(?:dieline|troquel|lineas de corte).{0,160}(?:proveedor|fabricacion)|(?:proveedor|fabricacion).{0,160}(?:dieline|troquel|lineas de corte))/);
+  assert.match(brief, /prototipo.{0,100}(?:armado|ensamblaje)|(?:armado|ensamblaje).{0,100}prototipo/);
+  assert.match(brief, /lista de (?:fabricacion|compra|adquisicion|produccion)/);
+  assert.match(brief, /durabilidad/);
+  assert.match(brief, /seguridad/);
+  assert.match(brief, /accesibilidad/);
+  assert.match(brief, /alternativa.{0,120}(?:imprimible|baja tecnologia).{0,160}opcional/s);
+  assert.match(brief, /rutina docente normal.{0,80}(?:2 minutos|dos minutos)/);
+  assert.match(brief, /docente.{0,140}(?:distribuye|entrega).{0,100}(?:recoge|recolecta)/s);
+  assert.match(brief, /rutina docente normal.{0,240}no (?:recorta|corta).{0,40}(?:marca|dobla).{0,40}(?:aplica|pega).{0,40}adhesiv.{0,40}(?:cada clase|cada sesion)/s);
+  assert.doesNotMatch(brief, /14 tiras|210 tiras/);
 
   const postProject = lesson.steps.slice(projectIndex + 1);
   const exits = postProject.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
@@ -2135,7 +2143,7 @@ test('Semana 4 mantiene una carga estructurada razonable por lección', () => {
     if (!value || typeof value !== 'object') return 0;
     if (Array.isArray(value)) return value.reduce((sum, item) => sum + countItems(item), 0);
     return Object.entries(value as Record<string, unknown>).reduce((sum, [key, item]) => {
-      if (['options', 'items', 'pairs', 'statements', 'questions', 'reveal', 'steps', 'rounds'].includes(key) && Array.isArray(item)) {
+      if (['options', 'items', 'pairs', 'statements', 'questions', 'reveal', 'cards', 'steps', 'rounds'].includes(key) && Array.isArray(item)) {
         return sum + item.length;
       }
       return sum;
@@ -2144,13 +2152,48 @@ test('Semana 4 mantiene una carga estructurada razonable por lección', () => {
   const failures: string[] = [];
   for (const lesson of weekFour.lessons.filter((item) => item.kind === 'materia')) {
     const nestedItems = lesson.steps.reduce((sum, step) => sum + countItems(step.props), 0);
+    const serialized = JSON.stringify(lesson.steps.map((step) => ({ ...step, media: undefined })));
+    const textWords = serialized.match(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ0-9]+/g)?.length ?? 0;
+    const mediaSeconds = [lesson.media, ...lesson.steps.map((step) => step.media)]
+      .reduce((sum, media) => sum + Number(media?.duration ?? 0), 0);
+    const manualActions = normalizeFactText(serialized)
+      .match(/\b(?:dobla|enrolla|une|cierra|presiona|recorta|traza|lanza|pasa|ensaya|representa|escribe|dibuja|rotula)\b/g)?.length ?? 0;
+    const complexity = lesson.steps.length + nestedItems / 4 + mediaSeconds / 60 + textWords / 600 + manualActions / 10;
+    const complexityBudget = lesson.minutes * 2 - 2;
     const longResponse = lesson.steps.find((step) => step.type === 'short-answer'
       && Number((step.props as { minWords?: number }).minWords ?? 0) > lesson.minutes * 3);
-    if (lesson.steps.length > 14 || nestedItems > lesson.minutes * 4 || longResponse) {
-      failures.push(`${lesson.id}: pantallas=${lesson.steps.length}, elementos=${nestedItems}, respuestaLarga=${Boolean(longResponse)}`);
+    if (lesson.steps.length > 14 || nestedItems > lesson.minutes * 3 || complexity > complexityBudget || longResponse) {
+      failures.push(`${lesson.id}: pantallas=${lesson.steps.length}, elementos=${nestedItems}, complejidad=${complexity.toFixed(2)}/${complexityBudget}, respuestaLarga=${Boolean(longResponse)}`);
     }
   }
   assert.deepEqual(failures, []);
+});
+
+test('Las lecciones CNT de pubertad y reproducción caben en quince minutos', () => {
+  const lessons = weekFour.lessons.filter((item) => item.area === 'cnt'
+    && item.minutes === 15
+    && item.steps.some((step) => step.cnb.some((ref) => ['cnt:2.3.2', 'cnt:3.1.1', 'cnt:3.2.1'].includes(ref))));
+  assert.equal(lessons.length, 2);
+  const countItems = (value: unknown): number => {
+    if (!value || typeof value !== 'object') return 0;
+    if (Array.isArray(value)) return value.reduce((sum, item) => sum + countItems(item), 0);
+    return Object.entries(value as Record<string, unknown>).reduce((sum, [key, item]) => (
+      sum + (['options', 'items', 'pairs', 'statements', 'questions', 'reveal', 'cards', 'steps', 'rounds'].includes(key) && Array.isArray(item) ? item.length : 0)
+    ), 0);
+  };
+  for (const lesson of lessons) {
+    const nestedItems = lesson.steps.reduce((sum, step) => sum + countItems(step.props), 0);
+    assert.ok(lesson.steps.length >= 9 && lesson.steps.length <= 11, `${lesson.id}: ${lesson.steps.length} pantallas`);
+    assert.ok(nestedItems <= 34, `${lesson.id}: ${nestedItems} elementos simples`);
+    const modelIndex = lesson.steps.findIndex((step) => step.type === 'worked-example');
+    const firstGradedIndex = lesson.steps.findIndex((step) => getActivity(step.type)?.graded);
+    assert.ok(modelIndex >= 0 && modelIndex < firstGradedIndex, `${lesson.id}: el modelo debe preceder la primera actividad calificada`);
+    assert.ok(lesson.steps.some((step) => step.fase === 'construir' && getActivity(step.type)?.graded && step.hint), `${lesson.id}: falta guia con retroalimentacion`);
+    assert.ok(lesson.steps.some((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded && !step.hint), `${lesson.id}: falta transferencia independiente`);
+    const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
+    assert.equal(exits.length, 2, `${lesson.id}: necesita dos salidas`);
+    assert.ok(exits.every((step) => !step.hint), `${lesson.id}: las salidas no deben tener pistas`);
+  }
 });
 
 test('La lección CNT de cuidado cabe en 17 minutos sin perder modelado ni dos salidas', () => {
