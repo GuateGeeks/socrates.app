@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import type { Ambito, AreaId } from '@/cnb/model';
-import { areaOf, indicadorOf } from '@/cnb/catalog';
+import { areaOf, indicadorOf, lookup } from '@/cnb/catalog';
 import type { Lesson, Mission, StepBase } from './types';
 import { getActivity } from './registry';
 
@@ -24,13 +24,23 @@ export interface Settings {
 /** Caja de Leitner para repaso espaciado (1 = mañana, 2 = 3 días, 3 = 7 días, 4 = 16 días, 5 = dominado). */
 export interface ReviewCard { missionId: string; lessonId: string; stepId: string; box: number; due: string }
 export interface NoteEntry { text: string; lessonId: string; missionId: string; title: string; at: string }
+export type JournalStatus = 'pending-review' | 'approved' | 'needs-revision' | 'self-recorded' | 'legacy';
+export const JOURNAL_STATUS_META: Record<JournalStatus, { label: string }> = {
+  'pending-review': { label: 'Pendiente de revisión' },
+  approved: { label: 'Aprobada' },
+  'needs-revision': { label: 'Necesita revisión' },
+  'self-recorded': { label: 'Registro ordinario' },
+  legacy: { label: 'Registro anterior' },
+};
 export interface JournalEntry {
   stepId: string;
   value: string;
   at: string;
-  status: 'pending-review' | 'self-recorded';
+  status: JournalStatus;
+  primaryArea?: AreaId;
   cnb: string[];
   review?: { criteria: string[]; selfChecks: boolean[] };
+  reviewedAt?: string;
 }
 
 export interface Progress {
@@ -97,7 +107,29 @@ export function defaultStart(now = new Date()): string {
 function hydrate(raw: Progress | null): Progress {
   const base = emptyProgress();
   if (!raw) return base;
-  return { ...base, ...raw, settings: { ...base.settings, ...raw.settings } };
+  const journal = Object.fromEntries(Object.entries(raw.journal ?? {}).map(([key, value]) => {
+    const entry = value as Partial<JournalEntry>;
+    const statuses: JournalStatus[] = ['pending-review', 'approved', 'needs-revision', 'self-recorded', 'legacy'];
+    const status = statuses.includes(entry.status as JournalStatus) ? entry.status as JournalStatus : 'legacy';
+    const cnb = Array.isArray(entry.cnb) ? entry.cnb.filter((ref): ref is string => typeof ref === 'string') : [];
+    const inferredArea = cnb.length > 0 && cnb.every((ref) => areaOf(ref) === areaOf(cnb[0])) ? areaOf(cnb[0]) : undefined;
+    const primaryArea = entry.primaryArea ?? inferredArea;
+    const review = entry.review && Array.isArray(entry.review.criteria) && Array.isArray(entry.review.selfChecks)
+      ? { criteria: entry.review.criteria.filter((item): item is string => typeof item === 'string'), selfChecks: entry.review.selfChecks.map(Boolean) }
+      : undefined;
+    const safeStatus = status === 'pending-review' && (!primaryArea || cnb.length === 0 || !review) ? 'legacy' : status;
+    return [key, {
+      stepId: typeof entry.stepId === 'string' ? entry.stepId : key.split('/').at(-1) ?? key,
+      value: typeof entry.value === 'string' ? entry.value : '',
+      at: typeof entry.at === 'string' ? entry.at : '',
+      status: safeStatus,
+      ...(primaryArea ? { primaryArea } : {}),
+      cnb,
+      ...(review ? { review } : {}),
+      ...(typeof entry.reviewedAt === 'string' ? { reviewedAt: entry.reviewedAt } : {}),
+    } satisfies JournalEntry];
+  }));
+  return { ...base, ...raw, journal, settings: { ...base.settings, ...raw.settings } };
 }
 
 let adapter: StorageAdapter = localStorageAdapter;
@@ -197,6 +229,7 @@ export function recordLesson(mission: Mission, lesson: Lesson, outcomes: StepOut
           value,
           at: d,
           status: def?.evidenceMode === 'journal-pending-review' ? 'pending-review' : 'self-recorded',
+          primaryArea: o.step.areas[0],
           cnb: [...o.step.cnb],
           ...(def?.evidenceMode === 'journal-pending-review' && props.rubric
             ? { review: { criteria: [...props.rubric], selfChecks: [...(response?.checks ?? [])] } }
@@ -229,6 +262,33 @@ export function recordLesson(mission: Mission, lesson: Lesson, outcomes: StepOut
   });
 
   return { xpGained, stars, score, newBadges, indicadores: [...indicadores], streak: streakCount, areas: [...areas], weak: [...weak], contenidos, byIndicator };
+}
+
+export function reviewJournalEntry(key: string, decision: 'approve' | 'revision'): void {
+  updateProgress((p) => {
+    const entry = p.journal[key];
+    if (!entry || entry.status !== 'pending-review') return p;
+    const reviewedAt = today();
+    const n = structuredClone(p);
+    const next = n.journal[key];
+    next.status = decision === 'approve' ? 'approved' : 'needs-revision';
+    next.reviewedAt = reviewedAt;
+    if (decision === 'revision' || !entry.primaryArea) return n;
+
+    const refs = [...new Set(entry.cnb.filter((ref) => lookup(ref) && areaOf(ref) === entry.primaryArea))];
+    const indicators = new Set(refs.map(indicadorOf));
+    for (const indicator of indicators) {
+      const evidence = n.evidence[indicator] ?? { ok: 0, total: 0, last: reviewedAt };
+      n.evidence[indicator] = { ok: evidence.ok + 1, total: evidence.total + 1, last: reviewedAt };
+    }
+    n.contenidos ??= {};
+    for (const ref of refs) {
+      if (lookup(ref)?.kind !== 'contenido') continue;
+      const evidence = n.contenidos[ref] ?? { ok: 0, total: 0, last: reviewedAt };
+      n.contenidos[ref] = { ok: evidence.ok + 1, total: evidence.total + 1, last: reviewedAt };
+    }
+    return n;
+  });
 }
 
 /* ------------------------- Repaso espaciado (Leitner) ------------------------- */

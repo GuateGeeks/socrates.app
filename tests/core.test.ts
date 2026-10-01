@@ -6,7 +6,7 @@ import { initialStep, stepReducer, canSubmit, outcomeOf } from '../src/core/engi
 import { parseNumber, shuffled } from '../src/activities/util';
 import { toVigesimal } from '../src/activities/shared';
 import { mayaTotal } from '../src/activities/maya-number';
-import { setStorageAdapter, recordLesson, getProgress, emptyProgress, nivel, type Progress } from '../src/core/progress';
+import { setStorageAdapter, recordLesson, getProgress, emptyProgress, nivel, reviewJournalEntry, JOURNAL_STATUS_META, type Progress } from '../src/core/progress';
 import { parseDosificacion } from '../scripts/build-cnb.mjs';
 import { COURSE, evaluateBadges } from '../src/content/index';
 import { mediaReplacementSummary } from '../src/media/mockRegistry';
@@ -121,9 +121,110 @@ test('respuesta escrita se guarda pendiente de revision sin acreditar dominio', 
     value: JSON.stringify({ text: 'Esta respuesta incluye evidencia y una explicacion clara', checks: [true, true], seen: true }),
     at: progress.lessons['journal-lesson'].completedAt,
     status: 'pending-review',
+    primaryArea: 'l1',
     cnb: ['l1:3.4.2'],
     review: { criteria: ['Inclui evidencia', 'Revise claridad'], selfChecks: [true, true] },
   });
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('hidratacion recupera el area segura de diarios pendientes creados antes de guardarla', () => {
+  const stored = {
+    ...emptyProgress(),
+    journal: {
+      'lesson/step': {
+        stepId: 'step', value: '{}', at: '2026-01-21', status: 'pending-review', cnb: ['l1:3.4.2'],
+        review: { criteria: ['Es claro'], selfChecks: [true] },
+      },
+    },
+  } as unknown as Progress;
+  setStorageAdapter({ load: () => stored, save: () => {} });
+  assert.equal(getProgress().journal['lesson/step'].status, 'pending-review');
+  assert.equal(getProgress().journal['lesson/step'].primaryArea, 'l1');
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('estados del diario exponen etiquetas docentes distintas y accesibles', () => {
+  assert.deepEqual(Object.fromEntries(Object.entries(JOURNAL_STATUS_META).map(([status, value]) => [status, value.label])), {
+    'pending-review': 'Pendiente de revisión',
+    approved: 'Aprobada',
+    'needs-revision': 'Necesita revisión',
+    'self-recorded': 'Registro ordinario',
+    legacy: 'Registro anterior',
+  });
+});
+
+test('aprobar un diario acredita sus referencias de la misma area exactamente una vez y persiste', () => {
+  let mem: Progress | null = null;
+  setStorageAdapter({ load: () => mem, save: (p) => { mem = structuredClone(p); } });
+  const mission = COURSE.missions[0];
+  const step = {
+    id: 'approval-fixture', type: 'short-answer', fase: 'aplicar' as const, areas: ['l1' as const],
+    cnb: ['l1:3.4.1', 'l1:3.4.2', 'ccss:7.1.3'], prompt: 'Escribe.',
+    props: { minWords: 6, model: 'Modelo.', rubric: ['Inclui evidencia'] },
+  };
+  recordLesson(mission, { id: 'approval-lesson', title: 'Diario', minutes: 5, steps: [step] }, [{
+    step, graded: false, correct: true, firstTry: true, score: 1,
+    value: { text: 'Escribi una respuesta con evidencia concreta suficiente', checks: [true], seen: true },
+  }], () => []);
+
+  reviewJournalEntry('approval-lesson/approval-fixture', 'approve');
+  const approved = structuredClone(getProgress());
+  assert.equal(approved.journal['approval-lesson/approval-fixture'].status, 'approved');
+  assert.match(approved.journal['approval-lesson/approval-fixture'].reviewedAt ?? '', /^\d{4}-\d{2}-\d{2}$/);
+  assert.deepEqual(approved.evidence['l1:3.4'], { ok: 1, total: 1, last: approved.journal['approval-lesson/approval-fixture'].reviewedAt });
+  assert.deepEqual(approved.contenidos?.['l1:3.4.1'], { ok: 1, total: 1, last: approved.journal['approval-lesson/approval-fixture'].reviewedAt });
+  assert.deepEqual(approved.contenidos?.['l1:3.4.2'], { ok: 1, total: 1, last: approved.journal['approval-lesson/approval-fixture'].reviewedAt });
+  assert.equal(approved.evidence['ccss:7.1'], undefined, 'una referencia de otra area no debe recibir credito');
+  assert.equal(approved.contenidos?.['ccss:7.1.3'], undefined);
+  assert.deepEqual(mem, approved, 'la decisión debe persistirse mediante el adaptador');
+
+  reviewJournalEntry('approval-lesson/approval-fixture', 'approve');
+  assert.deepEqual(getProgress(), approved, 'aprobar de nuevo no debe duplicar dominio');
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('solicitar revision persiste la decision sin acreditar dominio ni permitir aprobacion tardia directa', () => {
+  let mem: Progress | null = null;
+  const pending = {
+    ...emptyProgress(),
+    journal: {
+      'lesson/step': {
+        stepId: 'step', value: '{}', at: '2026-01-21', status: 'pending-review', primaryArea: 'l1', cnb: ['l1:3.4.2'],
+        review: { criteria: ['Es claro'], selfChecks: [true] },
+      },
+    },
+  } as unknown as Progress;
+  setStorageAdapter({ load: () => pending, save: (p) => { mem = structuredClone(p); } });
+  reviewJournalEntry('lesson/step', 'revision');
+  assert.equal(getProgress().journal['lesson/step'].status, 'needs-revision');
+  assert.match(getProgress().journal['lesson/step'].reviewedAt ?? '', /^\d{4}-\d{2}-\d{2}$/);
+  assert.equal(getProgress().evidence['l1:3.4'], undefined);
+  assert.deepEqual(mem, getProgress());
+
+  reviewJournalEntry('lesson/step', 'approve');
+  assert.equal(getProgress().journal['lesson/step'].status, 'needs-revision');
+  assert.equal(getProgress().evidence['l1:3.4'], undefined);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('hidratacion normaliza diarios v1 antiguos como registros legacy sin evidencia revisable', () => {
+  const legacy = {
+    ...emptyProgress(),
+    journal: {
+      'old-lesson/old-step': { stepId: 'old-step', value: 'Reflexion guardada antes de las revisiones.', at: '2026-01-20' },
+    },
+  } as unknown as Progress;
+  setStorageAdapter({ load: () => legacy, save: () => {} });
+
+  assert.deepEqual(getProgress().journal['old-lesson/old-step'], {
+    stepId: 'old-step',
+    value: 'Reflexion guardada antes de las revisiones.',
+    at: '2026-01-20',
+    status: 'legacy',
+    cnb: [],
+  });
+  assert.equal(getProgress().evidence['l1:3.4'], undefined);
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 

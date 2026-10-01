@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useProgress, nivel, NIVEL_LABEL, getProgress } from '@/core/progress';
+import { useProgress, nivel, NIVEL_LABEL, getProgress, JOURNAL_STATUS_META, reviewJournalEntry } from '@/core/progress';
 import { navigate } from '@/core/router';
 import { AREAS, FASES, WHEEL_CICLO_II, type AreaId, type Fase } from '@/cnb/model';
 import { getCatalog, indicadorOf, lookup } from '@/cnb/catalog';
@@ -181,7 +181,41 @@ export function Docente() {
             <SectionTitle>Diario del estudiante (respuestas abiertas)</SectionTitle>
             {Object.keys(p.journal).length === 0 ? <p className="ds-small ds-muted" style={{ marginTop: 8 }}>Aún no hay reflexiones, escritos ni decisiones registradas.</p> : (
               <ul className="dc__journal">
-                {Object.entries(p.journal).map(([k, j]) => <li key={k}><code className="ds-xs">{k}</code><div className="ds-small">{formatJournal(j.value)}</div></li>)}
+                {Object.entries(p.journal).map(([k, j]) => (
+                  <li key={k} className={`dc__journal-entry dc__journal-entry--${j.status}`}>
+                    <div className="ds-row dc__journal-head">
+                      <code className="ds-xs">{k}</code>
+                      <span className="dc__journal-status" role="status">{JOURNAL_STATUS_META[j.status].label}</span>
+                    </div>
+                    <div className="ds-small dc__journal-response">{formatJournal(j.value)}</div>
+                    {j.cnb.length > 0 && (
+                      <div className="dc__journal-refs" aria-label="Referencias CNB adjuntas">
+                        {j.cnb.map((cnb) => <code key={cnb} className="ds-xs" title={lookup(cnb)?.node.text}>{cnb}</code>)}
+                      </div>
+                    )}
+                    {j.review && (
+                      <div className="dc__journal-rubric">
+                        <strong className="ds-xs">Lista de cotejo del estudiante</strong>
+                        <ul aria-label="Criterios y autoevaluación">
+                          {j.review.criteria.map((criterion, index) => (
+                            <li key={`${criterion}-${index}`}>
+                              <Icon name={j.review!.selfChecks[index] ? 'Check' : 'Minus'} size={14} />
+                              <span>{criterion}</span>
+                              <span className="sr-only">{j.review!.selfChecks[index] ? 'Marcado por el estudiante' : 'No marcado por el estudiante'}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {j.reviewedAt && <p className="ds-xs ds-muted">Revisada: {j.reviewedAt}</p>}
+                    {j.status === 'pending-review' && (
+                      <div className="ds-row dc__journal-actions" aria-label="Acciones de revisión docente">
+                        <Button size="sm" variant="ok" onClick={() => reviewJournalEntry(k, 'approve')}><Icon name="Check" size={16} /> Aprobar</Button>
+                        <Button size="sm" variant="secondary" onClick={() => reviewJournalEntry(k, 'revision')}><Icon name="RotateCcw" size={16} /> Solicitar revisión</Button>
+                      </div>
+                    )}
+                  </li>
+                ))}
               </ul>
             )}
           </Card>

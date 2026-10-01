@@ -488,8 +488,8 @@ export default [
         ] },
       ),
       cierre({ areas: ['cnt'], cnb: [] },
-        ['Explico el origen del universo según distintas cosmovisiones y la ciencia', 'Nombro los organelos de la célula animal y su función', 'Diferencio una célula animal de una vegetal'],
-        ['Contaré a mi familia lo que aprendí sobre las células', 'Preguntaré a una persona mayor qué relato de origen conoce']),
+        ['Diferencio una célula animal de una vegetal', 'Relaciono núcleo, cromosomas, ADN y genes', 'Explico que un gen es un segmento de ADN con una instrucción'],
+        ['Revisaré que mi modelo distinga ambos tipos de célula', 'Explicaré cómo un cromosoma organiza ADN y contiene genes']),
     ],
   }),
 ];

@@ -1950,6 +1950,19 @@ test('Semana 1 evita absolutos inexactos sobre ADN y cromosomas', () => {
   assert.doesNotMatch(summary, /46 cromosomas en (?:cada|todas?) (?:las? )?c[eé]lulas?/);
 });
 
+test('CNT3 Semana 1 cierra sobre celulas, cromosomas, ADN y genes sin residuos de otras lecciones', () => {
+  const lesson = weekOne.lessons.find((item) => item.id === 's01-cnt-3');
+  assert.ok(lesson);
+  const closure = lesson.steps.at(-1);
+  assert.ok(closure, 'CNT3 necesita un cierre');
+  const text = normalizeFactText(JSON.stringify(closure));
+  assert.match(text, /celula/);
+  assert.match(text, /cromosom/);
+  assert.match(text, /adn/);
+  assert.match(text, /gen(?:es)?/);
+  assert.doesNotMatch(text, /origen del universo|cosmovision|familia|persona mayor|organelos? de la celula animal/);
+});
+
 test('Semana 2 distingue la ameba común de una ameba parásita que causa enfermedad', () => {
   const parasites = weekTwo.lessons.find((lesson) => lesson.id === 's02-cnt-3');
   assert.ok(parasites, 'Falta la lección de parásitos');
