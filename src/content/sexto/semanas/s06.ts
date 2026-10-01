@@ -164,7 +164,7 @@ export default semana({
             { id: 'b', text: 'La creación de una organización internacional provocó una guerra que ya había terminado' },
             { id: 'c', text: 'La defensa posterior de los derechos humanos causó una guerra anterior' },
           ], correct: ['a'] }),
-        S.fill({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.2'], prompt: 'Completa con la palabra cuya r inicial suena fuerte.' },
+        S.fill({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.1'], prompt: 'Completa con la palabra cuya r inicial suena fuerte.' },
           { text: 'La palabra es [[rábano]].', distractors: ['pera', 'arena'] }),
         S.choice({ fase: 'comprobar', areas: ['l3'], cnb: ['l3:3.3.1'], prompt: 'A new card says: “First, wash the cup. Then, add the fruit. Finally, serve it.” What happens immediately before serving?' },
           { options: [{ id: 'a', text: 'Add the fruit' }, { id: 'b', text: 'Wash the cup' }, { id: 'c', text: 'Store the card' }], correct: ['a'] }),
@@ -180,7 +180,7 @@ export default semana({
     }),
   ],
   bank: [
-    S.number({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.2'], prompt: 'R = {cacao, canela, clavo} y S = {canela, vainilla}. ¿Cuántos elementos tiene R Δ S?' },
+    S.number({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:3.2.3'], prompt: 'R = {cacao, canela, clavo} y S = {canela, vainilla}. ¿Cuántos elementos tiene R Δ S?' },
       { answer: 3, unit: 'elementos' }),
     S.choice({ fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.1'], prompt: '¿Cuál objetivo comunica con precisión un proyecto escolar?' },
       { options: [{ id: 'a', text: 'Comparar tres opciones y presentar sus costos el viernes' }, { id: 'b', text: 'El proyecto más bonito' }, { id: 'c', text: 'Que todo salga bien' }], correct: ['a'] }),

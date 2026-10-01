@@ -14,7 +14,7 @@ export default [
     minutes: 15,
     gancho: 'Las tortillas son deliciosas y nos dan energía. Pero, ¿qué pasaría si todo el día comieras solo tortillas?',
     objetivos: [
-      'Diferenciar alimento de nutriente',
+      'Relacionar alimentos cotidianos con sus nutrientes y funciones, distinguiendo alimento de nutriente',
     ],
     resumen: [
       'Un alimento es lo que comemos; un nutriente es una sustancia del alimento que el cuerpo usa para vivir.',
@@ -53,16 +53,16 @@ export default [
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'hacer', title: 'Ejemplo: los nutrientes de un caldo',
-          prompt: 'Mira cómo analizar los nutrientes de una comida completa.' },
+          prompt: 'Mira cómo distinguir los alimentos de sus nutrientes y relacionarlos con funciones del cuerpo.' },
         { icon: 'Utensils', problem: 'El almuerzo de la familia de Juana es **caldo de res** con güisquil, zanahoria, papa y elote, **tortillas** y una **naranja** de postre. ¿Qué nutrientes tiene?',
           steps: [
-            { text: 'La **carne de res** aporta **proteínas** (y hierro y algo de grasa).' },
-            { text: 'La **papa**, el **elote** y las **tortillas** aportan **carbohidratos**.' },
-            { text: 'El **güisquil**, la **zanahoria** y la **naranja** aportan **vitaminas y minerales** (vitamina A en la zanahoria, vitamina C en la naranja).' },
-            { text: 'El caldo aporta **agua**.', why: 'Revisa si están todos los grupos: energía, construcción y regulación.' },
+            { text: 'Primero distingo: carne, papa, elote, tortilla, güisquil, zanahoria y naranja son **alimentos**; proteínas, carbohidratos, vitaminas, minerales y agua son **nutrientes**.' },
+            { text: 'La **carne de res**, un alimento, aporta **proteínas**, nutrientes que ayudan a construir y reparar tejidos.' },
+            { text: 'La **papa**, el **elote** y las **tortillas** son alimentos que aportan **carbohidratos**, nutrientes que dan energía.' },
+            { text: 'El **güisquil**, la **zanahoria** y la **naranja** aportan vitaminas y minerales que participan en procesos normales; el caldo aporta agua, que transporta sustancias y regula la temperatura.' },
           ],
-          answer: 'Es un almuerzo **variado**: tiene proteínas, carbohidratos, vitaminas, minerales, agua y un poco de grasa.',
-          tip: 'Un plato con muchos colores suele tener más variedad de nutrientes.' },
+          answer: 'Cada alimento puede aportar varios nutrientes; aquí relacionamos aportes destacados con su función sin confundir el alimento con la sustancia que contiene.',
+          tip: 'Nombra primero el alimento, después un nutriente que aporta y finalmente una función de ese nutriente.' },
       ),
       S.sort(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer',
@@ -99,38 +99,44 @@ export default [
           { id: 'w', left: 'Agua', leftIcon: 'Droplets', right: 'Transporta nutrientes y regula la temperatura' },
         ] },
       ),
-      S.choice(
+      S.sort(
         { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer',
-          prompt: 'En distintas comunidades de Guatemala se combina **frijol con tortilla**. ¿Qué explica una parte de su aporte?',
-          explain: 'Maíz y frijol tienen perfiles de aminoácidos que se **complementan**. También aportan carbohidratos, fibra y minerales en cantidades que dependen de ingredientes y porciones.' },
+          prompt: 'Sin pistas, distingue **alimentos** cotidianos de los **nutrientes** que contienen antes de relacionarlos con una función.' },
+        { buckets: [
+          { id: 'a', label: 'Alimento', icon: 'Utensils', color: 'var(--c-maiz-strong)' },
+          { id: 'n', label: 'Nutriente', icon: 'Sparkles', color: 'var(--c-ok)' },
+        ], items: [
+          { id: 'x1', text: 'Tortilla', bucket: 'a' },
+          { id: 'x2', text: 'Huevo', bucket: 'a' },
+          { id: 'x3', text: 'Carbohidratos: energía', bucket: 'n' },
+          { id: 'x4', text: 'Proteínas: construcción y reparación', bucket: 'n' },
+        ] },
+      ),
+      S.match(
+        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer',
+          prompt: 'Sin ayuda, relaciona cada **alimento** con un **nutriente destacado y su función**. Un alimento también puede aportar otros nutrientes.' },
+        { leftTitle: 'Alimento', rightTitle: 'Nutriente y función', pairs: [
+          { id: 'm1', left: 'Arroz', right: 'Carbohidratos: aportan energía' },
+          { id: 'm2', left: 'Huevo', right: 'Proteínas: construyen y reparan tejidos' },
+          { id: 'm3', left: 'Aguacate', right: 'Grasas: aportan energía y apoyan la absorción de ciertas vitaminas' },
+          { id: 'm4', left: 'Papaya', right: 'Vitaminas y minerales: participan en procesos normales del cuerpo' },
+        ] },
+      ),
+      S.choice(
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:5.1.1'], prompt: '¿Qué opción distingue correctamente **alimento**, **nutriente** y **función**?' },
         { options: [
-          { id: 'a', text: 'Porque sus perfiles de aminoácidos se complementan', icon: 'Puzzle' },
-          { id: 'b', text: 'Porque los dos tienen solo grasa', icon: 'Droplet', feedback: 'Ni el frijol ni la tortilla son alimentos grasosos.' },
-          { id: 'c', text: 'Porque esa combinación aporta exactamente lo mismo a todas las personas', icon: 'X', feedback: 'Las necesidades, cantidades y demás alimentos disponibles varían.' },
+          { id: 'a', text: 'El frijol es un alimento; aporta proteínas, nutrientes que ayudan a construir y reparar tejidos' },
+          { id: 'b', text: 'La proteína es un alimento y el frijol es una función' },
+          { id: 'c', text: 'El frijol es un nutriente cuya función es llamarse proteína' },
         ], correct: ['a'] },
       ),
-      S.fill(
-        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:5.1.1'], ambito: 'conocer',
-          prompt: 'El personal de salud estudia una anemia y pregunta por la alimentación de Pedro. Completa con el mineral que participa en la hemoglobina y el transporte de oxígeno.',
-          explain: 'El **hierro** es necesario para formar hemoglobina. Una deficiencia puede contribuir a ciertos tipos de anemia, pero el personal de salud debe identificar la causa.' },
-        { text: 'El mineral es el [[hierro]].', distractors: ['yodo', 'calcio'] },
-      ),
-      S.choice(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:5.1.1'], prompt: '¿Qué nutriente principal aportan el **frijol** y el **huevo**?' },
-        { options: [
-          { id: 'a', text: 'Carbohidratos' },
-          { id: 'b', text: 'Proteínas' },
-          { id: 'c', text: 'Grasas' },
-          { id: 'd', text: 'Vitamina C' },
-        ], correct: ['b'] },
-      ),
       S.tf(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:5.1.1'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:5.1.1'], prompt: 'Comprueba la relación entre **alimentos**, **nutrientes** y sus **funciones**.' },
         { statements: [
-          { text: 'Los carbohidratos, como el arroz y la papa, dan energía.', answer: true },
+          { text: 'El arroz y la papa son alimentos que pueden aportar carbohidratos, nutrientes que dan energía.', answer: true },
+          { text: 'El huevo es un nutriente y la proteína es un alimento.', answer: false, why: 'El huevo es un alimento; la proteína es uno de los nutrientes que puede aportar.' },
+          { text: 'La guayaba es un alimento que puede aportar vitaminas y minerales, nutrientes que participan en procesos normales del cuerpo.', answer: true },
           { text: 'En una refacción escolar, se debe asumir que un solo ingrediente cubre todas las funciones y necesidades.', answer: false, why: 'Ningún ingrediente de una refacción debe asumirse, por sí solo, como capaz de cubrir todas las necesidades. Una combinación variada puede ayudar a reunir aportes distintos. Esta afirmación no se refiere a la lactancia materna exclusiva durante los primeros 6 meses.' },
-          { text: 'El calcio participa en la formación y el mantenimiento normal de huesos y dientes.', answer: true },
-          { text: 'Las vitaminas se encuentran únicamente en frutas y verduras.', answer: false, why: 'Diferentes vitaminas aparecen en distintos alimentos, como frutas, verduras, legumbres, huevos, lácteos, aceites y productos fortificados.' },
         ] },
       ),
     ],

@@ -14,7 +14,7 @@ export default [
     minutes: 14,
     gancho: '"Pero" y "perro" se parecen muchísimo… pero uno es una palabra que une ideas y el otro ¡ladra! ¿Qué las hace diferentes al oído?',
     objetivos: [
-      'Pronunciar la r suave y la r fuerte del español',
+      'Relacionar la escritura y posición de r o rr con el sonido suave o fuerte',
     ],
     resumen: [
       'El español tiene dos sonidos de r: la r suave (la lengua toca una vez detrás de los dientes de arriba) y la r fuerte (la lengua vibra varias veces).',
@@ -90,23 +90,20 @@ export default [
         { target: 'palabras con r fuerte', text: 'El {perro} de {Rubén} {corre} por el {cerro} para buscar a {Enrique}.' },
       ),
       S.match(
-        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:4.1.2'], ambito: 'hacer',
-          prompt: 'Estas palabras solo cambian por la r. Une cada una con su significado.',
-          explain: 'Pronunciar bien la r evita confusiones: no es lo mismo subir al "cero" que al "cerro".' },
-        { leftTitle: 'Palabra', rightTitle: 'Significado', pairs: [
-          { id: 'p1', left: 'pero', right: 'Palabra que une ideas opuestas' },
-          { id: 'p2', left: 'perro', right: 'Animal que ladra' },
-          { id: 'p3', left: 'caro', right: 'Que cuesta mucho dinero' },
-          { id: 'p4', left: 'carro', right: 'Vehículo' },
-          { id: 'p5', left: 'cero', right: 'El número 0' },
-          { id: 'p6', left: 'cerro', right: 'Montaña pequeña' },
+        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:4.1.1'], ambito: 'hacer',
+          prompt: 'Sin pistas, une la **escritura y posición** de la r o rr con su **sonido suave o fuerte**.' },
+        { leftTitle: 'Escritura y posición', rightTitle: 'Sonido', pairs: [
+          { id: 'p1', left: 'r al inicio: ratón', right: 'r fuerte' },
+          { id: 'p2', left: 'rr entre vocales: perro', right: 'r fuerte' },
+          { id: 'p3', left: 'r después de n: honra', right: 'r fuerte' },
+          { id: 'p4', left: 'r entre vocales: caro', right: 'r suave' },
+          { id: 'p5', left: 'r al final: mar', right: 'r suave' },
         ] },
       ),
       S.fill(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:4.1.1'], ambito: 'hacer',
-          prompt: 'Completa el relato con la palabra correcta. Después léelo en voz alta cuidando cada r.',
-          explain: 'Cerro (montaña), perro (animal), caro (precio alto) y pero (une ideas opuestas).' },
-        { text: 'Subimos al [[cerro]] para ver el volcán. El [[perro]] de Ana nos acompañó. El pasaje de la camioneta estaba [[caro]], [[pero]] valió la pena.', distractors: ['cero', 'carro'] },
+          prompt: 'Completa la regla visual que relaciona **posición**, **escritura** y sonido **suave o fuerte**.' },
+        { text: 'Entre vocales, el sonido fuerte se escribe [[rr]], como en perro; al inicio se escribe [[r]], como en rosa. Una r entre vocales suele sonar [[suave]], como en pero.', distractors: ['fuerte'] },
       ),
       S.cards(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:4.1.1'], ambito: 'hacer',
@@ -118,7 +115,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.1'], prompt: 'Boleto de salida: ¿cuál de estas palabras tiene **r suave**?' },
+        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.1'], prompt: 'Boleto de salida: ¿cuál palabra cumple la relación **una r entre vocales → sonido suave**?' },
         { options: [
           { id: 'a', text: 'loro' },
           { id: 'b', text: 'ropa' },
@@ -127,7 +124,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.1', 'l2:4.1.2'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.1'], prompt: 'Relaciona la escritura y posición de r o rr con su sonido suave o fuerte.' },
         { statements: [
           { text: 'La r al inicio de una palabra, como en "río", suena fuerte.', answer: true },
           { text: 'En "alrededor", la r después de l suena suave.', answer: false, why: 'Después de n, l o s, la r suena fuerte.' },
@@ -210,7 +207,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.sort(
-        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:4.1.1', 'l2:4.1.2'], ambito: 'hacer',
+        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:4.1.1'], ambito: 'hacer',
           prompt: 'Di cada par en voz alta. ¿**Suenan distinto** (par mínimo) o **suenan igual** aunque se escriben distinto?',
           explain: 'Suenan distinto: casa/gasa, tos/dos, peso/piso. Suenan igual: hola/ola (h muda), tubo/tuvo (b = v), casa/caza (s = z en Guatemala).' },
         { buckets: [
@@ -251,7 +248,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.1', 'l2:4.1.2'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['l2'], cnb: ['l2:4.1.1'], prompt: '¿Verdadero o falso?' },
         { statements: [
           { text: '"Peso" y "piso" son un par mínimo: cambian por un solo sonido.', answer: true },
           { text: 'En español, la b y la v suenan distinto.', answer: false, why: 'En español la b y la v suenan igual; se distinguen al escribir.' },

@@ -3147,6 +3147,161 @@ test('Semana 6 no concentra todas las referencias CNB en pasos genericos', () =>
   }
 });
 
+test('Semanas 1 a 6 alinean verbos de resultado con evidencia del mismo tipo', () => {
+  const lessons = unitWeeks
+    .filter((week) => (week.semana ?? 99) <= 6)
+    .flatMap((week) => week.lessons.filter((lesson) => lesson.kind === 'materia'));
+  const evidenceByVerb = [
+    { verb: /(?:^|\by\s+)pronunciar\b/, label: 'pronunciar', apply: new Set(['project']) },
+    { verb: /(?:^|\by\s+)ejecutar\b/, label: 'ejecutar', apply: new Set(['project', 'pulse-lab', 'rhythm']) },
+    { verb: /(?:^|\by\s+)construir\b/, label: 'construir', apply: new Set([
+      'project', 'short-answer', 'fill-blank', 'order', 'symmetry-loom', 'polygon-lab', 'coordinate-map',
+    ]) },
+    { verb: /(?:^|\by\s+)presentar\b/, label: 'presentar', apply: new Set(['project', 'short-answer']) },
+    { verb: /(?:^|\by\s+)demostrar\b/, label: 'demostrar', apply: new Set(['project', 'short-answer', 'pulse-lab', 'rhythm']) },
+  ];
+  const contrastVerbs = /(?:^|\by\s+)(?:comparar|diferenciar|distinguir|clasificar)\b|\bcomparando\w*/;
+  const contrastTypes = new Set([
+    'explain', 'worked-example', 'choice', 'sort', 'match', 'order', 'true-false', 'dilemma', 'reading', 'highlight',
+  ]);
+  const reasoningTypes = new Set(['short-answer', 'project', 'dilemma']);
+  const hasReasoningResponse = (step: typeof lessons[number]['steps'][number]): boolean => {
+    if (reasoningTypes.has(step.type)) return true;
+    if (step.type !== 'choice') return false;
+    const props = step.props as { options?: Array<{ id?: string; text?: string }>; correct?: string[] };
+    const correct = new Set(props.correct ?? []);
+    return (props.options ?? []).some((option) => correct.has(option.id ?? '')
+      && /\b(?:porque|para que|ya que|debido a|permite|ayuda a)\b/.test(normalizeFactText(option.text)));
+  };
+  const failures: string[] = [];
+  for (const lesson of lessons) {
+    const objective = normalizeFactText((lesson.objetivos ?? []).join(' '));
+    const apply = lesson.steps.filter((step) => step.fase === 'aplicar');
+    const exits = lesson.steps.filter((step) => step.fase === 'comprobar');
+    const model = lesson.steps.filter((step) => step.fase === 'construir');
+    for (const rule of evidenceByVerb) {
+      if (rule.verb.test(objective) && !apply.some((step) => rule.apply.has(step.type))) {
+        failures.push(`${lesson.id}: ${rule.label} sin evidencia de produccion o desempeno`);
+      }
+    }
+    if (contrastVerbs.test(objective)) {
+      if (!model.some((step) => contrastTypes.has(step.type))) failures.push(`${lesson.id}: contraste sin modelo`);
+      if (!apply.some((step) => contrastTypes.has(step.type))) failures.push(`${lesson.id}: contraste sin transferencia`);
+      if (!exits.some((step) => contrastTypes.has(step.type))) failures.push(`${lesson.id}: contraste sin salida`);
+    }
+    if (/(?:^|\by\s+)calcular\b/.test(objective)) {
+      if (!apply.some((step) => step.type === 'number-input')) failures.push(`${lesson.id}: calcular sin transferencia numerica`);
+      if (!exits.some((step) => step.type === 'number-input')) failures.push(`${lesson.id}: calcular sin salida numerica`);
+    }
+    if (/(?:^|\by\s+)justificar\b/.test(objective)) {
+      if (!apply.some(hasReasoningResponse)) failures.push(`${lesson.id}: justificar sin respuesta razonada aplicada`);
+      if (!exits.some(hasReasoningResponse)) failures.push(`${lesson.id}: justificar sin respuesta razonada de salida`);
+    }
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 6 asigna referencias CNB segun la operacion de conjuntos evaluada', () => {
+  const assessments = [
+    ...weekSix.lessons.flatMap((lesson) => lesson.steps),
+    ...weekSixBank,
+  ].filter((step) => step.areas.includes('mat') && step.fase === 'comprobar' && getActivity(step.type)?.graded);
+  const failures: string[] = [];
+  for (const step of assessments) {
+    const text = normalizeFactText(JSON.stringify(step));
+    if (/\bdelta\b|Δ/.test(JSON.stringify(step))) {
+      if (!step.cnb.includes('mat:3.2.3')) failures.push(`${step.id}: diferencia simetrica sin mat:3.2.3`);
+      continue;
+    }
+    const operators = (JSON.stringify(step).match(/[∪∩−]/g) ?? []).length;
+    if ((/[()]/.test(JSON.stringify(step)) && operators >= 2) || /operacion combinada/.test(text)) {
+      if (!step.cnb.includes('mat:3.2.2')) failures.push(`${step.id}: operacion combinada sin mat:3.2.2`);
+    } else if (operators >= 1 && !step.cnb.includes('mat:3.2.1')) {
+      failures.push(`${step.id}: union, interseccion o diferencia sin mat:3.2.1`);
+    }
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 6 usa l2:4.1.2 solo cuando existe entrada auditiva real', () => {
+  const l2Lessons = weekSix.lessons.filter((lesson) => lesson.area === 'l2');
+  const weeklyAssessments = [
+    ...weekSix.lessons.filter((lesson) => lesson.kind === 'reto').flatMap((lesson) => lesson.steps),
+    ...weekSixBank,
+  ].filter((step) => step.areas.includes('l2'));
+  const failures: string[] = [];
+  for (const lesson of l2Lessons) {
+    for (const step of lesson.steps.filter((item) => item.cnb.includes('l2:4.1.2'))) {
+      const text = normalizeFactText(JSON.stringify(step));
+      const hasAudio = step.media?.kind === 'audio' || lesson.media?.kind === 'audio';
+      const requiresHearing = /\b(?:audio|dictado|escucha|escuchas|escucho|oye|oyes|oiste|oir)\b/.test(text);
+      if (!hasAudio || !requiresHearing) failures.push(`${step.id}: l2:4.1.2 sin audio o escucha`);
+    }
+  }
+  for (const step of weeklyAssessments) {
+    const text = normalizeFactText(JSON.stringify(step));
+    const hasAudio = step.media?.kind === 'audio';
+    if (step.cnb.includes('l2:4.1.2') && (!hasAudio || !/\b(?:audio|dictado|escucha|oye|oyes|oiste|oir)\b/.test(text))) {
+      failures.push(`${step.id}: evaluacion semanal visual usa l2:4.1.2`);
+    }
+    if (/r inicial|rr entre vocales|r suave|r fuerte/.test(text) && !hasAudio && !step.cnb.includes('l2:4.1.1')) {
+      failures.push(`${step.id}: regla visual sin l2:4.1.1`);
+    }
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('CNT1 Semana 6 evidencia una sola relacion alimento nutriente funcion en toda la secuencia', () => {
+  const lesson = weekSix.lessons.find((item) => item.id === 's06-cnt-1');
+  assert.ok(lesson, 'Falta s06-cnt-1');
+  assert.equal((lesson.objetivos ?? []).length, 1);
+  assert.match(normalizeFactText((lesson.objetivos ?? []).join(' ')),
+    /relacionar alimentos cotidianos con sus nutrientes y funciones.{0,80}distinguiendo alimento de nutriente/);
+  const dimensions = (step: typeof lesson.steps[number]) => {
+    const text = normalizeFactText(JSON.stringify(step));
+    return {
+      distinction: /\balimento\w*.{0,100}\bnutriente\w*|\bnutriente\w*.{0,100}\balimento\w*/.test(text),
+      source: /tortilla|frijol|huevo|aguacate|papaya|guayaba|zanahoria|papa|arroz/.test(text),
+      function: /energia|constru|repar|procesos|transporta|regula|huesos|sangre/.test(text),
+    };
+  };
+  const model = lesson.steps.find((step) => step.type === 'worked-example');
+  assert.ok(model, 'Falta modelo CNT1');
+  assert.deepEqual(dimensions(model), { distinction: true, source: true, function: true });
+  const guided = lesson.steps.filter((step) => step.fase === 'construir' && step.hint && step.explain);
+  assert.ok(guided.some((step) => step.type === 'sort') && guided.some((step) => step.type === 'match'));
+  const guidedEvidence = dimensions({ ...guided[0], props: guided.map((step) => step.props) });
+  assert.deepEqual(guidedEvidence, { distinction: true, source: true, function: true });
+  const transfer = lesson.steps.filter((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded);
+  assert.ok(transfer.length >= 2);
+  assert.ok(transfer.some((step) => step.type === 'sort') && transfer.some((step) => step.type === 'match'));
+  const transferEvidence = dimensions({ ...transfer[0], props: transfer.map((step) => step.props) });
+  assert.deepEqual(transferEvidence, { distinction: true, source: true, function: true });
+  const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
+  assert.equal(exits.length, 2);
+  assert.ok(exits.every((step) => Object.values(dimensions(step)).every(Boolean)), 'Una salida no evidencia el resultado integrado');
+});
+
+test('L2-1 Semana 6 evalua reglas visuales de r y rr, no pronunciacion sin registro', () => {
+  const lesson = weekSix.lessons.find((item) => item.id === 's06-l2-1');
+  assert.ok(lesson, 'Falta s06-l2-1');
+  assert.match(normalizeFactText((lesson.objetivos ?? []).join(' ')), /relacionar.{0,80}(?:escritura|posicion).{0,100}(?:sonido suave|sonido fuerte)/);
+  assert.doesNotMatch(normalizeFactText((lesson.objetivos ?? []).join(' ')), /pronunciar/);
+  const hasRuleEvidence = (step: typeof lesson.steps[number]): boolean => {
+    const text = normalizeFactText(JSON.stringify(step));
+    return /\brr\b|r al inicio|entre vocales|despues de [nls]|posicion/.test(text)
+      && /r suave|r fuerte|sonido suave|sonido fuerte/.test(text);
+  };
+  const model = lesson.steps.find((step) => step.type === 'worked-example');
+  const guided = lesson.steps.find((step) => step.fase === 'construir' && step.hint && step.explain);
+  const transfer = lesson.steps.filter((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded);
+  const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
+  assert.ok(model && hasRuleEvidence(model), 'El modelo no demuestra la regla grafema-sonido');
+  assert.ok(guided && hasRuleEvidence(guided), 'La guia no aplica la regla grafema-sonido');
+  assert.ok(transfer.length >= 2 && transfer.every(hasRuleEvidence), 'La transferencia no se limita a la regla visual');
+  assert.ok(exits.length === 2 && exits.every(hasRuleEvidence), 'Las dos salidas deben evaluar la regla visual');
+});
+
 test('Semana 6 ensena antes de calificar, reserva explorar y mantiene fases monotonicas', () => {
   const phaseRank = new Map([
     ['explorar', 0], ['construir', 1], ['aplicar', 2], ['comprobar', 3], ['reflexionar', 4],

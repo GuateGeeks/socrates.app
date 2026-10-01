@@ -603,10 +603,11 @@ export default [
           { id: 'p4', left: 'Prisma recto de base hexagonal regular', right: '6 rectángulos congruentes y 2 bases' },
         ] },
       ),
-      S.number(
-        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.2.1', 'mat:1.3.2'], prompt: 'Repaso: quieres poner cinta alrededor del borde de la **tapa** de la caja de cardamomo (**30 cm × 20 cm**). ¿Cuántos centímetros de cinta necesitas?',
-          explain: 'Perímetro de la tapa: 2 × 30 + 2 × 20 = 60 + 40 = 100 cm.' },
-        { answer: 100, unit: 'cm', misconceptions: [{ value: 50, msg: 'Sumaste solo un largo y un ancho. El rectángulo tiene 4 lados.' }] },
+      S.write(
+        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.3.2'], prompt: 'Una caja tiene dos caras de 30 × 20 cm. Identifica esas caras y **justifica** por qué son congruentes.' },
+        { minWords: 8, placeholder: 'La tapa y el fondo son congruentes porque…',
+          model: 'La tapa y el fondo son congruentes porque ambos son rectángulos de 30 × 20 cm.',
+          rubric: ['Identifica el par de caras', 'Compara forma y medidas', 'Explica por qué son congruentes'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.3.2'], prompt: '¿Qué cuerpo tiene **dos bases circulares congruentes**?' },
@@ -616,9 +617,13 @@ export default [
           { id: 'c', text: 'Pirámide' },
         ], correct: ['b'] },
       ),
-      S.number(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.3.2'], prompt: 'Un **prisma recto** tiene bases que son pentágonos regulares. ¿Cuántas caras **laterales congruentes** tiene?' },
-        { answer: 5 },
+      S.choice(
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:1.3.2'], prompt: 'Un prisma recto tiene dos bases pentagonales iguales. ¿Qué opción **justifica** que son congruentes?' },
+        { options: [
+          { id: 'a', text: 'Son congruentes porque tienen la misma forma pentagonal y las mismas medidas' },
+          { id: 'b', text: 'Son congruentes porque están en lados opuestos, aunque tengan medidas diferentes' },
+          { id: 'c', text: 'Son congruentes porque cualquier par de pentágonos tiene siempre el mismo tamaño' },
+        ], correct: ['a'] },
       ),
       cierre({ areas: ['mat'], cnb: [] },
         ['Reconozco simetría, traslación y rotación', 'Calculo el perímetro de polígonos', 'Cuento caras, aristas y vértices', 'Identifico caras congruentes en los cuerpos'],
