@@ -218,6 +218,14 @@
 .act-proj__steps { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--sp-2); }
 .act-proj__steps li { padding: var(--sp-3); border-radius: var(--r-md); border: 2px solid var(--c-line); background: var(--c-surface); }
 .act-proj__steps li.is-done { border-color: var(--c-ok); background: var(--c-ok-soft); }
+
+/* low activity mode */
+.act-low__states { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); }
+.act-low__state { min-width: 0; padding: var(--sp-3); border: 2px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); }
+.act-low__state > strong { display: block; margin-bottom: var(--sp-2); }
+.act-low__row { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: var(--sp-2); padding: 7px 0; border-top: 1px solid var(--c-line); font-size: var(--fs-sm); }
+.act-low__row b { text-align: right; }
+@media (max-width: 520px) { .act-low__states { grid-template-columns: 1fr; } }
 .ds-tile__emoji { display: grid; place-items: center; color: var(--c-jade); }
 .act-flip__emoji, .act-hero { color: var(--c-jade); display: grid; place-items: center; }
 

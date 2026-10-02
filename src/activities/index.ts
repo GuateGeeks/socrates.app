@@ -29,11 +29,12 @@ import reading from './reading';
 import shortAnswer from './short-answer';
 import flashcards from './flashcards';
 import project from './project';
+import lowActivityMode from './low-activity-mode';
 
 export const ACTIVITIES = [
   explain, workedExample, choice, sort, order, match, mayaNumber, numberInput, slider, symmetryLoom,
   polygonLab, coordinateMap, chartBuilder, rhythm, pulseLab, dilemma, recipeScaler, reflection,
-  trueFalse, fillBlank, highlight, reading, shortAnswer, flashcards, project,
+  trueFalse, fillBlank, highlight, reading, shortAnswer, flashcards, project, lowActivityMode,
 ];
 
 let done = false;

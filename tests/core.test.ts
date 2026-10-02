@@ -12,6 +12,7 @@ import { COURSE, WEEKS, evaluateBadges } from '../src/content/index';
 import { mediaReplacementSummary } from '../src/media/mockRegistry';
 import { isShortAnswerReady } from '../src/activities/short-answer';
 import { LEGACY_JOURNAL_REQUIREMENTS } from '../src/core/legacy-journal-requirements';
+import * as progressCore from '../src/core/progress';
 
 registerAll();
 
@@ -19,6 +20,49 @@ test('registro: 17 actividades, tipos únicos', () => {
   const types = listActivities().map((a) => a.type);
   assert.equal(new Set(types).size, types.length);
   assert.ok(types.length >= 17);
+});
+
+test('modo de baja actividad persiste el cambio y restaura el estado previo', () => {
+  const runtime = progressCore as typeof progressCore & {
+    activateLowActivityMode(): { sound: boolean; reducedMotion: boolean };
+    restoreLowActivityMode(snapshot: { sound: boolean; reducedMotion: boolean }): void;
+  };
+  assert.equal(typeof runtime.activateLowActivityMode, 'function');
+  assert.equal(typeof runtime.restoreLowActivityMode, 'function');
+
+  let mem: Progress | null = {
+    ...emptyProgress(),
+    settings: { ...emptyProgress().settings, sound: true, reducedMotion: false, haptics: false },
+  };
+  let saves = 0;
+  setStorageAdapter({ load: () => mem, save: (p) => { mem = structuredClone(p); saves++; } });
+
+  const before = runtime.activateLowActivityMode();
+  assert.deepEqual(before, { sound: true, reducedMotion: false });
+  assert.equal(getProgress().settings.sound, false);
+  assert.equal(getProgress().settings.reducedMotion, true);
+  assert.equal(mem?.settings.sound, false);
+  assert.equal(mem?.settings.reducedMotion, true);
+
+  runtime.restoreLowActivityMode(before);
+  assert.equal(getProgress().settings.sound, true);
+  assert.equal(getProgress().settings.reducedMotion, false);
+  assert.equal(getProgress().settings.haptics, false, 'la restauración no altera otros ajustes');
+  assert.equal(saves, 2);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('actividad de baja actividad exige activar y verificar, incluso si luego se restaura', () => {
+  const def = getActivity('low-activity-mode');
+  assert.ok(def, 'Falta registrar low-activity-mode');
+  const before = { sound: true, reducedMotion: false };
+  const after = { sound: false, reducedMotion: true };
+  assert.equal(def.isReady?.({}, undefined), false);
+  assert.equal(def.check?.({}, { performed: true, verified: true, active: true, restored: false, before, after }).correct, true);
+  assert.equal(def.check?.({}, { performed: true, verified: true, active: false, restored: true, before, after }).correct, true);
+  assert.equal(def.check?.({}, { performed: false, verified: false, active: false, restored: false, before, after }).correct, false);
+  assert.deepEqual(def.validate?.({ activateLabel: 'Activar', restoreLabel: 'Restaurar' }), []);
+  assert.ok((def.validate?.({ activateLabel: '   ' }) ?? []).length > 0);
 });
 
 test('numeración maya: vigesimal y cuenta larga', () => {

@@ -3,80 +3,78 @@ import { lesson, S } from '../../../../dsl';
 
 export default [
   lesson({
-    id: 's08-pyd-1', title: 'Conservar saberes con una ficha digital', icon: 'Archive', minutes: 14,
-    gancho: 'Una práctica sin fuente puede perderse o deformarse. ¿Cómo conservarías su explicación con honestidad?',
-    objetivos: ['Crear y guardar una ficha digital que documente una práctica comunitaria suministrada'],
+    id: 's08-pyd-1', title: 'Una práctica local de baja actividad', icon: 'Gauge', minutes: 13,
+    gancho: '¿Qué ajuste voluntario puedes aplicar ahora mismo para reducir actividad opcional del dispositivo?',
+    objetivos: ['Activar, verificar y explicar una práctica reversible de baja actividad en esta app'],
     resumen: [
-      'Documentar conserva conocimiento cuando registra qué se hace, para qué sirve y de qué fuente procede.',
-      'El caso es suministrado y simulado: no demuestra una entrevista ni una acción realizada en una comunidad.',
-      'La ficha digital se crea y guarda dentro de la lección como una acción real de conservación documental.',
-      'Participar no exige materiales, salir del aula ni desplegar la ficha fuera de la app.',
+      'El modo de baja actividad desactiva el sonido opcional y activa movimiento reducido; ambos cambios quedan guardados en este dispositivo.',
+      'Es una práctica voluntaria, local, accesible y reversible que reduce actividad opcional de la app; no garantiza ni cuantifica ahorro de energía.',
+      'Verificar el estado después de actuar distingue una práctica ejecutada de una intención o un autorreporte.',
+      'Restaurar devuelve exactamente el estado previo de esos dos ajustes sin cambiar los demás.',
     ],
     media: {
-      id: 's08-pyd-1-ficha', kind: 'diagram', title: 'Ficha de conservación documental', aspect: '16:9',
-      alt: 'Diagrama con campos de práctica, propósito, procedimiento, cuidado y fuente, seguido por un icono de guardar.',
-      brief: 'Diagrama horizontal de cinco campos: nombre de la práctica, propósito, dos pasos, cuidado y fuente; termina en un icono de guardar. Rótulo visible: “Caso suministrado y simulado”. Target: public/media/s08-pyd-1-ficha.svg. Producción: 1600×900 px. Accesibilidad: alto contraste, orden numerado y descripción alternativa equivalente.',
+      id: 's08-pyd-1-modo-baja-actividad', kind: 'diagram', title: 'Antes, después y restauración', aspect: '16:9',
+      alt: 'Tres estados de ajustes: antes con sonido opcional activo y movimiento reducido inactivo; después con sonido apagado y movimiento reducido activo; restauración con los valores iniciales.',
+      brief: 'Diagrama de interfaz en tres columnas conectadas por flechas: “Antes”, “Modo de baja actividad” y “Restaurado”. Mostrar controles accesibles de sonido opcional y movimiento reducido con iconos Lucide Volume2, VolumeX, Accessibility y RotateCcw, además de texto Activado/Desactivado para no depender del color. Incluir la nota “Práctica modesta; no cuantifica ahorro”. Target: public/media/s08-pyd-1-modo-baja-actividad.svg. Producción: SVG con viewBox 0 0 1600 900 y versión PNG de respaldo 1600×900 px. Accesibilidad: contraste AA, orden de lectura izquierda a derecha y descripción alternativa equivalente.',
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'conocer', title: 'Conservar también es documentar', prompt: 'Lee qué acción realizarás dentro de la lección.' },
-        { icon: 'Archive', body: 'Crearás y guardarás una **ficha digital de conservación documental**. La fuente es un caso didáctico suministrado y simulado; no afirma trabajo externo.' },
+        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'conocer', title: 'Una acción posible aquí', prompt: 'Lee qué práctica voluntaria realizarás dentro de la app.' },
+        { icon: 'Gauge', body: 'El **modo de baja actividad** reduce actividad opcional de esta sesión: apaga sonidos de respuesta y usa movimiento reducido. Es una contribución modesta; no promete una cantidad de energía ahorrada.' },
       ),
       S.explain(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', title: 'Procedimiento de la ficha', prompt: 'Aprende la secuencia antes de guardar.' },
-        { icon: 'ListChecks', body: '**Selecciona** una práctica, **resume** propósito y pasos, **anota** un cuidado, **atribuye** la fuente y **guarda**. Así conservas conocimiento sin inventar experiencia comunitaria.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', title: 'Elegir, actuar y comprobar', prompt: 'Aprende el procedimiento del modo de baja actividad antes de ejecutarlo.' },
+        { icon: 'ListChecks', body: '**Observa** los ajustes, **activa** el modo, **verifica** sonido opcional desactivado y movimiento reducido activado, y decide si lo conservas o **restauras** el estado anterior.' },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', title: 'Modelo suministrado', prompt: 'Observa cómo una ficha conserva una práctica sin afirmar que se ejecutó fuera de la app.' },
-        { icon: 'FileText', problem: 'Paquete simulado: una comunidad registra el secado de semillas en sombra para transmitir el procedimiento.', steps: [
-          { text: '**Práctica y propósito:** secado en sombra; reducir humedad antes de almacenar.' },
-          { text: '**Procedimiento y cuidado:** extender, revisar y mantener lejos de agua; no ingerir materiales del caso.' },
-          { text: '**Fuente:** “Tarjeta didáctica de práctica comunitaria, caso simulado”.' },
-          { text: '**Acción:** guardar la ficha digital para conservar su explicación.' },
-        ], answer: 'La ficha conserva información suministrada y deja claros sus límites.', tip: 'Práctica → propósito → pasos → cuidado → fuente → guardar.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', title: 'Modelo de verificación', prompt: 'Observa cómo Ana aplica el modo de baja actividad sin exagerar su efecto.' },
+        { icon: 'Gauge', problem: 'Antes: sonido opcional activado y movimiento reducido desactivado.', steps: [
+          { text: 'Ana elige voluntariamente **activar** la práctica.' },
+          { text: 'Después comprueba: **sonido opcional desactivado** y **movimiento reducido activado**.' },
+          { text: 'Explica que reduce actividad opcional de la app, sin prometer ni calcular ahorro.' },
+          { text: 'Prueba **restaurar** y confirma que regresan los dos valores anteriores.' },
+        ], answer: 'La evidencia es el cambio real y persistido de los ajustes, seguido de su verificación.', tip: 'Observar → activar → verificar → conservar o restaurar.' },
       ),
       S.order(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Con ayuda, ordena el procedimiento para crear y guardar la ficha.', hint: 'La fuente se atribuye antes de guardar.', explain: 'Seleccionar, resumir, indicar cuidado, atribuir y guardar produce evidencia documental revisable.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Con ayuda, ordena el procedimiento del modo de baja actividad.', hint: 'Primero conoces el estado inicial; después del cambio debes verificarlo.', explain: 'Observar, activar y verificar demuestra una práctica ejecutada; restaurar confirma que es reversible.' },
         { labels: { start: 'Primero', end: 'Al final' }, items: [
-          { id: 'g1', text: 'Seleccionar una práctica del paquete' }, { id: 'g2', text: 'Resumir propósito y dos pasos' },
-          { id: 'g3', text: 'Indicar un cuidado' }, { id: 'g4', text: 'Atribuir la fuente suministrada' },
-          { id: 'g5', text: 'Guardar la ficha digital' },
+          { id: 'g1', text: 'Observar sonido y movimiento antes del cambio' },
+          { id: 'g2', text: 'Activar el modo de baja actividad' },
+          { id: 'g3', text: 'Verificar los dos ajustes después del cambio' },
+          { id: 'g4', text: 'Conservar el modo o restaurar el estado anterior' },
         ] },
       ),
       S.choice(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'La tarjeta no dice quién practica actualmente el procedimiento. ¿Cómo lo documentas?', hint: 'Conserva el dato y también su límite.', explain: 'La ficha dice “caso suministrado y simulado”; no inventa entrevista ni comunidad actual.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Después de activar el modo de baja actividad, ¿qué verificación demuestra la acción?', hint: 'Busca dos cambios visibles en ajustes.', explain: 'La práctica queda comprobada cuando el sonido opcional está desactivado y movimiento reducido está activado.' },
         { options: [
-          { id: 'a', text: 'Rotulo el caso como suministrado y simulado' },
-          { id: 'b', text: 'Invento el nombre de una comunidad', feedback: 'Eso convertiría la documentación en información falsa.' },
-          { id: 'c', text: 'Afirmo que hice una entrevista', feedback: 'La actividad no incluye una entrevista.' },
+          { id: 'a', text: 'Sonido opcional desactivado y movimiento reducido activado' },
+          { id: 'b', text: 'Solo escribir que pienso cambiarlo', feedback: 'Una intención no modifica ni verifica los ajustes.' },
+          { id: 'c', text: 'Afirmar una cantidad de ahorro', feedback: 'La práctica no mide ni garantiza ahorro de energía.' },
         ], correct: ['a'] },
       ),
-      S.order(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Ejecuta la acción en la app: organiza la nueva ficha de captación de lluvia del paquete antes de guardarla.', explain: 'Esta organización conserva el propósito, el procedimiento, el cuidado y la fuente.' },
-        { labels: { start: 'Encabezado', end: 'Cierre' }, items: [
-          { id: 'a1', text: 'Práctica: captar lluvia en un recipiente limpio y cubierto' },
-          { id: 'a2', text: 'Propósito: reservar agua para riego, no para beber' },
-          { id: 'a3', text: 'Cuidado: mantener el recipiente cubierto' },
-          { id: 'a4', text: 'Fuente: tarjeta didáctica suministrada, caso simulado' },
-        ] },
+      S.lowActivity(
+        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Ejecuta la práctica: activa el **modo de baja actividad**, verifica sonido opcional desactivado y movimiento reducido activado. Puedes conservarlo o restaurar el estado anterior; ambas rutas son reversibles.', explain: 'La app cambió y persistió los ajustes, mostró el antes y el después, y conservó la opción de restaurarlos.' },
+        { activateLabel: 'Activar y verificar la práctica', restoreLabel: 'Restaurar los dos ajustes anteriores' },
       ),
       S.write(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Crea y guarda tu ficha digital: incluye práctica, propósito, dos pasos o cuidados y fuente suministrada. Esta ficha guardada es la acción realizada; no afirmes despliegue comunitario.', explain: 'La respuesta guardada queda como evidencia revisable de conservación documental.' },
-        { minWords: 24, placeholder: 'Práctica… Propósito… Pasos o cuidados… Fuente suministrada…', model: 'Práctica: captación de lluvia. Propósito: reservar agua para riego. Mantener el recipiente limpio, cubierto y rotulado. Fuente: tarjeta didáctica suministrada, caso simulado.', rubric: ['Creo una ficha completa', 'Conservo procedimiento y cuidado', 'Atribuyo la fuente', 'No invento acción externa'] },
+        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Explica la práctica que acabas de ejecutar: indica el antes, los dos cambios verificados y si conservaste el modo de baja actividad o restauraste el estado anterior. No atribuyas una cantidad de reducción que no mediste.', explain: 'Tu explicación acompaña el cambio real de ajustes; no lo sustituye.' },
+        { minWords: 24, placeholder: 'Antes… Activé… Verifiqué… Decidí conservar/restaurar…', model: 'Antes tenía sonido y movimiento normal. Activé el modo, verifiqué sonido opcional apagado y movimiento reducido activo. Luego restauré el estado anterior sin afirmar un ahorro medido.', rubric: ['Describo el antes', 'Nombro los dos cambios verificados', 'Indico conservar o restaurar', 'No cuantifico ahorro'] },
       ),
       S.order(
-        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Completa y guarda una ficha de conservación con fuente: aplica el procedimiento a una receta tintórea suministrada y ordena la decisión final.' },
-        { labels: { start: 'Primero', end: 'Después' }, items: [
-          { id: 'e1', text: 'Comprobar que el cuidado proviene de la tarjeta' },
-          { id: 'e2', text: 'Agregar la fuente y el rótulo de caso simulado' },
-          { id: 'e3', text: 'Guardar la ficha documental' },
+        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'En otro dispositivo, activa el modo de baja actividad y verifica el procedimiento reversible antes de decidir si lo conservas.' },
+        { labels: { start: 'Primero', end: 'Al final' }, items: [
+          { id: 'e1', text: 'Observar el estado inicial de sonido y movimiento' },
+          { id: 'e2', text: 'Activar sonido opcional apagado y movimiento reducido' },
+          { id: 'e3', text: 'Comprobar ambos estados después de la acción' },
+          { id: 'e4', text: 'Conservar la práctica o restaurar el estado anterior' },
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Completa y guarda una ficha de conservación con fuente: aplica el procedimiento cuando una ficha nueva tiene nombre y pasos, pero carece de atribución. ¿Qué haces?' },
+        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Verificaste sonido opcional apagado y movimiento reducido activo, pero ahora necesitas audio accesible. ¿Qué decisión conserva el procedimiento reversible?' },
         { options: [
-          { id: 'a', text: 'Añadir la tarjeta suministrada como fuente y volver a guardar' },
-          { id: 'b', text: 'Publicarla como entrevista real' }, { id: 'c', text: 'Borrar el cuidado para que sea más corta' },
+          { id: 'a', text: 'Restaurar el estado anterior y comprobar que el sonido regresa' },
+          { id: 'b', text: 'Mantener el modo aunque impida el acceso que necesito' },
+          { id: 'c', text: 'Decir que ahorré una cantidad que no medí' },
         ], correct: ['a'] },
       ),
     ],

@@ -149,7 +149,7 @@ export default [
     minutes: 15,
     gancho: 'En el recreo alguien dice: "Las niñas no juegan fútbol" o "Los niños no saltan cuerda". ¿Es justo? ¿Qué harías si tú fueras quien organiza el juego?',
     objetivos: [
-      'Dirigir una rutina física breve con instrucciones, adaptación segura y secuencia clara',
+      'Dirigir una rutina breve con secuencia segura, igualdad de oportunidades y roles complementarios para mujeres y hombres',
     ],
     resumen: [
       'Un buen líder explica las reglas con claridad, escucha, organiza turnos y equipos justos, anima a todos y da el ejemplo con juego limpio. Liderar es servir al grupo, no mandar a gritos.',
@@ -165,12 +165,12 @@ export default [
     steps: [
       S.explain(
         { fase: 'explorar', areas: ['ef'], cnb: ['ef:4.1.12'], ambito: 'convivir', title: 'Igualdad y liderazgo', prompt: 'Lee cómo se organiza una actividad física justa.' },
-        { icon: 'Users', body: 'Todas las personas tienen iguales oportunidades para jugar y liderar. Un buen liderazgo organiza turnos y equipos justos.' },
+        { icon: 'Users', body: 'Niñas y niños, mujeres y hombres tienen iguales oportunidades para jugar y liderar. Rechazar estereotipos, abrir los mismos roles y combinar aportes complementarios protege sus derechos.' },
       ),
       S.choice(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:4.1.12'], ambito: 'convivir',
           prompt: '¿Pueden las niñas jugar fútbol y ser capitanas? ¿Pueden los niños saltar cuerda?',
-          explain: '**Sí, todas y todos.** No hay juegos "de niñas" ni "de niños". Todas las personas tienen los mismos derechos y oportunidades para jugar, aprender y liderar.' },
+          explain: '**Sí, todas y todos.** Mujeres y hombres, niñas y niños tienen los mismos derechos e igualdad de oportunidades para jugar y liderar; los roles no dependen de estereotipos.' },
         { options: [
           { id: 'a', text: 'Sí: cualquier persona puede jugar y liderar cualquier juego', icon: 'Users' },
           { id: 'b', text: 'No: cada juego es solo para niñas o solo para niños', icon: 'X', feedback: 'Esa idea es un estereotipo: limita a las personas y no tiene base.' },
@@ -213,7 +213,7 @@ export default [
         { fase: 'construir', areas: ['ef'], cnb: ['ef:4.2.3', 'ef:4.1.12'], ambito: 'convivir',
           prompt: 'Clasifica cada acción de un capitán o capitana: ¿es **buen liderazgo** o **no**?',
           hint: 'Un buen líder incluye, escucha, organiza con justicia y da el ejemplo.',
-          explain: 'Liderar bien es servir al grupo con justicia e igualdad; mandar a gritos o excluir no es liderazgo.' },
+          explain: 'Liderar bien abre los mismos roles a mujeres y hombres: niñas y niños aportan habilidades complementarias; excluir por estereotipos no es liderazgo.' },
         { buckets: [
           { id: 'si', label: 'Buen liderazgo', icon: 'Flag', color: 'var(--c-ok)' },
           { id: 'no', label: 'No es buen liderazgo', icon: 'X', color: 'var(--c-maiz-strong)' },
@@ -227,7 +227,7 @@ export default [
         ] },
       ),
       S.pulse(
-        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.3', 'ef:4.1.12'], ambito: 'convivir',
+        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.3'], ambito: 'convivir',
           prompt: 'Dirige una rutina breve sin equipo: explica “cuatro palmas suaves, cuatro gestos al frente y pausa”, comprueba el espacio y ofrece hacerla de pie o sentado. **Ruta grupal opcional:** una persona dirige y otra confirma la señal de alto. **Ruta individual completa:** di o lee las instrucciones, modela la secuencia y usa tú mismo la señal de pausa. No afirmes que hubo rotación si trabajaste a solas.' },
         { seconds: 15, rounds: [
           { label: 'Antes de dirigir' },
@@ -238,7 +238,7 @@ export default [
       S.dilemma(
         { fase: 'aplicar', areas: ['ef', 'fc'], cnb: ['ef:4.1.12', 'ef:4.2.3'], ambito: 'convivir',
           prompt: '¿Qué harías si fueras quien organiza?' },
-        { scene: { icon: 'Flag', text: 'En el recreo organizan una **chamusca**. Un compañero dice: "Las niñas no pueden jugar y tampoco pueden ser capitanas". **Lucía** y **Marta** querían jugar. Tú eres quien organiza hoy.' }, options: [
+        { scene: { icon: 'Flag', text: 'En el recreo organizan una **chamusca**. Un niño dice: "Las niñas no pueden jugar y tampoco pueden ser capitanas". **Lucía** y **Marta** querían jugar con los niños. Tú eres quien organiza hoy.' }, options: [
           { id: 'a', icon: 'EyeOff', text: 'Quedarme callado para no tener problemas', consequence: 'Lucía y Marta se quedan fuera. El grupo aprende que excluir "no pasa nada", y la injusticia se repite.', values: ['Indiferencia'], constructive: false },
           { id: 'b', icon: 'Users', text: 'Decir que todas y todos pueden jugar, formar equipos mixtos contando 1-2 y proponer que Lucía sea capitana de un equipo', consequence: 'Se juega con equipos parejos. Lucía organiza bien a su equipo y varios compañeros se dan cuenta de que su idea era un estereotipo.', values: ['Igualdad', 'Liderazgo', 'Derechos humanos'], constructive: true },
           { id: 'c', icon: 'MessageCircle', text: 'Hablar con calma con el compañero: explicarle que la igualdad es un derecho e invitarlo a jugar en un equipo mixto', consequence: 'El compañero no cambia de idea de inmediato, pero acepta jugar. Al final reconoce que el partido fue más parejo y divertido.', values: ['Diálogo', 'Respeto', 'Igualdad'], constructive: true },
@@ -246,13 +246,13 @@ export default [
       ),
       S.order(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.3', 'ef:4.1.12'], ambito: 'conocer',
-          prompt: 'Aplica el liderazgo: ordena cómo dirigir una nueva rutina de pasos laterales con igualdad y seguridad.',
-          explain: 'Un liderazgo ejecutable explica, comprueba seguridad, ofrece adaptación, dirige la secuencia y cierra con una señal.' },
+          prompt: 'Aplica el liderazgo y rechaza el estereotipo: ordena una rutina donde mujeres y hombres, niñas y niños tengan igualdad de oportunidades para asumir roles y aportar habilidades complementarias.',
+          explain: 'Un liderazgo justo abre todos los roles, explica la secuencia, ofrece adaptación segura y combina aportes complementarios.' },
         { labels: { start: 'Primero', end: 'Al final' }, items: [
-          { id: 'a', text: 'Explicar dos pasos laterales y una palma' },
-          { id: 'b', text: 'Comprobar espacio y ofrecer hacerlo sentado con gestos' },
-          { id: 'c', text: 'Dirigir dos repeticiones a ritmo cómodo' },
-          { id: 'd', text: 'Dar la señal de alto y preguntar por seguridad' },
+          { id: 'a', text: 'Abrir por igual a una niña o un niño el rol de dirigir' },
+          { id: 'b', text: 'Explicar dos pasos laterales y ofrecer gestos sentados' },
+          { id: 'c', text: 'Combinar a quien modela con quien cuida la señal de alto' },
+          { id: 'd', text: 'Dirigir dos repeticiones y cambiar los roles' },
         ] },
       ),
       S.write(
@@ -260,20 +260,20 @@ export default [
         { minWords: 22, placeholder: 'Ruta… Mi instrucción… Adaptación… Secuencia…', model: 'Elegí la ruta individual. Expliqué cuatro palmas y cuatro gestos. Ofrecí hacerlos sentado, modelé la secuencia y terminé con la señal de pausa.', rubric: ['Indico la ruta', 'Escribo una instrucción', 'Incluyo adaptación segura', 'Describo rol y secuencia'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.1.12', 'ef:4.2.3'], prompt: 'Aplica igualdad de oportunidades con una instrucción, una adaptación segura y una secuencia de liderazgo: debes dirigir una rutina nueva y una persona necesita menor intensidad. ¿Qué dices?' },
+        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.1.12', 'ef:4.2.3'], prompt: 'Dirige una rutina con adaptación segura y roles claros. Un niño afirma que solo los hombres deben dirigir. Para rechazar ese estereotipo y defender los derechos humanos, ¿qué instrucción da igualdad de oportunidades a mujeres y hombres y usa aportes complementarios?' },
         { options: [
-          { id: 'a', text: '“Haz gestos sentado si lo prefieres; yo modelo y paramos con la señal alto”' },
-          { id: 'b', text: '“Sigue el ritmo rápido o sal de la actividad”' },
-          { id: 'c', text: '“Empieza sin explicación y copia a los demás”' },
+          { id: 'a', text: '“Una niña y un niño alternan el rol de líder; una persona modela y otra cuida la señal. Cada aporte complementa al otro y se puede hacer sentado”' },
+          { id: 'b', text: '“Los hombres lideran y las mujeres observan”' },
+          { id: 'c', text: '“Todas hacen lo mismo, sin roles ni adaptación”' },
         ], correct: ['a'] },
       ),
       S.order(
-        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.1.12', 'ef:4.2.3'], prompt: 'Aplica igualdad de oportunidades con una instrucción, una adaptación segura y una secuencia de liderazgo: ordena cómo dirigirías una pausa activa individual.' },
+        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.1.12', 'ef:4.2.3'], prompt: 'Dirige una rutina con adaptación segura y una secuencia de roles. Ordénala para rechazar el estereotipo, proteger derechos humanos y dar igualdad de oportunidades a mujeres y hombres con participación complementaria.' },
         { labels: { start: 'Inicio', end: 'Cierre' }, items: [
-          { id: 'e1', text: 'Explicar la secuencia de hombros, brazos y respiración' },
-          { id: 'e2', text: 'Elegir de pie o sentado y comprobar ausencia de dolor' },
-          { id: 'e3', text: 'Modelar dos repeticiones lentas' },
-          { id: 'e4', text: 'Usar la señal de alto y cerrar la rutina' },
+          { id: 'e1', text: 'Explicar que niñas y niños pueden asumir por igual cualquier rol' },
+          { id: 'e2', text: 'Asignar a una mujer el modelado y a un hombre la señal, con cambio posterior de roles' },
+          { id: 'e3', text: 'Ofrecer movimiento de pie o sentado para complementar capacidades' },
+          { id: 'e4', text: 'Dirigir dos repeticiones y cerrar con una señal segura' },
         ] },
       ),
       cierre({ areas: ['ef'], cnb: ['ef:4.2.3'] },

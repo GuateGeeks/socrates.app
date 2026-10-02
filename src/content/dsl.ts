@@ -32,6 +32,7 @@ import type { ReadingProps } from '@/activities/reading';
 import type { ShortAnswerProps } from '@/activities/short-answer';
 import type { FlashcardsProps } from '@/activities/flashcards';
 import type { ProjectProps } from '@/activities/project';
+import type { LowActivityModeProps } from '@/activities/low-activity-mode';
 
 type Meta = Omit<StepBase, 'type' | 'props' | 'id'> & { id?: string };
 export type Draft = Omit<StepBase, 'id'> & { id?: string };
@@ -64,6 +65,7 @@ export const S = {
   write: mk<ShortAnswerProps>('short-answer'),
   cards: mk<FlashcardsProps>('flashcards'),
   project: mk<ProjectProps>('project'),
+  lowActivity: mk<LowActivityModeProps>('low-activity-mode'),
 };
 
 export function lesson(l: Omit<Lesson, 'steps'> & { steps: Draft[] }): Lesson {

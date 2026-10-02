@@ -4934,10 +4934,10 @@ const WEEK_EIGHT_REF_SEMANTICS: Readonly<Record<string, RegExp>> = {
   'l3:5.2.2': /biograph|fact card|chronolog|timeline|life|year|ano|date|nineteen|rigoberta|helen keller|anne sullivan|was born|grew up|studied|became|died|graduat/,
   'fc:5.2.1': /\bceh\b|comision para el esclarecimiento historico|comunidades mayas|mapa|memoria|departamento|pueblo|region|ubica|localiza/,
   'art:4.3.2': /biograf|vida|obra|artista|publica|fuente|cronolog|exposicion|catalogo|museo|grabado/,
-  'ef:4.1.12': /igualdad|oportunidades|derechos|equipos mixtos/,
+  'ef:4.1.12': /(?:mujer|mujeres|nina|ninas).{0,180}(?:hombre|hombres|nino|ninos)|(?:hombre|hombres|nino|ninos).{0,180}(?:mujer|mujeres|nina|ninas)/,
   'ef:4.2.3': /lider|liderazgo|capitan|dirige|explica.{0,30}(?:regla|rutina)|adaptacion.{0,30}seguridad/,
   'ef:4.2.7': /juego tradicional|trompo|capirucho|cincos|tenta|ronda con palmas/,
-  'pyd:5.5.2': /conserv|practica comunitaria|memoria|documentacion|tarjeta digital|fuente suministrada/,
+  'pyd:5.5.2': /modo de baja actividad|sonido opcional|movimiento reducido|ajustes?.{0,80}(?:activa|restaura|verifica)|(?:activa|restaura|verifica).{0,80}ajustes?/,
 };
 
 function matchesWeekEightRef(ref: string, value: unknown): boolean {
@@ -5111,7 +5111,7 @@ function proceduralEvidenceMatches(ref: string, value: unknown): boolean {
   const text = normalizeFactText(JSON.stringify(value));
   if (ref === 'art:4.3.2') return /(?:publica|comparte|guarda).{0,100}(?:biograf|vida|obra).{0,100}fuente|ficha biografica.{0,100}(?:publicada|visible|guardada)/.test(text);
   if (ref === 'ef:4.2.3') return /(?:dirige|lidera|explica).{0,100}(?:regla|rutina|secuencia).{0,100}(?:adaptacion|seguridad|rol)|(?:instruccion|regla).{0,100}(?:adaptacion|seguridad).{0,100}(?:rol|secuencia)/.test(text);
-  if (ref === 'pyd:5.5.2') return /(?:crea|redacta|completa|guarda).{0,100}(?:tarjeta|ficha).{0,120}(?:conserv|practica|fuente)|(?:tarjeta|ficha).{0,100}(?:fuente|pasos).{0,100}conserv/.test(text);
+  if (ref === 'pyd:5.5.2') return /(?:activa|habilita|aplica|ejecuta).{0,100}(?:modo de baja actividad|sonido opcional|movimiento reducido).{0,140}(?:verifica|comprueba|restaura)|(?:verifica|comprueba).{0,100}(?:sonido opcional|movimiento reducido).{0,100}(?:restaura|reversible|estado anterior)/.test(text);
   if (ref === 'ccss:8.4.1') return /(?:clasifica|aplica|decide|ubica).{0,100}(?:constitucion|ley|reglamento|norma|responsabilidad)|(?:constitucion|ley|reglamento).{0,100}(?:deber|responsabilidad|crear impuestos|contradecir)/.test(text);
   return false;
 }
@@ -5120,6 +5120,7 @@ test('La evidencia procedimental rechaza palabras clave sin accion demostrable',
   assert.equal(proceduralEvidenceMatches('art:4.3.2', { prompt: 'Artista, ficha y biografia.' }), false);
   assert.equal(proceduralEvidenceMatches('ef:4.2.3', { prompt: 'Reconoce liderazgo y capitan.' }), false);
   assert.equal(proceduralEvidenceMatches('pyd:5.5.2', { prompt: 'Semilla, conservacion y fuente.' }), false);
+  assert.equal(proceduralEvidenceMatches('pyd:5.5.2', { prompt: 'Crea y guarda una ficha digital para documentar una practica de conservacion.' }), false);
   assert.equal(proceduralEvidenceMatches('ccss:8.4.1', { prompt: 'Norma, IVA y responsabilidad.' }), false);
 });
 
@@ -5127,7 +5128,7 @@ test('Arte, EF, PyD y CCSS2 producen evidencia procedimental independiente y rev
   const expectations = [
     ['s08-art-2', 'art:4.3.2', /publicar|compartir/],
     ['s08-ef-2', 'ef:4.2.3', /dirigir|liderar/],
-    ['s08-pyd-1', 'pyd:5.5.2', /crear|guardar|documentar/],
+    ['s08-pyd-1', 'pyd:5.5.2', /activar|aplicar|ejecutar/],
     ['s08-ccss-2', 'ccss:8.4.1', /clasificar|aplicar/],
   ] as const;
   for (const [id, ref, verb] of expectations) {
@@ -5253,21 +5254,41 @@ test('FC2 localiza pueblos y departamentos desde un paquete CEH sin clasificar s
   assert.doesNotMatch(text, /color.{0,60}(?:mas afectad|mayor violencia|sufrio mas|severidad)/);
 });
 
-test('PyD crea y guarda una accion real de conservacion documental dentro de la app', () => {
+test('PyD ejecuta y verifica una practica real, reversible y persistida de baja actividad', () => {
   const lesson = weekEight.lessons.find((item) => item.id === 's08-pyd-1');
   assert.ok(lesson, 'Falta s08-pyd-1');
-  assert.match(normalizeFactText((lesson.objetivos ?? []).join(' ')), /crear|guardar|documentar/);
+  assert.match(normalizeFactText((lesson.objetivos ?? []).join(' ')), /activar|aplicar|ejecutar/);
   const application = lesson.steps.filter((step) => step.fase === 'aplicar');
   const applicationText = normalizeFactText(JSON.stringify(application));
-  assert.match(applicationText, /caso simulado|tarjeta didactica suministrada/);
-  assert.match(applicationText, /ficha digital/);
-  assert.match(applicationText, /crea|organiza|guarda/);
-  assert.match(applicationText, /evidencia|fuente|documental/);
-  assert.doesNotMatch(applicationText, /visita|entrevista|centro comunitario|servicio real|conservamos la comunidad|sobre de semillas/);
-  assert.ok(application.some((step) => step.type === 'short-answer'), 'La practica necesita evidencia revisable');
+  assert.match(applicationText, /modo de baja actividad/);
+  assert.match(applicationText, /sonido opcional/);
+  assert.match(applicationText, /movimiento reducido/);
+  assert.match(applicationText, /activa|habilita|aplica|ejecuta/);
+  assert.match(applicationText, /verifica|comprueba/);
+  assert.match(applicationText, /restaura|reversible|estado anterior/);
+  assert.doesNotMatch(applicationText, /garantiza|garantizado|ahorraremos|ahorro de \d|visita|entrevista|centro comunitario|sobre de semillas/);
+  assert.ok(application.some((step) => step.type === 'low-activity-mode'), 'Falta la acción ejecutable en la app');
   const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
   assert.equal(exits.length, 2);
-  assert.ok(exits.every((step) => /paso|decide|elige|accion|procedimiento|siguiente/.test(normalizeFactText(JSON.stringify(step)))));
+  assert.ok(exits.every((step) => proceduralEvidenceMatches('pyd:5.5.2', step)));
+});
+
+function exactGenderEqualityEvidence(value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  const namesWomenAndMen = /(?:mujer|mujeres|nina|ninas).{0,180}(?:hombre|hombres|nino|ninos)|(?:hombre|hombres|nino|ninos).{0,180}(?:mujer|mujeres|nina|ninas)/.test(text);
+  const equalRoleAccess = /(?:igualdad de oportunidades|mismas oportunidades|acceso igual).{0,120}(?:lider|capitan|arbitr|rol)|(?:lider|capitan|arbitr|rol).{0,120}(?:igualdad de oportunidades|mismas oportunidades|acceso igual)/.test(text);
+  const complementarity = /complement|habilidades distintas|aportes distintos|adaptacion/.test(text);
+  const rejectsStereotype = /rechaza|estereotipo|no hay (?:juegos|roles)|no excluir|sin excluir/.test(text);
+  return namesWomenAndMen && equalRoleAccess && complementarity && rejectsStereotype;
+}
+
+test('Las salidas EF8 evidencian derechos, roles sin estereotipos y complementariedad entre mujeres y hombres', () => {
+  assert.equal(exactGenderEqualityEvidence({ prompt: 'Da iguales oportunidades y una adaptación accesible para participar.' }), false);
+  const lesson = weekEight.lessons.find((item) => item.id === 's08-ef-2');
+  assert.ok(lesson);
+  const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && step.cnb.includes('ef:4.1.12'));
+  assert.equal(exits.length, 2);
+  assert.ok(exits.every(exactGenderEqualityEvidence));
 });
 
 test('L2 y Matematica 5 mantienen transferencia y salidas dentro de su resultado central', () => {

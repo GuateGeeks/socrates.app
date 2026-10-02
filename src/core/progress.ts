@@ -194,6 +194,30 @@ function emit() { listeners.forEach((l) => l()); }
 export function getProgress(): Progress { return state; }
 export function updateProgress(fn: (p: Progress) => Progress) { state = fn(state); adapter.save(state); emit(); }
 export function resetProgress() { updateProgress(() => ({ ...emptyProgress(), settings: state.settings, profile: state.profile })); }
+
+export interface LowActivitySnapshot { sound: boolean; reducedMotion: boolean }
+
+/** Applies a modest, reversible local practice by reducing optional app activity. */
+export function activateLowActivityMode(): LowActivitySnapshot {
+  const before = { sound: state.settings.sound, reducedMotion: state.settings.reducedMotion };
+  updateProgress((p) => ({
+    ...p,
+    settings: { ...p.settings, sound: false, reducedMotion: true },
+  }));
+  return before;
+}
+
+/** Restores only the settings changed by activateLowActivityMode. */
+export function restoreLowActivityMode(snapshot: LowActivitySnapshot): void {
+  updateProgress((p) => ({
+    ...p,
+    settings: { ...p.settings, sound: snapshot.sound, reducedMotion: snapshot.reducedMotion },
+  }));
+}
+
+export function isLowActivityMode(settings: Pick<Settings, 'sound' | 'reducedMotion'>): boolean {
+  return !settings.sound && settings.reducedMotion;
+}
 export function subscribe(l: () => void) { listeners.add(l); return () => listeners.delete(l); }
 export function useProgress<T>(select: (p: Progress) => T): T {
   return useSyncExternalStore(subscribe, () => select(state), () => select(state));
