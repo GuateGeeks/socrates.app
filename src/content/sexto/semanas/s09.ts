@@ -1,433 +1,280 @@
 import { S, cierre, lesson, semana } from '../../dsl';
 
-/**
- * SEMANA 9 · Unidad 1 "Conociendo nuestras raíces" · PROYECTO INTEGRADOR
- * Tema generador: Museo vivo de nuestras raíces
- * Integra las semanas 1-8: planeta y recursos, cuerpo y salud, figuras y numeración maya,
- * historia y memoria, cultura de paz, ambiente, investigación y emprendimiento.
- */
+const CASE_LABEL = 'Caso simulado; no describe tu escuela';
+
 export default semana({
-  id: 's09',
-  unidad: 1,
-  semana: 9,
-  kind: 'proyecto',
-  temaGenerador: 'Museo vivo de nuestras raíces',
-  title: 'Museo vivo de nuestras raíces',
-  subtitle: 'Proyecto: una exposición para que la comunidad se conozca y se cuide',
-  icon: 'Landmark',
-  color: 'var(--area-pyd)',
-  contexto: 'Muchas familias no conocen de dónde viene el agua que toman, qué riesgos naturales tiene su comunidad ni las historias que guardan sus abuelas y abuelos. Esta semana tu grado montará un Museo vivo en la escuela: estaciones con mapas, datos en numerales mayas, arte con texturas, memoria y juegos tradicionales, para que la comunidad se conozca, se valore y se comprometa a cuidar sus raíces.',
-  ejes: ['multiculturalidad', 'sostenible', 'vida-ciudadana', 'valores', 'trabajo'],
+  id: 's09', unidad: 1, semana: 9, kind: 'proyecto',
+  temaGenerador: 'Evidencia para mejorar nuestro entorno',
+  title: 'Evidencia para mejorar nuestro entorno',
+  subtitle: 'Proyecto: una propuesta inclusiva basada en un caso simulado',
+  icon: 'FileSearch', color: 'var(--area-pyd)',
+  contexto: `Usarás el dossier Ruta Clara, rotulado “${CASE_LABEL}”. El paquete contiene un mapa, observaciones, dos fuentes identificadas, un conjunto pequeño de datos y tres opciones. En una hoja de papel propondrás una mejora inclusiva sin afirmar que fue aplicada en un lugar real.`,
+  ejes: ['sostenible', 'vida-ciudadana', 'valores', 'trabajo'],
   media: {
-    id: 's09-portada', kind: 'video', title: 'Así se arma un museo vivo', aspect: '16:9', duration: 60,
-    alt: 'Estudiantes transforman su aula en un museo con estaciones: un mapa de la comunidad, una línea del tiempo, numerales mayas con maíz, un mural con texturas y una esquina de juegos tradicionales.',
-    brief: 'Video en cámara rápida (animación 2D o dramatización con estudiantes, sin rostros identificables en primer plano) de 60 s: un aula vacía se llena de estaciones de museo hechas con cartón reciclado. Estaciones rotuladas: "Agua y bosque", "Memoria y paz", "Números de mis abuelos", "Arte para tocar", "Juegos de antes". Al final entran familias, abuelas y niños pequeños; una niña guía la visita. Texto final: "Conocer nuestras raíces es el primer paso para cuidarlas". Música de marimba alegre.',
+    id: 's09-portada-propuesta', kind: 'image', title: 'Del dato a una propuesta inclusiva', aspect: '16:9',
+    alt: 'Mesa con un mapa escolar ficticio, dos fichas de fuente, una gráfica y una propuesta de mejora en una hoja.',
+    brief: 'Ilustración editorial 1600x900 px. Vista cenital del dossier: mapa ficticio Ruta Clara, tarjetas Fuente A y Fuente B, tabla de datos, tres opciones numeradas y hoja con necesidad, evidencia, limitación, acción inclusiva, responsabilidades y revisión. Texto exacto y legible “Caso simulado; no describe tu escuela”, contraste alto, símbolos además del color y sin rostros. Target: public/media/s09-portada-propuesta.jpg.',
   },
-  badge: { id: 'medalla-s09', name: 'Curador de raíces', icon: 'Landmark', desc: 'Completaste el proyecto integrador de la Unidad 1' },
+  badge: { id: 'medalla-s09', name: 'Proponente con evidencia', icon: 'FileCheck2', desc: 'Completaste el proyecto integrador de la Unidad 1' },
   lessons: [
-    /* ───────────────────────── Día 1: Planificar e investigar ───────────────────────── */
     lesson({
-      id: 's09-d1-planificar',
-      title: 'Planificar e investigar',
-      icon: 'ClipboardList',
-      minutes: 15,
-      day: 1,
-      kind: 'proyecto',
-      gancho: 'Si tus vecinos visitaran un museo sobre su propia comunidad, ¿qué te gustaría que descubrieran?',
-      objetivos: ['Comprender el reto del proyecto y su rúbrica', 'Formular preguntas de investigación para tu estación', 'Elegir las herramientas para recoger información', 'Organizar el equipo, los roles y el calendario'],
-      resumen: [
-        'El Museo vivo tiene cinco estaciones: Agua y bosque, Memoria y paz, Números de mis abuelos, Arte para tocar y Juegos de antes.',
-        'Cada equipo formula preguntas clave, elige fuentes confiables y usa herramientas como entrevistas, encuestas y observación.',
-        'Planificar es decidir qué, cómo, quién, cuándo y con qué recursos se hará el trabajo.',
-      ],
+      id: 's09-d1-observar', title: 'Observar y delimitar', icon: 'MapPinned', minutes: 14, day: 1, kind: 'proyecto',
+      gancho: '¿Qué cambia cuando distingues lo que ves de lo que supones?',
+      objetivos: ['Delimitar una necesidad del caso separando observaciones e inferencias'],
+      resumen: ['Una observación describe evidencia visible; una inferencia propone una explicación por comprobar.', 'Una necesidad acotada indica lugar, situación y personas consideradas sin generalizar.'],
       media: {
-        id: 's09-d1-estaciones', kind: 'diagram', title: 'Plano del Museo vivo', aspect: '4:3',
-        alt: 'Plano de un aula vista desde arriba con cinco estaciones numeradas y una ruta de visita con flechas.',
-        brief: 'Plano cenital de un aula convertida en museo. Cinco estaciones en forma de mesas o paneles, cada una con ícono y color: 1 Agua y bosque (árbol y gota, verde), 2 Memoria y paz (paloma y libro, violeta), 3 Números de mis abuelos (caracol y maíz, magenta), 4 Arte para tocar (mano y pincel, naranja), 5 Juegos de antes (trompo, amarillo). Flechas punteadas marcan la ruta desde la puerta de entrada hasta la salida, donde hay un "Árbol de compromisos". Estilo plano, legible en celular.',
+        id: 's09-dossier-mapa', kind: 'diagram', title: 'Mapa del caso Ruta Clara', aspect: '4:3',
+        alt: 'Mapa ficticio con entrada norte, sendero central, jardín este, bebedero oeste y banca sombreada al sur.',
+        brief: 'Diagrama SVG 1200x900 px del caso Ruta Clara. Mostrar entrada norte, sendero central, jardín este, bebedero oeste, banca sur y una mochila que estrecha un tramo; usar íconos descriptivos de puerta, huellas, plantas, bebedero, banca y mochila. Añadir rosa de los vientos, ruta punteada y rótulo exacto “Caso simulado; no describe tu escuela”. Alto contraste, patrones además de color y texto legible. Target: public/media/s09-dossier-mapa.svg.',
       },
       steps: [
         S.explain(
-          { fase: 'explorar', areas: ['pyd', 'ccss', 'l1'], cnb: ['pyd:4.1.1', 'ccss:3.2.5'], ambito: 'emprender', title: 'El reto: un museo de la comunidad',
-            prompt: 'Durante ocho semanas investigaste el planeta, tu cuerpo, las figuras, los números, la historia y la paz. Ahora vas a **compartirlo** con tu comunidad. Toca cada tarjeta para conocer el reto.' },
-          { icon: 'Landmark', body: 'Un **museo vivo** no solo muestra objetos: invita a tocar, jugar, preguntar y comprometerse.', reveal: [
-            { icon: 'Target', front: 'La necesidad', back: 'Muchas familias no conocen de dónde viene su agua, qué riesgos tiene la comunidad ni la historia de sus abuelos. Lo que no se conoce, no se cuida.' },
-            { icon: 'Package', front: 'El producto', back: 'Una exposición con **5 estaciones** hechas con materiales reciclados, guiada por ustedes.' },
-            { icon: 'Users', front: 'El público', back: 'Familias, abuelas y abuelos, estudiantes de otros grados y autoridades comunitarias.' },
-            { icon: 'Sprout', front: 'El compromiso', back: 'Al salir, cada visitante escribe un compromiso en el **Árbol de compromisos**: cuidar el agua, el bosque o la paz.' },
+          { fase: 'explorar', areas: ['ccss', 'l1'], cnb: ['ccss:1.2.1', 'l1:8.2.4'], title: '1 min · Abrir el dossier', prompt: 'Explora el mapa y las tarjetas del dossier **Ruta Clara**.' },
+          { icon: 'FolderOpen', body: `**${CASE_LABEL}.** El mapa ubica entrada norte, sendero central, jardín este, bebedero oeste y banca sur. El paquete incluye toda la información; no debes buscar ni medir fuera de la lección.`, reveal: [
+            { icon: 'Map', front: 'Mapa', back: 'Una mochila dibujada ocupa parte del sendero central, cerca del cruce hacia el bebedero.' },
+            { icon: 'ClipboardList', front: 'Observaciones', back: 'En cuatro periodos ficticios: 18 recorridos directos, 7 desvíos y 5 pausas para buscar el bebedero.' },
+            { icon: 'BookOpenCheck', front: 'Fuentes', back: 'Fuente A aporta mapa y conteos; Fuente B aporta criterios de accesibilidad.' },
           ] },
-        ),
-        S.project(
-          { fase: 'construir', areas: ['pyd', 'l1', 'art', 'fc'], cnb: ['pyd:4.1.1', 'pyd:4.3.1', 'l1:8.2.1', 'fc:3.2.1'], ambito: 'emprender',
-            prompt: 'Esta es la **guía completa** del proyecto. Léela con tu equipo y vuelve a ella cada día.' },
-          { goal: 'Montar un Museo vivo con cinco estaciones que ayude a la comunidad a conocer y cuidar sus raíces: su agua y sus bosques, su historia y su memoria, sus números, su arte y sus juegos.',
-            steps: [
-              { title: '1. Formar equipos y elegir estación', detail: 'Equipos de 4 o 5 con roles rotativos: coordinación, investigación, diseño, producción y guía. Cada equipo elige una de las 5 estaciones.' },
-              { title: '2. Investigar', detail: 'Escribir 3 preguntas clave, consultar fuentes escritas y tecnológicas, y hacer al menos una entrevista o encuesta en la comunidad. Anotar siempre la fuente.' },
-              { title: '3. Diseñar', detail: 'Bocetar la estación: título, 1 mapa o gráfica, 1 dato en numeral maya, 1 elemento para tocar (texturas) y 1 actividad interactiva para el público.' },
-              { title: '4. Producir', detail: 'Construir la estación con cartón, tela, semillas y materiales reciclados. Escribir la cédula (texto del museo) con borrador, revisión y versión final.' },
-              { title: '5. Ensayar y presentar', detail: 'Ensayar la guía de 2 minutos: saludo cortés, dato sorprendente, actividad y pregunta al público. Presentar el día del museo.' },
-              { title: '6. Evaluar y mejorar', detail: 'Analizar la encuesta de visitantes, conversar sobre lo que funcionó y escribir un plan de mejora y un compromiso comunitario.' },
-            ],
-            evidence: 'Fotografías o dibujos de la estación terminada, la cédula final, la gráfica de la encuesta de visitantes y el plan de mejora del equipo.',
-            rubric: [
-              'La estación presenta información correcta y cita sus fuentes',
-              'Integra al menos tres áreas (por ejemplo, ciencias, matemáticas y arte)',
-              'Es accesible: letra grande, texturas o audio para distintas personas',
-              'Muestra respeto por todas las culturas y por la memoria de las víctimas',
-              'El equipo repartió roles y cumplió el calendario',
-              'Invita al público a comprometerse con una acción concreta',
-            ] },
-        ),
-        S.choice(
-          { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:8.2.2'], ambito: 'conocer',
-            prompt: 'Tu equipo eligió la estación **Agua y bosque**. ¿Cuáles son buenas **preguntas de investigación**? Elige todas las correctas.',
-            explain: 'Las buenas preguntas son claras, se pueden investigar y apuntan a lo importante para la comunidad.' },
-          { multiple: true, options: [
-            { id: 'a', text: '¿De qué nacimiento o pozo viene el agua de nuestra comunidad?', icon: 'Droplets' },
-            { id: 'b', text: '¿Cuánto bosque hay arriba de ese nacimiento y quién lo cuida?', icon: 'Trees' },
-            { id: 'c', text: '¿Qué riesgos naturales (deslaves, inundaciones) tiene la comunidad?', icon: 'CloudRain' },
-            { id: 'd', text: '¿A quién le gusta más el color verde?', icon: 'Palette', feedback: 'Es una pregunta de gusto personal: no ayuda a la investigación.' },
-          ], correct: ['a', 'b', 'c'] },
-        ),
-        S.match(
-          { fase: 'construir', areas: ['ccss', 'l1'], cnb: ['ccss:5.3.1', 'l1:8.2.3'], ambito: 'hacer',
-            prompt: 'Cada estación necesita una **herramienta** para recoger información. Une cada necesidad con la herramienta más adecuada.',
-            explain: 'Las herramientas de las Ciencias Sociales permiten obtener información directamente de la comunidad y de los documentos.' },
-          { leftTitle: 'Necesidad', rightTitle: 'Herramienta', pairs: [
-            { id: 'h1', left: 'Conocer lo que recuerdan los abuelos de la firma de la paz', leftIcon: 'Mic', right: 'Entrevista con preguntas preparadas' },
-            { id: 'h2', left: 'Saber de dónde viene el agua de 30 familias', leftIcon: 'ClipboardList', right: 'Encuesta con opciones' },
-            { id: 'h3', left: 'Registrar qué juegos se juegan en el recreo', leftIcon: 'Eye', right: 'Observación con lista de cotejo' },
-            { id: 'h4', left: 'Saber cuándo se fundó el municipio', leftIcon: 'Library', right: 'Consulta de documentos en la biblioteca' },
-          ] },
-        ),
-        S.order(
-          { fase: 'aplicar', areas: ['l1', 'pyd'], cnb: ['l1:8.2.1'], ambito: 'emprender',
-            prompt: 'Arma el **calendario** de la semana del proyecto: ordena las tareas del primer al último día.',
-            explain: 'Un calendario claro permite que cada integrante sepa qué hacer y evita dejar todo para el final.' },
-          { items: [
-            { id: 'k1', text: 'Formar equipos, elegir estación e investigar' },
-            { id: 'k2', text: 'Bocetar la estación y preparar los datos' },
-            { id: 'k3', text: 'Construir la estación y escribir la cédula' },
-            { id: 'k4', text: 'Ensayar y abrir el museo al público' },
-            { id: 'k5', text: 'Analizar la encuesta y escribir el plan de mejora' },
-          ], labels: { start: 'Día 1', end: 'Día 5' } },
-        ),
-        S.write(
-          { fase: 'aplicar', areas: ['l1', 'pyd', 'fc'], cnb: ['l1:8.2.1', 'pyd:4.1.1', 'fc:3.2.1'], ambito: 'emprender',
-            prompt: 'Escribe el **plan de tu equipo**: nombre de la estación, rol de cada integrante, tus tres preguntas de investigación y las fuentes o herramientas que usarán.' },
-          { minWords: 40, placeholder: 'Estación… Roles: … Preguntas: 1… 2… 3… Fuentes y herramientas: …',
-            model: 'Estación: Números de mis abuelos. Roles: Ana coordina, Kevin investiga, Rosa diseña, Pedro produce y yo seré guía. Preguntas: 1) ¿Quiénes en la comunidad conocen los numerales mayas? 2) ¿Cómo se usaban para contar en el mercado? 3) ¿Cuántas familias siembran milpa? Fuentes y herramientas: entrevista a don Tomás, un anciano que aprendió a contar en maya; encuesta a 30 familias sobre la milpa; libro de matemática maya de la biblioteca.',
-            rubric: ['Nombra la estación y los roles', 'Escribe tres preguntas claras', 'Indica fuentes y herramientas concretas', 'Reparte el trabajo de forma equitativa'] },
-        ),
-        cierre({ areas: ['pyd', 'fc'], cnb: ['fc:3.2.1'] }, ['Entiendo el reto y la rúbrica del proyecto', 'Mi equipo tiene roles y preguntas claras', 'Sé qué herramientas usaré para investigar'],
-          ['Haré mi entrevista o encuesta antes de mañana', 'Anotaré la fuente de cada dato', 'Cumpliré mi rol en el equipo']),
-      ],
-    }),
-
-    /* ───────────────────────── Día 2: Diseñar ───────────────────────── */
-    lesson({
-      id: 's09-d2-disenar',
-      title: 'Diseñar la estación',
-      icon: 'PenTool',
-      minutes: 14,
-      day: 2,
-      kind: 'proyecto',
-      gancho: '¿Qué hace que una exposición sea tan interesante que no quieres irte?',
-      objetivos: ['Organizar los datos de tu investigación en una gráfica', 'Representar datos con numerales mayas', 'Diseñar una estación accesible para todas las personas', 'Bocetar con volumen, movimiento y texturas'],
-      resumen: [
-        'Una gráfica de barras muestra de un vistazo los resultados de una encuesta.',
-        'Representar datos con numerales mayas conecta la información con la herencia de nuestros pueblos.',
-        'Una estación accesible usa letra grande, contraste, texturas para tocar y audio o lectura en voz alta.',
-      ],
-      media: {
-        id: 's09-d2-boceto', kind: 'image', title: 'Boceto de una estación', aspect: '4:3',
-        alt: 'Boceto a lápiz de un panel de cartón con título, una gráfica de barras, un numeral maya hecho con semillas y un recuadro con texturas.',
-        brief: 'Ilustración tipo boceto a lápiz y colores sobre papel cuadriculado de la estación "Agua y bosque": panel de cartón en tres partes (tríptico); a la izquierda título grande y mapa de la comunidad con el nacimiento; al centro una gráfica de barras de la encuesta y el número de familias encuestadas en numeral maya hecho con maíz y frijol; a la derecha un recuadro con corteza, musgo y piedra para tocar. Notas al margen con flechas: "letra grande", "texturas", "pregunta al público".',
-      },
-      steps: [
-        S.explain(
-          { fase: 'explorar', areas: ['art', 'pyd', 'l1'], cnb: ['art:3.2.7', 'pyd:4.1.1'], ambito: 'hacer', title: 'Cuatro claves de diseño',
-            prompt: 'Antes de construir, se **diseña**. Toca cada clave para una estación que atrape al público.' },
-          { icon: 'PenTool', body: 'Un buen diseño cuenta una idea principal con pocas palabras y mucha imagen.', reveal: [
-            { icon: 'Newspaper', front: 'Título que atrapa', back: 'Una pregunta o frase corta: "¿De dónde viene tu agua?"' },
-            { icon: 'BarChart3', front: 'Datos a la vista', back: 'Una gráfica o mapa en lugar de párrafos largos.' },
-            { icon: 'Hand', front: 'Para tocar y jugar', back: 'Texturas, piezas que se mueven o un juego corto para el público.' },
-            { icon: 'Eye', front: 'Para todas las personas', back: 'Letra grande, colores con buen contraste y alguien que lea en voz alta.' },
-          ] },
-        ),
-        S.chart(
-          { fase: 'construir', areas: ['ccss', 'mat', 'cnt'], cnb: ['ccss:5.3.1', 'cnt:6.3.1'], ambito: 'hacer',
-            prompt: 'Supongamos que tu equipo encuestó a **30 familias**: "¿De dónde viene el agua de tu casa?". Resultados: chorro municipal 12, nacimiento 9, pozo 6, camión cisterna 3. Construye la gráfica para tu estación.',
-            explain: 'La gráfica muestra que 9 familias dependen directamente del nacimiento: cuidar el bosque de arriba es cuidar su agua.' },
-          { categories: [
-            { id: 'cho', label: 'Chorro', icon: 'Droplet', color: 'var(--area-l1)' },
-            { id: 'nac', label: 'Nacimiento', icon: 'Mountain', color: 'var(--c-quetzal)' },
-            { id: 'poz', label: 'Pozo', icon: 'Circle', color: 'var(--area-pyd)' },
-            { id: 'cam', label: 'Cisterna', icon: 'Truck', color: 'var(--area-cnt)' },
-          ], data: [12, 9, 6, 3], max: 15, step: 3, unit: 'familias', source: 'Encuesta hipotética del equipo' },
-        ),
-        S.maya(
-          { fase: 'construir', areas: ['mat', 'art'], cnb: ['mat:4.1.5'], ambito: 'hacer',
-            prompt: 'En la estación escribirán el total de familias encuestadas (**30**) con un numeral maya hecho con granos de maíz y frijol. Constrúyelo primero aquí.',
-            hint: '30 = 1 × 20 + 10.',
-            explain: 'Un punto en el nivel del 20 y dos barras en el nivel del 1: 20 + 10 = 30.' },
-          { mode: 'build', target: 30, levels: 2, scaffold: true },
-        ),
-        S.sort(
-          { fase: 'aplicar', areas: ['art', 'fc'], cnb: ['art:3.2.4', 'fc:1.1.2'], ambito: 'convivir',
-            prompt: 'Al museo vendrán abuelas que no leen bien letra pequeña, niños pequeños y un vecino con discapacidad visual. Clasifica cada decisión de diseño.',
-            explain: 'Diseñar pensando en todas las personas es una forma de convivencia solidaria: nadie se queda fuera del museo.' },
-          { buckets: [
-            { id: 'inc', label: 'Incluye a más personas', icon: 'HeartHandshake', color: 'var(--c-ok)' },
-            { id: 'exc', label: 'Deja a personas fuera', icon: 'EyeOff', color: 'var(--area-cnt)' },
-          ], items: [
-            { id: 'd1', text: 'Texturas de corteza, tela y semillas para tocar', bucket: 'inc' },
-            { id: 'd2', text: 'Letra grande y colores con buen contraste', bucket: 'inc' },
-            { id: 'd3', text: 'Un guía que lee en voz alta y responde preguntas', bucket: 'inc' },
-            { id: 'd4', text: 'Párrafos largos con letra pequeña', bucket: 'exc' },
-            { id: 'd5', text: 'Objetos que no se pueden tocar ni escuchar', bucket: 'exc' },
-          ] },
-        ),
-        S.write(
-          { fase: 'aplicar', areas: ['art', 'pyd'], cnb: ['art:3.2.7', 'art:3.2.4'], ambito: 'hacer',
-            prompt: 'Describe el **boceto** de tu estación: ¿qué título tendrá?, ¿qué imagen o gráfica pondrás al centro?, ¿qué texturas usarás? y ¿cómo darás volumen y movimiento a los dibujos?',
-            media: { id: 's09-d2-texturas', kind: 'image', title: 'Muestrario de texturas recicladas', aspect: '1:1',
-              alt: 'Cuadrícula de nueve cuadros con materiales: corteza, tela de corte, cartón corrugado, lija, algodón, semillas, papel arrugado, arena y hojas secas.',
-              brief: 'Fotografía cenital (o ilustración realista) de una cuadrícula 3 × 3 de cuadros de cartón de 10 cm, cada uno cubierto con un material reciclado o natural: corteza, retazo de tela típica sin diseño identificable, cartón corrugado, lija, algodón, semillas de frijol y maíz, papel arrugado, arena y hojas secas. Iluminación lateral suave para resaltar el relieve. Etiqueta pequeña bajo cada cuadro.' } },
-          { minWords: 35, placeholder: 'El título será… En el centro… Las texturas… Para dar volumen y movimiento…',
-            model: 'El título será "¿De dónde viene tu agua?". En el centro pondremos un mapa de la comunidad con el nacimiento y el bosque, y a la par la gráfica de la encuesta. Usaremos corteza y musgo para que se toque el bosque, y papel celeste arrugado para el río. Para dar volumen sombrearemos las montañas con verde oscuro, y para dar movimiento dibujaremos el río con líneas curvas y gotas que bajan en diagonal.',
-            rubric: ['Propone un título atractivo', 'Incluye un dato, gráfica o mapa', 'Usa texturas para hacerla accesible', 'Explica cómo dará volumen y movimiento'] },
-        ),
-        cierre({ areas: ['art', 'pyd'], cnb: ['art:3.2.7'] }, ['Organicé los datos en una gráfica', 'Diseñé una estación accesible', 'Mi boceto combina información, arte y juego'],
-          ['Traeré materiales reciclados para construir', 'Revisaré que la letra de la estación se lea desde lejos', 'Pediré opinión de mi equipo sobre el boceto']),
-      ],
-    }),
-
-    /* ───────────────────────── Día 3: Crear y producir ───────────────────────── */
-    lesson({
-      id: 's09-d3-crear',
-      title: 'Crear y producir',
-      icon: 'Hammer',
-      minutes: 15,
-      day: 3,
-      kind: 'proyecto',
-      gancho: '¿Cómo se convierte un montón de cartón y semillas en una estación de museo?',
-      objetivos: ['Usar herramientas con seguridad', 'Escribir la cédula de la estación en etapas', 'Resolver los conflictos del equipo con diálogo', 'Componer la fanfarria de inauguración'],
-      resumen: [
-        'Las tijeras, cúteres y pegamentos se usan con supervisión, sobre una mesa firme y guardándolos al terminar.',
-        'La cédula de museo es un texto breve y exacto; se escribe con borrador, revisión, corrección y versión final.',
-        'Los desacuerdos del equipo se resuelven escuchando a todos, buscando alternativas y cumpliendo el acuerdo.',
-      ],
-      media: {
-        id: 's09-d3-taller', kind: 'video', title: 'Taller de producción', aspect: '16:9', duration: 45,
-        alt: 'Estudiantes cortan cartón con tijeras de punta roma, pegan semillas en un numeral maya y pintan un mural pequeño.',
-        brief: 'Video corto de 45 s, planos cerrados de manos (sin rostros identificables): cortar cartón con tijeras de punta roma sobre una mesa firme, pegar granos de maíz y frijol formando un numeral maya, pintar montañas con degradado, rotular una cédula con marcador grueso. Sobreimpresos de seguridad: "Corta lejos de tu cuerpo", "Guarda las herramientas al terminar". Música de marimba suave.',
-      },
-      steps: [
-        S.explain(
-          { fase: 'explorar', areas: ['pyd', 'ef'], cnb: ['pyd:3.2.3', 'pyd:3.2.4'], ambito: 'hacer', title: 'Producción segura',
-            prompt: 'Hoy se construye. Antes, repasa las **reglas de seguridad** con herramientas. Toca cada tarjeta.' },
-          { icon: 'HardHat', body: 'Un buen taller es ordenado: cada herramienta tiene su lugar y su responsable.', reveal: [
-            { icon: 'Scissors', front: 'Tijeras y cúter', back: 'Las tijeras son una **máquina simple** (dos palancas unidas). Corta **lejos de tu cuerpo**, sobre una mesa firme; el cúter solo con una persona adulta.' },
-            { icon: 'Droplet', front: 'Pegamentos y pinturas', back: 'Usa poca cantidad, en un lugar ventilado, y lávate las manos al terminar.' },
-            { icon: 'Recycle', front: 'Materiales', back: 'Prefiere cartón, tela y semillas **reutilizados**; separa los sobrantes para reciclar.' },
-          ] },
-        ),
-        S.order(
-          { fase: 'construir', areas: ['l1', 'pyd'], cnb: ['l1:8.2.7'], ambito: 'hacer',
-            prompt: 'La **cédula** es el texto que acompaña a cada estación. Ordena cómo la escribirá tu equipo.',
-            explain: 'La cédula debe ser breve (40 a 60 palabras), exacta y citar la fuente al pie.' },
-          { items: [
-            { id: 'c1', text: 'Revisar las notas de la investigación' },
-            { id: 'c2', text: 'Escribir un primer borrador' },
-            { id: 'c3', text: 'Pedir a otro equipo que lo revise' },
-            { id: 'c4', text: 'Corregir datos, ortografía y claridad' },
-            { id: 'c5', text: 'Escribir la versión final con letra grande' },
-          ], labels: { start: 'Primero', end: 'Al final' } },
-        ),
-        S.fill(
-          { fase: 'construir', areas: ['cnt', 'ccss', 'mat'], cnb: ['cnt:6.3.1', 'ccss:6.5.5', 'mat:4.1.6'], ambito: 'conocer',
-            prompt: 'Revisa la **exactitud** de estas cédulas antes de imprimirlas. Completa cada una con el dato correcto que aprendiste en la unidad.',
-            explain: 'Una cédula con errores confunde al público. Por eso, revisar los datos es parte de la honestidad intelectual.' },
-          { text: 'Agua y bosque: las raíces ayudan a que la lluvia se [[infiltre]] y recargue los nacimientos.\nMemoria y paz: el Acuerdo de Paz Firme y Duradera se firmó en [[1996]].\nNúmeros de mis abuelos: el sistema maya es [[vigesimal]] y usa punto, barra y caracol.',
-            distractors: ['evapore', '1954', 'decimal'] },
-        ),
-        S.dilemma(
-          { fase: 'aplicar', areas: ['fc', 'ccss', 'l1'], cnb: ['fc:1.1.2', 'ccss:8.2.1', 'l1:8.2.4'], ambito: 'convivir', prompt: '¿Qué harías tú?' },
-          { scene: { icon: 'Users', text: 'Falta un día para el museo. **Byron** no ha traído materiales y **Glenda** propone copiar la cédula de otro equipo "para terminar rápido". El equipo empieza a discutir.' }, options: [
-            { id: 'a', icon: 'Megaphone', text: 'Regañar a Byron frente a todos', consequence: 'Byron se siente humillado y se aleja. El equipo pierde tiempo y ánimo.', values: ['Impaciencia'], constructive: false },
-            { id: 'b', icon: 'MessagesSquare', text: 'Hacer una pausa: escuchar a Byron, repartir de nuevo las tareas y escribir nuestra propia cédula', consequence: 'Byron explica que no tenía cartón en casa; se compromete a pintar. Terminan juntos y la cédula es suya.', values: ['Diálogo', 'Honestidad', 'Solidaridad'], constructive: true },
-            { id: 'c', icon: 'Copy', text: 'Copiar la cédula del otro equipo', consequence: 'Dos estaciones dicen lo mismo y el otro equipo se molesta. El trabajo pierde valor.', values: ['Deshonestidad'], constructive: false },
-          ] },
-        ),
-        S.rhythm(
-          { fase: 'aplicar', areas: ['art', 'mat'], cnb: ['art:1.1.2'], ambito: 'hacer',
-            prompt: 'El museo se inaugura con una **fanfarria de marimba**. Compón un compás de **4 tiempos** que tenga al menos una **negra** y una **corchea**, y tócalo. ¡Tu equipo lo tocará con palmas en la apertura!',
-            hint: 'Negra = 1 tiempo; corchea = 1/2 tiempo; blanca = 2 tiempos.',
-            explain: 'Por ejemplo: negra + negra + corchea + corchea + negra = 1 + 1 + ½ + ½ + 1 = 4 tiempos.' },
-          { beats: 4, allowed: ['blanca', 'negra', 'corchea'], mustInclude: ['negra', 'corchea'], showFractions: true },
-        ),
-        cierre({ areas: ['pyd', 'fc'], cnb: ['pyd:3.2.3'] }, ['Usé las herramientas con seguridad', 'Nuestra cédula es exacta y original', 'Resolví los desacuerdos con diálogo'],
-          ['Terminaré mi parte de la estación', 'Guardaré las herramientas y reciclaré los sobrantes', 'Ensayaré la fanfarria con mi equipo']),
-      ],
-    }),
-
-    /* ───────────────────────── Día 4: Presentar y compartir ───────────────────────── */
-    lesson({
-      id: 's09-d4-presentar',
-      title: 'Presentar y compartir',
-      icon: 'Megaphone',
-      minutes: 14,
-      day: 4,
-      kind: 'proyecto',
-      gancho: '¿Cómo logras que una abuela, un niño de primero y el alcalde escuchen con interés tu estación?',
-      objetivos: ['Guiar una visita manteniendo la atención del público', 'Cuidar la entonación, la fluidez y el volumen', 'Usar expresiones de cortesía y respeto', 'Responder con respeto ante comentarios discriminatorios'],
-      resumen: [
-        'Para mantener la atención: saluda, mira al público, usa gestos, cambia el tono de voz, muestra objetos y haz una pregunta.',
-        'Una buena guía habla con volumen suficiente, a ritmo tranquilo y con entonación variada.',
-        'Las expresiones de cortesía (buenos días, señora, don, por favor, gracias) muestran respeto a cada visitante.',
-        'Ante un comentario que discrimina, se responde con calma, con datos y con respeto, sin burlas.',
-      ],
-      media: {
-        id: 's09-d4-guia', kind: 'animation', title: 'Una guía de museo en 2 minutos', aspect: '9:16', duration: 60,
-        alt: 'Animación vertical de una niña guía que saluda, cuenta un dato, invita a tocar texturas y hace una pregunta al público.',
-        brief: 'Animación vertical (formato celular) de 60 s dividida en cuatro momentos rotulados: "1. Saludo cortés" (la guía dice "Buenos días, señoras y señores, bienvenidos"), "2. Dato sorprendente" (señala la gráfica), "3. ¡A tocar!" (una abuela toca las texturas), "4. Pregunta al público" ("¿Qué harían ustedes para cuidar el nacimiento?"). Iconos de volumen y reloj como indicadores. Personajes diversos, subtítulos.',
-      },
-      steps: [
-        S.explain(
-          { fase: 'explorar', areas: ['l1', 'l2'], cnb: ['l1:2.1.6', 'l2:2.2.1'], ambito: 'convivir', title: 'La guía de 2 minutos',
-            prompt: 'Cada guía tiene **2 minutos** por grupo de visitantes. Toca cada momento de la presentación.' },
-          { icon: 'Mic', body: 'Recuerda la voz: **volumen** para que te escuchen al fondo, **fluidez** sin correr y **entonación** que suba en las preguntas.', reveal: [
-            { icon: 'Handshake', front: '1. Saludo', back: '"Buenos días, señoras y señores. Soy Ana y les doy la bienvenida a la estación Agua y bosque."' },
-            { icon: 'Lightbulb', front: '2. Dato sorprendente', back: '"9 de cada 30 familias toman agua directamente de un nacimiento."' },
-            { icon: 'Hand', front: '3. Actividad', back: '"Toquen la corteza y el musgo: así se siente el bosque que guarda el agua."' },
-            { icon: 'MessageCircle', front: '4. Pregunta y despedida', back: '"¿Qué harían ustedes para cuidarlo? Muchas gracias por su visita."' },
-          ] },
-        ),
-        S.choice(
-          { fase: 'construir', areas: ['l1', 'l2'], cnb: ['l1:2.1.6', 'l2:2.2.1'], ambito: 'convivir',
-            prompt: 'Durante la guía, ¿qué acciones mantienen la **atención del público**? Elige todas las correctas.',
-            explain: 'El contacto visual, los objetos y las preguntas convierten al público en participante.' },
-          { multiple: true, options: [
-            { id: 'a', text: 'Mirar a las personas y usar gestos', icon: 'Eye' },
-            { id: 'b', text: 'Mostrar las texturas y la gráfica mientras hablo', icon: 'Hand' },
-            { id: 'c', text: 'Hacer una pregunta al público', icon: 'MessageCircle' },
-            { id: 'd', text: 'Leer el cartel dándole la espalda al público', icon: 'VolumeX', feedback: 'Si das la espalda, el público deja de escucharte.' },
-            { id: 'e', text: 'Hablar muy rápido para terminar antes', icon: 'Timer', feedback: 'Hablar rápido quita fluidez y claridad.' },
-          ], correct: ['a', 'b', 'c'] },
-        ),
-        S.pulse(
-          { fase: 'aplicar', areas: ['ef', 'fc'], cnb: ['ef:3.1.2'], ambito: 'ser',
-            prompt: 'Es normal sentir nervios antes de presentar. Mide tu pulso, luego haz **1 minuto de respiración lenta** (inhala 4, exhala 6) con los hombros sueltos, y vuelve a medir. ¡Ya puedes presentar!' },
-          { seconds: 15, rounds: [
-            { label: 'Antes de respirar (con nervios)' },
-            { label: 'Después de respirar lento', exercise: { name: 'Respiración 4-6 de pie, con los pies firmes', icon: 'Wind', seconds: 60 } },
-          ] },
-        ),
-        S.dilemma(
-          { fase: 'aplicar', areas: ['fc', 'ccss'], cnb: ['ccss:3.2.6', 'fc:1.2.3'], ambito: 'convivir', prompt: 'Durante tu guía, ¿qué harías?' },
-          { scene: { icon: 'MessageCircle', text: 'En la estación **Memoria y paz**, un visitante dice en voz alta: "Eso pasó hace mucho, no hay que hablar de eso. Además, las costumbres de los pueblos mayas ya son cosa del pasado".' }, options: [
-            { id: 'a', icon: 'VolumeX', text: 'Quedarme callado y pasar a otra estación', consequence: 'El comentario queda sin respuesta y otros visitantes se sienten incómodos.', values: ['Evasión'], constructive: false },
-            { id: 'b', icon: 'HeartHandshake', text: 'Agradecer su opinión y explicar con calma que recordar honra a las víctimas y que las culturas mayas están vivas hoy', consequence: 'El visitante escucha y pregunta por el mural. Una abuela agradece que se hable con respeto.', values: ['Respeto', 'Valentía', 'Interculturalidad'], constructive: true },
-            { id: 'c', icon: 'Megaphone', text: 'Burlarme del visitante frente a todos', consequence: 'El ambiente se pone tenso y el mensaje de paz se pierde.', values: ['Irrespeto'], constructive: false },
-          ] },
-        ),
-        S.write(
-          { fase: 'aplicar', areas: ['l2', 'l1'], cnb: ['l2:1.3.1', 'l1:2.1.6'], ambito: 'convivir',
-            prompt: 'Escribe el **guion de tu guía de 2 minutos**: saludo con expresiones de cortesía y títulos de respeto (señora, don, profesora), un dato sorprendente, la actividad para el público y una pregunta de cierre.' },
-          { minWords: 45, placeholder: 'Buenos días… Les doy la bienvenida… ¿Sabían que…? Los invito a… ¿Qué harían ustedes…? Muchas gracias…',
-            model: 'Buenos días, señoras y señores, profesora Marta y don Julián. Les doy la bienvenida a la estación Números de mis abuelos. ¿Sabían que los mayas usaron el cero hace más de mil años? Los invito a formar su edad con granos de maíz y frijol, como en este numeral. Para terminar, ¿qué números de su vida les gustaría escribir en maya? Muchas gracias por su visita, pueden pasar a la siguiente estación.',
-            rubric: ['Saluda con expresiones de cortesía y títulos de respeto', 'Incluye un dato correcto y sorprendente', 'Invita al público a una actividad', 'Cierra con una pregunta y agradece'] },
-        ),
-        cierre({ areas: ['l1', 'fc'], cnb: ['l1:2.1.6'] }, ['Guié la visita manteniendo la atención', 'Hablé con buen volumen, fluidez y entonación', 'Respondí con respeto a todas las personas'],
-          ['Ensayaré mi guía frente a mi familia', 'Saludaré con cortesía a cada visitante', 'Escucharé las preguntas del público con paciencia']),
-      ],
-    }),
-
-    /* ───────────────────────── Día 5: Evaluar y mejorar ───────────────────────── */
-    lesson({
-      id: 's09-d5-evaluar',
-      title: 'Evaluar y mejorar',
-      icon: 'ClipboardCheck',
-      minutes: 15,
-      day: 5,
-      kind: 'proyecto',
-      gancho: 'El museo terminó. ¿Cómo sabes si de verdad ayudó a tu comunidad?',
-      objetivos: ['Analizar la encuesta de visitantes', 'Interpretar comentarios para mejorar', 'Repasar las ideas clave de la unidad', 'Escribir un plan de mejora y un compromiso comunitario'],
-      resumen: [
-        'Evaluar con datos (encuestas) y con comentarios permite saber qué funcionó y qué mejorar.',
-        'La retroalimentación útil es concreta y respetuosa: "dos estrellas y un deseo".',
-        'Un proyecto termina con un compromiso real con la comunidad, como sembrar árboles o cuidar un nacimiento.',
-      ],
-      media: {
-        id: 's09-d5-arbol', kind: 'image', title: 'El Árbol de compromisos', aspect: '3:4',
-        alt: 'Mural de un gran árbol de papel cuyas hojas son tarjetas con compromisos escritos por las familias.',
-        brief: 'Ilustración vertical de un mural escolar: tronco de papel kraft y ramas extendidas; en lugar de hojas, decenas de tarjetas verdes con compromisos escritos a mano (texto ilegible o genérico, por ejemplo "Cuidaré el agua", "No quemaré basura", "Contaré la historia de mi abuela"). Al pie del árbol, niñas y niños riegan arbolitos reales en bolsas del vivero. Colores alegres, luz de tarde.',
-      },
-      steps: [
-        S.explain(
-          { fase: 'explorar', areas: ['pyd', 'l1'], cnb: ['pyd:2.3.1'], ambito: 'emprender', title: 'Dos estrellas y un deseo',
-            prompt: 'Evaluar no es buscar culpables: es **aprender para mejorar**. Toca cada tarjeta.' },
-          { icon: 'Star', body: 'Usen la técnica **"dos estrellas y un deseo"**: dos cosas que salieron bien y una que desean mejorar.', reveal: [
-            { icon: 'BarChart3', front: 'Evaluar con datos', back: 'La encuesta de visitantes dice cuántas personas quedaron satisfechas.' },
-            { icon: 'MessagesSquare', front: 'Evaluar con palabras', back: 'Los comentarios del libro de visitas dicen **por qué**.' },
-            { icon: 'RefreshCw', front: 'Mejorar', back: 'Con esa información, el equipo decide qué cambiar la próxima vez.' },
-          ] },
-        ),
-        S.chart(
-          { fase: 'construir', areas: ['ccss', 'mat', 'pyd'], cnb: ['ccss:5.3.1'], ambito: 'hacer',
-            prompt: 'Supongamos que 34 visitantes respondieron "¿Qué te pareció el Museo vivo?": Excelente 18, Bueno 10, Regular 4, Por mejorar 2. Construye la gráfica.',
-            explain: '28 de 34 visitantes (18 + 10) lo calificaron como excelente o bueno. Aun así, 6 personas dan pistas de qué mejorar.' },
-          { categories: [
-            { id: 'exc', label: 'Excelente', icon: 'Star', color: 'var(--c-ok)' },
-            { id: 'bue', label: 'Bueno', icon: 'ThumbsUp', color: 'var(--c-quetzal)' },
-            { id: 'reg', label: 'Regular', icon: 'Minus', color: 'var(--c-hint)' },
-            { id: 'mej', label: 'Por mejorar', icon: 'Wrench', color: 'var(--area-cnt)' },
-          ], data: [18, 10, 4, 2], max: 20, step: 2, unit: 'visitantes', source: 'Encuesta hipotética de visitantes' },
         ),
         S.reading(
-          { fase: 'construir', areas: ['l1', 'pyd', 'fc'], cnb: ['l1:8.2.7', 'pyd:2.3.1'], ambito: 'emprender', prompt: 'Lee los comentarios del **libro de visitas** y responde.' },
-          { genre: 'Comentarios', heading: 'Libro de visitas del Museo vivo', passage:
-            '"Me encantó tocar el musgo y la corteza. No sabía que nuestro nacimiento dependía de ese bosque." — Doña Ofelia, abuela.\n\n"La estación de juegos fue la más divertida, pero había mucha gente y no todos pudimos jugar." — Kevin, 2.º primaria.\n\n"Gracias por hablar con respeto de la historia de nuestras comunidades. Faltó un mapa más grande." — Profesor Andrés.\n\n"Las letras de la estación de números eran muy pequeñas; no las pude leer desde lejos." — Don Mateo.',
-            questions: [
-              { q: '¿Qué aprendió doña Ofelia en el museo?', options: [
-                { id: 'a', text: 'Que el nacimiento de su comunidad depende del bosque' },
-                { id: 'b', text: 'A jugar trompo' },
-                { id: 'c', text: 'A escribir números romanos' },
-              ], correct: 'a' },
-              { q: '¿Qué mejora sugieren a la vez Kevin y don Mateo?', options: [
-                { id: 'a', text: 'Que más personas puedan participar y ver bien: turnos en los juegos y letra más grande' },
-                { id: 'b', text: 'Que el museo sea más corto' },
-                { id: 'c', text: 'Que no se invite a niños pequeños' },
-              ], correct: 'a', why: 'Los dos comentarios hablan de accesibilidad: que todas las personas puedan participar.' },
-              { q: '¿Cuál sería un buen "deseo" para el equipo de la estación de números?', options: [
-                { id: 'a', text: 'Rotular con letra grande y buen contraste' },
-                { id: 'b', text: 'Quitar los numerales mayas' },
-                { id: 'c', text: 'No hacer caso a don Mateo' },
-              ], correct: 'a' },
-            ] },
+          { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:8.2.4', 'cnt:8.2.1'], title: '2 min · Leer sin adelantar conclusiones', prompt: 'Lee la ficha de observaciones suministrada.' },
+          { genre: 'Ficha de caso simulado', heading: 'Observaciones del sendero central', passage: `${CASE_LABEL}. Durante cuatro periodos ficticios de diez minutos, la ficha registró 18 recorridos directos, 7 desvíos junto a una mochila dibujada y 5 pausas antes de encontrar el bebedero. No explica las causas ni representa una escuela real.`, questions: [{ q: '¿Qué está directamente respaldado?', options: [{ id: 'a', text: 'Se registraron 7 desvíos junto a la mochila dibujada' }, { id: 'b', text: 'Todas las personas se desviaron por miedo' }, { id: 'c', text: 'Nuestra escuela tiene una ruta peligrosa' }], correct: 'a', why: 'La ficha aporta un conteo y una ubicación, no una causa ni datos locales.' }] },
         ),
-        S.cards(
-          { fase: 'construir', areas: ['cnt', 'mat', 'ccss', 'fc'], cnb: ['cnt:6.3.1', 'mat:4.1.6', 'ccss:6.5.5', 'fc:4.2.2', 'cnt:1.4.1', 'mat:1.1.8'], ambito: 'conocer',
-            prompt: 'Antes de la **Semana de validación**, repasa las ideas clave de la unidad que presentaste en el museo. Intenta responder antes de voltear cada tarjeta.' },
-          { cards: [
-            { icon: 'Dna', front: '¿Qué guarda el núcleo de la célula?', back: 'El ADN, organizado en cromosomas; los genes son partes del ADN.' },
-            { icon: 'Droplets', front: '¿Por qué reforestar protege el agua?', back: 'Las raíces ayudan a que la lluvia se infiltre y recargue los mantos acuíferos.' },
-            { icon: 'Shell', front: '¿Cuánto vale cada nivel maya?', back: 'De abajo hacia arriba: ×1, ×20, ×400, ×8,000.' },
-            { icon: 'Handshake', front: '¿Cuándo se firmó la paz en Guatemala?', back: 'El 29 de diciembre de 1996, con el Acuerdo de Paz Firme y Duradera.' },
-            { icon: 'HeartHandshake', front: 'Cultura de paz vs. cultura de violencia', back: 'La paz usa diálogo, respeto y cooperación; la violencia usa fuerza, burla y venganza.' },
-            { icon: 'Hexagon', front: '¿Cuánto suman los ángulos de un hexágono?', back: '720°: se divide en 4 triángulos de 180°.' },
+        S.sort(
+          { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:8.2.4', 'cnt:8.2.1'], title: '2 min · Observación o inferencia', prompt: 'Clasifica cada afirmación según lo que permite decir el dossier.', explain: 'Una inferencia orienta preguntas, pero no debe presentarse como hecho.' },
+          { buckets: [{ id: 'obs', label: 'Observación respaldada', icon: 'Eye' }, { id: 'inf', label: 'Inferencia por comprobar', icon: 'CircleHelp' }], items: [
+            { id: 'a', text: 'El mapa coloca una mochila en el sendero', bucket: 'obs' },
+            { id: 'b', text: 'La mochila causó todos los desvíos', bucket: 'inf' },
+            { id: 'c', text: 'Cinco registros incluyen una pausa', bucket: 'obs' },
+            { id: 'd', text: 'Nadie comprende los rótulos', bucket: 'inf' },
           ] },
         ),
-        S.write(
-          { fase: 'aplicar', areas: ['pyd', 'cnt', 'fc'], cnb: ['pyd:4.3.1', 'pyd:5.5.2', 'fc:3.2.1'], ambito: 'emprender',
-            prompt: 'Escribe el **plan de mejora** de tu equipo con "dos estrellas y un deseo", y un **compromiso comunitario** concreto que continuará después del museo (qué, quiénes, cuándo).' },
-          { minWords: 45, placeholder: 'Estrella 1… Estrella 2… Deseo… Nuestro compromiso comunitario es…',
-            model: 'Estrella 1: los visitantes disfrutaron tocar las texturas del bosque. Estrella 2: explicamos con datos de dónde viene el agua. Deseo: la próxima vez haremos un mapa más grande y letras que se lean desde lejos. Nuestro compromiso comunitario es sembrar 30 arbolitos de aliso del vivero en la ladera del nacimiento, con apoyo del COCODE, el primer sábado de la temporada de lluvia, y regarlos por turnos.',
-            rubric: ['Nombra dos logros concretos', 'Propone una mejora realista basada en los comentarios', 'Plantea un compromiso comunitario con qué, quiénes y cuándo', 'Muestra valoración del trabajo en equipo'] },
+        S.choice(
+          { fase: 'construir', areas: ['ccss', 'fc'], cnb: ['ccss:1.2.1', 'fc:1.1.2'], title: '1 min · Necesidad acotada', prompt: '¿Qué necesidad se ajusta al mapa y evita generalizaciones?' },
+          { options: [{ id: 'a', text: 'Revisar el tramo central y la señal al bebedero para facilitar orientación y paso en el caso' }, { id: 'b', text: 'Cambiar toda la escuela porque nadie puede caminar' }, { id: 'c', text: 'Afirmar que la mochila provoca accidentes' }], correct: ['a'] },
         ),
-        cierre({ areas: ['pyd', 'fc'], cnb: ['pyd:4.3.1'] }, ['Analicé los resultados del museo con datos y comentarios', 'Propuse mejoras concretas', 'Me comprometí con una acción para mi comunidad'],
-          ['Cumpliré el compromiso comunitario de mi equipo', 'Repasaré las tarjetas antes de la Semana de validación', 'Contaré en casa lo que aprendí del museo']),
+        S.match(
+          { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:1.2.1'], title: '1 min · Ubicar la necesidad', prompt: 'Relaciona cada referencia del mapa con su ubicación.' },
+          { pairs: [{ id: 'a', left: 'Entrada', leftIcon: 'DoorOpen', right: 'Norte' }, { id: 'b', left: 'Bebedero', leftIcon: 'GlassWater', right: 'Oeste' }, { id: 'c', left: 'Jardín', leftIcon: 'Flower2', right: 'Este' }] },
+        ),
+        S.write(
+          { id: 's09-d1-necesidad', fase: 'aplicar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.7', 'cnt:8.2.1'], title: '3 min · Delimitar por escrito', prompt: 'Guarda una necesidad de 18 a 24 palabras. Incluye lugar, observación y algo que no puede concluirse.' },
+          { minWords: 20, placeholder: 'En el tramo... El dossier observa... Todavía no permite concluir...', model: 'En el sendero central, siete registros muestran desvíos junto a la mochila; el caso todavía no permite afirmar una causa única.', rubric: ['Nombré el lugar', 'Usé una observación', 'Marqué una limitación'] },
+        ),
+        S.choice(
+          { fase: 'aplicar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.4', 'cnt:8.2.1'], title: '1 min · Transferir el criterio', prompt: 'Otro mapa muestra tres pausas ante una puerta. ¿Cuál afirmación es cuidadosa?' },
+          { options: [{ id: 'a', text: 'Hubo tres pausas; la causa requiere más evidencia' }, { id: 'b', text: 'La puerta confunde a todas las personas' }, { id: 'c', text: 'La puerta necesariamente causará accidentes' }], correct: ['a'] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.4'], title: '1 min · Salida', prompt: '¿Qué frase distingue evidencia e inferencia?' },
+          { options: [{ id: 'a', text: 'El conteo registra cinco pausas; quizá faltó orientación, pero debe comprobarse' }, { id: 'b', text: 'Cinco pausas demuestran que el mapa es inútil' }, { id: 'c', text: 'Nuestra escuela tiene el mismo problema' }], correct: ['a'] },
+        ),
+        cierre({ areas: ['ccss', 'l1'], cnb: ['ccss:1.2.1', 'l1:8.2.4'] }, ['Distinguí observación e inferencia', 'Delimité una necesidad sin inventar causas']),
+      ],
+    }),
+
+    lesson({
+      id: 's09-d2-evidencia', title: 'Elegir evidencia confiable', icon: 'ChartNoAxesColumnIncreasing', minutes: 15, day: 2, kind: 'proyecto',
+      gancho: '¿Cómo haces visible un dato sin cambiar lo que significa?',
+      objetivos: ['Seleccionar dos fuentes y representar honestamente un dato suministrado'],
+      resumen: ['Una fuente identificada permite rastrear la procedencia de un dato.', 'Una gráfica conserva categorías, valores, unidad y alcance.'],
+      media: {
+        id: 's09-dossier-fuentes', kind: 'diagram', title: 'Fuentes y datos de Ruta Clara', aspect: '16:9',
+        alt: 'Dos tarjetas de fuente junto a una tabla con recorridos directos, desvíos y pausas del caso ficticio.',
+        brief: 'Infografía SVG 1600x900 px. Fuente A: “Ficha de observación Ruta Clara, edición simulada 2026”, aporta mapa y conteos. Fuente B: “Guía didáctica de accesibilidad escolar, edición simulada 2026”, aporta contraste, símbolos y ruta alternativa. Tabla: directo 18, desvío 7, pausa 5, total 30. Incluir “Caso simulado; no describe tu escuela”, letra grande, contraste alto e íconos más texto. Target: public/media/s09-dossier-fuentes.svg.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.4'], title: '1 min · Dos fuentes, dos aportes', prompt: 'Abre las tarjetas identificadas.' },
+          { icon: 'LibraryBig', body: `**${CASE_LABEL}.** La **Fuente A**, Ficha de observación Ruta Clara, edición simulada 2026, aporta mapa y conteos. La **Fuente B**, Guía didáctica de accesibilidad escolar, edición simulada 2026, aporta contraste, símbolos y ruta alternativa.` },
+        ),
+        S.match(
+          { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:8.2.4', 'cnt:8.2.1'], title: '2 min · Fuente y aporte', prompt: 'Relaciona cada afirmación con la fuente que puede respaldarla.', explain: 'Cita una fuente solo para el aporte que contiene.' },
+          { pairs: [{ id: 'a', left: 'Hubo 18 recorridos directos', right: 'Fuente A: ficha de observación' }, { id: 'b', left: 'Conviene combinar contraste y símbolos', right: 'Fuente B: guía de accesibilidad' }, { id: 'c', left: 'El bebedero está al oeste', right: 'Fuente A: ficha de observación' }] },
+        ),
+        S.number(
+          { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.4'], title: '1 min · Comprobar el total', prompt: 'Hay 18 recorridos directos, 7 desvíos y 5 pausas. ¿Cuántos registros hay?', explain: '18 + 7 + 5 = 30 registros simulados.' },
+          { answer: 30, unit: 'registros' },
+        ),
+        S.chart(
+          { fase: 'aplicar', areas: ['mat', 'l1'], cnb: ['mat:4.1.4', 'l1:8.2.4'], title: '3 min · Representar sin exagerar', prompt: 'Construye la gráfica. El conteo describe registros, no causas ni personas únicas.', explain: 'Las barras conservan escala y fuente.' },
+          { categories: [{ id: 'directo', label: 'Directo', icon: 'MoveRight' }, { id: 'desvio', label: 'Desvío', icon: 'Route' }, { id: 'pausa', label: 'Pausa', icon: 'CirclePause' }], data: [18, 7, 5], max: 20, step: 1, unit: 'registros', source: 'Fuente A · Caso simulado; no describe tu escuela' },
+        ),
+        S.choice(
+          { fase: 'aplicar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.4', 'cnt:8.2.1'], title: '1 min · Pie honesto', prompt: '¿Qué pie explica correctamente la gráfica?' },
+          { options: [{ id: 'a', text: 'Registros del caso: 18 directos, 7 desvíos y 5 pausas; Fuente A, edición simulada 2026' }, { id: 'b', text: 'Así camina todo el alumnado de nuestra escuela' }, { id: 'c', text: 'La gráfica demuestra una causa' }], correct: ['a'] },
+        ),
+        S.write(
+          { id: 's09-d2-nota-evidencia', fase: 'aplicar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.7', 'cnt:8.2.1'], title: '3 min · Nota de evidencia', prompt: 'Guarda una nota de 20 a 28 palabras con un dato, su fuente y una limitación.' },
+          { minWords: 24, placeholder: 'La Fuente... registra... Este dato permite... pero no...', model: 'La Fuente A registra siete desvíos junto a la mochila en el caso simulado; permite comparar recorridos, pero no determina la causa.', rubric: ['Incluí un dato exacto', 'Identifiqué la fuente', 'Expliqué una limitación'] },
+        ),
+        S.choice(
+          { fase: 'aplicar', areas: ['mat', 'l1'], cnb: ['mat:4.1.4', 'l1:8.2.4'], title: '1 min · Revisar otra gráfica', prompt: 'Una gráfica comienza en 6 para comparar 7 y 8. ¿Qué evita exagerar?' },
+          { options: [{ id: 'a', text: 'Usar base visible y escala uniforme desde cero' }, { id: 'b', text: 'Ocultar la escala' }, { id: 'c', text: 'Cambiar 7 por 10' }], correct: ['a'] },
+        ),
+        S.number(
+          { fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.1.4'], title: '1 min · Salida', prompt: 'Otro caso registra 12 recorridos, 6 desvíos y 4 pausas. ¿Cuál es el total?' },
+          { answer: 22, unit: 'registros' },
+        ),
+        cierre({ areas: ['l1', 'mat'], cnb: ['l1:8.2.4', 'mat:4.1.4'] }, ['Relacioné fuente y aporte', 'Representé datos sin ampliar su alcance']),
+      ],
+    }),
+
+    lesson({
+      id: 's09-d3-disenar', title: 'Diseñar una mejora inclusiva', icon: 'Accessibility', minutes: 15, day: 3, kind: 'proyecto',
+      gancho: 'Una idea atractiva, ¿también puede ser viable e inclusiva?',
+      objetivos: ['Elegir una mejora al comparar evidencia, viabilidad, accesibilidad y participación'],
+      resumen: ['Una decisión sólida compara opciones con los mismos criterios.', 'La acción responde a evidencia y reconoce a quién incluye.'],
+      media: {
+        id: 's09-dossier-opciones', kind: 'diagram', title: 'Tres opciones para Ruta Clara', aspect: '16:9',
+        alt: 'Tabla comparativa ficticia de tres mejoras para orientar y despejar el sendero central.',
+        brief: 'Tabla SVG 1600x900 px. Opción 1: flecha de papel plastificado, Q25, fácil de reemplazar y un formato. Opción 2: despejar el paso y pintar marcas cortas, Q85, durable pero depende del color. Opción 3: despejar el paso y colocar señal de alto contraste con símbolo, texto y clave táctil de muestra, Q75. Las tres caben en el presupuesto Q90. Columnas: evidencia, viabilidad, accesibilidad y participación. Incluir “Caso simulado; no describe tu escuela”, texto legible, contraste alto y patrones táctiles sin imitar braille. Target: public/media/s09-dossier-opciones.svg.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['pyd', 'fc'], cnb: ['pyd:4.1.1', 'fc:1.1.2'], title: '1 min · Comparar con criterios', prompt: 'Revisa las tres opciones suministradas.' },
+          { icon: 'ListChecks', body: `**${CASE_LABEL}.** Presupuesto: **Q90**. Opción 1: flecha plastificada, Q25. Opción 2: despejar el paso y pintar marcas cortas, Q85. Opción 3: despejar el paso y añadir señal con símbolo, texto, contraste y textura de muestra, Q75. Las tres son realizables dentro del caso; cambian su alcance y accesibilidad.` },
+        ),
+        S.dilemma(
+          { fase: 'construir', areas: ['fc', 'pyd'], cnb: ['fc:1.1.2', 'pyd:4.1.1'], title: '2 min · Decisión responsable', prompt: '¿Qué camino seguirías?' },
+          { scene: { icon: 'SignpostBig', text: 'Debes recomendar una opción sin afirmar que ya fue aplicada.' }, options: [
+            { id: 'a', icon: 'StickyNote', text: 'Elegir la flecha solo porque cuesta menos', consequence: 'Cabe en presupuesto, pero atiende parcialmente accesibilidad y durabilidad.', values: ['economía', 'revisión'], constructive: false },
+            { id: 'b', icon: 'PaintRoller', text: 'Elegir marcas pintadas porque duran más', consequence: 'Cabe en el presupuesto, pero depender solo del color deja una barrera por revisar.', values: ['durabilidad', 'accesibilidad'], constructive: false },
+            { id: 'c', icon: 'Accessibility', text: 'Despejar el paso y usar una señal en varios formatos', consequence: 'Responde al mapa, cabe en presupuesto y amplía formas de orientación.', values: ['inclusión', 'responsabilidad'], constructive: true },
+          ] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['pyd', 'fc'], cnb: ['pyd:4.1.1', 'fc:1.1.2'], title: '2 min · Criterios', prompt: 'Clasifica cada razón principal.', explain: 'Separar criterios evita decidir solo por gusto.' },
+          { buckets: [{ id: 'evi', label: 'Evidencia', icon: 'FileSearch' }, { id: 'via', label: 'Viabilidad', icon: 'WalletCards' }, { id: 'acc', label: 'Accesibilidad', icon: 'Accessibility' }, { id: 'par', label: 'Participación', icon: 'UsersRound' }], items: [
+            { id: 'a', text: 'El mapa ubica el obstáculo', bucket: 'evi' },
+            { id: 'b', text: 'Q75 cabe dentro de Q90', bucket: 'via' },
+            { id: 'c', text: 'La señal combina símbolo, texto, contraste y textura', bucket: 'acc' },
+            { id: 'd', text: 'Dos responsabilidades permiten revisar', bucket: 'par' },
+          ] },
+        ),
+        S.choice(
+          { fase: 'construir', areas: ['fc'], cnb: ['fc:1.1.2'], title: '1 min · Inclusión cuidadosa', prompt: '¿Qué afirmación evita absolutos?' },
+          { options: [{ id: 'a', text: 'Combinar formatos puede facilitar orientación; habría que probar la señal' }, { id: 'b', text: 'Una textura sirve igual a todas las personas' }, { id: 'c', text: 'El color por sí solo asegura acceso universal' }], correct: ['a'] },
+        ),
+        S.project(
+          { fase: 'aplicar', areas: ['pyd', 'fc'], cnb: ['pyd:4.1.1', 'fc:1.1.2'], title: '3 min · Esqueleto de propuesta', prompt: 'En una hoja de papel marca los componentes que puedes completar.' },
+          { goal: 'Preparar una propuesta de una página basada en evidencia, viable e inclusiva.', steps: [
+            { title: 'Necesidad y evidencia', detail: 'Anota necesidad, dato y Fuente A.' },
+            { title: 'Acción inclusiva', detail: 'Describe la opción y un criterio de Fuente B.' },
+            { title: 'Responsabilidades y límite', detail: 'Asigna revisión del paso y cuidado del rótulo; aclara que no se comprobaron efectos.' },
+          ], evidence: 'Lista marcada en una hoja de papel; la actividad no captura ni almacena la hoja.', rubric: ['Responde a evidencia', 'Cabe en Q90', 'Combina formatos', 'Reconoce una limitación'] },
+        ),
+        S.write(
+          { id: 's09-d3-plan-inclusivo', fase: 'aplicar', areas: ['l1', 'pyd', 'fc'], cnb: ['l1:8.2.7', 'pyd:4.1.1', 'fc:1.1.2'], title: '3 min · Plan guardado', prompt: 'Guarda un plan de 24 a 32 palabras con acción, evidencia, accesibilidad y responsabilidades.' },
+          { minWords: 28, placeholder: 'Propongo... porque... Será accesible mediante... Las responsabilidades...', model: 'Propongo despejar el tramo y colocar señal con texto, símbolo y textura porque hubo siete desvíos. Una persona revisará el paso y otra el rótulo.', rubric: ['Nombré la acción', 'La conecté con evidencia', 'Incluí accesibilidad', 'Distribuí responsabilidades'] },
+        ),
+        S.choice(
+          { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.1.1'], title: '1 min · Revisar factibilidad', prompt: 'Si el presupuesto baja a Q60, ¿qué revisión es responsable?' },
+          { options: [{ id: 'a', text: 'Ajustar materiales o fases y recalcular antes de prometer' }, { id: 'b', text: 'Ocultar la diferencia' }, { id: 'c', text: 'Afirmar que no habrá costos' }], correct: ['a'] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['fc', 'pyd'], cnb: ['fc:1.1.2', 'pyd:4.1.1'], title: '1 min · Salida', prompt: '¿Qué propuesta integra los cuatro criterios?' },
+          { options: [{ id: 'a', text: 'Usa el dato, cabe en presupuesto, ofrece varios formatos y asigna revisión' }, { id: 'b', text: 'Es vistosa, pero no cita datos ni costo' }, { id: 'c', text: 'Promete resolver cualquier dificultad' }], correct: ['a'] },
+        ),
+        cierre({ areas: ['pyd', 'fc'], cnb: ['pyd:4.1.1', 'fc:1.1.2'] }, ['Comparé opciones con criterios comunes', 'Diseñé sin prometer resultados']),
+      ],
+    }),
+
+    lesson({
+      id: 's09-d4-comunicar', title: 'Comunicar con precisión', icon: 'Presentation', minutes: 14, day: 4, kind: 'proyecto',
+      gancho: '¿Qué necesita escuchar una persona para confiar en tu propuesta?',
+      objetivos: ['Organizar una hoja y ensayar una propuesta oral de 45 segundos con fuente y limitación'],
+      resumen: ['Una propuesta conecta necesidad, evidencia, acción y límite.', 'La jerarquía visual y la voz ayudan a encontrar la información principal.'],
+      media: {
+        id: 's09-guia-panel', kind: 'diagram', title: 'Guía para una propuesta de una página', aspect: '3:4',
+        alt: 'Plantilla visual ficticia con bloques para necesidad, dato y fuente, acción, responsabilidades, límite y revisión.',
+        brief: 'Diagrama SVG 900x1200 px de una hoja de propuesta, sin campos editables. Mostrar seis bloques rotulados: necesidad, evidencia y fuente, limitación, acción inclusiva, responsabilidades y revisión. Añadir flechas que indiquen el orden de una explicación de 45 segundos y el texto “Caso simulado; no describe tu escuela”. Usar letra grande, contraste alto, espacios amplios y símbolos junto a cada rótulo. Target: public/media/s09-guia-panel.svg.',
+      },
+      steps: [
+        S.explain(
+          { fase: 'explorar', areas: ['l1', 'art'], cnb: ['l1:8.2.7', 'art:3.2.4'], title: '1 min · Una hoja que guía', prompt: 'Observa la estructura.' },
+          { icon: 'PanelTop', body: 'El título anuncia la necesidad; el dato con su fuente sostiene la acción; contraste y espacios ordenan la lectura; la limitación evita exagerar. La explicación oral sigue el mismo recorrido.' },
+        ),
+        S.order(
+          { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.7'], title: '2 min · Orden del argumento', prompt: 'Ordena la propuesta oral.', explain: 'El orden conecta problema, respaldo y decisión.' },
+          { items: [{ id: 'a', text: 'Nombrar la necesidad acotada' }, { id: 'b', text: 'Presentar dato y fuente' }, { id: 'c', text: 'Explicar acción inclusiva y responsabilidades' }, { id: 'd', text: 'Cerrar con limitación y revisión pendiente' }], labels: { start: 'Inicio', end: 'Cierre' } },
+        ),
+        S.choice(
+          { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.4'], title: '1 min · Lenguaje de alcance', prompt: '¿Qué frase atribuye y limita correctamente?' },
+          { options: [{ id: 'a', text: 'Según la Fuente A, hubo siete desvíos; no conocemos una causa única' }, { id: 'b', text: 'La mochila siempre causa el problema' }, { id: 'c', text: 'Esto ocurre en todas las escuelas' }], correct: ['a'] },
+        ),
+        S.project(
+          { fase: 'aplicar', areas: ['l1', 'art', 'pyd'], cnb: ['l1:8.2.7', 'art:3.2.4', 'pyd:4.1.1'], title: '3 min · Completar el panel', prompt: 'Completa en una hoja de papel tu propuesta de una página.' },
+          { goal: 'Hacer visible el razonamiento completo sin convertir el caso en afirmación local.', steps: [
+            { title: 'Bloque principal', detail: 'Escribe necesidad, acción inclusiva y responsabilidades.' },
+            { title: 'Respaldo', detail: 'Añade dato, Fuente A, criterio de Fuente B y rótulo del caso.' },
+            { title: 'Revisión', detail: 'Incluye limitación y deja espacio para el día 5.' },
+          ], evidence: 'Propuesta en papel; la actividad solo guarda marcas y autoevaluación, no captura la hoja.', rubric: ['Necesidad visible primero', 'Dato y fuentes legibles', 'Acción y responsabilidades conectadas', 'Limitación visible'] },
+        ),
+        S.project(
+          { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], title: '2 min · Ensayo de 45 segundos', prompt: 'Ensaya una vez en voz baja o con la voz que te resulte cómoda.' },
+          { goal: 'Explicar con claridad, fuente y límite en aproximadamente 45 segundos.', steps: [{ title: 'Inicio', detail: 'Di necesidad y dato atribuido.' }, { title: 'Decisión', detail: 'Explica acción y responsabilidades.' }, { title: 'Cierre', detail: 'Nombra limitación y revisión pendiente.' }], evidence: 'Ensayo presencial sin grabación; la actividad no captura ni almacena la voz.', rubric: ['Seguí el orden', 'Nombré una fuente', 'Usé lenguaje de limitación', 'Duré cerca de 45 segundos'] },
+        ),
+        S.write(
+          { id: 's09-d4-guion', fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.7', 'l1:2.1.6'], title: '3 min · Guion guardado', prompt: 'Guarda un guion de 30 a 40 palabras con dato, fuente, acción, responsabilidad y limitación.' },
+          { minWords: 34, placeholder: 'En el caso... Según... Propongo... La responsabilidad... Todavía...', model: 'En el caso, siete registros muestran desvíos, según la Fuente A. Propongo despejar el tramo y usar señal inclusiva. Se revisarán paso y rótulo. Todavía no sabemos su efecto real.', rubric: ['Atribuí el dato', 'Expliqué la acción', 'Nombré responsabilidades', 'Cerré con limitación'] },
+        ),
+        S.choice(
+          { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.4'], title: '1 min · Jerarquía visual', prompt: '¿Qué ajuste facilita recorrer la página?' },
+          { options: [{ id: 'a', text: 'Título visible, bloques separados y fuente junto al dato' }, { id: 'b', text: 'Todo igual y sin espacios' }, { id: 'c', text: 'Fuente escondida al reverso' }], correct: ['a'] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['l1'], cnb: ['l1:2.1.6', 'l1:8.2.4'], title: '1 min · Salida', prompt: '¿Qué cierre oral conserva honestidad?' },
+          { options: [{ id: 'a', text: 'La propuesta podría facilitar la orientación; habría que probarla y revisar resultados' }, { id: 'b', text: 'Resolverá el problema para siempre' }, { id: 'c', text: 'No hace falta comprobar nada' }], correct: ['a'] },
+        ),
+        cierre({ areas: ['l1', 'art'], cnb: ['l1:2.1.6', 'art:3.2.4'] }, ['Organicé una propuesta de una página', 'Ensayé con fuente y limitación']),
+      ],
+    }),
+
+    lesson({
+      id: 's09-d5-revisar', title: 'Revisar y mejorar', icon: 'ListRestart', minutes: 14, day: 5, kind: 'proyecto',
+      gancho: '¿Qué hace útil una retroalimentación?',
+      objetivos: ['Revisar una decisión con retroalimentación suministrada y valorar la participación individual'],
+      resumen: ['La retroalimentación útil señala un criterio y un cambio comprobable.', 'Revisar muestra qué cambió y por qué.'],
+      media: {
+        id: 's09-tarjetas-revision', kind: 'image', title: 'Comentarios para revisar una decisión', aspect: '16:9',
+        alt: 'Tres tarjetas ficticias de retroalimentación junto a una propuesta con un espacio de revisión marcado.',
+        brief: 'Ilustración 1600x900 px con tres tarjetas numeradas y una hoja de propuesta. Tarjeta 1 reconoce dato y fuente legibles; tarjeta 2 pide precisar responsable y momento; tarjeta 3 reconoce el límite de no haber probado la acción. Resaltar con una flecha el espacio “Revisión” de la hoja. Incluir texto exacto “Caso simulado; no describe tu escuela”, letra grande, contraste alto, símbolos además del color y sin manos ni rostros. Target: public/media/s09-tarjetas-revision.jpg.',
+      },
+      steps: [
+        S.reading(
+          { fase: 'explorar', areas: ['l1', 'pyd'], cnb: ['l1:8.2.7', 'pyd:4.3.1'], title: '2 min · Retroalimentación suministrada', prompt: 'Lee tres comentarios ficticios.' },
+          { genre: 'Tarjetas de revisión simulada', heading: 'Comentarios para mejorar', passage: `${CASE_LABEL}. Comentario 1: “El dato y la Fuente A se leen con claridad”. Comentario 2: “La señal incluye varios formatos, pero no dice quién revisará que el sendero permanezca libre”. Comentario 3: “La propuesta reconoce que todavía no fue probada”.`, questions: [{ q: '¿Qué comentario pide una revisión concreta?', options: [{ id: 'a', text: 'El 2, porque falta precisar una responsabilidad' }, { id: 'b', text: 'El 1, porque exige borrar la fuente' }, { id: 'c', text: 'El 3, porque promete resultados' }], correct: 'a', why: 'El comentario 2 identifica un campo incompleto.' }] },
+        ),
+        S.choice(
+          { fase: 'construir', areas: ['pyd'], cnb: ['pyd:4.3.1'], title: '1 min · Elegir revisión', prompt: '¿Qué cambio responde al comentario 2?' },
+          { options: [{ id: 'a', text: 'Añadir quién revisará el paso, cuándo y qué registrará' }, { id: 'b', text: 'Cambiar el color del título' }, { id: 'c', text: 'Eliminar el dato' }], correct: ['a'] },
+        ),
+        S.sort(
+          { fase: 'construir', areas: ['l1', 'pyd'], cnb: ['l1:8.2.7', 'pyd:4.3.1'], title: '2 min · Útil o vaga', prompt: 'Clasifica la retroalimentación.', explain: 'Un comentario útil señala parte y criterio observable.' },
+          { buckets: [{ id: 'util', label: 'Útil y específica', icon: 'MessageSquareCheck' }, { id: 'vaga', label: 'Vaga', icon: 'MessageSquareMore' }], items: [{ id: 'a', text: 'Coloca Fuente B junto al criterio', bucket: 'util' }, { id: 'b', text: 'Hazlo mejor', bucket: 'vaga' }, { id: 'c', text: 'Aclara quién revisará el paso y cuándo', bucket: 'util' }] },
+        ),
+        S.choice(
+          { fase: 'construir', areas: ['fc'], cnb: ['fc:1.1.2'], title: '1 min · Recibir una observación', prompt: '¿Qué respuesta favorece revisión respetuosa?' },
+          { options: [{ id: 'a', text: 'Parafrasear el comentario, comprobar el criterio y decidir un cambio' }, { id: 'b', text: 'Descartar cualquier comentario distinto' }, { id: 'c', text: 'Aceptar todo sin revisar evidencia' }], correct: ['a'] },
+        ),
+        S.project(
+          { fase: 'aplicar', areas: ['pyd', 'l1'], cnb: ['pyd:4.3.1', 'l1:8.2.7'], title: '3 min · Revisar la hoja', prompt: 'En el espacio reservado, registra una revisión.' },
+          { goal: 'Mostrar qué decisión cambió, qué comentario la motivó y qué límite permanece.', steps: [{ title: 'Antes', detail: 'Copia la responsabilidad por revisar.' }, { title: 'Cambio', detail: 'Añade responsable, momento y registro.' }, { title: 'Límite', detail: 'Conserva que la acción no fue implementada ni evaluada en un lugar real.' }], evidence: 'Anotación en hoja de papel; la actividad no captura ni almacena el producto.', rubric: ['Responde al comentario', 'Responsabilidad concreta', 'Limitación conservada'] },
+        ),
+        S.write(
+          { id: 's09-d5-nota-revision', fase: 'aplicar', areas: ['l1', 'pyd'], cnb: ['l1:8.2.7', 'pyd:4.3.1'], title: '2 min · Nota guardada', prompt: 'Guarda qué cambiaste, qué comentario usaste y qué debe comprobarse.' },
+          { minWords: 22, placeholder: 'Cambié... porque... Todavía habría que...', model: 'Añadí una revisión diaria del paso porque el comentario pedía responsable y momento. Todavía habría que probar la acción y comparar resultados.', rubric: ['Identifiqué el cambio', 'Lo conecté con el comentario', 'Conservé un límite'] },
+        ),
+        S.choice(
+          { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.3.1'], title: '1 min · Otro caso', prompt: 'Un comentario dice que falta costo. ¿Qué revisión corresponde?' },
+          { options: [{ id: 'a', text: 'Añadir costo y compararlo con presupuesto' }, { id: 'b', text: 'Añadir ilustración sin costo' }, { id: 'c', text: 'Prometer que será gratuito' }], correct: ['a'] },
+        ),
+        S.choice(
+          { fase: 'comprobar', areas: ['l1', 'pyd'], cnb: ['l1:8.2.7', 'pyd:4.3.1'], title: '1 min · Salida', prompt: '¿Qué oración muestra revisión justificable?' },
+          { options: [{ id: 'a', text: 'Cambié la responsabilidad porque el comentario señaló que no podía verificarse' }, { id: 'b', text: 'Cambié todo porque sí' }, { id: 'c', text: 'Afirmé que funcionó' }], correct: ['a'] },
+        ),
+        cierre({ areas: ['pyd', 'fc'], cnb: ['pyd:4.3.1', 'fc:1.1.2'] }, ['Usé retroalimentación para revisar una decisión', 'Valoré mi participación individual', 'Reconocí qué debe comprobarse'], ['Conservaré fuentes y límites']),
       ],
     }),
   ],

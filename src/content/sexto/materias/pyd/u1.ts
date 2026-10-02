@@ -10,6 +10,6 @@ import s08 from './u1/s08';
 
 export default materia({
   area: 'pyd', unidad: 1,
-  hilo: 'De entender qué es el desarrollo y qué determina la pobreza, al perfil emprendedor y las ideas productivas, los círculos de calidad para resolver problemas, la lectura de la naturaleza para producir y el uso seguro de herramientas; la unidad culmina planificando proyectos para la escuela y la comunidad, analizando el deterioro ambiental del mundo y guardando, con la comunidad, los saberes que conservan la naturaleza.',
+  hilo: 'De entender qué es el desarrollo y qué determina la pobreza, al perfil emprendedor y las ideas productivas, los círculos de calidad para resolver problemas, la lectura de la naturaleza para producir y el uso seguro de herramientas; la unidad culmina planificando proyectos escolares con casos suministrados, analizando el deterioro ambiental del mundo y registrando con honestidad saberes conocidos o necesidades de consulta sobre prácticas que conservan la naturaleza.',
   semanas: { 1: s01, 2: s02, 3: s03, 4: s04, 5: s05, 6: s06, 7: s07, 8: s08 },
 });

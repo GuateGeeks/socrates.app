@@ -127,4 +127,9 @@ export const LEGACY_JOURNAL_REQUIREMENTS: Readonly<Record<string, LegacyJournalR
   's08-d5-reto-10': { minWords: 30 },
   's08-banco-10': { minWords: 30 },
   's10-pyd-8': { minWords: 30 },
+  's09-d1-necesidad': { minWords: 20 },
+  's09-d2-nota-evidencia': { minWords: 24 },
+  's09-d3-plan-inclusivo': { minWords: 28 },
+  's09-d4-guion': { minWords: 34 },
+  's09-d5-nota-revision': { minWords: 22 },
 };

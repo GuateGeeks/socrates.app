@@ -13,6 +13,7 @@ import { WEEKS } from '../src/content/index';
 import type { Lesson, StepBase } from '../src/core/types';
 import { MEDIA_ASSETS } from '../src/media/assets';
 import { mediaBacklogRows } from '../src/media/mockRegistry';
+import { LEGACY_JOURNAL_REQUIREMENTS } from '../src/core/legacy-journal-requirements';
 
 registerAll();
 
@@ -5530,4 +5531,106 @@ test('Unidad 1 no usa formas genéricas para objetos concretos', () => {
   const failures: string[] = [];
   unitWeeks.forEach((week) => inspectConcreteIcon(week, week.id, failures));
   assert.deepEqual(failures, []);
+});
+
+const weekNine = WEEKS.find((week) => week.unidad === 1 && week.semana === 9 && week.kind === 'proyecto');
+assert.ok(weekNine, 'Falta proyecto integrador de Semana 9');
+
+test('Semana 9 desarrolla una propuesta inclusiva en cinco jornadas viables', () => {
+  assert.equal(weekNine.title, 'Evidencia para mejorar nuestro entorno');
+  assert.equal(weekNine.temaGenerador, weekNine.title);
+  assert.equal(weekNine.lessons.length, 5);
+  assert.deepEqual(weekNine.lessons.map((lesson) => lesson.day), [1, 2, 3, 4, 5]);
+  assert.deepEqual(weekNine.lessons.map((lesson) => lesson.minutes), [14, 15, 15, 14, 14]);
+  assert.ok(weekNine.lessons.every((lesson) => lesson.kind === 'proyecto'));
+  assert.ok(weekNine.lessons.every((lesson) => lesson.objetivos?.length === 1));
+  assert.ok(weekNine.lessons.every((lesson) => lesson.steps.length >= 9 && lesson.steps.length <= 14));
+
+  const expectedTypes = [
+    ['reading', 'sort', 'choice', 'short-answer'],
+    ['match', 'number-input', 'chart-builder', 'short-answer'],
+    ['dilemma', 'sort', 'project', 'short-answer'],
+    ['order', 'project', 'short-answer'],
+    ['reading', 'choice', 'short-answer', 'reflection'],
+  ];
+  weekNine.lessons.forEach((lesson, index) => {
+    const types = new Set(lesson.steps.map((step) => step.type));
+    expectedTypes[index].forEach((type) => assert.ok(types.has(type), `${lesson.id}: falta ${type}`));
+  });
+});
+
+test('Semana 9 usa solo referencias ya enseñadas y mantiene una síntesis acotada', () => {
+  const taught = new Set(unitWeeks.flatMap((week) => week.lessons.flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb))));
+  const projectRefs = new Set(weekNine.lessons.flatMap((lesson) => lesson.steps.flatMap((step) => step.cnb)));
+  assert.ok(projectRefs.size >= 6 && projectRefs.size <= 10, `Semana 9 usa ${projectRefs.size} referencias`);
+  assert.deepEqual([...projectRefs].filter((ref) => !taught.has(ref)), []);
+});
+
+test('Semana 9 suministra un caso simulado autosuficiente y no fabrica trabajo externo', () => {
+  const content = normalizeFactText(JSON.stringify(weekNine));
+  assert.match(content, /caso simulado no describe tu escuela/);
+  for (const item of ['mapa', 'observaciones', 'fuente a', 'fuente b', 'datos', 'opcion 1', 'opcion 2', 'opcion 3']) {
+    assert.match(content, new RegExp(item), `Dossier sin ${item}`);
+  }
+  assert.match(content, /las 3 son realizables/);
+  assert.ok([25, 85, 75].every((cost) => cost <= 90));
+  assert.doesNotMatch(content, /entrevist|encuest|visitante|autoridad|medicion local|medir en tu escuela|formar equipos|con la comunidad/);
+  assert.doesNotMatch(content, /garantiza|asegura el ahorro|mejorara la salud|protegera el agua|ahorrara exactamente/);
+});
+
+test('Semana 9 guarda evidencia escrita revisable en los primeros cuatro días', () => {
+  const ranges = [[18, 24], [20, 28], [24, 32], [30, 40]];
+  weekNine.lessons.slice(0, 4).forEach((lesson, index) => {
+    const writes = lesson.steps.filter((step) => step.type === 'short-answer');
+    assert.equal(writes.length, 1, `${lesson.id}: debe guardar una evidencia escrita`);
+    const minWords = Number((writes[0].props as { minWords?: number }).minWords);
+    assert.ok(minWords >= ranges[index][0] && minWords <= ranges[index][1], `${lesson.id}: minWords ${minWords}`);
+    assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS[writes[0].id], { minWords });
+    assert.equal(isPendingReviewEvidence(writes[0], writes[0].areas[0]), true);
+    assert.equal(isAutoGradedAssessmentEvidence(writes[0], writes[0].areas[0]), false);
+  });
+});
+
+test('Semana 9 describe honestamente el producto de papel y todos sus componentes', () => {
+  const content = normalizeFactText(JSON.stringify(weekNine));
+  for (const component of ['necesidad', 'evidencia', 'fuente', 'limitacion', 'accion inclusiva', 'responsabilidades', 'revision']) {
+    assert.match(content, new RegExp(component), `Propuesta sin ${component}`);
+  }
+  const projects = weekNine.lessons.flatMap((lesson) => lesson.steps.filter((step) => step.type === 'project'));
+  assert.ok(projects.length >= 3);
+  assert.ok(projects.every((step) => /papel|hoja|voz/.test(normalizeFactText(JSON.stringify(step.props)))));
+  assert.match(content, /no captura|no almacena/);
+  assert.doesNotMatch(content, /sube|carga el archivo|editor digital|lienzo digital|presentacion grabada/);
+});
+
+test('Los mocks de Semana 9 tienen ficha completa y reemplazo registrado', () => {
+  const failures: string[] = [];
+  const visit = (value: unknown): void => {
+    if (Array.isArray(value)) { value.forEach(visit); return; }
+    if (!value || typeof value !== 'object') return;
+    const record = value as Record<string, unknown>;
+    if (typeof record.id === 'string' && typeof record.kind === 'string'
+      && typeof record.brief === 'string' && typeof record.alt === 'string') {
+      const failure = mediaBriefFailure(record as { kind: string; brief: string; alt: string });
+      if (failure) failures.push(`${record.id}: ${failure}`);
+      if (!(record.id in MEDIA_ASSETS)) {
+        const row = mediaBacklogRows().find((item) => item.slot.id === record.id);
+        if (!row?.replacement.fileTarget || !row.replacement.registrySnippet) failures.push(`${record.id}: sin registro de reemplazo`);
+      }
+    }
+    Object.values(record).forEach(visit);
+  };
+  visit(weekNine);
+  assert.deepEqual(failures, []);
+});
+
+test('Los hilos de L1, Arte y PyD reflejan la secuencia final de Unidad 1', () => {
+  const l1 = normalizeFactText(readFileSync(new URL('../src/content/sexto/materias/l1/u1.ts', import.meta.url), 'utf8'));
+  const art = normalizeFactText(readFileSync(new URL('../src/content/sexto/materias/art/u1.ts', import.meta.url), 'utf8'));
+  const pyd = normalizeFactText(readFileSync(new URL('../src/content/sexto/materias/pyd/u1.ts', import.meta.url), 'utf8'));
+  assert.match(l1, /investigacion guiada.*casos suministrados/);
+  assert.doesNotMatch(l1, /mini investigacion propia/);
+  assert.match(art, /composicion visual ambiental/);
+  assert.doesNotMatch(art, /mural multicultural/);
+  assert.doesNotMatch(pyd, /con la comunidad/);
 });
