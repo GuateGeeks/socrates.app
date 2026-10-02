@@ -100,7 +100,7 @@ export default semana({
           { fase: 'aplicar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.1', 'cnt:5.3.1'], ambito: 'hacer', title: '2 min · Redacten la propuesta',
             prompt: '**2 min.** Escriban una propuesta de **14 a 18 palabras** que conecte menú, aportes y costo total.' },
           { minWords: 16, placeholder: 'Proponemos... por sus aportes; con precios ilustrativos, el total es...',
-            model: 'Proponemos tortilla, frijol, banano y agua por variedad e higiene; con precios ilustrativos, cuestan Q48.',
+            model: 'Proponemos tortilla, frijol, banano y agua segura por su variedad, aporte nutritivo e higiene; con los precios ilustrativos suministrados, el total calculado es Q48.',
             rubric: ['Justificamos el menú con hábitos nutricionales', 'Comunicamos el total ilustrativo en 14 a 18 palabras'] },
         ),
         S.project(

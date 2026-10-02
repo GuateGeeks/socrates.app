@@ -14,6 +14,7 @@ import type { Lesson, StepBase } from '../src/core/types';
 import { MEDIA_ASSETS } from '../src/media/assets';
 import { mediaBacklogRows } from '../src/media/mockRegistry';
 import { LEGACY_JOURNAL_REQUIREMENTS } from '../src/core/legacy-journal-requirements';
+import { withProductionReadyMedia } from '../src/media/productionMetadata';
 
 registerAll();
 
@@ -29,6 +30,7 @@ const EXPECTED = [
 ] as const;
 
 const unitWeeks = WEEKS.filter((week) => week.unidad === 1 && week.kind === 'aprendizaje');
+const unitOneWeeks = WEEKS.filter((week) => week.unidad === 1);
 const weekOne = unitWeeks.find((week) => week.semana === 1);
 assert.ok(weekOne, 'Falta semana 1');
 const weekOneBank = weekOne.bank;
@@ -1338,6 +1340,70 @@ function mediaBriefFailure(media: { kind: string; brief: string; alt: string }):
   if (!media.alt.trim() || media.alt.length < 30) return 'alt insuficiente';
   return undefined;
 }
+
+test('La normalizacion de medios conserva el brief y nunca inventa una duracion', () => {
+  const originalBrief = 'Audio de una lectura pausada con las dos ideas del texto.';
+  const mission = {
+    ...weekOne,
+    media: {
+      id: 'prueba-audio-sin-duracion', kind: 'audio' as const, title: 'Lectura',
+      alt: 'Lectura pausada de un texto breve con dos ideas claramente diferenciadas.',
+      brief: originalBrief,
+    },
+    lessons: [],
+    bank: [],
+  };
+  const normalized = withProductionReadyMedia(mission);
+  assert.ok(normalized.media?.brief.startsWith(originalBrief), 'El brief autorado debe conservarse literalmente');
+  assert.equal(normalized.media?.duration, undefined);
+  assert.doesNotMatch(normalized.media?.brief ?? '', /\b45\s*s\b/);
+  assert.equal(mediaBriefFailure(normalized.media!), 'sin duracion');
+
+  const complete = { ...mission, media: { ...mission.media!, duration: 32, brief: 'Audio de 32 s con voz clara, transcripcion y guion exacto.' } };
+  assert.equal(withProductionReadyMedia(complete).media?.brief, complete.media.brief);
+});
+
+function unitOneAuthoredAndRuntimeSteps(): StepBase[] {
+  const lessons = unitOneWeeks.flatMap((week) => week.lessons.flatMap((lesson) => lesson.steps));
+  const banks = unitWeeks.flatMap((week) => week.bank ?? []);
+  return [...lessons, ...banks];
+}
+
+test('Todos los modelos escritos jugables de Unidad 1 alcanzan su minimo', () => {
+  const failures = unitOneAuthoredAndRuntimeSteps()
+    .filter((step) => step.type === 'short-answer')
+    .flatMap((step) => {
+      const props = step.props as { minWords?: number; model?: string };
+      const minimum = Number(props.minWords ?? 0);
+      const words = (props.model ?? '').match(/[\p{L}\p{N}]+/gu)?.length ?? 0;
+      return words < minimum ? [`${step.id}: modelo ${words} < minimo ${minimum}`] : [];
+    });
+  assert.deepEqual(failures, []);
+});
+
+test('Todos los medios jugables de Unidad 1 tienen ficha completa y reemplazo registrado', () => {
+  const backlog = new Map(mediaBacklogRows().map((row) => [row.slot.id, row]));
+  const failures: string[] = [];
+  const seen = new Set<string>();
+  const visit = (value: unknown): void => {
+    if (Array.isArray(value)) { value.forEach(visit); return; }
+    if (!value || typeof value !== 'object') return;
+    const record = value as Record<string, unknown>;
+    if (typeof record.id === 'string' && typeof record.kind === 'string'
+      && typeof record.brief === 'string' && typeof record.alt === 'string' && !seen.has(record.id)) {
+      seen.add(record.id);
+      const failure = mediaBriefFailure(record as { kind: string; brief: string; alt: string });
+      if (failure) failures.push(`${record.id}: ${failure}`);
+      const replacement = backlog.get(record.id)?.replacement;
+      if (!replacement?.fileTarget || !replacement.registrySnippet || !replacement.nextStep) {
+        failures.push(`${record.id}: reemplazo incompleto`);
+      }
+    }
+    Object.values(record).forEach(visit);
+  };
+  visit(unitOneWeeks);
+  assert.deepEqual(failures, []);
+});
 
 function unsupportedCausality(value: unknown): boolean {
   const text = normalizeFactText(value);
@@ -5689,4 +5755,34 @@ test('Los hilos de L1, Arte y PyD reflejan la secuencia final de Unidad 1', () =
   assert.match(art, /composicion visual ambiental/);
   assert.doesNotMatch(art, /mural multicultural/);
   assert.doesNotMatch(pyd, /con la comunidad/);
+});
+
+test('Las practicas externas señaladas tienen una ruta individual autosuficiente', () => {
+  const findLesson = (id: string) => unitWeeks.flatMap((week) => week.lessons).find((lesson) => lesson.id === id);
+  const cases = [
+    { id: 's04-art-1', supplied: /entrevista ficticia|fuente suministrada/, optional: /entrevista local.{0,80}opcional/ },
+    { id: 's02-l3-2', supplied: /simulacion individual|ruta individual|guion suministrado/, optional: /companero|familiar/ },
+    { id: 's06-pyd-1', supplied: /simulacion individual|roles suministrados|retroalimentacion simulada/, optional: /pareja.{0,80}opcional/ },
+    { id: 's01-l1-3', supplied: /ensayo individual|autoensayo|ruta individual/, optional: /familiar.{0,80}opcional/ },
+  ];
+  for (const item of cases) {
+    const lesson = findLesson(item.id);
+    assert.ok(lesson, `Falta ${item.id}`);
+    const text = normalizeFactText(JSON.stringify(lesson));
+    assert.match(text, item.supplied, `${item.id}: falta insumo o ruta individual`);
+    assert.match(text, item.optional, `${item.id}: la extension externa no esta marcada como opcional`);
+    const requiredProjects = lesson.steps.filter((step) => step.type === 'project'
+      || getActivity(step.type)?.evidenceMode === 'journal-pending-review');
+    assert.ok(requiredProjects.length > 0, `${item.id}: falta practica verificable`);
+    assert.ok(requiredProjects.every((step) => {
+      const stepText = normalizeFactText(JSON.stringify(step));
+      return !/(?:debes|necesitas|pide a|busca a|con) (?:un familiar|una persona mayor|un companero|una companera|tu pareja)/.test(stepText);
+    }), `${item.id}: una actividad obligatoria todavia depende de otra persona`);
+  }
+
+  const art = findLesson('s04-art-1');
+  const suppliedListening = art?.steps.find((step) => step.type === 'short-answer'
+    && /fragmento suministrado/.test(normalizeFactText(step.prompt)));
+  assert.ok(suppliedListening, 'Arte debe escribir desde el fragmento suministrado');
+  assert.match(normalizeFactText(JSON.stringify(suppliedListening.props)), /chirimia.{0,80}tambor|tambor.{0,80}chirimia/);
 });

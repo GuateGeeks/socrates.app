@@ -4,6 +4,7 @@ import type { AreaId } from '@/cnb/model';
 import { ODEC_CICLO_II } from '@/cnb/model';
 import { indicadorOf } from '@/cnb/catalog';
 import { buildValidationWeek } from './assemble';
+import { withProductionReadyMedia } from '@/media/productionMetadata';
 import { MATERIA_UNITS } from './sexto/materias';
 import { diaDe, ordenEnDia } from './sexto/horario';
 import { diagnostico } from './sexto/diagnostico';
@@ -82,7 +83,10 @@ function withMaterias(w: Mission): Mission {
 }
 
 const units: Unit[] = ODEC_CICLO_II.map((o) => {
-  const weeks = AUTHORED.filter((w) => w.unidad === o.unidad).sort((a, b) => (a.semana ?? 0) - (b.semana ?? 0)).map(withMaterias);
+  const weeks = AUTHORED.filter((w) => w.unidad === o.unidad)
+    .sort((a, b) => (a.semana ?? 0) - (b.semana ?? 0))
+    .map(withMaterias)
+    .map((week) => o.unidad === 1 ? withProductionReadyMedia(week) : week);
   return { n: o.unidad, tema: o.tema, icon: o.icon, color: o.color, weeks: [...weeks, buildValidationWeek(o.unidad, weeks)] };
 });
 

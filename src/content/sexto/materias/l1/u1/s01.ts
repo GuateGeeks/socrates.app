@@ -410,7 +410,7 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer',
-          prompt: 'Escribe el guion de tu exposición **"Nuestro lugar en mapas y palabras"** (un minuto). Usa el inicio que escribiste en la lección 1, agrega **dos o tres ideas** y un **cierre**. Anota entre paréntesis tus recursos de voz y de cuerpo. Después, ensáyala frente a alguien de tu familia.' },
+          prompt: 'En 6 minutos, escribe un guion de al menos 50 palabras para **"Nuestro lugar en mapas y palabras"** (un minuto): inicio, **dos ideas** y cierre. Luego haz un **autoensayo individual** en voz alta, usando el temporizador de un minuto e imaginando tres puntos de mirada. Un ensayo familiar posterior es opcional.' },
         { minWords: 50, placeholder: 'Inicio: … (recurso)\nIdea 1: … (recurso)\nIdea 2: …\nCierre: …',
           model: 'Inicio: "¿Sabían que desde mi casa se ven tres volcanes?" (Pausa, señalo la ventana.)\nIdea 1: "Vivo en Antigua Guatemala, una ciudad de calles empedradas." (Muestro una foto.)\nIdea 2: "Cada mañana miro el Volcán de Agua: si tiene nubes, mi abuela dice que va a llover." (Cara de duda, sonrío.)\nIdea 3: "En Semana Santa las calles se llenan de alfombras de aserrín de colores." (Abro los brazos.)\nCierre: "Mi lugar es pequeño, pero desde él se ven gigantes." (Paso al frente, voz más lenta.)',
           rubric: [
@@ -418,7 +418,7 @@ export default [
             'Anoté al menos un recurso de voz (pausa, cambio de volumen)',
             'Anoté al menos dos recursos de cuerpo (gesto, mirada, movimiento)',
             'Los gestos acompañan lo que digo',
-            'Lo ensayé en voz alta',
+            'Hice el autoensayo individual en voz alta',
           ] },
       ),
       S.choice(

@@ -1,5 +1,5 @@
 /**
- * Complete published journal migration baseline through bffc980.
+ * Complete published journal migration baseline for the Unit 1 redesign release.
  * This fixture is intentionally literal: changing current content must never rewrite history.
  */
 export const HISTORICAL_JOURNAL_REQUIREMENTS = {
@@ -110,9 +110,24 @@ export const HISTORICAL_JOURNAL_REQUIREMENTS = {
   's08-art-2-8': 32,
   's08-fc-2-7': 40,
   's08-pyd-1-7': 24,
+  's08-d5-reto-8': 26,
+  's08-d5-reto-9': 24,
   's09-d1-planificar-6': 40,
   's09-d2-disenar-5': 35,
   's09-d4-presentar-5': 45,
   's09-d5-evaluar-5': 45,
   's10-p-2': 15,
+  's10-art-8': 24,
+  's10-ef-8': 24,
+  's08-pyd-1-6': 30,
+  's08-pyd-1-salida-a': 18,
+  's08-pyd-1-salida-b': 18,
+  's08-d5-reto-10': 30,
+  's08-banco-10': 30,
+  's10-pyd-8': 30,
+  's09-d1-necesidad': 20,
+  's09-d2-nota-evidencia': 24,
+  's09-d3-plan-inclusivo': 28,
+  's09-d4-guion': 34,
+  's09-d5-nota-revision': 22,
 } as const;

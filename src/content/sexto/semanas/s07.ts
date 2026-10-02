@@ -99,7 +99,7 @@ export default semana({
         S.write(
           { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.2', 'l1:8.2.3'], title: '3 min · Pregunta y juicio de fuentes',
             prompt: 'Escribe dos líneas del informe: una **pregunta de investigación** delimitada para el caso Las Flores y un **juicio de fuentes** que compare la utilidad y el límite de A y B.' },
-          { minWords: 26, placeholder: 'Pregunta: ¿...? Juicio: A es útil porque...; su límite... B...', model: 'Pregunta: ¿Qué muestran los registros de N1 entre abril y mayo y qué dato falta? Juicio: A identifica responsable y fecha, pero requiere control vigente; B carece de autor, fecha y evidencia.', rubric: ['La pregunta delimita caso y periodo', 'El juicio usa autoría, fecha y evidencia', 'Declaro al menos un límite'] },
+          { minWords: 26, placeholder: 'Pregunta: ¿...? Juicio: A es útil porque...; su límite... B...', model: 'Pregunta: ¿Qué muestran los registros de N1 en abril y mayo? Juicio: A tiene responsable y fecha, pero necesita control vigente; B no presenta autor, fecha ni evidencia.', rubric: ['La pregunta delimita caso y periodo', 'El juicio usa autoría, fecha y evidencia', 'Declaro al menos un límite'] },
         ),
         S.choice(
           { fase: 'aplicar', areas: ['cnt', 'l1'], cnb: ['cnt:6.4.1', 'l1:8.2.3'], title: '1 min · Puente de evidencia',
@@ -109,7 +109,7 @@ export default semana({
         S.write(
           { fase: 'aplicar', areas: ['cnt', 'l1', 'fc', 'pyd'], cnb: ['cnt:6.4.1', 'l1:8.2.3', 'fc:4.2.2', 'pyd:5.3.2'], title: '3 min · Hallazgo y acción factible',
             prompt: 'Cierra el informe con un **hallazgo** observado, una inferencia limitada y una **acción factible**. Usa un dato exacto, “podría”, un dato pendiente, responsable propuesto, recurso y verificación.' },
-          { minWords: 34, placeholder: 'Hallazgo:... Inferencia: podría... Falta... Acción:... Responsable... Recurso... Verificación...', model: 'Hallazgo: hay dos surcos en suelo expuesto. Inferencia: la cobertura podría influir; falta lluvia comparable. Acción: solicitar revisión técnica. Responsable propuesto: comité escolar. Recurso: dossier. Verificación: registrar la respuesta.', rubric: ['Separo hallazgo e inferencia', 'Declaro evidencia pendiente', 'La acción incluye responsable, recurso y verificación'] },
+          { minWords: 34, placeholder: 'Hallazgo:... Inferencia: podría... Falta... Acción:... Responsable... Recurso... Verificación...', model: 'Hallazgo: hay dos surcos en suelo expuesto. Inferencia: la cobertura podría influir; faltan lluvia y pendiente comparables. Acción: solicitar revisión técnica. Responsable: comité escolar. Recurso: dossier. Verificación: registrar respuesta y recomendación con fecha acordada.', rubric: ['Separo hallazgo e inferencia', 'Declaro evidencia pendiente', 'La acción incluye responsable, recurso y verificación'] },
         ),
         S.choice(
           { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.3'], title: '1 min · Salida de fuentes',

@@ -149,7 +149,7 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:4.2.2'], prompt: 'Compara de forma independiente los roles de mujeres de estas dos fichas: una artesana de una cultura antigua produce ceramica, administra alimentos familiares y no ocupa el consejo; una cooperativista actual comparte cuidados, vende productos y representa a su grupo ante el municipio. Explica cambio y continuidad familiar, economica y politica, sin generalizar.' },
-        { minWords: 27, placeholder: 'Familiar... Economico... Politico... Cambio y continuidad...', model: 'Ambas participan en familia y produccion. La cooperativista comparte cuidados y tiene representacion politica formal. Es un contraste entre fichas, no entre todas las mujeres.', rubric: ['Compare los tres ambitos', 'Explique cambio y continuidad', 'Evite generalizaciones'] },
+        { minWords: 27, placeholder: 'Familiar... Economico... Politico... Cambio y continuidad...', model: 'Ambas participan en familia y produccion. La cooperativista comparte cuidados y tiene representacion politica formal. Es un contraste cuidadoso entre las dos fichas suministradas, no entre todas las mujeres.', rubric: ['Compare los tres ambitos', 'Explique cambio y continuidad', 'Evite generalizaciones'] },
       ),
       S.choice(
         { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:4.2.2'], prompt: 'Una fuente historica muestra agricultoras y comerciantes; una actual muestra mujeres en cargos publicos y trabajos diversos. ¿Que comparacion es valida?' },

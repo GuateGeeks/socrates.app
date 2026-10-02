@@ -549,7 +549,12 @@ test('registro legacy cubre toda evidencia revisable jugable de Unidad 1 sin bor
   assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS['s10-pyd-8'], { minWords: 30 });
   assert.ok(Object.keys(LEGACY_JOURNAL_REQUIREMENTS).length >= steps.length,
     'El historial puede contener IDs publicados que ya no existen en el contenido actual');
-  assert.equal(Object.keys(HISTORICAL_JOURNAL_REQUIREMENTS).length, 112, 'La fixture debe enumerar todo el historial publicado');
+  assert.equal(Object.keys(HISTORICAL_JOURNAL_REQUIREMENTS).length, 127, 'La fixture debe enumerar todo el historial publicado');
+  assert.deepEqual(
+    Object.keys(HISTORICAL_JOURNAL_REQUIREMENTS),
+    Object.keys(LEGACY_JOURNAL_REQUIREMENTS),
+    'La fixture debe fijar cada ID actual en su orden append-only',
+  );
   for (const [id, minWords] of Object.entries(HISTORICAL_JOURNAL_REQUIREMENTS)) {
     assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS[id], { minWords }, `${id}: umbral historico eliminado o mutado`);
   }
