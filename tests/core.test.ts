@@ -52,17 +52,46 @@ test('modo de baja actividad persiste el cambio y restaura el estado previo', ()
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
-test('actividad de baja actividad exige activar y verificar, incluso si luego se restaura', () => {
+test('actividad de baja actividad valida una activación real y su restauración exacta', () => {
   const def = getActivity('low-activity-mode');
   assert.ok(def, 'Falta registrar low-activity-mode');
   const before = { sound: true, reducedMotion: false };
   const after = { sound: false, reducedMotion: true };
   assert.equal(def.isReady?.({}, undefined), false);
-  assert.equal(def.check?.({}, { performed: true, verified: true, active: true, restored: false, before, after }).correct, true);
-  assert.equal(def.check?.({}, { performed: true, verified: true, active: false, restored: true, before, after }).correct, true);
-  assert.equal(def.check?.({}, { performed: false, verified: false, active: false, restored: false, before, after }).correct, false);
+  assert.equal(def.check?.({}, { action: 'activation', performed: true, verified: true, active: true, restored: false, before, after }).correct, true);
+  assert.equal(def.check?.({}, { action: 'activation', performed: true, verified: true, active: false, restored: true, restoredTo: before, before, after }).correct, true);
+  assert.equal(def.check?.({}, { action: 'activation', performed: true, verified: true, active: false, restored: true, restoredTo: { sound: false, reducedMotion: false }, before, after }).correct, false);
+  assert.equal(def.check?.({}, { action: 'activation', performed: false, verified: false, active: false, restored: false, before, after }).correct, false);
   assert.deepEqual(def.validate?.({ activateLabel: 'Activar', restoreLabel: 'Restaurar' }), []);
   assert.ok((def.validate?.({ activateLabel: '   ' }) ?? []).length > 0);
+});
+
+test('actividad de baja actividad rechaza instantáneas idénticas como activación', () => {
+  const def = getActivity('low-activity-mode')!;
+  const low = { sound: false, reducedMotion: true };
+  const payload = { action: 'activation', performed: true, verified: true, active: true, restored: false, before: low, after: low };
+  const legacyGenericPayload = { performed: true, verified: true, active: true, restored: false, before: low, after: low };
+  assert.equal(def.isReady?.({}, payload), false);
+  assert.equal(def.check?.({}, payload).correct, false);
+  assert.equal(def.check?.({}, legacyGenericPayload).correct, false);
+});
+
+test('mantenimiento de baja actividad exige el intervalo completo y marcas temporales válidas', () => {
+  const def = getActivity('low-activity-mode')!;
+  const low = { sound: false, reducedMotion: true };
+  const base = { action: 'maintenance', performed: true, verified: true, active: true, restored: false, before: low, after: low, startedAt: 1_000 };
+
+  const immediate = { ...base, completedAt: 1_000, elapsedMs: 0 };
+  const belowThreshold = { ...base, completedAt: 25_999, elapsedMs: 24_999 };
+  const atThreshold = { ...base, completedAt: 26_000, elapsedMs: 25_000 };
+  const fabricatedElapsed = { ...base, completedAt: 1_100, elapsedMs: 25_000 };
+
+  assert.equal(def.isReady?.({}, immediate), false);
+  assert.equal(def.check?.({}, immediate).correct, false);
+  assert.equal(def.check?.({}, belowThreshold).correct, false);
+  assert.equal(def.isReady?.({}, atThreshold), true);
+  assert.equal(def.check?.({}, atThreshold).correct, true);
+  assert.equal(def.check?.({}, fabricatedElapsed).correct, false);
 });
 
 test('numeración maya: vigesimal y cuenta larga', () => {

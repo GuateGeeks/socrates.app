@@ -5266,6 +5266,10 @@ test('PyD ejecuta y verifica una practica real, reversible y persistida de baja 
   assert.match(applicationText, /activa|habilita|aplica|ejecuta/);
   assert.match(applicationText, /verifica|comprueba/);
   assert.match(applicationText, /restaura|reversible|estado anterior/);
+  assert.match(applicationText, /ya esta activo/);
+  assert.match(applicationText, /25 segundos/);
+  assert.match(applicationText, /mantenimiento/);
+  assert.match(applicationText, /instantanea identica.{0,80}no/);
   assert.doesNotMatch(applicationText, /garantiza|garantizado|ahorraremos|ahorro de \d|visita|entrevista|centro comunitario|sobre de semillas/);
   assert.ok(application.some((step) => step.type === 'low-activity-mode'), 'Falta la acción ejecutable en la app');
   const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);

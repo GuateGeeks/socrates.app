@@ -5,11 +5,12 @@ export default [
   lesson({
     id: 's08-pyd-1', title: 'Una práctica local de baja actividad', icon: 'Gauge', minutes: 13,
     gancho: '¿Qué ajuste voluntario puedes aplicar ahora mismo para reducir actividad opcional del dispositivo?',
-    objetivos: ['Activar, verificar y explicar una práctica reversible de baja actividad en esta app'],
+    objetivos: ['Ejecutar, verificar y explicar una práctica reversible de baja actividad en esta app'],
     resumen: [
       'El modo de baja actividad desactiva el sonido opcional y activa movimiento reducido; ambos cambios quedan guardados en este dispositivo.',
       'Es una práctica voluntaria, local, accesible y reversible que reduce actividad opcional de la app; no garantiza ni cuantifica ahorro de energía.',
       'Verificar el estado después de actuar distingue una práctica ejecutada de una intención o un autorreporte.',
+      'Si el modo ya está activo al entrar, mantenerlo voluntariamente durante 25 segundos y comprobar su estado constituye la práctica alternativa.',
       'Restaurar devuelve exactamente el estado previo de esos dos ajustes sin cambiar los demás.',
     ],
     media: {
@@ -24,7 +25,7 @@ export default [
       ),
       S.explain(
         { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', title: 'Elegir, actuar y comprobar', prompt: 'Aprende el procedimiento del modo de baja actividad antes de ejecutarlo.' },
-        { icon: 'ListChecks', body: '**Observa** los ajustes, **activa** el modo, **verifica** sonido opcional desactivado y movimiento reducido activado, y decide si lo conservas o **restauras** el estado anterior.' },
+        { icon: 'ListChecks', body: '**Observa** los ajustes. Si el modo no está activo, **actívalo**, verifica ambos cambios y decide si lo conservas o restauras. Si ya está activo, **inicia y completa 25 segundos de mantenimiento** y comprueba que siga activo.' },
       ),
       S.ejemplo(
         { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', title: 'Modelo de verificación', prompt: 'Observa cómo Ana aplica el modo de baja actividad sin exagerar su efecto.' },
@@ -36,7 +37,7 @@ export default [
         ], answer: 'La evidencia es el cambio real y persistido de los ajustes, seguido de su verificación.', tip: 'Observar → activar → verificar → conservar o restaurar.' },
       ),
       S.order(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Con ayuda, ordena el procedimiento del modo de baja actividad.', hint: 'Primero conoces el estado inicial; después del cambio debes verificarlo.', explain: 'Observar, activar y verificar demuestra una práctica ejecutada; restaurar confirma que es reversible.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Con ayuda, ordena la ruta de activación del modo de baja actividad.', hint: 'Primero conoces el estado inicial; después del cambio debes verificarlo.', explain: 'Observar, activar y verificar demuestra una práctica ejecutada; si ya estaba activo, la app ofrece una ruta distinta de mantenimiento medido.' },
         { labels: { start: 'Primero', end: 'Al final' }, items: [
           { id: 'g1', text: 'Observar sonido y movimiento antes del cambio' },
           { id: 'g2', text: 'Activar el modo de baja actividad' },
@@ -45,20 +46,20 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Después de activar el modo de baja actividad, ¿qué verificación demuestra la acción?', hint: 'Busca dos cambios visibles en ajustes.', explain: 'La práctica queda comprobada cuando el sonido opcional está desactivado y movimiento reducido está activado.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'El modo ya está activo al entrar. ¿Qué práctica demuestra una acción voluntaria?', hint: 'Una instantánea idéntica no prueba una activación; busca una acción con duración comprobada.', explain: 'En esta ruta, la práctica queda comprobada al iniciar y completar 25 segundos mientras ambos ajustes permanecen activos.' },
         { options: [
-          { id: 'a', text: 'Sonido opcional desactivado y movimiento reducido activado' },
-          { id: 'b', text: 'Solo escribir que pienso cambiarlo', feedback: 'Una intención no modifica ni verifica los ajustes.' },
-          { id: 'c', text: 'Afirmar una cantidad de ahorro', feedback: 'La práctica no mide ni garantiza ahorro de energía.' },
+          { id: 'a', text: 'Iniciar y completar 25 segundos de mantenimiento, y verificar que el modo siga activo' },
+          { id: 'b', text: 'Marcarla completa de inmediato porque los ajustes ya coinciden', feedback: 'El estado inicial no demuestra que realizaste una práctica.' },
+          { id: 'c', text: 'Afirmar una cantidad de ahorro durante la espera', feedback: 'La práctica no mide ni garantiza ahorro de energía.' },
         ], correct: ['a'] },
       ),
       S.lowActivity(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Ejecuta la práctica: activa el **modo de baja actividad**, verifica sonido opcional desactivado y movimiento reducido activado. Puedes conservarlo o restaurar el estado anterior; ambas rutas son reversibles.', explain: 'La app cambió y persistió los ajustes, mostró el antes y el después, y conservó la opción de restaurarlos.' },
-        { activateLabel: 'Activar y verificar la práctica', restoreLabel: 'Restaurar los dos ajustes anteriores' },
+        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Ejecuta la ruta que corresponda para el **modo de baja actividad**: si no está activo, **actívalo y verifica el cambio**; si ya está activo, **inicia y completa 25 segundos de mantenimiento**. La activación puede conservarse o restaurarse. Ninguna ruta cuantifica ahorro.', explain: 'La app exige un cambio real de ajustes o un intervalo completo con el modo ya activo; una instantánea idéntica por sí sola no cuenta como acción.' },
+        { activateLabel: 'Activar y verificar la práctica', maintenanceLabel: 'Mantener el modo durante 25 segundos', restoreLabel: 'Restaurar los dos ajustes anteriores' },
       ),
       S.write(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Explica la práctica que acabas de ejecutar: indica el antes, los dos cambios verificados y si conservaste el modo de baja actividad o restauraste el estado anterior. No atribuyas una cantidad de reducción que no mediste.', explain: 'Tu explicación acompaña el cambio real de ajustes; no lo sustituye.' },
-        { minWords: 24, placeholder: 'Antes… Activé… Verifiqué… Decidí conservar/restaurar…', model: 'Antes tenía sonido y movimiento normal. Activé el modo, verifiqué sonido opcional apagado y movimiento reducido activo. Luego restauré el estado anterior sin afirmar un ahorro medido.', rubric: ['Describo el antes', 'Nombro los dos cambios verificados', 'Indico conservar o restaurar', 'No cuantifico ahorro'] },
+        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Explica la práctica que acabas de ejecutar: identifica si realizaste activación o mantenimiento, describe la verificación y, si activaste, indica si conservaste o restauraste el estado. No atribuyas una reducción que no mediste.', explain: 'Tu explicación acompaña la acción validada por la app; no la sustituye.' },
+        { minWords: 24, placeholder: 'Mi ruta fue… Realicé… Verifiqué… Decidí…', model: 'Mi ruta fue activación. Cambié los dos ajustes, verifiqué sonido opcional apagado y movimiento reducido activo, y restauré el estado anterior sin afirmar un ahorro medido.', rubric: ['Identifico activación o mantenimiento', 'Nombro el estado verificado', 'Indico la decisión reversible cuando aplica', 'No cuantifico ahorro'] },
       ),
       S.order(
         { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'En otro dispositivo, activa el modo de baja actividad y verifica el procedimiento reversible antes de decidir si lo conservas.' },

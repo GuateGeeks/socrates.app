@@ -225,6 +225,7 @@
 .act-low__state > strong { display: block; margin-bottom: var(--sp-2); }
 .act-low__row { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: var(--sp-2); padding: 7px 0; border-top: 1px solid var(--c-line); font-size: var(--fs-sm); }
 .act-low__row b { text-align: right; }
+.act-low__timer { display: flex; min-height: 44px; align-items: center; justify-content: center; gap: var(--sp-2); margin: 0; padding: var(--sp-2) var(--sp-3); border: 2px solid var(--c-line); border-radius: var(--r-md); font-weight: 700; text-align: center; }
 @media (max-width: 520px) { .act-low__states { grid-template-columns: 1fr; } }
 .ds-tile__emoji { display: grid; place-items: center; color: var(--c-jade); }
 .act-flip__emoji, .act-hero { color: var(--c-jade); display: grid; place-items: center; }
