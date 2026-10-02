@@ -8,9 +8,10 @@ import { toVigesimal } from '../src/activities/shared';
 import { mayaTotal } from '../src/activities/maya-number';
 import { setStorageAdapter, recordLesson, getProgress, emptyProgress, nivel, reviewJournalEntry, JOURNAL_STATUS_META, type Progress } from '../src/core/progress';
 import { parseDosificacion } from '../scripts/build-cnb.mjs';
-import { COURSE, evaluateBadges } from '../src/content/index';
+import { COURSE, WEEKS, evaluateBadges } from '../src/content/index';
 import { mediaReplacementSummary } from '../src/media/mockRegistry';
 import { isShortAnswerReady } from '../src/activities/short-answer';
+import { LEGACY_JOURNAL_REQUIREMENTS } from '../src/core/legacy-journal-requirements';
 
 registerAll();
 
@@ -98,6 +99,17 @@ test('respuesta escrita exige texto sustantivo y completar la rubrica', () => {
   assert.equal(isShortAnswerReady(props, { text: 'Compare dos fuentes y explique una diferencia clara', checks: [true, true], seen: true }), true);
 });
 
+test('registro legacy cubre exactamente los short-answer actuales de Unidad 1', () => {
+  const steps = WEEKS.filter((week) => week.unidad === 1)
+    .flatMap((week) => week.lessons.flatMap((lesson) => lesson.steps))
+    .filter((step) => step.type === 'short-answer');
+  assert.equal(new Set(steps.map((step) => step.id)).size, steps.length, 'Los IDs de short-answer deben ser estables y unicos');
+  const authored = Object.fromEntries(steps.map((step) => [step.id, {
+    minWords: (step.props as { minWords?: number }).minWords ?? 8,
+  }]));
+  assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS, authored);
+});
+
 test('respuesta escrita se guarda pendiente de revision sin acreditar dominio', () => {
   let mem: Progress | null = null;
   setStorageAdapter({ load: () => mem, save: (p) => { mem = p; } });
@@ -131,13 +143,14 @@ test('respuesta escrita se guarda pendiente de revision sin acreditar dominio', 
 
 test('hidratacion recupera el area segura de diarios pendientes creados antes de guardarla', () => {
   const response = JSON.stringify({
-    text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true], seen: true,
+    text: 'Esta respuesta presenta evidencia clara sobre el agua local y compara datos para formular una pregunta precisa con fuente y propósito definidos',
+    checks: [true], seen: true,
   });
   const stored = {
     ...emptyProgress(),
     journal: {
       'lesson/step': {
-        stepId: 'step', value: response, at: '2026-01-21', status: 'pending-review', cnb: ['l1:3.4.2'],
+        stepId: 's01-l1-1-9', value: response, at: '2026-01-21', status: 'pending-review', cnb: ['l1:3.4.2'],
         review: { criteria: ['Es claro'], selfChecks: [true] },
       },
     },
@@ -153,7 +166,7 @@ test('hidratacion acepta el minimo historico de cinco palabras pero respeta minW
     text: 'Libros circulan por nuestro grado', checks: [true, true], seen: true,
   });
   const baseEntry = {
-    stepId: 'week6-label', value, at: '2026-02-13', status: 'pending-review',
+    stepId: 's06-pyd-1-5', value, at: '2026-02-13', status: 'pending-review',
     primaryArea: 'pyd', cnb: ['pyd:4.3.1'],
     review: { criteria: ['Nombra el proyecto con claridad', 'Tiene entre 5 y 8 palabras'], selfChecks: [true, true] },
   };
@@ -177,12 +190,45 @@ test('hidratacion acepta el minimo historico de cinco palabras pero respeta minW
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
+test('hidratacion aplica las 34 palabras del informe legacy de Semana 7', () => {
+  const review = {
+    criteria: ['Separo hallazgo e inferencia', 'Declaro evidencia pendiente', 'La acción incluye responsable, recurso y verificación'],
+    selfChecks: [true, true, true],
+  };
+  const entry = {
+    stepId: 's07-d5-taller-8', at: '2026-02-20', status: 'pending-review', primaryArea: 'cnt',
+    cnb: ['cnt:6.4.1', 'l1:8.2.3', 'fc:4.2.2', 'pyd:5.3.2'], review,
+  };
+  const stored = {
+    ...emptyProgress(),
+    journal: {
+      's07/underlength': {
+        ...entry,
+        value: JSON.stringify({ text: 'Agua bosque datos acción responsable', checks: [true, true, true], seen: true }),
+      },
+      's07/sufficient': {
+        ...entry,
+        value: JSON.stringify({
+          text: 'El caso registra dos surcos en suelo expuesto. La cobertura podría influir, pero falta comparar lluvia y extracción. Propongo solicitar una revisión técnica al comité escolar, usando el dossier, y registrar la respuesta recibida para verificar el seguimiento.',
+          checks: [true, true, true], seen: true,
+        }),
+      },
+    },
+  } as unknown as Progress;
+  setStorageAdapter({ load: () => stored, save: () => {} });
+
+  assert.equal(getProgress().journal['s07/underlength'].status, 'legacy');
+  assert.equal(getProgress().journal['s07/sufficient'].status, 'pending-review');
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
 test('hidratacion vuelve legacy cada forma pendiente malformada y bloquea su aprobacion', () => {
   const valid = {
-    stepId: 'step',
-    value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true], seen: true }),
+    stepId: 's06-pyd-1-5',
+    value: JSON.stringify({ text: 'Libros circulan por nuestro grado', checks: [true, true], seen: true }),
     at: '2026-01-21', status: 'pending-review',
-    primaryArea: 'l1', cnb: ['l1:3.4.2'], review: { criteria: ['Es claro'], selfChecks: [true] },
+    primaryArea: 'pyd', cnb: ['pyd:4.3.1'],
+    review: { criteria: ['Nombra el proyecto', 'Tiene cinco palabras'], selfChecks: [true, true] },
   };
   const malformed: Record<string, unknown> = {
     'bad/non-object-entry': null,
@@ -190,21 +236,20 @@ test('hidratacion vuelve legacy cada forma pendiente malformada y bloquea su apr
     'bad/empty-response': { ...valid, value: '   ' },
     'bad/non-json-response': { ...valid, value: 'Una respuesta de texto que no esta serializada como JSON' },
     'bad/empty-object-response': { ...valid, value: '{}' },
-    'bad/missing-text': { ...valid, value: JSON.stringify({ checks: [true], seen: true }) },
-    'bad/non-string-text': { ...valid, value: JSON.stringify({ text: 8, checks: [true], seen: true }) },
-    'bad/blank-text': { ...valid, value: JSON.stringify({ text: '   ', checks: [true], seen: true }) },
-    'bad/repeated-filler': { ...valid, value: JSON.stringify({ text: 'agua agua agua agua agua agua agua agua', checks: [true], seen: true }) },
-    'bad/missing-value-checks': { ...valid, value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', seen: true }) },
-    'bad/non-boolean-value-check': { ...valid, value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: ['si'], seen: true }) },
-    'bad/false-value-check': { ...valid, value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [false], seen: true }) },
-    'bad/value-check-count': { ...valid, value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true, true], seen: true }) },
-    'bad/missing-seen': { ...valid, value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true] }) },
-    'bad/false-seen': { ...valid, value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true], seen: false }) },
-    'bad/persisted-false-self-check': { ...valid, review: { criteria: ['Es claro'], selfChecks: [false] } },
+    'bad/missing-text': { ...valid, value: JSON.stringify({ checks: [true, true], seen: true }) },
+    'bad/non-string-text': { ...valid, value: JSON.stringify({ text: 8, checks: [true, true], seen: true }) },
+    'bad/blank-text': { ...valid, value: JSON.stringify({ text: '   ', checks: [true, true], seen: true }) },
+    'bad/repeated-filler': { ...valid, value: JSON.stringify({ text: 'agua agua agua agua agua', checks: [true, true], seen: true }) },
+    'bad/missing-value-checks': { ...valid, value: JSON.stringify({ text: 'Libros circulan por nuestro grado', seen: true }) },
+    'bad/non-boolean-value-check': { ...valid, value: JSON.stringify({ text: 'Libros circulan por nuestro grado', checks: ['si', true], seen: true }) },
+    'bad/false-value-check': { ...valid, value: JSON.stringify({ text: 'Libros circulan por nuestro grado', checks: [false, true], seen: true }) },
+    'bad/value-check-count': { ...valid, value: JSON.stringify({ text: 'Libros circulan por nuestro grado', checks: [true], seen: true }) },
+    'bad/missing-seen': { ...valid, value: JSON.stringify({ text: 'Libros circulan por nuestro grado', checks: [true, true] }) },
+    'bad/false-seen': { ...valid, value: JSON.stringify({ text: 'Libros circulan por nuestro grado', checks: [true, true], seen: false }) },
+    'bad/persisted-false-self-check': { ...valid, review: { criteria: ['Nombra el proyecto', 'Tiene cinco palabras'], selfChecks: [false, true] } },
     'bad/inconsistent-self-checks': {
       ...valid,
-      value: JSON.stringify({ text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true, true], seen: true }),
-      review: { criteria: ['Es claro', 'Incluye evidencia'], selfChecks: [true, false] },
+      review: { criteria: ['Nombra el proyecto', 'Tiene cinco palabras'], selfChecks: [true, false] },
     },
     'bad/empty-criteria': { ...valid, review: { criteria: [], selfChecks: [] } },
     'bad/non-string-criterion': { ...valid, review: { criteria: ['Es claro', 7], selfChecks: [true, true] } },
@@ -212,6 +257,7 @@ test('hidratacion vuelve legacy cada forma pendiente malformada y bloquea su apr
     'bad/non-array-checks': { ...valid, review: { criteria: ['Es claro'], selfChecks: 'true' } },
     'bad/non-boolean-check': { ...valid, review: { criteria: ['Es claro'], selfChecks: ['yes'] } },
     'bad/mismatched-checks': { ...valid, review: { criteria: ['Es claro', 'Tiene evidencia'], selfChecks: [true] } },
+    'bad/unknown-step': { ...valid, stepId: 'unknown-short-answer-step' },
     'bad/invalid-area': { ...valid, primaryArea: 'otro' },
     'bad/invalid-ref': { ...valid, cnb: ['l1:no-existe'] },
     'bad/no-same-area-ref': { ...valid, cnb: ['ccss:7.1.3'] },
@@ -238,15 +284,19 @@ test('hidratacion vuelve legacy cada forma pendiente malformada y bloquea su apr
 
 test('hidratacion mantiene revisable un diario multiarea y usa la primera referencia CNB valida como area primaria', () => {
   const response = JSON.stringify({
-    text: 'El informe distingue evidencia observada de una inferencia prudente', checks: [true], seen: true,
+    text: 'El caso registra dos surcos en suelo expuesto. La cobertura podría influir, pero falta comparar lluvia y extracción. Propongo solicitar una revisión técnica al comité escolar, usando el dossier, y registrar la respuesta recibida para verificar el seguimiento.',
+    checks: [true, true, true], seen: true,
   });
   const stored = {
     ...emptyProgress(),
     journal: {
       's07-d5-taller/report': {
-        stepId: 'report', value: response, at: '2026-02-20', status: 'pending-review',
+        stepId: 's07-d5-taller-8', value: response, at: '2026-02-20', status: 'pending-review',
         cnb: ['cnt:6.4.1', 'l1:8.2.3', 'fc:4.2.2', 'pyd:5.3.2'],
-        review: { criteria: ['Separé evidencia e inferencia'], selfChecks: [true] },
+        review: {
+          criteria: ['Separé evidencia e inferencia', 'Declaré evidencia pendiente', 'Incluí una acción verificable'],
+          selfChecks: [true, true, true],
+        },
       },
     },
   } as unknown as Progress;
@@ -267,7 +317,8 @@ test('hidratacion mantiene revisable un diario multiarea y usa la primera refere
 
 test('hidratacion conserva como acreditadas las referencias de diarios aprobados antes de guardar procedencia', () => {
   const response = JSON.stringify({
-    text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true], seen: true,
+    text: 'Esta respuesta presenta evidencia clara sobre el agua local y compara datos para formular una pregunta precisa con fuente y propósito definidos',
+    checks: [true], seen: true,
   });
   const stored = {
     ...emptyProgress(),
@@ -275,7 +326,7 @@ test('hidratacion conserva como acreditadas las referencias de diarios aprobados
     contenidos: { 'l1:3.4.2': { ok: 1, total: 1, last: '2026-02-21' } },
     journal: {
       'lesson/step': {
-        stepId: 'step', value: response, at: '2026-02-20', status: 'approved', primaryArea: 'l1',
+        stepId: 's01-l1-1-9', value: response, at: '2026-02-20', status: 'approved', primaryArea: 'l1',
         cnb: ['l1:3.4.2', 'ccss:7.1.3'], reviewedAt: '2026-02-21',
         review: { criteria: ['Es claro'], selfChecks: [true] },
       },
@@ -392,13 +443,14 @@ test('una respuesta cambiada acredita solo referencias nuevas sin repetir indica
 test('solicitar revision persiste la decision sin acreditar dominio ni permitir aprobacion tardia directa', () => {
   let mem: Progress | null = null;
   const response = JSON.stringify({
-    text: 'Esta respuesta presenta evidencia clara sobre el agua local', checks: [true], seen: true,
+    text: 'Esta respuesta presenta evidencia clara sobre el agua local y compara datos para formular una pregunta precisa con fuente y propósito definidos',
+    checks: [true], seen: true,
   });
   const pending = {
     ...emptyProgress(),
     journal: {
       'lesson/step': {
-        stepId: 'step', value: response, at: '2026-01-21', status: 'pending-review', primaryArea: 'l1', cnb: ['l1:3.4.2'],
+        stepId: 's01-l1-1-9', value: response, at: '2026-01-21', status: 'pending-review', primaryArea: 'l1', cnb: ['l1:3.4.2'],
         review: { criteria: ['Es claro'], selfChecks: [true] },
       },
     },
@@ -455,7 +507,6 @@ test('parser CNB: competencias, indicadores, contenidos y unidades', () => {
 import { parseBlanks } from '../src/activities/fill-blank';
 import { tokenize } from '../src/activities/highlight';
 import { recordReview, dueReviews, addDays, schoolWeek, today as todayFn } from '../src/core/progress';
-import { WEEKS } from '../src/content/index';
 
 test('fill-blank: espacios con alternativas', () => {
   const parts = parseBlanks('El [[núcleo|nucleo]] guarda el [[ADN]].');

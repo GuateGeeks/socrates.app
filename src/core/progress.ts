@@ -2,6 +2,7 @@ import { useSyncExternalStore } from 'react';
 import { AREAS, type Ambito, type AreaId } from '@/cnb/model';
 import { areaOf, indicadorOf, lookup } from '@/cnb/catalog';
 import { isShortAnswerValueReady, type ShortAnswerValue } from '@/activities/short-answer-value';
+import { LEGACY_JOURNAL_REQUIREMENTS } from './legacy-journal-requirements';
 import type { Lesson, Mission, StepBase } from './types';
 import { getActivity } from './registry';
 
@@ -80,8 +81,6 @@ export const localStorageAdapter: StorageAdapter = {
   save(p) { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch { /* modo privado / sin espacio */ } },
 };
 
-const LEGACY_SHORT_ANSWER_MIN_WORDS = 5;
-
 export function emptyProgress(): Progress {
   return {
     version: 1,
@@ -132,12 +131,17 @@ function hydrate(raw: Progress | null): Progress {
       && entry.review.selfChecks.every((item) => typeof item === 'boolean')
       && entry.review.selfChecks.length === entry.review?.criteria?.length
       && entry.review.selfChecks.every((item) => item === true);
-    const minWordsValid = entry.review?.minWords === undefined
-      || (Number.isInteger(entry.review.minWords) && entry.review.minWords! > 0);
+    const persistedMinWords = entry.review?.minWords;
+    const legacyRequirement = persistedMinWords === undefined && typeof entry.stepId === 'string'
+      ? LEGACY_JOURNAL_REQUIREMENTS[entry.stepId]
+      : undefined;
+    const minWordsValid = persistedMinWords === undefined
+      ? Boolean(legacyRequirement)
+      : Number.isInteger(persistedMinWords) && persistedMinWords > 0;
     const reviewValid = criteriaValid && checksValid && minWordsValid;
-    const minWords = entry.review?.minWords ?? LEGACY_SHORT_ANSWER_MIN_WORDS;
+    const minWords = persistedMinWords ?? legacyRequirement?.minWords;
     let response: ShortAnswerValue | undefined;
-    if (typeof entry.value === 'string' && criteriaValid) {
+    if (typeof entry.value === 'string' && criteriaValid && minWords !== undefined) {
       try {
         const parsed: unknown = JSON.parse(entry.value);
         if (isShortAnswerValueReady(parsed, entry.review!.criteria.length, minWords)) response = parsed;
