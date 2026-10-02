@@ -59,54 +59,30 @@ export default [
           { icon: 'Smile', front: '¿Qué transmite?', back: 'El **carácter**: alegre, festivo, solemne (serio y respetuoso), triste, tranquilo, misterioso… Es la emoción que provoca.' },
         ] },
       ),
-      S.reading(
-        { fase: 'construir', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'conocer',
-          prompt: 'Lee sobre la diversidad musical de Guatemala y responde.' },
-        { heading: 'Un país con muchas músicas', genre: 'Texto expositivo',
-          passage: 'En Guatemala suenan muchas músicas distintas, y todas cuentan algo de quienes las hacen. La **marimba** es el **instrumento nacional**. Es un instrumento de teclas de madera que se golpean con baquetas; debajo de cada tecla hay una caja de resonancia que hace que el sonido crezca. Se toca en ferias, bodas, actos cívicos y fiestas patronales, muchas veces entre varios músicos en un mismo instrumento.\n\nEn muchas comunidades mayas, la **chirimía** (un instrumento de viento de madera) y el **tambor** acompañan los bailes tradicionales y las procesiones. En la costa del Caribe, el pueblo **garífuna** conserva ritmos con **tambores** hechos a mano, maracas y canto en su idioma; su música, su danza y su lengua son reconocidas en el mundo como patrimonio cultural.\n\nTambién escuchamos **bandas** escolares, música de iglesia, rock, pop, reguetón, rap y música de otros países. Valorar la música no significa que todo deba gustarnos. Significa **escuchar con atención**, respetar el trabajo de quienes la crean y ser capaces de **explicar** qué oímos y por qué nos gusta o no.',
-          questions: [
-            { q: '¿Cuál es el instrumento nacional de Guatemala?', options: [
-              { id: 'a', text: 'La chirimía' }, { id: 'b', text: 'La marimba' }, { id: 'c', text: 'El tambor garífuna' },
-            ], correct: 'b', why: 'El texto lo dice en el primer párrafo.' },
-            { q: '¿Para qué sirve la caja de resonancia debajo de cada tecla?', options: [
-              { id: 'a', text: 'Para que el sonido crezca' }, { id: 'b', text: 'Para guardar las baquetas' }, { id: 'c', text: 'Para que la tecla no se mueva' },
-            ], correct: 'a' },
-            { q: 'Según el texto, ¿qué significa **valorar** la música?', options: [
-              { id: 'a', text: 'Que toda la música nos debe gustar' },
-              { id: 'b', text: 'Escucharla con atención, respetar a quienes la crean y explicar nuestra opinión' },
-              { id: 'c', text: 'Escuchar solo música tradicional' },
-            ], correct: 'b', why: 'Valorar no es obligarse a que algo guste: es escuchar con atención y dar razones.' },
-          ] },
-      ),
       S.ejemplo(
-        { fase: 'construir', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'hacer', title: 'Ejemplo resuelto: la ficha de escucha',
-          prompt: 'Mira cómo Rosa describe una pieza de marimba usando las cinco preguntas.' },
-        { icon: 'ClipboardList', problem: 'Rosa escucha una pieza de marimba en la feria de su pueblo. ¿Cómo la describe con precisión?',
+        { id: 's04-art-1-4', fase: 'construir', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'hacer', title: 'Modelo breve: describir antes de opinar',
+          prompt: 'Observa cómo una oyente usa datos musicales para justificar su valoración.' },
+        { icon: 'ClipboardList', problem: 'En un fragmento de marimba, el pulso avanza rápido y el sonido empieza suave antes de crecer.',
           steps: [
-            { text: '**¿Qué suena?** Una marimba grande tocada por varios músicos, y un contrabajo que hace las notas graves.' },
-            { text: '**¿Qué tan rápido?** Tempo **rápido**: mi pie casi no alcanza a seguirlo.' },
-            { text: '**¿Fuerte o suave?** Empieza **fuerte**, baja en la parte del medio y vuelve a crecer al final.' },
-            { text: '**¿En cuánto se cuenta?** Encuentro el acento cada **3** pulsos: "UN-dos-tres".', why: 'Usa lo aprendido sobre compás en la semana 2.' },
-            { text: '**¿Qué transmite?** Carácter **festivo y alegre**: da ganas de bailar.' },
-            { text: '**Mi opinión con razones:** "Me gusta porque la marimba suena brillante y el cambio de intensidad me sorprendió".' },
+            { text: '**Descripción:** marimba, tempo rápido e intensidad que aumenta.' },
+            { text: '**Carácter:** festivo, porque el pulso rápido invita a moverse.' },
+            { text: '**Opinión:** me gusta porque el cambio de intensidad mantiene mi atención.' },
           ],
-          answer: 'Una buena descripción nombra **instrumentos, tempo, intensidad, compás y carácter**, y da una **opinión con razones**.',
-          tip: 'Escucha la misma pieza dos veces: la primera para disfrutar y la segunda para llenar la ficha.' },
-      ),
-      S.match(
-        { fase: 'construir', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'conocer',
-          prompt: 'Une cada palabra con lo que describe.',
-          hint: 'Repasa las cinco preguntas del buen oyente.',
-          explain: 'Timbre = qué instrumento o voz; tempo = velocidad; intensidad = fuerza; carácter = emoción.' },
-        { leftTitle: 'Palabra', rightTitle: 'Describe…', pairs: [
-          { id: 't', left: 'Timbre', right: 'Qué instrumento o voz suena' },
-          { id: 'v', left: 'Tempo', right: 'Qué tan rápida o lenta es' },
-          { id: 'i', left: 'Intensidad', right: 'Si suena fuerte o suave' },
-          { id: 'c', left: 'Carácter', right: 'Qué emoción transmite' },
-        ] },
+          answer: 'La valoración se apoya en lo escuchado: instrumento, tempo, intensidad y carácter.' },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'hacer',
+        { id: 's04-art-1-6', fase: 'construir', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'hacer',
+          prompt: 'Con ayuda: oyes un tambor con golpes lentos y fuertes. ¿Qué descripción usa criterios musicales?',
+          hint: 'Busca una opción que nombre qué suena, el tempo y la intensidad.',
+          explain: '“Tambor, tempo lento e intensidad fuerte” describe datos que otra persona también puede escuchar.' },
+        { options: [
+          { id: 'a', text: 'Tambor, tempo lento e intensidad fuerte' },
+          { id: 'b', text: 'Es la mejor música del mundo' },
+          { id: 'c', text: 'Suena bien' },
+        ], correct: ['a'] },
+      ),
+      S.choice(
+        { id: 's04-art-1-7', fase: 'aplicar', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'hacer',
           prompt: 'Escucha el fragmento. ¿Cuál descripción es la más precisa?',
           explain: 'Suena una chirimía con un tambor, a un tempo lento y con un carácter solemne. Una descripción precisa nombra lo que se escucha.',
           media: {
@@ -121,27 +97,15 @@ export default [
         ], correct: ['a'] },
       ),
       S.write(
-        { fase: 'aplicar', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'hacer',
-          prompt: 'Usa el fragmento suministrado de chirimía y tambor. Escribe su **ficha de escucha** con las cinco preguntas y tu **opinión con razones**; no necesitas buscar otra grabación.' },
+        { id: 's04-art-1-8', fase: 'aplicar', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'hacer',
+          prompt: 'Usa el fragmento suministrado de chirimía y tambor. Escribe su **ficha de escucha** con las cinco preguntas y tu **opinión con razones**; no necesitas buscar otra grabación.',
+          explain: 'Extensión opcional, no requerida: lee la entrevista ficticia de Rosa, quien recuerda la marimba de su infancia, y compárala mentalmente con tu ficha. Una entrevista local a una persona mayor también es opcional.' },
         { minWords: 40, placeholder: 'Escuché… Suenan… El tempo es… La intensidad… Se cuenta en… Su carácter es… Me gusta porque…',
           model: 'Escuché el fragmento suministrado de chirimía y tambor. La chirimía produce una melodía aguda y el tambor marca golpes graves. El tempo es lento, la intensidad es moderada y se puede contar en dos. Su carácter me parece solemne porque deja pausas amplias. Me gusta porque ambos timbres se distinguen con claridad.',
           rubric: ['Nombra instrumentos o voces', 'Describe tempo e intensidad', 'Dice el compás o intenta contarlo', 'Describe el carácter', 'Da su opinión con al menos una razón'] },
       ),
-      S.project(
-        { fase: 'aplicar', areas: ['art'], cnb: ['art:3.1.2'], ambito: 'convivir',
-          prompt: 'Analiza esta **entrevista ficticia suministrada**. Una entrevista local a una persona mayor es una extensión estrictamente opcional.' },
-        { goal: 'Descubrir cómo una persona de otra generación recuerda y valora la música, usando una fuente suministrada.',
-          steps: [
-            { title: 'Lee la fuente', detail: 'Entrevista ficticia: Rosa, de 68 años, recuerda que de niña oía marimba en la radio y en fiestas; reconoce teclas de madera y un ritmo bailable, y la valora porque reunía a su familia.' },
-            { title: 'Recupera respuestas', detail: 'Anota qué música escuchaba Rosa, dónde la oía, qué instrumento nombra y por qué era importante para ella.' },
-            { title: 'Compara', detail: 'Compara una respuesta de Rosa con la ficha del fragmento suministrado, sin afirmar que representan a todas las personas mayores.' },
-            { title: 'Extensión opcional', detail: 'Solo si tienes acceso y permiso, puedes repetir las preguntas en una entrevista local; esta extensión no es requisito.' },
-          ],
-          evidence: 'Las cuatro respuestas recuperadas de la fuente suministrada y una comparación respetuosa.',
-          rubric: ['Usé solo datos de la entrevista ficticia', 'Recuperé las cuatro respuestas', 'Comparé sin generalizar'] },
-      ),
       S.choice(
-        { fase: 'comprobar', areas: ['art'], cnb: ['art:3.1.2'], prompt: '¿Cuál es la diferencia entre **oír** y **escuchar** música?' },
+        { id: 's04-art-1-10', fase: 'comprobar', areas: ['art'], cnb: ['art:3.1.2'], prompt: '¿Cuál es la diferencia entre **oír** y **escuchar** música?' },
         { options: [
           { id: 'a', text: 'Oír es percibir el sonido; escuchar es poner atención para comprenderlo' },
           { id: 'b', text: 'Oír es con audífonos y escuchar es con bocinas' },
@@ -149,7 +113,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.match(
-        { fase: 'comprobar', areas: ['art'], cnb: ['art:3.1.2'], prompt: 'Une cada descripción con la palabra que le corresponde.' },
+        { id: 's04-art-1-11', fase: 'comprobar', areas: ['art'], cnb: ['art:3.1.2'], prompt: 'Une cada descripción con la palabra que le corresponde.' },
         { pairs: [
           { id: 'a', left: '"Suena una voz de niña y un coro"', right: 'Timbre' },
           { id: 'b', left: '"Va despacio, como caminando en procesión"', right: 'Tempo' },

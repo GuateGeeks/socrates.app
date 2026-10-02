@@ -311,9 +311,7 @@ export default [
     minutes: 14,
     gancho: 'Sin decir una palabra, ¿puedes saber si alguien está nervioso, contento o aburrido? ¿Cómo lo sabes?',
     objetivos: [
-      'Usar gestos, mirada, postura y movimientos para acompañar lo que dices',
-      'Reconocer cuándo el cuerpo y las palabras dicen lo mismo',
-      'Preparar el guion de una exposición de un minuto',
+      'Preparar un guion breve que coordine palabras, voz, gestos y mirada',
     ],
     resumen: [
       'Los gestos (manos y cara), la mirada, la postura y los movimientos también comunican.',
@@ -330,7 +328,7 @@ export default [
       S.explain(
         { fase: 'explorar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer', title: 'Cuatro formas en que habla tu cuerpo',
           prompt: 'Toca cada tarjeta y descubre cómo usar tu cuerpo al exponer.' },
-        { icon: 'PersonStanding', body: 'El lenguaje del cuerpo se llama **comunicación no verbal**: todo lo que comunicamos sin palabras.', reveal: [
+        { icon: 'PersonStanding', body: 'El lenguaje del cuerpo se llama **comunicación no verbal**: todo lo que comunicamos sin palabras. Después de la lección, compartir el guion con un familiar es opcional.', reveal: [
           { icon: 'Hand', front: 'Gestos', back: 'Con las **manos** puedes mostrar tamaños ("así de grande"), cantidades (tres dedos), direcciones (señalar el mapa). Con la **cara** muestras emociones: sorpresa, alegría, preocupación.' },
           { icon: 'Eye', front: 'Mirada', back: '**Reparte la mirada**: mira un momento a una persona de la izquierda, otra del centro y otra de la derecha. Así todos sienten que les hablas a ellos.' },
           { icon: 'PersonStanding', front: 'Postura', back: 'Párate **firme**, con los pies separados al ancho de los hombros y la espalda recta. Evita balancearte o esconder las manos en los bolsillos.' },
@@ -363,19 +361,8 @@ export default [
           { id: 'c6', text: 'Balancearse de un pie al otro', bucket: 'di' },
         ] },
       ),
-      S.choice(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'conocer',
-          prompt: 'Carlos dice: **"¡Estoy feliz de presentarles mi pueblo!"**, pero lo dice con la cara seria, mirando al piso y con los hombros caídos. ¿Qué problema hay?',
-          hint: 'Compara lo que dicen sus palabras con lo que dice su cuerpo.',
-          explain: 'Cuando el cuerpo y las palabras no coinciden, el público suele creerle más al cuerpo. Para comunicar bien, los dos deben decir lo mismo.' },
-        { options: [
-          { id: 'a', text: 'Sus palabras dicen "feliz", pero su cuerpo dice "triste" o "nervioso": no coinciden' },
-          { id: 'b', text: 'Ninguno: lo importante son solo las palabras', feedback: 'El cuerpo también manda un mensaje, y aquí contradice a las palabras.' },
-          { id: 'c', text: 'Habló demasiado fuerte', feedback: 'El problema no está en el volumen, sino en su cara y su postura.' },
-        ], correct: ['a'] },
-      ),
       S.ejemplo(
-        { fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer', title: 'Ejemplo resuelto: el guion de una exposición de un minuto',
+        { id: 's01-l1-3-5', fase: 'construir', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer', title: 'Ejemplo resuelto: el guion de una exposición de un minuto',
           prompt: 'Ana preparó su exposición **"Nuestro lugar en mapas y palabras"**. Mira cómo organizó su guion y dónde decidió usar cada recurso.' },
         { icon: 'ClipboardList', problem: 'Ana vive en Livingston, Izabal. Tiene un minuto para presentar su lugar.',
           steps: [
@@ -389,7 +376,7 @@ export default [
           tip: 'Escribe tus recursos entre paréntesis en el guion, como si fueras actor o actriz.' },
       ),
       S.order(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer', prompt: 'Ordena las partes de la exposición de Pedro sobre San Juan Comalapa.',
+        { id: 's01-l1-3-6', fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer', prompt: 'Ordena las partes de la exposición de Pedro sobre San Juan Comalapa.',
           explain: 'Primero se atrapa la atención, luego se desarrollan las ideas y al final se cierra con algo memorable.' },
         { labels: { start: 'Empieza', end: 'Termina' }, items: [
           { id: 'o1', text: '"¿Sabían que en mi pueblo hay un muro pintado de colores que cuenta nuestra historia?" (Pausa.)' },
@@ -398,19 +385,10 @@ export default [
           { id: 'o4', text: '"Cuando vayan, busquen el muro: una parte de nuestra historia está pintada ahí." (Paso al frente, sonrisa.)' },
         ] },
       ),
-      S.match(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer', prompt: 'Une cada frase del guion con el gesto que mejor la acompaña.',
-          explain: 'Los buenos gestos "dibujan" en el aire lo que dicen las palabras.' },
-        { leftTitle: 'Frase', rightTitle: 'Gesto', pairs: [
-          { id: 'g1', left: '"El volcán es altísimo."', right: 'Levantar la mano por encima de la cabeza' },
-          { id: 'g2', left: '"Tenemos tres ríos."', right: 'Mostrar tres dedos' },
-          { id: 'g3', left: '"El mercado queda hacia allá."', right: 'Señalar con la mano abierta' },
-          { id: 'g4', left: '"¡No lo podía creer!"', right: 'Abrir los ojos con cara de sorpresa' },
-        ] },
-      ),
       S.write(
-        { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer',
-          prompt: 'En 6 minutos, escribe un guion de al menos 50 palabras para **"Nuestro lugar en mapas y palabras"** (un minuto): inicio, **dos ideas** y cierre. Luego haz un **autoensayo individual** en voz alta, usando el temporizador de un minuto e imaginando tres puntos de mirada. Un ensayo familiar posterior es opcional.' },
+        { id: 's01-l1-3-8', fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer',
+          prompt: 'En 6 minutos, **completa el inicio que ya escribiste en la lección 1** hasta formar un guion de al menos 50 palabras para **"Nuestro lugar en mapas y palabras"**: inicio, dos ideas y cierre. Anota un recurso de voz y dos gestos; no copies de nuevo el inicio.',
+          explain: 'Extensión opcional, no requerida para completar la lección: haz después un autoensayo de un minuto.' },
         { minWords: 50, placeholder: 'Inicio: … (recurso)\nIdea 1: … (recurso)\nIdea 2: …\nCierre: …',
           model: 'Inicio: "¿Sabían que desde mi casa se ven tres volcanes?" (Pausa, señalo la ventana.)\nIdea 1: "Vivo en Antigua Guatemala, una ciudad de calles empedradas." (Muestro una foto.)\nIdea 2: "Cada mañana miro el Volcán de Agua: si tiene nubes, mi abuela dice que va a llover." (Cara de duda, sonrío.)\nIdea 3: "En Semana Santa las calles se llenan de alfombras de aserrín de colores." (Abro los brazos.)\nCierre: "Mi lugar es pequeño, pero desde él se ven gigantes." (Paso al frente, voz más lenta.)',
           rubric: [
@@ -418,11 +396,11 @@ export default [
             'Anoté al menos un recurso de voz (pausa, cambio de volumen)',
             'Anoté al menos dos recursos de cuerpo (gesto, mirada, movimiento)',
             'Los gestos acompañan lo que digo',
-            'Hice el autoensayo individual en voz alta',
+            'Reutilicé el inicio previo sin copiarlo de nuevo',
           ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:2.1.6'], prompt: '¿Qué es **repartir la mirada**?' },
+        { id: 's01-l1-3-9', fase: 'comprobar', areas: ['l1'], cnb: ['l1:2.1.6'], prompt: '¿Qué es **repartir la mirada**?' },
         { options: [
           { id: 'a', text: 'Mirar un momento a personas de distintos lados del grupo' },
           { id: 'b', text: 'Mirar fijamente a una sola persona' },
@@ -430,7 +408,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:2.1.6'], prompt: '¿Verdadero o falso?' },
+        { id: 's01-l1-3-10', fase: 'comprobar', areas: ['l1'], cnb: ['l1:2.1.6'], prompt: '¿Verdadero o falso?' },
         { statements: [
           { text: 'Mostrar tres dedos al decir "tres ríos" es un gesto que acompaña el mensaje.', answer: true },
           { text: 'Caminar de un lado a otro sin parar ayuda a mantener la atención.', answer: false, why: 'Los movimientos deben tener intención; si no, distraen.' },

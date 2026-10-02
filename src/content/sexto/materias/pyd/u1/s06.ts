@@ -15,7 +15,7 @@ export default [
       'Presentar y mejorar un proyecto sencillo mediante retroalimentación en una mini feria',
     ],
     resumen: [
-      'El plan escrito en papel o cuaderno reúne objetivo, dos actividades, responsables, fechas y un presupuesto pequeño.',
+      'El plan suministrado reúne objetivo, dos actividades, responsables y un presupuesto pequeño; una fecha queda pendiente para revisarla.',
       'En la mini feria, la persona expositora presenta objetivo, acciones y costo total en 20 segundos.',
       'La persona visitante escucha y formula una pregunta relevante o un comentario basado en un criterio.',
       'La persona expositora registra la retroalimentación y revisa un campo para mejorar el plan.',
@@ -28,7 +28,7 @@ export default [
     steps: [
       S.explain(
         { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:4.1.1', 'pyd:4.3.1'], ambito: 'conocer', title: 'Plan y protocolo de mini feria',
-          prompt: 'Escribirán un plan breve en papel o cuaderno y harán un intercambio con una persona visitante.' },
+          prompt: 'Usarás un plan suministrado y una tarjeta de visitante para simular cómo la retroalimentación mejora un proyecto.' },
         { icon: 'MessagesSquare', body: 'Participar en una feria es presentar, escuchar con respeto y usar la retroalimentación para mejorar.', reveal: [
           { icon: 'Presentation', front: 'Presentar', back: 'Explica objetivo, dos acciones y costo total en 20 segundos.' },
           { icon: 'MessageCircleQuestion', front: 'Escuchar', back: 'La persona visitante hace una pregunta relevante o comenta un criterio: claridad, viabilidad o costo.' },
@@ -59,50 +59,41 @@ export default [
           { id: 'c', text: 'Me gusta el color.', feedback: 'No ayuda a revisar la claridad o viabilidad del plan.' },
         ], correct: ['a'] },
       ),
-      S.project(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.1.1'], ambito: 'emprender',
-          prompt: 'En una hoja de papel o en tu cuaderno, escribe un plan para un proyecto pequeño de la escuela o comunidad.' },
-        { goal: 'Producir un plan breve cuyas partes se apoyen entre sí.',
-          steps: [
-            { title: 'Objetivo', detail: 'Escribe un objetivo con verbo y un resultado alcanzable.' },
-            { title: 'Actividad 1 y actividad 2', detail: 'Anota dos actividades; junto a cada una escribe un responsable y una fecha.' },
-            { title: 'Presupuesto pequeño', detail: 'Completa dos rubros con cantidad, precio, subtotal y total. Usa precios ilustrativos o Q0 para un recurso reutilizado.' },
-            { title: 'Etiqueta visual', detail: 'Reserva el espacio para una etiqueta breve que identifique el proyecto.' },
-          ],
-          evidence: 'Lista de cotejo del plan escrito en papel; esta actividad no captura sus campos.',
-          rubric: ['El objetivo y las dos actividades se relacionan', 'Cada actividad tiene responsable y fecha', 'El presupuesto muestra subtotales y total', 'El plan cabe en una hoja o página del cuaderno'] },
+      S.explain(
+        { id: 's06-pyd-1-4', fase: 'construir', areas: ['pyd'], cnb: ['pyd:4.1.1'], ambito: 'emprender', title: 'Plan suministrado: intercambio de libros',
+          prompt: 'Lee este plan ya preparado. No debes copiarlo ni crear otro: lo usarás en la simulación y completarás solamente el dato que la retroalimentación permita mejorar.' },
+        { icon: 'ClipboardList', body: '**Objetivo:** poner 20 libros en circulación en el grado.\n\n**Actividad 1:** registrar los libros. **Responsable:** comisión de lectura. **Fecha:** lunes.\n\n**Actividad 2:** preparar la caja de intercambio. **Responsable:** comisión de materiales. **Fecha:** pendiente.\n\n**Presupuesto ilustrativo:** etiqueta, Q2; cinta, Q2; caja reutilizada, Q0. **Total:** Q4.\n\n**Etiqueta:** pendiente.' },
       ),
       S.write(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.3.1'], ambito: 'hacer', title: 'Etiqueta visual concisa',
-          prompt: 'Escribe una **etiqueta visual de 5 a 8 palabras** para identificar tu proyecto en el plan.' },
+        { id: 's06-pyd-1-5', fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.3.1'], ambito: 'hacer', title: 'Etiqueta visual concisa',
+          prompt: 'Escribe una **etiqueta visual de 5 a 8 palabras** para identificar el plan suministrado.' },
         { minWords: 5, placeholder: 'Libros que circulan en nuestro grado',
-          model: 'Semillas locales para nuestro huerto escolar',
+          model: 'Libros compartidos para aprender juntos',
           rubric: ['Nombra el proyecto con claridad', 'Tiene entre 5 y 8 palabras'] },
       ),
       S.project(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.3.1'], ambito: 'emprender', title: 'Mini feria: una interacción y una mejora',
-          prompt: 'Realiza una **simulación individual** de mini feria con los roles y la retroalimentación simulada suministrados. Hacerla por pareja es una extensión opcional.' },
-        { goal: 'Realizar una presentación, interpretar retroalimentación útil y mejorar un campo de manera individual.',
+        { id: 's06-pyd-1-6', fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.3.1'], ambito: 'emprender', title: 'Mini feria: una interacción y una mejora',
+          prompt: 'Realiza una **simulación individual** con el plan y los roles suministrados. La práctica por pareja es una extensión opcional, no requerida.' },
+        { goal: 'Interpretar retroalimentación útil y mejorar un solo campo del plan suministrado.',
           steps: [
-            { title: 'Rol expositor', detail: 'Lee tu objetivo, dos acciones y costo total en 20 segundos.' },
-            { title: 'Rol visitante suministrado', detail: 'Lee esta tarjeta en otra voz: “La segunda actividad no tiene fecha. ¿Cuándo la realizarás?”' },
-            { title: 'Registrar y revisar', detail: 'Anota la retroalimentación simulada, revisa un campo y agrega una fecha viable a la segunda actividad.' },
-            { title: 'Extensión opcional', detail: 'Los roles cambian dentro de la simulación individual. Si hay una pareja disponible, intercambien una pregunta adicional; no es requisito para completar la actividad.' },
+            { title: 'Presentar', detail: 'Lee el objetivo, las dos actividades y el total de Q4 en 20 segundos.' },
+            { title: 'Cambiar de rol', detail: 'Los roles cambian dentro de la simulación individual. Formula una pregunta suministrada en la voz de la visitante: “La segunda actividad no tiene fecha. ¿Cuándo la realizarás?”' },
+            { title: 'Mejorar un campo', detail: 'Registra la retroalimentación “falta fecha” y revisa un campo: agrega “viernes” a la actividad 2.' },
           ],
-          evidence: 'Lista de cotejo: la frase suministrada anotada y la fecha revisada en el papel; la actividad no captura el artefacto.',
-          rubric: ['Presenté en 20 segundos', 'Representé ambos roles suministrados', 'Registré la frase', 'Agregué una fecha a partir de la retroalimentación'] },
+          evidence: 'Lista de cotejo: la app registra los tres pasos; la nota “falta fecha” y la revisión “viernes” quedan en el cuaderno y no se capturan.',
+          rubric: ['Presenté el plan suministrado en 20 segundos', 'Representé los dos roles suministrados', 'Registré la frase y agregué una fecha'] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.3.1'], ambito: 'emprender',
-          prompt: 'Transferencia independiente: en una mini feria, una visitante señala que la actividad 2 no tiene fecha. ¿Qué evidencia demuestra que la retroalimentación mejoró el proyecto?' },
+        { id: 's06-pyd-1-7', fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.3.1'], ambito: 'emprender',
+          prompt: 'Transferencia independiente: en otra mini feria, un proyecto tiene actividad y fecha, pero no responsable. ¿Qué revisión mejora ese proyecto?' },
         { options: [
-          { id: 'a', text: 'La observación quedó anotada y la actividad 2 ahora indica “viernes”' },
-          { id: 'b', text: 'La presentación duró más tiempo, pero el plan quedó igual' },
-          { id: 'c', text: 'La persona expositora agradeció, pero borró la actividad 2' },
+          { id: 'a', text: 'Agregar “comisión de lectura” como responsable' },
+          { id: 'b', text: 'Cambiar el color de la etiqueta' },
+          { id: 'c', text: 'Aumentar el costo total sin explicación' },
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:4.3.1'], prompt: 'Boleto de salida: una visitante pregunta quién hará la segunda actividad. ¿Qué acción muestra que la presentación ayudó a mejorar el proyecto?' },
+        { id: 's06-pyd-1-8', fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:4.3.1'], prompt: 'Boleto de salida: una visitante pregunta quién hará la segunda actividad. ¿Qué acción muestra que la presentación ayudó a mejorar el proyecto?' },
         { options: [
           { id: 'a', text: 'Anotar la pregunta y precisar el responsable en el plan' },
           { id: 'b', text: 'Cambiar el color del título sin revisar el plan' },
@@ -110,7 +101,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:4.3.1'], prompt: 'Evalúa la conducta de una persona visitante durante un turno breve.' },
+        { id: 's06-pyd-1-9', fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:4.3.1'], prompt: 'Evalúa la conducta de una persona visitante durante un turno breve.' },
         { statements: [
           { text: 'Escucha sin interrumpir hasta que termina la explicación.', answer: true },
           { text: 'Pregunta por un dato del plan con lenguaje respetuoso.', answer: true },

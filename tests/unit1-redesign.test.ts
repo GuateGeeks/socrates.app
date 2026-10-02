@@ -4274,16 +4274,20 @@ test('PyD Semana 6 completa un plan en papel sin prometer un canvas disponible e
   assert.doesNotMatch(text, /canvas|plantilla preparada|plantilla impresa/);
   assert.doesNotMatch(text, /stand|cartel para|demostracion|maqueta|explicacion de un minuto|practica tu explicacion|ensay/);
   assert.ok(!lesson.steps.some((step) => step.type === 'chart-builder'), 'El canvas no requiere una grafica preliminar');
-  const plan = lesson.steps.find((step) => step.type === 'project');
-  assert.ok(plan, 'Falta el plan aplicado');
+  const plan = lesson.steps.find((step) => step.id === 's06-pyd-1-4' && step.type === 'explain');
+  assert.ok(plan, 'Falta el plan suministrado');
   const planText = normalizeFactText(JSON.stringify(plan));
   for (const field of [/objetivo/, /actividad 1/, /actividad 2/, /responsable/, /fecha/, /presupuesto/]) assert.match(planText, field);
+  assert.match(planText, /fecha.{0,20}pendiente/);
+  assert.match(planText, /total.{0,10}q4/);
+  assert.match(planText, /no debes copiarlo ni crear otro/);
   const label = lesson.steps.find((step) => step.type === 'short-answer'
     && /etiqueta|label/.test(normalizeFactText(`${step.title ?? ''} ${step.prompt}`)));
   assert.ok(label, 'Falta una etiqueta visual concisa');
   assert.ok(Number((label.props as { minWords?: number }).minWords ?? 99) <= 8, 'La etiqueta debe ser concisa');
   assert.match(text, /20 segundos|20 second|lista de cotejo|checklist/);
-  assert.ok(lesson.steps.findIndex((step) => step.type === 'project') <= 3, 'El plan empieza demasiado tarde');
+  assert.ok(lesson.steps.findIndex((step) => step.id === plan.id) <= 3, 'El plan suministrado empieza demasiado tarde');
+  assert.equal(lesson.steps.filter((step) => step.type === 'project').length, 1, 'Solo la simulacion debe ser proyecto requerido');
 });
 
 test('PyD Semana 6 modela y evalua una mini feria con retroalimentacion y revision acotadas', () => {
@@ -5785,4 +5789,30 @@ test('Las practicas externas señaladas tienen una ruta individual autosuficient
     && /fragmento suministrado/.test(normalizeFactText(step.prompt)));
   assert.ok(suppliedListening, 'Arte debe escribir desde el fragmento suministrado');
   assert.match(normalizeFactText(JSON.stringify(suppliedListening.props)), /chirimia.{0,80}tambor|tambor.{0,80}chirimia/);
+});
+
+test('Las practicas individuales extensas tienen una sola produccion requerida y carga viable', () => {
+  const ids = ['s01-l1-3', 's04-art-1', 's06-pyd-1'];
+  for (const id of ids) {
+    const lesson = unitWeeks.flatMap((week) => week.lessons).find((item) => item.id === id);
+    assert.ok(lesson, `Falta ${id}`);
+    const load = lessonWorkload(lesson);
+    if (load.longResponse) {
+      assert.ok(lesson.steps.length <= 8, `${id}: respuesta extensa distribuida entre ${lesson.steps.length} pantallas`);
+    }
+    assert.equal(load.overloadedWriting, false, `${id}: escritura sobrecargada`);
+    assert.equal(load.overloadedProduction, false, `${id}: produccion sobrecargada`);
+    assert.ok(load.complexity <= lesson.minutes * 2 - 2, `${id}: complejidad ${load.complexity.toFixed(2)}`);
+
+    const requiredProductions = lesson.steps.filter((step) => step.fase === 'aplicar' && (
+      step.type === 'project'
+      || (step.type === 'short-answer' && Number((step.props as { minWords?: number }).minWords ?? 0) >= 20)
+    ));
+    assert.ok(requiredProductions.length <= 1, `${id}: ${requiredProductions.length} producciones sustantivas requeridas`);
+    for (const step of requiredProductions.filter((item) => item.type === 'short-answer')) {
+      const prompt = normalizeFactText(step.prompt);
+      assert.doesNotMatch(prompt, /(?:luego|despues).{0,80}(?:ensay|practica|presenta|actua)/,
+        `${step.id}: combina escritura extensa con otra practica requerida`);
+    }
+  }
 });
