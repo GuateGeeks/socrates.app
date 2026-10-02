@@ -5816,3 +5816,30 @@ test('Las practicas individuales extensas tienen una sola produccion requerida y
     }
   }
 });
+
+test('L1 2.1.6 exige una representacion oral individual breve dentro de la tarea acotada', () => {
+  const lesson = unitWeeks.flatMap((week) => week.lessons).find((item) => item.id === 's01-l1-3');
+  assert.ok(lesson, 'Falta s01-l1-3');
+  const performance = lesson.steps.find((step) => step.id === 's01-l1-3-8');
+  assert.ok(performance && performance.type === 'short-answer', 'Falta la evidencia historica s01-l1-3-8');
+  assert.equal(Number((performance.props as { minWords?: number }).minWords), 50);
+
+  const prompt = normalizeFactText(performance.prompt);
+  const rubric = normalizeFactText(JSON.stringify((performance.props as { rubric?: string[] }).rubric ?? []));
+  assert.match(prompt, /dentro de (?:esos|los) 6 minutos|reserva.{0,40}(?:20|30) segundos/);
+  assert.match(prompt, /(?:20 a 30|20 30) segundos/);
+  assert.match(prompt, /autoensayo individual|en solitario/);
+  for (const requiredResource of [/voz|pausa|volumen/, /gesto/, /mirada/, /movimiento/]) {
+    assert.match(prompt, requiredResource, `El prompt no exige ${requiredResource}`);
+    assert.match(rubric, requiredResource, `La rubrica no verifica ${requiredResource}`);
+  }
+  assert.doesNotMatch(prompt, /opcional|si quieres|puedes/);
+  assert.match(normalizeFactText(JSON.stringify(lesson)), /familiar.{0,80}opcional/);
+
+  const load = lessonWorkload(lesson);
+  assert.equal(load.overloadedWriting, false);
+  assert.equal(load.overloadedProduction, false);
+  assert.ok(load.complexity <= lesson.minutes * 2 - 2, `Complejidad ${load.complexity.toFixed(2)}`);
+  assert.equal(lesson.steps.filter((step) => step.fase === 'aplicar'
+    && (step.type === 'project' || step.type === 'short-answer')).length, 1);
+});

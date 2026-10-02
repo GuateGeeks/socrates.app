@@ -387,8 +387,8 @@ export default [
       ),
       S.write(
         { id: 's01-l1-3-8', fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], ambito: 'hacer',
-          prompt: 'En 6 minutos, **completa el inicio que ya escribiste en la lección 1** hasta formar un guion de al menos 50 palabras para **"Nuestro lugar en mapas y palabras"**: inicio, dos ideas y cierre. Anota un recurso de voz y dos gestos; no copies de nuevo el inicio.',
-          explain: 'Extensión opcional, no requerida para completar la lección: haz después un autoensayo de un minuto.' },
+          prompt: 'Dentro de los 6 minutos, **completa el inicio que ya escribiste en la lección 1** hasta formar un guion de al menos 50 palabras para **"Nuestro lugar en mapas y palabras"**: inicio, dos ideas y cierre. No copies de nuevo el inicio. Reserva los últimos **20 a 30 segundos** para un **autoensayo individual en solitario** del inicio: usa un recurso de voz, un gesto, una mirada intencional y un movimiento breve.',
+          explain: 'La representación breve es parte de esta misma tarea: no requiere otra persona, materiales ni grabación.' },
         { minWords: 50, placeholder: 'Inicio: … (recurso)\nIdea 1: … (recurso)\nIdea 2: …\nCierre: …',
           model: 'Inicio: "¿Sabían que desde mi casa se ven tres volcanes?" (Pausa, señalo la ventana.)\nIdea 1: "Vivo en Antigua Guatemala, una ciudad de calles empedradas." (Muestro una foto.)\nIdea 2: "Cada mañana miro el Volcán de Agua: si tiene nubes, mi abuela dice que va a llover." (Cara de duda, sonrío.)\nIdea 3: "En Semana Santa las calles se llenan de alfombras de aserrín de colores." (Abro los brazos.)\nCierre: "Mi lugar es pequeño, pero desde él se ven gigantes." (Paso al frente, voz más lenta.)',
           rubric: [
@@ -397,6 +397,7 @@ export default [
             'Anoté al menos dos recursos de cuerpo (gesto, mirada, movimiento)',
             'Los gestos acompañan lo que digo',
             'Reutilicé el inicio previo sin copiarlo de nuevo',
+            'Representé en solitario el inicio durante 20 a 30 segundos usando voz, un gesto, una mirada intencional y un movimiento breve',
           ] },
       ),
       S.choice(
