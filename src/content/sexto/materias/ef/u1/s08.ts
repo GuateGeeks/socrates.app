@@ -117,7 +117,7 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.7'], ambito: 'convivir',
-          prompt: 'Lee la ficha suministrada de **Doña Blanca** y escribe una adaptación segura para poco espacio: regla, movimiento, señal de pausa y habilidad que conserva.' },
+          prompt: 'Lee la ficha suministrada de **Doña Blanca** sobre el juego tradicional de ronda con palmas y escribe una adaptación segura para poco espacio: regla, movimiento, señal de pausa y habilidad que conserva.' },
         { minWords: 24, placeholder: 'Regla adaptada... Movimiento... Señal de pausa... Conserva la habilidad de...',
           model: 'El grupo marca el círculo sin jalarse. Camina cuatro pasos con palmas y se detiene al oír “pausa”. Quien está afuera señala un espacio sin empujar. Conserva ritmo, orientación y cooperación.',
           rubric: ['No incluye jalones ni empujones', 'Define señal de pausa', 'Explica la habilidad practicada'] },

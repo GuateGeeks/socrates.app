@@ -30,11 +30,14 @@ import shortAnswer from './short-answer';
 import flashcards from './flashcards';
 import project from './project';
 import lowActivityMode from './low-activity-mode';
+import leadershipSimulation from './leadership-simulation';
+import culturalConservationPractice from './cultural-conservation-practice';
 
 export const ACTIVITIES = [
   explain, workedExample, choice, sort, order, match, mayaNumber, numberInput, slider, symmetryLoom,
   polygonLab, coordinateMap, chartBuilder, rhythm, pulseLab, dilemma, recipeScaler, reflection,
   trueFalse, fillBlank, highlight, reading, shortAnswer, flashcards, project, lowActivityMode,
+  leadershipSimulation, culturalConservationPractice,
 ];
 
 let done = false;

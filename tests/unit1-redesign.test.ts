@@ -4950,10 +4950,10 @@ function semanticSequenceFailures(
   matches: (ref: string, value: unknown) => boolean,
 ): string[] {
   const failures: string[] = [];
-  const graded = lesson.steps
+  const assessed = lesson.steps
     .map((step, index) => ({ step, index }))
-    .filter(({ step }) => Boolean(getActivity(step.type)?.graded));
-  for (const { step, index } of graded) {
+    .filter(({ step }) => Boolean(getActivity(step.type)?.graded || getActivity(step.type)?.recordsEvidence));
+  for (const { step, index } of assessed) {
     if (step.fase === 'explorar') failures.push(`${lesson.id}: explorar calificado ${index + 1}`);
     for (const ref of step.cnb) {
       if (!matches(ref, step)) {
@@ -4965,12 +4965,15 @@ function semanticSequenceFailures(
       if (!taught) failures.push(`${lesson.id}: ${ref} sin ensenanza previa al paso ${index + 1}`);
     }
   }
-  for (const ref of new Set(graded.flatMap(({ step }) => step.cnb))) {
-    const guided = graded.some(({ step }) => step.fase === 'construir' && step.cnb.includes(ref)
-      && Boolean(step.hint) && Boolean(step.explain) && matches(ref, step));
-    const transfer = graded.some(({ step }) => step.fase === 'aplicar' && step.cnb.includes(ref)
+  for (const ref of new Set(assessed.flatMap(({ step }) => step.cnb))) {
+    const composite = assessed.some(({ step }) => step.cnb.includes(ref) && getActivity(step.type)?.compositeEvidence);
+    const guided = assessed.some(({ step }) => step.fase === 'construir' && step.cnb.includes(ref)
+      && Boolean(step.hint) && Boolean(step.explain) && matches(ref, step))
+      || composite && lesson.steps.some((step) => step.fase === 'construir' && INSTRUCTION_TYPES.has(step.type)
+        && step.cnb.includes(ref) && matches(ref, step));
+    const transfer = assessed.some(({ step }) => step.fase === 'aplicar' && step.cnb.includes(ref)
       && !step.hint && matches(ref, step));
-    const exits = graded.filter(({ step }) => step.fase === 'comprobar' && step.cnb.includes(ref)
+    const exits = assessed.filter(({ step }) => step.fase === 'comprobar' && step.cnb.includes(ref)
       && !step.hint && !step.explain && matches(ref, step));
     if (!guided) failures.push(`${lesson.id}: ${ref} sin guia con retroalimentacion`);
     if (!transfer) failures.push(`${lesson.id}: ${ref} sin aplicacion independiente`);
@@ -5060,8 +5063,10 @@ test('Semana 8 usa exactamente el plan y una secuencia viable por leccion', () =
     if (lesson.objetivos?.length !== 1) issues.push(`${lesson.id}: ${lesson.objetivos?.length ?? 0} objetivos`);
     if (lesson.minutes < 10 || lesson.minutes > 15) issues.push(`${lesson.id}: ${lesson.minutes} minutos`);
     if (lesson.steps.length < 9 || lesson.steps.length > 14) issues.push(`${lesson.id}: ${lesson.steps.length} pasos`);
-    const transfer = lesson.steps.some((step) => step.fase === 'aplicar' && getActivity(step.type)?.graded && !step.hint);
-    const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded && !step.hint && !step.explain);
+    const transfer = lesson.steps.some((step) => step.fase === 'aplicar'
+      && (getActivity(step.type)?.graded || getActivity(step.type)?.recordsEvidence) && !step.hint);
+    const exits = lesson.steps.filter((step) => step.fase === 'comprobar'
+      && (getActivity(step.type)?.graded || getActivity(step.type)?.recordsEvidence) && !step.hint && !step.explain);
     if (!transfer) issues.push(`${lesson.id}: sin aplicacion independiente`);
     if (exits.length < 2) issues.push(`${lesson.id}: ${exits.length} salidas frescas`);
     return issues;
@@ -5111,9 +5116,8 @@ function proceduralEvidenceMatches(ref: string, value: unknown): boolean {
   const text = normalizeFactText(JSON.stringify(value));
   if (ref === 'art:4.3.2') return /(?:publica|comparte|guarda).{0,100}(?:biograf|vida|obra).{0,100}fuente|ficha biografica.{0,100}(?:publicada|visible|guardada)/.test(text);
   if (ref === 'ef:4.2.3') return /(?:dirige|lidera|explica).{0,100}(?:regla|rutina|secuencia).{0,100}(?:adaptacion|seguridad|rol)|(?:instruccion|regla).{0,100}(?:adaptacion|seguridad).{0,100}(?:rol|secuencia)/.test(text);
-  if (ref === 'pyd:5.5.2') return ((value as { type?: string })?.type === 'low-activity-mode'
-    && /ejecuta|aplica|activa|mantener/.test(text) && /modo de baja actividad/.test(text) && /verifica|comprueba/.test(text))
-    || /(?:activa|habilita|aplica|ejecuta).{0,100}(?:modo de baja actividad|sonido opcional|movimiento reducido).{0,140}(?:verifica|comprueba|restaura)|(?:verifica|comprueba).{0,100}(?:sonido opcional|movimiento reducido).{0,100}(?:restaura|reversible|estado anterior)/.test(text);
+  if (ref === 'pyd:5.5.2') return /familia|comunidad|cultura/.test(text) && /recurso natural/.test(text)
+    && /antes/.test(text) && /accion|active|realice|ejecut/.test(text) && /despues|verifi/.test(text);
   if (ref === 'ccss:8.4.1') return /(?:clasifica|aplica|decide|ubica).{0,100}(?:constitucion|ley|reglamento|norma|responsabilidad)|(?:constitucion|ley|reglamento).{0,100}(?:deber|responsabilidad|crear impuestos|contradecir)/.test(text);
   return false;
 }
@@ -5122,9 +5126,12 @@ function hasProceduralInteractionCapability(ref: string, step: StepBase): boolea
   const text = normalizeFactText(JSON.stringify(step));
   if (ref === 'art:4.3.2') return step.type === 'short-answer'
     && /publica|comparte/.test(text) && /biograf/.test(text) && /fuente/.test(text);
-  if (ref === 'ef:4.2.3') return step.type === 'short-answer'
-    && /dirige|lidera/.test(text) && /instruccion|regla|secuencia/.test(text) && /seguridad|adaptacion/.test(text);
-  if (ref === 'pyd:5.5.2') return step.type === 'low-activity-mode';
+  if (ref === 'ef:4.2.3') return step.type === 'leadership-simulation'
+    && /instruccion|regla|secuencia/.test(text) && /seguridad|adaptacion/.test(text)
+    && /mujer|hombre|nina|nino/.test(text) && /rotar|altern/.test(text);
+  if (ref === 'pyd:5.5.2') return step.type === 'cultural-conservation-practice'
+    && /familia|comunidad|cultura/.test(text) && /recurso natural/.test(text)
+    && /antes/.test(text) && /accion/.test(text) && /despues/.test(text);
   if (ref === 'ccss:8.4.1') return proceduralEvidenceMatches(ref, step);
   return false;
 }
@@ -5139,6 +5146,8 @@ test('La evidencia procedimental rechaza palabras clave sin accion demostrable',
   assert.equal(hasProceduralInteractionCapability('art:4.3.2', recognition('Publica una ficha biografica con fuente.')), false);
   assert.equal(hasProceduralInteractionCapability('ef:4.2.3', recognition('Lidera una secuencia con adaptacion segura.')), false);
   assert.equal(hasProceduralInteractionCapability('pyd:5.5.2', recognition('Ejecuta una practica de conservacion.')), false);
+  assert.equal(hasProceduralInteractionCapability('ef:4.2.3', { ...recognition('Planifica liderazgo'), type: 'short-answer' }), false);
+  assert.equal(hasProceduralInteractionCapability('pyd:5.5.2', { ...recognition('Activa el modo'), type: 'low-activity-mode' }), false);
 });
 
 test('Arte, EF, PyD y CCSS2 producen evidencia procedimental independiente y revisable', () => {
@@ -5154,7 +5163,7 @@ test('Arte, EF, PyD y CCSS2 producen evidencia procedimental independiente y rev
     assert.match(normalizeFactText((lesson.objetivos ?? []).join(' ')), verb);
     const application: StepBase[] = lesson.steps.filter((step: StepBase) => step.fase === 'aplicar' && step.cnb.includes(ref));
     assert.ok(application.some((step) => proceduralEvidenceMatches(ref, step)), `${id}: aplicacion no procedimental`);
-    if (ref !== 'ccss:8.4.1') assert.ok(application.some((step) => step.type === 'short-answer'), `${id}: sin evidencia guardada`);
+    if (ref !== 'ccss:8.4.1') assert.ok(application.some((step) => getActivity(step.type)?.recordsEvidence), `${id}: sin evidencia guardada`);
     const exits: StepBase[] = lesson.steps.filter((step: StepBase) => step.fase === 'comprobar' && step.cnb.includes(ref));
     assert.equal(exits.length, 2, `${id}: salidas`);
     assert.ok(exits.every((step) => proceduralEvidenceMatches(ref, step)), `${id}: salida de reconocimiento`);
@@ -5186,8 +5195,8 @@ test('Arte 1 prepara la investigacion sin acreditar publicacion y Arte 2 conserv
   const artTwo = weekEight.lessons.find((lesson) => lesson.id === 's08-art-2');
   assert.ok(artOne && artTwo);
   assert.equal(artOne.preparatory, true, 'Arte 1 debe declarar explícitamente que solo prepara la publicación');
-  assert.ok(artOne.steps.every((step) => !step.cnb.includes('art:4.3.2')),
-    'La investigacion preparatoria no es publicacion');
+  assert.ok(artOne.steps.every((step) => step.cnb.length === 0),
+    'La investigación preparatoria no acredita referencias CNB propias ni extranjeras');
   const teaching = artTwo.steps.filter((step) => !getActivity(step.type)?.graded && step.cnb.includes('art:4.3.2'));
   const application = artTwo.steps.filter((step) => step.fase === 'aplicar' && step.cnb.includes('art:4.3.2'));
   const exits = artTwo.steps.filter((step) => step.fase === 'comprobar' && step.cnb.includes('art:4.3.2'));
@@ -5299,14 +5308,9 @@ test('PyD ejecuta y verifica una practica real, reversible y persistida de baja 
   assert.match(applicationText, /movimiento reducido/);
   assert.match(applicationText, /activa|habilita|aplica|ejecuta/);
   assert.match(applicationText, /verifica|comprueba/);
-  assert.match(applicationText, /restaura|reversible|estado anterior/);
-  assert.match(applicationText, /ya esta activo/);
-  assert.match(applicationText, /25 segundos/);
-  assert.match(applicationText, /mantenimiento/);
-  assert.match(applicationText, /instantanea identica.{0,80}no/);
   assert.doesNotMatch(applicationText, /garantiza|garantizado|ahorraremos|ahorro de \d|visita|entrevista|centro comunitario|sobre de semillas/);
-  assert.ok(application.some((step) => step.type === 'low-activity-mode'), 'Falta la acción ejecutable en la app');
-  const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
+  assert.ok(application.some((step) => step.type === 'cultural-conservation-practice'), 'Falta la acción cultural ejecutable y revisable');
+  const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.recordsEvidence);
   assert.equal(exits.length, 2);
   assert.ok(exits.every((step) => proceduralEvidenceMatches('pyd:5.5.2', step)));
 });
@@ -5320,28 +5324,29 @@ test('PyD vincula una practica cultural respetuosa, un recurso natural y la acci
   assert.match(objective, /conserv/);
   const text = normalizeFactText(JSON.stringify(lesson));
   assert.match(text, /ejemplo didactico suministrado|ejemplo suministrado/);
-  assert.match(text, /no afirmes|sin afirmar|no supone.{0,40}(?:familia|comunidad|cultura)/);
+  assert.match(text, /no (?:otorga|demuestra|acredita).{0,80}(?:indicador|dominio)|no afirmes|sin afirmar/);
   assert.match(text, /recurso natural/);
   assert.match(text, /adaptacion contemporanea|accion contemporanea/);
   const application = lesson.steps.filter((step) => step.fase === 'aplicar');
-  const culturalArtifact = application.find((step) => step.type === 'short-answer');
-  const action = application.find((step) => step.type === 'low-activity-mode');
-  assert.ok(culturalArtifact && action);
-  assert.ok(lesson.steps.indexOf(culturalArtifact) < lesson.steps.indexOf(action), 'El vinculo cultural debe preceder la ejecucion');
+  const culturalArtifact = application.find((step) => step.type === 'cultural-conservation-practice');
+  assert.ok(culturalArtifact);
   const artifactText = normalizeFactText(JSON.stringify(culturalArtifact));
-  assert.match(artifactText, /familia|comunidad|cultura/);
-  assert.match(artifactText, /ejemplo suministrado/);
-  assert.match(artifactText, /recurso natural/);
-  assert.match(artifactText, /modo de baja actividad/);
-  const guided = lesson.steps.filter((step) => step.fase === 'construir' && getActivity(step.type)?.graded);
+  for (const field of [/familia|comunidad|cultura/, /practica.{0,60}(?:realmente|genuinamente) conoc/, /recurso natural/, /antes/, /accion/, /despues/, /revision docente/]) {
+    assert.match(artifactText, field);
+  }
+  assert.match(artifactText, /necesito consultar/);
+  assert.doesNotMatch(artifactText, /ejemplo suministrado.{0,120}(?:demuestra|acredita|dominio)/);
+  const taggedRecognition = lesson.steps.filter((step) => getActivity(step.type)?.graded && step.cnb.includes('pyd:5.5.2'));
+  assert.deepEqual(taggedRecognition, [], 'El reconocimiento genérico no puede acreditar pyd:5.5.2');
+  const guided = lesson.steps.filter((step) => step.fase === 'construir' && INSTRUCTION_TYPES.has(step.type));
   assert.ok(guided.some((step) => /cultura|familia|comunidad/.test(normalizeFactText(JSON.stringify(step)))
     && /recurso natural/.test(normalizeFactText(JSON.stringify(step)))));
   const exits = lesson.steps.filter((step) => step.fase === 'comprobar');
   assert.equal(exits.length, 2);
   assert.ok(exits.every((step) => {
     const exit = normalizeFactText(JSON.stringify(step));
-    return /cultura|familia|comunidad|ejemplo suministrado/.test(exit)
-      && /recurso natural/.test(exit) && /modo de baja actividad|sonido opcional|movimiento reducido/.test(exit);
+    return Boolean(getActivity(step.type)?.recordsEvidence) && /cultura|familia|comunidad/.test(exit) && /recurso natural/.test(exit)
+      && /antes/.test(exit) && /accion/.test(exit) && /despues/.test(exit);
   }));
   assert.doesNotMatch(text, /(?:promete|asegura) un ahorro|ahorro de \d|ahorra \d/);
 });

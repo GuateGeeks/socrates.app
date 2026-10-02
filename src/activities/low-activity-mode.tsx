@@ -3,9 +3,12 @@ import { defineActivity } from '@/core/registry';
 import type { ActivityProps, StepStatus } from '@/core/types';
 import {
   activateLowActivityMode,
+  __lowActivityTest,
   completeLowActivityMaintenance,
   getProgress,
+  hasLiveLowActivityProof,
   isLowActivityMode,
+  lowActivityMaintenanceRemaining,
   LOW_ACTIVITY_MAINTENANCE_MS,
   restoreLowActivityMode,
   startLowActivityMaintenance,
@@ -56,7 +59,7 @@ export function lowActivityValueFromReceipt(receipt: LowActivityPracticeReceipt)
     after: { ...receipt.after },
     startedAt: receipt.startedAt,
     ...(receipt.completedAt !== undefined
-      ? { completedAt: receipt.completedAt, elapsedMs: receipt.completedAt - receipt.startedAt }
+      ? { completedAt: receipt.completedAt, elapsedMs: receipt.elapsedMs ?? receipt.completedAt - receipt.startedAt }
       : {}),
     ...(receipt.restoredAt !== undefined ? { restoredAt: receipt.restoredAt } : {}),
     ...(receipt.restoredTo ? { restoredTo: { ...receipt.restoredTo } } : {}),
@@ -69,13 +72,14 @@ export function isValidLowActivityPractice(value: LowActivityModeValue | undefin
   const proof = progress.lowActivityPractice;
   if (!value?.performed || !value.verified || !proof || value.proofId !== proof.id
     || value.action !== proof.action || value.startedAt !== proof.startedAt
-    || value.completedAt !== proof.completedAt || value.restoredAt !== proof.restoredAt
+    || value.completedAt !== proof.completedAt || value.elapsedMs !== (proof.elapsedMs ?? proof.completedAt! - proof.startedAt)
+    || value.restoredAt !== proof.restoredAt
     || value.restored !== proof.restored || value.maintenanceCompleted !== proof.maintenanceCompleted
     || !sameSnapshot(value.before, proof.before) || !sameSnapshot(value.after, proof.after)
     || !sameSnapshot(value.restoredTo, proof.restoredTo)
     || !Number.isFinite(proof.startedAt) || proof.startedAt > now
     || proof.completedAt === undefined || !Number.isFinite(proof.completedAt) || proof.completedAt > now
-    || proof.completedAt < proof.startedAt) return false;
+    || proof.completedAt < proof.startedAt || !hasLiveLowActivityProof(proof)) return false;
 
   const current = { sound: progress.settings.sound, reducedMotion: progress.settings.reducedMotion };
   if (proof.action === 'activation') {
@@ -91,8 +95,8 @@ export function isValidLowActivityPractice(value: LowActivityModeValue | undefin
 
   return value.active && !value.restored && proof.maintenanceCompleted
     && isLowActivityMode(proof.before) && isLowActivityMode(proof.after) && isLowActivityMode(current)
-    && proof.completedAt - proof.startedAt >= LOW_ACTIVITY_MAINTENANCE_MS
-    && value.elapsedMs === proof.completedAt - proof.startedAt;
+    && (proof.elapsedMs ?? 0) >= LOW_ACTIVITY_MAINTENANCE_MS
+    && value.elapsedMs === proof.elapsedMs;
 }
 
 export function canRestoreLowActivityPractice(status: StepStatus, value: Pick<LowActivityModeValue, 'action' | 'restored'> | undefined) {
@@ -121,21 +125,19 @@ function StatePanel({ title, snapshot }: { title: string; snapshot: LowActivityS
   );
 }
 
-function LowActivityMode({ props, value, onChange, status }: ActivityProps<LowActivityModeProps, LowActivityModeValue>) {
+export function LowActivityPracticeControl({ props, value, onChange, status }: ActivityProps<LowActivityModeProps, LowActivityModeValue>) {
   const settings = useProgress((p) => p.settings);
   const proof = useProgress((p) => p.lowActivityPractice);
   const current = { sound: settings.sound, reducedMotion: settings.reducedMotion };
   const locked = status === 'correct' || status === 'revealed';
   const [maintenanceProofId, setMaintenanceProofId] = useState<string | null>(() =>
-    proof?.action === 'maintenance' && !proof.maintenanceCompleted ? proof.id : null);
+    proof?.action === 'maintenance' && !proof.maintenanceCompleted && hasLiveLowActivityProof(proof) ? proof.id : null);
   const [clock, setClock] = useState(() => Date.now());
   const [announcement, setAnnouncement] = useState('');
   const [maintenanceInterrupted, setMaintenanceInterrupted] = useState(false);
   const maintaining = maintenanceProofId !== null;
-  const maintenanceStart = proof?.id === maintenanceProofId ? proof.startedAt : undefined;
-  const remainingSeconds = maintenanceStart === undefined
-    ? 0
-    : Math.max(0, Math.ceil((LOW_ACTIVITY_MAINTENANCE_MS - (clock - maintenanceStart)) / 1000));
+  const maintenanceRemaining = maintenanceProofId ? lowActivityMaintenanceRemaining(maintenanceProofId) : null;
+  const remainingSeconds = Math.ceil((maintenanceRemaining ?? 0) / 1000);
   const restoredNow = Boolean(value?.restored && sameSnapshot(current, value.before));
   const maintenanceComplete = value?.action === 'maintenance' && isValidLowActivityPractice(value);
 
@@ -146,20 +148,20 @@ function LowActivityMode({ props, value, onChange, status }: ActivityProps<LowAc
   }, [maintaining]);
 
   useEffect(() => {
-    if (!maintenanceProofId || maintenanceStart === undefined) return;
+    if (!maintenanceProofId || maintenanceRemaining === null) return;
     if (!isLowActivityMode(current) || proof?.id !== maintenanceProofId) {
       setMaintenanceProofId(null);
       setMaintenanceInterrupted(true);
       setAnnouncement('La práctica se interrumpió porque el modo dejó de estar activo.');
       return;
     }
-    if (clock - maintenanceStart < LOW_ACTIVITY_MAINTENANCE_MS) return;
+    if (maintenanceRemaining > 0) return;
     const completed = completeLowActivityMaintenance(maintenanceProofId);
     if (!completed) return;
     onChange(lowActivityValueFromReceipt(completed));
     setMaintenanceProofId(null);
     setAnnouncement('Mantenimiento completado y estado verificado.');
-  }, [clock, current.reducedMotion, current.sound, maintenanceProofId, maintenanceStart, onChange, proof?.id]);
+  }, [clock, current.reducedMotion, current.sound, maintenanceProofId, maintenanceRemaining, onChange, proof?.id]);
 
   const activate = () => {
     if (locked) return;
@@ -239,13 +241,24 @@ function LowActivityMode({ props, value, onChange, status }: ActivityProps<LowAc
   );
 }
 
+export function solveLowActivityForTest(): LowActivityModeValue {
+  const receipt = isLowActivityMode(getProgress().settings)
+    ? (() => {
+        const started = startLowActivityMaintenance();
+        return started ? __lowActivityTest.finishMaintenance(started.id) : null;
+      })()
+    : activateLowActivityMode();
+  if (!receipt) throw new Error('El resolvedor E2E requiere una práctica comprobable');
+  return lowActivityValueFromReceipt(receipt);
+}
+
 export default defineActivity<LowActivityModeProps, LowActivityModeValue>({
   type: 'low-activity-mode',
   label: 'Modo de baja actividad',
   icon: 'Gauge',
   description: 'Práctica reversible con comprobante persistido de activación o mantenimiento.',
   graded: true,
-  Component: LowActivityMode,
+  Component: LowActivityPracticeControl,
   isReady: (_props, value) => isValidLowActivityPractice(value),
   check: (_props, value) => ({
     correct: isValidLowActivityPractice(value),
@@ -257,14 +270,7 @@ export default defineActivity<LowActivityModeProps, LowActivityModeValue>({
     props.maintenanceLabel !== undefined && !props.maintenanceLabel.trim() ? 'etiqueta de mantenimiento vacía' : '',
     props.restoreLabel !== undefined && !props.restoreLabel.trim() ? 'etiqueta de restauración vacía' : '',
   ].filter(Boolean),
-  testSolve: () => {
-    const progress = getProgress();
-    if (isLowActivityMode(progress.settings) && progress.lowActivityPractice?.action === 'activation'
-      && !progress.lowActivityPractice.restored) restoreLowActivityMode(progress.lowActivityPractice.id);
-    const receipt = activateLowActivityMode();
-    if (!receipt) throw new Error('El resolvedor E2E requiere una activación comprobable');
-    return lowActivityValueFromReceipt(receipt);
-  },
+  testSolve: solveLowActivityForTest,
   example: {
     fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'],
     prompt: 'Activa y verifica el modo; si ya estaba activo, completa su mantenimiento durante 25 segundos.',

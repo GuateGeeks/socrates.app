@@ -172,6 +172,8 @@ export interface ActivityDefinition<P = any, A = any> {
   recordsEvidence?: boolean;
   /** Estado inicial de una evidencia abierta que no puede corregirse automáticamente. */
   evidenceMode?: 'journal-pending-review';
+  /** Una sola producción integra varias dimensiones del resultado; el validador ajusta el conteo, no la revisión. */
+  compositeEvidence?: boolean;
   Component: ComponentType<ActivityProps<P, A>>;
   /** ¿puede el niño pulsar "Comprobar"? */
   isReady?(props: P, value: A | undefined): boolean;

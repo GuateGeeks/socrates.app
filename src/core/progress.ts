@@ -54,6 +54,8 @@ export interface LowActivityPracticeReceipt {
   action: 'activation' | 'maintenance';
   startedAt: number;
   completedAt?: number;
+  /** Duración monotónica medida; el reloj de pared solo se conserva para auditoría. */
+  elapsedMs?: number;
   before: LowActivitySnapshot;
   after: LowActivitySnapshot;
   restored: boolean;
@@ -62,6 +64,24 @@ export interface LowActivityPracticeReceipt {
   maintenanceCompleted: boolean;
 }
 export const LOW_ACTIVITY_MAINTENANCE_MS = 25_000;
+
+interface LiveLowActivityProof {
+  receipt: LowActivityPracticeReceipt;
+  monotonicStartedAt: number;
+  monotonicCompletedAt?: number;
+}
+
+interface LowActivityClock {
+  wallNow(): number;
+  monotonicNow(): number;
+}
+
+const productionLowActivityClock: LowActivityClock = {
+  wallNow: () => Date.now(),
+  monotonicNow: () => globalThis.performance.now(),
+};
+let lowActivityClock = productionLowActivityClock;
+const liveLowActivityProofs = new Map<string, LiveLowActivityProof>();
 
 export interface Progress {
   version: 1;
@@ -230,6 +250,7 @@ function hydrateLowActivityPractice(value: unknown): LowActivityPracticeReceipt 
     || !isSnapshot(receipt.before) || !isSnapshot(receipt.after)
     || typeof receipt.restored !== 'boolean' || typeof receipt.maintenanceCompleted !== 'boolean') return undefined;
   const startedAt = receipt.startedAt as number;
+  let migratedElapsedMs = receipt.elapsedMs;
 
   if (receipt.action === 'activation') {
     if (!validTimestamp(receipt.completedAt, now) || receipt.completedAt! < startedAt
@@ -242,17 +263,30 @@ function hydrateLowActivityPractice(value: unknown): LowActivityPracticeReceipt 
     if (receipt.restored || receipt.restoredAt !== undefined || receipt.restoredTo !== undefined
       || !isLowActivityMode(receipt.before) || !isLowActivityMode(receipt.after)) return undefined;
     if (receipt.maintenanceCompleted) {
-      if (!validTimestamp(receipt.completedAt, now) || receipt.completedAt! - startedAt < LOW_ACTIVITY_MAINTENANCE_MS) return undefined;
+      if (!validTimestamp(receipt.completedAt, now)) return undefined;
+      if (typeof migratedElapsedMs !== 'number' || !Number.isFinite(migratedElapsedMs)) {
+        const legacyWallElapsed = receipt.completedAt! - startedAt;
+        if (legacyWallElapsed < LOW_ACTIVITY_MAINTENANCE_MS) return undefined;
+        migratedElapsedMs = legacyWallElapsed;
+      }
+      if (migratedElapsedMs < LOW_ACTIVITY_MAINTENANCE_MS) return undefined;
     } else if (receipt.completedAt !== undefined) return undefined;
   }
-  return structuredClone(receipt) as LowActivityPracticeReceipt;
+  const hydrated = structuredClone(receipt) as LowActivityPracticeReceipt;
+  if (receipt.action === 'maintenance' && receipt.maintenanceCompleted) hydrated.elapsedMs = migratedElapsedMs;
+  return hydrated;
 }
 
 let adapter: StorageAdapter = localStorageAdapter;
 let state: Progress = hydrate(adapter.load());
 const listeners = new Set<() => void>();
 
-export function setStorageAdapter(a: StorageAdapter) { adapter = a; state = hydrate(a.load()); emit(); }
+export function setStorageAdapter(a: StorageAdapter) {
+  adapter = a;
+  state = hydrate(a.load());
+  liveLowActivityProofs.clear();
+  emit();
+}
 function emit() { listeners.forEach((l) => l()); }
 export function getProgress(): Progress { return state; }
 export function updateProgress(fn: (p: Progress) => Progress) { state = fn(state); adapter.save(state); emit(); }
@@ -267,14 +301,31 @@ function lowActivityProofId(now: number) {
   return uuid ? `low-${uuid}` : `low-${now}-${Math.random().toString(36).slice(2)}`;
 }
 
+function sameLowActivityReceipt(a: LowActivityPracticeReceipt, b: LowActivityPracticeReceipt) {
+  return a.id === b.id && a.action === b.action && a.startedAt === b.startedAt
+    && a.completedAt === b.completedAt && a.elapsedMs === b.elapsedMs
+    && a.restored === b.restored && a.restoredAt === b.restoredAt
+    && a.maintenanceCompleted === b.maintenanceCompleted
+    && sameLowActivitySnapshot(a.before, b.before) && sameLowActivitySnapshot(a.after, b.after)
+    && (a.restoredTo === undefined ? b.restoredTo === undefined
+      : b.restoredTo !== undefined && sameLowActivitySnapshot(a.restoredTo, b.restoredTo));
+}
+
+/** A persisted receipt is audit history; only a helper-created proof in this JS session is authoritative. */
+export function hasLiveLowActivityProof(receipt: LowActivityPracticeReceipt): boolean {
+  const live = liveLowActivityProofs.get(receipt.id);
+  return Boolean(live && sameLowActivityReceipt(live.receipt, receipt));
+}
+
 /** Applies a modest, reversible local practice by reducing optional app activity. */
 export function activateLowActivityMode(): LowActivityPracticeReceipt | null {
   const before = currentLowActivitySnapshot();
   if (isLowActivityMode(before)) return null;
-  const startedAt = Date.now();
+  const startedAt = lowActivityClock.wallNow();
+  const monotonicStartedAt = lowActivityClock.monotonicNow();
   const after = { sound: false, reducedMotion: true };
   const receipt: LowActivityPracticeReceipt = {
-    id: lowActivityProofId(startedAt), action: 'activation', startedAt, completedAt: Date.now(),
+    id: lowActivityProofId(startedAt), action: 'activation', startedAt, completedAt: lowActivityClock.wallNow(),
     before, after, restored: false, maintenanceCompleted: false,
   };
   updateProgress((p) => ({
@@ -282,15 +333,20 @@ export function activateLowActivityMode(): LowActivityPracticeReceipt | null {
     settings: { ...p.settings, ...after },
     lowActivityPractice: receipt,
   }));
+  liveLowActivityProofs.set(receipt.id, {
+    receipt: structuredClone(receipt), monotonicStartedAt, monotonicCompletedAt: lowActivityClock.monotonicNow(),
+  });
   return structuredClone(receipt);
 }
 
 /** Restores only the settings changed by activateLowActivityMode. */
 export function restoreLowActivityMode(proofId: string): LowActivityPracticeReceipt | null {
   const receipt = state.lowActivityPractice;
-  if (!receipt || receipt.id !== proofId || receipt.action !== 'activation' || receipt.restored
+  const live = liveLowActivityProofs.get(proofId);
+  if (!receipt || !live || !sameLowActivityReceipt(live.receipt, receipt)
+    || receipt.id !== proofId || receipt.action !== 'activation' || receipt.restored
     || !sameLowActivitySnapshot(currentLowActivitySnapshot(), receipt.after)) return null;
-  const restoredAt = Date.now();
+  const restoredAt = lowActivityClock.wallNow();
   const restored: LowActivityPracticeReceipt = {
     ...receipt, restored: true, restoredAt, restoredTo: { ...receipt.before },
   };
@@ -299,34 +355,68 @@ export function restoreLowActivityMode(proofId: string): LowActivityPracticeRece
     settings: { ...p.settings, ...receipt.before },
     lowActivityPractice: restored,
   }));
+  live.receipt = structuredClone(restored);
   return structuredClone(restored);
 }
 
 export function startLowActivityMaintenance(): LowActivityPracticeReceipt | null {
   const before = currentLowActivitySnapshot();
   if (!isLowActivityMode(before)) return null;
-  const startedAt = Date.now();
+  const startedAt = lowActivityClock.wallNow();
+  const monotonicStartedAt = lowActivityClock.monotonicNow();
   const receipt: LowActivityPracticeReceipt = {
     id: lowActivityProofId(startedAt), action: 'maintenance', startedAt,
     before, after: { ...before }, restored: false, maintenanceCompleted: false,
   };
   updateProgress((p) => ({ ...p, lowActivityPractice: receipt }));
+  liveLowActivityProofs.set(receipt.id, { receipt: structuredClone(receipt), monotonicStartedAt });
   return structuredClone(receipt);
 }
 
 export function completeLowActivityMaintenance(proofId: string): LowActivityPracticeReceipt | null {
   const receipt = state.lowActivityPractice;
-  const now = Date.now();
+  const now = lowActivityClock.wallNow();
+  const monotonicNow = lowActivityClock.monotonicNow();
   const current = currentLowActivitySnapshot();
-  if (!receipt || receipt.id !== proofId || receipt.action !== 'maintenance' || receipt.maintenanceCompleted
-    || !isLowActivityMode(current) || now < receipt.startedAt
-    || now - receipt.startedAt < LOW_ACTIVITY_MAINTENANCE_MS) return null;
+  const live = liveLowActivityProofs.get(proofId);
+  if (!receipt || !live || !sameLowActivityReceipt(live.receipt, receipt)
+    || receipt.id !== proofId || receipt.action !== 'maintenance' || receipt.maintenanceCompleted
+    || !isLowActivityMode(current) || monotonicNow < live.monotonicStartedAt
+    || monotonicNow - live.monotonicStartedAt < LOW_ACTIVITY_MAINTENANCE_MS) return null;
   const completed: LowActivityPracticeReceipt = {
-    ...receipt, completedAt: now, after: current, maintenanceCompleted: true,
+    ...receipt, completedAt: now, elapsedMs: monotonicNow - live.monotonicStartedAt,
+    after: current, maintenanceCompleted: true,
   };
   updateProgress((p) => ({ ...p, lowActivityPractice: completed }));
+  live.receipt = structuredClone(completed);
+  live.monotonicCompletedAt = monotonicNow;
   return structuredClone(completed);
 }
+
+export function lowActivityMaintenanceRemaining(proofId: string): number | null {
+  const live = liveLowActivityProofs.get(proofId);
+  if (!live || live.receipt.action !== 'maintenance' || live.receipt.maintenanceCompleted) return null;
+  return Math.max(0, LOW_ACTIVITY_MAINTENANCE_MS - (lowActivityClock.monotonicNow() - live.monotonicStartedAt));
+}
+
+/** Explicit test support. Never accepts elapsed time through production helpers. */
+export const __lowActivityTest = {
+  setClock(clock: LowActivityClock) {
+    lowActivityClock = clock;
+    liveLowActivityProofs.clear();
+  },
+  finishMaintenance(proofId: string) {
+    const live = liveLowActivityProofs.get(proofId);
+    if (!live) return null;
+    live.monotonicStartedAt = lowActivityClock.monotonicNow() - LOW_ACTIVITY_MAINTENANCE_MS;
+    return completeLowActivityMaintenance(proofId);
+  },
+  clearSession() { liveLowActivityProofs.clear(); },
+  reset() {
+    lowActivityClock = productionLowActivityClock;
+    liveLowActivityProofs.clear();
+  },
+};
 
 export function isLowActivityMode(settings: Pick<Settings, 'sound' | 'reducedMotion'>): boolean {
   return !settings.sound && settings.reducedMotion;

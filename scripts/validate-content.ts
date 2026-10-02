@@ -24,6 +24,7 @@ import { MATERIA_UNITS } from '../src/content/sexto/materias/index';
 import { LECCIONES_POR_SEMANA, MATERIAS } from '../src/content/sexto/horario';
 import { WHEEL_CICLO_II } from '../src/cnb/model';
 import type { Lesson, Mission, StepBase, MediaSlot } from '../src/core/types';
+import { preparatoryLessonErrors } from '../src/core/content-validation';
 
 registerAll();
 const argv = process.argv.slice(2);
@@ -141,14 +142,15 @@ function checkMateria(w: Mission, l: Lesson, sid: string, where: string) {
   if (comprobar.length < 2) err(w, `${where} el boleto de salida necesita ≥2 pasos "comprobar"`);
   if (!preparatory && comprobar.some((s) => !isDeclaredAssessmentEvidence(s))) err(w, `${where} los pasos "comprobar" deben ser calificados o registrar evidencia del área`);
   const assessed = l.steps.filter(isDeclaredAssessmentEvidence).length;
-  if (!preparatory && assessed < 4) err(w, `${where} solo ${assessed} pasos con evidencia (mínimo 4: práctica + boleto)`);
+  const hasCompositeEvidence = l.steps.some((step) => getActivity(step.type)?.compositeEvidence && isDeclaredAssessmentEvidence(step));
+  const minimumEvidence = hasCompositeEvidence ? 3 : 4;
+  if (!preparatory && assessed < minimumEvidence) err(w, `${where} solo ${assessed} pasos con evidencia (mínimo ${minimumEvidence}: práctica + boleto)`);
   const foreign = l.steps.filter((s) => s.areas[0] !== a);
   if (foreign.length) err(w, `${where} ${foreign.length} pasos cuya área principal no es "${a}" (areas[0] debe ser la materia; otras áreas solo como secundarias)`);
   const ownAreaRefs = l.steps.some((s) => s.cnb.some((c) => c.startsWith(`${a}:`)));
   if (preparatory) {
-    if (ownAreaRefs) err(w, `${where} una lección preparatoria no puede acreditar referencias de ${a}`);
     const followedByEvidence = same.slice(k).some((next) => next.steps.some((s) => s.cnb.some((c) => c.startsWith(`${a}:`))));
-    if (!followedByEvidence) err(w, `${where} la preparación debe continuar en una lección posterior con evidencia de ${a}`);
+    for (const issue of preparatoryLessonErrors(l, followedByEvidence)) err(w, `${where} ${issue}`);
   } else if (!ownAreaRefs) err(w, `${where} no referencia contenidos de ${a}`);
   if ((l.resumen?.length ?? 0) < 2) err(w, `${where} resumen con menos de 2 ideas clave`);
 }

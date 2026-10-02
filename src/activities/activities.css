@@ -228,6 +228,12 @@
 .act-low__timer { display: flex; min-height: 44px; align-items: center; justify-content: center; gap: var(--sp-2); margin: 0; padding: var(--sp-2) var(--sp-3); border: 2px solid var(--c-line); border-radius: var(--r-md); font-weight: 700; text-align: center; }
 .act-low__locked { display: flex; min-height: 44px; align-items: center; justify-content: center; gap: var(--sp-2); margin: 0; padding: var(--sp-2) var(--sp-3); border: 2px solid var(--c-ok); border-radius: var(--r-md); background: var(--c-ok-soft); font-weight: 700; text-align: center; }
 @media (max-width: 520px) { .act-low__states { grid-template-columns: 1fr; } }
+.act-leadership__group { border: 1px solid var(--c-line); padding: var(--sp-2); }
+.act-leadership__group legend { font-weight: var(--fw-bold); padding: 0 var(--sp-1); }
+.act-leadership__option { display: flex; align-items: flex-start; gap: var(--sp-2); padding: var(--sp-2); cursor: pointer; }
+.act-leadership__option input { margin-top: 3px; }
+.act-leadership__response { display: flex; align-items: flex-start; gap: var(--sp-2); padding: var(--sp-3); border: 2px solid var(--c-ok); background: var(--c-ok-soft); }
+.act-cultural-practice textarea { min-height: 64px; }
 .ds-tile__emoji { display: grid; place-items: center; color: var(--c-jade); }
 .act-flip__emoji, .act-hero { color: var(--c-jade); display: grid; place-items: center; }
 

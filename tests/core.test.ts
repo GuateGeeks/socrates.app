@@ -14,6 +14,7 @@ import { isShortAnswerReady } from '../src/activities/short-answer';
 import { LEGACY_JOURNAL_REQUIREMENTS } from '../src/core/legacy-journal-requirements';
 import { HISTORICAL_JOURNAL_REQUIREMENTS } from './fixtures/legacy-journal-history';
 import * as progressCore from '../src/core/progress';
+import { preparatoryLessonErrors } from '../src/core/content-validation';
 
 registerAll();
 
@@ -81,6 +82,40 @@ test('actividad de baja actividad valida solo el valor que coincide con el compr
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
+test('un comprobante coherente inyectado desde almacenamiento no crea prueba viva de sesion', () => {
+  const def = getActivity('low-activity-mode')!;
+  const receipt = {
+    id: 'low-injected-audit', action: 'activation' as const, startedAt: 1_000, completedAt: 1_001,
+    before: { sound: true, reducedMotion: false }, after: { sound: false, reducedMotion: true },
+    restored: false, maintenanceCompleted: false,
+  };
+  const raw = { ...emptyProgress(), settings: { ...emptyProgress().settings, ...receipt.after }, lowActivityPractice: receipt };
+  setStorageAdapter({ load: () => raw, save: () => {} });
+  const value = { proofId: receipt.id, action: receipt.action, performed: true, verified: true, active: true,
+    restored: false, before: receipt.before, after: receipt.after, startedAt: receipt.startedAt,
+    completedAt: receipt.completedAt, elapsedMs: 1, maintenanceCompleted: false };
+  assert.equal(def.isReady?.({}, value), false);
+  assert.equal(def.check?.({}, value).correct, false);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('hidratacion conserva mantenimiento legacy como auditoria pero nunca como prueba viva', () => {
+  const def = getActivity('low-activity-mode')!;
+  const receipt = {
+    id: 'low-legacy-maintenance', action: 'maintenance' as const, startedAt: 1_000, completedAt: 26_000,
+    before: { sound: false, reducedMotion: true }, after: { sound: false, reducedMotion: true },
+    restored: false, maintenanceCompleted: true,
+  };
+  setStorageAdapter({ load: () => ({ ...emptyProgress(), settings: { ...emptyProgress().settings, ...receipt.after }, lowActivityPractice: receipt }), save: () => {} });
+  const hydrated = getProgress().lowActivityPractice;
+  assert.equal(hydrated?.elapsedMs, 25_000);
+  const value = { proofId: receipt.id, action: receipt.action, performed: true, verified: true, active: true,
+    restored: false, before: receipt.before, after: receipt.after, startedAt: receipt.startedAt,
+    completedAt: receipt.completedAt, elapsedMs: 25_000, maintenanceCompleted: true };
+  assert.equal(def.check?.({}, value).correct, false);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
 test('actividad de baja actividad rechaza instantáneas idénticas como activación', () => {
   const def = getActivity('low-activity-mode')!;
   const low = { sound: false, reducedMotion: true };
@@ -91,27 +126,30 @@ test('actividad de baja actividad rechaza instantáneas idénticas como activaci
   assert.equal(def.check?.({}, legacyGenericPayload).correct, false);
 });
 
-test('mantenimiento de baja actividad solo se completa desde el helper al alcanzar 25 segundos reales', () => {
+test('mantenimiento usa reloj monotono: un salto de Date.now no completa y el umbral monotono si', () => {
   const runtime = progressCore as typeof progressCore & {
     startLowActivityMaintenance(): { id: string } | null;
     completeLowActivityMaintenance(proofId: string): unknown;
   };
-  let now = 10_000;
-  const originalNow = Date.now;
-  Date.now = () => now;
+  let wall = 10_000;
+  let mono = 500;
+  progressCore.__lowActivityTest.setClock({ wallNow: () => wall, monotonicNow: () => mono });
   let mem: Progress | null = { ...emptyProgress(), settings: { ...emptyProgress().settings, sound: false, reducedMotion: true } };
   setStorageAdapter({ load: () => mem, save: (p) => { mem = structuredClone(p); } });
   try {
     const started = runtime.startLowActivityMaintenance();
     assert.ok(started);
-    now += 24_999;
+    wall += 60_000;
     assert.equal(runtime.completeLowActivityMaintenance(started.id), null);
+    assert.equal(progressCore.lowActivityMaintenanceRemaining(started.id), 25_000);
+    mono += 24_999;
     assert.equal(getProgress().lowActivityPractice?.completedAt, undefined);
-    now += 1;
+    assert.equal(progressCore.lowActivityMaintenanceRemaining(started.id), 1);
+    mono += 1;
     const completed = runtime.completeLowActivityMaintenance(started.id) as { completedAt?: number } | null;
-    assert.equal(completed?.completedAt, now);
+    assert.equal(completed?.completedAt, wall);
   } finally {
-    Date.now = originalNow;
+    progressCore.__lowActivityTest.reset();
     setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
   }
 });
@@ -120,8 +158,8 @@ test('actividad rechaza mantenimiento inmediato, futuro, forjado o divergente y 
   const def = getActivity('low-activity-mode')!;
   const runtime = progressCore as typeof progressCore & { startLowActivityMaintenance(): { id: string } | null; completeLowActivityMaintenance(id: string): any };
   let now = 100_000;
-  const originalNow = Date.now;
-  Date.now = () => now;
+  let mono = 1_000;
+  progressCore.__lowActivityTest.setClock({ wallNow: () => now, monotonicNow: () => mono });
   setStorageAdapter({ load: () => ({ ...emptyProgress(), settings: { ...emptyProgress().settings, sound: false, reducedMotion: true } }), save: () => {} });
   try {
     const started = runtime.startLowActivityMaintenance();
@@ -131,11 +169,12 @@ test('actividad rechaza mantenimiento inmediato, futuro, forjado o divergente y 
       maintenanceCompleted: true };
     assert.equal(def.check?.({}, immediate).correct, false);
     now += 25_000;
+    mono += 25_000;
     const receipt = runtime.completeLowActivityMaintenance(started.id);
     assert.ok(receipt);
     const valid = { proofId: receipt.id, action: receipt.action, performed: true, verified: true, active: true, restored: false,
       before: receipt.before, after: receipt.after, startedAt: receipt.startedAt, completedAt: receipt.completedAt,
-      elapsedMs: receipt.completedAt! - receipt.startedAt, maintenanceCompleted: true };
+      elapsedMs: receipt.elapsedMs, maintenanceCompleted: true };
     assert.equal(def.isReady?.({}, valid), true);
     assert.equal(def.check?.({}, valid).correct, true);
     assert.equal(def.check?.({}, { ...valid, completedAt: now + 60_000 }).correct, false);
@@ -143,7 +182,7 @@ test('actividad rechaza mantenimiento inmediato, futuro, forjado o divergente y 
     progressCore.updateProgress((p) => ({ ...p, settings: { ...p.settings, reducedMotion: false } }));
     assert.equal(def.check?.({}, valid).correct, false);
   } finally {
-    Date.now = originalNow;
+    progressCore.__lowActivityTest.reset();
     setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
   }
 });
@@ -176,6 +215,78 @@ test('solver E2E de baja actividad usa el runtime y llega a canSubmit y correcto
   assert.equal(state.status, 'correct');
   assert.equal(getProgress().lowActivityPractice?.id, (value as { proofId: string }).proofId);
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('solver E2E crea prueba viva desde estados vacio, activo, mantenimiento, bajo, restaurado y auditado', async () => {
+  const def = getActivity('low-activity-mode')!;
+  const step = { id: 'low-states', type: 'low-activity-mode', fase: 'aplicar' as const, areas: ['pyd' as const], cnb: ['pyd:5.5.2'], prompt: 'Prueba', props: {} };
+  const solve = async () => {
+    const value = await def.testSolve?.(step.props);
+    let state = stepReducer(initialStep(), { type: 'change', value });
+    assert.equal(canSubmit(def, step, state), true);
+    state = stepReducer(state, { type: 'check', def, step });
+    assert.equal(state.status, 'correct');
+  };
+  const cases: Array<() => void> = [
+    () => setStorageAdapter({ load: () => emptyProgress(), save: () => {} }),
+    () => { setStorageAdapter({ load: () => emptyProgress(), save: () => {} }); progressCore.activateLowActivityMode(); },
+    () => { setStorageAdapter({ load: () => ({ ...emptyProgress(), settings: { ...emptyProgress().settings, sound: false, reducedMotion: true } }), save: () => {} }); progressCore.startLowActivityMaintenance(); },
+    () => setStorageAdapter({ load: () => ({ ...emptyProgress(), settings: { ...emptyProgress().settings, sound: false, reducedMotion: true } }), save: () => {} }),
+    () => { setStorageAdapter({ load: () => emptyProgress(), save: () => {} }); const r = progressCore.activateLowActivityMode()!; progressCore.restoreLowActivityMode(r.id); },
+    () => setStorageAdapter({ load: () => ({ ...emptyProgress(), settings: { ...emptyProgress().settings, sound: false, reducedMotion: true }, lowActivityPractice: {
+      id: 'low-persisted-audit', action: 'maintenance', startedAt: 1, completedAt: 25_001,
+      before: { sound: false, reducedMotion: true }, after: { sound: false, reducedMotion: true }, restored: false, maintenanceCompleted: true,
+    } }), save: () => {} }),
+  ];
+  for (const arrange of cases) { arrange(); await solve(); }
+  progressCore.__lowActivityTest.reset();
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('simulacion de liderazgo exige direccion completa y verifica respuesta del equipo', async () => {
+  const def = getActivity('leadership-simulation')!;
+  assert.ok(def);
+  const props = {
+    scenario: 'Rutina simulada',
+    instructions: [{ id: 'clear', text: 'Dos pasos y pausa', correct: true }, { id: 'vague', text: 'Hagan algo', correct: false }],
+    rolePlans: [{ id: 'equal', text: 'Mujer y hombre alternan roles', correct: true }, { id: 'stereo', text: 'Solo hombres', correct: false }],
+    adaptations: [{ id: 'safe', text: 'De pie o sentado', correct: true }, { id: 'unsafe', text: 'Sin adaptación', correct: false }],
+    sequences: [{ id: 'rotate', text: 'Explicar, modelar, rotar y cerrar', correct: true }, { id: 'stop', text: 'No rotar', correct: false }],
+    response: 'El equipo sigue la señal y confirma la rotación.',
+  };
+  assert.equal(def.check?.(props, { instructionId: 'clear', rolePlanId: 'equal', adaptationId: 'safe', sequenceId: 'rotate', verified: false }).correct, false);
+  const value = await def.testSolve?.(props);
+  assert.equal(def.isReady?.(props, value), true);
+  assert.equal(def.check?.(props, value).correct, true);
+});
+
+test('practica cultural compuesta exige campos propios, accion viva y revision docente', async () => {
+  const def = getActivity('cultural-conservation-practice')!;
+  assert.ok(def);
+  assert.equal(def.graded, false);
+  assert.equal(def.evidenceMode, 'journal-pending-review');
+  const props = {
+    minWords: 24,
+    rubric: ['Procedencia propia', 'Recurso natural', 'Acción ejecutada', 'Antes y después'],
+    example: {
+      culturalPractice: 'En mi familia aprovechamos la luz natural antes de encender una lámpara.',
+      naturalResource: 'Agua y otros recursos usados para generar electricidad.',
+      beforeAction: 'El sonido opcional estaba activo.', actionReport: 'Activé voluntariamente el modo de baja actividad.',
+      afterAction: 'Verifiqué sonido apagado y movimiento reducido activo.',
+    },
+  };
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+  const value = await def.testSolve?.(props);
+  assert.equal(def.isReady?.(props, value), true);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+  assert.equal(def.isReady?.(props, value), false, 'la evidencia escrita no sustituye la prueba viva');
+});
+
+test('validador preparatorio rechaza referencias CNB incluso de un area extranjera', () => {
+  const lesson = { id: 'prep', title: 'Preparación', minutes: 10, preparatory: true, area: 'art' as const, steps: [
+    { id: 'prep-1', type: 'explain', fase: 'explorar' as const, areas: ['art' as const], cnb: ['l1:8.2.4'], prompt: 'Lee', props: { body: 'Texto', icon: 'BookOpen' } },
+  ] };
+  assert.ok(preparatoryLessonErrors(lesson, true).some((error) => /ninguna referencia CNB/.test(error)));
 });
 
 test('numeración maya: vigesimal y cuenta larga', () => {
