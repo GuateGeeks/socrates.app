@@ -17,8 +17,6 @@ export default [
     gancho: 'Cada lunes cantas el Himno Nacional. ¿Sabes quién compuso su música, dónde nació y cómo fue su vida?',
     objetivos: [
       'Plantear preguntas guía para investigar la vida y la obra de un artista',
-      'Distinguir fuentes confiables y registrar de dónde sale cada dato',
-      'Ordenar los hechos de una vida en una línea de tiempo',
     ],
     resumen: [
       'Una biografía cuenta la vida de una persona: dónde y cuándo nació, cómo se formó, sus obras más importantes, su aporte y datos que la hacen única.',
@@ -29,7 +27,7 @@ export default [
     media: {
       id: 's08-art-1-investigar', kind: 'animation', title: 'Detectives de biografías', aspect: '16:9', duration: 50,
       alt: 'Una niña con una lupa reúne pistas sobre un compositor: una partitura antigua, un libro de la biblioteca, una entrevista con su maestro y una línea de tiempo que se va llenando.',
-      brief: 'Animación 2D de 50 s, estilo cuaderno de detective. Una niña (de rasgos mayas, uniforme escolar) investiga a un compositor guatemalteco del siglo XIX (figura genérica, sin retrato real). Aparecen tarjetas: "¿Dónde y cuándo nació?", "¿Qué estudió?", "¿Qué obras creó?", "¿Cuál fue su aporte?". Luego tres fuentes: libro de biblioteca (secundaria), partitura antigua (primaria), entrevista grabada con un maestro de música (primaria). Al final, una línea de tiempo con tres hitos. Narración en español, subtítulos. No usar fotografías reales de personas.',
+      brief: 'Animación 2D de 50 s, estilo cuaderno de detective. Una niña (de rasgos mayas, uniforme escolar) investiga a un compositor guatemalteco del siglo XIX (figura genérica, sin retrato real). Aparecen tarjetas: "¿Dónde y cuándo nació?", "¿Qué estudió?", "¿Qué obras creó?", "¿Cuál fue su aporte?". Luego tres fuentes: libro de biblioteca (secundaria), partitura antigua (primaria), entrevista grabada con un maestro de música (primaria). Al final, una línea de tiempo con tres hitos. Narración en español, subtítulos. No usar fotografías reales de personas. Target: public/media/s08-art-1-investigar.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
       S.choice(
@@ -116,16 +114,16 @@ export default [
       ),
       S.project(
         { fase: 'aplicar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'convivir',
-          prompt: '**En casa:** investiga a un **artista de tu comunidad**: músico, tejedora, alfarero, pintora, poeta, danzante o marimbista.' },
-        { goal: 'Reunir la información para la biografía de un artista de tu comunidad, con al menos una fuente primaria.',
+          prompt: 'Usa el **paquete biográfico suministrado** sobre la grabadora ficticia Ana López. No necesitas entrevistar ni buscar información fuera de la actividad.' },
+        { goal: 'Organizar una biografía artística verificable a partir de fuentes ya suministradas.',
           steps: [
-            { title: 'Elige y pide permiso', detail: 'Elige a una persona artista de tu comunidad o familia. Pregúntale con respeto si acepta ser entrevistada y si puedes publicar lo que te cuente.' },
-            { title: 'Prepara preguntas', detail: 'Usa las preguntas guía: origen, formación, obras y aporte. Agrega: ¿qué consejo le daría a una niña o niño que quiere aprender su arte?' },
-            { title: 'Entrevista', detail: 'Anota las respuestas (o grábalas, si te dio permiso). Pide ver o escuchar una de sus obras.' },
-            { title: 'Completa', detail: 'Si puedes, busca una segunda fuente: un familiar, un vecino o un documento. Anota todas tus fuentes con fecha.' },
+            { title: 'Separa', detail: 'Distingue hechos de la cronología, comentario de catálogo y afirmación sin fuente.' },
+            { title: 'Ordena', detail: 'Ubica origen, formación, obras y aporte en cuatro fichas breves.' },
+            { title: 'Atribuye', detail: 'Anota junto a cada hecho la tarjeta del paquete que lo respalda.' },
+            { title: 'Boceta', detail: 'Dibuja en el cuaderno una ficha con nombre, línea de tiempo, obra y fuentes.' },
           ],
-          evidence: 'Tus notas de la entrevista con las cuatro preguntas guía y la lista de fuentes.',
-          rubric: ['Pedí permiso para entrevistar y publicar', 'Respondí origen, formación, obras y aporte', 'Anoté mis fuentes con fecha'] },
+          evidence: 'Boceto en papel con cuatro apartados y referencias al paquete.',
+          rubric: ['Uso solo hechos suministrados', 'Ordeno los hitos', 'Hago visibles las fuentes'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['art'], cnb: ['art:4.3.2'], prompt: '¿Cuál de estas es una **fuente primaria** para la biografía de una tejedora?' },
@@ -155,8 +153,6 @@ export default [
     gancho: 'Ya investigaste la vida de un artista. Si esa información se queda en tu cuaderno, solo tú la conoces. ¿Cómo la compartirías con toda la escuela y la comunidad?',
     objetivos: [
       'Redactar una ficha biográfica clara para publicar',
-      'Organizar un periódico mural con título, textos, imágenes, pies de foto y fuentes',
-      'Presentar en un foro con respeto y escuchar las preguntas de otras personas',
     ],
     resumen: [
       'Publicar es dar a conocer una investigación. Formas escolares: ficha biográfica, periódico mural, foro o presentación oral.',
@@ -167,7 +163,7 @@ export default [
     media: {
       id: 's08-art-2-periodico', kind: 'image', title: 'Un periódico mural de artistas', aspect: '4:3',
       alt: 'Un periódico mural en el corredor de una escuela con el título "Artistas de nuestra tierra", cuatro fichas biográficas con dibujos, pies de foto y una franja de fuentes abajo.',
-      brief: 'Ilustración de un periódico mural escolar sobre un tablero de corcho en un corredor de escuela pública guatemalteca. Título grande "Artistas de nuestra tierra" con letras recortadas. Cuatro fichas con dibujos (no fotos reales): un marimbista de pueblo, una tejedora, un poeta, un compositor del siglo XIX. Cada ficha con subtítulos (Origen, Obras, Aporte), un pie de foto y un recuadro "Fuentes". Una sección "¿Sabías que…?" y un buzón de preguntas. Colores con buen contraste, orden en columnas, espacio libre entre fichas.',
+      brief: 'Ilustración de un periódico mural escolar sobre un tablero de corcho en un corredor de escuela pública guatemalteca. Título grande "Artistas de nuestra tierra" con letras recortadas. Cuatro fichas con dibujos (no fotos reales): un marimbista de pueblo, una tejedora, un poeta, un compositor del siglo XIX. Cada ficha con subtítulos (Origen, Obras, Aporte), un pie de foto y un recuadro "Fuentes". Una sección "¿Sabías que…?" y un buzón de preguntas. Colores con buen contraste, orden en columnas, espacio libre entre fichas. Target: public/media/s08-art-2-periodico.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
@@ -239,33 +235,33 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['art', 'l1'], cnb: ['art:4.3.2'], ambito: 'hacer',
-          prompt: 'Con la información que reuniste en casa (o sobre Rafael Álvarez Ovalle o Humberto Ak’abal), redacta tu **ficha biográfica** para el periódico mural: origen, formación, obras, aporte, un dato curioso y fuentes.' },
-        { minWords: 50, placeholder: 'Nombre… Origen… Formación… Obras… Aporte… ¿Sabías que…? Fuentes…',
-          model: 'Humberto Ak’abal. Origen: nació en 1952 en Momostenango, Totonicapán. Fue un poeta k’iche’. Formación: de niño fue pastor de ovejas y después trabajó como tejedor; aprendió mucho de la tradición oral de su pueblo y de la naturaleza. Obras: escribió libros de poemas en k’iche’ y en español; sus poemas imitan los sonidos de los pájaros, el viento y la lluvia. Aporte: llevó la poesía k’iche’ a lectores de muchos países. Murió en 2019. ¿Sabías que…? Sus poemas se han traducido a varios idiomas. Fuentes: libro de poesía guatemalteca de la biblioteca escolar; entrevista a mi maestra de Comunicación y Lenguaje.',
+          prompt: 'Con el **paquete biográfico suministrado** sobre Humberto Ak’abal, redacta una ficha breve para publicación: origen, formación, obra, aporte y fuente. No agregues entrevistas ni datos externos.' },
+        { minWords: 32, placeholder: 'Nombre… Origen… Formación… Obra… Aporte… Fuente suministrada…',
+          model: 'Humberto Ak’abal. Origen: nació en 1952 en Momostenango, Totonicapán. Fue un poeta k’iche’. Formación: de niño fue pastor de ovejas y después trabajó como tejedor; aprendió mucho de la tradición oral de su pueblo y de la naturaleza. Obras: escribió libros de poemas en k’iche’ y en español; sus poemas imitan los sonidos de los pájaros, el viento y la lluvia. Aporte: llevó la poesía k’iche’ a lectores de muchos países. Murió en 2019. ¿Sabías que…? Sus poemas se han traducido a varios idiomas. Fuente: ficha biográfica suministrada “Humberto Ak’abal: voz y naturaleza”.',
           rubric: ['Incluye origen, formación, obras y aporte', 'Tiene un dato curioso', 'Usa oraciones cortas y claras', 'Cita al menos una fuente'] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['art'], cnb: ['art:1.1.2', 'art:3.2.4', 'art:3.2.7'], ambito: 'conocer',
-          prompt: '**Repaso de la unidad.** Para decorar el periódico mural, tu grupo quiere un borde que "se mueva" y una sección con notas musicales. ¿Qué propuesta usa bien lo aprendido?',
-          explain: 'Las curvas y la repetición dan movimiento (semana 7); un compás de 3/4 debe sumar 3 tiempos: blanca + negra (semana 2); la lana trenzada crea una textura táctil (semana 6).' },
+        { fase: 'aplicar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer',
+          prompt: '¿Qué jerarquía visual ayuda a leer la ficha biográfica sin convertir la decoración en evidencia?',
+          explain: 'El nombre funciona como título; los hitos y la obra se agrupan en bloques breves; la fuente queda visible. La decoración no reemplaza los datos.' },
         { options: [
-          { id: 'a', text: 'Un borde de lana trenzada en ondas y un pentagrama en 3/4 con blanca + negra en cada compás' },
-          { id: 'b', text: 'Un borde de líneas horizontales rectas y un pentagrama en 3/4 con dos blancas por compás', feedback: 'Las horizontales dan calma, no movimiento, y dos blancas suman 4 tiempos, no 3.' },
-          { id: 'c', text: 'Un borde de puntos separados y un pentagrama sin cifra de compás', feedback: 'Sin cifra de compás no se sabe cuántos tiempos tiene cada compás.' },
+          { id: 'a', text: 'Nombre destacado, hitos ordenados, imagen con pie y fuente visible' },
+          { id: 'b', text: 'Un título decorativo enorme y todos los datos en letra mínima', feedback: 'La información queda subordinada a la decoración y no puede leerse.' },
+          { id: 'c', text: 'Una imagen sin pie y hechos sin fuente', feedback: 'La ficha pierde contexto y verificabilidad.' },
         ], correct: ['a'] },
       ),
       S.project(
         { fase: 'aplicar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'convivir',
-          prompt: '**En casa y en la escuela:** publica tu investigación.' },
-        { goal: 'Dar a conocer la vida y obra de un artista mediante una ficha para el periódico mural y una presentación de 2 minutos.',
+          prompt: 'Prepara en una hoja la publicación del **paquete biográfico suministrado**.' },
+        { goal: 'Dar a conocer la vida y obra documentada de un artista mediante una ficha legible.',
           steps: [
             { title: 'Pasa en limpio', detail: 'Escribe tu ficha en una hoja con letra clara, subtítulos y un dibujo del artista o de su obra, con pie de foto.' },
-            { title: 'Revisa', detail: 'Comprueba que tenga fuentes y que solo publicas lo que la persona entrevistada autorizó.' },
-            { title: 'Ensaya', detail: 'Practica frente a tu familia una presentación de 2 minutos: quién es, qué hizo y por qué es importante.' },
-            { title: 'Agradece', detail: 'Si entrevistaste a alguien, llévale una copia de la ficha como agradecimiento.' },
+            { title: 'Revisa', detail: 'Comprueba que cada dato aparezca en el paquete y que la fuente sea visible.' },
+            { title: 'Jerarquiza', detail: 'Da mayor tamaño al nombre, luego a los hitos y finalmente a las fuentes.' },
+            { title: 'Prueba', detail: 'Lee la ficha a un metro de distancia y ajusta contraste o tamaño si hace falta.' },
           ],
-          evidence: 'Tu ficha lista para el periódico mural y un guion breve de tu presentación.',
-          rubric: ['Mi ficha está completa y tiene fuentes', 'Respeté lo que la persona autorizó', 'Presento en 2 minutos con voz clara'] },
+          evidence: 'Ficha biográfica terminada en papel.',
+          rubric: ['La ficha está completa y tiene fuentes', 'Los datos provienen del paquete', 'La jerarquía facilita la lectura'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['art'], cnb: ['art:4.3.2'], prompt: '¿Qué elementos **no pueden faltar** en una ficha biográfica para publicar?' },

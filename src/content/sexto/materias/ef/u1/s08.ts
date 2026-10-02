@@ -16,19 +16,17 @@ export default [
     gancho: 'Antes de los celulares, tus abuelos jugaban con un trompo, un capirucho, unos cincos o una cuerda. ¿Crees que esos juegos todavía pueden hacerte sudar y reír?',
     objetivos: [
       'Conocer juegos tradicionales de Guatemala y sus reglas',
-      'Reconocer qué habilidades físicas desarrolla cada juego',
-      'Valorar los juegos tradicionales como parte de la cultura de tu comunidad',
     ],
     resumen: [
       'Los juegos tradicionales se transmiten de generación en generación, de abuelos a nietos. Usan materiales sencillos y muchas veces reutilizados.',
-      'Ejemplos en Guatemala: trompo, capirucho, cincos (canicas), tenta, salta cuerda, arranca cebolla y barrilete. Cada comunidad puede tener sus propios nombres y reglas.',
-      'Desarrollan habilidades: el capirucho y los cincos, la coordinación ojo-mano y la precisión; la tenta, la velocidad y los cambios de dirección; la cuerda, el ritmo y la resistencia; arranca cebolla, la fuerza y la cooperación.',
+      'Ejemplos en Guatemala: trompo, capirucho, cincos (canicas), tenta, salta cuerda, ronda con palmas y barrilete. Cada comunidad puede tener sus propios nombres y reglas.',
+      'Desarrollan habilidades: el capirucho y los cincos, la coordinación ojo-mano y la precisión; la tenta, la velocidad y los cambios de dirección; la cuerda, el ritmo y la resistencia; ronda con palmas, la fuerza y la cooperación.',
       'Valorarlos es jugarlos, aprenderlos de las personas mayores, enseñarlos a los más pequeños y respetar sus reglas, que se acuerdan antes de jugar.',
     ],
     media: {
       id: 's08-ef-1-juegos', kind: 'video', title: 'Juegos de ayer y de hoy', aspect: '16:9', duration: 60,
-      alt: 'Un abuelo enseña a una niña a lanzar un trompo; niños juegan cincos en un círculo dibujado en la tierra; un grupo salta cuerda cantando; otro juega arranca cebolla sentados en fila.',
-      brief: 'Video de 60 s en una aldea o barrio guatemalteco, recreado con familias que dieron su permiso (rostros no protagonistas de menores). Escenas de 10 s con rótulo: (1) abuelo enseña a enrollar la pita del trompo y lanzarlo; (2) capirucho: embocar el carrete en el palito; (3) cincos en un círculo de tierra; (4) tenta en la calle cerrada; (5) salta cuerda con dos personas dando vuelta; (6) arranca cebolla en pasto, sentados en fila tomados de la cintura. Cierre con barriletes de colores en el cielo. Música tradicional de marimba de fondo, suave.',
+      alt: 'Un abuelo enseña a una niña a lanzar un trompo; niños juegan cincos en un círculo dibujado en la tierra; un grupo salta cuerda cantando; otro juega ronda con palmas sentados en fila.',
+      brief: 'Video de 60 s en un patio escolar despejado, con intérpretes autorizados. Escenas de 10 s con rótulo: (1) trompo con pita; (2) capirucho; (3) cincos en un círculo; (4) tenta con bases amplias; (5) cuerda individual e imaginaria; (6) ronda con palmas, con participantes de pie y sentados, separados por un brazo. Cierre con barriletes de papel exhibidos sin elevarlos cerca de cables. Música de marimba suave. Target: public/media/s08-ef-1-juegos.mp4. Accesibilidad: subtítulos completos, transcripción, demostración a velocidad lenta y descripción de cada adaptación.',
     },
     steps: [
       S.choice(
@@ -43,11 +41,11 @@ export default [
       ),
       S.explain(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:4.2.7'], ambito: 'conocer', title: 'Juegos tradicionales de Guatemala',
-          prompt: 'Mira el video y la lámina, y toca cada juego. Pregunta en tu casa si lo conocen con **otro nombre** o con **otras reglas**.',
+          prompt: 'Mira el video y la lámina, y toca cada juego. Compara sus reglas con las tarjetas suministradas.',
           media: {
             id: 's08-ef-1-objetos', kind: 'image', title: 'Los objetos de los juegos tradicionales', aspect: '4:3',
             alt: 'Sobre un petate: un trompo de madera con su pita, un capirucho (palito y carrete unidos con pita), un puñado de cincos de vidrio, una cuerda larga y un barrilete pequeño de papel de china.',
-            brief: 'Fotografía cenital o ilustración realista sobre un petate: trompo de madera pintado con su pita enrollada, capirucho de madera (palito y carrete unidos con pita), cinco o seis cincos (canicas) de vidrio de colores, una cuerda de saltar larga enrollada y un barrilete pequeño de papel de china con cola de trapo. Cada objeto con su nombre en letra grande. Sin marcas comerciales.',
+            brief: 'Fotografía cenital o ilustración realista sobre un petate: trompo de madera pintado con su pita enrollada, capirucho de madera (palito y carrete unidos con pita), cinco o seis cincos (canicas) de vidrio de colores, una cuerda de saltar larga enrollada y un barrilete pequeño de papel de china con cola de trapo. Cada objeto con su nombre en letra grande. Sin marcas comerciales. Target: public/media/s08-ef-1-objetos.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
           } },
         { icon: 'History', body: 'Cada comunidad tiene sus juegos. Estos son algunos de los más conocidos en Guatemala.', reveal: [
           { icon: 'RotateCw', front: 'Trompo', back: 'Se enrolla una pita en el trompo y se lanza para que **baile** en el suelo. Retos: que dure mucho, levantarlo bailando en la mano o sacar otros trompos de un círculo.' },
@@ -69,18 +67,18 @@ export default [
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['ef'], cnb: ['ef:4.2.7'], ambito: 'hacer', title: 'Ejemplo resuelto: jugar arranca cebolla de forma segura',
-          prompt: 'Mira cómo el grupo de Juan organiza el juego de **arranca cebolla** que le enseñó su abuela.' },
-        { icon: 'Sprout', problem: 'Son 8 niñas y niños en un patio con grama. ¿Cómo se juega y cómo lo hacen seguro?',
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:4.2.7'], ambito: 'hacer', title: 'Ejemplo resuelto: jugar ronda con palmas de forma segura',
+          prompt: 'Mira cómo el grupo de Juan organiza el juego de **ronda con palmas** que le enseñó su abuela.' },
+        { icon: 'Music', problem: 'Son 8 niñas y niños en un patio despejado. ¿Cómo hacen una ronda con palmas segura y adaptable?',
           steps: [
-            { text: '**Acuerdan las reglas antes:** 7 personas son "cebollas" y 1 es "quien arranca".' },
-            { text: 'Las cebollas se sientan **en fila**, una detrás de otra, abrazando la **cintura** de quien tiene adelante. La primera se sujeta de un poste o de un árbol.' },
-            { text: 'Quien arranca toma de las **manos o muñecas** a la última cebolla y jala para "arrancarla" de la fila.', why: 'Se jala solo de las manos: nunca del cuello, del pelo ni de la ropa.' },
-            { text: 'Cada cebolla arrancada **se une a quien arranca** y le ayuda a jalar. Termina cuando todas han sido arrancadas.' },
-            { text: '**Seguridad:** juegan sobre grama o tierra blanda, sin objetos duros cerca, y si alguien dice "¡alto!", todos sueltan.' },
+            { text: '**Despejan el espacio:** retiran mochilas y dejan un brazo de distancia entre participantes.' },
+            { text: '**Acuerdan una secuencia:** dos palmas propias, dos palmas al aire y un paso lateral.' },
+            { text: '**Ensayan despacio:** nadie toma, empuja ni jala a otra persona.', why: 'Cada participante controla su propio movimiento.' },
+            { text: '**Cambian el liderazgo:** una persona marca cuatro pulsos y luego cede el turno.' },
+            { text: '**Adaptan:** la secuencia puede hacerse de pie o sentada, con pasos, gestos o palmas suaves; cualquiera puede decir “alto”.' },
           ],
-          answer: 'Arranca cebolla entrena **fuerza** y **cooperación**; con reglas claras y el "¡alto!", es un juego seguro.',
-          tip: 'Pregunta a las personas mayores de tu casa si lo jugaron: quizá tenga otra canción o regla en tu comunidad.' },
+          answer: 'La ronda practica **ritmo, atención y cooperación** sin contacto riesgoso.',
+          tip: 'El ritmo se adapta a cada participante; la velocidad nunca vale más que el control.' },
       ),
       S.match(
         { fase: 'construir', areas: ['ef'], cnb: ['ef:4.2.7'], ambito: 'conocer',
@@ -91,7 +89,7 @@ export default [
           { id: 'c', left: 'Capirucho', right: 'Coordinación ojo-mano' },
           { id: 't', left: 'Tenta', right: 'Velocidad y cambios de dirección' },
           { id: 's', left: 'Salta cuerda', right: 'Ritmo y resistencia' },
-          { id: 'a', left: 'Arranca cebolla', right: 'Fuerza y cooperación' },
+          { id: 'a', left: 'Ronda con palmas', right: 'Ritmo y cooperación' },
         ] },
       ),
       S.pulse(
@@ -115,10 +113,10 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.7'], ambito: 'convivir',
-          prompt: '**En casa:** pregunta a una persona mayor de tu familia o comunidad por un juego tradicional que jugaba de niña o niño. Escribe su **nombre**, **cómo se juega** (materiales y reglas), qué **habilidad física** desarrolla y por qué crees que vale la pena **conservarlo**.' },
-        { minWords: 45, placeholder: 'Mi abuela me enseñó… Se juega con… Las reglas son… Desarrolla… Vale la pena conservarlo porque…',
-          model: 'Mi abuela me enseñó el juego "Doña Blanca". Se juega en círculo, tomados de las manos, sin materiales. Una persona queda adentro del círculo (Doña Blanca) y otra afuera (el jicotillo), que intenta entrar mientras todos cantan y giran. Los del círculo no deben soltarse. Desarrolla fuerza de brazos, ritmo y trabajo en equipo. Vale la pena conservarlo porque se juega sin gastar dinero, tiene una canción bonita y mi abuela se puso feliz de enseñármelo.',
-          rubric: ['Nombra el juego y quién se lo enseñó', 'Explica materiales y reglas', 'Menciona una habilidad física que desarrolla', 'Da una razón para conservarlo'] },
+          prompt: 'Lee la ficha suministrada de **Doña Blanca** y escribe una adaptación segura para poco espacio: regla, movimiento, señal de pausa y habilidad que conserva.' },
+        { minWords: 24, placeholder: 'Regla adaptada... Movimiento... Señal de pausa... Conserva la habilidad de...',
+          model: 'El grupo marca el círculo sin jalarse. Camina cuatro pasos con palmas y se detiene al oír “pausa”. Quien está afuera señala un espacio sin empujar. Conserva ritmo, orientación y cooperación.',
+          rubric: ['No incluye jalones ni empujones', 'Define señal de pausa', 'Explica la habilidad practicada'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.2.7'], prompt: '¿Cuál es un juego tradicional de Guatemala que desarrolla la **coordinación ojo-mano**?' },
@@ -132,7 +130,7 @@ export default [
         { fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.2.7'], prompt: '¿Verdadero o falso?' },
         { statements: [
           { text: 'Los juegos tradicionales se transmiten de generación en generación.', answer: true },
-          { text: 'En arranca cebolla se puede jalar del cuello para ganar más rápido.', answer: false, why: 'Solo se jala de las manos o muñecas; jalar del cuello es peligroso.' },
+          { text: 'En la ronda con palmas conviene empujar o jalar para seguir el ritmo.', answer: false, why: 'Cada persona controla sus movimientos y mantiene distancia; no se empuja ni se jala.' },
           { text: 'Un mismo juego puede tener distintos nombres o reglas según la comunidad.', answer: true },
         ] },
       ),
@@ -148,8 +146,6 @@ export default [
     gancho: 'En el recreo alguien dice: "Las niñas no juegan fútbol" o "Los niños no saltan cuerda". ¿Es justo? ¿Qué harías si tú fueras quien organiza el juego?',
     objetivos: [
       'Reconocer las cualidades de un buen líder en el juego y en el deporte',
-      'Organizar equipos justos y dar las mismas oportunidades a mujeres y hombres',
-      'Relacionar la igualdad en el juego con los derechos humanos',
     ],
     resumen: [
       'Un buen líder explica las reglas con claridad, escucha, organiza turnos y equipos justos, anima a todos y da el ejemplo con juego limpio. Liderar es servir al grupo, no mandar a gritos.',
@@ -160,7 +156,7 @@ export default [
     media: {
       id: 's08-ef-2-liderazgo', kind: 'image', title: 'Capitanas y capitanes', aspect: '16:9',
       alt: 'En un patio escolar, una niña capitana explica las reglas a un equipo mixto en círculo; al lado, un niño arbitra un juego de salta cuerda donde saltan niñas y niños juntos.',
-      brief: 'Ilustración luminosa de un patio de escuela pública guatemalteca. Escena izquierda: una niña (brazalete de capitana) explica las reglas a un equipo mixto en círculo, todos atentos. Escena derecha: un niño con silbato arbitra salta cuerda; saltan niñas y niños juntos. Al fondo, un cartel "Todas y todos jugamos". Diversidad de pueblos (maya, garífuna, xinka, mestizo) y una niña en silla de ruedas participando. Sin estereotipos de colores por género.',
+      brief: 'Ilustración luminosa de un patio de escuela pública guatemalteca. Escena izquierda: una niña (brazalete de capitana) explica las reglas a un equipo mixto en círculo, todos atentos. Escena derecha: un niño con silbato arbitra salta cuerda; saltan niñas y niños juntos. Al fondo, un cartel "Todas y todos jugamos". Diversidad de pueblos (maya, garífuna, xinka, mestizo) y una niña en silla de ruedas participando. Sin estereotipos de colores por género. Target: public/media/s08-ef-2-liderazgo.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
@@ -224,7 +220,7 @@ export default [
       ),
       S.pulse(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.3', 'ef:4.2.7', 'ef:4.1.12'], ambito: 'convivir',
-          prompt: '¡Líderes rotativos! Jueguen **juegos tradicionales** (tenta, salta cuerda, arranca cebolla o el que les enseñaron en casa). En cada ronda, **una persona diferente es líder** (niña o niño): explica las reglas, forma equipos justos y dirige el calentamiento. Al final, cada líder recibe un aplauso y un consejo amable. **Poco espacio:** juegos en el lugar, como "sigue al líder" o palmas con canción. **Adaptación:** el líder adapta las reglas para que todas y todos participen. **Vuelta a la calma:** estiramiento y respiración que dirige el último líder.' },
+          prompt: '¡Líderes rotativos! Elijan entre las tarjetas suministradas: **tenta con bases, cuerda imaginaria o ronda con palmas**. En cada ronda, una persona diferente explica las reglas, comprueba el espacio y propone una adaptación. Al final recibe un consejo amable. **Poco espacio:** palmas o gestos en el lugar. **Adaptación:** se puede participar de pie o sentado y bajar el ritmo. **Vuelta a la calma:** respiración suave dirigida por el último líder.' },
         { seconds: 15, rounds: [
           { label: 'En reposo' },
           { label: 'Después de la ronda 1 (primer líder)', exercise: { name: 'Juego tradicional dirigido por un líder', icon: 'Flag', seconds: 90 } },
@@ -241,7 +237,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:2.1.3', 'ef:3.1.2', 'ef:1.3.3'], ambito: 'conocer',
+        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.3'], ambito: 'conocer',
           prompt: '**Repaso de la unidad.** Eres capitana en un partido. Un defensor alto con los brazos arriba está entre tú y tu compañero, y tu equipo está muy nervioso antes del último minuto. ¿Qué plan usa bien lo aprendido?',
           explain: 'Contra un defensor con los brazos arriba conviene el **pase con pique** (semana 4); para los nervios, **respiración abdominal lenta** (semana 6); y al terminar una carrera, **frenar con rodillas dobladas** (semana 2).' },
         { options: [

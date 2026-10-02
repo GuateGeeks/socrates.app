@@ -16,7 +16,6 @@ export default [
     gancho: 'La distancia promedio de la Tierra a la Luna es de 384,400 km, pero mucha gente dice "unos 384 mil kilómetros". ¿Cuándo conviene aproximar y cómo se hace?',
     objetivos: [
       'Aproximar una cantidad a la cifra indicada (decena, centena, millar, decena de millar, millón…)',
-      'Usar la aproximación para estimar resultados',
     ],
     resumen: [
       'Aproximar (o redondear) es cambiar una cantidad por otra "redonda" que esté cerca y sea más fácil de usar.',
@@ -27,7 +26,7 @@ export default [
     media: {
       id: 's08-mat-1-luna', kind: 'image', title: 'Una distancia enorme', aspect: '16:9',
       alt: 'La Tierra a la izquierda y la Luna a la derecha, unidas por una línea con la etiqueta "384,400 km ≈ 384,000 km".',
-      brief: 'Ilustración horizontal sobre fondo espacial oscuro: la Tierra a la izquierda (con Centroamérica visible) y la Luna a la derecha, unidas por una línea punteada con la etiqueta "384,400 km". Debajo, en otra línea, "≈ 384,000 km" con el símbolo ≈ destacado y la palabra "aproximadamente". Tamaños no a escala (nota pequeña: "no a escala"). Estilo limpio, colores suaves.',
+      brief: 'Ilustración horizontal sobre fondo espacial oscuro: la Tierra a la izquierda (con Centroamérica visible) y la Luna a la derecha, unidas por una línea punteada con la etiqueta "384,400 km". Debajo, en otra línea, "≈ 384,000 km" con el símbolo ≈ destacado y la palabra "aproximadamente". Tamaños no a escala (nota pequeña: "no a escala"). Estilo limpio, colores suaves. Target: public/media/s08-mat-1-luna.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
@@ -45,7 +44,7 @@ export default [
           prompt: 'Imagina la recta numérica: cada cantidad queda entre dos números redondos. Se aproxima al **más cercano**.',
           media: { id: 's08-mat-1-recta', kind: 'diagram', title: '38,712 en la recta numérica', aspect: '16:9',
             alt: 'Recta numérica de 38,000 a 39,000 con marcas cada 100; el punto medio 38,500 resaltado y el 38,712 marcado a su derecha, con una flecha hacia 39,000.',
-            brief: 'Diagrama horizontal de una recta numérica desde 38,000 hasta 39,000 con marcas cada 100. El punto medio 38,500 está resaltado con una línea punteada vertical y el texto "la mitad". El número 38,712 está marcado con un punto rojo a la derecha de la mitad, con una flecha curva hacia 39,000 y el texto "más cerca". Abajo: "38,712 ≈ 39,000 (al millar)". Fondo blanco.' } },
+            brief: 'Diagrama horizontal de una recta numérica desde 38,000 hasta 39,000 con marcas cada 100. El punto medio 38,500 está resaltado con una línea punteada vertical y el texto "la mitad". El número 38,712 está marcado con un punto rojo a la derecha de la mitad, con una flecha curva hacia 39,000 y el texto "más cerca". Abajo: "38,712 ≈ 39,000 (al millar)". Fondo blanco. Target: public/media/s08-mat-1-recta.svg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.' } },
         { icon: 'MoveHorizontal', body: 'El punto que decide es la **mitad**: 38,500. Lo que está desde la mitad hacia la derecha se aproxima hacia arriba.', reveal: [
           { icon: 'ArrowRight', front: 'Desde la mitad o más', back: '38,500 o más → 39,000. Por eso la regla dice "5 o más, sube".' },
           { icon: 'ArrowLeft', front: 'Antes de la mitad', back: '38,499 o menos → 38,000. "Menos de 5, se queda".' },
@@ -147,7 +146,6 @@ export default [
     gancho: 'Con granos de maíz, palitos y caracoles se pueden escribir números muy grandes. Así contaban los antiguos mayas, y así se sigue enseñando en muchas escuelas de Guatemala.',
     objetivos: [
       'Escribir los números del 0 al 19 con punto, barra y caracol',
-      'Leer y escribir numerales mayas de dos niveles en situaciones cotidianas',
     ],
     resumen: [
       'El sistema maya usa tres símbolos: punto = 1, barra = 5 y caracol = 0.',
@@ -158,7 +156,7 @@ export default [
     media: {
       id: 's08-mat-2-mercado', kind: 'image', title: 'Números mayas en el mercado', aspect: '4:3',
       alt: 'Puesto de mercado donde una vendedora anota con numerales mayas la cantidad de elotes y aguacates; una niña cuenta con granos de maíz y palitos.',
-      brief: 'Ilustración de un puesto de mercado del altiplano guatemalteco con canastos de elotes y aguacates. Una pizarra pequeña muestra con puntos, barras y caracoles las cantidades en dos niveles (por ejemplo, 45 = dos puntos arriba y una barra abajo). Una niña con güipil forma numerales sobre la mesa con granos de maíz (puntos), palitos (barras) y un caracol. Colores vivos, estilo plano, sin texto excepto los numerales.',
+      brief: 'Ilustración de un puesto de mercado del altiplano guatemalteco con canastos de elotes y aguacates. Una pizarra pequeña muestra con puntos, barras y caracoles las cantidades en dos niveles (por ejemplo, 45 = dos puntos arriba y una barra abajo). Una niña con güipil forma numerales sobre la mesa con granos de maíz (puntos), palitos (barras) y un caracol. Colores vivos, estilo plano, sin texto excepto los numerales. Target: public/media/s08-mat-2-mercado.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
@@ -176,7 +174,7 @@ export default [
           prompt: 'Los mayas desarrollaron un sistema de numeración con **cero**, siglos antes de que se usara en Europa. Toca cada tarjeta.',
           media: { id: 's08-mat-2-tabla', kind: 'diagram', title: 'Del 0 al 19 en numeración maya', aspect: '4:3',
             alt: 'Tabla de cuatro filas con los números del 0 al 19 en numeración maya: caracol para el 0, puntos del 1 al 4, una barra para el 5, y así hasta tres barras con cuatro puntos para el 19.',
-            brief: 'Tabla de 4 filas × 5 columnas con los números del 0 al 19 escritos en numeración maya y su valor decimal pequeño debajo. Fila 1: 0 (caracol), 1-4 (puntos). Fila 2: 5 (una barra) a 9 (barra con 4 puntos arriba). Fila 3: 10 (dos barras) a 14. Fila 4: 15 (tres barras) a 19. Las barras horizontales van abajo y los puntos arriba de las barras. Puntos y barras en café maíz; caracol blanco con contorno. Fondo crema.' } },
+            brief: 'Tabla de 4 filas × 5 columnas con los números del 0 al 19 escritos en numeración maya y su valor decimal pequeño debajo. Fila 1: 0 (caracol), 1-4 (puntos). Fila 2: 5 (una barra) a 9 (barra con 4 puntos arriba). Fila 3: 10 (dos barras) a 14. Fila 4: 15 (tres barras) a 19. Las barras horizontales van abajo y los puntos arriba de las barras. Puntos y barras en café maíz; caracol blanco con contorno. Fondo crema. Target: public/media/s08-mat-2-tabla.svg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.' } },
         { icon: 'Shell', body: '**Punto** = 1 · **Barra** = 5 · **Caracol** = 0. En un mismo nivel, los símbolos se **suman**.', reveal: [
           { icon: 'Dot', front: 'Del 1 al 4', back: 'Solo puntos: • = 1, •• = 2, ••• = 3, •••• = 4.' },
           { icon: 'Minus', front: 'Cinco puntos = una barra', back: 'Nunca se escriben 5 puntos: se cambian por una barra. 7 = una barra y dos puntos.' },
@@ -260,7 +258,6 @@ export default [
     gancho: 'Si el segundo nivel vale ×20, ¿cuánto vale el tercero? ¿Y el quinto? Con cinco niveles los mayas podían escribir números de más de tres millones.',
     objetivos: [
       'Conocer el valor de los niveles del sistema vigesimal: ×1, ×20, ×400, ×8,000 y ×160,000',
-      'Convertir cantidades del sistema decimal al vigesimal maya, incluidos los niveles con cero',
     ],
     resumen: [
       'Cada nivel vale 20 veces el de abajo: ×1, ×20, ×400, ×8,000 y ×160,000.',
@@ -271,7 +268,7 @@ export default [
     media: {
       id: 's08-mat-3-niveles', kind: 'animation', title: 'Subiendo de nivel', aspect: '9:16', duration: 45,
       alt: 'Una torre de cinco casillas que se llena de abajo hacia arriba; cada casilla muestra su valor: 1, 20, 400, 8,000 y 160,000.',
-      brief: 'Animación vertical 2D de 45 s. Una torre de 5 casillas apiladas se construye de abajo hacia arriba. En la primera caen granos de maíz uno por uno hasta 19; al caer el 20, los granos se juntan y "suben" como un solo punto al segundo nivel (rótulo ×20), y abajo aparece un caracol. Se repite más rápido: 20 puntos del segundo nivel suben a un punto del tercero (×400); luego ×8,000 y ×160,000. Al final se muestran los cinco valores. Narración en español: "cada nivel vale veinte veces el de abajo".',
+      brief: 'Animación vertical 2D de 45 s. Una torre de 5 casillas apiladas se construye de abajo hacia arriba. En la primera caen granos de maíz uno por uno hasta 19; al caer el 20, los granos se juntan y "suben" como un solo punto al segundo nivel (rótulo ×20), y abajo aparece un caracol. Se repite más rápido: 20 puntos del segundo nivel suben a un punto del tercero (×400); luego ×8,000 y ×160,000. Al final se muestran los cinco valores. Narración en español: "cada nivel vale veinte veces el de abajo". Target: public/media/s08-mat-3-niveles.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
       S.choice(
@@ -299,7 +296,7 @@ export default [
           prompt: 'Para convertir, empieza por el nivel **más alto que quepa** en el número.',
           media: { id: 's08-mat-3-torre', kind: 'diagram', title: 'Cómo convertir 845 a numeral maya', aspect: '3:4',
             alt: 'Columna con tres niveles: arriba dos puntos (2 × 400), en medio dos puntos (2 × 20) y abajo una barra (5 × 1); a la par, las divisiones.',
-            brief: 'Diagrama vertical con tres casillas apiladas. Casilla superior: dos puntos, rotulada "×400 → 800". Casilla media: dos puntos, rotulada "×20 → 40". Casilla inferior: una barra, rotulada "×1 → 5". A la derecha, los pasos: "845 ÷ 400 = 2, sobran 45"; "45 ÷ 20 = 2, sobran 5". Abajo, la comprobación "800 + 40 + 5 = 845". Puntos y barras color café maíz, caracol blanco con contorno. Fondo crema.' } },
+            brief: 'Diagrama vertical con tres casillas apiladas. Casilla superior: dos puntos, rotulada "×400 → 800". Casilla media: dos puntos, rotulada "×20 → 40". Casilla inferior: una barra, rotulada "×1 → 5". A la derecha, los pasos: "845 ÷ 400 = 2, sobran 45"; "45 ÷ 20 = 2, sobran 5". Abajo, la comprobación "800 + 40 + 5 = 845". Puntos y barras color café maíz, caracol blanco con contorno. Fondo crema. Target: public/media/s08-mat-3-torre.svg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.' } },
         { icon: 'Calculator', problem: 'Convierte **845** a numeral maya.',
           steps: [
             { text: '¿Cabe 8,000 en 845? No. El nivel más alto que cabe es el de **400**.' },
@@ -377,7 +374,6 @@ export default [
     gancho: 'Contar de 20 en 20 en el sistema maya es muy fácil: solo se agrega un punto. ¿Y contar de 100 en 100?',
     objetivos: [
       'Reconocer qué cambia en un numeral maya al sumar 20 o 100',
-      'Ordenar y completar series de 20 en 20 y de 100 en 100 escritas con numerales mayas',
     ],
     resumen: [
       'Sumar 20 es agregar un punto en el segundo nivel (×20). El primer nivel no cambia.',
@@ -388,7 +384,7 @@ export default [
     media: {
       id: 's08-mat-4-series', kind: 'animation', title: 'De 20 en 20 y de 100 en 100', aspect: '16:9', duration: 40,
       alt: 'Una fila de numerales mayas crece: primero se agrega un punto arriba cada vez (de 20 en 20); luego una barra cada vez (de 100 en 100) hasta que al llegar a 400 aparece un tercer nivel.',
-      brief: 'Animación 2D de 40 s. Parte 1: aparecen en fila los numerales mayas de 20, 40, 60, 80, 100 y 120; en cada paso cae un punto nuevo en el segundo nivel (cuando hay 5 puntos se funden en una barra) y abajo se mantiene el caracol. Parte 2: la serie 100, 200, 300, 400, 500: en cada paso cae una barra en el segundo nivel; al llegar a 400 las cuatro barras suben convertidas en un punto al tercer nivel y quedan dos caracoles. Narración en español con los números en voz alta.',
+      brief: 'Animación 2D de 40 s. Parte 1: aparecen en fila los numerales mayas de 20, 40, 60, 80, 100 y 120; en cada paso cae un punto nuevo en el segundo nivel (cuando hay 5 puntos se funden en una barra) y abajo se mantiene el caracol. Parte 2: la serie 100, 200, 300, 400, 500: en cada paso cae una barra en el segundo nivel; al llegar a 400 las cuatro barras suben convertidas en un punto al tercer nivel y quedan dos caracoles. Narración en español con los números en voz alta. Target: public/media/s08-mat-4-series.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
       S.choice(
@@ -486,27 +482,25 @@ export default [
     ],
   }),
 
-  /* ───────────────────────── 5. Mayas en la vida diaria + repaso de la unidad ───────────────────────── */
+  /* ───────────────────────── 5. Numerales mayas para comparar datos ───────────────────────── */
   lesson({
     id: 's08-mat-5',
-    title: 'Numerales mayas en la vida diaria y repaso',
-    icon: 'ShoppingBasket',
+    title: 'Numerales mayas para comparar datos de energía',
+    icon: 'Gauge',
     minutes: 15,
-    gancho: 'En el mercado, doña Candelaria suma lo que vendió el lunes y el martes, y lo anota en maya. ¿Puedes ayudarla? Después, repasaremos lo mejor de la unidad.',
+    gancho: 'Un archivo cultural anota con numerales mayas los conteos de dos jornadas didácticas sobre energía. ¿Puedes leer, sumar y comprobar esos registros?',
     objetivos: [
-      'Resolver situaciones cotidianas y representar el resultado con numerales mayas',
-      'Comparar numerales mayas',
-      'Repasar geometría, conjuntos y números de la unidad',
+      'Resolver una situación coherente de datos energéticos y representar el resultado con numerales mayas',
     ],
     resumen: [
       'Para resolver un problema con numerales mayas: lee cada numeral en decimal, opera y vuelve a escribir el resultado en maya.',
       'Para comparar: el numeral con más niveles es mayor; con los mismos niveles, compara desde el nivel de arriba.',
-      'En esta unidad aprendiste figuras y cuerpos geométricos, enteros y plano cartesiano, series, conjuntos, números grandes, romanos y mayas.',
+      'Un registro honesto conserva la unidad, el dato decimal y la comprobación del numeral maya.',
     ],
     media: {
       id: 's08-mat-5-pizarra', kind: 'image', title: 'La pizarra de la semana', aspect: '4:3',
       alt: 'Una vendedora en el mercado escribe con numerales mayas en una pizarra las ventas del lunes y del martes y su total.',
-      brief: 'Ilustración de un puesto de elotes en un mercado guatemalteco. Una vendedora mayor con delantal escribe en una pizarra verde tres columnas: "lunes", "martes", "total", cada una con un numeral maya de dos niveles (45, 130 y un signo de interrogación en el total). Su nieta la ayuda contando granos de maíz. Colores cálidos, estilo plano.',
+      brief: 'Ilustración de un puesto de elotes en un mercado guatemalteco. Una vendedora mayor con delantal escribe en una pizarra verde tres columnas: "lunes", "martes", "total", cada una con un numeral maya de dos niveles (45, 130 y un signo de interrogación en el total). Su nieta la ayuda contando granos de maíz. Colores cálidos, estilo plano. Target: public/media/s08-mat-5-pizarra.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
@@ -558,12 +552,12 @@ export default [
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: [], ambito: 'conocer', title: 'Lo que construimos en la unidad',
-          prompt: 'Antes del repaso final, recuerda el camino de estas ocho semanas. Toca cada tarjeta.' },
-        { icon: 'Map', body: 'De las figuras a los números: todo sirve para describir el mundo que te rodea.', reveal: [
-          { icon: 'Triangle', front: 'Semanas 1 a 4', back: 'Triángulos, paralelogramos, polígonos, simetría, perímetro y cuerpos geométricos (caras, vértices y aristas).' },
-          { icon: 'Thermometer', front: 'Semana 5', back: 'Números enteros, recta numérica, plano cartesiano y series.' },
-          { icon: 'Shapes', front: 'Semanas 6 y 7', back: 'Conjuntos y sus operaciones, conjuntos numéricos, números hasta 999,999,999 y romanos.' },
-          { icon: 'Shell', front: 'Semana 8', back: 'Aproximación y numeración maya.' },
+          prompt: 'Antes de resolver el caso energético, revisa qué debe conservar un registro matemático confiable.' },
+        { icon: 'ClipboardCheck', body: 'El numeral maya y el decimal deben representar la misma cantidad y mantener la unidad del caso.', reveal: [
+          { icon: 'Hash', front: 'Dato decimal', back: 'Permite operar y comprobar la cantidad.' },
+          { icon: 'Shell', front: 'Representación maya', back: 'Distribuye la misma cantidad en niveles de ×1, ×20 y ×400.' },
+          { icon: 'Gauge', front: 'Unidad', back: 'Indica si se cuentan focos, minutos o registros; no se mezclan unidades.' },
+          { icon: 'BadgeCheck', front: 'Comprobación', back: 'Multiplica cada nivel por su valor y suma.' },
         ] },
       ),
       S.maya(
@@ -571,24 +565,17 @@ export default [
           explain: '1 × 400 + 3 × 20 + 0 = 400 + 60 = 460 árboles.' },
         { mode: 'read', target: 460, levels: 3 },
       ),
+      S.number(
+        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.5', 'mat:4.1.6'], prompt: 'El primer registro equivale a **145** minutos y el segundo a **230** minutos. ¿Cuál es el total que luego representarás en maya?', explain: '145 + 230 = 375 minutos.' },
+        { answer: 375, unit: 'minutos' },
+      ),
+      S.maya(
+        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.6'], prompt: 'Representa en numeral maya el total de **375** minutos del caso.' },
+        { mode: 'build', target: 375, levels: 2 },
+      ),
       S.choice(
-        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.1.1'], prompt: 'Repaso de geometría: un triángulo tiene ángulos de **90°, 35° y 55°**. ¿Qué tipo de triángulo es según sus ángulos?',
-          explain: 'Tiene un ángulo recto (90°): es **rectángulo**.' },
-        { options: [
-          { id: 'a', text: 'Acutángulo', feedback: 'Un acutángulo tiene sus tres ángulos menores de 90°.' },
-          { id: 'b', text: 'Rectángulo' },
-          { id: 'c', text: 'Obtusángulo', feedback: 'Ningún ángulo mide más de 90°.' },
-        ], correct: ['b'] },
-      ),
-      S.number(
-        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:1.3.1'], prompt: 'Repaso de cuerpos geométricos: ¿cuántas **caras** tiene un prisma pentagonal?',
-          explain: '5 caras laterales (una por cada lado del pentágono) + 2 bases = 7 caras.' },
-        { answer: 7, misconceptions: [{ value: 5, msg: 'Contaste solo las caras laterales. Faltan las 2 bases.' }] },
-      ),
-      S.number(
-        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:3.2.3'], prompt: 'Repaso de conjuntos: A = {1, 2, 3, 4, 5} y B = {4, 5, 6}. ¿Cuántos elementos tiene **A Δ B**?',
-          explain: 'A Δ B = {1, 2, 3, 6}: los que están en uno solo de los dos conjuntos. Son 4.' },
-        { answer: 4, misconceptions: [{ value: 6, msg: 'Esa es la unión. En la diferencia simétrica se quitan los comunes (4 y 5).' }] },
+        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.7'], prompt: '¿Qué comprobación respalda el numeral maya construido para 375?' },
+        { options: [{ id: 'a', text: '18 × 20 + 15 = 375' }, { id: 'b', text: '15 × 20 + 18 = 318' }, { id: 'c', text: '18 + 15 = 33' }], correct: ['a'] },
       ),
       S.maya(
         { fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.1.5'], prompt: 'Supongamos que una escuela tiene **238** estudiantes. Escribe la cantidad con numeral maya.' },

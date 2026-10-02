@@ -15,24 +15,23 @@ export default [
     minutes: 15,
     gancho: 'Todos los días escuchas noticias sobre sequías, migración, precios altos o contaminación. ¿Son problemas solo de Guatemala o de todo el planeta? ¿Cómo sabemos qué tan grandes son?',
     objetivos: [
-      'Identificar los principales problemas mundiales actuales',
-      'Leer e interpretar datos de informes y gráficas sobre la población mundial',
-      'Relacionar los problemas mundiales con la vida en tu comunidad',
+      'Usar aportes de las Ciencias Sociales, fuentes y datos fechados para comprender un problema mundial sin exagerar conclusiones',
     ],
     resumen: [
       'Problemas mundiales actuales: pobreza y hambre, desigualdad, cambio climático, falta de agua potable, pérdida de bosques y biodiversidad, contaminación, migración forzada, conflictos armados, enfermedades y falta de acceso a la educación.',
-      'Organismos como la ONU publican informes con datos estadísticos para medir estos problemas. Según la ONU, aproximadamente 1 de cada 11 personas en el mundo pasa hambre y cerca de 1 de cada 4 no tiene agua potable segura en casa.',
+      'Los organismos publican informes con fuente, fecha, método y unidad. En esta lección, cualquier cifra sin referencia completa se presenta como dato didáctico simulado, no como estadística mundial actual.',
+      'Las Ciencias Sociales aportan preguntas, conceptos, fuentes y métodos para relacionar decisiones humanas, instituciones y condiciones de vida; no sustituyen la evidencia con opiniones.',
       'Para leer un informe: identifica el tema, la fuente y la fecha; lee título, unidades y escalas de las gráficas; compara datos y saca conclusiones sin exagerar.',
       'En 2015, los países de la ONU acordaron 17 Objetivos de Desarrollo Sostenible (Agenda 2030) para enfrentar juntos estos problemas. Lo global también se vive y se resuelve en lo local.',
     ],
     media: {
       id: 's08-ccss-1-ods', kind: 'image', title: 'Un planeta, muchos retos', aspect: '16:9',
       alt: 'Ilustración de un globo terráqueo rodeado de íconos de problemas mundiales: una mazorca seca, una gota de agua tachada, un termómetro alto, un árbol cortado, una mochila de migrante y un libro cerrado.',
-      brief: 'Ilustración central de la Tierra rodeada de 8 íconos grandes y amables, cada uno con una etiqueta breve: Hambre (plato vacío), Agua (gota con signo de interrogación), Cambio climático (termómetro alto), Bosques (tocón de árbol), Contaminación (bolsa plástica en el mar), Migración forzada (familia con mochilas), Educación (libro cerrado), Desigualdad (balanza inclinada). Debajo: "La ONU mide estos problemas con informes y datos". Estilo plano, colores suaves, sin fotos de personas reales ni imágenes dolorosas.',
+      brief: 'Ilustración central de la Tierra rodeada de 8 íconos grandes y amables, cada uno con una etiqueta breve: Hambre (plato vacío), Agua (gota con signo de interrogación), Cambio climático (termómetro alto), Bosques (tocón de árbol), Contaminación (bolsa plástica en el mar), Migración forzada (familia con mochilas), Educación (libro cerrado), Desigualdad (balanza inclinada). Debajo: "La ONU mide estos problemas con informes y datos". Estilo plano, colores suaves, sin fotos de personas reales ni imágenes dolorosas. Target: public/media/s08-ccss-1-ods.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:8.3.1'], ambito: 'conocer',
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], ambito: 'conocer',
           prompt: 'Este año la lluvia llegó tarde y muchas milpas del Corredor Seco se perdieron. Al mismo tiempo, hubo sequías en partes de África y Asia. ¿Qué nos dice esto?',
           explain: 'Algunos problemas **no respetan fronteras**: el cambio climático, el hambre o la contaminación afectan a muchos países a la vez. Son **problemas mundiales**.' },
         { options: [
@@ -42,11 +41,11 @@ export default [
         ], correct: ['a'] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:8.3.1'], ambito: 'conocer', title: 'La problemática mundial actual',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], ambito: 'conocer', title: 'La problemática mundial actual',
           prompt: 'Los informes de la ONU y de otros organismos describen varios problemas que enfrenta la humanidad hoy. Toca cada tarjeta.' },
-        { icon: 'Globe', body: 'Estos problemas están **conectados**: la sequía causa hambre, el hambre empuja a migrar, la pobreza impide estudiar… Por eso se buscan soluciones que atiendan varias causas a la vez.', reveal: [
-          { icon: 'Wheat', front: 'Pobreza y hambre', back: 'Según la ONU, aproximadamente **1 de cada 11 personas** en el mundo pasa hambre. En Guatemala, la desnutrición crónica infantil es un problema grave.' },
-          { icon: 'Droplets', front: 'Agua', back: 'Cerca de **1 de cada 4 personas** en el mundo no tiene agua potable segura en su casa.' },
+        { icon: 'Globe', body: 'Las **Ciencias Sociales** ayudan a comprender estos problemas al comparar fuentes, fechas, actores, decisiones e instituciones. Una relación entre datos orienta preguntas, pero no prueba por sí sola una causa.', reveal: [
+          { icon: 'Wheat', front: 'Pobreza y hambre', back: 'Caso didáctico simulado: un informe regional registra **9 de cada 100 personas** con alimentación insuficiente. La cifra no representa un dato mundial actual.' },
+          { icon: 'Droplets', front: 'Agua', back: 'Caso didáctico simulado: una tabla compara hogares con servicio gestionado de forma segura. Tener tubería no demuestra por sí solo que el agua sea potable.' },
           { icon: 'Thermometer', front: 'Cambio climático', back: 'El planeta se calienta por los gases que producen la quema de combustibles y la tala de bosques. Hay sequías y tormentas más fuertes.' },
           { icon: 'TreePine', front: 'Bosques y biodiversidad', back: 'Se pierden bosques y muchas especies de plantas y animales están en peligro.' },
           { icon: 'Route', front: 'Migración forzada', back: 'Millones de personas dejan su hogar por pobreza, violencia, conflictos o desastres.' },
@@ -55,11 +54,11 @@ export default [
         ] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['ccss', 'mat'], cnb: ['ccss:8.3.1'], ambito: 'hacer', title: 'Cómo leer un informe estadístico',
+        { fase: 'construir', areas: ['ccss', 'mat'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], ambito: 'hacer', title: 'Cómo leer un informe estadístico',
           prompt: 'Los **datos estadísticos** son números que describen un problema. Para leerlos bien, sigue estos pasos. Toca cada tarjeta.',
           media: { id: 's08-ccss-1-grafica', kind: 'diagram', title: 'Partes de una gráfica', aspect: '4:3',
             alt: 'Gráfica de barras con flechas que señalan sus partes: título, fuente, eje de categorías, eje de valores con unidades y la barra más alta.',
-            brief: 'Gráfica de barras de ejemplo con datos hipotéticos rotulados "Ejemplo" y flechas que señalan: (1) Título: "Hogares con agua entubada en cuatro aldeas (supuesto)"; (2) Fuente y año, en letra pequeña abajo; (3) Eje horizontal con los nombres de las aldeas; (4) Eje vertical con la unidad "%" y escala de 0 a 100 de 20 en 20; (5) la barra más alta y la más baja resaltadas. Colores claros, textos grandes.' } },
+            brief: 'Gráfica de barras de ejemplo con datos hipotéticos rotulados "Ejemplo" y flechas que señalan: (1) Título: "Hogares con agua entubada en cuatro aldeas (supuesto)"; (2) Fuente y año, en letra pequeña abajo; (3) Eje horizontal con los nombres de las aldeas; (4) Eje vertical con la unidad "%" y escala de 0 a 100 de 20 en 20; (5) la barra más alta y la más baja resaltadas. Colores claros, textos grandes. Target: public/media/s08-ccss-1-grafica.svg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.' } },
         { icon: 'BarChart3', body: 'Un buen lector de datos no exagera: dice **lo que muestran los números** y aclara si son **aproximados** o **supuestos**.', reveal: [
           { icon: 'FileText', front: '1. Tema, fuente y fecha', back: '¿De qué trata? ¿Quién lo publicó (ONU, INE, municipalidad)? ¿De qué año son los datos? Una fuente confiable dice cómo obtuvo sus datos.' },
           { icon: 'Ruler', front: '2. Unidades y escala', back: '¿Son personas, porcentajes (%) o millones? ¿De cuánto en cuánto sube la escala?' },
@@ -68,7 +67,7 @@ export default [
         ] },
       ),
       S.chart(
-        { fase: 'construir', areas: ['ccss', 'mat'], cnb: ['ccss:8.3.1'], ambito: 'hacer',
+        { fase: 'construir', areas: ['ccss', 'mat'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], ambito: 'hacer',
           prompt: 'Construye la gráfica con los datos de este informe **hipotético** de una municipalidad: porcentaje de hogares con agua entubada en cuatro aldeas.',
           hint: 'Lee cada dato de la tabla y sube la barra hasta ese número. La escala va de 10 en 10.',
           explain: 'La gráfica muestra de un vistazo que la aldea Los Pinos tiene la menor cobertura: allí debería priorizarse un proyecto de agua.' },
@@ -80,7 +79,7 @@ export default [
         ], data: [80, 60, 30, 50], max: 100, step: 10, unit: '%', source: 'Informe municipal (datos supuestos): El Llano 80 %, San José 60 %, Los Pinos 30 %, La Cumbre 50 %' },
       ),
       S.reading(
-        { fase: 'aplicar', areas: ['ccss', 'l1'], cnb: ['ccss:8.3.1'], ambito: 'conocer', prompt: 'Lee este fragmento de un informe **hipotético** y responde.' },
+        { fase: 'aplicar', areas: ['ccss', 'l1'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], ambito: 'conocer', prompt: 'Lee este fragmento de un informe **hipotético** y usa aportes de las Ciencias Sociales para relacionar fuente, fecha, decisiones y condiciones de vida.' },
         { genre: 'Informe (datos supuestos)', heading: 'Informe regional sobre niñez y educación', passage:
           'Supongamos que un organismo internacional estudió cuatro países de una región durante 10 años. Estos son algunos resultados.\n\nEn 2014, **20 de cada 100** niñas y niños en edad de primaria no asistían a la escuela. En 2024, la cifra bajó a **12 de cada 100**. La mejora fue mayor en las ciudades que en las áreas rurales.\n\nEl informe señala tres causas principales de la falta de asistencia: la **pobreza** (las familias necesitan que los niños trabajen), la **distancia** a la escuela y la **migración** de las familias. Recomienda becas, transporte escolar y escuelas cercanas en el área rural.',
           questions: [
@@ -102,7 +101,7 @@ export default [
           ] },
       ),
       S.sort(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.3.1'], ambito: 'conocer',
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], ambito: 'conocer',
           prompt: 'Un mismo problema mundial se vive también en tu comunidad. Clasifica cada situación local según el **problema mundial** al que pertenece.',
           explain: 'Pensar globalmente y actuar localmente: entender el problema mundial ayuda a actuar donde vivimos.' },
         { buckets: [
@@ -118,7 +117,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.3.1'], ambito: 'conocer',
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], ambito: 'conocer',
           prompt: 'En 2015, los países de la ONU acordaron los **17 Objetivos de Desarrollo Sostenible** (ODS). ¿Para qué sirven?',
           explain: 'Los ODS son metas comunes para el año 2030: acabar con la pobreza y el hambre, garantizar educación, agua, igualdad de género, cuidar el clima y más. Cada país, municipio y persona puede aportar.' },
         { options: [
@@ -128,15 +127,15 @@ export default [
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:8.3.1'], prompt: '¿Cuál de estos es un **problema mundial actual**?' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], prompt: '¿Qué opción usa un aporte de las Ciencias Sociales para comprender un **problema mundial actual**?' },
         { options: [
-          { id: 'a', text: 'El cambio climático, que causa sequías y tormentas más fuertes' },
+          { id: 'a', text: 'Comparar fuentes fechadas sobre cambio climático, decisiones públicas y condiciones de vida' },
           { id: 'b', text: 'La construcción de pirámides en Egipto' },
           { id: 'c', text: 'La invención de la imprenta' },
         ], correct: ['a'] },
       ),
       S.number(
-        { fase: 'comprobar', areas: ['ccss', 'mat'], cnb: ['ccss:8.3.1'], prompt: 'Supongamos que un informe dice: en 2010, **30 de cada 100** hogares de un municipio no tenían luz eléctrica; en 2020, **18 de cada 100**. ¿En cuántos hogares de cada 100 **mejoró** la situación?' },
+        { fase: 'comprobar', areas: ['ccss', 'mat'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], prompt: 'Un informe social fechado indica que en 2010 **30 de cada 100** hogares de un municipio no tenían luz eléctrica y en 2020 eran **18 de cada 100**. ¿En cuántos hogares de cada 100 cambió el indicador?' },
         { answer: 12, unit: 'de cada 100' },
       ),
     ],
@@ -151,8 +150,6 @@ export default [
     gancho: 'Cuando compras un cuaderno de Q10, una parte de ese dinero no es para la librería. ¿Para quién es? ¿Y quién decidió que así fuera?',
     objetivos: [
       'Explicar qué son los impuestos y para qué sirven',
-      'Clasificar las normas jurídicas que definen las responsabilidades fiscales de la ciudadanía',
-      'Calcular el IVA en situaciones sencillas y valorar la importancia de pedir factura',
     ],
     resumen: [
       'Los impuestos son pagos obligatorios que la población y las empresas hacen al Estado para financiar servicios públicos: escuelas, hospitales, carreteras, seguridad.',
@@ -163,7 +160,7 @@ export default [
     media: {
       id: 's08-ccss-2-ruta', kind: 'animation', title: 'El viaje de un quetzal de impuestos', aspect: '16:9', duration: 45,
       alt: 'Animación que sigue una moneda desde la compra de un cuaderno con factura hasta el presupuesto del Estado y de ahí a una escuela, un centro de salud y una carretera.',
-      brief: 'Animación 2D de 45 s. Una niña compra un cuaderno y recibe su factura. Una moneda con la etiqueta "IVA" sale de la caja registradora, viaja por una flecha hasta un edificio rotulado "SAT", luego a un cofre "Presupuesto del Estado aprobado por el Congreso", y de ahí se reparte en tres flechas hacia una escuela con pupitres nuevos, un centro de salud con medicinas y una carretera en construcción. Al final aparece la frase "Tus impuestos regresan en servicios. Pide tu factura". Narración en español con subtítulos. Sin logos oficiales reales.',
+      brief: 'Animación 2D de 45 s. Una niña compra un cuaderno y recibe su factura. Una moneda con la etiqueta "IVA" sale de la caja registradora, viaja por una flecha hasta un edificio rotulado "SAT", luego a un cofre "Presupuesto del Estado aprobado por el Congreso", y de ahí se reparte en tres flechas hacia una escuela con pupitres nuevos, un centro de salud con medicinas y una carretera en construcción. Al final aparece la frase "Tus impuestos regresan en servicios. Pide tu factura". Narración en español con subtítulos. Sin logos oficiales reales. Target: public/media/s08-ccss-2-ruta.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
       S.choice(
@@ -191,7 +188,7 @@ export default [
           prompt: 'Las **normas jurídicas** son las reglas obligatorias de un país. No todas tienen el mismo nivel: se ordenan como una **pirámide**. Toca cada tarjeta, de arriba hacia abajo.',
           media: { id: 's08-ccss-2-piramide', kind: 'diagram', title: 'La pirámide de las normas fiscales', aspect: '3:4',
             alt: 'Pirámide de tres niveles: arriba la Constitución, en medio las leyes del Congreso y el Código Tributario, abajo los reglamentos; a un lado, las normas municipales.',
-            brief: 'Diagrama de pirámide con tres niveles de colores. Punta: "Constitución Política de la República (1985)" con la nota "deber de contribuir a los gastos públicos; solo el Congreso crea impuestos". Centro: "Leyes del Congreso (decretos)": Ley del IVA, Ley del ISR, Código Tributario. Base: "Reglamentos del Organismo Ejecutivo: explican cómo aplicar las leyes". A un lado, un recuadro "Municipalidades: IUSI y arbitrios, según la ley" y otro "Tratados internacionales aprobados por el Congreso (p. ej., impuestos a las importaciones)". Flecha lateral: "ninguna norma puede contradecir a la de arriba". Texto grande, íconos simples.' } },
+            brief: 'Diagrama de pirámide con tres niveles de colores. Punta: "Constitución Política de la República (1985)" con la nota "deber de contribuir a los gastos públicos; solo el Congreso crea impuestos". Centro: "Leyes del Congreso (decretos)": Ley del IVA, Ley del ISR, Código Tributario. Base: "Reglamentos del Organismo Ejecutivo: explican cómo aplicar las leyes". A un lado, un recuadro "Municipalidades: IUSI y arbitrios, según la ley" y otro "Tratados internacionales aprobados por el Congreso (p. ej., impuestos a las importaciones)". Flecha lateral: "ninguna norma puede contradecir a la de arriba". Texto grande, íconos simples. Target: public/media/s08-ccss-2-piramide.svg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.' } },
         { icon: 'Layers', body: 'Regla de oro: **ninguna norma puede contradecir a otra de nivel más alto**. Si una ley contradice la Constitución, la **Corte de Constitucionalidad** puede anularla.', reveal: [
           { icon: 'ScrollText', front: 'Constitución Política', back: 'La **ley suprema**. Establece que es **deber** de los guatemaltecos **contribuir a los gastos públicos** según la ley, y que **solo el Congreso** puede crear impuestos (principio de legalidad).' },
           { icon: 'Gavel', front: 'Leyes ordinarias', back: 'Las aprueba el **Congreso** como decretos. Ejemplos: la **Ley del IVA**, la del **ISR** y el **Código Tributario**, que da las reglas generales para pagar y cobrar tributos.' },
@@ -270,8 +267,6 @@ export default [
     gancho: 'Dos grados quieren usar la cancha a la misma hora. Una aldea discute quién arregla el camino. ¿Existe un "método" para resolver problemas sin pelear?',
     objetivos: [
       'Aplicar un procedimiento para resolver problemas con diálogo',
-      'Practicar habilidades de la cultura de paz: escuchar, expresar sin herir y buscar acuerdos',
-      'Planificar una actividad de servicio en tu comunidad',
     ],
     resumen: [
       'Procedimiento para resolver problemas: 1) identificar con claridad el problema, 2) escuchar a todas las partes, 3) proponer varias alternativas, 4) elegir juntos la mejor, 5) cumplir el acuerdo, 6) evaluar si funcionó.',
@@ -282,7 +277,7 @@ export default [
     media: {
       id: 's08-ccss-3-dialogo', kind: 'video', title: 'Mediación en el recreo', aspect: '16:9', duration: 60,
       alt: 'Animación de dos grupos de estudiantes que discuten por la cancha; una compañera mediadora los ayuda a seguir los seis pasos y llegan a un acuerdo de horarios.',
-      brief: 'Animación 2D de 60 s. Escena 1: dos grupos de sexto grado discuten por usar la cancha a la hora del recreo. Escena 2: una compañera mediadora con un distintivo propone sentarse en círculo; en pantalla aparecen los pasos numerados mientras ocurren: identificar el problema, escuchar a cada grupo (burbujas de diálogo con frases "yo me siento… cuando…"), proponer alternativas (turnos por día, dividir la cancha, jugar juntos), elegir juntos, cumplir y evaluar una semana después. Escena 3: un calendario pegado en la pared con los turnos y ambos grupos jugando. Personajes diversos, narración en español con subtítulos.',
+      brief: 'Animación 2D de 60 s. Escena 1: dos grupos de sexto grado discuten por usar la cancha a la hora del recreo. Escena 2: una compañera mediadora con un distintivo propone sentarse en círculo; en pantalla aparecen los pasos numerados mientras ocurren: identificar el problema, escuchar a cada grupo (burbujas de diálogo con frases "yo me siento… cuando…"), proponer alternativas (turnos por día, dividir la cancha, jugar juntos), elegir juntos, cumplir y evaluar una semana después. Escena 3: un calendario pegado en la pared con los turnos y ambos grupos jugando. Personajes diversos, narración en español con subtítulos. Target: public/media/s08-ccss-3-dialogo.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
       S.choice(
@@ -322,7 +317,7 @@ export default [
         ], labels: { start: 'Primero', end: 'Al final' } },
       ),
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:7.2.5'], ambito: 'convivir', title: 'Habilidades para la cultura de paz',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:8.2.1'], ambito: 'convivir', title: 'Habilidades para la cultura de paz',
           prompt: 'Para dialogar bien se necesitan **habilidades sociales** que se practican como un deporte. Toca cada tarjeta.' },
         { icon: 'HeartHandshake', body: 'Nadie nace sabiendo dialogar: se aprende practicando en la casa, la escuela y la comunidad.', reveal: [
           { icon: 'Ear', front: 'Escucha activa', back: 'Mirar a quien habla, no interrumpir y repetir lo que entendiste: "Entonces tú dices que…".' },
@@ -332,7 +327,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:7.2.5'], ambito: 'convivir',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:8.2.1'], ambito: 'convivir',
           prompt: 'Tu hermano usó tu cuaderno sin permiso y lo manchó. ¿Cuál es un buen **mensaje "yo"**?',
           hint: 'Un mensaje "yo" habla de lo que **tú sientes**, cuándo y por qué, sin insultar.',
           explain: 'El mensaje "yo" dice cómo te sientes y por qué, sin atacar a la otra persona. Así es más fácil que te escuche y que lleguen a un acuerdo.' },
@@ -343,7 +338,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:7.1.3'], ambito: 'emprender', title: 'Servir a la comunidad',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:8.2.1'], ambito: 'emprender', title: 'Servir a la comunidad',
           prompt: 'Una **actividad de servicio** es algo que haces, de forma voluntaria y organizada, para el bien de tu comunidad. Toca cada tarjeta.' },
         { icon: 'HandHeart', body: 'Servir también es **organizarse**: tener un objetivo, repartir tareas, pedir permiso y evaluar al final.', reveal: [
           { icon: 'Trash2', front: 'Cuidar el ambiente', back: 'Jornadas de limpieza del parque o del río, sembrar árboles, separar la basura en la escuela.' },
@@ -353,7 +348,7 @@ export default [
         ] },
       ),
       S.project(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:7.1.3', 'ccss:7.2.5', 'ccss:8.2.1'], ambito: 'emprender',
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.2.1', 'ccss:8.2.1', 'ccss:8.2.1'], ambito: 'emprender',
           prompt: 'Planifica una **actividad de servicio** sencilla con tu familia, tu grado o tus vecinos. Usa lo que aprendiste para resolver problemas y trabajar en paz.' },
         { goal: 'Organizar una actividad de servicio que ayude a resolver un problema real de tu comunidad.',
           steps: [
@@ -367,7 +362,7 @@ export default [
           rubric: ['Identifiqué un problema real y concreto', 'Consulté a las personas afectadas y pedí permiso', 'Trabajé en equipo y resolví desacuerdos con diálogo', 'Evalué el resultado y propuse mejoras'] },
       ),
       S.dilemma(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:7.2.5', 'ccss:8.2.1'], ambito: 'convivir', prompt: 'Durante la jornada de limpieza surge un problema. ¿Qué harías tú?' },
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.2.1', 'ccss:8.2.1'], ambito: 'convivir', prompt: 'Durante la jornada de limpieza surge un problema. ¿Qué harías tú?' },
         { scene: { icon: 'Users', text: 'En la limpieza del parque, dos compañeros no quieren recoger basura "porque eso no les toca" y se ponen a jugar. El resto del equipo se enoja.' },
           options: [
             { id: 'a', icon: 'MessagesSquare', text: 'Propongo detenernos, escuchar por qué no quieren y acordar tareas que todos acepten', consequence: 'Descubren que les daba asco tocar la basura; se les asigna repartir bolsas y llevar el conteo. Todos participan.', values: ['diálogo', 'empatía', 'cooperación'], constructive: true },
@@ -376,7 +371,7 @@ export default [
           ] },
       ),
       S.tf(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:1.3.1', 'ccss:3.2.6', 'ccss:6.5.1'], ambito: 'conocer',
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.2.1', 'ccss:8.2.1', 'ccss:8.2.1'], ambito: 'conocer',
           prompt: 'Repaso de la unidad: ¿verdadero o falso?',
           explain: 'Todo lo que aprendiste en la unidad sirve para comprender tu mundo y actuar mejor en él.' },
         { statements: [
@@ -397,7 +392,7 @@ export default [
         ], labels: { start: 'Primero', end: 'Al final' } },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:7.1.3', 'ccss:7.2.5'], prompt: '¿Cuál es una actividad de **servicio** que promueve la cultura de paz?' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:8.2.1', 'ccss:8.2.1'], prompt: '¿Cuál es una actividad de **servicio** que promueve la cultura de paz?' },
         { options: [
           { id: 'a', text: 'Organizar con el grado una tarde de lectura para niños de primero' },
           { id: 'b', text: 'Hacer una competencia para ver quién se burla mejor de otros' },

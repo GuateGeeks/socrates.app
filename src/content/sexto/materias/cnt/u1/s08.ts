@@ -12,27 +12,25 @@ export default [
     id: 's08-cnt-1',
     title: 'Las formas de la energía y su ahorro',
     icon: 'Zap',
-    minutes: 16,
+    minutes: 15,
     gancho: 'El Sol, una tortilla, una batería y un rayo parecen no tener nada en común. Sin embargo, los cuatro tienen algo que hace posible todo movimiento y todo cambio. ¿Qué es?',
     objetivos: [
-      'Distinguir las manifestaciones de la energía: radiante, solar, lumínica, calorífica, química, nuclear y eléctrica',
-      'Explicar cómo la energía se transforma y produce movimiento',
-      'Valorar el ahorro y el uso racional de la energía eléctrica',
+      'Evaluar afirmaciones sobre transformaciones y ahorro de energía con medidas, evidencia demostrable y lenguaje preciso',
     ],
     resumen: [
       'La energía es la capacidad de producir cambios o movimiento. No se crea ni se destruye: se transforma de una forma en otra.',
       'Radiante: viaja en ondas, aun por el espacio vacío. Solar: la que llega del Sol como luz y calor. Lumínica: la luz visible. Calorífica: el calor. Química: guardada en alimentos, leña, combustibles y baterías. Nuclear: guardada en el núcleo de los átomos (así brilla el Sol). Eléctrica: movimiento de cargas eléctricas por cables.',
       'La electricidad se produce con agua de los ríos, sol, viento, calor de la Tierra, bagazo de caña o combustibles. Producirla cuesta dinero y parte de ella contamina: por eso hay que ahorrarla.',
-      'Ahorrar: apagar luces y aparatos que no se usan, desconectar cargadores, usar focos LED, aprovechar la luz del día y abrir el refrigerador lo menos posible.',
+      'Una afirmación científica sobre ahorro indica qué se midió, con qué unidad y bajo qué condiciones; al repetir el protocolo se esperan resultados compatibles, no necesariamente idénticos.',
     ],
     media: {
       id: 's08-cnt-1-manifestaciones', kind: 'diagram', title: 'Siete formas de la energía', aspect: '16:9',
       alt: 'Rueda con siete sectores ilustrados: Sol (solar), ondas que viajan por el espacio (radiante), un foco encendido (lumínica), un comal caliente (calorífica), una tortilla y leña (química), un átomo (nuclear) y un cable con un rayo (eléctrica).',
-      brief: 'Infografía circular con 7 sectores de colores, cada uno con ícono grande, nombre y un ejemplo guatemalteco: Solar (Sol sobre un campo de milpa), Radiante (ondas que salen del Sol y de una antena de radio), Lumínica (foco y luciérnaga), Calorífica (comal sobre el fuego), Química (tortillas, leña, batería), Nuclear (átomo con núcleo resaltado, y el Sol como ejemplo), Eléctrica (cable, poste de luz, rayo). Al centro: "Energía = capacidad de producir cambios". Flechas finas entre sectores que sugieren transformaciones. Letra grande, fondo blanco.',
+      brief: 'Infografía circular con 7 sectores de colores, cada uno con ícono grande, nombre y un ejemplo guatemalteco: Solar (Sol sobre un campo de milpa), Radiante (ondas que salen del Sol y de una antena de radio), Lumínica (foco y luciérnaga), Calorífica (comal sobre el fuego), Química (tortillas, leña, batería), Nuclear (átomo con núcleo resaltado, y el Sol como ejemplo), Eléctrica (cable, poste de luz, rayo). Al centro: "Energía = capacidad de producir cambios". Flechas finas entre sectores que sugieren transformaciones. Letra grande, fondo blanco. Target: public/media/s08-cnt-1-manifestaciones.svg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:7.1.1'], ambito: 'conocer',
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'conocer',
           prompt: '¿Qué tienen en común el **Sol**, una **tortilla**, una **batería** y un **rayo**?',
           explain: 'Todos tienen o transportan **energía**: la capacidad de producir cambios o movimiento. Pero en cada uno la energía se manifiesta de forma distinta.' },
         { layout: 'grid', options: [
@@ -42,7 +40,7 @@ export default [
         ], correct: ['b'] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.1.1'], ambito: 'conocer', title: '¿Qué es la energía?',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'conocer', title: '¿Qué es la energía?',
           prompt: 'La **energía** es la capacidad de producir **cambios** o **movimiento**. Toca las tarjetas.' },
         { icon: 'Zap', body: 'Cuando corres, cuando el agua hierve o cuando se enciende un foco, hay energía en acción.', reveal: [
           { icon: 'Footprints', front: 'Energía y movimiento', back: 'Todo lo que se mueve tiene energía de movimiento: el agua de un río, el viento, tú en bicicleta. Y para mover algo, se necesita energía.' },
@@ -51,7 +49,7 @@ export default [
         ] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.1.1'], ambito: 'conocer', title: 'Las manifestaciones de la energía',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'conocer', title: 'Las manifestaciones de la energía',
           prompt: 'Observa el diagrama de la lección y toca cada tarjeta.' },
         { icon: 'Sun', body: 'Fíjate en los ejemplos: todos están a tu alrededor.', reveal: [
           { icon: 'Sun', front: 'Solar', back: 'La energía que llega del **Sol** como luz y calor. Hace crecer las plantas y se aprovecha con paneles solares.' },
@@ -64,7 +62,7 @@ export default [
         ] },
       ),
       S.match(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'conocer',
           prompt: 'Une cada situación con la **manifestación de energía** que más destaca.',
           hint: '¿Hay luz visible, calor, algo guardado para después, cables o el Sol?',
           explain: 'El comal da calor (calorífica); la leña guarda energía química; la luciérnaga produce luz (lumínica); el cable del poste lleva electricidad; el panel del techo aprovecha la energía solar.' },
@@ -77,7 +75,7 @@ export default [
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.1.1'], ambito: 'conocer', title: 'Ejemplo: del Sol a tus piernas',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'conocer', title: 'Ejemplo: del Sol a tus piernas',
           prompt: 'Sigue las transformaciones de la energía desde el Sol hasta tu carrera en el recreo.' },
         { icon: 'RefreshCw', problem: 'Cuando corres en el recreo después de comer tortillas, ¿de dónde vino la energía que te mueve?',
           steps: [
@@ -90,23 +88,23 @@ export default [
           tip: 'Casi toda la energía que usamos en la Tierra viene, al final, del Sol.' },
       ),
       S.order(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.1.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'conocer',
           prompt: 'Ordena las transformaciones de la energía en una **hidroeléctrica**, hasta que se enciende un foco en tu casa.',
-          hint: 'El agua del embalse cae y mueve una turbina; el generador produce electricidad; los cables la llevan; el foco da luz.',
+          hint: 'El agua del embalse cae y mueve una turbina; el generador transforma ese movimiento en energía eléctrica; los cables la llevan; el foco da luz.',
           explain: 'Agua que cae (movimiento) → turbina que gira → generador (eléctrica) → cables → foco (lumínica y algo de calorífica).',
           media: { id: 's08-cnt-1-hidroelectrica', kind: 'animation', title: 'Del río al foco', aspect: '16:9', duration: 40,
             alt: 'Animación: el agua de un embalse cae por un tubo, hace girar una turbina unida a un generador; la electricidad viaja por torres y cables hasta una casa donde se enciende un foco.',
-            brief: 'Animación 2D de 40 s, estilo esquemático. Un embalse en las montañas; el agua baja por una tubería y hace girar una turbina (rótulo "energía del movimiento"); la turbina hace girar un generador ("energía eléctrica"); rayitos amarillos viajan por torres y cables hasta una casa de una aldea; se enciende un foco ("energía lumínica y calorífica"). Al final, el agua sigue su camino por el río. Narración en español con subtítulos.' } },
+            brief: 'Animación 2D de 40 s, estilo esquemático. Un embalse en las montañas; el agua baja por una tubería y hace girar una turbina (rótulo "energía del movimiento"); la turbina hace girar un generador ("energía eléctrica"); rayitos amarillos viajan por torres y cables hasta una casa de una aldea; se enciende un foco ("energía lumínica y calorífica"). Al final, el agua sigue su camino por el río. Narración en español con subtítulos. Target: public/media/s08-cnt-1-hidroelectrica.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.' } },
         { labels: { start: 'Inicio', end: 'Final' }, items: [
           { id: 'h1', text: 'El agua del embalse cae por una tubería', icon: 'Waves' },
           { id: 'h2', text: 'El agua en movimiento hace girar una turbina', icon: 'RotateCw' },
-          { id: 'h3', text: 'El generador produce energía eléctrica', icon: 'Zap' },
+          { id: 'h3', text: 'El generador transforma movimiento en energía eléctrica', icon: 'Zap' },
           { id: 'h4', text: 'Los cables llevan la electricidad a las casas', icon: 'Plug' },
           { id: 'h5', text: 'El foco transforma la electricidad en luz', icon: 'Lightbulb' },
         ] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.2.1'], ambito: 'ser', title: '¿Por qué ahorrar energía eléctrica?',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'ser', title: '¿Por qué ahorrar energía eléctrica?',
           prompt: 'La electricidad es muy útil, pero producirla tiene un **costo**. Toca las tarjetas.' },
         { icon: 'Lightbulb', body: 'En Guatemala, la electricidad se produce con **agua de los ríos** (hidroeléctricas), **bagazo de caña**, **sol**, **viento**, **calor del interior de la Tierra** y **combustibles** como el búnker y el carbón.', reveal: [
           { icon: 'Banknote', front: 'Cuesta dinero', back: 'Cada mes, la familia paga según la electricidad que usó. Ahorrar deja dinero para otras necesidades.' },
@@ -116,7 +114,7 @@ export default [
         ] },
       ),
       S.sort(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.2.1'], ambito: 'ser',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'ser',
           prompt: 'Supongamos que la familia de Mateo paga **Q200** de luz al mes y quiere pagar menos. Clasifica cada acción: ¿**ahorra** o **desperdicia** energía?',
           hint: 'Pregúntate: ¿se está usando electricidad sin necesidad?',
           explain: 'Pequeñas acciones diarias, sumadas, reducen mucho el consumo y el recibo.' },
@@ -133,9 +131,9 @@ export default [
         ] },
       ),
       S.number(
-        { fase: 'aplicar', areas: ['cnt', 'mat'], cnb: ['cnt:7.2.1'], ambito: 'hacer',
-          prompt: 'Supongamos que un foco viejo usa **60 W** (watts) y un foco **LED** que ilumina igual usa **9 W**. En la casa de Mateo hay **4 focos**. Si los cambian todos por LED, ¿cuántos watts ahorran cuando están encendidos a la vez?',
-          explain: 'Cada foco ahorra 60 − 9 = 51 W. Con 4 focos: 4 × 51 = 204 W. ¡Menos de la sexta parte de consumo con la misma luz!' },
+        { fase: 'aplicar', areas: ['cnt', 'mat'], cnb: ['cnt:8.2.1'], ambito: 'hacer',
+          prompt: 'En un **caso simulado**, un medidor registra **60 W** para una lámpara y **9 W** para otra bajo igual nivel de iluminación. Si se comparan 4 lámparas de cada tipo, ¿cuál es la diferencia de potencia?',
+          explain: 'Cada par difiere 60 − 9 = 51 W. En cuatro pares: 204 W. El resultado solo corresponde a las condiciones declaradas; no demuestra por sí solo un ahorro anual.' },
         { answer: 204, unit: 'W', misconceptions: [
           { value: 51, msg: 'Eso es lo que ahorra un solo foco. Hay 4 focos.' },
           { value: 36, msg: '36 W es lo que usan los 4 focos LED. La pregunta es cuánto se ahorra.' },
@@ -143,31 +141,31 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:7.2.1', 'cnt:7.1.1'], ambito: 'ser',
-          prompt: 'En la escuela quieren reducir el consumo de electricidad. ¿Qué propuesta es la **más efectiva y sencilla**?',
-          explain: 'Aprovechar la luz del Sol (energía solar y lumínica gratuita) y apagar lo que no se usa ahorra sin gastar dinero.' },
+        { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'ser',
+          prompt: '¿Qué propuesta permite comprobar una recomendación de ahorro sin inventar resultados?',
+          explain: 'Un protocolo fija condiciones, usa unidades y conserva los registros para que otro grupo pueda repetirlo y comparar resultados compatibles.' },
         { options: [
-          { id: 'a', text: 'Abrir ventanas y cortinas, apagar luces en el recreo y nombrar "guardianes de la energía"', icon: 'Sun' },
-          { id: 'b', text: 'Dejar las luces encendidas para que no se arruinen los focos', icon: 'Lightbulb', feedback: 'Apagar un foco no lo arruina; dejarlo encendido sí gasta energía y dinero.' },
-          { id: 'c', text: 'Conectar más aparatos para aprovechar la electricidad', icon: 'Plug', feedback: 'Más aparatos conectados significa más consumo.' },
+          { id: 'a', text: 'Comparar dos lámparas durante el mismo tiempo, registrar watts y nivel de iluminación, y compartir el protocolo', icon: 'Ruler' },
+          { id: 'b', text: 'Afirmar que una lámpara ahorra mucho porque parece moderna', icon: 'Lightbulb', feedback: 'La apariencia no es una medición.' },
+          { id: 'c', text: 'Prometer una cantidad anual sin tiempo de uso ni tarifa', icon: 'Plug', feedback: 'Faltan condiciones y datos para esa conclusión.' },
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.1.1'], prompt: '¿Qué manifestación de energía está **guardada** en la leña y en los alimentos?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:8.2.1'], prompt: '¿Qué registro hace **exacta y verificable** una comparación de lámparas?' },
         { options: [
-          { id: 'a', text: 'Lumínica' },
-          { id: 'b', text: 'Química' },
-          { id: 'c', text: 'Nuclear' },
-          { id: 'd', text: 'Eléctrica' },
+          { id: 'a', text: '“La nueva se ve mejor”' },
+          { id: 'b', text: '“9 W y 60 W, medidos durante igual prueba de iluminación”' },
+          { id: 'c', text: '“Todos saben cuál conviene”' },
+          { id: 'd', text: '“Ahorrará mucho”' },
         ], correct: ['b'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.1.1', 'cnt:7.2.1'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:8.2.1'], prompt: '¿Verdadero o falso?' },
         { statements: [
-          { text: 'La energía radiante puede viajar por el espacio vacío, como la luz del Sol.', answer: true },
-          { text: 'La energía se destruye cuando la usamos.', answer: false, why: 'La energía no se destruye: se transforma en otras formas, como calor.' },
-          { text: 'Desconectar los cargadores que no se usan ayuda a ahorrar electricidad.', answer: true },
-          { text: 'El Sol brilla gracias a reacciones químicas como las de una fogata.', answer: false, why: 'El Sol brilla gracias a reacciones nucleares en su interior.' },
+          { text: 'Una lámpara transforma energía eléctrica en luz y calor; no crea energía.', answer: true },
+          { text: 'Dos repeticiones demostrables deben dar cifras perfectamente idénticas.', answer: false, why: 'Se esperan resultados compatibles dentro de un margen explicado.' },
+          { text: 'Una recomendación de ahorro debe declarar condiciones y unidad de medida.', answer: true },
+          { text: 'Un dato de potencia basta para prometer una cantidad anual de dinero ahorrado.', answer: false, why: 'También hacen falta tiempo de uso, tarifa y otras condiciones.' },
         ] },
       ),
     ],
@@ -178,12 +176,10 @@ export default [
     id: 's08-cnt-2',
     title: 'Un planeta con fiebre, visto desde el espacio',
     icon: 'Satellite',
-    minutes: 16,
-    gancho: 'Si dejas un carro cerrado al sol, adentro hace mucho más calor que afuera. ¿Qué tiene que ver eso con la Tierra? ¿Y cómo pueden los científicos medir la temperatura de todo el planeta?',
+    minutes: 15,
+    gancho: 'Los satélites registran temperatura, nubes e incendios durante muchos años. ¿Cómo ayudan esas series de datos a explicar el calentamiento global?',
     objetivos: [
       'Explicar el efecto invernadero natural y cómo las actividades humanas lo aumentan',
-      'Identificar las causas y consecuencias del calentamiento global',
-      'Ejemplificar cómo los viajes espaciales y los satélites ayudan a conocer el clima, los recursos naturales y los desastres',
     ],
     resumen: [
       'La atmósfera tiene gases (vapor de agua, dióxido de carbono, metano) que atrapan parte del calor del Sol: es el efecto invernadero natural, que permite la vida.',
@@ -194,17 +190,17 @@ export default [
     media: {
       id: 's08-cnt-2-invernadero', kind: 'animation', title: 'La cobija de la Tierra', aspect: '16:9', duration: 50,
       alt: 'Animación: rayos de sol atraviesan la atmósfera y calientan la Tierra; parte del calor sale al espacio y parte queda atrapada por una capa de gases. Luego, humo de vehículos, fábricas y quemas engrosa la capa y el termómetro del planeta sube.',
-      brief: 'Animación 2D de 50 s. (1) La Tierra con una capa transparente (atmósfera). Flechas amarillas de luz solar entran; la superficie se calienta y emite flechas rojas de calor; algunas salen al espacio y otras rebotan en la capa: rótulo "efecto invernadero natural: sin él, la Tierra sería helada". (2) Aparecen chimeneas de fábricas, escapes de vehículos, un bosque en llamas y un basurero humeante; la capa se vuelve más gruesa y opaca; más flechas rojas quedan atrapadas; un termómetro sobre la Tierra sube. (3) Íconos de consecuencias: sequía en milpa, tormenta, glaciar que se derrite. (4) Un satélite en órbita "fotografía" la escena. Narración en español con subtítulos.',
+      brief: 'Animación 2D de 50 s. (1) La Tierra con una capa transparente (atmósfera). Flechas amarillas de luz solar entran; la superficie se calienta y emite flechas rojas de calor; algunas salen al espacio y otras rebotan en la capa: rótulo "efecto invernadero natural: sin él, la Tierra sería helada". (2) Aparecen chimeneas de fábricas, escapes de vehículos, un bosque en llamas y un basurero humeante; la capa se vuelve más gruesa y opaca; más flechas rojas quedan atrapadas; un termómetro sobre la Tierra sube. (3) Íconos de consecuencias: sequía en milpa, tormenta, glaciar que se derrite. (4) Un satélite en órbita "fotografía" la escena. Narración en español con subtítulos. Target: public/media/s08-cnt-2-invernadero.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
       S.choice(
         { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:7.3.1'], ambito: 'conocer',
-          prompt: '¿Por qué dentro de un carro cerrado al sol hace **más calor** que afuera?',
-          explain: 'La luz del sol entra por los vidrios y calienta el interior, pero el calor **no puede salir** fácilmente. Algo parecido hace la atmósfera con la Tierra: es el **efecto invernadero**.' },
+          prompt: '¿Qué evidencia ayuda a estudiar el **calentamiento global**?',
+          explain: 'Se comparan series largas de mediciones de superficie, océano y satélite. Una imagen aislada o un día caluroso no bastan para establecer la tendencia global.' },
         { options: [
-          { id: 'a', text: 'Porque la luz entra y el calor queda atrapado adentro', icon: 'Car' },
-          { id: 'b', text: 'Porque el carro produce calor aunque esté apagado', icon: 'Flame', feedback: 'Un carro apagado no produce calor: la energía viene del Sol.' },
-          { id: 'c', text: 'Porque adentro hay menos aire', icon: 'Wind', feedback: 'Adentro hay el mismo aire; lo que pasa es que el calor no puede salir.' },
+          { id: 'a', text: 'Series de temperatura de muchos años, con fuente, cobertura y método', icon: 'ChartLine' },
+          { id: 'b', text: 'La temperatura de una sola tarde', icon: 'Sun', feedback: 'Un día describe tiempo atmosférico, no una tendencia climática global.' },
+          { id: 'c', text: 'Una fotografía sin fecha ni ubicación', icon: 'ImageOff', feedback: 'Sin contexto no puede compararse con otras observaciones.' },
         ], correct: ['a'] },
       ),
       S.explain(
@@ -227,7 +223,7 @@ export default [
         ] },
       ),
       S.sort(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.3.1', 'cnt:7.2.1'], ambito: 'ser',
+        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.3.1'], ambito: 'ser',
           prompt: 'Clasifica cada acción: ¿**aumenta** los gases de efecto invernadero o **ayuda a reducirlos**?',
           hint: 'Quemar aumenta; sembrar árboles, caminar y ahorrar electricidad reducen.',
           explain: 'Todo lo que quema combustibles, bosques o basura aumenta los gases. Sembrar árboles, caminar y ahorrar energía ayuda a reducirlos.' },
@@ -271,7 +267,7 @@ export default [
           prompt: '¿Cómo se sabe que la Tierra se calienta, o hacia dónde va un huracán? Los **viajes espaciales** dejaron una herramienta clave: los **satélites**. Toca las tarjetas.',
           media: { id: 's08-cnt-2-satelite', kind: 'image', title: 'Guatemala vista desde el espacio', aspect: '16:9',
             alt: 'Imagen de satélite de Centroamérica con Guatemala al centro: se ven las montañas, el lago de Atitlán, las selvas de Petén en verde oscuro y nubes que giran sobre el mar Caribe.',
-            brief: 'Imagen satelital de color real (de dominio público de agencias espaciales, o ilustración fiel) de Centroamérica con Guatemala al centro: volcanes y montañas del altiplano, lago de Atitlán, selvas de Petén en verde oscuro, zonas agrícolas de la costa sur, y un sistema de nubes en espiral sobre el Caribe. Rótulos: "Petén: bosque", "Atitlán", "Nubes de tormenta". Recuadro pequeño con el dibujo de un CubeSat (satélite del tamaño de una caja de 10 cm por lado) y el texto "Quetzal-1, primer satélite de Guatemala (2020)".' } },
+            brief: 'Imagen satelital de color real (de dominio público de agencias espaciales, o ilustración fiel) de Centroamérica con Guatemala al centro: volcanes y montañas del altiplano, lago de Atitlán, selvas de Petén en verde oscuro, zonas agrícolas de la costa sur, y un sistema de nubes en espiral sobre el Caribe. Rótulos: "Petén: bosque", "Atitlán", "Nubes de tormenta". Recuadro pequeño con el dibujo de un CubeSat (satélite del tamaño de una caja de 10 cm por lado) y el texto "Quetzal-1, primer satélite de Guatemala (2020)". Target: public/media/s08-cnt-2-satelite.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.' } },
         { icon: 'Satellite', body: 'Un **satélite artificial** es un aparato que se lanza con un cohete y queda **girando alrededor de la Tierra**. Desde allí toma imágenes y mediciones de todo el planeta.', reveal: [
           { icon: 'CloudSun', front: 'Estado del tiempo y huracanes', back: 'Muestran las nubes y la formación de **huracanes**, y permiten seguir su camino **días antes** de que lleguen: así se puede avisar a la población.' },
           { icon: 'Thermometer', front: 'El clima del planeta', back: 'Miden la **temperatura** de la tierra y del mar, el **hielo** de los polos y el nivel del mar: son pruebas del calentamiento global.' },
@@ -344,22 +340,20 @@ export default [
     id: 's08-cnt-3',
     title: 'Cómo investiga la ciencia',
     icon: 'FlaskConical',
-    minutes: 16,
+    minutes: 15,
     gancho: 'Tu abuelo dice que el frijol crece mejor con abono de hojas, y tu vecina dice que no hace diferencia. ¿Cómo podrías averiguar quién tiene razón?',
     objetivos: [
       'Identificar los tipos de investigación: documental, de campo y de laboratorio',
-      'Describir las características del conocimiento científico: exacto, verdadero y demostrable',
-      'Planificar una investigación sencilla y repasar lo aprendido en la unidad',
     ],
     resumen: [
       'Investigación documental: se buscan datos en libros, documentos, informes y fuentes confiables. De campo: se observa, mide o entrevista en el lugar donde ocurre el fenómeno. De laboratorio: se hacen experimentos en condiciones controladas.',
-      'El conocimiento científico es exacto (usa medidas precisas), verdadero (coincide con la realidad comprobada) y demostrable (otras personas pueden repetir la prueba y obtener el mismo resultado).',
+      'El conocimiento científico busca mediciones precisas, afirmaciones respaldadas y procedimientos demostrables: al repetirlos se esperan resultados compatibles dentro de un margen explicado, no copias idénticas.',
       'Pasos de una investigación: observar, preguntar, plantear una hipótesis, experimentar o recoger datos, analizar y concluir. La ciencia se corrige cuando aparecen pruebas nuevas.',
     ],
     media: {
       id: 's08-cnt-3-investigar', kind: 'image', title: 'Tres maneras de investigar', aspect: '16:9',
       alt: 'Tres escenas: una niña consulta libros en la biblioteca municipal; un grupo mide la temperatura del agua de un río con un termómetro; dos niños comparan plantas de frijol en vasos en la mesa del aula.',
-      brief: 'Ilustración en tres paneles con estudiantes guatemaltecos de sexto grado (niñas y niños de distintos pueblos): (1) "Documental": una niña en la biblioteca municipal con libros e informes, tomando notas. (2) "De campo": un grupo junto a un río con un termómetro, una libreta y una cinta métrica; una niña entrevista a un agricultor. (3) "De laboratorio": en el aula, vasos con frijoles germinando, etiquetas "con luz" y "sin luz", una regla y una tabla de datos. Estilo cálido, colores claros.',
+      brief: 'Ilustración en tres paneles con estudiantes guatemaltecos de sexto grado (niñas y niños de distintos pueblos): (1) "Documental": una niña en la biblioteca municipal con libros e informes, tomando notas. (2) "De campo": un grupo junto a un río con un termómetro, una libreta y una cinta métrica; una niña entrevista a un agricultor. (3) "De laboratorio": en el aula, vasos con frijoles germinando, etiquetas "con luz" y "sin luz", una regla y una tabla de datos. Estilo cálido, colores claros. Target: public/media/s08-cnt-3-investigar.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
@@ -405,7 +399,7 @@ export default [
         { icon: 'BadgeCheck', body: 'Un rumor, una opinión o una creencia pueden ser importantes para las personas, pero **no** son conocimiento científico si no cumplen estas características.', reveal: [
           { icon: 'Ruler', front: 'Exacto', back: 'Usa **medidas precisas** con unidades: "la planta creció **4.5 cm** en 7 días", no "creció bastante".' },
           { icon: 'ShieldCheck', front: 'Verdadero', back: '**Coincide con la realidad** que se observó y se comprobó. Si aparecen pruebas nuevas que lo contradicen, se **corrige**.' },
-          { icon: 'RefreshCw', front: 'Demostrable', back: 'Otras personas pueden **repetir** la investigación, siguiendo los mismos pasos, y obtener **el mismo resultado**.' },
+          { icon: 'RefreshCw', front: 'Demostrable', back: 'Otras personas pueden **repetir** la investigación con el mismo protocolo y obtener **resultados compatibles** dentro de un margen explicado.' },
         ] },
       ),
       S.match(
@@ -415,7 +409,7 @@ export default [
           explain: 'Medir con unidades = exacto. Repetir y obtener lo mismo = demostrable. Comprobar con observaciones reales = verdadero.' },
         { leftTitle: 'Situación', rightTitle: 'Característica', pairs: [
           { id: 'e', left: 'Anotar que el agua del río estaba a 18 °C', leftIcon: 'Thermometer', right: 'Exacto' },
-          { id: 'd', left: 'Otro grado repite el experimento y obtiene el mismo resultado', leftIcon: 'RefreshCw', right: 'Demostrable' },
+          { id: 'd', left: 'Otro grado repite el protocolo y obtiene resultados compatibles', leftIcon: 'RefreshCw', right: 'Demostrable' },
           { id: 'v', left: 'Lo que se afirma coincide con lo que se observó y comprobó en la realidad', leftIcon: 'ShieldCheck', right: 'Verdadero' },
         ] },
       ),
@@ -424,7 +418,7 @@ export default [
           prompt: 'Mira cómo el grupo de Andrea responde la pregunta del abono con una investigación. Los datos son **hipotéticos**.',
           media: { id: 's08-cnt-3-frijoles', kind: 'video', title: 'El experimento de los frijoles', aspect: '16:9', duration: 45,
             alt: 'Video en el aula: dos grupos de macetas iguales con frijol, unas con abono de hojas y otras sin él; durante tres semanas los estudiantes riegan igual, miden con regla y anotan en una tabla.',
-            brief: 'Video de 45 s (o animación en cámara rápida) en un aula guatemalteca: 10 macetas recicladas con frijol, 5 rotuladas "con abono de hojas" y 5 "sin abono"; misma luz, misma agua (vaso medidor). Cámara rápida de tres semanas de crecimiento. Estudiantes miden con regla y anotan en una tabla de cartulina. Al final, la tabla con promedios y la frase "Otro grado repitió el experimento". Narración en español con subtítulos. Materiales seguros: tierra, semillas, agua, regla.' } },
+            brief: 'Video de 45 s (o animación en cámara rápida) en un aula guatemalteca: 10 macetas recicladas con frijol, 5 rotuladas "con abono de hojas" y 5 "sin abono"; misma luz, misma agua (vaso medidor). Cámara rápida de tres semanas de crecimiento. Estudiantes miden con regla y anotan en una tabla de cartulina. Al final, la tabla con promedios y la frase "Otro grado repitió el experimento". Narración en español con subtítulos. Materiales seguros: tierra, semillas, agua, regla. Target: public/media/s08-cnt-3-frijoles.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.' } },
         { icon: 'FlaskConical', problem: '¿Crece más el frijol con abono de hojas que sin abono?',
           steps: [
             { text: '**Investigación documental**: leen en la biblioteca que el abono de hojas aporta nutrientes al suelo.', why: 'Así empiezan con información confiable.' },
@@ -497,7 +491,7 @@ export default [
       S.tf(
         { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:8.2.1', 'cnt:8.1.1'], prompt: '¿Verdadero o falso?' },
         { statements: [
-          { text: 'Si otras personas repiten una investigación y obtienen el mismo resultado, el conocimiento es demostrable.', answer: true },
+          { text: 'Si otras personas repiten un protocolo y obtienen resultados compatibles dentro del margen esperado, la evidencia es demostrable.', answer: true },
           { text: 'Leer informes y libros en la biblioteca es una investigación de laboratorio.', answer: false, why: 'Es una investigación documental.' },
           { text: 'El conocimiento científico nunca se corrige.', answer: false, why: 'Se corrige cuando aparecen pruebas nuevas.' },
           { text: 'En un buen experimento se cambia una sola cosa a la vez.', answer: true },

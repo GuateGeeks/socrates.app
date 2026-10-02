@@ -14,9 +14,7 @@ export default [
     minutes: 14,
     gancho: 'En "La abuela amable teje un güipil", cada palabra hace un trabajo distinto: una nombra, otra describe y otra dice la acción. ¿Cuál es cuál?',
     objetivos: [
-      'Diferenciar sustantivos, adjetivos y verbos por lo que hacen en la oración',
-      'Usar pruebas sencillas para reconocer cada clase de palabra',
-      'Hacer que el adjetivo concuerde con el sustantivo',
+      'Clasificar sustantivos, adjetivos y verbos en observaciones y recomendaciones de un panel de energía',
     ],
     resumen: [
       'Sustantivo: nombra personas, animales, lugares, cosas o ideas. Prueba: puedes ponerle "el, la, un, una" delante (la abuela, un güipil).',
@@ -27,7 +25,7 @@ export default [
     media: {
       id: 's08-l2-1-oficios', kind: 'animation', title: 'Cada palabra tiene su oficio', aspect: '16:9', duration: 45,
       alt: 'Una oración se arma con fichas de colores: los sustantivos en azul, los adjetivos en verde y los verbos en naranja.',
-      brief: 'Animación 2D de 45 s. Aparece la oración "La abuela amable teje un güipil colorido" en fichas separadas. Una lupa pasa por cada ficha: "abuela" y "güipil" se pintan de azul con el rótulo "SUSTANTIVO: nombra"; "amable" y "colorido" de verde con "ADJETIVO: dice cómo es"; "teje" de naranja con "VERBO: dice la acción". Luego "teje" cambia a "tejió" y "tejerá" para mostrar que el verbo cambia con el tiempo. Ilustración de una abuela tejiendo en telar de cintura, sin reproducir diseños sagrados específicos. Narración en español de Guatemala con subtítulos.',
+      brief: 'Animación 2D de 45 s. Aparece la oración "La abuela amable teje un güipil colorido" en fichas separadas. Una lupa pasa por cada ficha: "abuela" y "güipil" se pintan de azul con el rótulo "SUSTANTIVO: nombra"; "amable" y "colorido" de verde con "ADJETIVO: dice cómo es"; "teje" de naranja con "VERBO: dice la acción". Luego "teje" cambia a "tejió" y "tejerá" para mostrar que el verbo cambia con el tiempo. Ilustración de una abuela tejiendo en telar de cintura, sin reproducir diseños sagrados específicos. Narración en español de Guatemala con subtítulos. Target: public/media/s08-l2-1-oficios.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
       S.choice(
@@ -47,7 +45,7 @@ export default [
           { icon: 'Tag', front: 'Sustantivo', back: '**Nombra** personas, animales, lugares, cosas o ideas: abuela, perro, Cobán, mesa, alegría. **Prueba:** puedes decir "el, la, un, una" delante: la mesa, un perro.' },
           { icon: 'Palette', front: 'Adjetivo', back: '**Dice cómo es** el sustantivo: alto, amable, colorido, dulce. **Prueba:** responde "¿cómo es?". ¿Cómo es el güipil? Colorido.' },
           { icon: 'Zap', front: 'Verbo', back: '**Dice la acción** o el estado: corre, teje, duerme, está. **Prueba:** cambia con el tiempo (tejo, tejí, tejeré) y puedes decir "yo" o "ella" delante.' },
-          { icon: 'Languages', front: 'En los idiomas mayas', back: 'Los idiomas mayas también tienen sustantivos, adjetivos y verbos, y además otra clase de palabra llamada **estativo**, que expresa estados o posiciones. Si en tu familia hablan un idioma maya, pregunta cómo se dice "estoy cansado" y compártelo.' },
+          { icon: 'Languages', front: 'Comparación responsable', back: 'Los idiomas mayas tienen estructuras propias que deben revisarse con materiales validados y hablantes competentes. Esta actividad trabaja únicamente el corpus suministrado en español.' },
         ] },
       ),
       S.ejemplo(
@@ -95,7 +93,7 @@ export default [
           prompt: 'Toca todos los **verbos** de este texto.',
           hint: 'Busca las palabras que dicen qué hace alguien. Son 5. Prueba cambiarlas de tiempo.',
           explain: 'Llega, lleva, vende, compran y regresa dicen acciones. Si cambias el tiempo: llegó, llevó, vendió, compraron, regresó.' },
-        { target: 'verbos', text: 'Cada jueves, doña Marta {llega} temprano al mercado. {Lleva} aguacates y güisquiles. Los {vende} a buen precio. Las vecinas le {compran} con gusto, y ella {regresa} contenta a su casa.' },
+        { target: 'verbos', text: 'El equipo {observa} el medidor del caso, {registra} la unidad, {compara} dos lecturas, {escribe} la fuente y {recomienda} apagar una lámpara innecesaria.' },
       ),
       S.fill(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:5.1.1'], ambito: 'hacer',
@@ -122,7 +120,7 @@ export default [
       S.write(
         { fase: 'aplicar', areas: ['l2'], cnb: ['l2:5.1.1'], ambito: 'hacer',
           prompt: 'Describe en dos o tres oraciones un lugar que te guste. Usa al menos **dos adjetivos** y **dos verbos**. Al final, escribe cuáles son.' },
-        { minWords: 20, placeholder: 'Mi lugar favorito es… Adjetivos: … Verbos: …',
+        { minWords: 20, placeholder: 'La lámpara eficiente... Adjetivos: ... Verbos: ...',
           model: 'Mi lugar favorito es la cancha de mi aldea. Es grande y polvorienta. Allí juego fútbol y platico con mis amigos. Adjetivos: grande, polvorienta. Verbos: es, juego, platico.',
           rubric: ['Describí un lugar en 2 o 3 oraciones', 'Usé al menos dos adjetivos que concuerdan con su sustantivo', 'Usé al menos dos verbos', 'Identifiqué correctamente mis adjetivos y verbos'] },
       ),
@@ -154,9 +152,7 @@ export default [
     minutes: 15,
     gancho: '"Pedro", "niño", "grupo" y "amistad" son sustantivos. Pero ¿verdad que no se parecen mucho? Cada uno pertenece a una familia distinta.',
     objetivos: [
-      'Distinguir sustantivos comunes y propios',
-      'Distinguir sustantivos individuales y colectivos',
-      'Distinguir sustantivos concretos y abstractos',
+      'Clasificar sustantivos de fuentes, mediciones y recomendaciones en tres pares de familias',
     ],
     resumen: [
       'Común: nombra cualquier ser de su clase (río, niña). Propio: nombra a uno en particular y se escribe con mayúscula (Motagua, Rosa).',
@@ -167,7 +163,7 @@ export default [
     media: {
       id: 's08-l2-2-familias', kind: 'diagram', title: 'Tres parejas de familias', aspect: '16:9',
       alt: 'Tres columnas: común y propio (río / Motagua), individual y colectivo (oveja / rebaño), concreto y abstracto (tortilla / alegría), cada una con un dibujo.',
-      brief: 'Infografía horizontal en tres columnas de colores suaves. Columna 1 "¿A cualquiera o a uno en particular?": dibujo de un río genérico con la palabra "río" (común) y el mismo río con un cartel "Motagua" en mayúscula destacada (propio). Columna 2 "¿Uno o un grupo?": una oveja sola "oveja" (individual) y un grupo de ovejas con un pastor "rebaño" (colectivo). Columna 3 "¿Se percibe con los sentidos?": una tortilla humeante con íconos de ojo, mano y nariz "tortilla" (concreto) y dos niños abrazándose con un corazón "alegría" (abstracto). Letras grandes y legibles, fondo claro.',
+      brief: 'Infografía horizontal en tres columnas de colores suaves. Columna 1 "¿A cualquiera o a uno en particular?": dibujo de un río genérico con la palabra "río" (común) y el mismo río con un cartel "Motagua" en mayúscula destacada (propio). Columna 2 "¿Uno o un grupo?": una oveja sola "oveja" (individual) y un grupo de ovejas con un pastor "rebaño" (colectivo). Columna 3 "¿Se percibe con los sentidos?": una tortilla humeante con íconos de ojo, mano y nariz "tortilla" (concreto) y dos niños abrazándose con un corazón "alegría" (abstracto). Letras grandes y legibles, fondo claro. Target: public/media/s08-l2-2-familias.svg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
@@ -187,7 +183,7 @@ export default [
           { icon: 'Users', front: 'Común o propio', back: '**¿Nombra a cualquiera o a uno en particular?** Común: río, ciudad, niña. Propio (con **mayúscula**): Motagua, Antigua Guatemala, Rosa.' },
           { icon: 'Layers', front: 'Individual o colectivo', back: '**¿Nombra a uno o a un grupo?** Individual: oveja, abeja, árbol. Colectivo (grupo, aunque esté en singular): **rebaño**, **enjambre**, **bosque**.' },
           { icon: 'Hand', front: 'Concreto o abstracto', back: '**¿Lo puedo ver, tocar, oír, oler o saborear?** Concreto: tortilla, lluvia, marimba. Abstracto (ideas y sentimientos): **paz, alegría, amistad, honestidad**.' },
-          { icon: 'Languages', front: 'En los idiomas mayas', back: 'En los idiomas mayas, los sustantivos cambian para mostrar **de quién son** (posesión), por ejemplo para decir "mi casa" o "tu casa". Si en tu familia hablan un idioma maya, pregunta cómo se dice y compártelo en clase.' },
+          { icon: 'Languages', front: 'Corpus validado', back: 'Para comparar posesión en un idioma maya se necesita una fuente lingüística validada. Aquí no se piden traducciones familiares ni se inventan equivalencias.' },
         ] },
       ),
       S.ejemplo(
@@ -251,7 +247,7 @@ export default [
         ] },
       ),
       S.reading(
-        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:5.1.2', 'l2:5.1.1', 'l2:1.2.6'], ambito: 'hacer', title: 'Lectura de repaso',
+        { fase: 'aplicar', areas: ['l2'], cnb: ['l2:5.1.2', 'l2:5.1.1', 'l2:5.1.2'], ambito: 'hacer', title: 'Lectura de repaso',
           prompt: 'Lee este texto y responde. Algunas preguntas repasan lo que aprendiste en semanas anteriores.' },
         { genre: 'Texto informativo', heading: 'La cooperativa de Santa Elena', passage:
           'En la aldea Santa Elena, un grupo de familias formó una cooperativa de café. Cada socio cuida su parcela, pero venden la cosecha juntos.\n\nEn diciembre, la cuadrilla de cortadores sube al cerro muy temprano. Llevan canastos y cortan solo los granos rojos y maduros.\n\nDoña Irma, la presidenta, dice: "La confianza entre vecinos es nuestra mayor riqueza". Creo que tiene razón: trabajar unidos da mejores resultados.',

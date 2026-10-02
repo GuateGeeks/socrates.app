@@ -1,9 +1,8 @@
 /**
  * Productividad y Desarrollo · Unidad 1 · Semana 8 — Detectives de la verdad.
  * Práctica voluntaria en la conservación de los recursos naturales desde la propia cultura
- * (milpa, bosques comunales, abono, semillas nativas, cuidado de nacimientos) y organización,
- * con participación de la comunidad, de un centro de información comunitaria que guarde esos
- * saberes.
+ * (milpa, bosques comunales, abono, semillas nativas, cuidado de nacimientos) mediante una
+ * práctica voluntaria, segura y completamente preparada para el aula.
  */
 import { cierre, lesson, S } from '../../../../dsl';
 
@@ -16,19 +15,17 @@ export default [
     gancho: 'Tu abuela siembra maíz, frijol y ayote juntos en la misma milpa. ¿Sabías que así también está cuidando el suelo?',
     objetivos: [
       'Reconocer prácticas culturales de Guatemala que conservan el agua, el suelo, el bosque y las semillas',
-      'Explicar qué es el voluntariado y cómo participar de forma segura',
-      'Organizar, con la comunidad, un centro de información que guarde estos saberes',
     ],
     resumen: [
       'Muchos pueblos de Guatemala conservan la naturaleza desde su cultura: la milpa (maíz, frijol y ayote juntos) cuida el suelo; los bosques comunales se protegen entre todos; se hace abono con restos de cosecha; se guardan semillas nativas y se respetan los nacimientos de agua.',
       'El voluntariado es dar tu tiempo y tu esfuerzo de forma libre, sin pago, por el bien común. A tu edad se participa con permiso de la familia y con adultos responsables.',
-      'Un centro de información comunitaria es un lugar (un rincón de la escuela, la biblioteca o el salón comunal) donde se reúne y se comparte información útil de la comunidad: historias, mapas, fotos, fichas de saberes, calendarios de siembra.',
-      'Funciona si participa la comunidad: las abuelas y los abuelos comparten saberes, las familias donan fotos o documentos, los estudiantes hacen fichas y los vecinos lo visitan y lo usan.',
+      'Una ficha de práctica conserva información útil: nombre, propósito, materiales, cuidados y fuente. En esta lección se trabaja solo con fichas suministradas.',
+      'Una acción voluntaria escolar ofrece opciones, permite no participar y usa materiales preparados, sin exigir visitas, entrevistas ni recolección externa.',
     ],
     media: {
       id: 's08-pyd-1-rincon-saberes', kind: 'image', title: 'El rincón de saberes verdes', aspect: '16:9',
       alt: 'Un rincón de la escuela con estantes de cajas rotuladas (agua, suelo, bosque, semillas), frascos con semillas nativas, un mapa de la comunidad y una abuela contando una historia a estudiantes.',
-      brief: 'Ilustración cálida de un rincón en el salón de una escuela rural guatemalteca. Estantes de madera con cajas de cartón decoradas y rotuladas con íconos: gota ("Agua"), montón de tierra ("Suelo"), árbol ("Bosque"), mazorca ("Semillas"). Frascos de vidrio con semillas de maíz de colores, frijol y ayote. En la pared, un mapa dibujado a mano de la aldea con el nacimiento de agua y el bosque comunal marcados, y un calendario de siembra. Una abuela con traje maya conversa con cuatro estudiantes que toman notas en fichas. Un vecino dona una fotografía antigua. Sin marcas ni textos largos.',
+      brief: 'Ilustración cálida de un rincón en el salón de una escuela rural guatemalteca. Estantes de madera con cajas de cartón decoradas y rotuladas con íconos: gota ("Agua"), montón de tierra ("Suelo"), árbol ("Bosque"), mazorca ("Semillas"). Frascos de vidrio con semillas de maíz de colores, frijol y ayote. En la pared, un mapa dibujado a mano de la aldea con el nacimiento de agua y el bosque comunal marcados, y un calendario de siembra. Una abuela con traje maya conversa con cuatro estudiantes que toman notas en fichas. Un vecino dona una fotografía antigua. Sin marcas ni textos largos. Target: public/media/s08-pyd-1-rincon-saberes.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
@@ -65,40 +62,40 @@ export default [
       ),
       S.explain(
         { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'conocer', title: 'El voluntariado: dar tiempo por el bien común',
-          prompt: 'Practicar estos saberes también es una forma de **voluntariado**. Toca cada tarjeta.' },
+          prompt: 'Una acción para conservar estos saberes puede ser **voluntaria**. Toca cada tarjeta.' },
         { icon: 'HandHeart', body: 'Ser voluntario no es solo "ayudar": es **comprometerse** y cumplir, como cualquier trabajo importante.', reveal: [
           { icon: 'Heart', front: '¿Qué es?', back: 'Dar tu **tiempo y esfuerzo** de forma **libre** y **sin pago**, para el **bien común**.' },
-          { icon: 'Sprout', front: '¿Qué puedes hacer?', back: 'Ayudar en un **vivero**, sembrar árboles en una jornada, recoger basura del río, guardar semillas con tu familia, registrar saberes de los mayores.' },
-          { icon: 'ShieldCheck', front: 'Con seguridad', back: 'Siempre con **permiso de tu familia** y con **adultos responsables**. Nada de acercarse a barrancos, ríos crecidos ni usar herramientas con filo solo.' },
+          { icon: 'Sprout', front: '¿Qué puedes hacer aquí?', back: 'Rotular sobres de muestra, ordenar fichas suministradas o dibujar una guía para conservar semillas secas.' },
+          { icon: 'ShieldCheck', front: 'Con seguridad', back: 'Usar solo papel, lápiz y muestras preparadas; no ingerir semillas ni usar herramientas cortantes.' },
           { icon: 'ListChecks', front: 'Con compromiso', back: 'Si te apuntas, **cumple**: llega a tiempo, haz tu parte y avisa si no puedes.' },
         ] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.3.2'], ambito: 'conocer', title: 'Un centro de información comunitaria',
-          prompt: 'Los saberes se pierden si nadie los guarda. Un **centro de información comunitaria** los reúne y los comparte. Toca cada tarjeta.' },
-        { icon: 'Library', body: 'La información de la comunidad es **de la comunidad**: por eso su centro se organiza **con** ella, no solo para ella.', reveal: [
-          { icon: 'Home', front: '¿Qué es?', back: 'Un lugar (un rincón de la escuela, la biblioteca o el salón comunal) donde se **guarda y se comparte** información útil de la comunidad.' },
-          { icon: 'FileText', front: '¿Qué guarda?', back: '**Fichas** de saberes, historias de los mayores, **mapas** de la aldea, fotos antiguas, calendarios de siembra, contactos útiles.' },
-          { icon: 'Users', front: '¿Quiénes participan?', back: 'Abuelas y abuelos **comparten saberes**; familias **donan** fotos y documentos; estudiantes **hacen fichas** y ordenan; vecinos **lo visitan** y lo usan.' },
-          { icon: 'Megaphone', front: '¿Cómo se promueve?', back: 'Invitando en asambleas, con carteles y anuncios en la radio comunitaria, y abriéndolo en horarios en que la gente pueda llegar.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'conocer', title: 'Una ficha de práctica verificable',
+          prompt: 'Los saberes se pierden si nadie los registra. Una **ficha suministrada** permite estudiarlos sin atribuir prácticas inventadas a una familia o comunidad. Toca cada tarjeta.' },
+        { icon: 'Library', body: 'La ficha declara que es un caso didáctico y distingue la práctica descrita de una experiencia personal.', reveal: [
+          { icon: 'FileText', front: 'Nombre', back: 'Identifica la práctica: **guardar semillas secas en sobres rotulados**.' },
+          { icon: 'Target', front: 'Propósito', back: 'Conservar semillas identificadas y protegidas de humedad.' },
+          { icon: 'Package', front: 'Materiales', back: 'Sobres de muestra, etiquetas y lápiz ya preparados en el aula.' },
+          { icon: 'ShieldCheck', front: 'Cuidados y fuente', back: 'No ingerir las semillas; registrar la fecha del caso y citar la **ficha didáctica suministrada**.' },
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.3.2', 'pyd:5.5.2'], ambito: 'emprender', title: 'Ejemplo resuelto: el "Rincón de saberes verdes"',
-          prompt: 'Mira cómo el grado de sexto organizó un centro de información **con** la comunidad.' },
-        { icon: 'Library', problem: 'En la aldea, muchos jóvenes ya no saben cómo se guardan las semillas ni por qué se cuida el bosque del nacimiento. Sexto quiere que esos saberes no se pierdan.',
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'emprender', title: 'Ejemplo resuelto: el "Rincón de saberes verdes"',
+          prompt: 'Mira cómo sexto prepara una acción breve sin salir del aula.' },
+        { icon: 'Library', problem: 'El paquete trae sobres de muestra y una ficha didáctica sobre semillas secas. El grupo quiere conservar la información con una actividad voluntaria.',
           steps: [
-            { text: '**Invitar:** en la reunión de padres y en la asamblea del COCODE explican la idea e invitan a participar.', why: 'Si la comunidad participa desde el inicio, siente el centro como suyo y lo usa.' },
-            { text: '**Recoger:** cada estudiante entrevista a una persona mayor sobre una práctica (semillas, milpa, abono, bosque) y escribe una **ficha**.' },
-            { text: '**Ordenar:** clasifican las fichas en cajas por tema: Agua, Suelo, Bosque y Semillas. Una familia dona un estante.' },
-            { text: '**Abrir y compartir:** abren el rincón el día de mercado; los mayores cuentan sus historias y los vecinos pueden consultar las fichas.' },
-            { text: '**Mantener:** una comisión de voluntarios cuida el rincón y cada mes agrega nuevas fichas.' },
+            { text: '**Elegir:** cada estudiante decide libremente entre rotular un sobre, dibujar la secuencia o revisar etiquetas.' },
+            { text: '**Leer:** identifican en la ficha el propósito, los materiales y los cuidados.' },
+            { text: '**Preparar:** usan únicamente sobres de muestra, etiquetas y lápices del aula.' },
+            { text: '**Revisar:** comprueban nombre, fecha del caso y condición “seca” sin abrir ni ingerir la muestra.' },
+            { text: '**Registrar:** guardan el producto en una carpeta de aula con la fuente suministrada visible.' },
           ],
-          answer: 'El rincón guarda los saberes **de** la comunidad, **con** la comunidad. Así la información sirve para conservar la naturaleza.',
-          tip: 'Invitar → recoger → ordenar → abrir y compartir → mantener.' },
+          answer: 'La acción conserva una práctica documentada sin exigir trabajo externo y respeta la participación voluntaria.',
+          tip: 'Elegir → leer → preparar → revisar → registrar.' },
       ),
       S.sort(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:1.3.2'], prompt: 'Ayuda a ordenar las fichas del rincón. ¿En qué caja va cada una?',
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Ayuda a ordenar las fichas del rincón. ¿En qué caja va cada una?',
           hint: 'Lee de qué recurso habla cada ficha: agua, suelo, bosque o semillas.',
           explain: 'Ordenar por temas hace que la información sea fácil de encontrar y de usar.' },
         { buckets: [
@@ -116,29 +113,29 @@ export default [
         ] },
       ),
       S.order(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:1.3.2'], ambito: 'emprender', prompt: 'Ordena los pasos para organizar un centro de información **con la participación de la comunidad**.',
-          explain: 'Invitar → recoger saberes → ordenar → abrir y compartir → mantener con voluntarios.' },
+        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'emprender', prompt: 'Ordena los pasos de la acción voluntaria preparada en el aula.',
+          explain: 'Elegir libremente → leer la ficha → preparar → revisar → registrar.' },
         { labels: { start: 'Primero', end: 'Al final' }, items: [
-          { id: 'o1', text: 'Invitar a familias y vecinos en una asamblea', icon: 'Megaphone' },
-          { id: 'o2', text: 'Entrevistar a los mayores y escribir fichas', icon: 'NotebookPen' },
-          { id: 'o3', text: 'Ordenar las fichas por temas', icon: 'Archive' },
-          { id: 'o4', text: 'Abrir el rincón y compartir con la comunidad', icon: 'Library' },
-          { id: 'o5', text: 'Mantenerlo con una comisión de voluntarios', icon: 'HandHeart' },
+          { id: 'o1', text: 'Elegir libremente una tarea', icon: 'HandHeart' },
+          { id: 'o2', text: 'Leer la ficha suministrada', icon: 'BookOpen' },
+          { id: 'o3', text: 'Preparar el sobre o la guía con materiales del aula', icon: 'Package' },
+          { id: 'o4', text: 'Revisar rótulo, fecha y cuidado', icon: 'ListChecks' },
+          { id: 'o5', text: 'Registrar la fuente y guardar el producto', icon: 'Archive' },
         ] },
       ),
       S.project(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2', 'pyd:1.3.2'], ambito: 'emprender',
-          prompt: 'Sé guardián o guardiana: registra un saber de tu comunidad y planifica una acción voluntaria para practicarlo.' },
-        { goal: 'Escribir una ficha de un saber cultural que conserva la naturaleza y planificar una acción voluntaria segura para practicarlo.',
+        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'emprender',
+          prompt: 'El paquete suministrado describe una práctica de guardar semillas secas en sobres rotulados. Diseña una acción voluntaria de aula; no entrevistes, visites ni recolectes materiales fuera.' },
+        { goal: 'Planificar una acción voluntaria, segura y breve para conservar una práctica cultural documentada.',
           steps: [
-            { title: 'Elige a quién entrevistar', detail: 'Una abuela, un abuelo o una persona mayor de tu familia o comunidad, con permiso de tu familia.' },
-            { title: 'Pregunta', detail: '¿Qué práctica usaban para cuidar el agua, el suelo, el bosque o las semillas? ¿Cómo se hace? ¿Por qué es importante?' },
-            { title: 'Escribe la ficha', detail: 'Título, tema (agua, suelo, bosque o semillas), quién te lo contó, cómo se hace y para qué sirve. Agrega un dibujo.' },
-            { title: 'Planifica tu acción voluntaria', detail: 'Elige cómo practicarlo: guardar semillas con tu familia, ayudar en el vivero o en una jornada de reforestación. Anota cuándo y con qué adulto.' },
-            { title: 'Comparte', detail: 'Lleva tu ficha al rincón de saberes de tu escuela o proponle a tu maestra iniciar uno.' },
+            { title: 'Fuente', detail: 'Copia el nombre de la ficha suministrada y aclara que es un caso didáctico.' },
+            { title: 'Tarea elegida', detail: 'Escoge rotular sobres de papel o dibujar una guía; participar es voluntario.' },
+            { title: 'Recursos', detail: 'Usa solo sobres de muestra, lápiz y fichas preparados en el aula.' },
+            { title: 'Cuidado', detail: 'No ingerir semillas; lavarse las manos y evitar herramientas cortantes.' },
+            { title: 'Verificación', detail: 'Revisar que cada sobre tenga nombre, fecha del caso y condición seca.' },
           ],
-          evidence: 'Ficha de saber cultural con dibujo y plan de una acción voluntaria.',
-          rubric: ['Mi ficha explica cómo se hace la práctica y qué recurso conserva', 'Dije quién me compartió el saber, con respeto', 'Mi acción voluntaria es segura y cuenta con un adulto', 'Compartí mi ficha para que otros la conozcan'] },
+          evidence: 'Plan breve en el cuaderno con tarea, recursos, cuidado y verificación.',
+          rubric: ['La participación es voluntaria', 'Uso una práctica suministrada', 'La acción es segura y verificable'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: '¿Qué práctica tradicional ayuda a **conservar el suelo**?' },
@@ -149,17 +146,17 @@ export default [
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:1.3.2', 'pyd:5.5.2'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: '¿Verdadero o falso?' },
         { statements: [
           { text: 'El voluntariado es un trabajo que se hace de forma libre y sin pago, por el bien común.', answer: true },
-          { text: 'Un centro de información comunitaria funciona mejor si solo lo organizan los estudiantes, sin la comunidad.', answer: false, why: 'Funciona mejor cuando la comunidad participa: comparte saberes, dona materiales y lo usa.' },
+          { text: 'Una actividad sigue siendo voluntaria si se castiga a quien elige no participar.', answer: false, why: 'Participar debe ser una elección libre y debe existir una alternativa segura.' },
           { text: 'Guardar semillas criollas ayuda a conservar la variedad de maíces adaptados a cada lugar.', answer: true },
           { text: 'Ordenar las fichas por temas hace más fácil encontrar la información.', answer: true },
         ] },
       ),
-      cierre({ areas: ['pyd'], cnb: ['pyd:5.5.2', 'pyd:1.3.2'] },
-        ['Reconozco prácticas culturales que conservan la naturaleza', 'Explico qué es el voluntariado y cómo participar con seguridad', 'Sé cómo organizar con la comunidad un centro de información'],
-        ['Entrevistaré a una persona mayor sobre un saber de la naturaleza', 'Me apuntaré como voluntario en una jornada de mi comunidad']),
+      cierre({ areas: ['pyd'], cnb: ['pyd:5.5.2'] },
+        ['Reconozco prácticas culturales que conservan la naturaleza', 'Explico qué hace voluntaria y segura una acción', 'Registro una práctica usando una ficha suministrada'],
+        ['Puedo elegir una tarea segura del aula', 'Citaré la ficha suministrada sin inventar experiencias']),
     ],
   }),
 ];

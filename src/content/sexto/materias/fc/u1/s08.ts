@@ -18,8 +18,6 @@ export default [
     gancho: 'Los mapas no solo muestran ríos y carreteras. Algunos muestran lo que vivieron las personas. ¿Qué nos puede enseñar un mapa de la memoria?',
     objetivos: [
       'Explicar qué fue la Comisión para el Esclarecimiento Histórico y qué investigó',
-      'Ubicar los departamentos y los pueblos más afectados por la violencia del conflicto armado interno',
-      'Leer un mapa temático: título, leyenda, colores y conclusión',
     ],
     resumen: [
       'El conflicto armado interno duró de 1960 a 1996. Quien más sufrió fue la población civil, sobre todo las comunidades mayas del área rural.',
@@ -30,7 +28,7 @@ export default [
     media: {
       id: 's08-fc-1-mapa-memoria', kind: 'diagram', title: 'Mapa de la memoria', aspect: '3:4',
       alt: 'Mapa de Guatemala por departamentos; Quiché, Huehuetenango, Chimaltenango, Alta Verapaz y Baja Verapaz resaltados en violeta con sus nombres.',
-      brief: 'Mapa político de Guatemala con sus 22 departamentos en gris claro y nombres pequeños. Resaltar en un violeta respetuoso (no rojo) Quiché, Huehuetenango, Chimaltenango, Alta Verapaz y Baja Verapaz, con su nombre en letra más grande. Leyenda en la esquina: "Violeta: departamentos más afectados por la violencia del conflicto armado interno, según la Comisión para el Esclarecimiento Histórico (1999)". Rosa de los vientos. Pequeñas flores blancas junto a la leyenda como símbolo de memoria. Sin cifras, sin imágenes de violencia, sin armas.',
+      brief: 'Mapa político de Guatemala con sus 22 departamentos en gris claro y nombres pequeños. Resaltar en un violeta respetuoso (no rojo) Quiché, Huehuetenango, Chimaltenango, Alta Verapaz y Baja Verapaz, con su nombre en letra más grande. Leyenda: "Departamentos incluidos en esta selección didáctica a partir de Guatemala: memoria del silencio, CEH, 1999. Un mismo color no establece un orden ni una clasificación entre ellos". Rosa de los vientos. Pequeñas flores blancas junto a la leyenda como símbolo de memoria. Sin cifras, imágenes de violencia ni armas. Target: public/media/s08-fc-1-mapa-memoria.svg. Accesibilidad: formato final 1600×900 px, contraste alto, patrón además del color y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
@@ -58,7 +56,7 @@ export default [
           prompt: 'Lee con respeto. Este texto recuerda a personas y comunidades que sufrieron.',
           media: { id: 's08-fc-1-regiones', kind: 'image', title: 'Norte, noroccidente y centro', aspect: '4:3',
             alt: 'Mapa sencillo de Guatemala dividido en regiones, con el norte, el noroccidente y el centro señalados con flechas y los cinco departamentos nombrados.',
-            brief: 'Mapa simplificado de Guatemala con contorno de departamentos. Flechas suaves y etiquetas: "Noroccidente: Huehuetenango y Quiché", "Norte: Alta Verapaz y Baja Verapaz", "Centro: Chimaltenango". Montañas del altiplano dibujadas con líneas suaves. Colores pastel, rosa de los vientos, sin cifras ni imágenes de violencia.' } },
+            brief: 'Mapa simplificado de Guatemala con contorno de departamentos. Flechas suaves y etiquetas: "Noroccidente: Huehuetenango y Quiché", "Norte: Alta Verapaz y Baja Verapaz", "Centro: Chimaltenango". Montañas del altiplano dibujadas con líneas suaves. Colores pastel, rosa de los vientos, sin cifras ni imágenes de violencia. Target: public/media/s08-fc-1-regiones.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.' } },
         { genre: 'Texto informativo', heading: 'La violencia no afectó a todo el país por igual', passage:
           'La Comisión para el Esclarecimiento Histórico estudió **en qué lugares** hubo más violencia durante el conflicto armado interno. Su informe muestra que la violencia no afectó a todo el país por igual.\n\nEntre los departamentos más afectados están **Quiché** y **Huehuetenango**, en el **noroccidente**; **Alta Verapaz** y **Baja Verapaz**, en el **norte**; y **Chimaltenango**, en el **centro** del país. Muchas de esas comunidades estaban en el área rural, en montañas y valles lejos de la capital.\n\nLa mayoría de las víctimas pertenecían a pueblos **mayas**, como el ixil, el k’iche’, el q’anjob’al, el chuj, el mam, el achi, el q’eqchi’ y el kaqchikel. La Comisión explicó que la **discriminación** contra los pueblos indígenas influyó en que la violencia contra ellos fuera tan grave.\n\nHoy, muchas comunidades construyen **monumentos, murales y museos comunitarios de la memoria**. Recordar honra a las víctimas, ayuda a sus familias a sanar y enseña que los conflictos deben resolverse con diálogo y respeto a los derechos humanos.',
           questions: [
@@ -123,7 +121,7 @@ export default [
         { icon: 'Map', problem: 'Tienes el mapa de la memoria de esta lección. ¿Qué dice y qué podemos concluir?',
           steps: [
             { text: '**Leo el título:** "Mapa de la memoria". Ya sé que el tema es la memoria del conflicto armado.' },
-            { text: '**Leo la leyenda:** el violeta marca los departamentos más afectados según la CEH (1999).', why: 'La leyenda es la "llave" del mapa: sin ella, los colores no significan nada.' },
+            { text: '**Leo la leyenda:** el violeta identifica una selección didáctica basada en el informe de la CEH (1999); no ordena ni clasifica los departamentos entre sí.', why: 'La leyenda es la "llave" del mapa y también declara el límite de lo que el color permite concluir.' },
             { text: '**Busco los colores:** hay cinco departamentos en violeta: Quiché, Huehuetenango, Alta Verapaz, Baja Verapaz y Chimaltenango.' },
             { text: '**Miro la ubicación:** casi todos están en el **norte y el noroccidente**, en zonas de montaña donde viven muchas comunidades mayas.' },
           ],
@@ -184,8 +182,6 @@ export default [
     gancho: 'Tu abuela o tu abuelo guarda historias que no están en los libros. ¿Por qué será importante escucharlas?',
     objetivos: [
       'Explicar para qué sirve la memoria histórica: verdad, dignidad, sanar y no repetir',
-      'Distinguir formas respetuosas de recordar de acciones que vuelven a herir',
-      'Proponer una acción para que la violencia no se repita, usando lo aprendido en la unidad',
     ],
     resumen: [
       'La memoria histórica es recordar juntos lo que pasó para conocer la verdad, devolver la dignidad a las víctimas, ayudar a sanar y lograr que nunca más se repita.',
@@ -195,7 +191,7 @@ export default [
     media: {
       id: 's08-fc-2-mural', kind: 'image', title: 'El mural de la memoria', aspect: '16:9',
       alt: 'Jóvenes y personas mayores de una comunidad maya pintan juntos un mural con flores, maíz, un árbol con raíces y palomas.',
-      brief: 'Ilustración cálida y esperanzadora. Pared de adobe en una aldea del altiplano. Una abuela con traje maya cuenta una historia mientras jóvenes (niñas y niños) pintan un mural: un gran árbol con raíces profundas, mazorcas de colores, flores blancas y palomas; en la parte de abajo, espacios con nombres ilegibles (no reales) escritos a mano. Luz de tarde. Sin armas, sin escenas de violencia, sin textos legibles excepto "Nunca más" pintado en el mural.',
+      brief: 'Ilustración cálida y esperanzadora. Pared de adobe en una aldea del altiplano. Una abuela con traje maya cuenta una historia mientras jóvenes (niñas y niños) pintan un mural: un gran árbol con raíces profundas, mazorcas de colores, flores blancas y palomas; en la parte de abajo, espacios con nombres ilegibles (no reales) escritos a mano. Luz de tarde. Sin armas, sin escenas de violencia, sin textos legibles excepto "Nunca más" pintado en el mural. Target: public/media/s08-fc-2-mural.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
@@ -270,7 +266,7 @@ export default [
           tip: 'Problema real → acción concreta → participación → comprobación.' },
       ),
       S.match(
-        { fase: 'aplicar', areas: ['fc'], cnb: ['fc:5.2.1', 'fc:1.2.1', 'fc:3.1.1', 'fc:4.2.2'], ambito: 'conocer',
+        { fase: 'aplicar', areas: ['fc'], cnb: ['fc:5.2.1', 'fc:5.2.1', 'fc:5.2.1', 'fc:5.2.1'], ambito: 'conocer',
           prompt: 'Repaso de la unidad: cada aprendizaje es una herramienta para la **no repetición**. Une cada idea con su explicación.',
           explain: 'Todo lo que aprendiste en la unidad sirve para construir una paz con justicia.' },
         { leftTitle: 'Idea', rightTitle: 'Cómo ayuda a la no repetición', pairs: [
@@ -283,7 +279,7 @@ export default [
       S.write(
         { fase: 'aplicar', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'emprender',
           prompt: 'Escribe tu **propuesta de no repetición** para tu escuela o comunidad. Usa el ejemplo: problema real, acción concreta, cómo participarán todos y cómo se comprobará.' },
-        { minWords: 40, placeholder: 'En mi escuela he visto que… Propongo…',
+        { minWords: 40, placeholder: 'La fuente CEH muestra… Su límite es… Propongo una acción de no repetición…',
           model: 'En mi escuela he visto que algunos se burlan de los compañeros que hablan q’eqchi’. Propongo que cada lunes un compañero enseñe un saludo en su idioma a todo el grado y que hagamos un cartel con palabras de los idiomas de nuestras familias. La comisión de cultura organizará los turnos. Después de un mes preguntaremos si hay menos burlas.',
           rubric: ['Nombré un problema real de violencia o discriminación', 'Propuse una acción concreta y posible', 'Expliqué cómo participarán todos', 'Dije cómo se comprobará si funciona'] },
       ),

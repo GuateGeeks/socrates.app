@@ -15,8 +15,6 @@ export default [
     gancho: 'El 20 de julio de 1969, millones de personas vieron por televisión a un hombre caminar sobre la Luna. ¿Quién era y cómo llegó hasta allí?',
     objetivos: [
       'Reconocer las partes y frases típicas de una biografía en inglés',
-      'Leer años en inglés: nineteen sixty-nine',
-      'Comprender la biografía de un personaje famoso de los Estados Unidos',
     ],
     resumen: [
       'Una biografía cuenta en orden la vida de una persona real: nacimiento, infancia, estudios, logros y, si ya murió, su muerte.',
@@ -27,7 +25,7 @@ export default [
     media: {
       id: 's08-l3-1-moon', kind: 'image', title: 'First steps on the Moon', aspect: '16:9',
       alt: 'Ilustración de un astronauta con traje blanco dejando una huella en el suelo gris de la Luna; al fondo, la Tierra azul en el cielo negro.',
-      brief: 'Ilustración (no fotografía, sin rostro visible: el visor del casco es dorado y refleja el paisaje) de un astronauta con traje espacial blanco de la época de 1969 dando un paso sobre el polvo gris de la Luna. En primer plano, una huella de bota muy marcada. Al fondo, el módulo lunar y la Tierra azul y blanca sobre un cielo negro. Una línea de tiempo pequeña en la parte inferior con tres puntos: "1930 – born", "1969 – Moon", "2012 – died". Sin banderas ni logotipos.',
+      brief: 'Ilustración (no fotografía, sin rostro visible: el visor del casco es dorado y refleja el paisaje) de un astronauta con traje espacial blanco de la época de 1969 dando un paso sobre el polvo gris de la Luna. En primer plano, una huella de bota muy marcada. Al fondo, el módulo lunar y la Tierra azul y blanca sobre un cielo negro. Una línea de tiempo pequeña en la parte inferior con tres puntos: "1930 – born", "1969 – Moon", "2012 – died". Sin banderas ni logotipos. Target: public/media/s08-l3-1-moon.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
@@ -81,7 +79,7 @@ export default [
           prompt: 'Escucha y lee la biografía de un astronauta famoso de los **Estados Unidos**, un país donde se habla inglés. Pistas: _pilot_ = piloto, _engineer_ = ingeniero, _mission_ = misión, _step_ = paso, _dream_ = soñar.',
           media: { id: 's08-l3-1-armstrong', kind: 'audio', title: 'Neil Armstrong (biography)', duration: 45,
             alt: 'Una voz en inglés lee la biografía de Neil Armstrong.',
-            brief: 'Audio de 45 s. Voz adulta, inglés claro y lento, sin música. Leer los años como se escriben en el texto (nineteen thirty, nineteen sixty-nine, twenty twelve). Texto exacto: "Neil Armstrong was an American astronaut. He was born in Ohio, in the United States, in 1930. As a boy, he loved airplanes. He grew up and became a pilot and an engineer. In 1969, he traveled to the Moon on the Apollo 11 mission. On July 20, he became the first person to walk on the Moon. He died in 2012. Today, many children around the world dream of traveling to space, like him."' } },
+            brief: 'Audio de 45 s. Voz adulta, inglés claro y lento, sin música. Leer los años como se escriben en el texto (nineteen thirty, nineteen sixty-nine, twenty twelve). Texto exacto: "Neil Armstrong was an American astronaut. He was born in Ohio, in the United States, in 1930. As a boy, he loved airplanes. He grew up and became a pilot and an engineer. In 1969, he traveled to the Moon on the Apollo 11 mission. On July 20, he became the first person to walk on the Moon. He died in 2012. Today, many children around the world dream of traveling to space, like him." Target: public/media/s08-l3-1-armstrong.mp3. Accesibilidad: transcripción completa disponible después de responder y control para repetir la pista.' } },
         { genre: 'Biography', heading: 'Neil Armstrong', passage:
           'Neil Armstrong was an American astronaut. He was born in Ohio, in the United States, in 1930.\n\nAs a boy, he loved airplanes. He grew up and became a pilot and an engineer.\n\nIn 1969, he traveled to the Moon on the Apollo 11 mission. On July 20, he became the first person to walk on the Moon.\n\nHe died in 2012. Today, many children around the world dream of traveling to space, like him.',
           questions: [
@@ -162,8 +160,6 @@ export default [
     gancho: 'Imagina que no puedes ver ni oír. ¿Cómo aprenderías tu primera palabra? Una niña de Estados Unidos lo logró… con la mano.',
     objetivos: [
       'Leer y comprender la biografía de Helen Keller',
-      'Ordenar los hechos de una vida en una línea de tiempo',
-      'Escribir una mini-biografía en inglés de una persona que admiras',
     ],
     resumen: [
       'Helen Keller nació en 1880 en Alabama, Estados Unidos. Cuando era bebé, una enfermedad la dejó sin poder ver ni oír.',
@@ -174,7 +170,7 @@ export default [
     media: {
       id: 's08-l3-2-water', kind: 'image', title: 'Water!', aspect: '4:3',
       alt: 'Ilustración de una niña de unos 6 años con la mano bajo el chorro de una bomba de agua; su maestra le escribe letras en la otra mano.',
-      brief: 'Ilustración cálida estilo libro infantil, época de 1880 (vestidos largos, jardín con una bomba de agua manual). Una niña de unos 6 años con los ojos cerrados y una expresión de descubrimiento pone una mano bajo el chorro de agua; una maestra joven, arrodillada a su lado, le forma letras con los dedos en la palma de la otra mano. Letras W-A-T-E-R flotando suavemente sobre la escena. Ilustración original, no basada en fotografías reales.',
+      brief: 'Ilustración cálida estilo libro infantil, época de 1880 (vestidos largos, jardín con una bomba de agua manual). Una niña de unos 6 años con los ojos cerrados y una expresión de descubrimiento pone una mano bajo el chorro de agua; una maestra joven, arrodillada a su lado, le forma letras con los dedos en la palma de la otra mano. Letras W-A-T-E-R flotando suavemente sobre la escena. Ilustración original, no basada en fotografías reales. Target: public/media/s08-l3-2-water.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
       S.choice(
@@ -214,7 +210,7 @@ export default [
           prompt: 'Escucha y lee la biografía. Usa las tarjetas si olvidas una palabra.',
           media: { id: 's08-l3-2-keller', kind: 'audio', title: 'Helen Keller (biography)', duration: 55,
             alt: 'Una voz en inglés lee la biografía de Helen Keller.',
-            brief: 'Audio de 55 s. Voz adulta femenina, inglés claro y lento, tono cálido, sin música. Leer los años como en inglés (eighteen eighty, eighteen eighty-seven, nineteen oh-four, nineteen sixty-eight). Texto exacto: "Helen Keller was born in 1880 in Alabama, in the United States. When she was a baby, an illness left her blind and deaf. She could not see or hear. In 1887, a teacher named Anne Sullivan came to live with her family. Anne spelled words into Helen\'s palm. One day, Anne put Helen\'s hand under running water and spelled W-A-T-E-R. Helen understood: everything has a name! Helen studied very hard. In 1904, she graduated from college. She wrote books and traveled around the world to help people with disabilities. She died in 1968. Her life shows that courage and good teachers can change the world."' } },
+            brief: 'Audio de 55 s. Voz adulta femenina, inglés claro y lento, tono cálido, sin música. Leer los años como en inglés (eighteen eighty, eighteen eighty-seven, nineteen oh-four, nineteen sixty-eight). Texto exacto: "Helen Keller was born in 1880 in Alabama, in the United States. When she was a baby, an illness left her blind and deaf. She could not see or hear. In 1887, a teacher named Anne Sullivan came to live with her family. Anne spelled words into Helen\'s palm. One day, Anne put Helen\'s hand under running water and spelled W-A-T-E-R. Helen understood: everything has a name! Helen studied very hard. In 1904, she graduated from college. She wrote books and traveled around the world to help people with disabilities. She died in 1968. Her life shows that courage and good teachers can change the world." Target: public/media/s08-l3-2-keller.mp3. Accesibilidad: transcripción completa disponible después de responder y control para repetir la pista.' } },
         { genre: 'Biography', heading: 'Helen Keller', passage:
           'Helen Keller was born in 1880 in Alabama, in the United States. When she was a baby, an illness left her blind and deaf. She could not see or hear.\n\nIn 1887, a teacher named Anne Sullivan came to live with her family. Anne spelled words into Helen\'s palm. One day, Anne put Helen\'s hand under running water and spelled W-A-T-E-R. Helen understood: everything has a name!\n\nHelen studied very hard. In 1904, she graduated from college. She wrote books and traveled around the world to help people with disabilities. She died in 1968.\n\nHer life shows that courage and good teachers can change the world.',
           questions: [
@@ -279,10 +275,10 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l3'], cnb: ['l3:5.2.2'], ambito: 'hacer',
-          prompt: 'Your turn! Escribe una **mini-biografía en inglés** (3-4 oraciones) de una persona que admiras: alguien de tu familia, tu comunidad o una persona famosa. Si no sabes un dato exacto, pregúntalo en casa.' },
-        { minWords: 20, placeholder: '… was born in … in … . She/He became … . She/He is famous for … . I admire her/him because …',
-          model: 'My uncle Pedro was born in Cobán in 1985. He became a nurse. He is famous in our town for helping sick people at night. I admire him because he is generous.',
-          rubric: ['Escribí 3 o 4 oraciones en inglés', 'Usé "was born in" con lugar y año', 'Usé "became" o "is famous for"', 'Expliqué por qué admiro a esa persona (because…)'] },
+          prompt: 'Usa esta **fact card suministrada**: Elena Cruz · born in Quetzaltenango, 1986 · became an electrical engineer, 2010 · designed school solar projects · received a teaching award, 2022. Escribe una mini-biografía en inglés de 3 oraciones. No agregues fechas que no aparecen.' },
+        { minWords: 20, placeholder: 'Elena Cruz was born... She became... She is known for...',
+          model: 'Elena Cruz was born in Quetzaltenango in 1986. She became an electrical engineer in 2010 and designed school solar projects. She received a teaching award in 2022.',
+          rubric: ['Uso solo los hechos suministrados', 'Escribo tres oraciones en orden', 'Uso was born y became correctamente'] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['l3'], cnb: ['l3:5.2.2'], prompt: 'Boleto de salida: ¿quién le enseñó a Helen Keller a comunicarse?' },
