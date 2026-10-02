@@ -314,7 +314,7 @@ export default [
         { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.6'], ambito: 'hacer', prompt: 'El año tiene **365** días. Convierte 365 a numeral maya.',
           hint: '¿Cabe 400 en 365? No. Empieza con el nivel del 20: 365 ÷ 20 = 18, sobran 5.',
           explain: '18 × 20 + 5 = 360 + 5 = 365. Niveles: 18 | 5 (tres barras y tres puntos arriba; una barra abajo).' },
-        { mode: 'build', target: 365, levels: 3, scaffold: true },
+        { mode: 'build', target: 365, levels: 2, scaffold: true },
       ),
       S.maya(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.6'], prompt: 'Supongamos que una escuela recolectó **2,030** botellas para reciclar. Escribe la cantidad con numeral maya.',

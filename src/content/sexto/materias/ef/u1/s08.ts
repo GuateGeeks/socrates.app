@@ -149,7 +149,7 @@ export default [
     minutes: 15,
     gancho: 'En el recreo alguien dice: "Las niñas no juegan fútbol" o "Los niños no saltan cuerda". ¿Es justo? ¿Qué harías si tú fueras quien organiza el juego?',
     objetivos: [
-      'Reconocer las cualidades de un buen líder en el juego y en el deporte',
+      'Dirigir una rutina física breve con instrucciones, adaptación segura y secuencia clara',
     ],
     resumen: [
       'Un buen líder explica las reglas con claridad, escucha, organiza turnos y equipos justos, anima a todos y da el ejemplo con juego limpio. Liderar es servir al grupo, no mandar a gritos.',
@@ -228,11 +228,11 @@ export default [
       ),
       S.pulse(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.3', 'ef:4.1.12'], ambito: 'convivir',
-          prompt: '¡Líderes rotativos! Elijan entre las tarjetas suministradas: **tenta con bases, cuerda imaginaria o ronda con palmas**. En cada ronda, una persona diferente explica las reglas, comprueba el espacio y propone una adaptación. Al final recibe un consejo amable. **Poco espacio:** palmas o gestos en el lugar. **Adaptación:** se puede participar de pie o sentado y bajar el ritmo. **Vuelta a la calma:** respiración suave dirigida por el último líder.' },
+          prompt: 'Dirige una rutina breve sin equipo: explica “cuatro palmas suaves, cuatro gestos al frente y pausa”, comprueba el espacio y ofrece hacerla de pie o sentado. **Ruta grupal opcional:** una persona dirige y otra confirma la señal de alto. **Ruta individual completa:** di o lee las instrucciones, modela la secuencia y usa tú mismo la señal de pausa. No afirmes que hubo rotación si trabajaste a solas.' },
         { seconds: 15, rounds: [
-          { label: 'En reposo' },
-          { label: 'Después de la ronda 1 (primer líder)', exercise: { name: 'Juego tradicional dirigido por un líder', icon: 'Flag', seconds: 90 } },
-          { label: 'Después de la ronda 2 (otro líder)', exercise: { name: 'Otro juego con líder rotativo', icon: 'Users', seconds: 90 } },
+          { label: 'Antes de dirigir' },
+          { label: 'Después de explicar y modelar', exercise: { name: 'Palmas y gestos dirigidos', icon: 'Flag', seconds: 45 } },
+          { label: 'Después de adaptar y cerrar', exercise: { name: 'Secuencia adaptable con pausa', icon: 'Users', seconds: 45 } },
         ] },
       ),
       S.dilemma(
@@ -244,30 +244,36 @@ export default [
           { id: 'c', icon: 'MessageCircle', text: 'Hablar con calma con el compañero: explicarle que la igualdad es un derecho e invitarlo a jugar en un equipo mixto', consequence: 'El compañero no cambia de idea de inmediato, pero acepta jugar. Al final reconoce que el partido fue más parejo y divertido.', values: ['Diálogo', 'Respeto', 'Igualdad'], constructive: true },
         ] },
       ),
-      S.choice(
+      S.order(
         { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.3', 'ef:4.1.12'], ambito: 'conocer',
-          prompt: '**Repaso de la unidad.** Eres capitana de un equipo mixto con igualdad de oportunidades. Un defensor está entre tú y tu compañero y el equipo está nervioso. ¿Qué plan combina liderazgo inclusivo y habilidad física?',
-          explain: 'Contra un defensor con los brazos arriba conviene el **pase con pique** (semana 4); para los nervios, **respiración abdominal lenta** (semana 6); y al terminar una carrera, **frenar con rodillas dobladas** (semana 2).' },
-        { options: [
-          { id: 'a', text: 'Pase con pique; antes, 3 respiraciones abdominales lentas en equipo; y frenar con rodillas dobladas al final de cada carrera' },
-          { id: 'b', text: 'Pase directo a la cara del defensor; gritarle al equipo que se calme; frenar con las piernas rectas', feedback: 'El pase directo lo intercepta el defensor, gritar aumenta los nervios y frenar con piernas rectas puede lesionar.' },
-          { id: 'c', text: 'Pase rodado lento; no hacer nada con los nervios; no frenar nunca', feedback: 'Un rodado lento es fácil de interceptar y los nervios se pueden manejar con la respiración.' },
-        ], correct: ['a'] },
+          prompt: 'Aplica el liderazgo: ordena cómo dirigir una nueva rutina de pasos laterales con igualdad y seguridad.',
+          explain: 'Un liderazgo ejecutable explica, comprueba seguridad, ofrece adaptación, dirige la secuencia y cierra con una señal.' },
+        { labels: { start: 'Primero', end: 'Al final' }, items: [
+          { id: 'a', text: 'Explicar dos pasos laterales y una palma' },
+          { id: 'b', text: 'Comprobar espacio y ofrecer hacerlo sentado con gestos' },
+          { id: 'c', text: 'Dirigir dos repeticiones a ritmo cómodo' },
+          { id: 'd', text: 'Dar la señal de alto y preguntar por seguridad' },
+        ] },
+      ),
+      S.write(
+        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.3'], ambito: 'hacer', prompt: 'Guarda evidencia de cómo dirigiste la rutina: escribe la instrucción, la adaptación segura, tu rol y el orden usado. Indica si elegiste ruta individual o grupal.', explain: 'La evidencia describe liderazgo realmente practicado en la lección, sin afirmar una rotación no observada.' },
+        { minWords: 22, placeholder: 'Ruta… Mi instrucción… Adaptación… Secuencia…', model: 'Elegí la ruta individual. Expliqué cuatro palmas y cuatro gestos. Ofrecí hacerlos sentado, modelé la secuencia y terminé con la señal de pausa.', rubric: ['Indico la ruta', 'Escribo una instrucción', 'Incluyo adaptación segura', 'Describo rol y secuencia'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.1.12', 'ef:4.2.3'], prompt: 'En una actividad física del recreo, ¿cuál es la mejor forma de organizar los equipos con igualdad y liderazgo?' },
+        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.1.12', 'ef:4.2.3'], prompt: 'Aplica igualdad de oportunidades con una instrucción, una adaptación segura y una secuencia de liderazgo: debes dirigir una rutina nueva y una persona necesita menor intensidad. ¿Qué dices?' },
         { options: [
-          { id: 'a', text: 'Equipos mixtos formados al azar o contando 1-2, con líderes que se turnan' },
-          { id: 'b', text: 'Que los dos mejores escojan y los demás esperen' },
-          { id: 'c', text: 'Niñas contra niños siempre' },
+          { id: 'a', text: '“Haz gestos sentado si lo prefieres; yo modelo y paramos con la señal alto”' },
+          { id: 'b', text: '“Sigue el ritmo rápido o sal de la actividad”' },
+          { id: 'c', text: '“Empieza sin explicación y copia a los demás”' },
         ], correct: ['a'] },
       ),
-      S.tf(
-        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.1.12', 'ef:4.2.3'], prompt: '¿Verdadero o falso?' },
-        { statements: [
-          { text: 'La Constitución de Guatemala establece que el hombre y la mujer tienen iguales oportunidades y responsabilidades.', answer: true },
-          { text: 'Un buen líder decide solo y no escucha al grupo.', answer: false, why: 'Un buen líder escucha, explica y organiza con justicia.' },
-          { text: 'En un equipo diverso, las personas se complementan con distintas habilidades.', answer: true },
+      S.order(
+        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.1.12', 'ef:4.2.3'], prompt: 'Aplica igualdad de oportunidades con una instrucción, una adaptación segura y una secuencia de liderazgo: ordena cómo dirigirías una pausa activa individual.' },
+        { labels: { start: 'Inicio', end: 'Cierre' }, items: [
+          { id: 'e1', text: 'Explicar la secuencia de hombros, brazos y respiración' },
+          { id: 'e2', text: 'Elegir de pie o sentado y comprobar ausencia de dolor' },
+          { id: 'e3', text: 'Modelar dos repeticiones lentas' },
+          { id: 'e4', text: 'Usar la señal de alto y cerrar la rutina' },
         ] },
       ),
       cierre({ areas: ['ef'], cnb: ['ef:4.2.3'] },

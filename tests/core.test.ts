@@ -99,15 +99,37 @@ test('respuesta escrita exige texto sustantivo y completar la rubrica', () => {
   assert.equal(isShortAnswerReady(props, { text: 'Compare dos fuentes y explique una diferencia clara', checks: [true, true], seen: true }), true);
 });
 
-test('registro legacy cubre exactamente los short-answer actuales de Unidad 1', () => {
+test('registro legacy cubre los short-answer actuales sin borrar migraciones historicas', () => {
   const steps = WEEKS.filter((week) => week.unidad === 1)
     .flatMap((week) => week.lessons.flatMap((lesson) => lesson.steps))
     .filter((step) => step.type === 'short-answer');
   assert.equal(new Set(steps.map((step) => step.id)).size, steps.length, 'Los IDs de short-answer deben ser estables y unicos');
-  const authored = Object.fromEntries(steps.map((step) => [step.id, {
-    minWords: (step.props as { minWords?: number }).minWords ?? 8,
-  }]));
-  assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS, authored);
+  for (const step of steps) {
+    assert.ok(LEGACY_JOURNAL_REQUIREMENTS[step.id], `${step.id}: falta cobertura de migracion`);
+  }
+  assert.ok(Object.keys(LEGACY_JOURNAL_REQUIREMENTS).length >= steps.length,
+    'El historial puede contener IDs publicados que ya no existen en el contenido actual');
+  assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS['s08-l1-4-7'], { minWords: 70 });
+  assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS['s08-art-2-7'], { minWords: 50 });
+  assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS['s08-fc-2-7'], { minWords: 40 });
+});
+
+test('hidratacion conserva revisable un ID historico retirado con su umbral original', () => {
+  const words = 'La ficha biografica presenta origen formacion obras aporte y una fuente identificada. El texto organiza fechas verificables, explica por que la artista contribuyo a su comunidad y deja visible el titulo del paquete consultado para que otra persona pueda revisar cada dato antes de compartir la publicacion escolar con respeto y claridad'.split(' ');
+  assert.ok(words.length >= 50);
+  const review = { criteria: ['Publicacion biografica completa'], selfChecks: [true] };
+  const entry = { stepId: 's08-art-2-7', at: '2026-03-01', status: 'pending-review', primaryArea: 'art', cnb: ['art:4.3.2'], review };
+  const stored = {
+    ...emptyProgress(),
+    journal: {
+      'historico/suficiente': { ...entry, value: JSON.stringify({ text: words.slice(0, 50).join(' '), checks: [true], seen: true }) },
+      'historico/corto': { ...entry, value: JSON.stringify({ text: words.slice(0, 49).join(' '), checks: [true], seen: true }) },
+    },
+  } as unknown as Progress;
+  setStorageAdapter({ load: () => stored, save: () => {} });
+  assert.equal(getProgress().journal['historico/suficiente'].status, 'pending-review');
+  assert.equal(getProgress().journal['historico/corto'].status, 'legacy');
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
 test('respuesta escrita se guarda pendiente de revision sin acreditar dominio', () => {

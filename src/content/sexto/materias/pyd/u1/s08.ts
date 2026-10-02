@@ -3,87 +3,81 @@ import { lesson, S } from '../../../../dsl';
 
 export default [
   lesson({
-    id: 's08-pyd-1',
-    title: 'Practico una acción voluntaria de conservación',
-    icon: 'Sprout',
-    minutes: 14,
-    gancho: 'Un sobre sin nombre puede perder su historia. ¿Cómo lo conservarías de manera segura y voluntaria?',
-    objetivos: ['Realizar y documentar una práctica voluntaria, segura y simulada para conservar una muestra escolar de semillas secas'],
+    id: 's08-pyd-1', title: 'Conservar saberes con una ficha digital', icon: 'Archive', minutes: 14,
+    gancho: 'Una práctica sin fuente puede perderse o deformarse. ¿Cómo conservarías su explicación con honestidad?',
+    objetivos: ['Crear y guardar una ficha digital que documente una práctica comunitaria suministrada'],
     resumen: [
-      'Esta actividad es una simulación de aula con materiales suministrados; no afirma que se realizó conservación en una comunidad.',
-      'Participar es voluntario: se puede rotular un sobre de papel o elegir la alternativa de ordenar una ficha sin tocar la muestra.',
-      'La secuencia es observar sin abrir, elegir una tarea, rotular, revisar y registrar la fuente del caso.',
-      'La evidencia describe la acción realmente practicada en la lección y el siguiente paso seguro.',
+      'Documentar conserva conocimiento cuando registra qué se hace, para qué sirve y de qué fuente procede.',
+      'El caso es suministrado y simulado: no demuestra una entrevista ni una acción realizada en una comunidad.',
+      'La ficha digital se crea y guarda dentro de la lección como una acción real de conservación documental.',
+      'Participar no exige materiales, salir del aula ni desplegar la ficha fuera de la app.',
     ],
     media: {
-      id: 's08-pyd-1-practica', kind: 'diagram', title: 'Práctica simulada de conservación', aspect: '16:9',
-      alt: 'Cinco viñetas muestran un sobre cerrado con semillas secas, una elección voluntaria, una etiqueta, una revisión y un registro de fuente.',
-      brief: 'Diagrama horizontal de cinco pasos: observar un sobre cerrado de muestra, elegir libremente entre rotular u ordenar una ficha, escribir nombre y fecha simulada, revisar que siga seco y cerrado, y registrar “Ficha didáctica suministrada”. Incluir una ruta alternativa accesible sin manipular semillas. No mostrar ingestión ni herramientas. Target: public/media/s08-pyd-1-practica.svg. Producción: 1600×900 px. Accesibilidad: alto contraste, icono y texto en cada paso, orden de lectura indicado y descripción alternativa equivalente.',
+      id: 's08-pyd-1-ficha', kind: 'diagram', title: 'Ficha de conservación documental', aspect: '16:9',
+      alt: 'Diagrama con campos de práctica, propósito, procedimiento, cuidado y fuente, seguido por un icono de guardar.',
+      brief: 'Diagrama horizontal de cinco campos: nombre de la práctica, propósito, dos pasos, cuidado y fuente; termina en un icono de guardar. Rótulo visible: “Caso suministrado y simulado”. Target: public/media/s08-pyd-1-ficha.svg. Producción: 1600×900 px. Accesibilidad: alto contraste, orden numerado y descripción alternativa equivalente.',
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'conocer', title: 'Caso suministrado y elección libre', prompt: 'Lee las condiciones antes de elegir una práctica.' },
-        { icon: 'Package', body: '**Simulación de aula:** el paquete trae un sobre cerrado de muestra y una ficha. Puedes practicar el rotulado o elegir la alternativa de ordenar la ficha. Ninguna opción prueba una acción externa.' },
+        { fase: 'explorar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'conocer', title: 'Conservar también es documentar', prompt: 'Lee qué acción realizarás dentro de la lección.' },
+        { icon: 'Archive', body: 'Crearás y guardarás una **ficha digital de conservación documental**. La fuente es un caso didáctico suministrado y simulado; no afirma trabajo externo.' },
       ),
       S.explain(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', title: 'Cómo practicar la conservación', prompt: 'Aprende la secuencia segura antes de ejecutarla.' },
-        { icon: 'ListChecks', body: 'Haz cinco acciones: **observa** el sobre sin abrir; **elige** libremente una tarea; **rotula** nombre y fecha del caso; **revisa** que esté cerrado y seco; **registra** “Ficha didáctica suministrada”. No ingieras la muestra ni uses herramientas.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', title: 'Procedimiento de la ficha', prompt: 'Aprende la secuencia antes de guardar.' },
+        { icon: 'ListChecks', body: '**Selecciona** una práctica, **resume** propósito y pasos, **anota** un cuidado, **atribuye** la fuente y **guarda**. Así conservas conocimiento sin inventar experiencia comunitaria.' },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', title: 'Ejemplo resuelto', prompt: 'Sigue la práctica con el sobre de demostración.' },
-        { icon: 'Archive', problem: 'El sobre dice “maíz de muestra”, pero le faltan fecha y fuente.', steps: [
-          { text: '**Elijo** voluntariamente la tarea de rotular.' },
-          { text: '**Escribo** “Caso simulado, 8 de agosto” sin abrir el sobre.' },
-          { text: '**Reviso** cierre y condición seca; luego anoto la fuente suministrada.' },
-        ], answer: 'El sobre queda identificado y la práctica queda documentada sin afirmar conservación comunitaria.', tip: 'Observar → elegir → rotular → revisar → registrar.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', title: 'Modelo suministrado', prompt: 'Observa cómo una ficha conserva una práctica sin afirmar que se ejecutó fuera de la app.' },
+        { icon: 'FileText', problem: 'Paquete simulado: una comunidad registra el secado de semillas en sombra para transmitir el procedimiento.', steps: [
+          { text: '**Práctica y propósito:** secado en sombra; reducir humedad antes de almacenar.' },
+          { text: '**Procedimiento y cuidado:** extender, revisar y mantener lejos de agua; no ingerir materiales del caso.' },
+          { text: '**Fuente:** “Tarjeta didáctica de práctica comunitaria, caso simulado”.' },
+          { text: '**Acción:** guardar la ficha digital para conservar su explicación.' },
+        ], answer: 'La ficha conserva información suministrada y deja claros sus límites.', tip: 'Práctica → propósito → pasos → cuidado → fuente → guardar.' },
       ),
       S.order(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Ordena la práctica voluntaria simulada antes de ejecutarla.', hint: 'La revisión ocurre después del rótulo y antes del registro final.', explain: 'La secuencia protege la muestra y deja evidencia verificable: observar, elegir, rotular, revisar y registrar.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Con ayuda, ordena el procedimiento para crear y guardar la ficha.', hint: 'La fuente se atribuye antes de guardar.', explain: 'Seleccionar, resumir, indicar cuidado, atribuir y guardar produce evidencia documental revisable.' },
         { labels: { start: 'Primero', end: 'Al final' }, items: [
-          { id: 'g1', text: 'Observar el sobre cerrado', icon: 'Eye' },
-          { id: 'g2', text: 'Elegir libremente una tarea', icon: 'HandHeart' },
-          { id: 'g3', text: 'Rotular nombre y fecha simulada', icon: 'Tag' },
-          { id: 'g4', text: 'Revisar cierre y condición seca', icon: 'ShieldCheck' },
-          { id: 'g5', text: 'Registrar la fuente suministrada', icon: 'BookOpen' },
+          { id: 'g1', text: 'Seleccionar una práctica del paquete' }, { id: 'g2', text: 'Resumir propósito y dos pasos' },
+          { id: 'g3', text: 'Indicar un cuidado' }, { id: 'g4', text: 'Atribuir la fuente suministrada' },
+          { id: 'g5', text: 'Guardar la ficha digital' },
         ] },
       ),
       S.choice(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Una persona elige no tocar la muestra. ¿Cómo participa de forma válida?', hint: 'La práctica es voluntaria y debe ofrecer una alternativa equivalente.', explain: 'Puede ordenar y revisar la ficha suministrada; conservar también exige información clara.' },
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'La tarjeta no dice quién practica actualmente el procedimiento. ¿Cómo lo documentas?', hint: 'Conserva el dato y también su límite.', explain: 'La ficha dice “caso suministrado y simulado”; no inventa entrevista ni comunidad actual.' },
         { options: [
-          { id: 'a', text: 'Ordena la ficha y verifica nombre, fecha y fuente', icon: 'ClipboardCheck' },
-          { id: 'b', text: 'Es obligada a abrir el sobre', icon: 'PackageOpen', feedback: 'La participación no sería voluntaria ni segura.' },
-          { id: 'c', text: 'Se inventa una actividad comunitaria', icon: 'FileQuestion', feedback: 'La evidencia debe describir solo lo realizado en el aula.' },
+          { id: 'a', text: 'Rotulo el caso como suministrado y simulado' },
+          { id: 'b', text: 'Invento el nombre de una comunidad', feedback: 'Eso convertiría la documentación en información falsa.' },
+          { id: 'c', text: 'Afirmo que hice una entrevista', feedback: 'La actividad no incluye una entrevista.' },
         ], correct: ['a'] },
       ),
       S.order(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Realiza ahora la práctica simulada con el sobre o con la ficha: ordena cada acción conforme la completas.', explain: 'Esta interacción registra la ejecución de una acción voluntaria y segura dentro de la lección.' },
-        { labels: { start: 'Inicio', end: 'Registro terminado' }, items: [
-          { id: 'a1', text: 'Observo el material suministrado sin abrirlo', icon: 'Eye' },
-          { id: 'a2', text: 'Elijo rotular el sobre u ordenar la ficha', icon: 'HandHeart' },
-          { id: 'a3', text: 'Completo nombre y fecha del caso simulado', icon: 'Tag' },
-          { id: 'a4', text: 'Reviso seguridad y condición seca', icon: 'ShieldCheck' },
-          { id: 'a5', text: 'Registro la fuente del paquete', icon: 'Archive' },
+        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Ejecuta la acción en la app: organiza la nueva ficha de captación de lluvia del paquete antes de guardarla.', explain: 'Esta organización conserva el propósito, el procedimiento, el cuidado y la fuente.' },
+        { labels: { start: 'Encabezado', end: 'Cierre' }, items: [
+          { id: 'a1', text: 'Práctica: captar lluvia en un recipiente limpio y cubierto' },
+          { id: 'a2', text: 'Propósito: reservar agua para riego, no para beber' },
+          { id: 'a3', text: 'Cuidado: mantener el recipiente cubierto' },
+          { id: 'a4', text: 'Fuente: tarjeta didáctica suministrada, caso simulado' },
         ] },
       ),
       S.write(
-        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Documenta qué opción elegiste, qué acción realizaste, qué verificaste y cuál sería tu siguiente paso seguro.', explain: 'Describe únicamente la práctica simulada realizada; no afirmes haber conservado semillas fuera del aula.' },
-        { minWords: 24, placeholder: 'Elegí… Realicé… Verifiqué… Mi siguiente paso seguro sería…', model: 'Elegí ordenar la ficha. Registré nombre, fecha simulada y fuente. Verifiqué que el sobre permaneciera cerrado y seco. Mi siguiente paso sería guardarlo en la caja rotulada.', rubric: ['Nombro una elección voluntaria', 'Describo una acción realizada', 'Registro una verificación', 'Propongo un siguiente paso seguro'] },
-      ),
-      S.choice(
-        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Ya rotulaste un sobre del caso simulado. ¿Qué acción sigue para completar la práctica de conservación?' },
-        { options: [
-          { id: 'a', text: 'Revisar que esté cerrado y seco antes de registrar la fuente' },
-          { id: 'b', text: 'Afirmar que toda la comunidad conservó semillas' },
-          { id: 'c', text: 'Abrirlo para probar las semillas' },
-        ], correct: ['a'] },
+        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Crea y guarda tu ficha digital: incluye práctica, propósito, dos pasos o cuidados y fuente suministrada. Esta ficha guardada es la acción realizada; no afirmes despliegue comunitario.', explain: 'La respuesta guardada queda como evidencia revisable de conservación documental.' },
+        { minWords: 24, placeholder: 'Práctica… Propósito… Pasos o cuidados… Fuente suministrada…', model: 'Práctica: captación de lluvia. Propósito: reservar agua para riego. Mantener el recipiente limpio, cubierto y rotulado. Fuente: tarjeta didáctica suministrada, caso simulado.', rubric: ['Creo una ficha completa', 'Conservo procedimiento y cuidado', 'Atribuyo la fuente', 'No invento acción externa'] },
       ),
       S.order(
-        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'En un nuevo sobre escolar ya revisado, ordena las dos acciones finales de la práctica.' },
-        { labels: { start: 'Ahora', end: 'Después' }, items: [
-          { id: 'e1', text: 'Registrar “Ficha didáctica suministrada”', icon: 'BookOpen' },
-          { id: 'e2', text: 'Anotar en qué caja rotulada debe guardarse', icon: 'Tag' },
-          { id: 'e3', text: 'Guardar el sobre cerrado sin afirmar una acción externa', icon: 'Archive' },
+        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Completa y guarda una ficha de conservación con fuente: aplica el procedimiento a una receta tintórea suministrada y ordena la decisión final.' },
+        { labels: { start: 'Primero', end: 'Después' }, items: [
+          { id: 'e1', text: 'Comprobar que el cuidado proviene de la tarjeta' },
+          { id: 'e2', text: 'Agregar la fuente y el rótulo de caso simulado' },
+          { id: 'e3', text: 'Guardar la ficha documental' },
         ] },
+      ),
+      S.choice(
+        { fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Completa y guarda una ficha de conservación con fuente: aplica el procedimiento cuando una ficha nueva tiene nombre y pasos, pero carece de atribución. ¿Qué haces?' },
+        { options: [
+          { id: 'a', text: 'Añadir la tarjeta suministrada como fuente y volver a guardar' },
+          { id: 'b', text: 'Publicarla como entrevista real' }, { id: 'c', text: 'Borrar el cuidado para que sea más corta' },
+        ], correct: ['a'] },
       ),
     ],
   }),

@@ -117,8 +117,8 @@ export default [
           explain: '"El registro" lleva artículo y nombra: sustantivo. "Registro la medición" expresa una acción: verbo.' },
         { options: [
           { id: 'a', text: 'El primer “registro” es sustantivo y el segundo es verbo' },
-          { id: 'b', text: 'Las dos son verbos', feedback: 'Mira la palabra que va antes de "baile": "el". Eso indica sustantivo.' },
-          { id: 'c', text: '"baile" es adjetivo y "bailo" es sustantivo', feedback: '"Baile" no dice cómo es algo, y "bailo" es una acción.' },
+          { id: 'b', text: 'Las dos son verbos', feedback: 'Mira la palabra que va antes del primer “registro”: “el”. Eso indica sustantivo.' },
+          { id: 'c', text: 'El primero es adjetivo y el segundo es sustantivo', feedback: 'El primer “registro” nombra y el segundo expresa la acción de registrar.' },
         ], correct: ['a'] },
       ),
       S.write(
@@ -208,13 +208,13 @@ export default [
       ),
       S.match(
         { fase: 'construir', areas: ['l2'], cnb: ['l2:5.1.2'], ambito: 'hacer',
-          prompt: 'Con ayuda, une cada sustantivo del corpus de energía con un colectivo relacionado.',
-          hint: 'Un equipo reúne personas; un conjunto reúne datos; el alumbrado reúne lámparas de un lugar.',
-          explain: 'Persona–equipo, dato–conjunto de datos y lámpara–alumbrado permiten distinguir individual y colectivo en el panel.' },
+          prompt: 'Con ayuda, une cada sustantivo individual con su colectivo léxico.',
+          hint: 'El colectivo es una palabra singular que nombra un grupo.',
+          explain: 'Árbol–bosque, abeja–enjambre y oveja–rebaño son pares individual–colectivo.' },
         { leftTitle: 'Individual', rightTitle: 'Colectivo', pairs: [
-          { id: 'c1', left: 'persona', right: 'equipo' },
-          { id: 'c2', left: 'dato', right: 'conjunto de datos' },
-          { id: 'c3', left: 'lámpara', leftIcon: 'Lightbulb', right: 'alumbrado' },
+          { id: 'c1', left: 'árbol', right: 'bosque' },
+          { id: 'c2', left: 'abeja', right: 'enjambre' },
+          { id: 'c3', left: 'oveja', right: 'rebaño' },
         ] },
       ),
       S.sort(
@@ -287,8 +287,8 @@ export default [
         { fase: 'comprobar', areas: ['l2'], cnb: ['l2:5.1.2'], prompt: 'Clasifica fuentes, mediciones y recomendaciones de otro panel: ¿verdadero o falso?' },
         { statements: [
           { text: '“Ficha D” es propio porque identifica una fuente particular.', answer: true },
-          { text: '“Dato” es colectivo porque nombra muchas mediciones.', answer: false, why: 'Dato es individual; “conjunto de datos” es colectivo.' },
-          { text: '“Recomendación” y “ahorro” son sustantivos abstractos del panel.', answer: true },
+          { text: '“Bosque” es colectivo porque en singular nombra un grupo de árboles.', answer: true },
+          { text: '“Recomendación” es concreto porque se puede tocar.', answer: false, why: 'Recomendación nombra una idea; es un sustantivo abstracto.' },
         ] },
       ),
       S.reflect(

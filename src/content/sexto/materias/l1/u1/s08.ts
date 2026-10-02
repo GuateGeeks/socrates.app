@@ -81,7 +81,7 @@ export default [
             { text: '**¿La conclusión respeta la evidencia?** No: una LED sigue usando energía y la palabra “siempre” no está respaldada.' },
             { text: 'Corrige: _Según la Ficha B, una LED de 9 W usa menos potencia que la lámpara de 60 W comparada en el caso simulado._' },
           ],
-          answer: 'Ahora el párrafo es honesto: dice qué ideas son de Sofía, cuáles del conserje y cuáles del libro.',
+          answer: 'Ahora el párrafo es honesto: distingue las afirmaciones propias y atribuye los datos a las Fichas A y B suministradas.',
           tip: 'Tres preguntas: ¿son mis palabras?, ¿dije de dónde viene?, ¿el dato es el real?' },
       ),
       S.sort(
@@ -219,11 +219,11 @@ export default [
       S.order(
         { fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.4'], ambito: 'hacer',
           prompt: 'Ordena alfabéticamente esta **lista de fuentes** (son fuentes de ejemplo).',
-          explain: 'Se ordena por la primera palabra: Asociación, Instituto, López, Morales.' },
+          explain: 'Se ordena por la primera palabra: Asociación, Equipo, Instituto, Morales.' },
         { labels: { start: 'Primera', end: 'Última' }, items: [
           { id: 'l1', text: 'Asociación de Caficultores (2022). Guía del café de altura.' },
-          { id: 'l2', text: 'Instituto de Historia Local (2021). Mi municipio ayer y hoy.' },
           { id: 'l3', text: 'Equipo didáctico (2026). Ficha B: Iluminación y uso racional.' },
+          { id: 'l2', text: 'Instituto de Historia Local (2021). Mi municipio ayer y hoy.' },
           { id: 'l4', text: 'Morales, Ana (2020). Ciencias Naturales 6.' },
         ] },
       ),

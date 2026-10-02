@@ -120,9 +120,9 @@ export default [
           prompt: 'En un **caso simulado**, un medidor registra **60 W** para una lámpara y **9 W** para otra bajo igual nivel de iluminación. Si se comparan 4 lámparas de cada tipo, ¿cuál es la diferencia de potencia?',
           explain: 'Cada par difiere 60 − 9 = 51 W. En cuatro pares: 204 W. El resultado solo corresponde a las condiciones declaradas; no demuestra por sí solo un ahorro anual.' },
         { answer: 204, unit: 'W', misconceptions: [
-          { value: 51, msg: 'Eso es lo que ahorra un solo foco. Hay 4 focos.' },
-          { value: 36, msg: '36 W es lo que usan los 4 focos LED. La pregunta es cuánto se ahorra.' },
-          { value: 240, msg: '240 W es lo que usan los 4 focos viejos. Réstale lo que usan los LED.' },
+          { value: 51, msg: 'Esa es la diferencia de potencia de un solo par. Hay 4 pares.' },
+          { value: 36, msg: '36 W es la potencia total de las 4 lámparas LED. La pregunta pide la diferencia entre ambos grupos.' },
+          { value: 240, msg: '240 W es la potencia total de las 4 lámparas de 60 W. Resta la potencia de las LED.' },
         ] },
       ),
       S.choice(
@@ -130,7 +130,7 @@ export default [
           prompt: '¿Qué propuesta permite comprobar una recomendación de ahorro sin inventar resultados?',
           explain: 'Un protocolo fija condiciones, usa unidades y conserva los registros para que otro grupo pueda repetirlo y comparar resultados compatibles.' },
         { options: [
-          { id: 'a', text: 'Comparar dos lámparas durante el mismo tiempo, registrar watts y nivel de iluminación, y compartir el protocolo', icon: 'Ruler' },
+          { id: 'a', text: 'Comparar dos lámparas durante el mismo tiempo, registrar potencia en watts y energía en Wh o kWh, además del nivel de iluminación, y compartir el protocolo', icon: 'Ruler' },
           { id: 'b', text: 'Afirmar que una lámpara ahorra mucho porque parece moderna', icon: 'Lightbulb', feedback: 'La apariencia no es una medición.' },
           { id: 'c', text: 'Prometer una cantidad anual sin tiempo de uso ni tarifa', icon: 'Plug', feedback: 'Faltan condiciones y datos para esa conclusión.' },
         ], correct: ['a'] },
@@ -216,7 +216,7 @@ export default [
             { text: 'Efecto 2: sin árboles, **ya no hay quien absorba** el dióxido de carbono que seguimos produciendo.' },
             { text: 'Más dióxido de carbono → mayor absorción y reemisión de radiación infrarroja → cambia el balance energético y sube la temperatura media.' },
           ],
-          answer: 'La quema **libera** el carbono guardado **y** elimina a quienes lo absorbían: doble efecto.',
+          answer: 'La quema **libera** carbono y elimina parte de su absorción. A la vez, el calentamiento y la sequía pueden elevar el riesgo y la severidad de incendios: es una retroalimentación, no una causa de una sola dirección.',
           tip: 'Por eso proteger los bosques y reforestar (semana 7) ayuda al agua **y** al clima.' },
       ),
       S.explain(
@@ -263,15 +263,16 @@ export default [
       ),
       S.sort(
         { fase: 'aplicar', areas: ['cnt'], cnb: ['cnt:7.3.1'], ambito: 'conocer',
-          prompt: 'Lee estos titulares de noticias. ¿Describen una **causa** o una **consecuencia** del calentamiento global?',
-          explain: 'Las causas agregan gases (quemas, combustibles). Las consecuencias son cambios en el clima y en los seres vivos.' },
+          prompt: 'Lee estos titulares. ¿Describen una **causa**, una **consecuencia** o una **retroalimentación** del calentamiento global?',
+          explain: 'Las emisiones agregan gases; las consecuencias cambian riesgos y patrones. Los incendios pueden emitir gases y, a la vez, volverse más probables o severos con calentamiento y sequedad: forman una retroalimentación.' },
         { buckets: [
           { id: 'cau', label: 'Causa', icon: 'Factory', color: 'var(--c-bad)' },
           { id: 'con', label: 'Consecuencia', icon: 'Thermometer', color: 'var(--c-maiz-strong)' },
+          { id: 'ret', label: 'Retroalimentación', icon: 'RefreshCw', color: 'var(--area-cnt)' },
         ], items: [
           { id: 'n1', text: '"Aumenta el número de vehículos en la capital"', bucket: 'cau' },
           { id: 'n2', text: '"Sequía prolongada afecta las milpas del Corredor Seco"', bucket: 'con' },
-          { id: 'n3', text: '"Incendios forestales arrasan hectáreas de bosque"', bucket: 'cau' },
+          { id: 'n3', text: '"Incendios forestales emiten gases; el calor y la sequedad pueden aumentar su riesgo y severidad"', bucket: 'ret' },
           { id: 'n4', text: '"Glaciares de los Andes pierden hielo cada año"', bucket: 'con' },
           { id: 'n5', text: '"Crece el basurero municipal a cielo abierto"', bucket: 'cau' },
         ] },
@@ -413,7 +414,7 @@ export default [
           { id: 'cie', label: 'Conocimiento científico', icon: 'BadgeCheck', color: 'var(--area-cnt)' },
           { id: 'opi', label: 'Opinión o rumor', icon: 'MessageCircle', color: 'var(--c-maiz-strong)' },
         ], items: [
-          { id: 'k1', text: 'Las células de las personas tienen 46 cromosomas', bucket: 'cie' },
+          { id: 'k1', text: 'La mayoría de las células del cuerpo humano tienen 46 cromosomas; los gametos tienen 23', bucket: 'cie' },
           { id: 'k2', text: '"Dicen que los zancudos transmiten el VIH"', bucket: 'opi', feedback: 'Es un rumor falso: la ciencia comprobó que los zancudos no transmiten el VIH.' },
           { id: 'k3', text: 'La Tierra se formó hace unos 4,500 millones de años, según mediciones de rocas', bucket: 'cie' },
           { id: 'k4', text: '"El maíz morado es el más bonito"', bucket: 'opi' },

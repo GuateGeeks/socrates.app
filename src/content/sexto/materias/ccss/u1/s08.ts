@@ -36,7 +36,7 @@ export default [
       ),
       S.choice(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:8.3.1'], ambito: 'conocer',
-          prompt: 'Este año la lluvia llegó tarde y muchas milpas del Corredor Seco se perdieron. Al mismo tiempo, hubo sequías en partes de África y Asia. ¿Qué nos dice esto?',
+          prompt: 'Caso didáctico simulado; no describe una situación actual: en una temporada ficticia, la lluvia llegó tarde y se perdieron milpas en una comunidad del Corredor Seco. El mismo paquete simula sequías en partes de África y Asia. ¿Qué permite comparar?',
           explain: 'Algunos problemas **no respetan fronteras**: el cambio climático, el hambre o la contaminación afectan a muchos países a la vez. Son **problemas mundiales**.' },
         { options: [
           { id: 'a', text: 'Que hay problemas que afectan a muchos países a la vez', icon: 'Globe' },
@@ -153,7 +153,7 @@ export default [
     minutes: 15,
     gancho: 'Cuando compras un cuaderno de Q10, una parte de ese dinero no es para la librería. ¿Para quién es? ¿Y quién decidió que así fuera?',
     objetivos: [
-      'Explicar qué son los impuestos y para qué sirven',
+      'Clasificar y aplicar normas fiscales y responsabilidades ciudadanas en casos suministrados',
     ],
     resumen: [
       'Los impuestos son pagos obligatorios que la población y las empresas hacen al Estado para financiar servicios públicos: escuelas, hospitales, carreteras, seguridad.',
@@ -233,13 +233,18 @@ export default [
           answer: 'Caso 1: **Q6** de IVA y precio final **Q56**. Caso 2: **Q12** de los Q112 son IVA.',
           tip: 'En las tiendas de Guatemala el precio que ves casi siempre ya incluye el IVA. Por eso, pide factura.' },
       ),
-      S.number(
-        { fase: 'aplicar', areas: ['ccss', 'mat'], cnb: ['ccss:8.4.1'], ambito: 'hacer',
-          prompt: 'Supongamos que un par de zapatos cuesta **Q200 sin IVA**. ¿Cuánto IVA (12 %) se paga?',
-          explain: '12 % de 200 = 200 × 12 ÷ 100 = 24. Se pagan Q24 de IVA (precio final Q224).' },
-        { answer: 24, unit: 'Q', misconceptions: [
-          { value: 224, msg: 'Ese es el precio final. La pregunta es solo cuánto es el IVA.' },
-          { value: 12, msg: '12 es el porcentaje. Calcula el 12 % de 200.' },
+      S.sort(
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.4.1'], ambito: 'hacer',
+          prompt: 'Aplica la jerarquía fiscal: clasifica cada decisión del caso suministrado según la norma o responsabilidad que corresponde.',
+          explain: 'La Constitución reserva al Congreso la creación de impuestos; la ley crea el tributo; el reglamento detalla su aplicación; pedir factura es responsabilidad ciudadana.' },
+        { buckets: [
+          { id: 'con', label: 'Constitución' }, { id: 'ley', label: 'Ley' },
+          { id: 'reg', label: 'Reglamento' }, { id: 'res', label: 'Responsabilidad ciudadana' },
+        ], items: [
+          { id: 'a1', text: 'Solo el Congreso puede crear un impuesto nacional', bucket: 'con' },
+          { id: 'a2', text: 'El decreto establece el IVA', bucket: 'ley' },
+          { id: 'a3', text: 'Una disposición explica cómo presentar el formulario', bucket: 'reg' },
+          { id: 'a4', text: 'La persona compradora pide factura', bucket: 'res' },
         ] },
       ),
       S.dilemma(
@@ -252,16 +257,20 @@ export default [
           ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:8.4.1'], prompt: '¿Qué norma jurídica establece el **deber** de todos los guatemaltecos de contribuir a los gastos públicos y es la ley suprema del país?' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:8.4.1'], prompt: 'Aplica la Constitución, la ley o el reglamento y decide la responsabilidad fiscal: un reglamento intenta crear un impuesto nuevo sin ley del Congreso. ¿Qué corresponde?' },
         { options: [
-          { id: 'a', text: 'La Constitución Política de la República' },
-          { id: 'b', text: 'Un reglamento municipal' },
-          { id: 'c', text: 'El reglamento interno de la escuela' },
+          { id: 'a', text: 'Señalo que contradice el principio constitucional: un reglamento no crea impuestos' },
+          { id: 'b', text: 'Lo acepto porque cualquier reglamento está sobre la Constitución' },
+          { id: 'c', text: 'Lo trato como una decisión privada sin efecto legal' },
         ], correct: ['a'] },
       ),
-      S.number(
-        { fase: 'comprobar', areas: ['ccss', 'mat'], cnb: ['ccss:8.4.1'], prompt: 'Supongamos que una pelota cuesta **Q75 sin IVA**. ¿Cuántos quetzales de IVA (12 %) se pagan?' },
-        { answer: 9, unit: 'Q' },
+      S.choice(
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:8.4.1'], prompt: 'Aplica la Constitución, la ley o el reglamento y decide la responsabilidad fiscal: una venta incluye IVA pero ofrece omitir la factura. ¿Qué corresponde?' },
+        { options: [
+          { id: 'a', text: 'Pedir la factura y conservar el comprobante' },
+          { id: 'b', text: 'Aceptar porque pagar menos reemplaza la norma' },
+          { id: 'c', text: 'Inventar un reglamento personal' },
+        ], correct: ['a'] },
       ),
     ],
   }),

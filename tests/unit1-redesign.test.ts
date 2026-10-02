@@ -1268,6 +1268,11 @@ function lessonWorkload(lesson: Lesson): {
   mediaModelCycles: number;
   writingBurden: number;
   overloadedWriting: boolean;
+  drawingActions: number;
+  groupMaterialActions: number;
+  publicationCycles: number;
+  productionBurden: number;
+  overloadedProduction: boolean;
 } {
   const countItems = (value: unknown): number => {
     if (!value || typeof value !== 'object') return 0;
@@ -1303,16 +1308,23 @@ function lessonWorkload(lesson: Lesson): {
   const recopying = projectText.match(/\b(?:pasa(?:r|lo)? en limpio|copia(?:r)? en limpio|redaccion final|version limpia)\b/g)?.length ?? 0;
   const mediaModelCycles = [lesson.media, ...lesson.steps.map((step) => step.media)].filter(Boolean).length
     + lesson.steps.filter((step) => step.type === 'worked-example').length;
+  const productionText = normalizeFactText(JSON.stringify(lesson.steps.filter((step) => step.fase === 'aplicar')));
+  const drawingActions = productionText.match(/\b(?:dibuja|dibujar|boceta|ilustra|grafica|traza)\b/g)?.length ?? 0;
+  const groupMaterialActions = productionText.match(/\b(?:formen grupos?|en equipo|con un companero|repartan|roten|rotacion|recorta|pega|monta|materiales?)\b/g)?.length ?? 0;
+  const publicationCycles = productionText.match(/\b(?:pasa(?:r|lo)? en limpio|copia(?:r)? en limpio|publica|publicar|comparte|compartir|monta|foro|lee.{0,20}(?:metro|distancia)|prueba.{0,20}legibilidad)\b/g)?.length ?? 0;
   const writingBurden = authoredWords + correctionPasses * 8
     + recopying * authoredWords * 0.75 + projectWriting * 5 + mediaModelCycles * 4;
+  const productionBurden = drawingActions * 10 + groupMaterialActions * 8 + publicationCycles * 12;
   const complexity = lesson.steps.length + nestedItems / 4 + mediaSeconds / 60 + textWords / 600
     + repetitions / 10 + setupActions * 0.5 + evidenceWriting * 0.5;
   const longResponse = lesson.steps.some((step) => step.type === 'short-answer'
     && Number((step.props as { minWords?: number }).minWords ?? 0) > lesson.minutes * 3);
   const overloadedWriting = writingBurden > lesson.minutes * 6;
+  const overloadedProduction = writingBurden + productionBurden > lesson.minutes * 7;
   return {
     nestedItems, complexity, longResponse, authoredWords, correctionPasses, recopying,
-    projectWriting, mediaModelCycles, writingBurden, overloadedWriting,
+    projectWriting, mediaModelCycles, writingBurden, overloadedWriting, drawingActions,
+    groupMaterialActions, publicationCycles, productionBurden, overloadedProduction,
   };
 }
 
@@ -4916,16 +4928,16 @@ const WEEK_EIGHT_REF_SEMANTICS: Readonly<Record<string, RegExp>> = {
   'ccss:8.1.1': /ciencias sociales|problema social|aporte.{0,30}social|fuente|decisiones|condiciones de vida|estudi.{0,30}(?:sociedad|poblacion)/,
   'ccss:8.2.1': /dialogo|conflicto|mensaje.{0,12}yo|(?:escuchar|alternativas?).{0,100}acuerdo|acuerdo.{0,100}(?:responsabilidad|turno|necesidad)|procedimiento.{0,100}(?:problema|acuerdo)/,
   'ccss:8.3.1': /problema mundial|objetivos de desarrollo|\bods\b|dato global|pobreza|hambre|educacion|clima/,
-  'ccss:8.4.1': /impuesto|\biva\b|\bisr\b|factura|norma juridica/,
+  'ccss:8.4.1': /impuesto|\biva\b|\bisr\b|factura|norma juridica|constitucion|ley|reglamento|responsabilidad fiscal/,
   'l2:5.1.1': /sustantivo|adjetivo|verbo/,
   'l2:5.1.2': /sustantiv|comun|propio|individual|colectivo|concreto|abstracto/,
   'l3:5.2.2': /biograph|fact card|chronolog|timeline|life|year|ano|date|nineteen|rigoberta|helen keller|anne sullivan|was born|grew up|studied|became|died|graduat/,
   'fc:5.2.1': /\bceh\b|comision para el esclarecimiento historico|comunidades mayas|mapa|memoria|departamento|pueblo|region|ubica|localiza/,
-  'art:4.3.2': /biograf|vida|obra|artista|ficha|publica|fuente|cronolog|exposicion|catalogo|museo|grabado/,
+  'art:4.3.2': /biograf|vida|obra|artista|publica|fuente|cronolog|exposicion|catalogo|museo|grabado/,
   'ef:4.1.12': /igualdad|oportunidades|derechos|equipos mixtos/,
-  'ef:4.2.3': /lider|liderazgo|capitan|organiza.{0,30}equipo/,
+  'ef:4.2.3': /lider|liderazgo|capitan|dirige|explica.{0,30}(?:regla|rutina)|adaptacion.{0,30}seguridad/,
   'ef:4.2.7': /juego tradicional|trompo|capirucho|cincos|tenta|ronda con palmas/,
-  'pyd:5.5.2': /voluntari|practica|conserv|semilla|sobre|rotul|ficha|registr|revis|guardar/,
+  'pyd:5.5.2': /conserv|practica comunitaria|memoria|documentacion|tarjeta digital|fuente suministrada/,
 };
 
 function matchesWeekEightRef(ref: string, value: unknown): boolean {
@@ -5020,6 +5032,22 @@ test('El estimador detecta redaccion, pasadas, recopia y ciclos ocultos en un pr
   assert.equal(load.overloadedWriting, true);
 });
 
+test('El estimador detecta dibujo, manejo grupal y ciclos de publicacion acumulados', () => {
+  const overloadedPublication = {
+    id: 'fixture-publicacion-larga', kind: 'materia', area: 'art', title: 'Fixture', icon: 'TestTube', minutes: 15,
+    objetivos: ['Publicar'], resumen: [], media: { duration: 60 },
+    steps: [{ id: 'p1', type: 'project', fase: 'aplicar', areas: ['art'], cnb: ['art:4.3.2'], prompt: 'En equipo, dibuja e ilustra la ficha; pasa en limpio, monta el mural, comparte en foro y prueba legibilidad a un metro.', props: { steps: [
+      { title: 'Dibuja', detail: 'Dibuja una imagen y agrega un pie.' },
+      { title: 'Publica', detail: 'Pasa en limpio, monta y comparte la publicacion.' },
+    ] } }],
+  } as unknown as Lesson;
+  const load = lessonWorkload(overloadedPublication);
+  assert.ok(load.drawingActions >= 2);
+  assert.ok(load.groupMaterialActions >= 2);
+  assert.ok(load.publicationCycles >= 3);
+  assert.equal(load.overloadedProduction, true);
+});
+
 test('Semana 8 usa exactamente el plan y una secuencia viable por leccion', () => {
   const subjects = weekEight.lessons.filter((lesson) => lesson.kind === 'materia');
   assert.equal(subjects.length, 27);
@@ -5051,10 +5079,10 @@ test('Semana 8 ensena cada indicador antes de calificar y completa guia, aplicac
 test('Semana 8 mantiene la carga de cada leccion dentro del estimador establecido', () => {
   const failures: string[] = [];
   for (const lesson of weekEight.lessons.filter((item) => item.kind === 'materia')) {
-    const { nestedItems, complexity, longResponse, overloadedWriting, writingBurden } = lessonWorkload(lesson);
+    const { nestedItems, complexity, longResponse, overloadedWriting, writingBurden, overloadedProduction, productionBurden } = lessonWorkload(lesson);
     if (lesson.minutes < 10 || lesson.minutes > 15 || lesson.steps.length < 9 || lesson.steps.length > 14
-      || nestedItems > lesson.minutes * 3 || complexity > lesson.minutes * 2 - 2 || longResponse || overloadedWriting) {
-      failures.push(`${lesson.id}: pasos=${lesson.steps.length}, elementos=${nestedItems}, complejidad=${complexity.toFixed(2)}, escritura=${writingBurden.toFixed(1)}, larga=${longResponse}`);
+      || nestedItems > lesson.minutes * 3 || complexity > lesson.minutes * 2 - 2 || longResponse || overloadedWriting || overloadedProduction) {
+      failures.push(`${lesson.id}: pasos=${lesson.steps.length}, elementos=${nestedItems}, complejidad=${complexity.toFixed(2)}, escritura=${writingBurden.toFixed(1)}, produccion=${productionBurden}, larga=${longResponse}`);
     }
   }
   assert.deepEqual(failures, []);
@@ -5077,6 +5105,105 @@ test('Semana 8 ensena el uso honesto de datos y conserva exactitud cientifica', 
   assert.match(ccssText, /problema/);
   assert.ok(ccssOne.steps.some((step) => step.fase === 'aplicar' && step.cnb.includes('ccss:8.1.1') && getActivity(step.type)?.graded));
   assert.ok(ccssOne.steps.filter((step) => step.fase === 'comprobar' && step.cnb.includes('ccss:8.1.1')).length >= 2);
+});
+
+function proceduralEvidenceMatches(ref: string, value: unknown): boolean {
+  const text = normalizeFactText(JSON.stringify(value));
+  if (ref === 'art:4.3.2') return /(?:publica|comparte|guarda).{0,100}(?:biograf|vida|obra).{0,100}fuente|ficha biografica.{0,100}(?:publicada|visible|guardada)/.test(text);
+  if (ref === 'ef:4.2.3') return /(?:dirige|lidera|explica).{0,100}(?:regla|rutina|secuencia).{0,100}(?:adaptacion|seguridad|rol)|(?:instruccion|regla).{0,100}(?:adaptacion|seguridad).{0,100}(?:rol|secuencia)/.test(text);
+  if (ref === 'pyd:5.5.2') return /(?:crea|redacta|completa|guarda).{0,100}(?:tarjeta|ficha).{0,120}(?:conserv|practica|fuente)|(?:tarjeta|ficha).{0,100}(?:fuente|pasos).{0,100}conserv/.test(text);
+  if (ref === 'ccss:8.4.1') return /(?:clasifica|aplica|decide|ubica).{0,100}(?:constitucion|ley|reglamento|norma|responsabilidad)|(?:constitucion|ley|reglamento).{0,100}(?:deber|responsabilidad|crear impuestos|contradecir)/.test(text);
+  return false;
+}
+
+test('La evidencia procedimental rechaza palabras clave sin accion demostrable', () => {
+  assert.equal(proceduralEvidenceMatches('art:4.3.2', { prompt: 'Artista, ficha y biografia.' }), false);
+  assert.equal(proceduralEvidenceMatches('ef:4.2.3', { prompt: 'Reconoce liderazgo y capitan.' }), false);
+  assert.equal(proceduralEvidenceMatches('pyd:5.5.2', { prompt: 'Semilla, conservacion y fuente.' }), false);
+  assert.equal(proceduralEvidenceMatches('ccss:8.4.1', { prompt: 'Norma, IVA y responsabilidad.' }), false);
+});
+
+test('Arte, EF, PyD y CCSS2 producen evidencia procedimental independiente y revisable', () => {
+  const expectations = [
+    ['s08-art-2', 'art:4.3.2', /publicar|compartir/],
+    ['s08-ef-2', 'ef:4.2.3', /dirigir|liderar/],
+    ['s08-pyd-1', 'pyd:5.5.2', /crear|guardar|documentar/],
+    ['s08-ccss-2', 'ccss:8.4.1', /clasificar|aplicar/],
+  ] as const;
+  for (const [id, ref, verb] of expectations) {
+    const lesson: Lesson | undefined = weekEight.lessons.find((item: Lesson) => item.id === id);
+    assert.ok(lesson, `Falta ${id}`);
+    assert.match(normalizeFactText((lesson.objetivos ?? []).join(' ')), verb);
+    const application: StepBase[] = lesson.steps.filter((step: StepBase) => step.fase === 'aplicar' && step.cnb.includes(ref));
+    assert.ok(application.some((step) => proceduralEvidenceMatches(ref, step)), `${id}: aplicacion no procedimental`);
+    if (ref !== 'ccss:8.4.1') assert.ok(application.some((step) => step.type === 'short-answer'), `${id}: sin evidencia guardada`);
+    const exits: StepBase[] = lesson.steps.filter((step: StepBase) => step.fase === 'comprobar' && step.cnb.includes(ref));
+    assert.equal(exits.length, 2, `${id}: salidas`);
+    assert.ok(exits.every((step) => proceduralEvidenceMatches(ref, step)), `${id}: salida de reconocimiento`);
+  }
+  const ef = weekEight.lessons.find((item) => item.id === 's08-ef-2')!;
+  assert.match(normalizeFactText(JSON.stringify(ef)), /ruta individual|en solitario|sin grupo/);
+  assert.doesNotMatch(normalizeFactText(JSON.stringify(ef)), /todas las personas rotaron|cada persona dirigio/);
+});
+
+test('Reto y banco transfieren los cuatro procedimientos con payloads nuevos', () => {
+  const challenge = weekEight.lessons.find((lesson) => lesson.kind === 'reto');
+  assert.ok(challenge);
+  for (const [area, ref] of [['art', 'art:4.3.2'], ['ef', 'ef:4.2.3'], ['pyd', 'pyd:5.5.2'], ['ccss', 'ccss:8.4.1']] as const) {
+    const challengeStep: StepBase | undefined = challenge.steps.find((step: StepBase) => step.areas[0] === area);
+    const bankStep: StepBase | undefined = weekEightBank.find((step: StepBase) => step.areas[0] === area);
+    assert.ok(challengeStep && bankStep, `${area}: falta reto o banco`);
+    assert.ok(challengeStep.cnb.includes(ref), `${area}: referencia incorrecta en reto`);
+    assert.ok(bankStep.cnb.includes(ref), `${area}: referencia incorrecta en banco`);
+    assert.equal(proceduralEvidenceMatches(ref, challengeStep), true, `${area}: reto no procedimental`);
+    assert.equal(proceduralEvidenceMatches(ref, bankStep), true, `${area}: banco no procedimental`);
+    assert.equal(repeatsStructuredFact(bankStep, challengeStep), false, `${area}: banco repite reto`);
+  }
+});
+
+test('Semana 8 rotula casos suministrados y corrige afirmaciones factuales sensibles', () => {
+  const ccssOne = weekEight.lessons.find((item) => item.id === 's08-ccss-1')!;
+  const ccssText = normalizeFactText(JSON.stringify(ccssOne));
+  assert.doesNotMatch(ccssText, /este ano la lluvia llego tarde|muchas milpas.{0,30}se perdieron/);
+  assert.match(ccssText, /caso (?:ficticio|simulado)|fuente.{0,80}(?:fecha|202\d)/);
+
+  const l3Text = normalizeFactText(JSON.stringify([
+    weekEight.lessons.find((item) => item.id === 's08-l3-2'),
+    weekEight.lessons.find((item) => item.kind === 'reto')?.steps.find((step) => step.areas[0] === 'l3'),
+  ]));
+  assert.doesNotMatch(l3Text, /elena cruz(?![^.]{0,80}(?:ficticia|caso ficticio))/);
+  assert.doesNotMatch(l3Text, /elena.{0,100}2014/);
+
+  const cntText = normalizeFactText(JSON.stringify(weekEight.lessons.filter((item) => item.area === 'cnt')));
+  assert.doesNotMatch(cntText, /\b(?:ahorro|energia ahorrada).{0,30}\d+\s*w\b|\d+\s*w.{0,30}(?:ahorro|energia ahorrada)/);
+  assert.match(cntText, /watt.{0,40}potencia|potencia.{0,40}watt/);
+  assert.match(cntText, /incendios?.{0,100}(?:emiten|liberan).{0,80}gases/);
+  assert.match(cntText, /calentamiento.{0,100}(?:sequia|condiciones secas).{0,100}(?:riesgo|gravedad|severidad).{0,40}incend/);
+  assert.match(cntText, /mayoria de las celulas del cuerpo.{0,40}46.{0,80}gametos.{0,20}23/);
+  assert.doesNotMatch(cntText, /las celulas de las personas tienen 46 cromosomas/);
+
+  const l3Lesson = normalizeFactText(JSON.stringify(weekEight.lessons.find((item) => item.id === 's08-l3-2')));
+  assert.match(l3Lesson, /water.{0,100}(?:comprendio|descubrimiento|conexion|nombre)/);
+  assert.doesNotMatch(l3Lesson, /primera palabra fue water|aprenderias tu primera palabra/);
+
+  const mayaLesson = weekEight.lessons.find((item) => item.id === 's08-mat-3')!;
+  const maya365 = mayaLesson.steps.find((step) => /365/.test(normalizeFactText(JSON.stringify(step))));
+  assert.ok(maya365);
+  assert.equal((maya365.props as { levels?: number }).levels, 2);
+});
+
+test('L1 usa fuentes suministradas coherentes y orden alfabetico correcto', () => {
+  const lesson = weekEight.lessons.find((item) => item.id === 's08-l1-2')!;
+  const text = normalizeFactText(JSON.stringify(lesson));
+  assert.match(text, /asociacion.{0,200}equipo.{0,200}instituto.{0,200}morales/);
+  assert.doesNotMatch(text, /asociacion instituto lopez morales/);
+  const l1 = normalizeFactText(JSON.stringify(weekEight.lessons.filter((item) => item.area === 'l1')));
+  assert.doesNotMatch(l1, /ideas son de sofia|conserje/);
+});
+
+test('L2 usa colectivos lexicos y retroalimentacion del corpus actual', () => {
+  const text = normalizeFactText(JSON.stringify(weekEight.lessons.filter((item) => item.area === 'l2')));
+  assert.doesNotMatch(text, /lampara (?:es|→|se convierte en) alumbrado|dato (?:es|→|se convierte en) conjunto de datos|palabra que va antes de baile|baile es adjetivo|bailo es sustantivo/);
 });
 
 test('Semana 8 construye un panel ejecutable con cuatro aportes y datos simulados', () => {
@@ -5126,17 +5253,17 @@ test('FC2 localiza pueblos y departamentos desde un paquete CEH sin clasificar s
   assert.doesNotMatch(text, /color.{0,60}(?:mas afectad|mayor violencia|sufrio mas|severidad)/);
 });
 
-test('PyD ejecuta y documenta una practica voluntaria simulada de conservacion en el aula', () => {
+test('PyD crea y guarda una accion real de conservacion documental dentro de la app', () => {
   const lesson = weekEight.lessons.find((item) => item.id === 's08-pyd-1');
   assert.ok(lesson, 'Falta s08-pyd-1');
-  assert.match(normalizeFactText((lesson.objetivos ?? []).join(' ')), /realizar|ejecutar|practicar/);
+  assert.match(normalizeFactText((lesson.objetivos ?? []).join(' ')), /crear|guardar|documentar/);
   const application = lesson.steps.filter((step) => step.fase === 'aplicar');
   const applicationText = normalizeFactText(JSON.stringify(application));
-  assert.match(applicationText, /simulacion|practica simulada|ensayo de aula/);
-  assert.match(applicationText, /voluntari/);
-  assert.match(applicationText, /rotul|sobre/);
-  assert.match(applicationText, /evidencia|registra|anota|respuesta/);
-  assert.doesNotMatch(applicationText, /visita|entrevista|centro comunitario|servicio real|conservamos la comunidad/);
+  assert.match(applicationText, /caso simulado|tarjeta didactica suministrada/);
+  assert.match(applicationText, /ficha digital/);
+  assert.match(applicationText, /crea|organiza|guarda/);
+  assert.match(applicationText, /evidencia|fuente|documental/);
+  assert.doesNotMatch(applicationText, /visita|entrevista|centro comunitario|servicio real|conservamos la comunidad|sobre de semillas/);
   assert.ok(application.some((step) => step.type === 'short-answer'), 'La practica necesita evidencia revisable');
   const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
   assert.equal(exits.length, 2);
@@ -5249,7 +5376,9 @@ test('Semana 8 evalua diez areas con referencias ensenadas y payloads frescos', 
   assert.deepEqual(new Set(weekEightBank.filter((step) => getActivity(step.type)?.graded).map((step) => step.areas[0])), PRIMARY_AREAS);
   const reused: string[] = [];
   for (const assessment of assessments) {
-    if (subjectSteps.some((practice) => practice.areas[0] === assessment.areas[0] && repeatsStructuredFact(assessment, practice))) reused.push(`${assessment.id}/${assessment.areas[0]}`);
+    const repeatedPractice = subjectSteps.find((practice) => practice.areas[0] === assessment.areas[0]
+      && repeatsStructuredFact(assessment, practice));
+    if (repeatedPractice) reused.push(`${assessment.id}/${assessment.areas[0]}->${repeatedPractice.id}`);
   }
   const challengeAssessments = nestedGradedAssessments(challenge.steps);
   const bankAssessments = nestedGradedAssessments(weekEightBank);

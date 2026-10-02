@@ -116,18 +116,16 @@ export default [
           { id: 'c', text: 'Lo que le contó un compañero que "lo leyó en algún lado"', feedback: 'Es un rumor: no se puede comprobar.' },
         ], correct: ['a'] },
       ),
-      S.project(
-        { fase: 'aplicar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'convivir',
-          prompt: 'Usa el **paquete biográfico suministrado** sobre la grabadora ficticia Ana López. No necesitas entrevistar ni buscar información fuera de la actividad.' },
-        { goal: 'Organizar una biografía artística verificable a partir de fuentes ya suministradas.',
-          steps: [
-            { title: 'Separa', detail: 'Distingue hechos de la cronología, comentario de catálogo y afirmación sin fuente.' },
-            { title: 'Ordena', detail: 'Ubica origen, formación, obras y aporte en cuatro fichas breves.' },
-            { title: 'Atribuye', detail: 'Anota junto a cada hecho la tarjeta del paquete que lo respalda.' },
-            { title: 'Boceta', detail: 'Dibuja en el cuaderno una ficha con nombre, línea de tiempo, obra y fuentes.' },
-          ],
-          evidence: 'Boceto en papel con cuatro apartados y referencias al paquete.',
-          rubric: ['Uso solo hechos suministrados', 'Ordeno los hitos', 'Hago visibles las fuentes'] },
+      S.match(
+        { fase: 'aplicar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'hacer',
+          prompt: 'Aplica las preguntas guía al paquete suministrado de Ana López, artista ficticia: une cada dato con su sección biográfica.',
+          explain: 'Una investigación breve conserva el origen, la formación, la obra y el aporte, y deja visible qué ficha suministrada respalda cada dato.' },
+        { leftTitle: 'Dato suministrado', rightTitle: 'Sección', pairs: [
+          { id: 'a1', left: 'Nació en Totonicapán en 1978', right: 'Origen' },
+          { id: 'a2', left: 'Aprendió grabado en un taller escolar', right: 'Formación' },
+          { id: 'a3', left: 'Creó la serie Bosques de tinta', right: 'Obra' },
+          { id: 'a4', left: 'Enseñó técnicas de impresión a jóvenes', right: 'Aporte' },
+        ] },
       ),
       S.choice(
         { fase: 'comprobar', areas: ['art'], cnb: ['art:4.3.2'], prompt: '¿Cuál de estas es una **fuente primaria** para la biografía de una tejedora?' },
@@ -156,7 +154,7 @@ export default [
     minutes: 15,
     gancho: 'Ya investigaste la vida de un artista. Si esa información se queda en tu cuaderno, solo tú la conoces. ¿Cómo la compartirías con toda la escuela y la comunidad?',
     objetivos: [
-      'Redactar una ficha biográfica clara para publicar',
+      'Publicar y compartir una ficha biográfica breve, verificable y legible',
     ],
     resumen: [
       'Publicar es dar a conocer una investigación. Formas escolares: ficha biográfica, periódico mural, foro o presentación oral.',
@@ -237,10 +235,10 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['art', 'l1'], cnb: ['art:4.3.2'], ambito: 'hacer',
-          prompt: 'Con el **paquete biográfico suministrado** sobre Humberto Ak’abal, redacta una ficha breve para publicación: origen, formación, obra, aporte y fuente. No agregues entrevistas ni datos externos.' },
-        { minWords: 32, placeholder: 'Nombre… Origen… Formación… Obra… Aporte… Fuente suministrada…',
-          model: 'Humberto Ak’abal. Origen: nació en 1952 en Momostenango, Totonicapán. Fue un poeta k’iche’. Formación: de niño fue pastor de ovejas y después trabajó como tejedor; aprendió mucho de la tradición oral de su pueblo y de la naturaleza. Obras: escribió libros de poemas en k’iche’ y en español; sus poemas imitan los sonidos de los pájaros, el viento y la lluvia. Aporte: llevó la poesía k’iche’ a lectores de muchos países. Murió en 2019. ¿Sabías que…? Sus poemas se han traducido a varios idiomas. Fuente: ficha biográfica suministrada “Humberto Ak’abal: voz y naturaleza”.',
-          rubric: ['Incluye origen, formación, obras y aporte', 'Tiene un dato curioso', 'Usa oraciones cortas y claras', 'Cita al menos una fuente'] },
+          prompt: 'Publica una **ficha biográfica con obra y fuente visible**, y guárdala para compartirla como evidencia docente. Usa solo el paquete suministrado: Humberto Ak’abal · nació en Momostenango en 1952 · poeta k’iche’ · escribió en k’iche’ y español · murió en 2019. No afirmes una exposición externa.' },
+        { minWords: 24, placeholder: 'Humberto Ak’abal… Obra… Aporte… Fuente: paquete suministrado…',
+          model: 'Humberto Ak’abal nació en Momostenango en 1952. Fue poeta k’iche’ y escribió en k’iche’ y español. Su obra difundió esa poesía. Fuente: paquete biográfico suministrado.',
+          rubric: ['Publico origen, obra y aporte', 'Uso solo el paquete suministrado', 'Dejo visible la fuente'] },
       ),
       S.choice(
         { fase: 'aplicar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer',
@@ -252,34 +250,22 @@ export default [
           { id: 'c', text: 'Una imagen sin pie y hechos sin fuente', feedback: 'La ficha pierde contexto y verificabilidad.' },
         ], correct: ['a'] },
       ),
-      S.project(
-        { fase: 'aplicar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'convivir',
-          prompt: 'Prepara en una hoja la publicación del **paquete biográfico suministrado**.' },
-        { goal: 'Dar a conocer la vida y obra documentada de un artista mediante una ficha legible.',
-          steps: [
-            { title: 'Pasa en limpio', detail: 'Escribe tu ficha en una hoja con letra clara, subtítulos y un dibujo del artista o de su obra, con pie de foto.' },
-            { title: 'Revisa', detail: 'Comprueba que cada dato aparezca en el paquete y que la fuente sea visible.' },
-            { title: 'Jerarquiza', detail: 'Da mayor tamaño al nombre, luego a los hitos y finalmente a las fuentes.' },
-            { title: 'Prueba', detail: 'Lee la ficha a un metro de distancia y ajusta contraste o tamaño si hace falta.' },
-          ],
-          evidence: 'Ficha biográfica terminada en papel.',
-          rubric: ['La ficha está completa y tiene fuentes', 'Los datos provienen del paquete', 'La jerarquía facilita la lectura'] },
+      S.order(
+        { fase: 'comprobar', areas: ['art'], cnb: ['art:4.3.2'], prompt: 'Publica y guarda una ficha biográfica con obra y fuente: ordena el procedimiento para una artista ficticia con datos verificados.' },
+        { labels: { start: 'Primero', end: 'Al final' }, items: [
+          { id: 'e1', text: 'Seleccionar un hecho respaldado por el paquete' },
+          { id: 'e2', text: 'Redactar origen, obra y aporte con claridad' },
+          { id: 'e3', text: 'Agregar la fuente visible' },
+          { id: 'e4', text: 'Guardar la ficha para compartirla como evidencia docente' },
+        ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['art'], cnb: ['art:4.3.2'], prompt: '¿Qué elementos **no pueden faltar** en una ficha biográfica para publicar?' },
+        { fase: 'comprobar', areas: ['art'], cnb: ['art:4.3.2'], prompt: 'Al publicar y compartir otra ficha biográfica con obra y fuente visible, ¿qué decisión evita convertir decoración en evidencia?' },
         { options: [
-          { id: 'a', text: 'Origen, obras, aporte y fuentes' },
-          { id: 'b', text: 'Solo el nombre y un dibujo' },
-          { id: 'c', text: 'La dirección y el teléfono de la persona' },
+          { id: 'a', text: 'Guardar origen, obra, aporte y fuente en campos legibles' },
+          { id: 'b', text: 'Compartir solo un dibujo sin datos' },
+          { id: 'c', text: 'Ocultar la fuente para ganar espacio' },
         ], correct: ['a'] },
-      ),
-      S.tf(
-        { fase: 'comprobar', areas: ['art'], cnb: ['art:4.3.2'], prompt: '¿Verdadero o falso?' },
-        { statements: [
-          { text: 'Antes de publicar la entrevista a una persona, hay que pedirle permiso.', answer: true },
-          { text: 'En un foro es correcto interrumpir a quien presenta si no te gusta su tema.', answer: false, why: 'Se escucha la presentación completa y luego se opina con respeto.' },
-          { text: 'Un periódico mural debe tener título, textos breves, imágenes con pie de foto y fuentes.', answer: true },
-        ] },
       ),
       cierre({ areas: ['art'], cnb: ['art:4.3.2'] },
         ['Investigo la vida de un artista con preguntas guía y fuentes confiables', 'Publico una ficha biográfica clara y con fuentes', 'Presento y escucho con respeto en un foro'],

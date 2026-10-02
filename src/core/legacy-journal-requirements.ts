@@ -1,6 +1,9 @@
 export interface LegacyJournalRequirement { minWords: number }
 
-/** Readiness metadata omitted by journal records written before minWords was persisted. */
+/**
+ * Append-only migration history for journal records written before minWords was persisted.
+ * Published IDs and their original thresholds must remain even after content is revised.
+ */
 export const LEGACY_JOURNAL_REQUIREMENTS: Readonly<Record<string, LegacyJournalRequirement>> = {
   's01-l1-1-9': { minWords: 20 },
   's01-l2-1-4': { minWords: 21 },
@@ -95,14 +98,19 @@ export const LEGACY_JOURNAL_REQUIREMENTS: Readonly<Record<string, LegacyJournalR
   's07-d5-taller-6': { minWords: 26 },
   's07-d5-taller-8': { minWords: 34 },
   's08-l1-2-8': { minWords: 25 },
+  's08-ef-1-8': { minWords: 45 },
   's08-ef-1-9': { minWords: 24 },
+  's08-ef-2-10': { minWords: 22 },
+  's08-l2-1-10': { minWords: 20 },
   's08-l2-1-11': { minWords: 20 },
   's08-l1-3-7': { minWords: 15 },
-  's08-l1-4-7': { minWords: 45 },
+  's08-l1-4-7': { minWords: 70 },
   's08-l1-5-7': { minWords: 18 },
+  's08-l3-2-8': { minWords: 20 },
   's08-l3-2-9': { minWords: 20 },
+  's08-art-2-7': { minWords: 50 },
   's08-art-2-8': { minWords: 32 },
-  's08-fc-2-7': { minWords: 22 },
+  's08-fc-2-7': { minWords: 40 },
   's08-pyd-1-7': { minWords: 24 },
   's09-d1-planificar-6': { minWords: 40 },
   's09-d2-disenar-5': { minWords: 35 },

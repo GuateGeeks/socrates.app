@@ -161,13 +161,13 @@ export default [
     title: 'Helen Keller: a life of courage',
     icon: 'HandHeart',
     minutes: 15,
-    gancho: 'Imagina que no puedes ver ni oír. ¿Cómo aprenderías tu primera palabra? Una niña de Estados Unidos lo logró… con la mano.',
+    gancho: 'Imagina que no puedes ver ni oír. ¿Cómo relacionarías una palabra con lo que tocas? Helen Keller logró esa comprensión con la mano.',
     objetivos: [
       'Leer y comprender la biografía de Helen Keller',
     ],
     resumen: [
       'Helen Keller nació en 1880 en Alabama, Estados Unidos. Cuando era bebé, una enfermedad la dejó sin poder ver ni oír.',
-      'Su maestra, Anne Sullivan, le enseñó a comunicarse escribiendo letras en la palma de su mano. Su primera palabra fue "water".',
+      'Su maestra, Anne Sullivan, le enseñó a comunicarse deletreando letras en la palma. El momento de “water” fue un avance conceptual: comprendió que las palabras nombran las cosas.',
       'En 1904 se graduó de la universidad (Radcliffe College). Escribió libros y viajó por el mundo apoyando a personas con discapacidad. Murió en 1968.',
       'El inglés se habla en muchos países: Estados Unidos, Reino Unido, Canadá, Australia, Irlanda… y en Belice, nuestro vecino.',
     ],
@@ -283,9 +283,9 @@ export default [
       ),
       S.write(
         { fase: 'aplicar', areas: ['l3'], cnb: ['l3:5.2.2'], ambito: 'hacer',
-          prompt: 'Usa esta **fact card suministrada**: Elena Cruz · born in Quetzaltenango, 1986 · became an electrical engineer, 2010 · designed school solar projects · received a teaching award, 2022. Escribe una mini-biografía en inglés de 3 oraciones. No agregues fechas que no aparecen.' },
-        { minWords: 20, placeholder: 'Elena Cruz was born... She became... She is known for...',
-          model: 'Elena Cruz was born in Quetzaltenango in 1986. She became an electrical engineer in 2010 and designed school solar projects. She received a teaching award in 2022.',
+          prompt: 'Usa esta **fact card ficticia suministrada**: Elena Cruz, persona ficticia · born in Quetzaltenango, 1986 · became an electrical engineer, 2010 · designed school solar projects · received a teaching award, 2022. Escribe una mini-biografía en inglés de 3 oraciones. No agregues fechas que no aparecen.' },
+        { minWords: 20, placeholder: 'Elena Cruz, persona ficticia, was born... She became...',
+          model: 'Elena Cruz, persona ficticia, was born in Quetzaltenango in 1986. She became an electrical engineer in 2010 and designed school solar projects. She received a teaching award in 2022.',
           rubric: ['Uso solo los hechos suministrados', 'Escribo tres oraciones en orden', 'Uso was born y became correctamente'] },
       ),
       S.choice(
