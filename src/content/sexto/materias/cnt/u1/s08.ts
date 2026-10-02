@@ -29,24 +29,9 @@ export default [
       brief: 'Infografía circular con 7 sectores de colores, cada uno con ícono grande, nombre y un ejemplo guatemalteco: Solar (Sol sobre un campo de milpa), Radiante (ondas que salen del Sol y de una antena de radio), Lumínica (foco y luciérnaga), Calorífica (comal sobre el fuego), Química (tortillas, leña, batería), Nuclear (átomo con núcleo resaltado, y el Sol como ejemplo), Eléctrica (cable, poste de luz, rayo). Al centro: "Energía = capacidad de producir cambios". Flechas finas entre sectores que sugieren transformaciones. Letra grande, fondo blanco. Target: public/media/s08-cnt-1-manifestaciones.svg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'conocer',
-          prompt: '¿Qué tienen en común el **Sol**, una **tortilla**, una **batería** y un **rayo**?',
-          explain: 'Todos tienen o transportan **energía**: la capacidad de producir cambios o movimiento. Pero en cada uno la energía se manifiesta de forma distinta.' },
-        { layout: 'grid', options: [
-          { id: 'a', text: 'Todos son calientes', icon: 'Thermometer', feedback: 'Una batería o una tortilla fría no están calientes, y aun así tienen algo en común.' },
-          { id: 'b', text: 'Todos tienen o transportan energía', icon: 'Zap' },
-          { id: 'c', text: 'Todos son seres vivos', icon: 'Sprout', feedback: 'Ninguno de los cuatro es un ser vivo.' },
-        ], correct: ['b'] },
-      ),
       S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'conocer', title: '¿Qué es la energía?',
-          prompt: 'La **energía** es la capacidad de producir **cambios** o **movimiento**. Toca las tarjetas.' },
-        { icon: 'Zap', body: 'Cuando corres, cuando el agua hierve o cuando se enciende un foco, hay energía en acción.', reveal: [
-          { icon: 'Footprints', front: 'Energía y movimiento', back: 'Todo lo que se mueve tiene energía de movimiento: el agua de un río, el viento, tú en bicicleta. Y para mover algo, se necesita energía.' },
-          { icon: 'RefreshCw', front: 'Se transforma', back: 'La energía **no se crea ni se destruye**: se **transforma**. La energía química de tu desayuno se transforma en movimiento y calor en tu cuerpo.' },
-          { icon: 'Layers', front: 'Muchas manifestaciones', back: 'La misma energía puede aparecer de formas distintas: luz, calor, electricidad… A esas formas se les llama **manifestaciones** de la energía.' },
-        ] },
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'conocer', title: 'Transformaciones y evidencia', prompt: 'Lee cómo se comprueba una afirmación sobre energía.' },
+        { icon: 'Zap', body: 'La energía se **transforma**. Una afirmación confiable identifica la transformación, la medición, la unidad y las condiciones del protocolo.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:8.2.1'], ambito: 'conocer', title: 'Las manifestaciones de la energía',
@@ -182,44 +167,28 @@ export default [
       'Explicar el efecto invernadero natural y cómo las actividades humanas lo aumentan',
     ],
     resumen: [
-      'La atmósfera tiene gases (vapor de agua, dióxido de carbono, metano) que atrapan parte del calor del Sol: es el efecto invernadero natural, que permite la vida.',
+      'La energía solar atraviesa la atmósfera y calienta la superficie. La Tierra emite radiación infrarroja; gases como vapor de agua, dióxido de carbono y metano absorben y reemiten parte de esa radiación, incluso hacia la superficie.',
       'El calentamiento global es el aumento de la temperatura promedio de la Tierra porque las actividades humanas agregan más gases de efecto invernadero: quemar combustibles (vehículos, fábricas, plantas eléctricas), talar y quemar bosques, quemar basura y los basureros.',
       'Consecuencias: sequías más largas, lluvias más intensas, deshielo de glaciares, aumento del nivel del mar y pérdida de especies.',
       'Gracias a los viajes espaciales hay satélites que observan la Tierra: siguen huracanes y el estado del tiempo, miden la temperatura, vigilan bosques e incendios, ayudan a ubicar recursos naturales y muestran los daños de un terremoto. Guatemala lanzó su primer satélite, el Quetzal-1, en 2020.',
     ],
     media: {
-      id: 's08-cnt-2-invernadero', kind: 'animation', title: 'La cobija de la Tierra', aspect: '16:9', duration: 50,
-      alt: 'Animación: rayos de sol atraviesan la atmósfera y calientan la Tierra; parte del calor sale al espacio y parte queda atrapada por una capa de gases. Luego, humo de vehículos, fábricas y quemas engrosa la capa y el termómetro del planeta sube.',
-      brief: 'Animación 2D de 50 s. (1) La Tierra con una capa transparente (atmósfera). Flechas amarillas de luz solar entran; la superficie se calienta y emite flechas rojas de calor; algunas salen al espacio y otras rebotan en la capa: rótulo "efecto invernadero natural: sin él, la Tierra sería helada". (2) Aparecen chimeneas de fábricas, escapes de vehículos, un bosque en llamas y un basurero humeante; la capa se vuelve más gruesa y opaca; más flechas rojas quedan atrapadas; un termómetro sobre la Tierra sube. (3) Íconos de consecuencias: sequía en milpa, tormenta, glaciar que se derrite. (4) Un satélite en órbita "fotografía" la escena. Narración en español con subtítulos. Target: public/media/s08-cnt-2-invernadero.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
+      id: 's08-cnt-2-invernadero', kind: 'animation', title: 'Energía solar e infrarroja', aspect: '16:9', duration: 50,
+      alt: 'Animación: energía solar amarilla atraviesa la atmósfera y calienta la superficie; la Tierra emite radiación infrarroja roja. Gases de efecto invernadero absorben y reemiten parte del infrarrojo en varias direcciones, incluso hacia la superficie, mientras otra parte escapa al espacio.',
+      brief: 'Animación científica 2D de 50 s. (1) Flechas amarillas rotuladas “energía solar entrante” atraviesan la atmósfera y son absorbidas por la superficie, que se calienta. (2) La superficie emite flechas rojas onduladas rotuladas “radiación infrarroja terrestre”. (3) Moléculas identificadas de CO₂, CH₄ y H₂O absorben algunas flechas infrarrojas y las reemiten en varias direcciones: algunas hacia el espacio y otras hacia la superficie. Representar intercambio radiativo entre superficie, gases y espacio, sin una capa reflectora. (4) Al aumentar gases por actividades humanas, aumenta la absorción y reemisión infrarroja hacia abajo; incluir termómetro de tendencia, no de un día aislado. (5) Un satélite registra una serie temporal con fecha y cobertura. Target: public/media/s08-cnt-2-invernadero.mp4. Producción: 1920×1080 px, 50 s. Accesibilidad: narración, subtítulos completos, transcripción, códigos de color con rótulos y controles de pausa.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:7.3.1'], ambito: 'conocer',
-          prompt: '¿Qué evidencia ayuda a estudiar el **calentamiento global**?',
-          explain: 'Se comparan series largas de mediciones de superficie, océano y satélite. Una imagen aislada o un día caluroso no bastan para establecer la tendencia global.' },
-        { options: [
-          { id: 'a', text: 'Series de temperatura de muchos años, con fuente, cobertura y método', icon: 'ChartLine' },
-          { id: 'b', text: 'La temperatura de una sola tarde', icon: 'Sun', feedback: 'Un día describe tiempo atmosférico, no una tendencia climática global.' },
-          { id: 'c', text: 'Una fotografía sin fecha ni ubicación', icon: 'ImageOff', feedback: 'Sin contexto no puede compararse con otras observaciones.' },
-        ], correct: ['a'] },
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:7.3.1'], ambito: 'conocer', title: 'Del Sol a la radiación infrarroja', prompt: 'Sigue el recorrido de la energía antes de interpretar el modelo.' },
+        { icon: 'Earth', body: 'La energía solar calienta la superficie. La Tierra emite **radiación infrarroja**; los gases de efecto invernadero absorben y reemiten parte de ella.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.3.1'], ambito: 'conocer', title: 'El efecto invernadero natural',
           prompt: 'Mira la animación de la lección y toca las tarjetas.' },
-        { icon: 'Earth', body: 'La Tierra está rodeada de una capa de gases, la **atmósfera**. Algunos gases funcionan como una **cobija**: dejan entrar la luz del Sol y atrapan parte del calor.', reveal: [
-          { icon: 'Cloud', front: 'Gases de efecto invernadero', back: 'Los principales son el **vapor de agua**, el **dióxido de carbono** (CO₂) y el **metano**.' },
-          { icon: 'ThumbsUp', front: '¡Es necesario!', back: 'Sin el efecto invernadero natural, la temperatura promedio de la Tierra sería de unos **18 °C bajo cero**: casi no habría vida. Con él, es de unos **15 °C**.' },
-          { icon: 'Thermometer', front: 'El problema', back: 'Si se agregan **demasiados** gases, la cobija se vuelve más gruesa y la Tierra se **calienta de más**. Eso es el **calentamiento global**.' },
-        ] },
-      ),
-      S.explain(
-        { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.3.1'], ambito: 'conocer', title: 'Causas del calentamiento global',
-          prompt: 'Las actividades humanas agregan gases de efecto invernadero a la atmósfera. Toca las tarjetas.' },
-        { icon: 'Factory', body: 'La mayor parte del dióxido de carbono extra viene de **quemar** cosas: combustibles, bosques y basura.', reveal: [
-          { icon: 'Car', front: 'Quemar combustibles', back: 'Gasolina, diésel, búnker y carbón en **vehículos**, **fábricas** y **plantas eléctricas** liberan **dióxido de carbono**.' },
-          { icon: 'Flame', front: 'Talar y quemar bosques', back: 'Los árboles **guardan carbono**. Al quemarlos, lo liberan; y al talarlos, ya no absorben el dióxido de carbono del aire.' },
-          { icon: 'Trash2', front: 'Basura', back: 'Quemar basura libera gases y humo; la basura que se pudre en los basureros libera **metano**.' },
-          { icon: 'Tractor', front: 'Algunas actividades agropecuarias', back: 'El ganado y algunos cultivos inundados liberan **metano**; el uso excesivo de ciertos fertilizantes libera otros gases.' },
+        { icon: 'Earth', body: 'La energía solar calienta la superficie. La superficie emite **radiación infrarroja**; algunos gases la absorben y la reemiten en varias direcciones.', reveal: [
+          { icon: 'Cloud', front: 'Absorber y reemitir', back: 'El vapor de agua, el **CO₂** y el **metano** absorben parte del infrarrojo terrestre y lo reemiten; una parte vuelve hacia la superficie y otra sale al espacio.' },
+          { icon: 'Thermometer', front: 'Natural y aumentado', back: 'El efecto natural mantiene habitable el planeta. Más gases por actividades humanas alteran el balance energético y elevan la temperatura promedio.' },
+          { icon: 'Factory', front: 'Actividades humanas', back: 'Quemar combustibles y basura, talar bosques y algunas actividades agropecuarias aumentan gases como CO₂ y metano.' },
         ] },
       ),
       S.sort(
@@ -232,11 +201,9 @@ export default [
           { id: 'red', label: 'Ayuda a reducirlos', icon: 'TrendingDown', color: 'var(--c-ok)' },
         ], items: [
           { id: 'g1', text: 'Quemar basura en el patio', bucket: 'aum' },
-          { id: 'g2', text: 'Sembrar árboles en la escuela', bucket: 'red' },
-          { id: 'g3', text: 'Ir caminando o en bicicleta a la tienda cercana', bucket: 'red' },
-          { id: 'g4', text: 'Hacer rozas con fuego en el bosque', bucket: 'aum' },
-          { id: 'g5', text: 'Apagar las luces que no se usan', bucket: 'red', feedback: 'Parte de la electricidad se produce quemando combustibles: ahorrarla reduce gases.' },
-          { id: 'g6', text: 'Dejar el carro encendido mientras se espera', bucket: 'aum' },
+          { id: 'g2', text: 'Proteger y restaurar bosques', bucket: 'red' },
+          { id: 'g3', text: 'Apagar luces innecesarias', bucket: 'red', feedback: 'Reducir demanda eléctrica puede evitar emisiones cuando la generación usa combustibles.' },
+          { id: 'g4', text: 'Dejar un motor encendido mientras se espera', bucket: 'aum' },
         ] },
       ),
       S.ejemplo(
@@ -247,7 +214,7 @@ export default [
             { text: 'Los árboles toman **dióxido de carbono** del aire para hacer la fotosíntesis y lo **guardan** en su madera.', why: 'Recuerda: los cloroplastos fabrican alimento con luz, agua y dióxido de carbono.' },
             { text: 'Efecto 1: al **quemarse**, ese carbono guardado vuelve al aire como **dióxido de carbono**.' },
             { text: 'Efecto 2: sin árboles, **ya no hay quien absorba** el dióxido de carbono que seguimos produciendo.' },
-            { text: 'Más dióxido de carbono en el aire → la cobija de gases se engrosa → la Tierra atrapa más calor.' },
+            { text: 'Más dióxido de carbono → mayor absorción y reemisión de radiación infrarroja → cambia el balance energético y sube la temperatura media.' },
           ],
           answer: 'La quema **libera** el carbono guardado **y** elimina a quienes lo absorbían: doble efecto.',
           tip: 'Por eso proteger los bosques y reforestar (semana 7) ayuda al agua **y** al clima.' },
@@ -255,11 +222,9 @@ export default [
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:7.3.1'], ambito: 'conocer', title: 'Consecuencias',
           prompt: 'Unos pocos grados más en el promedio del planeta cambian mucho el clima. Toca las tarjetas.' },
-        { icon: 'Thermometer', body: 'El calentamiento global cambia los patrones de **lluvia** y **temperatura** en todo el mundo, también en Guatemala.', reveal: [
-          { icon: 'Sun', front: 'Sequías', back: 'Periodos secos más largos que afectan las cosechas, sobre todo en zonas ya secas como el **Corredor Seco**.' },
-          { icon: 'CloudRain', front: 'Lluvias intensas', back: 'Aguaceros y tormentas más fuertes que causan **inundaciones** y **deslaves**.' },
-          { icon: 'Snowflake', front: 'Deshielo', back: 'Los **glaciares** y el hielo de los polos se derriten, y el **nivel del mar sube**.' },
-          { icon: 'Bird', front: 'Especies en riesgo', back: 'Plantas y animales que no se adaptan al cambio pueden **desaparecer** de su hábitat.' },
+        { icon: 'Thermometer', body: 'El calentamiento global modifica riesgos y patrones; un evento aislado no se atribuye por sí solo al cambio climático.', reveal: [
+          { icon: 'CloudRain', front: 'Riesgos cambiantes', back: 'Las tendencias pueden aumentar la probabilidad o intensidad de algunos extremos, pero se estudian con series y análisis, no con una sola tormenta.' },
+          { icon: 'Snowflake', front: 'Cambios observados', back: 'Series de temperatura, hielo y nivel del mar aportan evidencias complementarias con fuente, cobertura e incertidumbre.' },
         ] },
       ),
       S.explain(
@@ -268,13 +233,11 @@ export default [
           media: { id: 's08-cnt-2-satelite', kind: 'image', title: 'Guatemala vista desde el espacio', aspect: '16:9',
             alt: 'Imagen de satélite de Centroamérica con Guatemala al centro: se ven las montañas, el lago de Atitlán, las selvas de Petén en verde oscuro y nubes que giran sobre el mar Caribe.',
             brief: 'Imagen satelital de color real (de dominio público de agencias espaciales, o ilustración fiel) de Centroamérica con Guatemala al centro: volcanes y montañas del altiplano, lago de Atitlán, selvas de Petén en verde oscuro, zonas agrícolas de la costa sur, y un sistema de nubes en espiral sobre el Caribe. Rótulos: "Petén: bosque", "Atitlán", "Nubes de tormenta". Recuadro pequeño con el dibujo de un CubeSat (satélite del tamaño de una caja de 10 cm por lado) y el texto "Quetzal-1, primer satélite de Guatemala (2020)". Target: public/media/s08-cnt-2-satelite.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.' } },
-        { icon: 'Satellite', body: 'Un **satélite artificial** es un aparato que se lanza con un cohete y queda **girando alrededor de la Tierra**. Desde allí toma imágenes y mediciones de todo el planeta.', reveal: [
+        { icon: 'Satellite', body: 'Un satélite registra observaciones repetidas con instrumento, fecha y cobertura. Sus datos se combinan con mediciones de superficie; no explican por sí solos cada evento local.', reveal: [
           { icon: 'CloudSun', front: 'Estado del tiempo y huracanes', back: 'Muestran las nubes y la formación de **huracanes**, y permiten seguir su camino **días antes** de que lleguen: así se puede avisar a la población.' },
           { icon: 'Thermometer', front: 'El clima del planeta', back: 'Miden la **temperatura** de la tierra y del mar, el **hielo** de los polos y el nivel del mar: son pruebas del calentamiento global.' },
-          { icon: 'Trees', front: 'Bosques e incendios', back: 'Detectan **incendios** y muestran dónde se **talan** bosques, por ejemplo en Petén.' },
-          { icon: 'Map', front: 'Recursos naturales', back: 'Ayudan a ubicar **cuerpos de agua**, **suelos**, **cultivos** y zonas donde podría haber **minerales**.' },
-          { icon: 'Mountain', front: 'Terremotos y volcanes', back: 'No pueden predecir el día de un terremoto, pero miden cómo **se mueve el terreno**, vigilan volcanes y muestran rápidamente los **daños** para organizar la ayuda.' },
-          { icon: 'Rocket', front: 'Quetzal-1', back: 'En **2020**, Guatemala puso en órbita su **primer satélite**, el **Quetzal-1**, construido por estudiantes y docentes de una universidad guatemalteca para probar un sensor de observación de la Tierra.' },
+          { icon: 'Trees', front: 'Cobertura e incendios', back: 'Series de imágenes permiten comparar cambios de cobertura y detectar señales térmicas; requieren verificación e interpretación.' },
+          { icon: 'Mountain', front: 'Límites', back: 'Un satélite no predice el día exacto de un terremoto ni convierte una imagen aislada en prueba de una tendencia climática.' },
         ] },
       ),
       S.match(
@@ -284,9 +247,8 @@ export default [
           explain: 'Los satélites observan la Tierra todos los días: sus datos sirven para prevenir desastres, cuidar recursos y estudiar el clima.' },
         { leftTitle: 'Necesidad', rightTitle: 'Ayuda del satélite', pairs: [
           { id: 'h', left: 'Avisar que se acerca un huracán', leftIcon: 'CloudRain', right: 'Seguir la tormenta días antes de que llegue' },
-          { id: 'b', left: 'Saber dónde se está talando la selva', leftIcon: 'Trees', right: 'Comparar imágenes del bosque a lo largo de los años' },
-          { id: 't', left: 'Organizar ayuda después de un terremoto', leftIcon: 'Mountain', right: 'Mostrar rápidamente las zonas dañadas' },
-          { id: 'c', left: 'Estudiar el calentamiento global', leftIcon: 'Thermometer', right: 'Medir la temperatura del mar y el hielo de los polos' },
+          { id: 'b', left: 'Comparar cambios de cobertura', leftIcon: 'Trees', right: 'Usar imágenes compatibles de varias fechas' },
+          { id: 'c', left: 'Estudiar una tendencia climática', leftIcon: 'Thermometer', right: 'Analizar series con fecha, cobertura e instrumento' },
         ] },
       ),
       S.choice(
@@ -315,21 +277,21 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.3.1'], prompt: '¿Cuál es una **causa** del calentamiento global?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.3.1', 'cnt:8.3.1'], prompt: 'Una serie satelital con fecha y cobertura muestra una tendencia térmica. ¿Qué explicación del efecto invernadero es correcta?' },
         { options: [
-          { id: 'a', text: 'Sembrar árboles' },
-          { id: 'b', text: 'Quemar combustibles en vehículos y fábricas' },
-          { id: 'c', text: 'Usar focos LED' },
-          { id: 'd', text: 'El efecto invernadero natural, que siempre ha existido' },
+          { id: 'a', text: 'La atmósfera funciona como una capa sólida que refleja toda la energía' },
+          { id: 'b', text: 'La superficie emite infrarrojo y los gases absorben y reemiten parte, incluso hacia abajo' },
+          { id: 'c', text: 'Una imagen aislada demuestra por sí sola la tendencia global' },
+          { id: 'd', text: 'Los satélites crean la energía que miden' },
         ], correct: ['b'] },
       ),
       S.tf(
         { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:7.3.1', 'cnt:8.3.1'], prompt: '¿Verdadero o falso?' },
         { statements: [
-          { text: 'Sin el efecto invernadero natural, la Tierra sería mucho más fría.', answer: true },
+          { text: 'La energía solar calienta la superficie y la Tierra emite radiación infrarroja.', answer: true },
           { text: 'Los satélites pueden predecir el día exacto de un terremoto.', answer: false, why: 'No se pueden predecir; los satélites miden el movimiento del terreno y muestran los daños.' },
-          { text: 'Los satélites ayudan a seguir el camino de un huracán.', answer: true },
-          { text: 'Talar bosques ayuda a reducir el dióxido de carbono del aire.', answer: false, why: 'Al revés: los árboles absorben dióxido de carbono; sin ellos, hay más en el aire.' },
+          { text: 'Los gases de efecto invernadero absorben y reemiten parte del infrarrojo en varias direcciones.', answer: true },
+          { text: 'Una observación satelital sin fecha ni cobertura basta para atribuir un evento al cambio climático.', answer: false, why: 'Se necesitan series compatibles, contexto y varias líneas de evidencia.' },
         ] },
       ),
     ],
@@ -356,15 +318,9 @@ export default [
       brief: 'Ilustración en tres paneles con estudiantes guatemaltecos de sexto grado (niñas y niños de distintos pueblos): (1) "Documental": una niña en la biblioteca municipal con libros e informes, tomando notas. (2) "De campo": un grupo junto a un río con un termómetro, una libreta y una cinta métrica; una niña entrevista a un agricultor. (3) "De laboratorio": en el aula, vasos con frijoles germinando, etiquetas "con luz" y "sin luz", una regla y una tabla de datos. Estilo cálido, colores claros. Target: public/media/s08-cnt-3-investigar.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:8.1.1'], ambito: 'conocer',
-          prompt: '¿Cómo averiguarías si el abono de hojas hace crecer **más** el frijol?',
-          explain: 'La ciencia no se basa en creer ni en adivinar: **investiga**. Una buena forma es comparar plantas con y sin abono, midiendo con cuidado.' },
-        { options: [
-          { id: 'a', text: 'Creerle a la persona de más edad', icon: 'User', feedback: 'La experiencia de los mayores es valiosa y puede darte una buena idea para investigar, pero hay que comprobarla.' },
-          { id: 'b', text: 'Sembrar frijoles con y sin abono, en lo demás iguales, y medir su crecimiento', icon: 'Ruler' },
-          { id: 'c', text: 'Votar en clase', icon: 'Vote', feedback: 'Votar dice lo que la gente piensa, no lo que pasa en la realidad.' },
-        ], correct: ['b'] },
+      S.explain(
+        { fase: 'explorar', areas: ['cnt'], cnb: ['cnt:8.1.1'], ambito: 'conocer', title: 'Tres tipos de investigación', prompt: 'Lee de dónde obtiene evidencia cada tipo de investigación.' },
+        { icon: 'Search', body: 'La investigación puede ser **documental**, **de campo** o **de laboratorio**, según dónde y cómo obtiene evidencia.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['cnt'], cnb: ['cnt:8.1.1'], ambito: 'conocer', title: 'Tres tipos de investigación',
@@ -385,12 +341,9 @@ export default [
           { id: 'cam', label: 'De campo', icon: 'MapPin', color: 'var(--c-ok)' },
           { id: 'lab', label: 'De laboratorio', icon: 'FlaskConical', color: 'var(--area-cnt)' },
         ], items: [
-          { id: 'i1', text: 'Leer libros sobre las aves de Guatemala', bucket: 'doc' },
-          { id: 'i2', text: 'Contar las aves que visitan el parque cada mañana', bucket: 'cam' },
-          { id: 'i3', text: 'Poner semillas en vasos con distinta cantidad de agua y medir', bucket: 'lab' },
-          { id: 'i4', text: 'Entrevistar a las familias sobre el agua que beben', bucket: 'cam' },
-          { id: 'i5', text: 'Revisar informes del INSIVUMEH sobre las lluvias del año', bucket: 'doc' },
-          { id: 'i6', text: 'Comparar en el aula cuánta agua retienen dos bandejas de tierra', bucket: 'lab' },
+          { id: 'i1', text: 'Revisar informes de lluvia con fuente', bucket: 'doc' },
+          { id: 'i2', text: 'Medir la temperatura en el lugar del caso', bucket: 'cam' },
+          { id: 'i3', text: 'Comparar en el aula dos bandejas bajo condiciones controladas', bucket: 'lab' },
         ] },
       ),
       S.explain(
@@ -421,11 +374,9 @@ export default [
             brief: 'Video de 45 s (o animación en cámara rápida) en un aula guatemalteca: 10 macetas recicladas con frijol, 5 rotuladas "con abono de hojas" y 5 "sin abono"; misma luz, misma agua (vaso medidor). Cámara rápida de tres semanas de crecimiento. Estudiantes miden con regla y anotan en una tabla de cartulina. Al final, la tabla con promedios y la frase "Otro grado repitió el experimento". Narración en español con subtítulos. Materiales seguros: tierra, semillas, agua, regla. Target: public/media/s08-cnt-3-frijoles.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.' } },
         { icon: 'FlaskConical', problem: '¿Crece más el frijol con abono de hojas que sin abono?',
           steps: [
-            { text: '**Investigación documental**: leen en la biblioteca que el abono de hojas aporta nutrientes al suelo.', why: 'Así empiezan con información confiable.' },
-            { text: '**Hipótesis**: "Las plantas con abono crecerán más en 3 semanas".' },
+            { text: '**Documental e hipótesis**: leen una fuente y plantean que las plantas con abono crecerán más.' },
             { text: '**Experimento de laboratorio**: 5 macetas con abono y 5 sin abono; **todo lo demás igual** (semillas, luz, agua).', why: 'Si cambiaran varias cosas a la vez, no sabrían cuál causó la diferencia.' },
-            { text: '**Datos exactos**: miden con regla cada semana. Promedio a las 3 semanas: con abono **18 cm**; sin abono **12 cm**.' },
-            { text: '**Conclusión**: la hipótesis se cumple. Otro grado **repite** el experimento y obtiene resultados parecidos: es **demostrable**.' },
+            { text: '**Datos y conclusión**: miden 18 cm y 12 cm; otro grupo repite el protocolo y obtiene resultados compatibles, por lo que la evidencia es demostrable.' },
           ],
           answer: 'En este experimento, el frijol con abono creció en promedio **6 cm más**. El conocimiento es exacto (medido), verdadero (comprobado) y demostrable (repetido).',
           tip: 'Una buena investigación cambia **una sola cosa** a la vez y mide con cuidado.' },
@@ -467,7 +418,6 @@ export default [
           { id: 'k3', text: 'La Tierra se formó hace unos 4,500 millones de años, según mediciones de rocas', bucket: 'cie' },
           { id: 'k4', text: '"El maíz morado es el más bonito"', bucket: 'opi' },
           { id: 'k5', text: 'En el experimento, el suelo con grama retuvo más agua que el suelo desnudo', bucket: 'cie' },
-          { id: 'k6', text: '"Seguro que mañana llueve porque me duele la rodilla"', bucket: 'opi' },
         ] },
       ),
       S.choice(
@@ -481,11 +431,11 @@ export default [
         ], correct: ['c'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:8.1.1'], prompt: 'Un grupo va al río durante una semana y mide cada día la temperatura del agua con un termómetro. ¿Qué tipo de investigación hace?' },
+        { fase: 'comprobar', areas: ['cnt'], cnb: ['cnt:8.1.1', 'cnt:8.2.1'], prompt: 'Un grupo mide en el río **18 °C** cada día con el mismo protocolo. ¿Qué tipo de investigación hace y qué vuelve exacta su evidencia?' },
         { options: [
-          { id: 'a', text: 'Documental' },
-          { id: 'b', text: 'De campo' },
-          { id: 'c', text: 'De laboratorio' },
+          { id: 'a', text: 'Documental; consultar una opinión' },
+          { id: 'b', text: 'De campo; registrar medida, unidad y protocolo' },
+          { id: 'c', text: 'De laboratorio; votar el resultado' },
         ], correct: ['b'] },
       ),
       S.tf(
@@ -493,8 +443,7 @@ export default [
         { statements: [
           { text: 'Si otras personas repiten un protocolo y obtienen resultados compatibles dentro del margen esperado, la evidencia es demostrable.', answer: true },
           { text: 'Leer informes y libros en la biblioteca es una investigación de laboratorio.', answer: false, why: 'Es una investigación documental.' },
-          { text: 'El conocimiento científico nunca se corrige.', answer: false, why: 'Se corrige cuando aparecen pruebas nuevas.' },
-          { text: 'En un buen experimento se cambia una sola cosa a la vez.', answer: true },
+          { text: 'El conocimiento científico se corrige con pruebas nuevas y un buen experimento controla las variables.', answer: true },
         ] },
       ),
       cierre({ areas: ['cnt'], cnb: [] },

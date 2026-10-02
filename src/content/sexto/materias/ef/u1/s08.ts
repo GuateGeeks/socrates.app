@@ -29,8 +29,12 @@ export default [
       brief: 'Video de 60 s en un patio escolar despejado, con intérpretes autorizados. Escenas de 10 s con rótulo: (1) trompo con pita; (2) capirucho; (3) cincos en un círculo; (4) tenta con bases amplias; (5) cuerda individual e imaginaria; (6) ronda con palmas, con participantes de pie y sentados, separados por un brazo. Cierre con barriletes de papel exhibidos sin elevarlos cerca de cables. Música de marimba suave. Target: public/media/s08-ef-1-juegos.mp4. Accesibilidad: subtítulos completos, transcripción, demostración a velocidad lenta y descripción de cada adaptación.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:4.2.7'], ambito: 'conocer', title: 'Reglas de juegos tradicionales', prompt: 'Lee qué se practica en estos juegos.' },
+        { icon: 'History', body: 'Trompo, capirucho, cincos, tenta, cuerda y ronda con palmas conservan reglas culturales y practican habilidades motrices.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:4.2.7'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:4.2.7'], ambito: 'conocer',
           prompt: '¿Qué tienen en común el trompo, el capirucho y los cincos?',
           explain: 'Son **juegos tradicionales**: se han jugado por generaciones, se aprenden de las personas mayores y usan materiales sencillos. Además, ¡todos entrenan tu precisión y coordinación!' },
         { options: [
@@ -159,8 +163,12 @@ export default [
       brief: 'Ilustración luminosa de un patio de escuela pública guatemalteca. Escena izquierda: una niña (brazalete de capitana) explica las reglas a un equipo mixto en círculo, todos atentos. Escena derecha: un niño con silbato arbitra salta cuerda; saltan niñas y niños juntos. Al fondo, un cartel "Todas y todos jugamos". Diversidad de pueblos (maya, garífuna, xinka, mestizo) y una niña en silla de ruedas participando. Sin estereotipos de colores por género. Target: public/media/s08-ef-2-liderazgo.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ef'], cnb: ['ef:4.1.12'], ambito: 'convivir', title: 'Igualdad y liderazgo', prompt: 'Lee cómo se organiza una actividad física justa.' },
+        { icon: 'Users', body: 'Todas las personas tienen iguales oportunidades para jugar y liderar. Un buen liderazgo organiza turnos y equipos justos.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ef'], cnb: ['ef:4.1.12'], ambito: 'convivir',
+        { fase: 'construir', areas: ['ef'], cnb: ['ef:4.1.12'], ambito: 'convivir',
           prompt: '¿Pueden las niñas jugar fútbol y ser capitanas? ¿Pueden los niños saltar cuerda?',
           explain: '**Sí, todas y todos.** No hay juegos "de niñas" ni "de niños". Todas las personas tienen los mismos derechos y oportunidades para jugar, aprender y liderar.' },
         { options: [
@@ -219,7 +227,7 @@ export default [
         ] },
       ),
       S.pulse(
-        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.3', 'ef:4.2.7', 'ef:4.1.12'], ambito: 'convivir',
+        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.3', 'ef:4.1.12'], ambito: 'convivir',
           prompt: '¡Líderes rotativos! Elijan entre las tarjetas suministradas: **tenta con bases, cuerda imaginaria o ronda con palmas**. En cada ronda, una persona diferente explica las reglas, comprueba el espacio y propone una adaptación. Al final recibe un consejo amable. **Poco espacio:** palmas o gestos en el lugar. **Adaptación:** se puede participar de pie o sentado y bajar el ritmo. **Vuelta a la calma:** respiración suave dirigida por el último líder.' },
         { seconds: 15, rounds: [
           { label: 'En reposo' },
@@ -237,8 +245,8 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.3'], ambito: 'conocer',
-          prompt: '**Repaso de la unidad.** Eres capitana en un partido. Un defensor alto con los brazos arriba está entre tú y tu compañero, y tu equipo está muy nervioso antes del último minuto. ¿Qué plan usa bien lo aprendido?',
+        { fase: 'aplicar', areas: ['ef'], cnb: ['ef:4.2.3', 'ef:4.1.12'], ambito: 'conocer',
+          prompt: '**Repaso de la unidad.** Eres capitana de un equipo mixto con igualdad de oportunidades. Un defensor está entre tú y tu compañero y el equipo está nervioso. ¿Qué plan combina liderazgo inclusivo y habilidad física?',
           explain: 'Contra un defensor con los brazos arriba conviene el **pase con pique** (semana 4); para los nervios, **respiración abdominal lenta** (semana 6); y al terminar una carrera, **frenar con rodillas dobladas** (semana 2).' },
         { options: [
           { id: 'a', text: 'Pase con pique; antes, 3 respiraciones abdominales lentas en equipo; y frenar con rodillas dobladas al final de cada carrera' },
@@ -247,7 +255,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.2.7', 'ef:4.1.12', 'ef:4.2.3'], prompt: 'En un juego tradicional del recreo, ¿cuál es la mejor forma de organizar los equipos?' },
+        { fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.1.12', 'ef:4.2.3'], prompt: 'En una actividad física del recreo, ¿cuál es la mejor forma de organizar los equipos con igualdad y liderazgo?' },
         { options: [
           { id: 'a', text: 'Equipos mixtos formados al azar o contando 1-2, con líderes que se turnan' },
           { id: 'b', text: 'Que los dos mejores escojan y los demás esperen' },

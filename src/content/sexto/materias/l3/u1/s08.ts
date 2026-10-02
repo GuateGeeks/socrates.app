@@ -28,8 +28,12 @@ export default [
       brief: 'Ilustración (no fotografía, sin rostro visible: el visor del casco es dorado y refleja el paisaje) de un astronauta con traje espacial blanco de la época de 1969 dando un paso sobre el polvo gris de la Luna. En primer plano, una huella de bota muy marcada. Al fondo, el módulo lunar y la Tierra azul y blanca sobre un cielo negro. Una línea de tiempo pequeña en la parte inferior con tres puntos: "1930 – born", "1969 – Moon", "2012 – died". Sin banderas ni logotipos. Target: public/media/s08-l3-1-moon.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:5.2.2'], ambito: 'conocer', title: 'Biography fact cards', prompt: 'Read how supplied facts form a biography.' },
+        { icon: 'BookOpen', body: 'A biography orders supplied facts with phrases such as **was born**, **studied**, **became** and **died**.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:5.2.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:5.2.2'], ambito: 'conocer',
           prompt: 'Un texto empieza así: _"Neil Armstrong **was born** in 1930 in Ohio…"_ ¿Qué tipo de texto crees que es?',
           explain: 'Es una **biografía**: cuenta la vida de una persona real, en orden, desde que nació. "Was born" significa "nació". Hoy leerás una en inglés.' },
         { options: [
@@ -173,8 +177,12 @@ export default [
       brief: 'Ilustración cálida estilo libro infantil, época de 1880 (vestidos largos, jardín con una bomba de agua manual). Una niña de unos 6 años con los ojos cerrados y una expresión de descubrimiento pone una mano bajo el chorro de agua; una maestra joven, arrodillada a su lado, le forma letras con los dedos en la palma de la otra mano. Letras W-A-T-E-R flotando suavemente sobre la escena. Ilustración original, no basada en fotografías reales. Target: public/media/s08-l3-2-water.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['l3'], cnb: ['l3:5.2.2'], ambito: 'conocer', title: 'A life in chronological order', prompt: 'Read the supplied chronology before answering.' },
+        { icon: 'CalendarDays', body: 'Use the supplied fact card to locate birth, learning, achievements and death before answering about a biography.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['l3'], cnb: ['l3:5.2.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['l3'], cnb: ['l3:5.2.2'], ambito: 'conocer',
           prompt: 'Mira la imagen de la lección. La maestra forma letras en la mano de la niña mientras el agua cae en su otra mano. ¿Qué crees que le está enseñando?',
           explain: 'Le enseña que las letras **W-A-T-E-R** forman el nombre de lo que siente en la mano: **water** (agua). Esa niña era Helen Keller, y hoy leerás su biografía.' },
         { options: [

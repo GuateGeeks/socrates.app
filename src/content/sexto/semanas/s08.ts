@@ -33,7 +33,7 @@ export default semana({
       },
       steps: [
         S.explain(
-          { fase: 'construir', areas: ['mat', 'l1', 'cnt', 'art'], cnb: ['mat:4.1.4', 'l1:8.2.4', 'cnt:8.2.1', 'art:4.3.2'], title: '1 min · Encargo y cuatro secciones', prompt: 'En una hoja o cuaderno traza cuatro zonas: titular con dato, gráfica, fuente y escenario, y recomendaciones con razón científica.' },
+          { fase: 'construir', areas: ['mat', 'l1', 'cnt', 'art'], cnb: ['mat:4.1.4', 'l1:8.2.4', 'cnt:8.2.1'], title: '1 min · Encargo y cuatro secciones', prompt: 'En una hoja o cuaderno traza cuatro zonas con jerarquía visual: titular con dato, gráfica, fuente y escenario, y recomendaciones con razón científica.' },
           { icon: 'LayoutPanelTop', body: 'Trabajarás solo con el paquete suministrado. El rótulo **Caso escolar simulado; no describe tu escuela** debe quedar visible. No midas, entrevistes ni inventes información externa.', reveal: [
             { icon: 'Sigma', front: 'Dato', back: 'Conserva 12,468 kWh y comunica también su aproximación.' },
             { icon: 'ChartColumn', front: 'Visual', back: 'Representa los conteos simulados sin cambiar la escala.' },
@@ -59,7 +59,7 @@ export default semana({
           { options: [{ id: 'a', text: 'Caso simulado: aproximadamente 12,000 kWh (dato exacto: 12,468 kWh)' }, { id: 'b', text: 'Nuestra escuela gasta exactamente 12,000 kWh' }, { id: 'c', text: 'Ahorramos miles de quetzales' }], correct: ['a'] },
         ),
         S.chart(
-          { fase: 'aplicar', areas: ['mat', 'art'], cnb: ['mat:4.1.4', 'art:4.3.2'], title: '2 min · Gráfica del caso', prompt: 'Construye una gráfica con los conteos **simulados** de luces encendidas. Copia después la forma general en tu hoja.', hint: 'Mantén la misma escala para las tres barras.', explain: 'La gráfica permite comparar sin convertir el conteo en consumo eléctrico.' },
+          { fase: 'aplicar', areas: ['mat', 'art'], cnb: ['mat:4.1.4'], title: '2 min · Gráfica del caso', prompt: 'Construye una gráfica con los conteos **simulados** de luces encendidas. Copia después la forma general en tu hoja con título y rótulos visibles.', hint: 'Mantén la misma escala para las tres barras y destaca primero el dato principal.', explain: 'La gráfica permite comparar sin convertir el conteo en consumo eléctrico; la jerarquía visual guía la lectura.' },
           { categories: [{ id: 'a', label: 'Aula', icon: 'School' }, { id: 'b', label: 'Pasillo', icon: 'Footprints' }, { id: 'c', label: 'Biblioteca', icon: 'Library' }], data: [8, 5, 3], max: 10, step: 1, unit: 'luces', source: 'Caso escolar simulado; conteos didácticos, no mediciones reales' },
         ),
         S.match(
@@ -71,7 +71,7 @@ export default semana({
           ] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['mat', 'l1', 'cnt', 'art'], cnb: ['mat:4.1.4', 'l1:8.2.4', 'cnt:8.2.1', 'art:4.3.2'], title: '3 min · Componer el panel', prompt: 'En tu hoja escribe el titular, el dato exacto con unidad y el rótulo completo del escenario.' },
+          { fase: 'aplicar', areas: ['mat', 'l1', 'cnt', 'art'], cnb: ['mat:4.1.4', 'l1:8.2.4', 'cnt:8.2.1'], title: '3 min · Componer el panel', prompt: 'En tu hoja escribe el titular, el dato exacto con unidad y el rótulo completo del escenario. Usa tamaño, posición y contraste para ordenar la lectura.' },
           { goal: 'Dejar visibles la diferencia entre exacto y aproximado y la procedencia del caso.', steps: [
             { title: 'Titular', detail: 'Escribe “aproximadamente 12,000 kWh”.' },
             { title: 'Dato verificable', detail: 'Añade “dato exacto: 12,468 kWh”.' },
@@ -79,14 +79,14 @@ export default semana({
           ], evidence: 'Panel de papel con los cuatro textos legibles.', rubric: ['Exacto y aproximado no se confunden', 'La unidad kWh aparece', 'Escenario y fuente son visibles'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['mat', 'l1', 'cnt', 'art'], cnb: ['mat:4.1.4', 'l1:8.2.7', 'cnt:8.2.1', 'art:4.3.2'], title: '2 min · Visual y recomendaciones', prompt: 'Añade a la hoja una gráfica pequeña y dos recomendaciones con su razón científica.' },
+          { fase: 'aplicar', areas: ['mat', 'l1', 'cnt', 'art'], cnb: ['mat:4.1.4', 'l1:8.2.7', 'cnt:8.2.1'], title: '2 min · Visual y recomendaciones', prompt: 'Añade a la hoja una gráfica pequeña y dos recomendaciones con su razón científica; conserva una jerarquía visual clara.' },
           { goal: 'Completar el panel sin afirmar mediciones ni ahorros que el paquete no contiene.', steps: [
             { title: 'Gráfica', detail: 'Dibuja tres barras proporcionales: 8, 5 y 3 luces.' },
             { title: 'Recomendaciones', detail: 'Escribe dos acciones posibles y, junto a cada una, por qué evita un uso innecesario.' },
           ], evidence: 'Gráfica rotulada y dos pares acción-razón en la hoja.', rubric: ['La escala permite comparar', 'Las recomendaciones son prácticas', 'No prometo ahorro exacto'] },
         ),
         S.sort(
-          { fase: 'aplicar', areas: ['l1', 'art'], cnb: ['l1:8.2.7', 'art:4.3.2'], title: '1 min · Revisión final', prompt: 'Revisa tu hoja con un criterio a la vez.', explain: 'Una revisión breve puede detectar exageraciones y problemas de legibilidad.' },
+          { fase: 'aplicar', areas: ['l1', 'art'], cnb: ['l1:8.2.7'], title: '1 min · Revisión final', prompt: 'Revisa tu hoja con un criterio a la vez, incluida la jerarquía visual.', explain: 'Una revisión breve puede detectar exageraciones y problemas de legibilidad.' },
           { buckets: [{ id: 'si', label: 'Listo', icon: 'BadgeCheck' }, { id: 'aj', label: 'Ajustar', icon: 'PencilRuler' }], items: [
             { id: 'a', text: 'El exacto y el aproximado tienen etiqueta distinta', bucket: 'si' },
             { id: 'b', text: 'La fuente aparece en letra imposible de leer', bucket: 'aj' },
@@ -96,10 +96,10 @@ export default semana({
         ),
         S.number({ fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.1.4'], title: '1 min · Salida de aproximación', prompt: 'Otro caso registra **15,672 kWh**. Aproxima al millar.' }, { answer: 16000, unit: 'kWh' }),
         S.choice(
-          { fase: 'comprobar', areas: ['l1', 'art'], cnb: ['l1:8.2.4', 'art:4.3.2'], title: '1 min · Salida de publicación', prompt: '¿Qué ajuste hace más confiable y legible un panel?' },
+          { fase: 'comprobar', areas: ['l1', 'art'], cnb: ['l1:8.2.4'], title: '1 min · Salida de publicación', prompt: '¿Qué ajuste de fuente y jerarquía visual hace más confiable y legible un panel?' },
           { options: [{ id: 'a', text: 'Poner fuente y escenario junto al dato, con contraste suficiente' }, { id: 'b', text: 'Quitar “aproximadamente” para acortar el titular' }, { id: 'c', text: 'Esconder el dato exacto debajo de una imagen' }], correct: ['a'] },
         ),
-        cierre({ areas: ['mat', 'l1', 'cnt', 'art'], cnb: ['mat:4.1.4', 'l1:8.2.4', 'cnt:8.2.1', 'art:4.3.2'] }, ['Distingo dato exacto y aproximado', 'Hago visible la fuente', 'Justifico recomendaciones sin inventar ahorros'], ['Antes de publicar, comprobaré dato, unidad, fuente y alcance']),
+        cierre({ areas: ['mat', 'l1', 'cnt', 'art'], cnb: ['mat:4.1.4', 'l1:8.2.4', 'cnt:8.2.1'] }, ['Distingo dato exacto y aproximado', 'Hago visible la fuente', 'Justifico recomendaciones sin inventar ahorros'], ['Antes de publicar, comprobaré dato, unidad, fuente y alcance']),
       ],
     }),
 
@@ -119,7 +119,7 @@ export default semana({
         S.choice({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:8.1.1'], prompt: 'En un caso simulado bajó el uso de una ruta de bus. ¿Qué plan muestra un aporte propio de las Ciencias Sociales?' }, { options: [{ id: 'a', text: 'Contrastar conteos por fecha, cambios de ruta y una encuesta anónima sobre horarios' }, { id: 'b', text: 'Medir solo el voltaje de la batería del bus' }, { id: 'c', text: 'Atribuir el cambio a una causa sin consultar registros ni personas usuarias' }], correct: ['a'] }),
         S.sort({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:5.1.1'], prompt: 'Clasifica las palabras de “La lámpara eficiente ilumina”.' }, { buckets: [{ id: 's', label: 'Sustantivo' }, { id: 'a', label: 'Adjetivo' }, { id: 'v', label: 'Verbo' }], items: [{ id: '1', text: 'lámpara', bucket: 's' }, { id: '2', text: 'eficiente', bucket: 'a' }, { id: '3', text: 'ilumina', bucket: 'v' }] }),
         S.fill({ fase: 'comprobar', areas: ['l3'], cnb: ['l3:5.2.2'], prompt: 'Completa la biografía con el fact card suministrado.' }, { text: 'In 2014, Elena [[became]] an engineer.', distractors: ['become', 'born'] }),
-        S.choice({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:5.2.1'], prompt: 'Un mapa sobre el conflicto usa datos de la CEH. ¿Qué leyenda es responsable?' }, { options: [{ id: 'a', text: 'Departamentos documentados por la CEH; el color no establece una clasificación nueva' }, { id: 'b', text: 'Los colores prueban qué pueblo sufrió más' }, { id: 'c', text: 'Mapa sin fuente porque trata del pasado' }], correct: ['a'] }),
+        S.choice({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:5.2.1'], prompt: 'Una tarjeta del paquete CEH nombra un pueblo y su departamento. ¿Qué acción lo localiza correctamente en el mapa?' }, { options: [{ id: 'a', text: 'Colocar la etiqueta del pueblo dentro del departamento nombrado y conservar la atribución CEH' }, { id: 'b', text: 'Elegir el color más oscuro para afirmar que sufrió más' }, { id: 'c', text: 'Quitar el nombre del departamento y la fuente' }], correct: ['a'] }),
         S.order({ fase: 'comprobar', areas: ['art'], cnb: ['art:4.3.2'], prompt: 'Ordena los hitos suministrados para la ficha de la artista Ana López.' }, { items: [{ id: 'a', text: '1998: inicia formación en grabado' }, { id: 'b', text: '2007: presenta su primera exposición colectiva' }, { id: 'c', text: '2021: publica un catálogo comentado de su obra' }] }),
         S.choice({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.2.3'], prompt: 'Dos capitanes quieren decidir al mismo tiempo cómo iniciar un juego breve. ¿Qué intervención demuestra liderazgo compartido?' }, { options: [{ id: 'a', text: 'Uno explica la regla y el otro comprueba el espacio; después intercambian funciones' }, { id: 'b', text: 'El más fuerte decide todo y el otro deja de participar' }, { id: 'c', text: 'Empiezan sin acordar reglas ni revisar el espacio' }], correct: ['a'] }),
         S.choice({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: '¿Qué acción conserva una práctica local sin exigir trabajo externo?' }, { options: [{ id: 'a', text: 'Preparar voluntariamente una ficha de una práctica suministrada y citarla' }, { id: 'b', text: 'Obligar a visitar un centro comunitario' }, { id: 'c', text: 'Inventar una entrevista' }], correct: ['a'] }),
@@ -133,7 +133,7 @@ export default semana({
     S.order({ fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:8.2.1'], prompt: 'Ordena el procedimiento ante un problema de uso de un espacio común.' }, { items: [{ id: 'a', text: 'Definir el problema con evidencia' }, { id: 'b', text: 'Comparar alternativas y escuchar a las partes' }, { id: 'c', text: 'Acordar, aplicar y evaluar una opción' }] }),
     S.choice({ fase: 'comprobar', areas: ['l2'], cnb: ['l2:5.1.2'], prompt: 'En “la claridad del informe”, ¿qué clase de sustantivo es **claridad**?' }, { options: [{ id: 'a', text: 'Abstracto' }, { id: 'b', text: 'Concreto' }, { id: 'c', text: 'Propio' }], correct: ['a'] }),
     S.fill({ fase: 'comprobar', areas: ['l3'], cnb: ['l3:5.2.2'], prompt: 'Completa una nueva mini-biografía.' }, { text: 'Maya [[studied]] science and later wrote two books.', distractors: ['study', 'studies'] }),
-    S.choice({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:5.2.1'], prompt: '¿Qué acción apoya la no repetición al trabajar memoria histórica?' }, { options: [{ id: 'a', text: 'Contrastar testimonios con atribución y rechazar la discriminación' }, { id: 'b', text: 'Convertir el dolor en competencia entre comunidades' }, { id: 'c', text: 'Ocultar quién produjo la fuente' }], correct: ['a'] }),
+    S.choice({ fase: 'comprobar', areas: ['fc'], cnb: ['fc:5.2.1'], prompt: 'Al localizar pueblos y departamentos, una estudiante ordenó las tarjetas por “más” y “menos” sufrimiento según el color. ¿Cómo corrige su mapa usando la fuente CEH?' }, { options: [{ id: 'a', text: 'Agrupa cada pueblo bajo el nombre de departamento que indica la ficha y elimina el ranking por color' }, { id: 'b', text: 'Mantiene el ranking porque todo color mide gravedad' }, { id: 'c', text: 'Borra los nombres de pueblos para evitar citar la fuente' }], correct: ['a'] }),
     S.sort({ fase: 'comprobar', areas: ['art'], cnb: ['art:4.3.2'], prompt: 'Clasifica decisiones de una ficha biográfica.' }, { buckets: [{ id: 'c', label: 'Comunica' }, { id: 'd', label: 'Dificulta' }], items: [{ id: '1', text: 'Nombre, obra y fuente con jerarquía visual', bucket: 'c' }, { id: '2', text: 'Párrafo extenso en letra mínima', bucket: 'd' }, { id: '3', text: 'Imagen con pie descriptivo', bucket: 'c' }] }),
     S.choice({ fase: 'comprobar', areas: ['ef'], cnb: ['ef:4.1.12'], prompt: '¿Cómo distribuyes liderazgo en una ronda corta?' }, { options: [{ id: 'a', text: 'Asigno turnos breves y una adaptación acordada' }, { id: 'b', text: 'Mantengo una sola persona al mando' }, { id: 'c', text: 'Elimino a quien necesita una pausa' }], correct: ['a'] }),
     S.choice({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: '¿Qué registro demuestra una acción voluntaria y segura?' }, { options: [{ id: 'a', text: 'Tarea elegida, material suministrado y revisión dentro del aula' }, { id: 'b', text: 'Visita sin permiso ni acompañamiento' }, { id: 'c', text: 'Actividad obligatoria fuera de horario' }], correct: ['a'] }),

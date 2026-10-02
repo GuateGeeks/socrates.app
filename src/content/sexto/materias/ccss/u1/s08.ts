@@ -30,8 +30,12 @@ export default [
       brief: 'Ilustración central de la Tierra rodeada de 8 íconos grandes y amables, cada uno con una etiqueta breve: Hambre (plato vacío), Agua (gota con signo de interrogación), Cambio climático (termómetro alto), Bosques (tocón de árbol), Contaminación (bolsa plástica en el mar), Migración forzada (familia con mochilas), Educación (libro cerrado), Desigualdad (balanza inclinada). Debajo: "La ONU mide estos problemas con informes y datos". Estilo plano, colores suaves, sin fotos de personas reales ni imágenes dolorosas. Target: public/media/s08-ccss-1-ods.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], ambito: 'conocer', title: 'Problemas sociales con datos', prompt: 'Lee cómo las Ciencias Sociales estudian un problema mundial.' },
+        { icon: 'Globe2', body: 'Las Ciencias Sociales estudian problemas mundiales y aportan preguntas, fuentes fechadas, comparaciones y conclusiones cuidadosas.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:8.3.1'], ambito: 'conocer',
           prompt: 'Este año la lluvia llegó tarde y muchas milpas del Corredor Seco se perdieron. Al mismo tiempo, hubo sequías en partes de África y Asia. ¿Qué nos dice esto?',
           explain: 'Algunos problemas **no respetan fronteras**: el cambio climático, el hambre o la contaminación afectan a muchos países a la vez. Son **problemas mundiales**.' },
         { options: [
@@ -68,7 +72,7 @@ export default [
       ),
       S.chart(
         { fase: 'construir', areas: ['ccss', 'mat'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], ambito: 'hacer',
-          prompt: 'Construye la gráfica con los datos de este informe **hipotético** de una municipalidad: porcentaje de hogares con agua entubada en cuatro aldeas.',
+          prompt: 'Como práctica guiada de **Ciencias Sociales**, construye la gráfica de este informe hipotético sobre acceso al agua, un **problema mundial** observado aquí a escala municipal.',
           hint: 'Lee cada dato de la tabla y sube la barra hasta ese número. La escala va de 10 en 10.',
           explain: 'La gráfica muestra de un vistazo que la aldea Los Pinos tiene la menor cobertura: allí debería priorizarse un proyecto de agua.' },
         { categories: [
@@ -101,8 +105,8 @@ export default [
           ] },
       ),
       S.sort(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], ambito: 'conocer',
-          prompt: 'Un mismo problema mundial se vive también en tu comunidad. Clasifica cada situación local según el **problema mundial** al que pertenece.',
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.3.1'], ambito: 'conocer',
+          prompt: 'Un mismo problema mundial se vive también en escala local. Clasifica cada situación suministrada según el **problema mundial** al que pertenece.',
           explain: 'Pensar globalmente y actuar localmente: entender el problema mundial ayuda a actuar donde vivimos.' },
         { buckets: [
           { id: 'cli', label: 'Cambio climático y ambiente', icon: 'Thermometer', color: 'var(--c-ok)' },
@@ -117,7 +121,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], ambito: 'conocer',
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.3.1'], ambito: 'conocer',
           prompt: 'En 2015, los países de la ONU acordaron los **17 Objetivos de Desarrollo Sostenible** (ODS). ¿Para qué sirven?',
           explain: 'Los ODS son metas comunes para el año 2030: acabar con la pobreza y el hambre, garantizar educación, agua, igualdad de género, cuidar el clima y más. Cada país, municipio y persona puede aportar.' },
         { options: [
@@ -135,7 +139,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.number(
-        { fase: 'comprobar', areas: ['ccss', 'mat'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], prompt: 'Un informe social fechado indica que en 2010 **30 de cada 100** hogares de un municipio no tenían luz eléctrica y en 2020 eran **18 de cada 100**. ¿En cuántos hogares de cada 100 cambió el indicador?' },
+        { fase: 'comprobar', areas: ['ccss', 'mat'], cnb: ['ccss:8.1.1', 'ccss:8.3.1'], prompt: 'Un informe de **Ciencias Sociales** sobre el problema mundial de acceso a energía indica que en 2010 **30 de cada 100** hogares del caso no tenían luz eléctrica y en 2020 eran **18 de cada 100**. ¿En cuántos hogares de cada 100 cambió el indicador?' },
         { answer: 12, unit: 'de cada 100' },
       ),
     ],
@@ -163,8 +167,12 @@ export default [
       brief: 'Animación 2D de 45 s. Una niña compra un cuaderno y recibe su factura. Una moneda con la etiqueta "IVA" sale de la caja registradora, viaja por una flecha hasta un edificio rotulado "SAT", luego a un cofre "Presupuesto del Estado aprobado por el Congreso", y de ahí se reparte en tres flechas hacia una escuela con pupitres nuevos, un centro de salud con medicinas y una carretera en construcción. Al final aparece la frase "Tus impuestos regresan en servicios. Pide tu factura". Narración en español con subtítulos. Sin logos oficiales reales. Target: public/media/s08-ccss-2-ruta.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:8.4.1'], ambito: 'conocer', title: 'Impuestos y responsabilidad', prompt: 'Lee el principio que organiza esta lección.' },
+        { icon: 'Receipt', body: 'Los impuestos financian servicios públicos. La Constitución, las leyes y los reglamentos establecen quién puede crearlos y cómo se aplican.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:8.4.1'], ambito: 'conocer',
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:8.4.1'], ambito: 'conocer',
           prompt: 'La escuela pública, el centro de salud y la carretera de tu municipio cuestan mucho dinero. ¿De dónde sale principalmente ese dinero?',
           explain: 'Sale principalmente de los **impuestos** que pagamos todas las personas y empresas. El Estado no "tiene" dinero propio: administra lo que la población aporta.' },
         { options: [
@@ -261,7 +269,7 @@ export default [
   /* ───────────────────────── 3. Resolver problemas y servir con cultura de paz ───────────────────────── */
   lesson({
     id: 's08-ccss-3',
-    title: 'Resolver problemas con diálogo y servir a mi comunidad',
+    title: 'Resolver problemas y organizar una contribución simulada',
     icon: 'Handshake',
     minutes: 15,
     gancho: 'Dos grados quieren usar la cancha a la misma hora. Una aldea discute quién arregla el camino. ¿Existe un "método" para resolver problemas sin pelear?',
@@ -271,8 +279,8 @@ export default [
     resumen: [
       'Procedimiento para resolver problemas: 1) identificar con claridad el problema, 2) escuchar a todas las partes, 3) proponer varias alternativas, 4) elegir juntos la mejor, 5) cumplir el acuerdo, 6) evaluar si funcionó.',
       'Habilidades de la cultura de paz: escucha activa, empatía (ponerse en el lugar del otro), expresar lo que sientes sin herir ("yo me siento… cuando… porque…") y buscar soluciones en las que todos ganen.',
-      'Las actividades de servicio (limpiar un espacio, leer a niños más pequeños, acompañar a personas mayores, apoyar en emergencias) fortalecen la comunidad y la paz.',
-      'Las Ciencias Sociales nos ayudan a comprender los problemas; el diálogo y la participación, a resolverlos.',
+      'Una contribución organizativa simulada permite practicar objetivos, responsabilidades y acuerdos dentro del aula sin afirmar un servicio externo realizado.',
+      'Las Ciencias Sociales ayudan a comprender problemas; el diálogo, la organización y la participación responsable ayudan a proponer respuestas.',
     ],
     media: {
       id: 's08-ccss-3-dialogo', kind: 'video', title: 'Mediación en el recreo', aspect: '16:9', duration: 60,
@@ -280,15 +288,9 @@ export default [
       brief: 'Animación 2D de 60 s. Escena 1: dos grupos de sexto grado discuten por usar la cancha a la hora del recreo. Escena 2: una compañera mediadora con un distintivo propone sentarse en círculo; en pantalla aparecen los pasos numerados mientras ocurren: identificar el problema, escuchar a cada grupo (burbujas de diálogo con frases "yo me siento… cuando…"), proponer alternativas (turnos por día, dividir la cancha, jugar juntos), elegir juntos, cumplir y evaluar una semana después. Escena 3: un calendario pegado en la pared con los turnos y ambos grupos jugando. Personajes diversos, narración en español con subtítulos. Target: public/media/s08-ccss-3-dialogo.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:8.2.1'], ambito: 'convivir',
-          prompt: 'Dos grados quieren usar la cancha en el mismo recreo y empiezan a gritarse. ¿Qué debería pasar **primero** para resolverlo?',
-          explain: 'Antes de proponer soluciones hay que **calmarse y entender el problema**, escuchando a todos. Si no se entiende bien el problema, cualquier solución falla.' },
-        { options: [
-          { id: 'a', text: 'Calmarse y aclarar cuál es exactamente el problema', icon: 'Search' },
-          { id: 'b', text: 'Que gane el grupo que grite más fuerte', icon: 'Megaphone', feedback: 'Así el otro grupo se siente injustamente tratado y el conflicto vuelve.' },
-          { id: 'c', text: 'Prohibir la cancha para siempre', icon: 'Lock', feedback: 'Eso castiga a todos y no resuelve el problema de fondo.' },
-        ], correct: ['a'] },
+      S.explain(
+        { fase: 'explorar', areas: ['ccss'], cnb: ['ccss:8.2.1'], ambito: 'convivir', title: 'Resolver un caso con diálogo', prompt: 'Lee el procedimiento antes de tomar una decisión.' },
+        { icon: 'MessagesSquare', body: 'En una simulación suministrada se define el problema, se escuchan posiciones, se comparan alternativas y se registra un acuerdo.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:8.2.1'], ambito: 'convivir', title: 'Seis pasos para resolver problemas',
@@ -308,12 +310,10 @@ export default [
           hint: 'Primero entender, luego escuchar, después buscar opciones, decidir, cumplir y revisar.',
           explain: 'El orden importa: si se elige una solución antes de escuchar a todos, alguna parte no la aceptará.' },
         { items: [
-          { id: 'r1', text: 'Identificar el problema: el agua pasa de un terreno al otro' },
-          { id: 'r2', text: 'Escuchar a las dos familias con respeto' },
-          { id: 'r3', text: 'Proponer alternativas: una zanja, un tubo, sembrar plantas' },
-          { id: 'r4', text: 'Elegir juntos la mejor alternativa' },
-          { id: 'r5', text: 'Cumplir el acuerdo: hacer la zanja entre las dos familias' },
-          { id: 'r6', text: 'Evaluar en la próxima lluvia si funcionó' },
+          { id: 'r1', text: 'Identificar el problema sin culpar' },
+          { id: 'r2', text: 'Escuchar a las dos partes con respeto' },
+          { id: 'r3', text: 'Proponer alternativas y elegir un acuerdo justo' },
+          { id: 'r4', text: 'Registrar responsabilidades y un criterio de revisión' },
         ], labels: { start: 'Primero', end: 'Al final' } },
       ),
       S.explain(
@@ -339,45 +339,39 @@ export default [
       ),
       S.explain(
         { fase: 'construir', areas: ['ccss'], cnb: ['ccss:8.2.1'], ambito: 'emprender', title: 'Servir a la comunidad',
-          prompt: 'Una **actividad de servicio** es algo que haces, de forma voluntaria y organizada, para el bien de tu comunidad. Toca cada tarjeta.' },
-        { icon: 'HandHeart', body: 'Servir también es **organizarse**: tener un objetivo, repartir tareas, pedir permiso y evaluar al final.', reveal: [
-          { icon: 'Trash2', front: 'Cuidar el ambiente', back: 'Jornadas de limpieza del parque o del río, sembrar árboles, separar la basura en la escuela.' },
-          { icon: 'BookOpen', front: 'Enseñar y acompañar', back: 'Leer cuentos a niños más pequeños, ayudar con tareas, acompañar a personas mayores.' },
-          { icon: 'ShieldCheck', front: 'Prevenir riesgos', back: 'Hacer con tu grado un mapa de rutas de evacuación y compartirlo, como aprendiste en la semana 1.' },
-          { icon: 'Users', front: 'Organización comunitaria', back: 'Apoyar al gobierno escolar, a grupos juveniles, a la iglesia o al COCODE en campañas y actividades.' },
+          prompt: 'Una contribución organizativa puede practicarse con un caso suministrado, sin intervenir fuera del aula.' },
+        { icon: 'HandHeart', body: '**Caso simulado; no describe tu escuela.** Dos grupos necesitan compartir la cancha y preparar un rótulo de ahorro de energía. La contribución consiste en ordenar responsabilidades y un acuerdo en papel.', reveal: [
+          { icon: 'Users', front: 'Organizar', back: 'Definir un objetivo común y repartir tareas posibles dentro del caso.' },
+          { icon: 'ShieldCheck', front: 'Ser honesto', back: 'Registrar “simulación de aula” y no afirmar que el acuerdo ya se aplicó fuera de la lección.' },
         ] },
       ),
       S.project(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.2.1', 'ccss:8.2.1', 'ccss:8.2.1'], ambito: 'emprender',
-          prompt: 'Planifica una **actividad de servicio** sencilla con tu familia, tu grado o tus vecinos. Usa lo que aprendiste para resolver problemas y trabajar en paz.' },
-        { goal: 'Organizar una actividad de servicio que ayude a resolver un problema real de tu comunidad.',
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.2.1'], ambito: 'emprender',
+          prompt: '**Caso suministrado: simulación de aula.** Organiza en papel la contribución del grupo para resolver el uso simultáneo de la cancha y preparar un rótulo de ahorro. No observes un problema local, no consultes personas ni realices un servicio externo.' },
+        { goal: 'Completar una contribución organizativa simulada mediante diálogo y reparto justo de tareas.',
           steps: [
-            { title: 'Identifica el problema', detail: 'Observa tu entorno y escoge un problema pequeño que puedas atender: basura en el parque, niños que necesitan apoyo con la lectura, una persona mayor que vive sola.' },
-            { title: 'Escucha y consulta', detail: 'Pregunta a las personas afectadas qué necesitan. Pide permiso a quien corresponda (familia, maestra, COCODE).' },
-            { title: 'Propón y elige', detail: 'Piensa al menos dos alternativas y elige con tu equipo la más posible y útil. Reparte tareas con justicia.' },
-            { title: 'Realiza el servicio', detail: 'Hazlo en un día y hora acordados, con cuidado y respeto. Usa mensajes "yo" si surge un desacuerdo.' },
-            { title: 'Evalúa', detail: 'Pregunta a las personas si les ayudó y anota qué mejorarías la próxima vez.' },
+            { title: 'Define', detail: 'Escribe el problema y las necesidades de ambos grupos dadas en la tarjeta.' },
+            { title: 'Acuerda', detail: 'Elige turnos justos y asigna quién redacta, quién revisa y quién coloca el rótulo solo dentro del escenario.' },
+            { title: 'Registra', detail: 'Marca el producto como propuesta simulada y anota un criterio para revisarlo en clase.' },
           ],
-          evidence: 'Un registro en tu cuaderno con el problema, la actividad, quiénes participaron, una foto o dibujo y lo que aprendiste.',
-          rubric: ['Identifiqué un problema real y concreto', 'Consulté a las personas afectadas y pedí permiso', 'Trabajé en equipo y resolví desacuerdos con diálogo', 'Evalué el resultado y propuse mejoras'] },
+          evidence: 'Hoja revisable con problema suministrado, acuerdo, responsabilidades y rótulo de simulación.',
+          rubric: ['Usé solo el caso suministrado', 'Distribuí responsabilidades con justicia', 'No afirmé un servicio externo realizado'] },
       ),
       S.dilemma(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.2.1', 'ccss:8.2.1'], ambito: 'convivir', prompt: 'Durante la jornada de limpieza surge un problema. ¿Qué harías tú?' },
-        { scene: { icon: 'Users', text: 'En la limpieza del parque, dos compañeros no quieren recoger basura "porque eso no les toca" y se ponen a jugar. El resto del equipo se enoja.' },
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.2.1'], ambito: 'convivir', prompt: 'En la simulación, dos personas rechazan la tarea asignada. ¿Qué decisión organizativa tomas?' },
+        { scene: { icon: 'Users', text: 'Una persona no puede dibujar el rótulo y otra prefiere no exponer oralmente. El acuerdo debe ofrecer tareas accesibles.' },
           options: [
-            { id: 'a', icon: 'MessagesSquare', text: 'Propongo detenernos, escuchar por qué no quieren y acordar tareas que todos acepten', consequence: 'Descubren que les daba asco tocar la basura; se les asigna repartir bolsas y llevar el conteo. Todos participan.', values: ['diálogo', 'empatía', 'cooperación'], constructive: true },
-            { id: 'b', icon: 'MessageCircle', text: 'Les digo: "Me siento frustrado cuando no ayudan, porque así terminamos tarde todos"', consequence: 'Entienden cómo afecta al grupo y se unen. El mensaje "yo" evitó una pelea.', values: ['asertividad', 'respeto'], constructive: true },
-            { id: 'c', icon: 'Megaphone', text: 'Les grito que son unos haraganes delante de todos', consequence: 'Se sienten humillados, se van y el grupo queda dividido. La jornada termina mal.', values: [], constructive: false },
+            { id: 'a', icon: 'MessagesSquare', text: 'Escuchar y reasignar revisión, escritura o lectura según posibilidades', consequence: 'El acuerdo conserva el objetivo y permite una contribución accesible.', values: ['diálogo', 'empatía', 'cooperación'], constructive: true },
+            { id: 'b', icon: 'Megaphone', text: 'Obligar a mantener las tareas iniciales', consequence: 'La organización ignora necesidades y debilita el acuerdo.', values: [], constructive: false },
           ] },
       ),
-      S.tf(
-        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.2.1', 'ccss:8.2.1', 'ccss:8.2.1'], ambito: 'conocer',
-          prompt: 'Repaso de la unidad: ¿verdadero o falso?',
-          explain: 'Todo lo que aprendiste en la unidad sirve para comprender tu mundo y actuar mejor en él.' },
-        { statements: [
-          { text: 'Vivir en la orilla de un río que se desborda aumenta la vulnerabilidad ante las lluvias.', answer: true },
-          { text: 'En Guatemala se habla un solo idioma.', answer: false, why: 'Se hablan 25 idiomas: 22 mayas, xinka, garífuna y español.' },
-          { text: 'La ONU se fundó en 1945, después de la Segunda Guerra Mundial.', answer: true },
+      S.order(
+        { fase: 'aplicar', areas: ['ccss'], cnb: ['ccss:8.2.1'], ambito: 'convivir', prompt: 'Completa de manera independiente la contribución organizativa del caso simulado: ordena las decisiones del acuerdo.', explain: 'Definir el problema, escuchar, acordar responsabilidades accesibles y registrar que es una simulación produce evidencia realizable en clase.' },
+        { labels: { start: 'Primero', end: 'Al final' }, items: [
+          { id: 'a1', text: 'Definir el problema suministrado sin culpar', icon: 'Search' },
+          { id: 'a2', text: 'Escuchar las necesidades de las partes del caso', icon: 'Ear' },
+          { id: 'a3', text: 'Acordar turnos y responsabilidades accesibles', icon: 'Handshake' },
+          { id: 'a4', text: 'Registrar “contribución organizativa simulada”', icon: 'FileText' },
         ] },
       ),
       S.order(
@@ -400,7 +394,7 @@ export default [
         ], correct: ['a'] },
       ),
       cierre({ areas: ['ccss'], cnb: [] }, ['Leo datos para identificar problemas mundiales', 'Explico por qué pagar impuestos y pedir factura es una responsabilidad ciudadana', 'Resuelvo problemas con diálogo y sé organizar una actividad de servicio'],
-        ['Realizaré la actividad de servicio que planifiqué', 'Usaré un mensaje "yo" la próxima vez que me enoje', 'Pediré factura cuando acompañe a mi familia a comprar']),
+        ['Registraré con honestidad cuándo una contribución es simulada', 'Usaré un mensaje "yo" la próxima vez que dialogue', 'Pediré factura cuando acompañe a mi familia a comprar']),
     ],
   }),
 ];

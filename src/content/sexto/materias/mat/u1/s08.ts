@@ -29,15 +29,9 @@ export default [
       brief: 'Ilustración horizontal sobre fondo espacial oscuro: la Tierra a la izquierda (con Centroamérica visible) y la Luna a la derecha, unidas por una línea punteada con la etiqueta "384,400 km". Debajo, en otra línea, "≈ 384,000 km" con el símbolo ≈ destacado y la palabra "aproximadamente". Tamaños no a escala (nota pequeña: "no a escala"). Estilo limpio, colores suaves. Target: public/media/s08-mat-1-luna.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.4'], ambito: 'conocer',
-          prompt: 'Supongamos que a un partido llegaron **38,712** personas y el periódico dice "llegaron unas **39,000** personas". ¿Por qué eligió 39,000 y no 38,000?',
-          explain: '38,712 está entre 38,000 y 39,000, pero **más cerca de 39,000**: le faltan 288 para llegar a 39,000 y se pasa 712 de 38,000. Aproximar es elegir el número redondo **más cercano**.' },
-        { options: [
-          { id: 'a', text: 'Porque 38,712 está más cerca de 39,000 que de 38,000' },
-          { id: 'b', text: 'Porque siempre se aproxima hacia arriba', feedback: 'No siempre: 38,212 se aproximaría a 38,000.' },
-          { id: 'c', text: 'Porque 39,000 suena mejor', feedback: 'En matemáticas hay una regla: se elige el más cercano.' },
-        ], correct: ['a'] },
+      S.reflect(
+        { fase: 'explorar', areas: ['mat'], cnb: [], ambito: 'conocer', prompt: 'Observa 38,712 y decide mentalmente si está más cerca de 38,000 o de 39,000; todavía no se califica.' },
+        { statements: ['Puedo ubicar una cantidad entre dos millares', 'Sé que aproximar no cambia el dato exacto original'], commitments: ['Comprobaré mi idea con la recta numérica'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.4'], ambito: 'conocer', title: 'Aproximar en la recta numérica',
@@ -159,15 +153,10 @@ export default [
       brief: 'Ilustración de un puesto de mercado del altiplano guatemalteco con canastos de elotes y aguacates. Una pizarra pequeña muestra con puntos, barras y caracoles las cantidades en dos niveles (por ejemplo, 45 = dos puntos arriba y una barra abajo). Una niña con güipil forma numerales sobre la mesa con granos de maíz (puntos), palitos (barras) y un caracol. Colores vivos, estilo plano, sin texto excepto los numerales. Target: public/media/s08-mat-2-mercado.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.5'], ambito: 'conocer',
-          prompt: 'En el sistema maya, un **punto** vale 1 y una **barra** vale 5. Si ves **3 barras y 2 puntos** en un mismo nivel, ¿qué número es?',
-          explain: '3 barras = 15 y 2 puntos = 2. En total **17**. En un mismo nivel, los valores se suman.' },
-        { options: [
-          { id: 'a', text: '5', feedback: 'Cuenta cada símbolo: cada barra vale 5 y cada punto 1.' },
-          { id: 'b', text: '17' },
-          { id: 'c', text: '32', feedback: 'Parece que juntaste las cifras 3 y 2. Suma: 5 + 5 + 5 + 1 + 1.' },
-        ], correct: ['b'] },
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.5'], ambito: 'conocer', title: 'Tres símbolos mayas',
+          prompt: 'Antes de construir numerales, observa que el **punto vale 1**, la **barra vale 5** y el **caracol representa 0**.' },
+        { icon: 'CircleDot', body: 'En un nivel se suman los símbolos: tres barras y dos puntos representan 15 + 2 = **17**.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.5'], ambito: 'conocer', title: 'Los tres símbolos y los números del 0 al 19',
@@ -271,15 +260,10 @@ export default [
       brief: 'Animación vertical 2D de 45 s. Una torre de 5 casillas apiladas se construye de abajo hacia arriba. En la primera caen granos de maíz uno por uno hasta 19; al caer el 20, los granos se juntan y "suben" como un solo punto al segundo nivel (rótulo ×20), y abajo aparece un caracol. Se repite más rápido: 20 puntos del segundo nivel suben a un punto del tercero (×400); luego ×8,000 y ×160,000. Al final se muestran los cinco valores. Narración en español: "cada nivel vale veinte veces el de abajo". Target: public/media/s08-mat-3-niveles.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.6'], ambito: 'conocer',
-          prompt: 'El primer nivel vale ×1 y el segundo ×20. Si cada nivel vale **20 veces** el de abajo, ¿cuánto vale el **tercer** nivel?',
-          explain: '20 × 20 = **400**. Y el cuarto vale 400 × 20 = 8,000. Es igual que en el sistema decimal, donde cada lugar vale 10 veces el anterior, pero con 20.' },
-        { options: [
-          { id: 'a', text: '40', feedback: 'Eso sería sumar 20 + 20. Cada nivel se multiplica por 20.' },
-          { id: 'b', text: '400' },
-          { id: 'c', text: '200', feedback: 'Eso es 20 × 10. Aquí se multiplica 20 × 20.' },
-        ], correct: ['b'] },
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.6'], ambito: 'conocer', title: 'Un sistema vigesimal',
+          prompt: 'Mira la torre: cada nivel maya vale **20 veces** el nivel inferior.' },
+        { icon: 'Layers', body: 'Los primeros valores son ×1, ×20 y ×400. El tercero vale 20 × 20 = **400**.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.6'], ambito: 'conocer', title: 'El valor de los cinco niveles',
@@ -387,15 +371,10 @@ export default [
       brief: 'Animación 2D de 40 s. Parte 1: aparecen en fila los numerales mayas de 20, 40, 60, 80, 100 y 120; en cada paso cae un punto nuevo en el segundo nivel (cuando hay 5 puntos se funden en una barra) y abajo se mantiene el caracol. Parte 2: la serie 100, 200, 300, 400, 500: en cada paso cae una barra en el segundo nivel; al llegar a 400 las cuatro barras suben convertidas en un punto al tercer nivel y quedan dos caracoles. Narración en español con los números en voz alta. Target: public/media/s08-mat-4-series.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.7'], ambito: 'conocer',
-          prompt: 'Al número 45 (arriba 2 puntos, abajo una barra) le sumas **20**. ¿Qué cambia en el numeral?',
-          explain: 'Se agrega **un punto en el segundo nivel**: 65 = arriba 3 puntos, abajo una barra. El primer nivel no cambia porque 20 es exactamente un punto del nivel ×20.' },
-        { options: [
-          { id: 'a', text: 'Se agrega un punto en el nivel de arriba' },
-          { id: 'b', text: 'Se agregan 20 puntos abajo', feedback: 'En un nivel no caben 20: por eso existe el nivel ×20.' },
-          { id: 'c', text: 'Se agrega una barra abajo', feedback: 'Una barra abajo vale solo 5.' },
-        ], correct: ['a'] },
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.7'], ambito: 'conocer', title: 'Series mayas',
+          prompt: 'Observa qué cambia al sumar **20** o **100** en un numeral maya.' },
+        { icon: 'TrendingUp', body: 'Sumar 20 agrega un punto en el nivel ×20; sumar 100 agrega una barra en ese nivel. Así se forman y comparan series mayas.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.7'], ambito: 'conocer', title: 'Contar de 20 en 20 y de 100 en 100',
@@ -499,23 +478,18 @@ export default [
     ],
     media: {
       id: 's08-mat-5-pizarra', kind: 'image', title: 'La pizarra de la semana', aspect: '4:3',
-      alt: 'Una vendedora en el mercado escribe con numerales mayas en una pizarra las ventas del lunes y del martes y su total.',
-      brief: 'Ilustración de un puesto de elotes en un mercado guatemalteco. Una vendedora mayor con delantal escribe en una pizarra verde tres columnas: "lunes", "martes", "total", cada una con un numeral maya de dos niveles (45, 130 y un signo de interrogación en el total). Su nieta la ayuda contando granos de maíz. Colores cálidos, estilo plano. Target: public/media/s08-mat-5-pizarra.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
+      alt: 'Una pizarra del caso simulado muestra 145 minutos de iluminación innecesaria en un pasillo, 230 minutos en un salón y un total por completar con numeral maya.',
+      brief: 'Ilustración de una pizarra escolar con el rótulo “Caso escolar simulado; no describe tu escuela”. Tres columnas: “pasillo: 145 min”, “salón: 230 min” y “total: ?”, con numerales mayas de dos niveles junto a los datos decimales. Incluir iconos descriptivos de reloj, pasillo iluminado y salón vacío; no representar minutos como consumo eléctrico. Target: public/media/s08-mat-5-pizarra.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.5'], ambito: 'conocer',
-          prompt: 'El lunes, doña Candelaria vendió 45 elotes (arriba dos puntos, abajo una barra). El martes vendió 130 (arriba una barra y un punto, abajo dos barras). ¿Qué día vendió más?',
-          explain: 'El martes: en el nivel del 20 tiene 6 (120) y el lunes solo 2 (40). Con los mismos niveles, **gana el que tiene más arriba**.' },
-        { options: [
-          { id: 'a', text: 'El lunes', feedback: 'Compara el nivel de arriba: el lunes tiene 2 y el martes 6.' },
-          { id: 'b', text: 'El martes' },
-          { id: 'c', text: 'Vendió igual', feedback: '45 y 130 son cantidades distintas.' },
-        ], correct: ['b'] },
+      S.explain(
+        { fase: 'explorar', areas: ['mat'], cnb: ['mat:4.1.5', 'mat:4.1.6', 'mat:4.1.7'], ambito: 'conocer', title: 'Numerales mayas para datos de energía',
+          prompt: 'Esta lección integra símbolos, niveles y comparación en un solo registro simulado de energía.' },
+        { icon: 'Zap', body: 'Primero se lee el numeral maya por niveles; después se compara u opera el dato de energía y se comprueba en decimal con su unidad.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.5'], ambito: 'conocer', title: 'Resolver problemas con numerales mayas',
-          prompt: 'Los numerales mayas sirven para anotar ventas, cosechas, edades o fechas. Para resolver un problema, sigue estos pasos. Toca cada tarjeta.' },
+          prompt: 'En el caso simulado, los numerales mayas registran minutos de iluminación innecesaria. Para resolver un problema, sigue estos pasos.' },
         { icon: 'ListChecks', body: '**Leo** en decimal → **opero** → **escribo** el resultado en maya → **compruebo**.', reveal: [
           { icon: 'Eye', front: '1. Leo', back: 'Convierto cada numeral a decimal: nivel de arriba × 20 + nivel de abajo.' },
           { icon: 'Calculator', front: '2. Opero', back: 'Sumo, resto o multiplico como siempre.' },
@@ -524,30 +498,30 @@ export default [
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.5', 'mat:4.1.6'], ambito: 'hacer', title: 'Ejemplo resuelto: el total de la semana',
-          prompt: 'Ayudemos a doña Candelaria con su total.' },
-        { icon: 'Wheat', problem: 'Lunes: 45 elotes. Martes: 130 elotes. ¿Cuántos vendió en total? Escríbelo en maya.',
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.5', 'mat:4.1.6', 'mat:4.1.7'], ambito: 'hacer', title: 'Ejemplo resuelto: un solo registro de energía',
+          prompt: 'Suma, representa y comprueba los minutos del caso simulado.' },
+        { icon: 'Gauge', problem: 'El registro indica 145 minutos de iluminación innecesaria en un pasillo y 230 minutos en un salón vacío. ¿Cuál es el total y cómo se representa en maya?',
           steps: [
-            { text: 'Sumo: 45 + 130 = **175**.' },
-            { text: '175 ÷ 20 = **8**, sobran **15**.', why: '8 × 20 = 160; 175 − 160 = 15.' },
-            { text: 'Nivel del 20: 8 (una barra y tres puntos). Nivel del 1: 15 (tres barras).' },
-            { text: 'Compruebo: 8 × 20 + 15 = 160 + 15 = 175 ✔' },
+            { text: 'Sumo minutos de la misma unidad: 145 + 230 = **375 min**.' },
+            { text: '375 ÷ 20 = **18**, sobran **15**.' },
+            { text: 'Nivel del 20: 18; nivel del 1: 15.' },
+            { text: 'Compruebo: 18 × 20 + 15 = **375 min**; el numeral es mayor que cada registro parcial.' },
           ],
-          answer: 'Total: 175 = **8 | 15**.' },
+          answer: 'Total: 375 min = **18 | 15**. Son minutos registrados, no una medida de energía consumida.' },
       ),
       S.maya(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.5'], ambito: 'hacer', prompt: 'Escribe en la pizarra el total de doña Candelaria: **175** elotes.',
-          hint: '175 = 8 × 20 + 15.',
-          explain: 'Arriba 8 (una barra y tres puntos); abajo 15 (tres barras).' },
-        { mode: 'build', target: 175, levels: 2, scaffold: true },
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.5', 'mat:4.1.6'], ambito: 'hacer', prompt: 'Construye con apoyo el total del caso: **375 minutos**.',
+          hint: '375 = 18 × 20 + 15.',
+          explain: 'Arriba 18 (tres barras y tres puntos); abajo 15 (tres barras). La unidad sigue siendo minutos.' },
+        { mode: 'build', target: 375, levels: 2, scaffold: true },
       ),
       S.choice(
-        { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.5', 'mat:4.1.7'], prompt: '¿Cuál numeral es **mayor**?',
-          hint: 'Primero cuenta los niveles.',
-          explain: 'B tiene tres niveles: vale al menos 400. A tiene dos niveles: como máximo 399. B = 400 + 0 + 1 = 401 y A = 19 × 20 + 19 = 399.' },
+        { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.5', 'mat:4.1.7'], prompt: '¿Qué **numeral maya** del registro de iluminación innecesaria es mayor?',
+          hint: 'Compara desde el nivel de 20 y conserva la unidad minutos.',
+          explain: '230 min = 11 × 20 + 10 y 145 min = 7 × 20 + 5; por eso 230 minutos es mayor.' },
         { options: [
-          { id: 'a', text: 'A: Nivel del 20: tres barras y cuatro puntos · Nivel del 1: tres barras y cuatro puntos', feedback: 'Tiene solo dos niveles: vale 399.' },
-          { id: 'b', text: 'B: Nivel del 400: un punto · Nivel del 20: caracol · Nivel del 1: un punto' },
+          { id: 'a', text: 'Pasillo: 145 min = nivel del 20: 7 · nivel del 1: 5', feedback: '145 es menor que 230.' },
+          { id: 'b', text: 'Salón: 230 min = nivel del 20: 11 · nivel del 1: 10' },
         ], correct: ['b'] },
       ),
       S.explain(
@@ -561,9 +535,8 @@ export default [
         ] },
       ),
       S.maya(
-        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.5'], prompt: 'Supongamos que una cooperativa anotó en numeral maya los **árboles** que sembró este año. ¿Cuántos son?',
-          explain: '1 × 400 + 3 × 20 + 0 = 400 + 60 = 460 árboles.' },
-        { mode: 'read', target: 460, levels: 3 },
+        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.5'], prompt: 'Lee el numeral maya del primer registro de iluminación innecesaria: **145 minutos**.', explain: '7 × 20 + 5 = 145 minutos.' },
+        { mode: 'read', target: 145, levels: 2 },
       ),
       S.number(
         { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.5', 'mat:4.1.6'], prompt: 'El primer registro equivale a **145** minutos y el segundo a **230** minutos. ¿Cuál es el total que luego representarás en maya?', explain: '145 + 230 = 375 minutos.' },
@@ -574,16 +547,16 @@ export default [
         { mode: 'build', target: 375, levels: 2 },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.7'], prompt: '¿Qué comprobación respalda el numeral maya construido para 375?' },
+        { fase: 'aplicar', areas: ['mat'], cnb: ['mat:4.1.7'], prompt: '¿Qué comprobación respalda el numeral maya construido para **375 minutos de iluminación**?' },
         { options: [{ id: 'a', text: '18 × 20 + 15 = 375' }, { id: 'b', text: '15 × 20 + 18 = 318' }, { id: 'c', text: '18 + 15 = 33' }], correct: ['a'] },
       ),
       S.maya(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.1.5'], prompt: 'Supongamos que una escuela tiene **238** estudiantes. Escribe la cantidad con numeral maya.' },
-        { mode: 'build', target: 238, levels: 2 },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.1.5', 'mat:4.1.6', 'mat:4.1.7'], prompt: 'En un registro nuevo de iluminación, hay **160 minutos** en biblioteca y **220 minutos** en laboratorio. Construye en maya el total y verifica que sea mayor que cada parte.' },
+        { mode: 'build', target: 380, levels: 2 },
       ),
       S.maya(
-        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.1.5'], prompt: 'Supongamos que un mercado anotó en numeral maya los **manojos de hierbas** vendidos en un mes. ¿Cuántos son?' },
-        { mode: 'read', target: 1205, levels: 3 },
+        { fase: 'comprobar', areas: ['mat'], cnb: ['mat:4.1.5', 'mat:4.1.6', 'mat:4.1.7'], prompt: 'Otro registro de iluminación suma **185 minutos + 210 minutos**. Lee en maya el total correcto y decide si supera los 375 minutos anteriores.' },
+        { mode: 'read', target: 395, levels: 2 },
       ),
       cierre({ areas: ['mat'], cnb: [] },
         ['Aproximo cantidades a la cifra que me piden', 'Leo y escribo numerales mayas', 'Convierto números del sistema decimal al maya', 'Ordeno series mayas de 20 en 20 y de 100 en 100'],

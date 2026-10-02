@@ -31,15 +31,9 @@ export default [
       brief: 'Mapa político de Guatemala con sus 22 departamentos en gris claro y nombres pequeños. Resaltar en un violeta respetuoso (no rojo) Quiché, Huehuetenango, Chimaltenango, Alta Verapaz y Baja Verapaz, con su nombre en letra más grande. Leyenda: "Departamentos incluidos en esta selección didáctica a partir de Guatemala: memoria del silencio, CEH, 1999. Un mismo color no establece un orden ni una clasificación entre ellos". Rosa de los vientos. Pequeñas flores blancas junto a la leyenda como símbolo de memoria. Sin cifras, imágenes de violencia ni armas. Target: public/media/s08-fc-1-mapa-memoria.svg. Accesibilidad: formato final 1600×900 px, contraste alto, patrón además del color y descripción alternativa equivalente.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'ser',
-          prompt: 'Hoy hablaremos de un tema serio de nuestra historia, con respeto. Si algo te hace sentir triste, está bien: puedes conversarlo con tu familia o tu maestra. Para empezar: ¿para qué crees que sirve un **mapa de la memoria**?',
-          explain: 'Un mapa de la memoria muestra **dónde** ocurrieron hechos importantes para que no se olviden. Ayuda a **honrar** a quienes sufrieron y a entender que la violencia no afectó a todo el país por igual.' },
-        { options: [
-          { id: 'a', text: 'Para saber dónde ocurrió algo importante y recordarlo con respeto', icon: 'MapPin' },
-          { id: 'b', text: 'Para culpar a los que viven hoy en esos lugares', icon: 'Gavel', feedback: 'La memoria no busca culpar a comunidades; busca la verdad, honrar a las víctimas y que no se repita.' },
-          { id: 'c', text: 'Para decorar la pared del aula', icon: 'Image', feedback: 'Un mapa de la memoria es mucho más que un adorno: nos enseña sobre nuestra historia.' },
-        ], correct: ['a'] },
+      S.explain(
+        { fase: 'explorar', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'ser', title: 'Leer un mapa atribuido a la CEH', prompt: 'Lee el límite de la leyenda antes de interpretar el mapa.' },
+        { icon: 'Map', body: 'El paquete ubica departamentos y pueblos documentados por la **CEH**. El color ayuda a localizar y no clasifica cuánto sufrió cada comunidad.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'conocer', title: 'Buscar la verdad después de la guerra',
@@ -176,133 +170,92 @@ export default [
   /* ───────────────────────── 2. Memoria, dignidad y nunca más ───────────────────────── */
   lesson({
     id: 's08-fc-2',
-    title: 'Memoria para construir la paz',
-    icon: 'Flower2',
+    title: 'Pueblos y departamentos en el mapa de la CEH',
+    icon: 'MapPinned',
     minutes: 15,
-    gancho: 'Tu abuela o tu abuelo guarda historias que no están en los libros. ¿Por qué será importante escucharlas?',
+    gancho: '¿Cómo se localiza información histórica sin convertir un color del mapa en una competencia de sufrimiento?',
     objetivos: [
-      'Explicar para qué sirve la memoria histórica: verdad, dignidad, sanar y no repetir',
+      'Localizar pueblos y departamentos afectados por la violencia usando un paquete atribuido a la CEH',
     ],
     resumen: [
-      'La memoria histórica es recordar juntos lo que pasó para conocer la verdad, devolver la dignidad a las víctimas, ayudar a sanar y lograr que nunca más se repita.',
-      'Se recuerda con respeto: escuchando a los mayores, visitando monumentos y museos comunitarios, participando en actos del 25 de febrero, pintando murales. Burlarse, negar lo que pasó o discriminar a las víctimas vuelve a herir.',
-      'La no repetición se construye cada día con lo que aprendimos: respetar los derechos humanos, rechazar la discriminación, participar, elegir líderes democráticos y resolver los conflictos con diálogo.',
+      'El paquete didáctico atribuye sus datos a la Comisión para el Esclarecimiento Histórico (CEH) y localiza departamentos y pueblos documentados.',
+      'Quiché, Huehuetenango, Chimaltenango, Alta Verapaz y Baja Verapaz aparecen en la ficha; también pueblos ixil, k’iche’, q’anjob’al, chuj, mam, achi, q’eqchi’ y kaqchikel.',
+      'Los colores solo ayudan a localizar categorías de la leyenda. No ordenan gravedad, sufrimiento ni cantidad de víctimas.',
     ],
     media: {
-      id: 's08-fc-2-mural', kind: 'image', title: 'El mural de la memoria', aspect: '16:9',
-      alt: 'Jóvenes y personas mayores de una comunidad maya pintan juntos un mural con flores, maíz, un árbol con raíces y palomas.',
-      brief: 'Ilustración cálida y esperanzadora. Pared de adobe en una aldea del altiplano. Una abuela con traje maya cuenta una historia mientras jóvenes (niñas y niños) pintan un mural: un gran árbol con raíces profundas, mazorcas de colores, flores blancas y palomas; en la parte de abajo, espacios con nombres ilegibles (no reales) escritos a mano. Luz de tarde. Sin armas, sin escenas de violencia, sin textos legibles excepto "Nunca más" pintado en el mural. Target: public/media/s08-fc-2-mural.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
+      id: 's08-fc-2-mural', kind: 'image', title: 'Paquete cartográfico atribuido a la CEH', aspect: '16:9',
+      alt: 'Mapa didáctico de Guatemala junto a tarjetas de departamentos y pueblos mayas, con fuente CEH y una leyenda que aclara que el color no mide sufrimiento.',
+      brief: 'Imagen didáctica 1600×900, trauma-aware y sin escenas de violencia. Mostrar un mapa esquemático de Guatemala y tarjetas separadas: Quiché–ixil/k’iche’, Huehuetenango–q’anjob’al/chuj/mam, Baja Verapaz–achi, Alta Verapaz–q’eqchi’, Chimaltenango–kaqchikel. Encabezado: “Síntesis didáctica basada en CEH, Guatemala: memoria del silencio (1999)”. Leyenda visible: “El color localiza; no mide gravedad, sufrimiento ni número de víctimas”. Alto contraste y patrones además del color. Target: public/media/s08-fc-2-mural.jpg. Accesibilidad: formato final 1600×900 px, patrones distinguibles, texto grande y descripción alternativa equivalente.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'ser',
-          prompt: 'Una comunidad de Baja Verapaz pinta cada año un mural con los nombres de las personas que murieron en el conflicto armado. ¿Por qué crees que lo hacen?',
-          explain: 'Lo hacen para **recordar** y **honrar** a sus seres queridos, para que las nuevas generaciones conozcan la **verdad** y para que **nunca más** se repita. A eso se le llama **memoria histórica**.' },
-        { options: [
-          { id: 'a', text: 'Para honrar a sus seres queridos y que no se olvide lo que pasó', icon: 'Flower2' },
-          { id: 'b', text: 'Para que la gente tenga miedo', icon: 'EyeOff', feedback: 'La memoria no busca asustar, sino honrar, enseñar y prevenir.' },
-          { id: 'c', text: 'Porque les sobra pintura', icon: 'Paintbrush', feedback: 'Un mural de la memoria tiene un sentido profundo para la comunidad.' },
-        ], correct: ['a'] },
+      S.reflect(
+        { fase: 'explorar', areas: ['fc'], cnb: [], ambito: 'ser', prompt: 'Antes de abrir el paquete CEH, elige una disposición respetuosa para leer memoria histórica.' },
+        { statements: ['Puedo pausar si el tema me incomoda', 'Localizar no significa comparar sufrimiento'], commitments: ['Usaré nombres, fuente y leyenda con respeto'] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'conocer', title: '¿Para qué sirve la memoria histórica?',
-          prompt: 'La **memoria histórica** es recordar juntos lo que pasó en un país. Tiene **cuatro propósitos**. Toca cada tarjeta.' },
-        { icon: 'Flower2', body: 'Recordar no es vivir en el pasado: es **cuidar el futuro**.', reveal: [
-          { icon: 'Search', front: 'Verdad', back: 'Saber **qué pasó** realmente, con información investigada, como la del informe de la CEH.' },
-          { icon: 'Crown', front: 'Dignidad', back: 'Reconocer que las víctimas eran **personas con nombre, familia y derechos**, no números.' },
-          { icon: 'HeartPulse', front: 'Sanar', back: 'Que las familias puedan **hablar, llorar y ser escuchadas**; que su dolor sea reconocido.' },
-          { icon: 'ShieldCheck', front: 'No repetición', back: 'Aprender para que **nunca más** se resuelvan los conflictos con violencia contra la población.' },
-        ] },
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'conocer', title: 'Paquete suministrado CEH', prompt: 'Lee los pueblos y departamentos incluidos en la fuente.' },
+        { icon: 'Map', body: '**Departamentos:** Quiché, Huehuetenango, Chimaltenango, Alta Verapaz y Baja Verapaz. **Pueblos:** ixil, k’iche’, q’anjob’al, chuj, mam, achi, q’eqchi’ y kaqchikel.' },
       ),
-      S.reading(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'ser', prompt: 'Lee este relato (los personajes son inventados, pero la situación es como la de muchas familias) y responde.' },
-        { genre: 'Relato', heading: 'Las flores de doña Tomasa', passage:
-          'Cada 25 de febrero, doña Tomasa se levanta temprano y corta flores blancas del patio. Su nieta Ixchel, de doce años, la acompaña al monumento de la aldea, donde están escritos muchos nombres. Entre ellos, el de su tío abuelo.\n\n—¿Por qué venimos todos los años, abuela? —pregunta Ixchel.\n\n—Porque durante mucho tiempo no se podía hablar de esto —responde doña Tomasa—. Tuvimos miedo y guardamos silencio. Ahora podemos decir sus nombres en voz alta. Cuando tú lo recuerdas, él no desaparece del todo.\n\nEsa tarde, Ixchel y sus compañeros de sexto entrevistan a varias abuelas y abuelos. Con sus relatos preparan un periódico mural para la escuela. En la última línea escriben: "Recordamos para que nunca más un conflicto se resuelva con violencia".',
-          questions: [
-            { q: '¿Qué hace doña Tomasa cada 25 de febrero?', options: [
-              { id: 'a', text: 'Lleva flores al monumento de la aldea' },
-              { id: 'b', text: 'Se queda en casa sin hablar con nadie' },
-              { id: 'c', text: 'Va al mercado a vender flores' },
-            ], correct: 'a' },
-            { q: '¿Qué quiere decir la abuela con "cuando tú lo recuerdas, él no desaparece del todo"?', options: [
-              { id: 'a', text: 'Que recordar a las víctimas les devuelve su dignidad y las mantiene presentes' },
-              { id: 'b', text: 'Que su tío abuelo va a regresar' },
-              { id: 'c', text: 'Que es mejor olvidar' },
-            ], correct: 'a', why: 'Nombrar a las víctimas es una forma de dignificarlas.' },
-            { q: '¿Qué propósito de la memoria cumple el periódico mural de sexto?', options: [
-              { id: 'a', text: 'La no repetición: enseñar a otros para que no vuelva a pasar' },
-              { id: 'b', text: 'Ganar un concurso de dibujo' },
-              { id: 'c', text: 'Buscar culpables en la escuela' },
-            ], correct: 'a' },
-          ] },
+      S.explain(
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'conocer', title: 'Cómo leer la leyenda',
+          prompt: 'Localiza con nombre, región y fuente; no conviertas el color en una jerarquía.' },
+        { icon: 'Palette', body: 'El color y el patrón distinguen fichas del mapa. **No representan ranking, gravedad, severidad, sufrimiento ni cantidad de víctimas.**' },
       ),
-      S.sort(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:5.2.1'], prompt: 'Clasifica: ¿es una forma **respetuosa** de recordar, o una acción que **vuelve a herir**?',
-          hint: 'Pregúntate: ¿esta acción honra a las víctimas y a sus familias, o las ofende, las niega o las discrimina?',
-          explain: 'Recordar con respeto honra a las víctimas. Negar, burlarse o discriminar vuelve a causar dolor.' },
-        { buckets: [
-          { id: 'res', label: 'Recuerda con respeto', icon: 'Flower2', color: 'var(--c-ok)' },
-          { id: 'her', label: 'Vuelve a herir', icon: 'X', color: 'var(--c-bad)' },
-        ], items: [
-          { id: 'f1', text: 'Escuchar con atención el relato de una abuela', bucket: 'res' },
-          { id: 'f2', text: 'Decir "eso nunca pasó, son inventos"', bucket: 'her', feedback: 'Negar lo que la CEH investigó y lo que las familias vivieron vuelve a herirlas.' },
-          { id: 'f3', text: 'Visitar un museo comunitario de la memoria en silencio y con respeto', bucket: 'res' },
-          { id: 'f4', text: 'Hacer bromas sobre el tema en el recreo', bucket: 'her' },
-          { id: 'f5', text: 'Participar en el acto escolar del 25 de febrero', bucket: 'res' },
-          { id: 'f6', text: 'Burlarse de un compañero por el idioma maya de su familia', bucket: 'her', feedback: 'La discriminación influyó en la violencia del pasado; repetirla hoy es lo contrario a la memoria.' },
+      S.match(
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:5.2.1'], prompt: 'Guía: localiza cada pueblo en el departamento indicado por el paquete CEH.',
+          hint: 'Usa solo las tres tarjetas visibles del paquete.', explain: 'El paquete ubica ixil en Quiché, achi en Baja Verapaz y q’eqchi’ en Alta Verapaz; no compara sufrimiento.' },
+        { leftTitle: 'Pueblo', rightTitle: 'Departamento', pairs: [
+          { id: 'g1', left: 'Pueblo ixil (CEH)', right: 'Quiché' },
+          { id: 'g2', left: 'Pueblo achi (CEH)', right: 'Baja Verapaz' },
+          { id: 'g3', left: 'Pueblo q’eqchi’ (CEH)', right: 'Alta Verapaz' },
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'emprender', title: 'Ejemplo resuelto: una propuesta de no repetición',
-          prompt: 'La memoria se convierte en **acción**. Mira cómo un grado armó su propuesta usando lo aprendido en la unidad.' },
-        { icon: 'Lightbulb', problem: 'El grado de sexto quiere proponer **una acción** para que en su escuela la violencia no se repita.',
+        { fase: 'construir', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'conocer', title: 'Ejemplo resuelto: localizar sin jerarquizar',
+          prompt: 'Mira cómo se redacta una ubicación cuidadosa.' },
+        { icon: 'MapPinned', problem: 'La tarjeta CEH nombra al pueblo achi y a Baja Verapaz.',
           steps: [
-            { text: '**Parto de un problema real:** en el recreo hay apodos y burlas por el idioma o la ropa de algunos compañeros.', why: 'Aprendimos (semanas 3 y 6) que la discriminación y la violencia verbal son el inicio de problemas más grandes.' },
-            { text: '**Propongo una acción concreta:** una "Semana de la memoria y el respeto": entrevistas a abuelos, un mural y un acuerdo de convivencia sin apodos.' },
-            { text: '**Decido cómo participar todos:** se vota en asamblea de grado y se forman comisiones (entrevistas, mural, acuerdo).', why: 'Así se practica la participación democrática de la semana 5.' },
-            { text: '**Digo cómo lo comprobaremos:** al final del mes, una encuesta anónima: ¿hay menos apodos?' },
+            { text: 'Nombra la fuente: **según la síntesis didáctica basada en la CEH (1999)**.' },
+            { text: 'Localiza: **el pueblo achi aparece asociado con Baja Verapaz**.' },
+            { text: 'Aclara el límite: **el color no permite comparar gravedad ni sufrimiento**.' },
           ],
-          answer: 'Una buena propuesta de no repetición **parte de un problema real**, es **concreta**, es **participativa** y se puede **comprobar**.',
-          tip: 'Problema real → acción concreta → participación → comprobación.' },
+          answer: 'Según la ficha CEH, el pueblo achi se localiza en Baja Verapaz; el mapa no establece un ranking de afectación.',
+          tip: 'Fuente → pueblo → departamento → límite de la leyenda.' },
       ),
-      S.match(
-        { fase: 'aplicar', areas: ['fc'], cnb: ['fc:5.2.1', 'fc:5.2.1', 'fc:5.2.1', 'fc:5.2.1'], ambito: 'conocer',
-          prompt: 'Repaso de la unidad: cada aprendizaje es una herramienta para la **no repetición**. Une cada idea con su explicación.',
-          explain: 'Todo lo que aprendiste en la unidad sirve para construir una paz con justicia.' },
-        { leftTitle: 'Idea', rightTitle: 'Cómo ayuda a la no repetición', pairs: [
-          { id: 'u1', left: 'Derechos humanos', leftIcon: 'Scale', right: 'Toda persona tiene dignidad y derechos que nadie puede quitarle' },
-          { id: 'u2', left: 'Liderazgo democrático', leftIcon: 'Users', right: 'Quien dirige escucha, rinde cuentas y no decide solo' },
-          { id: 'u3', left: 'Cultura de paz', leftIcon: 'HeartHandshake', right: 'Los conflictos se resuelven con diálogo y no con violencia' },
-          { id: 'u4', left: 'Respeto a la diversidad', leftIcon: 'Globe', right: 'Ningún pueblo es superior; la discriminación se rechaza' },
+      S.sort(
+        { fase: 'aplicar', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'conocer', prompt: 'Aplicación: localiza tarjetas nuevas del paquete CEH por departamento.',
+          explain: 'La ficha localiza k’iche’ en Quiché, mam en Huehuetenango y kaqchikel en Chimaltenango.' },
+        { buckets: [
+          { id: 'qui', label: 'Quiché', icon: 'MapPin' }, { id: 'hue', label: 'Huehuetenango', icon: 'MapPin' }, { id: 'chi', label: 'Chimaltenango', icon: 'MapPin' },
+        ], items: [
+          { id: 'a1', text: 'Pueblo k’iche’ — fuente CEH', bucket: 'qui' },
+          { id: 'a2', text: 'Pueblo mam — fuente CEH', bucket: 'hue' },
+          { id: 'a3', text: 'Pueblo kaqchikel — fuente CEH', bucket: 'chi' },
         ] },
       ),
       S.write(
         { fase: 'aplicar', areas: ['fc'], cnb: ['fc:5.2.1'], ambito: 'emprender',
-          prompt: 'Escribe tu **propuesta de no repetición** para tu escuela o comunidad. Usa el ejemplo: problema real, acción concreta, cómo participarán todos y cómo se comprobará.' },
-        { minWords: 40, placeholder: 'La fuente CEH muestra… Su límite es… Propongo una acción de no repetición…',
-          model: 'En mi escuela he visto que algunos se burlan de los compañeros que hablan q’eqchi’. Propongo que cada lunes un compañero enseñe un saludo en su idioma a todo el grado y que hagamos un cartel con palabras de los idiomas de nuestras familias. La comisión de cultura organizará los turnos. Después de un mes preguntaremos si hay menos burlas.',
-          rubric: ['Nombré un problema real de violencia o discriminación', 'Propuse una acción concreta y posible', 'Expliqué cómo participarán todos', 'Dije cómo se comprobará si funciona'] },
+          prompt: 'Escribe una oración que localice un pueblo y un departamento del paquete CEH, cite la fuente y aclare que el color no mide sufrimiento.' },
+        { minWords: 22, placeholder: 'Según la ficha CEH… El color…',
+          model: 'Según la síntesis didáctica basada en la CEH, el pueblo chuj aparece en Huehuetenango. El color ayuda a localizar y no mide gravedad ni sufrimiento.',
+          rubric: ['Nombra pueblo y departamento', 'Atribuye a la CEH', 'Aclara el límite del color'] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['fc'], cnb: ['fc:5.2.1'], prompt: '¿Cuál es una forma **respetuosa** de mantener la memoria histórica?' },
+        { fase: 'comprobar', areas: ['fc'], cnb: ['fc:5.2.1'], prompt: 'Según otra tarjeta del paquete CEH, ¿dónde localizas al pueblo q’anjob’al?' },
         { options: [
-          { id: 'a', text: 'Entrevistar con respeto a personas mayores y compartir sus relatos en un periódico mural' },
-          { id: 'b', text: 'Decir que lo que pasó es un invento' },
-          { id: 'c', text: 'Evitar hablar del tema para siempre' },
+          { id: 'a', text: 'Huehuetenango' }, { id: 'b', text: 'Baja Verapaz' }, { id: 'c', text: 'Chimaltenango' },
         ], correct: ['a'] },
       ),
-      S.tf(
-        { fase: 'comprobar', areas: ['fc'], cnb: ['fc:5.2.1'], prompt: '¿Verdadero o falso?' },
-        { statements: [
-          { text: 'El 25 de febrero es el Día Nacional de la Dignidad de las Víctimas del conflicto armado interno.', answer: true },
-          { text: 'Uno de los propósitos de la memoria histórica es que la violencia no se repita.', answer: true },
-          { text: 'Recordar a las víctimas sirve para odiar a otras comunidades.', answer: false, why: 'La memoria busca verdad, dignidad, sanar y no repetición, nunca el odio.' },
-          { text: 'Chimaltenango está entre los departamentos más afectados según la CEH.', answer: true },
+      S.match(
+        { fase: 'comprobar', areas: ['fc'], cnb: ['fc:5.2.1'], prompt: 'Salida final: localiza dos pueblos con tarjetas CEH nuevas.' },
+        { leftTitle: 'Pueblo', rightTitle: 'Departamento', pairs: [
+          { id: 'e1', left: 'Pueblo chuj (CEH)', right: 'Huehuetenango' },
+          { id: 'e2', left: 'Pueblo kaqchikel (CEH)', right: 'Chimaltenango' },
         ] },
       ),
       cierre({ areas: ['fc'], cnb: ['fc:5.2.1'] },
-        ['Ubico en el mapa los departamentos y pueblos más afectados por el conflicto armado', 'Explico para qué sirve la memoria histórica', 'Propongo acciones para que la violencia no se repita'],
-        ['Escucharé con respeto las historias de las personas mayores de mi familia', 'Participaré en el acto del 25 de febrero de mi escuela', 'Rechazaré la discriminación cuando la vea']),
+        ['Localizo pueblos y departamentos con el paquete CEH', 'Cito la fuente sin jerarquizar el sufrimiento'],
+        ['Leeré mapas históricos con cuidado y respeto']),
     ],
   }),
 ];

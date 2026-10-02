@@ -30,8 +30,12 @@ export default [
       brief: 'Animación 2D de 50 s, estilo cuaderno de detective. Una niña (de rasgos mayas, uniforme escolar) investiga a un compositor guatemalteco del siglo XIX (figura genérica, sin retrato real). Aparecen tarjetas: "¿Dónde y cuándo nació?", "¿Qué estudió?", "¿Qué obras creó?", "¿Cuál fue su aporte?". Luego tres fuentes: libro de biblioteca (secundaria), partitura antigua (primaria), entrevista grabada con un maestro de música (primaria). Al final, una línea de tiempo con tres hitos. Narración en español, subtítulos. No usar fotografías reales de personas. Target: public/media/s08-art-1-investigar.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer', title: 'Investigar vida y obra', prompt: 'Lee qué evidencia requiere una biografía artística.' },
+        { icon: 'Palette', body: 'Una biografía artística organiza origen, formación, obras, aporte y fuentes verificables.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer',
           prompt: '¿Quién compuso la **música** del Himno Nacional de Guatemala?',
           explain: 'La música es de **Rafael Álvarez Ovalle**, nacido en **San Juan Comalapa**, Chimaltenango. La letra es del poeta **José Joaquín Palma**. Hoy aprenderás a investigar la vida de artistas como ellos.' },
         { options: [
@@ -166,8 +170,12 @@ export default [
       brief: 'Ilustración de un periódico mural escolar sobre un tablero de corcho en un corredor de escuela pública guatemalteca. Título grande "Artistas de nuestra tierra" con letras recortadas. Cuatro fichas con dibujos (no fotos reales): un marimbista de pueblo, una tejedora, un poeta, un compositor del siglo XIX. Cada ficha con subtítulos (Origen, Obras, Aporte), un pie de foto y un recuadro "Fuentes". Una sección "¿Sabías que…?" y un buzón de preguntas. Colores con buen contraste, orden en columnas, espacio libre entre fichas. Target: public/media/s08-art-2-periodico.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
+      S.explain(
+        { fase: 'explorar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer', title: 'Publicar una biografía artística', prompt: 'Lee el propósito de una ficha biográfica.' },
+        { icon: 'Newspaper', body: 'Una ficha biográfica publica vida, obra, aporte e imagen con pie, y mantiene visibles las fuentes.' },
+      ),
       S.choice(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer',
           prompt: 'Observa el periódico mural. ¿Qué elemento permite a los lectores **comprobar** que la información es cierta?',
           explain: 'La franja de **fuentes**. Publicar con fuentes demuestra un trabajo serio y respetuoso.' },
         { options: [
@@ -223,15 +231,9 @@ export default [
           { id: 'e', text: 'Presentar en el foro y responder preguntas' },
         ], labels: { start: 'Primero', end: 'Al final' } },
       ),
-      S.choice(
-        { fase: 'aplicar', areas: ['art', 'fc'], cnb: ['art:4.3.2'], ambito: 'convivir',
-          prompt: 'En el foro, un compañero presenta a un músico de rock de otro país. Alguien del público se ríe y dice: "Eso no es arte". ¿Cuál es la mejor respuesta del moderador?',
-          explain: 'En un foro se opina con respeto y con razones. Todas las investigaciones merecen ser escuchadas.' },
-        { options: [
-          { id: 'a', text: '"Puedes dar tu opinión con respeto al final. Ahora escuchemos la presentación completa."' },
-          { id: 'b', text: '"Tienes razón, pasemos al siguiente."', feedback: 'Así se desvaloriza el trabajo del compañero sin escucharlo.' },
-          { id: 'c', text: 'Ignorar el comentario y dejar que sigan las burlas', feedback: 'El moderador debe cuidar el respeto en el foro.' },
-        ], correct: ['a'] },
+      S.reflect(
+        { fase: 'aplicar', areas: ['art', 'fc'], cnb: [], ambito: 'convivir', prompt: 'Antes del foro biográfico, elige cómo escucharás una obra o trayectoria distinta de tus gustos sin calificar esta reflexión.' },
+        { statements: ['Escucharé la presentación completa antes de opinar', 'Comentaré con respeto y razones'], commitments: ['Cuidaré que el foro no convierta una preferencia en burla'] },
       ),
       S.write(
         { fase: 'aplicar', areas: ['art', 'l1'], cnb: ['art:4.3.2'], ambito: 'hacer',

@@ -30,15 +30,10 @@ export default [
       brief: 'Ilustración en tres paneles con estilo de cómic suave. Panel 1 "Escribo con mis palabras": niña que lee un libro y escribe en su cuaderno. Panel 2 "No invento datos": niño que anota con cuidado los resultados de una encuesta en una tabla, aunque no son los que esperaba (cara pensativa). Panel 3 "Digo de dónde lo saqué": niña que escribe "Fuentes:" al final de su informe. Personajes diversos de Guatemala, fondo de aula. Target: public/media/s08-l1-1-honestidad.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.4'], ambito: 'ser',
-          prompt: 'Andrea encontró en un libro un párrafo perfecto para su informe. ¿Qué es lo **más honesto**?',
-          explain: 'Usar información de otros es parte de investigar. Lo deshonesto es hacerla pasar por tuya. Andrea puede explicarla con sus palabras y decir de qué libro la tomó.' },
-        { options: [
-          { id: 'a', text: 'Explicar la idea con sus palabras y escribir de qué libro la tomó', icon: 'PenLine' },
-          { id: 'b', text: 'Copiarlo tal cual sin decir de dónde es', icon: 'Copy', feedback: 'Eso es presentar como propio el trabajo de otra persona.' },
-          { id: 'c', text: 'Cambiar dos palabras para que no se note', icon: 'EyeOff', feedback: 'Cambiar unas palabras no lo vuelve tuyo: sigue siendo copiar sin reconocer al autor.' },
-        ], correct: ['a'] },
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.4'], ambito: 'ser', title: 'La fuente sostiene la confianza',
+          prompt: 'Lee este principio antes de decidir cómo usar datos ajenos.' },
+        { icon: 'ShieldCheck', body: 'La honestidad intelectual exige conservar el dato, distinguir palabras propias y ajenas, y nombrar la **fuente**.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.4'], ambito: 'ser', title: '¿Qué es la honestidad intelectual?',
@@ -91,7 +86,8 @@ export default [
       ),
       S.sort(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.4'], ambito: 'ser', prompt: 'Clasifica cada acción: ¿es **honesta** o **deshonesta**?',
-          hint: 'Aplica los tres compromisos: no copiar como propio, no inventar datos, decir de dónde viene.' },
+          hint: 'Aplica los tres compromisos: no copiar como propio, no inventar datos, decir de dónde viene.',
+          explain: 'Una práctica es honesta cuando conserva los datos, distingue las palabras ajenas y hace visible la fuente; alterar, inventar u ocultar el origen rompe la confianza.' },
         { buckets: [
           { id: 'hon', label: 'Honesta', icon: 'ShieldCheck', color: 'var(--c-ok)' },
           { id: 'des', label: 'Deshonesta', icon: 'X', color: 'var(--c-maiz-strong)' },
@@ -163,15 +159,10 @@ export default [
       brief: 'Animación tipográfica de 50 s. Arriba, un libro abierto con la frase resaltada: "En las hidroeléctricas, la fuerza del agua de los ríos hace girar unas máquinas llamadas turbinas." Camino 1 (izquierda): la frase viaja igual al cuaderno, aparecen comillas grandes y una etiqueta "(Ciencias Naturales 6)". Título: CITA TEXTUAL. Camino 2 (derecha): el libro se cierra, la frase se desarma y se rearma: "Según el libro de Ciencias Naturales 6, las hidroeléctricas usan el movimiento del agua de los ríos para mover turbinas." Título: PARÁFRASIS. Narración en español, subtítulos. Target: public/media/s08-l1-2-citar.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.4'], ambito: 'conocer',
-          prompt: '¿Para qué sirven las **comillas** (" ") en un informe?',
-          explain: 'Las comillas avisan: "estas palabras exactas no son mías". Junto con el nombre de la fuente, forman una **cita textual**.' },
-        { options: [
-          { id: 'a', text: 'Para mostrar que esas palabras exactas son de otra persona', icon: 'Quote' },
-          { id: 'b', text: 'Para decorar el texto', icon: 'Sparkles', feedback: 'Las comillas tienen una función: marcar palabras ajenas.' },
-          { id: 'c', text: 'Para que el texto se vea más largo', icon: 'AlignJustify', feedback: 'No: marcan que esas palabras no son tuyas.' },
-        ], correct: ['a'] },
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.4'], ambito: 'conocer', title: 'Dos maneras de atribuir',
+          prompt: 'Una cita conserva palabras exactas; una paráfrasis conserva la idea con palabras nuevas.' },
+        { icon: 'Quote', body: 'La **cita textual** usa comillas y fuente. La **paráfrasis** no usa comillas, pero también nombra la fuente.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.4'], ambito: 'conocer', title: 'Dos formas honestas de usar una fuente',
@@ -289,15 +280,10 @@ export default [
       brief: 'Ilustración de una página de cuaderno escrita a mano, ordenada. Título: "Notas del paquete: uso de lámparas". Tres bloques: "Dato exacto" → "12,468 kWh"; "Comparación" → "LED 9 W / incandescente 60 W"; "Recomendación" → "apagar luces sin uso". En el margen: "Ficha A, caso escolar simulado" y "Ficha B, guía científica suministrada". Una frase exacta entre comillas está marcada con un asterisco. Letra clara. Target: public/media/s08-l1-3-notas.jpg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.7'], ambito: 'conocer',
-          prompt: '¿Cuál es la **mejor nota** sobre esta oración? "_La geotermia aprovecha el calor que hay bajo la tierra cerca de los volcanes para producir electricidad._"',
-          explain: 'Una buena nota guarda la idea con pocas palabras y símbolos: "geotermia = calor bajo tierra (volcanes) → electricidad".' },
-        { options: [
-          { id: 'a', text: 'geotermia = calor bajo tierra (volcanes) → electricidad', icon: 'NotebookPen' },
-          { id: 'b', text: 'La geotermia aprovecha el calor que hay bajo la tierra cerca de los volcanes para producir electricidad.', icon: 'Copy', feedback: 'Es una copia completa: tardas más y no te obliga a pensar.' },
-          { id: 'c', text: 'volcanes', icon: 'Mountain', feedback: 'Es demasiado corta: después no recordarás qué quería decir.' },
-        ], correct: ['a'] },
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.7'], ambito: 'conocer', title: 'Notas que responden una pregunta',
+          prompt: 'Una nota útil conserva la idea, el dato y la fuente con pocas palabras.' },
+        { icon: 'NotebookPen', body: 'Ejemplo: **geotermia = calor bajo tierra → electricidad (Ficha B)**. No copia todo ni pierde la idea central.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.7'], ambito: 'conocer', title: 'Cómo tomar notas',
@@ -342,7 +328,7 @@ export default [
       ),
       S.highlight(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.7'], ambito: 'hacer',
-          prompt: 'Toca **solo** las partes que respaldan la recomendación "apagar luces que no se usan".',
+          prompt: 'Toma una **nota guiada**: toca solo la evidencia y el límite que respaldan la recomendación “apagar luces que no se usan”.',
           hint: 'Marca la acción y el límite de lo que los datos permiten afirmar.',
           explain: 'La ficha respalda apagar luces vacías y aclara que no demuestra un ahorro real o exacto.' },
         { target: 'evidencia y límite', text: 'La guía recomienda {apagar las luces de espacios vacíos}. Estos datos {no permiten afirmar cuánto ahorró una escuela real} ni prometer una reducción exacta.' },
@@ -392,7 +378,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.match(
-        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.7'], prompt: 'Une cada símbolo o abreviatura con su significado.' },
+        { fase: 'comprobar', areas: ['l1'], cnb: ['l1:8.2.7'], prompt: 'En unas notas nuevas, une cada símbolo o abreviatura con su significado.' },
         { leftTitle: 'Símbolo', rightTitle: 'Significa', pairs: [
           { id: 's1', left: '→', right: 'produce, lleva a' },
           { id: 's2', left: '=', right: 'es igual, significa' },
@@ -425,18 +411,9 @@ export default [
       brief: 'Diagrama vertical: a la izquierda, una hoja de cuaderno con notas agrupadas por preguntas 1, 2 y 3; a la derecha, la página del informe con bloques de color: TÍTULO (arriba, centrado), INTRODUCCIÓN (qué investigué, mi pregunta y por qué), DESARROLLO (tres párrafos numerados que reciben flechas desde las notas 1, 2 y 3), CONCLUSIÓN (respuesta a la pregunta y lo aprendido), FUENTES (lista). Etiquetas claras, colores suaves. Target: public/media/s08-l1-4-partes.svg. Accesibilidad: formato final 1600×900 px, contraste alto y descripción alternativa equivalente.',
     },
     steps: [
-      S.order(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.7'], ambito: 'conocer',
-          prompt: 'Ordena el flujo para convertir el **paquete suministrado de energía** en un informe breve.',
-          explain: 'El paquete ya contiene pregunta, fichas y datos. Primero se leen y anotan; luego se redacta, revisa y pasa en limpio.' },
-        { labels: { start: 'Primero', end: 'Al final' }, items: [
-          { id: 'r1', text: 'Leer la pregunta suministrada' },
-          { id: 'r2', text: 'Distinguir dato, recomendación y límite' },
-          { id: 'r3', text: 'Registrar el nombre de cada ficha' },
-          { id: 'r4', text: 'Tomar notas breves' },
-          { id: 'r5', text: 'Escribir el primer borrador' },
-          { id: 'r6', text: 'Revisar, corregir, editar y escribir la redacción final' },
-        ] },
+      S.reflect(
+        { fase: 'explorar', areas: ['l1'], cnb: [], ambito: 'conocer', prompt: 'Antes de leer el modelo, reconoce qué parte de un informe ya puedes identificar.' },
+        { statements: ['Distingo un título de un párrafo', 'Busco una fuente antes de confiar en un dato'], commitments: ['Comprobaré cada parte en el modelo suministrado'] },
       ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.7'], ambito: 'conocer', title: 'Las partes de un informe',
@@ -461,7 +438,9 @@ export default [
       ),
       S.reading(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.7'], ambito: 'conocer',
-          prompt: 'Lee este **primer borrador**, escrito solo con el paquete suministrado. Identifica sus partes y responde.' },
+          prompt: 'Lee este **primer borrador**, escrito solo con el paquete suministrado. Identifica sus partes y responde.',
+          hint: 'Busca introducción, desarrollo, conclusión y fuentes; luego identifica la idea principal y sus apoyos.',
+          explain: 'El informe organiza una pregunta y datos atribuidos: la introducción presenta, el desarrollo explica con evidencia, la conclusión responde y la lista identifica las fuentes.' },
         { genre: 'Informe escolar (borrador)', heading: 'Datos para usar mejor la iluminación', passage:
           'Introducción. Este informe responde: ¿qué recomendación de ahorro permite sostener el paquete suministrado? El caso es simulado y no describe nuestra escuela.\n\n' +
           'El paquete presenta datos que deben comunicarse con su contexto. Según la Ficha A, el escenario registra exactamente 12,468 kWh y lo aproxima a 12,000 kWh. Ambos números conservan la unidad y el rótulo de caso simulado.\n\n' +
@@ -569,15 +548,10 @@ export default [
       brief: 'Animación 2D de 50 s en cuatro etapas con rótulo: 1) REVISAR: una lupa marca un dato sin fuente y una conclusión exagerada. 2) CORREGIR: un lápiz ajusta concordancia, tildes y la frase “ahorra siempre” por una afirmación respaldada. 3) EDITAR: aparecen título, nombre, fecha, una gráfica pequeña de 9 W y 60 W, el rótulo “caso simulado” y las fuentes. 4) REDACCIÓN FINAL: hoja limpia y legible. Narración en español, subtítulos. Target: public/media/s08-l1-5-revision.mp4. Accesibilidad: subtítulos completos, transcripción y pausa suficiente para lectura.',
     },
     steps: [
-      S.choice(
-        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.7'], ambito: 'conocer',
-          prompt: 'Terminaste tu borrador. ¿Qué es lo **primero** que conviene hacer?',
-          explain: 'Primero se **revisa** el contenido: si el texto no responde la pregunta, de nada sirve tener buena letra. Después se corrige y, al final, se edita.' },
-        { options: [
-          { id: 'a', text: 'Leerlo completo para ver si responde la pregunta y está en orden', icon: 'Search' },
-          { id: 'b', text: 'Pasarlo en limpio con letra bonita', icon: 'PenLine', feedback: 'Si tiene errores de contenido, tendrás que pasarlo en limpio otra vez.' },
-          { id: 'c', text: 'Entregarlo así', icon: 'Send', feedback: 'Un borrador siempre tiene cosas por mejorar.' },
-        ], correct: ['a'] },
+      S.explain(
+        { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.7'], ambito: 'conocer', title: 'Primero se revisa el contenido',
+          prompt: 'La presentación final viene después de comprobar ideas y fuentes.' },
+        { icon: 'Search', body: '**Revisar** comprueba si el informe responde la pregunta y está ordenado; luego se corrige la lengua y al final se edita la presentación.' },
       ),
       S.explain(
         { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.7'], ambito: 'conocer', title: 'Tres verbos que no son lo mismo',
