@@ -5573,9 +5573,26 @@ test('Semana 9 suministra un caso simulado autosuficiente y no fabrica trabajo e
     assert.match(content, new RegExp(item), `Dossier sin ${item}`);
   }
   assert.match(content, /las 3 son realizables/);
-  assert.ok([25, 85, 75].every((cost) => cost <= 90));
+  assert.match(content, /cada uno de los 30 registros.{0,80}(?:exactamente|solo).{0,40}(?:categoria|resultado)/);
+  assert.match(content, /fuente b.{0,180}(?:organizacion|equipo).{0,120}(?:revision|metodo|criterios)/);
   assert.doesNotMatch(content, /entrevist|encuest|visitante|autoridad|medicion local|medir en tu escuela|formar equipos|con la comunidad/);
   assert.doesNotMatch(content, /garantiza|asegura el ahorro|mejorara la salud|protegera el agua|ahorrara exactamente/);
+});
+
+test('Semana 9 deriva la viabilidad de las tres opciones del presupuesto autorado', () => {
+  const designLesson = weekNine.lessons.find((lesson) => lesson.id === 's09-d3-disenar');
+  assert.ok(designLesson, 'Falta la jornada de diseño');
+  const optionStep = designLesson.steps.find((step) => {
+    const props = JSON.stringify(step.props);
+    return /presupuesto/i.test(props) && /opción 1/i.test(props);
+  });
+  assert.ok(optionStep, 'Falta el paquete de opciones con presupuesto');
+  const text = normalizeFactText(JSON.stringify(optionStep.props));
+  const budget = Number(text.match(/presupuesto\s+q\s*(\d+)/)?.[1]);
+  const costs = [...text.matchAll(/opcion\s+[123].{0,100}?q\s*(\d+)/g)].map((match) => Number(match[1]));
+  assert.ok(Number.isFinite(budget) && budget > 0, 'Presupuesto no legible');
+  assert.equal(costs.length, 3, `Costos legibles: ${costs.join(', ')}`);
+  assert.ok(costs.every((cost) => cost <= budget), `Opciones ${costs.join(', ')} exceden Q${budget}`);
 });
 
 test('Semana 9 guarda evidencia escrita revisable en los primeros cuatro días', () => {
@@ -5589,6 +5606,45 @@ test('Semana 9 guarda evidencia escrita revisable en los primeros cuatro días',
     assert.equal(isPendingReviewEvidence(writes[0], writes[0].areas[0]), true);
     assert.equal(isAutoGradedAssessmentEvidence(writes[0], writes[0].areas[0]), false);
   });
+});
+
+test('Semana 9 ofrece modelos que alcanzan el mínimo y presenta máximos como sugerencias', () => {
+  for (const lesson of weekNine.lessons) {
+    for (const step of lesson.steps.filter((item) => item.type === 'short-answer')) {
+      const props = step.props as { minWords?: number; model?: string };
+      const modelWords = (props.model ?? '').trim().split(/\s+/).filter(Boolean).length;
+      assert.ok(modelWords >= Number(props.minWords ?? 0), `${step.id}: modelo ${modelWords} < mínimo ${props.minWords}`);
+      if (lesson.day && lesson.day <= 4) assert.match(normalizeFactText(step.prompt), /rango sugerido/);
+    }
+  }
+});
+
+test('Semana 9 deja tiempo explícito para interfaz y reflexión y supera el estimador de carga', () => {
+  const failures: string[] = [];
+  for (const lesson of weekNine.lessons) {
+    const timed = lesson.steps.reduce((sum, step) => {
+      const minutes = step.title?.match(/^(\d+)\s*min\b/i)?.[1];
+      return sum + Number(minutes ?? 0);
+    }, 0);
+    const load = lessonWorkload(lesson);
+    if (timed > lesson.minutes - 2 || load.nestedItems > lesson.minutes * 3
+      || load.complexity > lesson.minutes * 2 - 2 || load.longResponse
+      || load.overloadedWriting || load.overloadedProduction) {
+      failures.push(`${lesson.id}: declarados=${timed}/${lesson.minutes}, complejidad=${load.complexity.toFixed(2)}, escritura=${load.writingBurden.toFixed(1)}, produccion=${load.productionBurden}`);
+    }
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('Semana 9 compara participación y usa retroalimentación simulada para cambiar decisiones', () => {
+  const designLesson = weekNine.lessons.find((lesson) => lesson.id === 's09-d3-disenar');
+  assert.ok(designLesson, 'Falta la jornada de diseño');
+  const content = normalizeFactText(JSON.stringify(designLesson));
+  for (const option of ['opcion 1', 'opcion 2', 'opcion 3']) {
+    assert.match(content, new RegExp(`${option}.{0,220}(?:perspectiva|rol|retroalimentacion)`), `${option} no incluye participación`);
+  }
+  assert.match(content, /quien puede contribuir.{0,160}como/);
+  assert.match(content, /retroalimentacion.{0,160}(?:cambiar|ajustar|revisar).{0,80}decision/);
 });
 
 test('Semana 9 describe honestamente el producto de papel y todos sus componentes', () => {

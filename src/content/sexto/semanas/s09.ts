@@ -32,13 +32,13 @@ export default semana({
           { fase: 'explorar', areas: ['ccss', 'l1'], cnb: ['ccss:1.2.1', 'l1:8.2.4'], title: '1 min · Abrir el dossier', prompt: 'Explora el mapa y las tarjetas del dossier **Ruta Clara**.' },
           { icon: 'FolderOpen', body: `**${CASE_LABEL}.** El mapa ubica entrada norte, sendero central, jardín este, bebedero oeste y banca sur. El paquete incluye toda la información; no debes buscar ni medir fuera de la lección.`, reveal: [
             { icon: 'Map', front: 'Mapa', back: 'Una mochila dibujada ocupa parte del sendero central, cerca del cruce hacia el bebedero.' },
-            { icon: 'ClipboardList', front: 'Observaciones', back: 'En cuatro periodos ficticios: 18 recorridos directos, 7 desvíos y 5 pausas para buscar el bebedero.' },
-            { icon: 'BookOpenCheck', front: 'Fuentes', back: 'Fuente A aporta mapa y conteos; Fuente B aporta criterios de accesibilidad.' },
+            { icon: 'ClipboardList', front: 'Observaciones', back: 'Hay 30 registros simulados. Cada registro se clasificó en exactamente un resultado: 18 recorridos directos, 7 desvíos o 5 pausas.' },
+            { icon: 'BookOpenCheck', front: 'Fuentes', back: 'Fuente A aporta mapa y conteos; Fuente B es una guía simulada del equipo ficticio Diseño para Todas las Personas.' },
           ] },
         ),
         S.reading(
           { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:8.2.4', 'cnt:8.2.1'], title: '2 min · Leer sin adelantar conclusiones', prompt: 'Lee la ficha de observaciones suministrada.' },
-          { genre: 'Ficha de caso simulado', heading: 'Observaciones del sendero central', passage: `${CASE_LABEL}. Durante cuatro periodos ficticios de diez minutos, la ficha registró 18 recorridos directos, 7 desvíos junto a una mochila dibujada y 5 pausas antes de encontrar el bebedero. No explica las causas ni representa una escuela real.`, questions: [{ q: '¿Qué está directamente respaldado?', options: [{ id: 'a', text: 'Se registraron 7 desvíos junto a la mochila dibujada' }, { id: 'b', text: 'Todas las personas se desviaron por miedo' }, { id: 'c', text: 'Nuestra escuela tiene una ruta peligrosa' }], correct: 'a', why: 'La ficha aporta un conteo y una ubicación, no una causa ni datos locales.' }] },
+          { genre: 'Ficha de caso simulado', heading: 'Observaciones del sendero central', passage: `${CASE_LABEL}. Durante cuatro periodos ficticios de diez minutos se generaron 30 registros. Cada uno de los 30 registros se clasificó en exactamente una categoría de resultado: 18 recorridos directos, 7 desvíos junto a una mochila dibujada o 5 pausas antes de encontrar el bebedero. La ficha no explica causas ni representa una escuela real.`, questions: [{ q: '¿Qué está directamente respaldado?', options: [{ id: 'a', text: 'Se registraron 7 desvíos junto a la mochila dibujada' }, { id: 'b', text: 'Todas las personas se desviaron por miedo' }, { id: 'c', text: 'Nuestra escuela tiene una ruta peligrosa' }], correct: 'a', why: 'La ficha aporta categorías excluyentes, conteos y ubicación, no una causa ni datos locales.' }] },
         ),
         S.sort(
           { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:8.2.4', 'cnt:8.2.1'], title: '2 min · Observación o inferencia', prompt: 'Clasifica cada afirmación según lo que permite decir el dossier.', explain: 'Una inferencia orienta preguntas, pero no debe presentarse como hecho.' },
@@ -58,7 +58,7 @@ export default semana({
           { pairs: [{ id: 'a', left: 'Entrada', leftIcon: 'DoorOpen', right: 'Norte' }, { id: 'b', left: 'Bebedero', leftIcon: 'GlassWater', right: 'Oeste' }, { id: 'c', left: 'Jardín', leftIcon: 'Flower2', right: 'Este' }] },
         ),
         S.write(
-          { id: 's09-d1-necesidad', fase: 'aplicar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.7', 'cnt:8.2.1'], title: '3 min · Delimitar por escrito', prompt: 'Guarda una necesidad de 18 a 24 palabras. Incluye lugar, observación y algo que no puede concluirse.' },
+          { id: 's09-d1-necesidad', fase: 'aplicar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.7', 'cnt:8.2.1'], title: '3 min · Delimitar por escrito', prompt: 'Guarda una necesidad. Rango sugerido: 18 a 24 palabras. Incluye lugar, observación y algo que no puede concluirse.' },
           { minWords: 20, placeholder: 'En el tramo... El dossier observa... Todavía no permite concluir...', model: 'En el sendero central, siete registros muestran desvíos junto a la mochila; el caso todavía no permite afirmar una causa única.', rubric: ['Nombré el lugar', 'Usé una observación', 'Marqué una limitación'] },
         ),
         S.choice(
@@ -81,32 +81,32 @@ export default semana({
       media: {
         id: 's09-dossier-fuentes', kind: 'diagram', title: 'Fuentes y datos de Ruta Clara', aspect: '16:9',
         alt: 'Dos tarjetas de fuente junto a una tabla con recorridos directos, desvíos y pausas del caso ficticio.',
-        brief: 'Infografía SVG 1600x900 px. Fuente A: “Ficha de observación Ruta Clara, edición simulada 2026”, aporta mapa y conteos. Fuente B: “Guía didáctica de accesibilidad escolar, edición simulada 2026”, aporta contraste, símbolos y ruta alternativa. Tabla: directo 18, desvío 7, pausa 5, total 30. Incluir “Caso simulado; no describe tu escuela”, letra grande, contraste alto e íconos más texto. Target: public/media/s09-dossier-fuentes.svg.',
+        brief: 'Infografía SVG 1600x900 px. Fuente A: “Ficha de observación Ruta Clara, edición simulada 2026”, aporta 30 registros; cada uno fue clasificado en exactamente una categoría de resultado. Fuente B: “Guía didáctica de accesibilidad escolar, edición simulada 2026”, elaborada por la organización ficticia Diseño para Todas las Personas al revisar tres diseños simulados con criterios de contraste, símbolos y ruta alternativa. Tabla excluyente: directo 18, desvío 7, pausa 5, total 30. Incluir “Caso simulado; no describe tu escuela”, letra grande, contraste alto e íconos más texto. Target: public/media/s09-dossier-fuentes.svg.',
       },
       steps: [
         S.explain(
           { fase: 'explorar', areas: ['l1'], cnb: ['l1:8.2.4'], title: '1 min · Dos fuentes, dos aportes', prompt: 'Abre las tarjetas identificadas.' },
-          { icon: 'LibraryBig', body: `**${CASE_LABEL}.** La **Fuente A**, Ficha de observación Ruta Clara, edición simulada 2026, aporta mapa y conteos. La **Fuente B**, Guía didáctica de accesibilidad escolar, edición simulada 2026, aporta contraste, símbolos y ruta alternativa.` },
+          { icon: 'LibraryBig', body: `**${CASE_LABEL}.** La **Fuente A**, Ficha de observación Ruta Clara, edición simulada 2026, aporta 30 registros clasificados cada uno en exactamente un resultado. La **Fuente B**, Guía didáctica de accesibilidad escolar, edición simulada 2026, fue elaborada por la organización ficticia **Diseño para Todas las Personas** mediante revisión de tres diseños simulados con criterios de contraste, símbolos y ruta alternativa.` },
         ),
         S.match(
           { fase: 'construir', areas: ['l1', 'cnt'], cnb: ['l1:8.2.4', 'cnt:8.2.1'], title: '2 min · Fuente y aporte', prompt: 'Relaciona cada afirmación con la fuente que puede respaldarla.', explain: 'Cita una fuente solo para el aporte que contiene.' },
-          { pairs: [{ id: 'a', left: 'Hubo 18 recorridos directos', right: 'Fuente A: ficha de observación' }, { id: 'b', left: 'Conviene combinar contraste y símbolos', right: 'Fuente B: guía de accesibilidad' }, { id: 'c', left: 'El bebedero está al oeste', right: 'Fuente A: ficha de observación' }] },
+          { pairs: [{ id: 'a', left: 'Hubo 18 recorridos directos', right: 'Fuente A simulada: ficha de observación' }, { id: 'b', left: 'Conviene combinar contraste y símbolos', right: 'Fuente B simulada: guía de Diseño para Todas las Personas' }, { id: 'c', left: 'El bebedero está al oeste', right: 'Fuente A simulada: ficha de observación' }] },
         ),
         S.number(
-          { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.4'], title: '1 min · Comprobar el total', prompt: 'Hay 18 recorridos directos, 7 desvíos y 5 pausas. ¿Cuántos registros hay?', explain: '18 + 7 + 5 = 30 registros simulados.' },
+          { fase: 'construir', areas: ['mat'], cnb: ['mat:4.1.4'], title: '1 min · Comprobar el total', prompt: 'Cada registro pertenece a una sola categoría: 18 directos, 7 desvíos y 5 pausas. ¿Cuántos registros hay?', explain: 'Como las categorías son mutuamente excluyentes, 18 + 7 + 5 = 30 registros simulados.' },
           { answer: 30, unit: 'registros' },
         ),
         S.chart(
-          { fase: 'aplicar', areas: ['mat', 'l1'], cnb: ['mat:4.1.4', 'l1:8.2.4'], title: '3 min · Representar sin exagerar', prompt: 'Construye la gráfica. El conteo describe registros, no causas ni personas únicas.', explain: 'Las barras conservan escala y fuente.' },
-          { categories: [{ id: 'directo', label: 'Directo', icon: 'MoveRight' }, { id: 'desvio', label: 'Desvío', icon: 'Route' }, { id: 'pausa', label: 'Pausa', icon: 'CirclePause' }], data: [18, 7, 5], max: 20, step: 1, unit: 'registros', source: 'Fuente A · Caso simulado; no describe tu escuela' },
+          { fase: 'aplicar', areas: ['mat', 'l1'], cnb: ['mat:4.1.4', 'l1:8.2.4'], title: '3 min · Representar sin exagerar', prompt: 'Construye la gráfica de las tres categorías excluyentes. El conteo describe registros, no causas ni personas únicas.', explain: 'Cada registro aparece en una sola barra; las barras conservan escala y fuente.' },
+          { categories: [{ id: 'directo', label: 'Directo', icon: 'MoveRight' }, { id: 'desvio', label: 'Desvío', icon: 'Route' }, { id: 'pausa', label: 'Pausa', icon: 'CirclePause' }], data: [18, 7, 5], max: 20, step: 1, unit: 'registros', source: 'Fuente A · 30 registros, una categoría por registro · Caso simulado' },
         ),
         S.choice(
           { fase: 'aplicar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.4', 'cnt:8.2.1'], title: '1 min · Pie honesto', prompt: '¿Qué pie explica correctamente la gráfica?' },
-          { options: [{ id: 'a', text: 'Registros del caso: 18 directos, 7 desvíos y 5 pausas; Fuente A, edición simulada 2026' }, { id: 'b', text: 'Así camina todo el alumnado de nuestra escuela' }, { id: 'c', text: 'La gráfica demuestra una causa' }], correct: ['a'] },
+          { options: [{ id: 'a', text: '30 registros clasificados una vez: 18 directos, 7 desvíos y 5 pausas; Fuente A simulada' }, { id: 'b', text: 'Así camina todo el alumnado de nuestra escuela' }, { id: 'c', text: 'La gráfica demuestra una causa' }], correct: ['a'] },
         ),
         S.write(
-          { id: 's09-d2-nota-evidencia', fase: 'aplicar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.7', 'cnt:8.2.1'], title: '3 min · Nota de evidencia', prompt: 'Guarda una nota de 20 a 28 palabras con un dato, su fuente y una limitación.' },
-          { minWords: 24, placeholder: 'La Fuente... registra... Este dato permite... pero no...', model: 'La Fuente A registra siete desvíos junto a la mochila en el caso simulado; permite comparar recorridos, pero no determina la causa.', rubric: ['Incluí un dato exacto', 'Identifiqué la fuente', 'Expliqué una limitación'] },
+          { id: 's09-d2-nota-evidencia', fase: 'aplicar', areas: ['l1', 'cnt'], cnb: ['l1:8.2.7', 'cnt:8.2.1'], title: '3 min · Nota de evidencia', prompt: 'Guarda una nota con dato, fuente y limitación. Rango sugerido: 20 a 28 palabras.' },
+          { minWords: 24, placeholder: 'La Fuente... registra... Este dato permite... pero no...', model: 'La Fuente A registra siete desvíos junto a la mochila en el caso simulado; permite comparar recorridos, pero no determina la causa ni identifica personas únicas.', rubric: ['Incluí un dato exacto', 'Identifiqué la fuente', 'Expliqué una limitación'] },
         ),
         S.choice(
           { fase: 'aplicar', areas: ['mat', 'l1'], cnb: ['mat:4.1.4', 'l1:8.2.4'], title: '1 min · Revisar otra gráfica', prompt: 'Una gráfica comienza en 6 para comparar 7 y 8. ¿Qué evita exagerar?' },
@@ -128,15 +128,15 @@ export default semana({
       media: {
         id: 's09-dossier-opciones', kind: 'diagram', title: 'Tres opciones para Ruta Clara', aspect: '16:9',
         alt: 'Tabla comparativa ficticia de tres mejoras para orientar y despejar el sendero central.',
-        brief: 'Tabla SVG 1600x900 px. Opción 1: flecha de papel plastificado, Q25, fácil de reemplazar y un formato. Opción 2: despejar el paso y pintar marcas cortas, Q85, durable pero depende del color. Opción 3: despejar el paso y colocar señal de alto contraste con símbolo, texto y clave táctil de muestra, Q75. Las tres caben en el presupuesto Q90. Columnas: evidencia, viabilidad, accesibilidad y participación. Incluir “Caso simulado; no describe tu escuela”, texto legible, contraste alto y patrones táctiles sin imitar braille. Target: public/media/s09-dossier-opciones.svg.',
+        brief: 'Tabla SVG 1600x900 px. Opción 1: flecha plastificada Q25; perspectiva simulada: lectora con baja visión; rol: revisar contraste y proponer agrandar el símbolo. Opción 2: despejar y pintar marcas Q85; perspectiva simulada: persona usuaria de apoyo de movilidad; rol: revisar ancho libre y proponer mover una marca. Opción 3: despejar y colocar señal multimodal Q75; perspectiva simulada: lector de lenguaje sencillo; rol: revisar palabras y proponer acortar el texto. Las tres caben en el presupuesto Q90. Columnas: evidencia, viabilidad, accesibilidad y participación. Incluir “Caso simulado; no describe tu escuela”, texto legible, contraste alto y patrones táctiles sin imitar braille. Target: public/media/s09-dossier-opciones.svg.',
       },
       steps: [
         S.explain(
           { fase: 'explorar', areas: ['pyd', 'fc'], cnb: ['pyd:4.1.1', 'fc:1.1.2'], title: '1 min · Comparar con criterios', prompt: 'Revisa las tres opciones suministradas.' },
-          { icon: 'ListChecks', body: `**${CASE_LABEL}.** Presupuesto: **Q90**. Opción 1: flecha plastificada, Q25. Opción 2: despejar el paso y pintar marcas cortas, Q85. Opción 3: despejar el paso y añadir señal con símbolo, texto, contraste y textura de muestra, Q75. Las tres son realizables dentro del caso; cambian su alcance y accesibilidad.` },
+          { icon: 'ListChecks', body: `**${CASE_LABEL}.** Presupuesto Q90. **Opción 1**, flecha plastificada Q25: perspectiva simulada de una lectora con baja visión; su rol revisa contraste y puede pedir agrandar el símbolo. **Opción 2**, despejar y pintar marcas Q85: perspectiva simulada de una persona usuaria de apoyo de movilidad; su rol revisa ancho libre y puede pedir mover una marca. **Opción 3**, despejar y añadir señal multimodal Q75: perspectiva simulada de un lector de lenguaje sencillo; su rol revisa palabras y puede pedir acortar el texto. Las tres son realizables; la retroalimentación simulada puede ajustar la decisión.` },
         ),
         S.dilemma(
-          { fase: 'construir', areas: ['fc', 'pyd'], cnb: ['fc:1.1.2', 'pyd:4.1.1'], title: '2 min · Decisión responsable', prompt: '¿Qué camino seguirías?' },
+          { fase: 'construir', areas: ['fc', 'pyd'], cnb: ['fc:1.1.2', 'pyd:4.1.1'], title: '1 min · Decisión responsable', prompt: '¿Qué camino seguirías?' },
           { scene: { icon: 'SignpostBig', text: 'Debes recomendar una opción sin afirmar que ya fue aplicada.' }, options: [
             { id: 'a', icon: 'StickyNote', text: 'Elegir la flecha solo porque cuesta menos', consequence: 'Cabe en presupuesto, pero atiende parcialmente accesibilidad y durabilidad.', values: ['economía', 'revisión'], constructive: false },
             { id: 'b', icon: 'PaintRoller', text: 'Elegir marcas pintadas porque duran más', consequence: 'Cabe en el presupuesto, pero depender solo del color deja una barrera por revisar.', values: ['durabilidad', 'accesibilidad'], constructive: false },
@@ -144,7 +144,7 @@ export default semana({
           ] },
         ),
         S.sort(
-          { fase: 'construir', areas: ['pyd', 'fc'], cnb: ['pyd:4.1.1', 'fc:1.1.2'], title: '2 min · Criterios', prompt: 'Clasifica cada razón principal.', explain: 'Separar criterios evita decidir solo por gusto.' },
+          { fase: 'construir', areas: ['pyd', 'fc'], cnb: ['pyd:4.1.1', 'fc:1.1.2'], title: '1 min · Criterios', prompt: 'Clasifica cada razón principal.', explain: 'Separar criterios evita decidir solo por gusto.' },
           { buckets: [{ id: 'evi', label: 'Evidencia', icon: 'FileSearch' }, { id: 'via', label: 'Viabilidad', icon: 'WalletCards' }, { id: 'acc', label: 'Accesibilidad', icon: 'Accessibility' }, { id: 'par', label: 'Participación', icon: 'UsersRound' }], items: [
             { id: 'a', text: 'El mapa ubica el obstáculo', bucket: 'evi' },
             { id: 'b', text: 'Q75 cabe dentro de Q90', bucket: 'via' },
@@ -153,20 +153,20 @@ export default semana({
           ] },
         ),
         S.choice(
-          { fase: 'construir', areas: ['fc'], cnb: ['fc:1.1.2'], title: '1 min · Inclusión cuidadosa', prompt: '¿Qué afirmación evita absolutos?' },
-          { options: [{ id: 'a', text: 'Combinar formatos puede facilitar orientación; habría que probar la señal' }, { id: 'b', text: 'Una textura sirve igual a todas las personas' }, { id: 'c', text: 'El color por sí solo asegura acceso universal' }], correct: ['a'] },
+          { fase: 'construir', areas: ['fc'], cnb: ['fc:1.1.2'], title: '1 min · Participación simulada', prompt: '¿Quién puede contribuir, cómo participa y de qué manera su retroalimentación puede cambiar o ajustar la decisión?' },
+          { options: [{ id: 'a', text: 'Cada perspectiva suministrada revisa un criterio y puede proponer un ajuste antes de decidir' }, { id: 'b', text: 'Solo quien calculó el costo puede opinar y la decisión no cambia' }, { id: 'c', text: 'Una textura sirve igual a todas las personas, así que no hace falta revisar' }], correct: ['a'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['pyd', 'fc'], cnb: ['pyd:4.1.1', 'fc:1.1.2'], title: '3 min · Esqueleto de propuesta', prompt: 'En una hoja de papel marca los componentes que puedes completar.' },
+          { fase: 'aplicar', areas: ['pyd', 'fc'], cnb: ['pyd:4.1.1', 'fc:1.1.2'], title: '2 min · Esqueleto de propuesta', prompt: 'En la hoja iniciada, marca los componentes que ya preparaste.' },
           { goal: 'Preparar una propuesta de una página basada en evidencia, viable e inclusiva.', steps: [
             { title: 'Necesidad y evidencia', detail: 'Anota necesidad, dato y Fuente A.' },
-            { title: 'Acción inclusiva', detail: 'Describe la opción y un criterio de Fuente B.' },
+            { title: 'Acción inclusiva', detail: 'Describe la opción y un criterio de la Fuente B simulada.' },
             { title: 'Responsabilidades y límite', detail: 'Asigna revisión del paso y cuidado del rótulo; aclara que no se comprobaron efectos.' },
           ], evidence: 'Lista marcada en una hoja de papel; la actividad no captura ni almacena la hoja.', rubric: ['Responde a evidencia', 'Cabe en Q90', 'Combina formatos', 'Reconoce una limitación'] },
         ),
         S.write(
-          { id: 's09-d3-plan-inclusivo', fase: 'aplicar', areas: ['l1', 'pyd', 'fc'], cnb: ['l1:8.2.7', 'pyd:4.1.1', 'fc:1.1.2'], title: '3 min · Plan guardado', prompt: 'Guarda un plan de 24 a 32 palabras con acción, evidencia, accesibilidad y responsabilidades.' },
-          { minWords: 28, placeholder: 'Propongo... porque... Será accesible mediante... Las responsabilidades...', model: 'Propongo despejar el tramo y colocar señal con texto, símbolo y textura porque hubo siete desvíos. Una persona revisará el paso y otra el rótulo.', rubric: ['Nombré la acción', 'La conecté con evidencia', 'Incluí accesibilidad', 'Distribuí responsabilidades'] },
+          { id: 's09-d3-plan-inclusivo', fase: 'aplicar', areas: ['l1', 'pyd', 'fc'], cnb: ['l1:8.2.7', 'pyd:4.1.1', 'fc:1.1.2'], title: '3 min · Plan guardado', prompt: 'Guarda un plan con acción, evidencia, accesibilidad y responsabilidades. Rango sugerido: 24 a 32 palabras.' },
+          { minWords: 28, placeholder: 'Propongo... porque... Será accesible mediante... Las responsabilidades...', model: 'Propongo despejar el tramo y colocar señal con texto, símbolo y textura porque hubo siete desvíos. Una persona revisará el paso, otra el rótulo y registrará comentarios simulados.', rubric: ['Nombré la acción', 'La conecté con evidencia', 'Incluí accesibilidad', 'Distribuí responsabilidades'] },
         ),
         S.choice(
           { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:4.1.1'], title: '1 min · Revisar factibilidad', prompt: 'Si el presupuesto baja a Q60, ¿qué revisión es responsable?' },
@@ -187,7 +187,7 @@ export default semana({
       resumen: ['Una propuesta conecta necesidad, evidencia, acción y límite.', 'La jerarquía visual y la voz ayudan a encontrar la información principal.'],
       media: {
         id: 's09-guia-panel', kind: 'diagram', title: 'Guía para una propuesta de una página', aspect: '3:4',
-        alt: 'Plantilla visual ficticia con bloques para necesidad, dato y fuente, acción, responsabilidades, límite y revisión.',
+        alt: 'Esquema visual ficticio con bloques para necesidad, dato y fuente, acción, responsabilidades, límite y revisión.',
         brief: 'Diagrama SVG 900x1200 px de una hoja de propuesta, sin campos editables. Mostrar seis bloques rotulados: necesidad, evidencia y fuente, limitación, acción inclusiva, responsabilidades y revisión. Añadir flechas que indiquen el orden de una explicación de 45 segundos y el texto “Caso simulado; no describe tu escuela”. Usar letra grande, contraste alto, espacios amplios y símbolos junto a cada rótulo. Target: public/media/s09-guia-panel.svg.',
       },
       steps: [
@@ -196,7 +196,7 @@ export default semana({
           { icon: 'PanelTop', body: 'El título anuncia la necesidad; el dato con su fuente sostiene la acción; contraste y espacios ordenan la lectura; la limitación evita exagerar. La explicación oral sigue el mismo recorrido.' },
         ),
         S.order(
-          { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.7'], title: '2 min · Orden del argumento', prompt: 'Ordena la propuesta oral.', explain: 'El orden conecta problema, respaldo y decisión.' },
+          { fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.7'], title: '1 min · Orden del argumento', prompt: 'Ordena la propuesta oral.', explain: 'El orden conecta problema, respaldo y decisión.' },
           { items: [{ id: 'a', text: 'Nombrar la necesidad acotada' }, { id: 'b', text: 'Presentar dato y fuente' }, { id: 'c', text: 'Explicar acción inclusiva y responsabilidades' }, { id: 'd', text: 'Cerrar con limitación y revisión pendiente' }], labels: { start: 'Inicio', end: 'Cierre' } },
         ),
         S.choice(
@@ -204,20 +204,20 @@ export default semana({
           { options: [{ id: 'a', text: 'Según la Fuente A, hubo siete desvíos; no conocemos una causa única' }, { id: 'b', text: 'La mochila siempre causa el problema' }, { id: 'c', text: 'Esto ocurre en todas las escuelas' }], correct: ['a'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['l1', 'art', 'pyd'], cnb: ['l1:8.2.7', 'art:3.2.4', 'pyd:4.1.1'], title: '3 min · Completar el panel', prompt: 'Completa en una hoja de papel tu propuesta de una página.' },
-          { goal: 'Hacer visible el razonamiento completo sin convertir el caso en afirmación local.', steps: [
-            { title: 'Bloque principal', detail: 'Escribe necesidad, acción inclusiva y responsabilidades.' },
-            { title: 'Respaldo', detail: 'Añade dato, Fuente A, criterio de Fuente B y rótulo del caso.' },
-            { title: 'Revisión', detail: 'Incluye limitación y deja espacio para el día 5.' },
+          { fase: 'aplicar', areas: ['l1', 'art', 'pyd'], cnb: ['l1:8.2.7', 'art:3.2.4', 'pyd:4.1.1'], title: '2 min · Ordenar el panel', prompt: 'Revisa y ordena la hoja de papel iniciada en los días anteriores; no vuelvas a redactar sus partes.' },
+          { goal: 'Hacer visible el razonamiento ya preparado sin convertir el caso en afirmación local.', steps: [
+            { title: 'Bloque principal', detail: 'Ubica necesidad, acción inclusiva y responsabilidades que ya escribiste.' },
+            { title: 'Respaldo', detail: 'Comprueba dato, Fuente A simulada, criterio de Fuente B simulada y rótulo del caso.' },
+            { title: 'Revisión', detail: 'Marca la limitación y conserva espacio para el día 5.' },
           ], evidence: 'Propuesta en papel; la actividad solo guarda marcas y autoevaluación, no captura la hoja.', rubric: ['Necesidad visible primero', 'Dato y fuentes legibles', 'Acción y responsabilidades conectadas', 'Limitación visible'] },
         ),
-        S.project(
-          { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], title: '2 min · Ensayo de 45 segundos', prompt: 'Ensaya una vez en voz baja o con la voz que te resulte cómoda.' },
-          { goal: 'Explicar con claridad, fuente y límite en aproximadamente 45 segundos.', steps: [{ title: 'Inicio', detail: 'Di necesidad y dato atribuido.' }, { title: 'Decisión', detail: 'Explica acción y responsabilidades.' }, { title: 'Cierre', detail: 'Nombra limitación y revisión pendiente.' }], evidence: 'Ensayo presencial sin grabación; la actividad no captura ni almacena la voz.', rubric: ['Seguí el orden', 'Nombré una fuente', 'Usé lenguaje de limitación', 'Duré cerca de 45 segundos'] },
+        S.explain(
+          { fase: 'aplicar', areas: ['l1'], cnb: ['l1:2.1.6'], title: '1 min · Ensayo de 45 segundos', prompt: 'Ensaya una vez en voz baja o con la voz que te resulte cómoda.' },
+          { icon: 'Mic', body: 'Usa lo ya escrito: necesidad y dato atribuido al inicio; acción y responsabilidades después; limitación al cierre. El ensayo es presencial y no se graba ni se almacena.' },
         ),
         S.write(
-          { id: 's09-d4-guion', fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.7', 'l1:2.1.6'], title: '3 min · Guion guardado', prompt: 'Guarda un guion de 30 a 40 palabras con dato, fuente, acción, responsabilidad y limitación.' },
-          { minWords: 34, placeholder: 'En el caso... Según... Propongo... La responsabilidad... Todavía...', model: 'En el caso, siete registros muestran desvíos, según la Fuente A. Propongo despejar el tramo y usar señal inclusiva. Se revisarán paso y rótulo. Todavía no sabemos su efecto real.', rubric: ['Atribuí el dato', 'Expliqué la acción', 'Nombré responsabilidades', 'Cerré con limitación'] },
+          { id: 's09-d4-guion', fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.7', 'l1:2.1.6'], title: '3 min · Guion guardado', prompt: 'Guarda un guion con dato, fuente, acción, responsabilidad y limitación. Rango sugerido: 30 a 40 palabras.' },
+          { minWords: 34, placeholder: 'En el caso... Según... Propongo... La responsabilidad... Todavía...', model: 'En el caso, siete registros muestran desvíos, según la Fuente A. Propongo despejar el tramo y usar señal inclusiva. Se revisarán paso y rótulo. Todavía no sabemos su efecto real antes de tomar otra decisión.', rubric: ['Atribuí el dato', 'Expliqué la acción', 'Nombré responsabilidades', 'Cerré con limitación'] },
         ),
         S.choice(
           { fase: 'aplicar', areas: ['art'], cnb: ['art:3.2.4'], title: '1 min · Jerarquía visual', prompt: '¿Qué ajuste facilita recorrer la página?' },
@@ -251,15 +251,15 @@ export default semana({
           { options: [{ id: 'a', text: 'Añadir quién revisará el paso, cuándo y qué registrará' }, { id: 'b', text: 'Cambiar el color del título' }, { id: 'c', text: 'Eliminar el dato' }], correct: ['a'] },
         ),
         S.sort(
-          { fase: 'construir', areas: ['l1', 'pyd'], cnb: ['l1:8.2.7', 'pyd:4.3.1'], title: '2 min · Útil o vaga', prompt: 'Clasifica la retroalimentación.', explain: 'Un comentario útil señala parte y criterio observable.' },
-          { buckets: [{ id: 'util', label: 'Útil y específica', icon: 'MessageSquareCheck' }, { id: 'vaga', label: 'Vaga', icon: 'MessageSquareMore' }], items: [{ id: 'a', text: 'Coloca Fuente B junto al criterio', bucket: 'util' }, { id: 'b', text: 'Hazlo mejor', bucket: 'vaga' }, { id: 'c', text: 'Aclara quién revisará el paso y cuándo', bucket: 'util' }] },
+          { fase: 'construir', areas: ['l1', 'pyd'], cnb: ['l1:8.2.7', 'pyd:4.3.1'], title: '1 min · Útil o vaga', prompt: 'Clasifica la retroalimentación.', explain: 'Un comentario útil señala parte y criterio observable.' },
+          { buckets: [{ id: 'util', label: 'Útil y específica', icon: 'MessageSquareCheck' }, { id: 'vaga', label: 'Vaga', icon: 'MessageSquareMore' }], items: [{ id: 'a', text: 'Coloca Fuente B simulada junto al criterio', bucket: 'util' }, { id: 'b', text: 'Hazlo mejor', bucket: 'vaga' }, { id: 'c', text: 'Aclara quién revisará el paso y cuándo', bucket: 'util' }] },
         ),
         S.choice(
           { fase: 'construir', areas: ['fc'], cnb: ['fc:1.1.2'], title: '1 min · Recibir una observación', prompt: '¿Qué respuesta favorece revisión respetuosa?' },
           { options: [{ id: 'a', text: 'Parafrasear el comentario, comprobar el criterio y decidir un cambio' }, { id: 'b', text: 'Descartar cualquier comentario distinto' }, { id: 'c', text: 'Aceptar todo sin revisar evidencia' }], correct: ['a'] },
         ),
         S.project(
-          { fase: 'aplicar', areas: ['pyd', 'l1'], cnb: ['pyd:4.3.1', 'l1:8.2.7'], title: '3 min · Revisar la hoja', prompt: 'En el espacio reservado, registra una revisión.' },
+          { fase: 'aplicar', areas: ['pyd', 'l1'], cnb: ['pyd:4.3.1', 'l1:8.2.7'], title: '2 min · Revisar la hoja', prompt: 'En el espacio ya reservado, registra una sola revisión.' },
           { goal: 'Mostrar qué decisión cambió, qué comentario la motivó y qué límite permanece.', steps: [{ title: 'Antes', detail: 'Copia la responsabilidad por revisar.' }, { title: 'Cambio', detail: 'Añade responsable, momento y registro.' }, { title: 'Límite', detail: 'Conserva que la acción no fue implementada ni evaluada en un lugar real.' }], evidence: 'Anotación en hoja de papel; la actividad no captura ni almacena el producto.', rubric: ['Responde al comentario', 'Responsabilidad concreta', 'Limitación conservada'] },
         ),
         S.write(
