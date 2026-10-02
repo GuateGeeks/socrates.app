@@ -99,6 +99,7 @@ export const LEGACY_JOURNAL_REQUIREMENTS: Readonly<Record<string, LegacyJournalR
   's08-l2-1-11': { minWords: 20 },
   's08-l1-3-7': { minWords: 15 },
   's08-l1-4-7': { minWords: 45 },
+  's08-l1-5-7': { minWords: 18 },
   's08-l3-2-9': { minWords: 20 },
   's08-art-2-8': { minWords: 32 },
   's08-fc-2-7': { minWords: 22 },

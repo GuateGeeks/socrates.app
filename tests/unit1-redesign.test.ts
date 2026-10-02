@@ -1261,6 +1261,13 @@ function lessonWorkload(lesson: Lesson): {
   nestedItems: number;
   complexity: number;
   longResponse: boolean;
+  authoredWords: number;
+  correctionPasses: number;
+  recopying: number;
+  projectWriting: number;
+  mediaModelCycles: number;
+  writingBurden: number;
+  overloadedWriting: boolean;
 } {
   const countItems = (value: unknown): number => {
     if (!value || typeof value !== 'object') return 0;
@@ -1279,11 +1286,34 @@ function lessonWorkload(lesson: Lesson): {
   const repetitions = quantifiedActionCount(activeText);
   const setupActions = activeText.match(/\b(?:buscar|recolectar|conseguir|recortar|triturar|preparar|mezclar|distribuir|montar|cocinar)\b/g)?.length ?? 0;
   const evidenceWriting = activeText.match(/\b(?:anota|anoten|registra|registren|escribe|escriban|documenta|documenten)\b/g)?.length ?? 0;
+  const shortAnswerWords = lesson.steps.reduce((sum, step) => sum + (step.type === 'short-answer'
+    ? Number((step.props as { minWords?: number }).minWords ?? 0)
+    : 0), 0);
+  const projectSteps = lesson.steps
+    .filter((step) => step.type === 'project')
+    .flatMap((step) => ((step.props as { steps?: Array<{ detail?: string }> }).steps ?? []));
+  const projectWriting = projectSteps.filter((step) => /\b(?:escribe|redacta|anota|agrega|completa|pasa)\b/.test(normalizeFactText(step.detail ?? ''))).length;
+  const projectText = normalizeFactText(projectSteps.map((step) => step.detail ?? '').join(' '));
+  const inferredProjectWords = (projectText.match(/\bintroduccion\b/g)?.length ?? 0) * 20
+    + (projectText.match(/\bparrafo\b/g)?.length ?? 0) * 35
+    + (projectText.match(/\bconclusion\b/g)?.length ?? 0) * 15;
+  const authoredWords = shortAnswerWords + inferredProjectWords;
+  const correctionPasses = [...projectText.matchAll(/\b(\d+|dos|tres|cuatro)\s+pasadas?\b/g)]
+    .reduce((sum, match) => sum + ({ dos: 2, tres: 3, cuatro: 4 }[match[1]] ?? Number(match[1]) ?? 0), 0);
+  const recopying = projectText.match(/\b(?:pasa(?:r|lo)? en limpio|copia(?:r)? en limpio|redaccion final|version limpia)\b/g)?.length ?? 0;
+  const mediaModelCycles = [lesson.media, ...lesson.steps.map((step) => step.media)].filter(Boolean).length
+    + lesson.steps.filter((step) => step.type === 'worked-example').length;
+  const writingBurden = authoredWords + correctionPasses * 8
+    + recopying * authoredWords * 0.75 + projectWriting * 5 + mediaModelCycles * 4;
   const complexity = lesson.steps.length + nestedItems / 4 + mediaSeconds / 60 + textWords / 600
     + repetitions / 10 + setupActions * 0.5 + evidenceWriting * 0.5;
   const longResponse = lesson.steps.some((step) => step.type === 'short-answer'
     && Number((step.props as { minWords?: number }).minWords ?? 0) > lesson.minutes * 3);
-  return { nestedItems, complexity, longResponse };
+  const overloadedWriting = writingBurden > lesson.minutes * 6;
+  return {
+    nestedItems, complexity, longResponse, authoredWords, correctionPasses, recopying,
+    projectWriting, mediaModelCycles, writingBurden, overloadedWriting,
+  };
 }
 
 function mediaBriefFailure(media: { kind: string; brief: string; alt: string }): string | undefined {
@@ -4884,7 +4914,7 @@ const WEEK_EIGHT_REF_SEMANTICS: Readonly<Record<string, RegExp>> = {
   'cnt:8.2.1': /energia|electri|lumin|lampara|evidencia|protocolo|resultados? compatibles?|medici|medid|exacto|demostrable|cientific|transformacion/,
   'cnt:8.3.1': /satelite|observacion de la tierra|clima|cambio climatico/,
   'ccss:8.1.1': /ciencias sociales|problema social|aporte.{0,30}social|fuente|decisiones|condiciones de vida|estudi.{0,30}(?:sociedad|poblacion)/,
-  'ccss:8.2.1': /dialogo|alternativas|acuerdo|problema|escuchar|conflicto|cultura de paz|mensaje|organiz|responsabilidad|contribucion/,
+  'ccss:8.2.1': /dialogo|conflicto|mensaje.{0,12}yo|(?:escuchar|alternativas?).{0,100}acuerdo|acuerdo.{0,100}(?:responsabilidad|turno|necesidad)|procedimiento.{0,100}(?:problema|acuerdo)/,
   'ccss:8.3.1': /problema mundial|objetivos de desarrollo|\bods\b|dato global|pobreza|hambre|educacion|clima/,
   'ccss:8.4.1': /impuesto|\biva\b|\bisr\b|factura|norma juridica/,
   'l2:5.1.1': /sustantivo|adjetivo|verbo/,
@@ -4967,6 +4997,29 @@ test('El estimador de carga rechaza una leccion anidada que excede quince minuto
   assert.ok(load.complexity > overloaded.minutes * 2 - 2);
 });
 
+test('El estimador detecta redaccion, pasadas, recopia y ciclos ocultos en un proyecto de revision', () => {
+  const oldRevisionOverload = {
+    id: 'fixture-revision-larga', kind: 'materia', area: 'l1', title: 'Fixture', icon: 'TestTube', minutes: 15,
+    objetivos: ['Revisar un informe'], resumen: [], media: { duration: 50 },
+    steps: [
+      { id: 'm1', type: 'worked-example', fase: 'construir', areas: ['l1'], cnb: ['l1:8.2.7'], prompt: 'Observa un modelo.', props: {} },
+      { id: 'p1', type: 'project', fase: 'aplicar', areas: ['l1'], cnb: ['l1:8.2.7'], prompt: 'Termina el informe.', props: { steps: [
+        { title: 'Completa', detail: 'Escribe una introduccion de dos oraciones, un parrafo con datos y una conclusion.' },
+        { title: 'Corrige', detail: 'Haz tres pasadas de correccion.' },
+        { title: 'Edita', detail: 'Agrega titulo, diagrama y fuentes.' },
+        { title: 'Final', detail: 'Pasa en limpio la redaccion final.' },
+      ] } },
+    ],
+  } as unknown as Lesson;
+  const load = lessonWorkload(oldRevisionOverload);
+  assert.ok(load.authoredWords >= 70, 'Debe estimar las secciones redactadas del proyecto');
+  assert.equal(load.correctionPasses, 3);
+  assert.ok(load.recopying >= 1);
+  assert.ok(load.projectWriting >= 3);
+  assert.equal(load.mediaModelCycles, 2);
+  assert.equal(load.overloadedWriting, true);
+});
+
 test('Semana 8 usa exactamente el plan y una secuencia viable por leccion', () => {
   const subjects = weekEight.lessons.filter((lesson) => lesson.kind === 'materia');
   assert.equal(subjects.length, 27);
@@ -4998,10 +5051,10 @@ test('Semana 8 ensena cada indicador antes de calificar y completa guia, aplicac
 test('Semana 8 mantiene la carga de cada leccion dentro del estimador establecido', () => {
   const failures: string[] = [];
   for (const lesson of weekEight.lessons.filter((item) => item.kind === 'materia')) {
-    const { nestedItems, complexity, longResponse } = lessonWorkload(lesson);
+    const { nestedItems, complexity, longResponse, overloadedWriting, writingBurden } = lessonWorkload(lesson);
     if (lesson.minutes < 10 || lesson.minutes > 15 || lesson.steps.length < 9 || lesson.steps.length > 14
-      || nestedItems > lesson.minutes * 3 || complexity > lesson.minutes * 2 - 2 || longResponse) {
-      failures.push(`${lesson.id}: pasos=${lesson.steps.length}, elementos=${nestedItems}, complejidad=${complexity.toFixed(2)}, larga=${longResponse}`);
+      || nestedItems > lesson.minutes * 3 || complexity > lesson.minutes * 2 - 2 || longResponse || overloadedWriting) {
+      failures.push(`${lesson.id}: pasos=${lesson.steps.length}, elementos=${nestedItems}, complejidad=${complexity.toFixed(2)}, escritura=${writingBurden.toFixed(1)}, larga=${longResponse}`);
     }
   }
   assert.deepEqual(failures, []);
@@ -5113,6 +5166,41 @@ test('CCSS3 usa una simulacion suministrada y una contribucion organizativa real
   assert.match(text, /caso suministrado|simulacion suministrada|caso simulado/);
   assert.match(text, /aporte organizativo|contribucion organizativa|organiza/);
   assert.doesNotMatch(text, /observa.{0,50}(?:tu comunidad|problema real)|consulta a|pregunta a|pide permiso|realiza(?:ran)? la actividad|despues de realizar|la proxima semana|vecinos|cocode/);
+});
+
+test('CCSS3 aplica dialogo, conflicto y acuerdo en ambas salidas, no solo reconoce servicio', () => {
+  const serviceRecognitionOnly = {
+    prompt: '¿Cuál actividad de servicio ayuda a la comunidad?',
+    props: { options: [{ text: 'Organizar una tarde de lectura' }, { text: 'No ayudar' }] },
+  };
+  assert.equal(matchesWeekEightRef('ccss:8.2.1', serviceRecognitionOnly), false);
+
+  const lesson = weekEight.lessons.find((item) => item.id === 's08-ccss-3');
+  assert.ok(lesson, 'Falta s08-ccss-3');
+  const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
+  assert.equal(exits.length, 2);
+  for (const exit of exits) {
+    const text = normalizeFactText(JSON.stringify(exit));
+    assert.equal(matchesWeekEightRef('ccss:8.2.1', exit), true, `${exit.id}: no aplica el procedimiento`);
+    assert.match(text, /dialogo|conflicto|problema|escuchar|alternativas|acuerdo/);
+  }
+  assert.doesNotMatch(normalizeFactText(JSON.stringify(exits[1])), /cual es una actividad de servicio|promueve la cultura de paz/);
+});
+
+test('L1-5 revisa un fragmento suministrado con una tarea independiente acotada', () => {
+  const lesson = weekEight.lessons.find((item) => item.id === 's08-l1-5');
+  assert.ok(lesson, 'Falta s08-l1-5');
+  const text = normalizeFactText(JSON.stringify(lesson));
+  const application = lesson.steps.filter((step) => step.fase === 'aplicar');
+  const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
+  assert.match(text, /fragmento|borrador/);
+  assert.match(text, /ficha [ab]|paquete suministrado/);
+  assert.ok(application.some((step) => step.type === 'short-answer'
+    && Number((step.props as { minWords?: number }).minWords ?? 0) <= 24));
+  assert.equal(exits.length, 2);
+  assert.equal(lesson.steps.some((step) => step.type === 'project'), false);
+  assert.doesNotMatch(normalizeFactText(JSON.stringify(application)), /tres pasadas|pasa(?:r|lo)? en limpio|introduccion.{0,80}parrafo.{0,80}conclusion/);
+  assert.equal(lessonWorkload(lesson).overloadedWriting, false);
 });
 
 test('CNT2 explica correctamente radiacion solar, infrarroja y gases de efecto invernadero', () => {

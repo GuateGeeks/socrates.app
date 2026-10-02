@@ -338,10 +338,10 @@ export default [
         ], correct: ['a'] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:8.2.1'], ambito: 'emprender', title: 'Servir a la comunidad',
-          prompt: 'Una contribución organizativa puede practicarse con un caso suministrado, sin intervenir fuera del aula.' },
-        { icon: 'HandHeart', body: '**Caso simulado; no describe tu escuela.** Dos grupos necesitan compartir la cancha y preparar un rótulo de ahorro de energía. La contribución consiste en ordenar responsabilidades y un acuerdo en papel.', reveal: [
-          { icon: 'Users', front: 'Organizar', back: 'Definir un objetivo común y repartir tareas posibles dentro del caso.' },
+        { fase: 'construir', areas: ['ccss'], cnb: ['ccss:8.2.1'], ambito: 'emprender', title: 'Del conflicto al acuerdo organizativo',
+          prompt: 'Una contribución organizativa puede practicarse con diálogo en un caso suministrado, sin intervenir fuera del aula.' },
+        { icon: 'HandHeart', body: '**Caso simulado; no describe tu escuela.** Dos grupos necesitan compartir la cancha y preparar un rótulo de ahorro de energía. Primero escuchan sus necesidades; luego acuerdan turnos y responsabilidades en papel.', reveal: [
+          { icon: 'Users', front: 'Dialogar y acordar', back: 'Definir el conflicto, escuchar a ambos grupos, comparar alternativas y repartir tareas aceptadas.' },
           { icon: 'ShieldCheck', front: 'Ser honesto', back: 'Registrar “simulación de aula” y no afirmar que el acuerdo ya se aplicó fuera de la lección.' },
         ] },
       ),
@@ -386,11 +386,11 @@ export default [
         ], labels: { start: 'Primero', end: 'Al final' } },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:8.2.1', 'ccss:8.2.1'], prompt: '¿Cuál es una actividad de **servicio** que promueve la cultura de paz?' },
+        { fase: 'comprobar', areas: ['ccss'], cnb: ['ccss:8.2.1'], prompt: 'Caso simulado: dos equipos necesitan la misma mesa para terminar sus paneles y surge un conflicto. ¿Qué acción aplica el procedimiento de diálogo para llegar a un acuerdo?' },
         { options: [
-          { id: 'a', text: 'Organizar con el grado una tarde de lectura para niños de primero' },
-          { id: 'b', text: 'Hacer una competencia para ver quién se burla mejor de otros' },
-          { id: 'c', text: 'Quedarse en casa sin ayudar a nadie' },
+          { id: 'a', text: 'Escuchar qué necesita cada equipo, proponer dos turnos y acordar responsabilidades' },
+          { id: 'b', text: 'Dar la mesa al equipo que hable más fuerte sin escuchar al otro' },
+          { id: 'c', text: 'Cancelar ambos paneles sin identificar el problema' },
         ], correct: ['a'] },
       ),
       cierre({ areas: ['ccss'], cnb: [] }, ['Leo datos para identificar problemas mundiales', 'Explico por qué pagar impuestos y pedir factura es una responsabilidad ciudadana', 'Resuelvo problemas con diálogo y sé organizar una actividad de servicio'],
