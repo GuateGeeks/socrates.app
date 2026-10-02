@@ -129,8 +129,8 @@ export default semana({
           sequences: [{ id: 's1', text: 'Explicar, modelar, ejecutar, rotar roles y verificar bienestar', correct: true }, { id: 's2', text: 'Ejecutar sin explicar y terminar sin comprobar', correct: false }],
           response: 'Los avatares siguen la señal, alternan los roles y confirman que la adaptación es segura.',
         }),
-        S.culturalPractice({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Reto revisable: usa una práctica de conservación que **realmente conoces desde tu familia, comunidad o cultura**, nombra el recurso natural y ejecuta ahora el modo de baja actividad. Registra antes, acción y después. El ejemplo suministrado solo enseña y no acredita dominio.' }, {
-          minWords: 30, rubric: ['Procedencia cultural propia y honesta', 'Recurso natural identificado', 'Acción ejecutada ahora', 'Antes, acción y después verificables'], example: {
+        S.culturalPractice({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Reto revisable: usa una práctica de conservación que **realmente conoces desde tu familia, comunidad o cultura**, nombra el recurso natural y ejecuta ahora el modo de baja actividad. Registra antes, acción y después. Si no conoces una práctica propia, elige **necesito consultar** y explica a quién o qué fuente consultarás y por qué; podrás continuar, pero no acreditar dominio.' }, {
+          minWords: 30, consultationMinWords: 8, requiresLiveAction: true, rubric: ['Procedencia cultural propia y honesta', 'Recurso natural identificado', 'Acción ejecutada ahora', 'Antes, acción y después verificables'], example: {
             culturalPractice: 'En mi comunidad conozco la práctica de apagar luces que no se necesitan.', naturalResource: 'Ayuda a cuidar agua y recursos usados para generar electricidad.',
             beforeAction: 'Antes observé sonido opcional activo.', actionReport: 'Activé ahora el modo de baja actividad voluntario.', afterAction: 'Después verifiqué sonido apagado y movimiento reducido activo.',
           },
@@ -155,8 +155,8 @@ export default semana({
       sequences: [{ id: 'bs1', text: 'Explicar, demostrar, practicar, intercambiar roles y verificar', correct: true }, { id: 'bs2', text: 'Practicar, omitir rotación y salir', correct: false }],
       response: 'El equipo-avatar completa la rutina, intercambia roles y confirma acceso igual y adaptación segura.',
     }),
-    S.culturalPractice({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Banco revisable: describe otra práctica que **realmente conoces desde tu familia, comunidad o cultura**, identifica el recurso natural y realiza ahora una adaptación voluntaria con el modo de baja actividad. Registra antes, acción y después; no uses el ejemplo suministrado como dominio.' }, {
-      minWords: 30, rubric: ['Práctica propia identificada', 'Recurso natural explicado', 'Acción local realizada', 'Registro antes, acción y después'], example: {
+    S.culturalPractice({ fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Banco revisable: describe otra práctica que **realmente conoces desde tu familia, comunidad o cultura**, identifica el recurso natural y realiza ahora una adaptación voluntaria con el modo de baja actividad. Registra antes, acción y después. Si necesitas consulta, identifica a quién o qué fuente y por qué; esa ruta no acredita dominio.' }, {
+      minWords: 30, consultationMinWords: 8, requiresLiveAction: true, rubric: ['Práctica propia identificada', 'Recurso natural explicado', 'Acción local realizada', 'Registro antes, acción y después'], example: {
         culturalPractice: 'En mi familia conozco aprovechar ventilación natural antes de encender un aparato.', naturalResource: 'La práctica cuida recursos naturales asociados con producir electricidad.',
         beforeAction: 'Antes comprobé el estado de sonido y movimiento.', actionReport: 'Realicé ahora la adaptación de baja actividad.', afterAction: 'Después verifiqué los dos ajustes y decidí conservarlos.',
       },

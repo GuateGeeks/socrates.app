@@ -126,4 +126,5 @@ export const LEGACY_JOURNAL_REQUIREMENTS: Readonly<Record<string, LegacyJournalR
   's08-pyd-1-salida-b': { minWords: 18 },
   's08-d5-reto-10': { minWords: 30 },
   's08-banco-10': { minWords: 30 },
+  's10-pyd-8': { minWords: 30 },
 };

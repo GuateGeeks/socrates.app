@@ -234,6 +234,8 @@
 .act-leadership__option input { margin-top: 3px; }
 .act-leadership__response { display: flex; align-items: flex-start; gap: var(--sp-2); padding: var(--sp-3); border: 2px solid var(--c-ok); background: var(--c-ok-soft); }
 .act-cultural-practice textarea { min-height: 64px; }
+.act-cultural-practice__mode { display: grid; gap: var(--sp-2); padding: var(--sp-3); border: 1px solid var(--c-line); border-radius: var(--r-sm); }
+.act-cultural-practice__mode label { display: flex; gap: var(--sp-2); align-items: flex-start; }
 .ds-tile__emoji { display: grid; place-items: center; color: var(--c-jade); }
 .act-flip__emoji, .act-hero { color: var(--c-jade); display: grid; place-items: center; }
 

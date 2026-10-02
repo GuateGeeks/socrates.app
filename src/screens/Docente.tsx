@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useProgress, nivel, NIVEL_LABEL, getProgress, JOURNAL_STATUS_META, reviewJournalEntry } from '@/core/progress';
+import { useProgress, nivel, NIVEL_LABEL, getProgress, JOURNAL_STATUS_META, reviewJournalEntry, canApproveJournalEntry } from '@/core/progress';
 import { navigate } from '@/core/router';
 import { AREAS, FASES, WHEEL_CICLO_II, type AreaId, type Fase } from '@/cnb/model';
 import { getCatalog, indicadorOf, lookup } from '@/cnb/catalog';
@@ -208,9 +208,12 @@ export function Docente() {
                       </div>
                     )}
                     {j.reviewedAt && <p className="ds-xs ds-muted">Revisada: {j.reviewedAt}</p>}
+                    {j.review?.masteryEligible === false && (
+                      <p className="ds-xs dc__journal-consultation" role="note">Consulta pendiente: esta entrega permite continuar, pero no puede acreditar dominio hasta presentar una práctica propia revisable.</p>
+                    )}
                     {j.status === 'pending-review' && (
                       <div className="ds-row dc__journal-actions" aria-label="Acciones de revisión docente">
-                        <Button size="sm" variant="ok" onClick={() => reviewJournalEntry(k, 'approve')}><Icon name="Check" size={16} /> Aprobar</Button>
+                        {canApproveJournalEntry(j) && <Button size="sm" variant="ok" onClick={() => reviewJournalEntry(k, 'approve')}><Icon name="Check" size={16} /> Aprobar</Button>}
                         <Button size="sm" variant="secondary" onClick={() => reviewJournalEntry(k, 'revision')}><Icon name="RotateCcw" size={16} /> Solicitar revisión</Button>
                       </div>
                     )}

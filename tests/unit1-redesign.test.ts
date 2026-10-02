@@ -4937,7 +4937,7 @@ const WEEK_EIGHT_REF_SEMANTICS: Readonly<Record<string, RegExp>> = {
   'ef:4.1.12': /(?:mujer|mujeres|nina|ninas).{0,180}(?:hombre|hombres|nino|ninos)|(?:hombre|hombres|nino|ninos).{0,180}(?:mujer|mujeres|nina|ninas)/,
   'ef:4.2.3': /lider|liderazgo|capitan|dirige|explica.{0,30}(?:regla|rutina)|adaptacion.{0,30}seguridad/,
   'ef:4.2.7': /juego tradicional|trompo|capirucho|cincos|tenta|ronda con palmas/,
-  'pyd:5.5.2': /modo de baja actividad|sonido opcional|movimiento reducido|ajustes?.{0,80}(?:activa|restaura|verifica)|(?:activa|restaura|verifica).{0,80}ajustes?/,
+  'pyd:5.5.2': /modo de baja actividad|sonido opcional|movimiento reducido|familia|comunidad|cultura|ajustes?.{0,80}(?:activa|restaura|verifica)|(?:activa|restaura|verifica).{0,80}ajustes?/,
 };
 
 function matchesWeekEightRef(ref: string, value: unknown): boolean {
@@ -4966,11 +4966,8 @@ function semanticSequenceFailures(
     }
   }
   for (const ref of new Set(assessed.flatMap(({ step }) => step.cnb))) {
-    const composite = assessed.some(({ step }) => step.cnb.includes(ref) && getActivity(step.type)?.compositeEvidence);
     const guided = assessed.some(({ step }) => step.fase === 'construir' && step.cnb.includes(ref)
-      && Boolean(step.hint) && Boolean(step.explain) && matches(ref, step))
-      || composite && lesson.steps.some((step) => step.fase === 'construir' && INSTRUCTION_TYPES.has(step.type)
-        && step.cnb.includes(ref) && matches(ref, step));
+      && Boolean(getActivity(step.type)?.graded) && Boolean(step.hint) && Boolean(step.explain) && matches(ref, step));
     const transfer = assessed.some(({ step }) => step.fase === 'aplicar' && step.cnb.includes(ref)
       && !step.hint && matches(ref, step));
     const exits = assessed.filter(({ step }) => step.fase === 'comprobar' && step.cnb.includes(ref)
@@ -4996,6 +4993,19 @@ test('El contrato semantico rechaza etiquetas CNB sin ensenanza previa ni etapas
     'fixture-secuencia: mat:4.1.4 sin guia con retroalimentacion',
     'fixture-secuencia: mat:4.1.4 tiene 0 salidas semanticas',
   ]);
+});
+
+test('La guia semantica rechaza ejemplos y tarjetas estaticas aunque describan el procedimiento', () => {
+  const fixture = {
+    id: 'fixture-guia-estatica', kind: 'materia', area: 'pyd', title: 'Fixture', minutes: 10,
+    objetivos: ['Ejecutar una practica'], resumen: [],
+    steps: [
+      { id: 'g1', type: 'explain', fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Conoce el modo de baja actividad y verifica ajustes.', props: { icon: 'Leaf', body: 'Familia, comunidad, cultura, recurso natural, antes, acción y después.' } },
+      { id: 'g2', type: 'worked-example', fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Ejemplo de cultura y recurso natural.', hint: 'Una pista.', explain: 'Familia, recurso natural, acción y verificación.', props: { icon: 'Leaf', problem: 'Caso', steps: [], answer: 'Modo de baja actividad', tip: 'Verifica' } },
+      { id: 'g3', type: 'cultural-conservation-practice', fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Familia, comunidad o cultura; recurso natural; antes, acción y después con modo de baja actividad.', props: {} },
+    ],
+  } as unknown as Lesson;
+  assert.ok(semanticSequenceFailures(fixture, matchesWeekEightRef).some((failure) => /sin guia con retroalimentacion/.test(failure)));
 });
 
 test('El estimador de carga rechaza una leccion anidada que excede quince minutos', () => {
@@ -5336,17 +5346,19 @@ test('PyD vincula una practica cultural respetuosa, un recurso natural y la acci
   }
   assert.match(artifactText, /necesito consultar/);
   assert.doesNotMatch(artifactText, /ejemplo suministrado.{0,120}(?:demuestra|acredita|dominio)/);
-  const taggedRecognition = lesson.steps.filter((step) => getActivity(step.type)?.graded && step.cnb.includes('pyd:5.5.2'));
-  assert.deepEqual(taggedRecognition, [], 'El reconocimiento genérico no puede acreditar pyd:5.5.2');
-  const guided = lesson.steps.filter((step) => step.fase === 'construir' && INSTRUCTION_TYPES.has(step.type));
-  assert.ok(guided.some((step) => /cultura|familia|comunidad/.test(normalizeFactText(JSON.stringify(step)))
-    && /recurso natural/.test(normalizeFactText(JSON.stringify(step)))));
+  const guided = lesson.steps.filter((step) => step.fase === 'construir' && getActivity(step.type)?.graded
+    && step.hint && step.explain && step.cnb.includes('pyd:5.5.2'));
+  assert.equal(guided.length, 1, 'PyD necesita una práctica guiada calificada antes de aplicar');
+  const guidedText = normalizeFactText(JSON.stringify(guided[0]));
+  for (const field of [/familia|comunidad|cultura/, /recurso natural/, /accion/, /consulta/]) assert.match(guidedText, field);
+  assert.ok(lesson.steps.indexOf(guided[0]) < lesson.steps.indexOf(culturalArtifact));
   const exits = lesson.steps.filter((step) => step.fase === 'comprobar');
   assert.equal(exits.length, 2);
   assert.ok(exits.every((step) => {
     const exit = normalizeFactText(JSON.stringify(step));
-    return Boolean(getActivity(step.type)?.recordsEvidence) && /cultura|familia|comunidad/.test(exit) && /recurso natural/.test(exit)
-      && /antes/.test(exit) && /accion/.test(exit) && /despues/.test(exit);
+    return step.type === 'cultural-conservation-practice' && Boolean(getActivity(step.type)?.recordsEvidence)
+      && /cultura|familia|comunidad/.test(exit) && /recurso natural/.test(exit)
+      && /antes/.test(exit) && /accion/.test(exit) && /despues/.test(exit) && /consulta/.test(exit);
   }));
   assert.doesNotMatch(text, /(?:promete|asegura) un ahorro|ahorro de \d|ahorra \d/);
 });

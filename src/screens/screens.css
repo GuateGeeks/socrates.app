@@ -100,6 +100,7 @@
 .dc__journal-entry--pending-review { border-left-color: var(--c-maiz-strong); }
 .dc__journal-entry--approved { border-left-color: var(--c-ok); }
 .dc__journal-entry--needs-revision { border-left-color: var(--c-bad); }
+.dc__journal-consultation { color: var(--c-bad); font-weight: 700; }
 .dc__journal-head { justify-content: space-between; align-items: flex-start; flex-wrap: wrap; }
 .dc__journal-status { padding: 2px 7px; border-radius: var(--r-sm); background: var(--c-surface-2); font-size: var(--fs-xs); font-weight: var(--fw-black); }
 .dc__journal-response { white-space: pre-wrap; overflow-wrap: anywhere; }

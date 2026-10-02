@@ -6,7 +6,7 @@ import { initialStep, stepReducer, canSubmit, outcomeOf } from '../src/core/engi
 import { parseNumber, shuffled } from '../src/activities/util';
 import { toVigesimal } from '../src/activities/shared';
 import { mayaTotal } from '../src/activities/maya-number';
-import { setStorageAdapter, recordLesson, getProgress, emptyProgress, nivel, reviewJournalEntry, JOURNAL_STATUS_META, type Progress } from '../src/core/progress';
+import { setStorageAdapter, recordLesson, getProgress, emptyProgress, nivel, reviewJournalEntry, canApproveJournalEntry, JOURNAL_STATUS_META, type Progress } from '../src/core/progress';
 import { parseDosificacion } from '../scripts/build-cnb.mjs';
 import { COURSE, WEEKS, evaluateBadges } from '../src/content/index';
 import { mediaReplacementSummary } from '../src/media/mockRegistry';
@@ -15,6 +15,7 @@ import { LEGACY_JOURNAL_REQUIREMENTS } from '../src/core/legacy-journal-requirem
 import { HISTORICAL_JOURNAL_REQUIREMENTS } from './fixtures/legacy-journal-history';
 import * as progressCore from '../src/core/progress';
 import { preparatoryLessonErrors } from '../src/core/content-validation';
+import { isCulturalConservationReady } from '../src/activities/cultural-conservation-practice';
 
 registerAll();
 
@@ -278,8 +279,97 @@ test('practica cultural compuesta exige campos propios, accion viva y revision d
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
   const value = await def.testSolve?.(props);
   assert.equal(def.isReady?.(props, value), true);
+  assert.equal(def.isMasteryEligible?.(props, value), true);
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
   assert.equal(def.isReady?.(props, value), false, 'la evidencia escrita no sustituye la prueba viva');
+});
+
+test('practica cultural permite consulta honesta pero la marca no elegible para dominio', () => {
+  const def = getActivity('cultural-conservation-practice')!;
+  const props = {
+    minWords: 24, consultationMinWords: 8, requiresLiveAction: true,
+    rubric: ['Procedencia propia', 'Recurso natural', 'Acción ejecutada', 'Antes y después'],
+    example: {
+      culturalPractice: 'En mi familia aprovechamos la luz natural antes de encender una lámpara.',
+      naturalResource: 'Agua y otros recursos usados para generar electricidad.',
+      beforeAction: 'El sonido opcional estaba activo.', actionReport: 'Activé voluntariamente el modo de baja actividad.',
+      afterAction: 'Verifiqué sonido apagado y movimiento reducido activo.',
+    },
+  };
+  const consultation = {
+    mode: 'needs-consultation',
+    consultationNote: 'Necesito conversar con mi abuela y revisar por qué esta práctica protege agua.',
+    text: 'Consulta necesaria: Necesito conversar con mi abuela y revisar por qué esta práctica protege agua.',
+    checks: [], seen: true,
+  };
+  assert.equal(def.isReady?.(props, consultation), true);
+  assert.equal(def.isMasteryEligible?.(props, consultation), false);
+  assert.equal(isCulturalConservationReady(props, consultation), true);
+});
+
+test('practica cultural rechaza payloads malformados sin lanzar', () => {
+  const props = {
+    minWords: 24, consultationMinWords: 8, requiresLiveAction: false,
+    rubric: ['Procedencia propia', 'Recurso natural', 'Acción ejecutada', 'Antes y después'],
+    example: {
+      culturalPractice: 'En mi familia aprovechamos la luz natural antes de encender una lámpara.',
+      naturalResource: 'Agua y otros recursos usados para generar electricidad.',
+      beforeAction: 'Antes observé el estado.', actionReport: 'Realicé una acción voluntaria segura.',
+      afterAction: 'Después verifiqué el cambio.',
+    },
+  };
+  const malformed: unknown[] = [
+    {},
+    { mode: 'unknown', text: '', checks: [], seen: true },
+    { mode: 'known-practice', culturalPractice: 12, naturalResource: 'agua', beforeAction: 'antes', actionReport: 'acción', afterAction: 'después', text: 'texto', checks: [true], seen: true },
+    { mode: 'known-practice', culturalPractice: 'una práctica conocida', naturalResource: 'recurso agua local', beforeAction: 'estado visto antes', actionReport: 'acción segura ahora', afterAction: 'estado verificado después', text: 'texto suficiente para intentar pasar esta evidencia', checks: 'sí', seen: true },
+    { mode: 'needs-consultation', consultationNote: 42, text: 'consulta', checks: [], seen: true },
+    { mode: 'needs-consultation', consultationNote: 'muy breve', text: 'Consulta necesaria: muy breve', checks: [], seen: true },
+  ];
+  for (const value of malformed) {
+    assert.doesNotThrow(() => isCulturalConservationReady(props, value));
+    assert.equal(isCulturalConservationReady(props, value), false);
+  }
+  const mission = WEEKS.find((week) => week.semana === 8)!;
+  const step = mission.lessons.find((lesson) => lesson.id === 's08-pyd-1')!.steps
+    .find((item) => item.id === 's08-pyd-1-6')!;
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+  assert.doesNotThrow(() => recordLesson(mission, { id: 'malformed-composite', title: 'Malformada', minutes: 5, steps: [step] }, [{
+    step, graded: false, correct: true, firstTry: true, score: 1, value: malformed[2],
+  }], () => []));
+  assert.equal(getProgress().journal[`malformed-composite/${step.id}`], undefined, 'un payload malformado no se serializa como evidencia');
+});
+
+test('consulta cultural persiste como necesita revision y nunca puede aprobarse', () => {
+  let mem: Progress | null = null;
+  setStorageAdapter({ load: () => emptyProgress(), save: (p) => { mem = structuredClone(p); } });
+  const mission = WEEKS.find((week) => week.semana === 8)!;
+  const step = mission.lessons.find((lesson) => lesson.id === 's08-pyd-1')!.steps
+    .find((item) => item.id === 's08-pyd-1-6')!;
+  const value = {
+    mode: 'needs-consultation',
+    consultationNote: 'Necesito consultar a mi abuelo y una fuente comunitaria para saber qué recurso protege.',
+    text: 'Consulta necesaria: Necesito consultar a mi abuelo y una fuente comunitaria para saber qué recurso protege.',
+    checks: [], seen: true,
+  };
+  recordLesson(mission, { id: 'consultation-lesson', title: 'Consulta', minutes: 5, steps: [step] }, [{
+    step, graded: false, correct: true, firstTry: true, score: 1, value,
+  }], () => []);
+  const key = `consultation-lesson/${step.id}`;
+  assert.equal(getProgress().journal[key].status, 'needs-revision');
+  assert.equal(getProgress().journal[key].review?.masteryEligible, false);
+  assert.equal(canApproveJournalEntry(getProgress().journal[key]), false);
+  assert.deepEqual(getProgress().journal[key].creditedRefs, []);
+  reviewJournalEntry(key, 'approve');
+  assert.equal(getProgress().journal[key].status, 'needs-revision');
+  assert.equal(getProgress().evidence['pyd:5.5'], undefined);
+  assert.deepEqual(mem, getProgress());
+
+  setStorageAdapter({ load: () => mem, save: (p) => { mem = structuredClone(p); } });
+  assert.equal(getProgress().journal[key].status, 'needs-revision', 'la consulta debe sobrevivir hidratacion');
+  reviewJournalEntry(key, 'approve');
+  assert.equal(getProgress().evidence['pyd:5.5'], undefined);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
 test('validador preparatorio rechaza referencias CNB incluso de un area extranjera', () => {
@@ -367,14 +457,16 @@ test('respuesta escrita exige texto sustantivo y completar la rubrica', () => {
   assert.equal(isShortAnswerReady(props, { text: 'Compare dos fuentes y explique una diferencia clara', checks: [true, true], seen: true }), true);
 });
 
-test('registro legacy cubre los short-answer actuales sin borrar migraciones historicas', () => {
-  const steps = WEEKS.filter((week) => week.unidad === 1)
-    .flatMap((week) => week.lessons.flatMap((lesson) => lesson.steps))
-    .filter((step) => step.type === 'short-answer');
-  assert.equal(new Set(steps.map((step) => step.id)).size, steps.length, 'Los IDs de short-answer deben ser estables y unicos');
+test('registro legacy cubre toda evidencia revisable jugable de Unidad 1 sin borrar migraciones historicas', () => {
+  const unitWeeks = WEEKS.filter((week) => week.unidad === 1);
+  const steps = unitWeeks.flatMap((week) => week.lessons.flatMap((lesson) => lesson.steps))
+    .filter((step) => getActivity(step.type)?.evidenceMode === 'journal-pending-review');
+  assert.equal(new Set(steps.map((step) => step.id)).size, steps.length, 'Los IDs revisables jugables deben ser estables y unicos');
   for (const step of steps) {
     assert.ok(LEGACY_JOURNAL_REQUIREMENTS[step.id], `${step.id}: falta cobertura de migracion`);
   }
+  assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS['s08-banco-10'], { minWords: 30 }, 'el ID crudo publicado del banco es append-only');
+  assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS['s10-pyd-8'], { minWords: 30 });
   assert.ok(Object.keys(LEGACY_JOURNAL_REQUIREMENTS).length >= steps.length,
     'El historial puede contener IDs publicados que ya no existen en el contenido actual');
   assert.equal(Object.keys(HISTORICAL_JOURNAL_REQUIREMENTS).length, 112, 'La fixture debe enumerar todo el historial publicado');

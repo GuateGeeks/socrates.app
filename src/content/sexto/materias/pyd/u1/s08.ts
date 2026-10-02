@@ -38,13 +38,14 @@ export default [
           { text: 'Decide conservarlo o restaurarlo sin prometer ni calcular una cantidad de ahorro.' },
         ], answer: 'La evidencia une procedencia honesta, recurso protegido, principio de conservación y acción comprobada.', tip: 'Identificar → explicar recurso → adaptar → ejecutar y verificar.' },
       ),
-      S.ejemplo(
-        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', title: 'Guía con retroalimentación', prompt: 'Compara dos respuestas antes de crear la tuya.' },
-        { icon: 'MessagesSquare', problem: 'Luis conoce una práctica de su familia; Sara solo conoce el ejemplo suministrado.', steps: [
-          { text: 'Luis nombra la práctica que realmente conoce, el recurso y lo que observó antes.', why: 'Puede construir evidencia propia sin generalizarla.' },
-          { text: 'Sara escribe “necesito consultar una práctica de mi contexto”.', why: 'Es honesto, pero todavía no demuestra dominio del indicador.' },
-          { text: 'Ambos pueden ejecutar el modo de baja actividad ahora; solo la conexión propia completa queda pendiente de revisión docente.' },
-        ], answer: 'La procedencia cultural propia no se sustituye con el ejemplo suministrado.', tip: 'Práctica propia → recurso → antes → acción → después.' },
+      S.choice(
+        { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Selecciona las **dos rutas honestas** antes de crear tu evidencia cultural de conservación.', hint: 'Una ruta demuestra práctica propia, recurso y acción segura; la otra reconoce qué consulta falta sin fingir dominio.', explain: 'La evidencia elegible parte de una práctica genuinamente conocida, nombra el recurso natural y realiza una acción voluntaria segura. Si falta ese conocimiento, la ruta correcta es identificar a quién o qué fuente consultar y por qué; permite continuar, pero no acredita dominio.' },
+        { multiple: true, options: [
+          { id: 'known', text: 'Conozco una práctica de mi familia, nombro el recurso natural y realizo ahora una acción voluntaria segura' },
+          { id: 'consult', text: 'Aún no conozco una práctica propia: indico a quién o qué fuente consultaré y por qué', icon: 'MessagesSquare' },
+          { id: 'borrowed', text: 'Copio el ejemplo suministrado y afirmo que es tradición de mi comunidad', feedback: 'Un ejemplo didáctico enseña, pero no demuestra procedencia cultural propia.' },
+          { id: 'unsafe', text: 'Conozco una práctica, pero ejecuto una acción riesgosa para demostrarla', feedback: 'La acción debe ser voluntaria, segura, accesible y verificable.' },
+        ], correct: ['known', 'consult'] },
       ),
       S.cards(
         { fase: 'construir', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Repasa qué revisará la persona docente en la evidencia compuesta.' },
@@ -56,19 +57,29 @@ export default [
       ),
       S.culturalPractice(
         { id: 's08-pyd-1-6', fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', prompt: 'Crea evidencia **desde tu cultura**: identifica una práctica de conservación que realmente conoces en tu familia o comunidad, nombra el recurso natural, registra antes, ejecuta ahora la adaptación voluntaria del **modo de baja actividad**, verifica sus ajustes y registra acción y después. Si aún no conoces una práctica propia, escribe **“necesito consultar”**: no afirmes dominio. Queda pendiente de revisión docente.' },
-        { minWords: 30, rubric: ['La práctica es genuinamente conocida en mi contexto', 'Nombro el recurso natural', 'Realicé una acción segura ahora', 'Registro antes, acción y después sin inventar ahorro'], example: {
+        { minWords: 30, consultationMinWords: 8, requiresLiveAction: true, rubric: ['La práctica es genuinamente conocida en mi contexto', 'Nombro el recurso natural', 'Realicé una acción segura ahora', 'Registro antes, acción y después sin inventar ahorro'], example: {
           culturalPractice: 'En mi familia aprovechamos la luz natural antes de encender una lámpara.', naturalResource: 'Cuidamos agua y otros recursos usados para generar electricidad.',
           beforeAction: 'Antes, el sonido opcional estaba activo.', actionReport: 'Activé voluntariamente el modo de baja actividad ahora.',
           afterAction: 'Después verifiqué sonido apagado y movimiento reducido activo.',
         } },
       ),
-      S.write(
-        { id: 's08-pyd-1-salida-a', fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Salida revisable: resume tu práctica genuinamente conocida desde familia, comunidad o cultura, el recurso natural y tu registro **antes → acción ejecutada ahora con el modo de baja actividad → después**, incluida la verificación de sonido opcional. Si escribiste que necesitas consultar, no reclames dominio.' },
-        { minWords: 18, placeholder: 'En mi contexto conozco… Recurso… Antes… Acción… Después…', model: 'En mi familia conozco aprovechar luz natural. Recurso: agua usada al generar electricidad. Antes había sonido; activé el modo; después verifiqué sonido apagado.', rubric: ['Identifico procedencia cultural propia', 'Nombro recurso natural', 'Registro acción ejecutada', 'Incluyo antes y después'] },
+      S.explain(
+        { fase: 'aplicar', areas: ['pyd'], cnb: ['pyd:5.5.2'], ambito: 'hacer', title: 'Antes de las salidas', prompt: 'Distingue qué registrarás según la ruta que elegiste.' },
+        { icon: 'Route', body: 'Si conoces la práctica, conserva **procedencia, recurso natural, antes, acción segura y después**. Si necesitas consulta, registra **a quién o qué fuente consultarás y por qué**; no marques criterios que todavía no puedes demostrar.' },
       ),
-      S.write(
-        { id: 's08-pyd-1-salida-b', fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Segunda salida revisable: explica una decisión accesible sobre conservar o restaurar el **modo de baja actividad** y enlázala con la práctica que realmente conoces, el recurso natural y lo verificado antes, durante la acción y después.' },
-        { minWords: 18, placeholder: 'Práctica de mi contexto… Recurso… Antes… Acción… Después… Decidí…', model: 'La práctica familiar cuida recursos de generación. Antes registré sonido activo, realicé la acción y verifiqué el modo. Decidí restaurar por accesibilidad.', rubric: ['Vinculo práctica cultural propia', 'Nombro recurso natural', 'Diferencio antes, acción y después', 'Justifico conservar o restaurar'] },
+      S.culturalPractice(
+        { id: 's08-pyd-1-salida-a', fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Salida revisable: registra una práctica que realmente conoces desde familia, comunidad o cultura, el recurso natural y **antes → acción voluntaria segura realizada → después**. Si necesitas consulta, elige esa ruta, indica a quién o qué fuente consultar y por qué; podrás continuar sin recibir dominio todavía.' },
+        { minWords: 18, consultationMinWords: 8, requiresLiveAction: false, rubric: ['Identifico procedencia cultural propia', 'Nombro recurso natural', 'Registro acción ejecutada', 'Incluyo antes y después'], example: {
+          culturalPractice: 'En mi familia apagamos lámparas que quedan sin uso.', naturalResource: 'La práctica protege recursos naturales usados para producir electricidad.',
+          beforeAction: 'Antes observé una actividad opcional encendida.', actionReport: 'Realicé una adaptación voluntaria y segura.', afterAction: 'Después verifiqué el estado cambiado.',
+        } },
+      ),
+      S.culturalPractice(
+        { id: 's08-pyd-1-salida-b', fase: 'comprobar', areas: ['pyd'], cnb: ['pyd:5.5.2'], prompt: 'Segunda salida revisable: explica otra decisión de conservación desde una práctica realmente conocida en tu cultura, familia o comunidad; nombra el recurso natural y registra **antes, acción segura y después**. Si no conoces otra, usa la ruta de consulta y explica la fuente o persona que necesitas y por qué, sin afirmar dominio.' },
+        { minWords: 18, consultationMinWords: 8, requiresLiveAction: false, rubric: ['Vinculo práctica cultural propia', 'Nombro recurso natural', 'Diferencio antes, acción y después', 'Justifico la decisión voluntaria'], example: {
+          culturalPractice: 'En mi comunidad conozco aprovechar ventilación natural.', naturalResource: 'La práctica cuida recursos naturales asociados con la electricidad.',
+          beforeAction: 'Antes comprobé el estado disponible.', actionReport: 'Elegí una acción accesible y voluntaria.', afterAction: 'Después verifiqué el resultado y decidí conservarlo.',
+        } },
       ),
       S.reflect(
         { fase: 'reflexionar', areas: ['pyd'], cnb: [], ambito: 'ser', prompt: 'Cierra sin calificar: reconoce con honestidad si tu vínculo cultural necesita conversación o revisión adicional.' },
