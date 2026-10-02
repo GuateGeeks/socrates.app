@@ -115,7 +115,11 @@ export function LessonPlayer({ mission, lesson, mode = modeOf(lesson), skipIntro
     w.__lp = {
       type: step.type, index: idx, total: lesson.steps.length, started, mode,
       start: () => setStarted(true),
-      solve: () => { if (def.solution) dispatch({ type: 'change', value: def.solution(step.props) }); else dispatch({ type: 'ready', ready: true }); },
+      solve: async () => {
+        if (def.testSolve) dispatch({ type: 'change', value: await def.testSolve(step.props) });
+        else if (def.solution) dispatch({ type: 'change', value: def.solution(step.props) });
+        else dispatch({ type: 'ready', ready: true });
+      },
     };
   }, [idx, def, step, lesson.steps.length, started, mode]);
 

@@ -48,6 +48,21 @@ export interface JournalEntry {
   reviewedAt?: string;
 }
 
+export interface LowActivitySnapshot { sound: boolean; reducedMotion: boolean }
+export interface LowActivityPracticeReceipt {
+  id: string;
+  action: 'activation' | 'maintenance';
+  startedAt: number;
+  completedAt?: number;
+  before: LowActivitySnapshot;
+  after: LowActivitySnapshot;
+  restored: boolean;
+  restoredAt?: number;
+  restoredTo?: LowActivitySnapshot;
+  maintenanceCompleted: boolean;
+}
+export const LOW_ACTIVITY_MAINTENANCE_MS = 25_000;
+
 export interface Progress {
   version: 1;
   profile: { name: string; avatar: string };
@@ -69,6 +84,8 @@ export interface Progress {
   reviewDone?: number;
   /** cuaderno: ideas clave guardadas (clave = id único) */
   notebook?: Record<string, NoteEntry>;
+  /** Comprobante local de la práctica de baja actividad más reciente. No acredita dominio por sí solo. */
+  lowActivityPractice?: LowActivityPracticeReceipt;
 }
 
 export interface StorageAdapter { load(): Progress | null; save(p: Progress): void }
@@ -182,7 +199,53 @@ function hydrate(raw: Progress | null): Progress {
       ...(typeof entry.reviewedAt === 'string' ? { reviewedAt: entry.reviewedAt } : {}),
     } satisfies JournalEntry];
   }));
-  return { ...base, ...raw, journal, settings: { ...base.settings, ...raw.settings } };
+  const lowActivityPractice = hydrateLowActivityPractice(raw.lowActivityPractice);
+  return {
+    ...base, ...raw, journal, settings: { ...base.settings, ...raw.settings },
+    ...(lowActivityPractice ? { lowActivityPractice } : { lowActivityPractice: undefined }),
+  };
+}
+
+function isSnapshot(value: unknown): value is LowActivitySnapshot {
+  if (!value || typeof value !== 'object') return false;
+  const snapshot = value as Partial<LowActivitySnapshot>;
+  return typeof snapshot.sound === 'boolean' && typeof snapshot.reducedMotion === 'boolean';
+}
+
+function sameLowActivitySnapshot(a: LowActivitySnapshot, b: LowActivitySnapshot) {
+  return a.sound === b.sound && a.reducedMotion === b.reducedMotion;
+}
+
+function validTimestamp(value: unknown, now: number) {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= now;
+}
+
+function hydrateLowActivityPractice(value: unknown): LowActivityPracticeReceipt | undefined {
+  if (!value || typeof value !== 'object') return undefined;
+  const receipt = value as Partial<LowActivityPracticeReceipt>;
+  const now = Date.now();
+  if (typeof receipt.id !== 'string' || receipt.id.length < 8
+    || (receipt.action !== 'activation' && receipt.action !== 'maintenance')
+    || !validTimestamp(receipt.startedAt, now)
+    || !isSnapshot(receipt.before) || !isSnapshot(receipt.after)
+    || typeof receipt.restored !== 'boolean' || typeof receipt.maintenanceCompleted !== 'boolean') return undefined;
+  const startedAt = receipt.startedAt as number;
+
+  if (receipt.action === 'activation') {
+    if (!validTimestamp(receipt.completedAt, now) || receipt.completedAt! < startedAt
+      || isLowActivityMode(receipt.before) || !isLowActivityMode(receipt.after)
+      || sameLowActivitySnapshot(receipt.before, receipt.after) || receipt.maintenanceCompleted) return undefined;
+    if (receipt.restored && (!validTimestamp(receipt.restoredAt, now) || receipt.restoredAt! < receipt.completedAt!
+      || !isSnapshot(receipt.restoredTo) || !sameLowActivitySnapshot(receipt.restoredTo, receipt.before))) return undefined;
+    if (!receipt.restored && (receipt.restoredAt !== undefined || receipt.restoredTo !== undefined)) return undefined;
+  } else {
+    if (receipt.restored || receipt.restoredAt !== undefined || receipt.restoredTo !== undefined
+      || !isLowActivityMode(receipt.before) || !isLowActivityMode(receipt.after)) return undefined;
+    if (receipt.maintenanceCompleted) {
+      if (!validTimestamp(receipt.completedAt, now) || receipt.completedAt! - startedAt < LOW_ACTIVITY_MAINTENANCE_MS) return undefined;
+    } else if (receipt.completedAt !== undefined) return undefined;
+  }
+  return structuredClone(receipt) as LowActivityPracticeReceipt;
 }
 
 let adapter: StorageAdapter = localStorageAdapter;
@@ -195,24 +258,74 @@ export function getProgress(): Progress { return state; }
 export function updateProgress(fn: (p: Progress) => Progress) { state = fn(state); adapter.save(state); emit(); }
 export function resetProgress() { updateProgress(() => ({ ...emptyProgress(), settings: state.settings, profile: state.profile })); }
 
-export interface LowActivitySnapshot { sound: boolean; reducedMotion: boolean }
+function currentLowActivitySnapshot(): LowActivitySnapshot {
+  return { sound: state.settings.sound, reducedMotion: state.settings.reducedMotion };
+}
+
+function lowActivityProofId(now: number) {
+  const uuid = globalThis.crypto?.randomUUID?.();
+  return uuid ? `low-${uuid}` : `low-${now}-${Math.random().toString(36).slice(2)}`;
+}
 
 /** Applies a modest, reversible local practice by reducing optional app activity. */
-export function activateLowActivityMode(): LowActivitySnapshot {
-  const before = { sound: state.settings.sound, reducedMotion: state.settings.reducedMotion };
+export function activateLowActivityMode(): LowActivityPracticeReceipt | null {
+  const before = currentLowActivitySnapshot();
+  if (isLowActivityMode(before)) return null;
+  const startedAt = Date.now();
+  const after = { sound: false, reducedMotion: true };
+  const receipt: LowActivityPracticeReceipt = {
+    id: lowActivityProofId(startedAt), action: 'activation', startedAt, completedAt: Date.now(),
+    before, after, restored: false, maintenanceCompleted: false,
+  };
   updateProgress((p) => ({
     ...p,
-    settings: { ...p.settings, sound: false, reducedMotion: true },
+    settings: { ...p.settings, ...after },
+    lowActivityPractice: receipt,
   }));
-  return before;
+  return structuredClone(receipt);
 }
 
 /** Restores only the settings changed by activateLowActivityMode. */
-export function restoreLowActivityMode(snapshot: LowActivitySnapshot): void {
+export function restoreLowActivityMode(proofId: string): LowActivityPracticeReceipt | null {
+  const receipt = state.lowActivityPractice;
+  if (!receipt || receipt.id !== proofId || receipt.action !== 'activation' || receipt.restored
+    || !sameLowActivitySnapshot(currentLowActivitySnapshot(), receipt.after)) return null;
+  const restoredAt = Date.now();
+  const restored: LowActivityPracticeReceipt = {
+    ...receipt, restored: true, restoredAt, restoredTo: { ...receipt.before },
+  };
   updateProgress((p) => ({
     ...p,
-    settings: { ...p.settings, sound: snapshot.sound, reducedMotion: snapshot.reducedMotion },
+    settings: { ...p.settings, ...receipt.before },
+    lowActivityPractice: restored,
   }));
+  return structuredClone(restored);
+}
+
+export function startLowActivityMaintenance(): LowActivityPracticeReceipt | null {
+  const before = currentLowActivitySnapshot();
+  if (!isLowActivityMode(before)) return null;
+  const startedAt = Date.now();
+  const receipt: LowActivityPracticeReceipt = {
+    id: lowActivityProofId(startedAt), action: 'maintenance', startedAt,
+    before, after: { ...before }, restored: false, maintenanceCompleted: false,
+  };
+  updateProgress((p) => ({ ...p, lowActivityPractice: receipt }));
+  return structuredClone(receipt);
+}
+
+export function completeLowActivityMaintenance(proofId: string): LowActivityPracticeReceipt | null {
+  const receipt = state.lowActivityPractice;
+  const now = Date.now();
+  const current = currentLowActivitySnapshot();
+  if (!receipt || receipt.id !== proofId || receipt.action !== 'maintenance' || receipt.maintenanceCompleted
+    || !isLowActivityMode(current) || now < receipt.startedAt
+    || now - receipt.startedAt < LOW_ACTIVITY_MAINTENANCE_MS) return null;
+  const completed: LowActivityPracticeReceipt = {
+    ...receipt, completedAt: now, after: current, maintenanceCompleted: true,
+  };
+  updateProgress((p) => ({ ...p, lowActivityPractice: completed }));
+  return structuredClone(completed);
 }
 
 export function isLowActivityMode(settings: Pick<Settings, 'sound' | 'reducedMotion'>): boolean {

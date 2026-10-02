@@ -12,6 +12,7 @@ import { COURSE, WEEKS, evaluateBadges } from '../src/content/index';
 import { mediaReplacementSummary } from '../src/media/mockRegistry';
 import { isShortAnswerReady } from '../src/activities/short-answer';
 import { LEGACY_JOURNAL_REQUIREMENTS } from '../src/core/legacy-journal-requirements';
+import { HISTORICAL_JOURNAL_REQUIREMENTS } from './fixtures/legacy-journal-history';
 import * as progressCore from '../src/core/progress';
 
 registerAll();
@@ -22,10 +23,10 @@ test('registro: 17 actividades, tipos únicos', () => {
   assert.ok(types.length >= 17);
 });
 
-test('modo de baja actividad persiste el cambio y restaura el estado previo', () => {
+test('modo de baja actividad crea un comprobante persistido solo al cambiar ajustes y restaura por ID', () => {
   const runtime = progressCore as typeof progressCore & {
-    activateLowActivityMode(): { sound: boolean; reducedMotion: boolean };
-    restoreLowActivityMode(snapshot: { sound: boolean; reducedMotion: boolean }): void;
+    activateLowActivityMode(): { id: string; action: string; before: { sound: boolean; reducedMotion: boolean }; after: { sound: boolean; reducedMotion: boolean }; startedAt: number; completedAt: number } | null;
+    restoreLowActivityMode(proofId: string): unknown;
   };
   assert.equal(typeof runtime.activateLowActivityMode, 'function');
   assert.equal(typeof runtime.restoreLowActivityMode, 'function');
@@ -37,33 +38,47 @@ test('modo de baja actividad persiste el cambio y restaura el estado previo', ()
   let saves = 0;
   setStorageAdapter({ load: () => mem, save: (p) => { mem = structuredClone(p); saves++; } });
 
-  const before = runtime.activateLowActivityMode();
-  assert.deepEqual(before, { sound: true, reducedMotion: false });
+  const receipt = runtime.activateLowActivityMode();
+  assert.ok(receipt);
+  assert.equal(receipt.action, 'activation');
+  assert.deepEqual(receipt.before, { sound: true, reducedMotion: false });
+  assert.deepEqual(receipt.after, { sound: false, reducedMotion: true });
+  assert.equal(getProgress().lowActivityPractice?.id, receipt.id);
   assert.equal(getProgress().settings.sound, false);
   assert.equal(getProgress().settings.reducedMotion, true);
   assert.equal(mem?.settings.sound, false);
   assert.equal(mem?.settings.reducedMotion, true);
 
-  runtime.restoreLowActivityMode(before);
+  assert.equal(runtime.activateLowActivityMode(), null, 'un estado ya activo no crea una activacion ficticia');
+  runtime.restoreLowActivityMode(receipt.id);
   assert.equal(getProgress().settings.sound, true);
   assert.equal(getProgress().settings.reducedMotion, false);
   assert.equal(getProgress().settings.haptics, false, 'la restauración no altera otros ajustes');
+  assert.equal(getProgress().lowActivityPractice?.restored, true);
+  assert.deepEqual(getProgress().lowActivityPractice?.restoredTo, receipt.before);
   assert.equal(saves, 2);
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
-test('actividad de baja actividad valida una activación real y su restauración exacta', () => {
+test('actividad de baja actividad valida solo el valor que coincide con el comprobante y estado persistidos', () => {
   const def = getActivity('low-activity-mode');
   assert.ok(def, 'Falta registrar low-activity-mode');
-  const before = { sound: true, reducedMotion: false };
-  const after = { sound: false, reducedMotion: true };
+  let mem: Progress | null = { ...emptyProgress(), settings: { ...emptyProgress().settings, sound: true, reducedMotion: false } };
+  setStorageAdapter({ load: () => mem, save: (p) => { mem = structuredClone(p); } });
+  const receipt = progressCore.activateLowActivityMode();
+  assert.ok(receipt);
+  const value = { proofId: receipt.id, action: receipt.action, performed: true, verified: true, active: true, restored: false,
+    before: receipt.before, after: receipt.after, startedAt: receipt.startedAt, completedAt: receipt.completedAt,
+    elapsedMs: receipt.completedAt! - receipt.startedAt, maintenanceCompleted: false };
   assert.equal(def.isReady?.({}, undefined), false);
-  assert.equal(def.check?.({}, { action: 'activation', performed: true, verified: true, active: true, restored: false, before, after }).correct, true);
-  assert.equal(def.check?.({}, { action: 'activation', performed: true, verified: true, active: false, restored: true, restoredTo: before, before, after }).correct, true);
-  assert.equal(def.check?.({}, { action: 'activation', performed: true, verified: true, active: false, restored: true, restoredTo: { sound: false, reducedMotion: false }, before, after }).correct, false);
-  assert.equal(def.check?.({}, { action: 'activation', performed: false, verified: false, active: false, restored: false, before, after }).correct, false);
+  assert.equal(def.check?.({}, value).correct, true);
+  assert.equal(def.check?.({}, { ...value, proofId: 'copied-id' }).correct, false);
+  assert.equal(def.check?.({}, { ...value, before: { sound: false, reducedMotion: false } }).correct, false);
+  progressCore.updateProgress((p) => ({ ...p, settings: { ...p.settings, sound: true } }));
+  assert.equal(def.check?.({}, value).correct, false, 'el ajuste actual debe coincidir con el comprobante activo');
   assert.deepEqual(def.validate?.({ activateLabel: 'Activar', restoreLabel: 'Restaurar' }), []);
   assert.ok((def.validate?.({ activateLabel: '   ' }) ?? []).length > 0);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
 test('actividad de baja actividad rechaza instantáneas idénticas como activación', () => {
@@ -76,22 +91,91 @@ test('actividad de baja actividad rechaza instantáneas idénticas como activaci
   assert.equal(def.check?.({}, legacyGenericPayload).correct, false);
 });
 
-test('mantenimiento de baja actividad exige el intervalo completo y marcas temporales válidas', () => {
+test('mantenimiento de baja actividad solo se completa desde el helper al alcanzar 25 segundos reales', () => {
+  const runtime = progressCore as typeof progressCore & {
+    startLowActivityMaintenance(): { id: string } | null;
+    completeLowActivityMaintenance(proofId: string): unknown;
+  };
+  let now = 10_000;
+  const originalNow = Date.now;
+  Date.now = () => now;
+  let mem: Progress | null = { ...emptyProgress(), settings: { ...emptyProgress().settings, sound: false, reducedMotion: true } };
+  setStorageAdapter({ load: () => mem, save: (p) => { mem = structuredClone(p); } });
+  try {
+    const started = runtime.startLowActivityMaintenance();
+    assert.ok(started);
+    now += 24_999;
+    assert.equal(runtime.completeLowActivityMaintenance(started.id), null);
+    assert.equal(getProgress().lowActivityPractice?.completedAt, undefined);
+    now += 1;
+    const completed = runtime.completeLowActivityMaintenance(started.id) as { completedAt?: number } | null;
+    assert.equal(completed?.completedAt, now);
+  } finally {
+    Date.now = originalNow;
+    setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+  }
+});
+
+test('actividad rechaza mantenimiento inmediato, futuro, forjado o divergente y acepta el comprobante completo', () => {
   const def = getActivity('low-activity-mode')!;
-  const low = { sound: false, reducedMotion: true };
-  const base = { action: 'maintenance', performed: true, verified: true, active: true, restored: false, before: low, after: low, startedAt: 1_000 };
+  const runtime = progressCore as typeof progressCore & { startLowActivityMaintenance(): { id: string } | null; completeLowActivityMaintenance(id: string): any };
+  let now = 100_000;
+  const originalNow = Date.now;
+  Date.now = () => now;
+  setStorageAdapter({ load: () => ({ ...emptyProgress(), settings: { ...emptyProgress().settings, sound: false, reducedMotion: true } }), save: () => {} });
+  try {
+    const started = runtime.startLowActivityMaintenance();
+    assert.ok(started);
+    const immediate = { proofId: started.id, action: 'maintenance', performed: true, verified: true, active: true, restored: false,
+      before: { sound: false, reducedMotion: true }, after: { sound: false, reducedMotion: true }, startedAt: now, completedAt: now, elapsedMs: 0,
+      maintenanceCompleted: true };
+    assert.equal(def.check?.({}, immediate).correct, false);
+    now += 25_000;
+    const receipt = runtime.completeLowActivityMaintenance(started.id);
+    assert.ok(receipt);
+    const valid = { proofId: receipt.id, action: receipt.action, performed: true, verified: true, active: true, restored: false,
+      before: receipt.before, after: receipt.after, startedAt: receipt.startedAt, completedAt: receipt.completedAt,
+      elapsedMs: receipt.completedAt! - receipt.startedAt, maintenanceCompleted: true };
+    assert.equal(def.isReady?.({}, valid), true);
+    assert.equal(def.check?.({}, valid).correct, true);
+    assert.equal(def.check?.({}, { ...valid, completedAt: now + 60_000 }).correct, false);
+    assert.equal(def.check?.({}, { ...valid, proofId: 'forged' }).correct, false);
+    progressCore.updateProgress((p) => ({ ...p, settings: { ...p.settings, reducedMotion: false } }));
+    assert.equal(def.check?.({}, valid).correct, false);
+  } finally {
+    Date.now = originalNow;
+    setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+  }
+});
 
-  const immediate = { ...base, completedAt: 1_000, elapsedMs: 0 };
-  const belowThreshold = { ...base, completedAt: 25_999, elapsedMs: 24_999 };
-  const atThreshold = { ...base, completedAt: 26_000, elapsedMs: 25_000 };
-  const fabricatedElapsed = { ...base, completedAt: 1_100, elapsedMs: 25_000 };
+test('hidratacion descarta comprobantes de baja actividad malformados o futuros', () => {
+  const future = Date.now() + 60_000;
+  const raw = { ...emptyProgress(), lowActivityPractice: { id: 'future', action: 'activation', startedAt: future, completedAt: future,
+    before: { sound: true, reducedMotion: false }, after: { sound: false, reducedMotion: true }, restored: false } } as unknown as Progress;
+  setStorageAdapter({ load: () => raw, save: () => {} });
+  assert.equal(getProgress().lowActivityPractice, undefined);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
 
-  assert.equal(def.isReady?.({}, immediate), false);
-  assert.equal(def.check?.({}, immediate).correct, false);
-  assert.equal(def.check?.({}, belowThreshold).correct, false);
-  assert.equal(def.isReady?.({}, atThreshold), true);
-  assert.equal(def.check?.({}, atThreshold).correct, true);
-  assert.equal(def.check?.({}, fabricatedElapsed).correct, false);
+test('el control de restauracion queda inhabilitado despues de correcto o revelado', async () => {
+  const activity = await import('../src/activities/low-activity-mode');
+  assert.equal(activity.canRestoreLowActivityPractice('answering', { action: 'activation', restored: false } as any), true);
+  assert.equal(activity.canRestoreLowActivityPractice('correct', { action: 'activation', restored: false } as any), false);
+  assert.equal(activity.canRestoreLowActivityPractice('revealed', { action: 'activation', restored: false } as any), false);
+});
+
+test('solver E2E de baja actividad usa el runtime y llega a canSubmit y correcto', async () => {
+  const def = getActivity('low-activity-mode')!;
+  const step = { id: 'low-test', type: 'low-activity-mode', fase: 'aplicar' as const, areas: ['pyd' as const], cnb: ['pyd:5.5.2'], prompt: 'Prueba', props: {} };
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+  assert.equal(typeof def.testSolve, 'function');
+  const value = await def.testSolve?.(step.props);
+  let state = stepReducer(initialStep(), { type: 'change', value });
+  assert.equal(canSubmit(def, step, state), true);
+  state = stepReducer(state, { type: 'check', def, step });
+  assert.equal(state.status, 'correct');
+  assert.equal(getProgress().lowActivityPractice?.id, (value as { proofId: string }).proofId);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 
 test('numeración maya: vigesimal y cuenta larga', () => {
@@ -182,9 +266,10 @@ test('registro legacy cubre los short-answer actuales sin borrar migraciones his
   }
   assert.ok(Object.keys(LEGACY_JOURNAL_REQUIREMENTS).length >= steps.length,
     'El historial puede contener IDs publicados que ya no existen en el contenido actual');
-  assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS['s08-l1-4-7'], { minWords: 70 });
-  assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS['s08-art-2-7'], { minWords: 50 });
-  assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS['s08-fc-2-7'], { minWords: 40 });
+  assert.equal(Object.keys(HISTORICAL_JOURNAL_REQUIREMENTS).length, 112, 'La fixture debe enumerar todo el historial publicado');
+  for (const [id, minWords] of Object.entries(HISTORICAL_JOURNAL_REQUIREMENTS)) {
+    assert.deepEqual(LEGACY_JOURNAL_REQUIREMENTS[id], { minWords }, `${id}: umbral historico eliminado o mutado`);
+  }
 });
 
 test('hidratacion conserva revisable un ID historico retirado con su umbral original', () => {

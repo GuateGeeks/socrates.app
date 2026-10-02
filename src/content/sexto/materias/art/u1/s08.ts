@@ -14,6 +14,7 @@ export default [
     title: 'La vida de un artista: investigar una biografía',
     icon: 'Search',
     minutes: 15,
+    preparatory: true,
     gancho: 'Cada lunes cantas el Himno Nacional. ¿Sabes quién compuso su música, dónde nació y cómo fue su vida?',
     objetivos: [
       'Plantear preguntas guía para investigar la vida y la obra de un artista',
@@ -31,11 +32,11 @@ export default [
     },
     steps: [
       S.explain(
-        { fase: 'explorar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer', title: 'Investigar vida y obra', prompt: 'Lee qué evidencia requiere una biografía artística.' },
+        { fase: 'explorar', areas: ['art'], cnb: [], ambito: 'conocer', title: 'Investigar vida y obra', prompt: 'Lee esta preparación para la publicación biográfica de la siguiente lección.' },
         { icon: 'Palette', body: 'Una biografía artística organiza origen, formación, obras, aporte y fuentes verificables.' },
       ),
       S.choice(
-        { fase: 'construir', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['art'], cnb: [], ambito: 'conocer',
           prompt: '¿Quién compuso la **música** del Himno Nacional de Guatemala?',
           explain: 'La música es de **Rafael Álvarez Ovalle**, nacido en **San Juan Comalapa**, Chimaltenango. La letra es del poeta **José Joaquín Palma**. Hoy aprenderás a investigar la vida de artistas como ellos.' },
         { options: [
@@ -45,7 +46,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer', title: 'Preguntas guía de una biografía',
+        { fase: 'construir', areas: ['art'], cnb: [], ambito: 'conocer', title: 'Preguntas guía de una biografía',
           prompt: 'Una **biografía** cuenta la vida de una persona. Para investigar, empieza con **preguntas guía**. Toca cada tarjeta.' },
         { icon: 'ClipboardList', body: 'Investigar a un artista es como armar un rompecabezas: cada pregunta es una pieza.', reveal: [
           { icon: 'MapPin', front: 'Origen', back: '¿**Dónde** y **cuándo** nació? ¿Cómo era su familia y su comunidad?' },
@@ -55,7 +56,7 @@ export default [
         ] },
       ),
       S.explain(
-        { fase: 'construir', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer', title: 'Fuentes confiables',
+        { fase: 'construir', areas: ['art'], cnb: [], ambito: 'conocer', title: 'Fuentes confiables',
           prompt: 'Cada dato de tu biografía debe venir de una **fuente**. No todas son iguales. Toca cada tarjeta.' },
         { icon: 'Library', body: 'Una buena investigación usa **al menos dos fuentes** y compara si dicen lo mismo.', reveal: [
           { icon: 'FileText', front: 'Fuente primaria', back: 'Viene directamente de la persona o de su época: una **entrevista** con ella o con quien la conoció, sus **cartas**, **partituras**, **fotos** o documentos.' },
@@ -65,7 +66,7 @@ export default [
         ] },
       ),
       S.ejemplo(
-        { fase: 'construir', areas: ['art', 'ccss'], cnb: ['art:4.3.2'], ambito: 'hacer', title: 'Ejemplo resuelto: la ficha de Rafael Álvarez Ovalle',
+        { fase: 'construir', areas: ['art', 'ccss'], cnb: [], ambito: 'hacer', title: 'Ejemplo resuelto: la ficha de Rafael Álvarez Ovalle',
           prompt: 'Mira cómo Mariela organiza lo que investigó con las preguntas guía.' },
         { icon: 'NotebookPen', problem: 'Mariela consultó un libro de historia de la música guatemalteca en la biblioteca municipal y entrevistó a su maestro de música. ¿Cómo arma su ficha?',
           steps: [
@@ -79,7 +80,7 @@ export default [
           tip: 'Si dos fuentes dan fechas distintas, anótalo y consulta una tercera.' },
       ),
       S.sort(
-        { fase: 'construir', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'conocer',
+        { fase: 'construir', areas: ['art'], cnb: [], ambito: 'conocer',
           prompt: 'Clasifica cada fuente: ¿es **primaria** o **secundaria**?',
           hint: 'Primaria = viene directamente de la persona o de su época. Secundaria = alguien más lo explica después.',
           explain: 'Entrevistas, cartas y partituras originales son primarias. Libros, enciclopedias y artículos son secundarios.' },
@@ -95,7 +96,7 @@ export default [
         ] },
       ),
       S.order(
-        { fase: 'aplicar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'hacer',
+        { fase: 'aplicar', areas: ['art'], cnb: [], ambito: 'hacer',
           prompt: 'Recuerdas el **"Himno a la alegría"** de la semana 2. Es de **Ludwig van Beethoven**, compositor alemán. Ordena los hechos de su vida en una **línea de tiempo**.',
           explain: 'Beethoven nació en Bonn en 1770, se mudó a Viena en 1792, empezó a perder el oído a finales de esa década, estrenó su Novena Sinfonía (que incluye el "Himno a la alegría") en 1824, ya casi sordo, y murió en Viena en 1827.' },
         { items: [
@@ -107,7 +108,7 @@ export default [
         ], labels: { start: 'Primero', end: 'Después' } },
       ),
       S.choice(
-        { fase: 'aplicar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'hacer',
+        { fase: 'aplicar', areas: ['art'], cnb: [], ambito: 'hacer',
           prompt: 'Para investigar al poeta **Humberto Ak’abal**, Ana encontró tres fuentes. ¿Cuál es la **más confiable**?',
           explain: 'Un libro publicado o una institución cultural reconocida, con autor identificado, es más confiable que un mensaje sin autor o un rumor.' },
         { options: [
@@ -117,7 +118,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.match(
-        { fase: 'aplicar', areas: ['art'], cnb: ['art:4.3.2'], ambito: 'hacer',
+        { fase: 'aplicar', areas: ['art'], cnb: [], ambito: 'hacer',
           prompt: 'Aplica las preguntas guía al paquete suministrado de Ana López, artista ficticia: une cada dato con su sección biográfica.',
           explain: 'Una investigación breve conserva el origen, la formación, la obra y el aporte, y deja visible qué ficha suministrada respalda cada dato.' },
         { leftTitle: 'Dato suministrado', rightTitle: 'Sección', pairs: [
@@ -128,7 +129,7 @@ export default [
         ] },
       ),
       S.choice(
-        { fase: 'comprobar', areas: ['art'], cnb: ['art:4.3.2'], prompt: '¿Cuál de estas es una **fuente primaria** para la biografía de una tejedora?' },
+        { fase: 'comprobar', areas: ['art'], cnb: [], prompt: '¿Cuál de estas es una **fuente primaria** para la biografía de una tejedora?' },
         { options: [
           { id: 'a', text: 'Una entrevista con la tejedora' },
           { id: 'b', text: 'Un resumen en una enciclopedia' },
@@ -136,7 +137,7 @@ export default [
         ], correct: ['a'] },
       ),
       S.tf(
-        { fase: 'comprobar', areas: ['art'], cnb: ['art:4.3.2'], prompt: '¿Verdadero o falso?' },
+        { fase: 'comprobar', areas: ['art'], cnb: [], prompt: '¿Verdadero o falso?' },
         { statements: [
           { text: 'En una biografía conviene anotar de dónde sale cada dato.', answer: true },
           { text: 'Rafael Álvarez Ovalle compuso la música del Himno Nacional de Guatemala.', answer: true },

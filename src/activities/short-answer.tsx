@@ -66,5 +66,12 @@ export default defineActivity<ShortAnswerProps, ShortAnswerValue>({
   evidenceMode: 'journal-pending-review',
   Component: ShortAnswer,
   isReady: isShortAnswerReady,
+  testSolve: (props) => {
+    const min = props.minWords ?? 8;
+    const seed = props.model.trim().split(/\s+/).filter(Boolean);
+    const filler = ['Esta', 'evidencia', 'queda', 'guardada', 'para', 'revision'];
+    while (seed.length < min) seed.push(filler[seed.length % filler.length]);
+    return { text: seed.join(' '), checks: props.rubric.map(() => true), seen: true };
+  },
   validate: (p) => (!p.model || p.rubric.length === 0 ? ['requiere model y rubric'] : []),
 });

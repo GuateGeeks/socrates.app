@@ -112,9 +112,13 @@ export const LEGACY_JOURNAL_REQUIREMENTS: Readonly<Record<string, LegacyJournalR
   's08-art-2-8': { minWords: 32 },
   's08-fc-2-7': { minWords: 40 },
   's08-pyd-1-7': { minWords: 24 },
+  's08-d5-reto-8': { minWords: 26 },
+  's08-d5-reto-9': { minWords: 24 },
   's09-d1-planificar-6': { minWords: 40 },
   's09-d2-disenar-5': { minWords: 35 },
   's09-d4-presentar-5': { minWords: 45 },
   's09-d5-evaluar-5': { minWords: 45 },
   's10-p-2': { minWords: 15 },
+  's10-art-8': { minWords: 24 },
+  's10-ef-8': { minWords: 24 },
 };

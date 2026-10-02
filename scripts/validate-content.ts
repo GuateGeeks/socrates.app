@@ -106,9 +106,10 @@ function checkStep(w: Mission, l: Lesson, s: StepBase, where: string, examMode: 
         if (!r.correct) err(w, `${where} la solución no pasa su propio check() → clave de respuesta incorrecta`);
       } catch (e) { err(w, `${where} error al verificar solución: ${(e as Error).message}`); }
     }
-    if (s.cnb.length === 0) err(w, `${where} actividad calificada sin referencia CNB`);
+    if (s.cnb.length === 0 && !l.preparatory) err(w, `${where} actividad calificada sin referencia CNB`);
   }
-  if (examMode && !def.graded) err(w, `${where} en un reto/banco solo se permiten actividades calificadas (${s.type})`);
+  const examEvidence = def.graded || Boolean(s.areas[0] && isPendingReviewEvidence(s, s.areas[0]));
+  if (examMode && !examEvidence) err(w, `${where} en un reto/banco solo se permite evidencia evaluable (${s.type})`);
   if (examMode && s.hint) warnings.push(`${where} los retos no muestran pistas (hint ignorado)`);
   void l;
 }
@@ -126,6 +127,7 @@ function checkMateria(w: Mission, l: Lesson, sid: string, where: string) {
   const a = l.area!;
   const same = w.lessons.filter((x) => x.kind === 'materia' && x.area === a);
   const k = same.indexOf(l) + 1;
+  const preparatory = Boolean(l.preparatory);
   if (l.id !== `${sid}-${a}-${k}`) err(w, `${where} id esperado "${sid}-${a}-${k}"`);
   if (l.steps.length < 8) err(w, `${where} lección de materia con ${l.steps.length} pasos (mínimo 8)`);
   if (l.steps.length > 18) warnings.push(`${where} ${l.steps.length} pasos: quizá es demasiado larga para una sesión`);
@@ -137,12 +139,17 @@ function checkMateria(w: Mission, l: Lesson, sid: string, where: string) {
   if (!fases.has('aplicar')) err(w, `${where} sin fase "aplicar" (práctica independiente)`);
   const comprobar = l.steps.filter((s) => s.fase === 'comprobar');
   if (comprobar.length < 2) err(w, `${where} el boleto de salida necesita ≥2 pasos "comprobar"`);
-  if (comprobar.some((s) => !isDeclaredAssessmentEvidence(s))) err(w, `${where} los pasos "comprobar" deben ser calificados o registrar evidencia del área`);
+  if (!preparatory && comprobar.some((s) => !isDeclaredAssessmentEvidence(s))) err(w, `${where} los pasos "comprobar" deben ser calificados o registrar evidencia del área`);
   const assessed = l.steps.filter(isDeclaredAssessmentEvidence).length;
-  if (assessed < 4) err(w, `${where} solo ${assessed} pasos con evidencia (mínimo 4: práctica + boleto)`);
+  if (!preparatory && assessed < 4) err(w, `${where} solo ${assessed} pasos con evidencia (mínimo 4: práctica + boleto)`);
   const foreign = l.steps.filter((s) => s.areas[0] !== a);
   if (foreign.length) err(w, `${where} ${foreign.length} pasos cuya área principal no es "${a}" (areas[0] debe ser la materia; otras áreas solo como secundarias)`);
-  if (!l.steps.some((s) => s.cnb.some((c) => c.startsWith(`${a}:`)))) err(w, `${where} no referencia contenidos de ${a}`);
+  const ownAreaRefs = l.steps.some((s) => s.cnb.some((c) => c.startsWith(`${a}:`)));
+  if (preparatory) {
+    if (ownAreaRefs) err(w, `${where} una lección preparatoria no puede acreditar referencias de ${a}`);
+    const followedByEvidence = same.slice(k).some((next) => next.steps.some((s) => s.cnb.some((c) => c.startsWith(`${a}:`))));
+    if (!followedByEvidence) err(w, `${where} la preparación debe continuar en una lección posterior con evidencia de ${a}`);
+  } else if (!ownAreaRefs) err(w, `${where} no referencia contenidos de ${a}`);
   if ((l.resumen?.length ?? 0) < 2) err(w, `${where} resumen con menos de 2 ideas clave`);
 }
 

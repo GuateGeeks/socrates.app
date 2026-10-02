@@ -62,6 +62,8 @@ export interface Lesson {
   day?: number;
   /** materia (área del CNB) a la que pertenece una lección de materia */
   area?: AreaId;
+  /** Práctica preparatoria sin acreditación CNB; otra lección posterior del área debe aportar la evidencia. */
+  preparatory?: boolean;
   /** pregunta que activa saberes previos (enfoque constructivista) */
   gancho?: string;
   /** "Hoy aprenderás a…" (2-3 objetivos en lenguaje de niño) */
@@ -178,6 +180,8 @@ export interface ActivityDefinition<P = any, A = any> {
   validate?(props: P): string[];
   /** respuesta correcta para "Ver solución" tras 2 intentos */
   solution?(props: P): A;
+  /** Resolvedor de automatización, expuesto únicamente por LessonPlayer bajo __SOCRATES_TEST__. */
+  testSolve?(props: P): A | Promise<A>;
   /** ejemplo mínimo para la galería / pruebas de humo */
   example?: Omit<StepBase<string, P>, 'id' | 'type'>;
 }

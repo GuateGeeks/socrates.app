@@ -5111,8 +5111,21 @@ function proceduralEvidenceMatches(ref: string, value: unknown): boolean {
   const text = normalizeFactText(JSON.stringify(value));
   if (ref === 'art:4.3.2') return /(?:publica|comparte|guarda).{0,100}(?:biograf|vida|obra).{0,100}fuente|ficha biografica.{0,100}(?:publicada|visible|guardada)/.test(text);
   if (ref === 'ef:4.2.3') return /(?:dirige|lidera|explica).{0,100}(?:regla|rutina|secuencia).{0,100}(?:adaptacion|seguridad|rol)|(?:instruccion|regla).{0,100}(?:adaptacion|seguridad).{0,100}(?:rol|secuencia)/.test(text);
-  if (ref === 'pyd:5.5.2') return /(?:activa|habilita|aplica|ejecuta).{0,100}(?:modo de baja actividad|sonido opcional|movimiento reducido).{0,140}(?:verifica|comprueba|restaura)|(?:verifica|comprueba).{0,100}(?:sonido opcional|movimiento reducido).{0,100}(?:restaura|reversible|estado anterior)/.test(text);
+  if (ref === 'pyd:5.5.2') return ((value as { type?: string })?.type === 'low-activity-mode'
+    && /ejecuta|aplica|activa|mantener/.test(text) && /modo de baja actividad/.test(text) && /verifica|comprueba/.test(text))
+    || /(?:activa|habilita|aplica|ejecuta).{0,100}(?:modo de baja actividad|sonido opcional|movimiento reducido).{0,140}(?:verifica|comprueba|restaura)|(?:verifica|comprueba).{0,100}(?:sonido opcional|movimiento reducido).{0,100}(?:restaura|reversible|estado anterior)/.test(text);
   if (ref === 'ccss:8.4.1') return /(?:clasifica|aplica|decide|ubica).{0,100}(?:constitucion|ley|reglamento|norma|responsabilidad)|(?:constitucion|ley|reglamento).{0,100}(?:deber|responsabilidad|crear impuestos|contradecir)/.test(text);
+  return false;
+}
+
+function hasProceduralInteractionCapability(ref: string, step: StepBase): boolean {
+  const text = normalizeFactText(JSON.stringify(step));
+  if (ref === 'art:4.3.2') return step.type === 'short-answer'
+    && /publica|comparte/.test(text) && /biograf/.test(text) && /fuente/.test(text);
+  if (ref === 'ef:4.2.3') return step.type === 'short-answer'
+    && /dirige|lidera/.test(text) && /instruccion|regla|secuencia/.test(text) && /seguridad|adaptacion/.test(text);
+  if (ref === 'pyd:5.5.2') return step.type === 'low-activity-mode';
+  if (ref === 'ccss:8.4.1') return proceduralEvidenceMatches(ref, step);
   return false;
 }
 
@@ -5122,6 +5135,10 @@ test('La evidencia procedimental rechaza palabras clave sin accion demostrable',
   assert.equal(proceduralEvidenceMatches('pyd:5.5.2', { prompt: 'Semilla, conservacion y fuente.' }), false);
   assert.equal(proceduralEvidenceMatches('pyd:5.5.2', { prompt: 'Crea y guarda una ficha digital para documentar una practica de conservacion.' }), false);
   assert.equal(proceduralEvidenceMatches('ccss:8.4.1', { prompt: 'Norma, IVA y responsabilidad.' }), false);
+  const recognition = (prompt: string): StepBase => ({ id: 'negative', type: 'choice', fase: 'comprobar', areas: ['art'], cnb: [], prompt, props: {} });
+  assert.equal(hasProceduralInteractionCapability('art:4.3.2', recognition('Publica una ficha biografica con fuente.')), false);
+  assert.equal(hasProceduralInteractionCapability('ef:4.2.3', recognition('Lidera una secuencia con adaptacion segura.')), false);
+  assert.equal(hasProceduralInteractionCapability('pyd:5.5.2', recognition('Ejecuta una practica de conservacion.')), false);
 });
 
 test('Arte, EF, PyD y CCSS2 producen evidencia procedimental independiente y revisable', () => {
@@ -5147,7 +5164,7 @@ test('Arte, EF, PyD y CCSS2 producen evidencia procedimental independiente y rev
   assert.doesNotMatch(normalizeFactText(JSON.stringify(ef)), /todas las personas rotaron|cada persona dirigio/);
 });
 
-test('Reto y banco transfieren los cuatro procedimientos con payloads nuevos', () => {
+test('Reto y banco transfieren los cuatro procedimientos con interacciones capaces y payloads nuevos', () => {
   const challenge = weekEight.lessons.find((lesson) => lesson.kind === 'reto');
   assert.ok(challenge);
   for (const [area, ref] of [['art', 'art:4.3.2'], ['ef', 'ef:4.2.3'], ['pyd', 'pyd:5.5.2'], ['ccss', 'ccss:8.4.1']] as const) {
@@ -5158,8 +5175,25 @@ test('Reto y banco transfieren los cuatro procedimientos con payloads nuevos', (
     assert.ok(bankStep.cnb.includes(ref), `${area}: referencia incorrecta en banco`);
     assert.equal(proceduralEvidenceMatches(ref, challengeStep), true, `${area}: reto no procedimental`);
     assert.equal(proceduralEvidenceMatches(ref, bankStep), true, `${area}: banco no procedimental`);
+    assert.equal(hasProceduralInteractionCapability(ref, challengeStep), true, `${area}: reto no puede producir la evidencia`);
+    assert.equal(hasProceduralInteractionCapability(ref, bankStep), true, `${area}: banco no puede producir la evidencia`);
     assert.equal(repeatsStructuredFact(bankStep, challengeStep), false, `${area}: banco repite reto`);
   }
+});
+
+test('Arte 1 prepara la investigacion sin acreditar publicacion y Arte 2 conserva toda la evidencia 4.3.2', () => {
+  const artOne = weekEight.lessons.find((lesson) => lesson.id === 's08-art-1');
+  const artTwo = weekEight.lessons.find((lesson) => lesson.id === 's08-art-2');
+  assert.ok(artOne && artTwo);
+  assert.equal(artOne.preparatory, true, 'Arte 1 debe declarar explícitamente que solo prepara la publicación');
+  assert.ok(artOne.steps.every((step) => !step.cnb.includes('art:4.3.2')),
+    'La investigacion preparatoria no es publicacion');
+  const teaching = artTwo.steps.filter((step) => !getActivity(step.type)?.graded && step.cnb.includes('art:4.3.2'));
+  const application = artTwo.steps.filter((step) => step.fase === 'aplicar' && step.cnb.includes('art:4.3.2'));
+  const exits = artTwo.steps.filter((step) => step.fase === 'comprobar' && step.cnb.includes('art:4.3.2'));
+  assert.ok(teaching.length > 0);
+  assert.ok(application.some((step) => step.type === 'short-answer'));
+  assert.equal(exits.length, 2);
 });
 
 test('Semana 8 rotula casos suministrados y corrige afirmaciones factuales sensibles', () => {
@@ -5275,6 +5309,41 @@ test('PyD ejecuta y verifica una practica real, reversible y persistida de baja 
   const exits = lesson.steps.filter((step) => step.fase === 'comprobar' && getActivity(step.type)?.graded);
   assert.equal(exits.length, 2);
   assert.ok(exits.every((step) => proceduralEvidenceMatches('pyd:5.5.2', step)));
+});
+
+test('PyD vincula una practica cultural respetuosa, un recurso natural y la accion contemporanea', () => {
+  const lesson = weekEight.lessons.find((item) => item.id === 's08-pyd-1');
+  assert.ok(lesson);
+  const objective = normalizeFactText((lesson.objetivos ?? []).join(' '));
+  assert.match(objective, /cultura|familia|comunidad/);
+  assert.match(objective, /recurso natural/);
+  assert.match(objective, /conserv/);
+  const text = normalizeFactText(JSON.stringify(lesson));
+  assert.match(text, /ejemplo didactico suministrado|ejemplo suministrado/);
+  assert.match(text, /no afirmes|sin afirmar|no supone.{0,40}(?:familia|comunidad|cultura)/);
+  assert.match(text, /recurso natural/);
+  assert.match(text, /adaptacion contemporanea|accion contemporanea/);
+  const application = lesson.steps.filter((step) => step.fase === 'aplicar');
+  const culturalArtifact = application.find((step) => step.type === 'short-answer');
+  const action = application.find((step) => step.type === 'low-activity-mode');
+  assert.ok(culturalArtifact && action);
+  assert.ok(lesson.steps.indexOf(culturalArtifact) < lesson.steps.indexOf(action), 'El vinculo cultural debe preceder la ejecucion');
+  const artifactText = normalizeFactText(JSON.stringify(culturalArtifact));
+  assert.match(artifactText, /familia|comunidad|cultura/);
+  assert.match(artifactText, /ejemplo suministrado/);
+  assert.match(artifactText, /recurso natural/);
+  assert.match(artifactText, /modo de baja actividad/);
+  const guided = lesson.steps.filter((step) => step.fase === 'construir' && getActivity(step.type)?.graded);
+  assert.ok(guided.some((step) => /cultura|familia|comunidad/.test(normalizeFactText(JSON.stringify(step)))
+    && /recurso natural/.test(normalizeFactText(JSON.stringify(step)))));
+  const exits = lesson.steps.filter((step) => step.fase === 'comprobar');
+  assert.equal(exits.length, 2);
+  assert.ok(exits.every((step) => {
+    const exit = normalizeFactText(JSON.stringify(step));
+    return /cultura|familia|comunidad|ejemplo suministrado/.test(exit)
+      && /recurso natural/.test(exit) && /modo de baja actividad|sonido opcional|movimiento reducido/.test(exit);
+  }));
+  assert.doesNotMatch(text, /(?:promete|asegura) un ahorro|ahorro de \d|ahorra \d/);
 });
 
 function exactGenderEqualityEvidence(value: unknown): boolean {
@@ -5394,19 +5463,20 @@ test('Semana 8 evalua diez areas con referencias ensenadas y payloads frescos', 
   const taughtCnb = new Set(subjectSteps.flatMap((step) => step.cnb));
   const challenge = weekEight.lessons.find((lesson) => lesson.kind === 'reto');
   assert.ok(challenge, 'Semana 8 sin reto');
-  const assessments = [...challenge.steps, ...weekEightBank].filter((step) => getActivity(step.type)?.graded);
+  const isReviewEvidence = (step: StepBase) => Boolean(getActivity(step.type)?.graded || getActivity(step.type)?.recordsEvidence);
+  const assessments = [...challenge.steps, ...weekEightBank].filter(isReviewEvidence);
   assert.ok(assessments.every((step) => !step.hint && !step.explain));
   assert.ok(assessments.every((step) => step.cnb.every((ref) => taughtCnb.has(ref))));
-  assert.deepEqual(new Set(challenge.steps.filter((step) => getActivity(step.type)?.graded).map((step) => step.areas[0])), PRIMARY_AREAS);
-  assert.deepEqual(new Set(weekEightBank.filter((step) => getActivity(step.type)?.graded).map((step) => step.areas[0])), PRIMARY_AREAS);
+  assert.deepEqual(new Set(challenge.steps.filter(isReviewEvidence).map((step) => step.areas[0])), PRIMARY_AREAS);
+  assert.deepEqual(new Set(weekEightBank.filter(isReviewEvidence).map((step) => step.areas[0])), PRIMARY_AREAS);
   const reused: string[] = [];
   for (const assessment of assessments) {
     const repeatedPractice = subjectSteps.find((practice) => practice.areas[0] === assessment.areas[0]
       && repeatsStructuredFact(assessment, practice));
     if (repeatedPractice) reused.push(`${assessment.id}/${assessment.areas[0]}->${repeatedPractice.id}`);
   }
-  const challengeAssessments = nestedGradedAssessments(challenge.steps);
-  const bankAssessments = nestedGradedAssessments(weekEightBank);
+  const challengeAssessments = challenge.steps.filter(isReviewEvidence);
+  const bankAssessments = weekEightBank.filter(isReviewEvidence);
   for (const bankItem of bankAssessments) {
     if (challengeAssessments.some((challengeItem) => challengeItem.areas[0] === bankItem.areas[0]
       && repeatsStructuredFact(bankItem, challengeItem))) reused.push(`banco-reto/${bankItem.areas[0]}`);
