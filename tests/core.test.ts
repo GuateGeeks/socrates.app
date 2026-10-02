@@ -16,6 +16,7 @@ import { HISTORICAL_JOURNAL_REQUIREMENTS } from './fixtures/legacy-journal-histo
 import * as progressCore from '../src/core/progress';
 import { preparatoryLessonErrors } from '../src/core/content-validation';
 import { isCulturalConservationReady } from '../src/activities/cultural-conservation-practice';
+import { indicadorOf } from '../src/cnb/catalog';
 
 registerAll();
 
@@ -369,6 +370,85 @@ test('consulta cultural persiste como necesita revision y nunca puede aprobarse'
   assert.equal(getProgress().journal[key].status, 'needs-revision', 'la consulta debe sobrevivir hidratacion');
   reviewJournalEntry(key, 'approve');
   assert.equal(getProgress().evidence['pyd:5.5'], undefined);
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+async function solvedLessonOutcomes(
+  lesson: (typeof WEEKS)[number]['lessons'][number],
+  pendingValue?: (step: (typeof lesson.steps)[number]) => unknown,
+) {
+  return Promise.all(lesson.steps.map(async (step) => {
+    const def = getActivity(step.type)!;
+    let value: unknown;
+    if (def.evidenceMode === 'journal-pending-review' && pendingValue) value = pendingValue(step);
+    else if (def.testSolve) value = await def.testSolve(step.props);
+    else if (def.solution) value = def.solution(step.props);
+    const result = def.graded && def.check ? def.check(step.props, value) : { correct: true, score: 1 };
+    return { step, graded: def.graded, correct: result.correct, firstTry: true, score: result.score ?? (result.correct ? 1 : 0), value };
+  }));
+}
+
+const consultationValue = (label: string) => ({
+  mode: 'needs-consultation' as const,
+  consultationNote: `Necesito consultar a ${label} y revisar una fuente para comprender qué recurso natural protege.`,
+  text: `Consulta necesaria: Necesito consultar a ${label} y revisar una fuente para comprender qué recurso natural protege.`,
+  checks: [], seen: true,
+});
+
+test('leccion PyD completa difiere dominio humano: consulta no acredita y practica conocida acredita una vez', async () => {
+  const mission = WEEKS.find((week) => week.semana === 8)!;
+  const lesson = mission.lessons.find((item) => item.id === 's08-pyd-1')!;
+
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+  const consultationOutcomes = await solvedLessonOutcomes(lesson, (step) => consultationValue(step.id));
+  const consultationSummary = recordLesson(mission, lesson, consultationOutcomes, () => []);
+  assert.equal(consultationSummary.score, 1, 'la guia calificada conserva su puntaje');
+  assert.deepEqual(consultationSummary.byIndicator['pyd:5.5'], { ok: 1, total: 1 }, 'la guia conserva retroalimentacion por indicador');
+  assert.equal(getProgress().evidence['pyd:5.5'], undefined, 'la guia no acredita el indicador sujeto a revision humana');
+  assert.equal(getProgress().contenidos?.['pyd:5.5.2'], undefined, 'la guia no acredita el contenido sujeto a revision humana');
+  const consultationEntries = Object.values(getProgress().journal).filter((entry) => entry.primaryArea === 'pyd');
+  assert.equal(consultationEntries.length, 3);
+  assert.ok(consultationEntries.every((entry) => entry.status === 'needs-revision' && entry.creditedRefs.length === 0));
+
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+  const knownOutcomes = await solvedLessonOutcomes(lesson);
+  recordLesson(mission, lesson, knownOutcomes, () => []);
+  assert.equal(getProgress().evidence['pyd:5.5'], undefined, 'la evidencia conocida espera aprobacion docente');
+  assert.equal(getProgress().contenidos?.['pyd:5.5.2'], undefined);
+
+  const applicationKey = `${lesson.id}/s08-pyd-1-6`;
+  reviewJournalEntry(applicationKey, 'approve');
+  assert.equal(getProgress().evidence['pyd:5.5']?.ok, 1);
+  assert.equal(getProgress().evidence['pyd:5.5']?.total, 1);
+  assert.equal(getProgress().contenidos?.['pyd:5.5.2']?.ok, 1);
+  assert.equal(getProgress().contenidos?.['pyd:5.5.2']?.total, 1);
+
+  reviewJournalEntry(applicationKey, 'approve');
+  assert.equal(getProgress().evidence['pyd:5.5']?.total, 1, 'aprobar dos veces no duplica dominio');
+  const repeatedOutcomes = await solvedLessonOutcomes(lesson);
+  recordLesson(mission, lesson, repeatedOutcomes, () => []);
+  reviewJournalEntry(applicationKey, 'approve');
+  assert.equal(getProgress().evidence['pyd:5.5']?.total, 1, 'reenviar y aprobar el mismo espacio estable sigue siendo idempotente');
+  assert.equal(getProgress().contenidos?.['pyd:5.5.2']?.total, 1);
+  progressCore.__lowActivityTest.reset();
+  setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+});
+
+test('reto y evaluacion generada difieren solo referencias con puerta de revision humana', async () => {
+  for (const [weekNumber, lessonId] of [[8, 's08-d5-reto'], [10, 's10-d4-evaluacion-pyd']] as const) {
+    setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
+    const mission = WEEKS.find((week) => week.semana === weekNumber)!;
+    const lesson = mission.lessons.find((item) => item.id === lessonId)!;
+    const outcomes = await solvedLessonOutcomes(lesson);
+    recordLesson(mission, lesson, outcomes, () => []);
+    assert.equal(getProgress().evidence['pyd:5.5'], undefined, `${lessonId}: pyd:5.5 espera revisión`);
+    assert.equal(getProgress().contenidos?.['pyd:5.5.2'], undefined, `${lessonId}: pyd:5.5.2 espera revisión`);
+    const unrelatedGraded = lesson.steps.find((step) => getActivity(step.type)?.graded
+      && step.cnb.every((ref) => !ref.startsWith('pyd:5.5')))!;
+    const unrelatedIndicator = unrelatedGraded.cnb.length > 0 ? indicadorOf(unrelatedGraded.cnb[0]) : undefined;
+    assert.ok(unrelatedIndicator && getProgress().evidence[unrelatedIndicator], `${lessonId}: una referencia no sujeta a revisión conserva crédito automático`);
+  }
+  progressCore.__lowActivityTest.reset();
   setStorageAdapter({ load: () => emptyProgress(), save: () => {} });
 });
 

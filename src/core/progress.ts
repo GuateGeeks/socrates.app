@@ -482,6 +482,13 @@ export function starsFor(score: number): 1 | 2 | 3 { return score >= 0.9 ? 3 : s
 /** Registra el resultado de una lección y devuelve el resumen para la pantalla de cierre. */
 export function recordLesson(mission: Mission, lesson: Lesson, outcomes: StepOutcome[], evaluateBadges: (p: Progress, m: Mission) => string[]): LessonSummary {
   const graded = outcomes.filter((o) => o.graded);
+  // A pending-review production owns mastery for its indicator. Companion teaching or
+  // auto-graded practice may still affect lesson score, but cannot bypass human review.
+  const reviewGatedIndicators = new Set(
+    [...lesson.steps, ...outcomes.map((outcome) => outcome.step)]
+      .filter((step) => getActivity(step.type)?.evidenceMode === 'journal-pending-review')
+      .flatMap((step) => step.cnb.map(indicadorOf)),
+  );
   const score = graded.length ? graded.reduce((s, o) => s + (o.firstTry ? o.score : o.score * 0.5), 0) / graded.length : 1;
   const stars = starsFor(score);
   let xpGained = XP.lessonBonus + (stars === 3 ? XP.perfectBonus : 0);
@@ -508,14 +515,15 @@ export function recordLesson(mission: Mission, lesson: Lesson, outcomes: StepOut
         indicadores.add(ind);
         areas.add(areaOf(ind));
         if (!o.graded && def?.evidenceMode === 'journal-pending-review') continue;
-        const e = n.evidence[ind] ?? { ok: 0, total: 0, last: d };
         const credit = o.graded ? (o.firstTry && o.correct ? 1 : o.correct ? 0.5 : 0) : 1;
-        n.evidence[ind] = { ok: e.ok + credit, total: e.total + 1, last: d };
-        if (credit < 1) weak.add(ind);
         if (o.graded) {
           const b = byIndicator[ind] ?? { ok: 0, total: 0 };
           byIndicator[ind] = { ok: b.ok + (o.correct ? 1 : 0), total: b.total + 1 };
         }
+        if (reviewGatedIndicators.has(ind)) continue;
+        const e = n.evidence[ind] ?? { ok: 0, total: 0, last: d };
+        n.evidence[ind] = { ok: e.ok + credit, total: e.total + 1, last: d };
+        if (credit < 1) weak.add(ind);
         if (ref.split(':')[1]?.split('.').length === 3) {
           n.contenidos ??= {};
           const c = n.contenidos[ref] ?? { ok: 0, total: 0, last: d };
