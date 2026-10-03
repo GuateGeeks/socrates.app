@@ -146,3 +146,5 @@ a { color: inherit; }
 @media (min-width: 768px) {
   .ds-page { padding-left: var(--sp-6); padding-right: var(--sp-6); }
 }
+/* Non-blocking PWA update notice. */
+.pwa-update{position:fixed;z-index:100;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:12px;width:min(92vw,430px);padding:12px 14px;border-radius:16px;background:#17245d;color:#fff;box-shadow:0 14px 40px #0b123d55;font-weight:800}.pwa-update button{border:0;border-radius:10px;padding:8px 12px;background:#f3c94b;color:#17213d;font:inherit;font-weight:900}

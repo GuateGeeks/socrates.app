@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { href, useRoute, type Route } from '@/core/router';
 import { useProgress } from '@/core/progress';
 import { setReducedMotion } from '@/design-system/motion';
@@ -19,6 +19,7 @@ import { Docente } from '@/screens/Docente';
 import { Medios } from '@/screens/Medios';
 import { Sistema } from '@/screens/Sistema';
 import { Ajustes } from '@/screens/Ajustes';
+import { activateUpdate } from '@/pwa/service-worker';
 
 const TABS: { route: Route; icon: string; label: string; match: Route['name'][] }[] = [
   { route: { name: 'home' }, icon: 'House', label: 'Hoy', match: ['home', 'repaso'] },
@@ -31,6 +32,13 @@ const TABS: { route: Route; icon: string; label: string; match: Route['name'][] 
 export function App() {
   const route = useRoute();
   const settings = useProgress((p) => p.settings);
+  const [updateWorker, setUpdateWorker] = useState<ServiceWorker | null>(null);
+
+  useEffect(() => {
+    const ready = (event: Event) => setUpdateWorker((event as CustomEvent<ServiceWorker>).detail);
+    window.addEventListener('socrates:update-ready', ready);
+    return () => window.removeEventListener('socrates:update-ready', ready);
+  }, []);
 
   useEffect(() => {
     setReducedMotion(settings.reducedMotion);
@@ -67,6 +75,7 @@ export function App() {
   return (
     <>
       {screen}
+      {updateWorker && <aside className="pwa-update" role="status"><span>Hay una nueva versión lista.</span><button onClick={() => activateUpdate(updateWorker)}>Actualizar</button></aside>}
       <footer className="ds-tabbar">
         <nav aria-label="Navegación principal">
           {TABS.map((tab) => (

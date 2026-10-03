@@ -3,12 +3,19 @@ import { useProgress, updateProgress, resetProgress, type Settings } from '@/cor
 import { navigate } from '@/core/router';
 import { Button, Card, SectionTitle, Toggle, useEnter } from '@/design-system/components';
 import { Icon } from '@/design-system/icons';
+import { DAILY_GOALS, updateLearnerProfile, type DailyGoal } from '@/core/learner-profile';
 
 export function Ajustes() {
   const p = useProgress((s) => s);
   const ref = useEnter<HTMLDivElement>('enter.screen');
   const [confirmReset, setConfirmReset] = useState(false);
-  const set = (patch: Partial<Settings>) => updateProgress((x) => ({ ...x, settings: { ...x.settings, ...patch } }));
+  const set = (patch: Partial<Settings>) => {
+    updateProgress((x) => ({ ...x, settings: { ...x.settings, ...patch } }));
+    const settings = { ...p.settings, ...patch };
+    const dailyGoal = DAILY_GOALS.includes(settings.dailyGoal as DailyGoal) ? settings.dailyGoal as DailyGoal : 50;
+    const shared = { sound: settings.sound, haptics: settings.haptics, reducedMotion: settings.reducedMotion, theme: settings.theme, dailyGoal };
+    updateLearnerProfile(shared);
+  };
   return (
     <div ref={ref} className="ds-page ds-stack">
       <div className="ds-row">
@@ -18,7 +25,7 @@ export function Ajustes() {
       <Card>
         <SectionTitle>Perfil</SectionTitle>
         <input className="ds-input" style={{ marginTop: 8 }} value={p.profile.name} maxLength={20} aria-label="Nombre"
-          onChange={(e) => updateProgress((x) => ({ ...x, profile: { ...x.profile, name: e.target.value } }))} />
+          onChange={(e) => { updateProgress((x) => ({ ...x, profile: { ...x.profile, name: e.target.value } })); updateLearnerProfile({ displayName: e.target.value }); }} />
       </Card>
       <Card>
         <SectionTitle>Mi ciclo escolar</SectionTitle>

@@ -317,6 +317,17 @@ export function setStorageAdapter(a: StorageAdapter) {
 }
 function emit() { listeners.forEach((l) => l()); }
 export function getProgress(): Progress { return state; }
+export function isValidProgress(value: unknown): value is Progress {
+  if (!value || typeof value !== 'object') return false;
+  const p = value as Partial<Progress>;
+  return p.version === 1 && typeof p.xp === 'number' && Boolean(p.profile)
+    && Boolean(p.settings) && Boolean(p.lessons) && Boolean(p.evidence);
+}
+export function importProgress(snapshot: Progress) {
+  state = hydrate(snapshot);
+  adapter.save(state);
+  emit();
+}
 export function updateProgress(fn: (p: Progress) => Progress) { state = fn(state); adapter.save(state); emit(); }
 export function resetProgress() { updateProgress(() => ({ ...emptyProgress(), settings: state.settings, profile: state.profile })); }
 

@@ -47,3 +47,10 @@ Cada lección y varios pasos tienen un **espacio multimedia** (imagen, video, an
 - [docs/ESTADO_DISENO_CONTENIDO.md](docs/ESTADO_DISENO_CONTENIDO.md) — estado actual, brechas de cohesión y reglas para reemplazar mocks.
 
 Contenido curricular: © MINEDUC / cnbguatemala.org, CC BY-SA 4.0. Íconos: Lucide (ISC).
+# Firebase y PWA
+
+La aplicación funciona primero con almacenamiento local y sincroniza en segundo plano con Firebase. En la consola del proyecto `socrates-439aa`, habilita **Anonymous Authentication**, crea Firestore y Realtime Database, y despliega las reglas con `firebase deploy --only firestore:rules,database`.
+
+`npm run dev` inicia el sitio; `npm run build` genera los iconos PWA, valida contenido, comprueba TypeScript y produce `dist/`. El primer inicio muestra una configuración de perfil a pantalla completa que también funciona sin conexión. Las cuentas anónimas pertenecen a la instalación del navegador y no se transfieren automáticamente a otro dispositivo.
+
+Los archivos `.firebaserc`, `firebase.json`, `firestore.rules` y `database.rules.json` permiten usar Firebase CLI y emuladores sin guardar credenciales privadas. El cliente usa el archivo raíz `firebase.ts` como configuración canónica.

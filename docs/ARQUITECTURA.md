@@ -32,6 +32,12 @@ src/screens/LessonPlayer.tsx ──▶ src/core/progress.ts (XP, racha, estrella
 4. **Idiomas**: `core/i18n.ts` para interfaz; el contenido se traduce como paquete aparte (K'iche', Kaqchikel, Q'eqchi', Mam…).
 5. **IA de Socrates**: el paso tiene `hint`/`explain` estáticos; un servicio RAG puede generar pistas adaptativas usando `step.cnb` como contexto curricular.
 
+## Persistencia Firebase y arranque
+
+El arranque pasa por `splash → onboarding → App`. El perfil y cada avance del onboarding se guardan localmente, por lo que Firebase nunca bloquea la entrada. Tras recuperar o crear una sesión anónima, `core/cloud-sync.ts` sincroniza el perfil y una instantánea versionada del progreso en Firestore. Realtime Database contiene únicamente conexiones efímeras de presencia y usa `onDisconnect` para limpiarlas.
+
+Las pantallas no llaman Firebase directamente: `core/progress.ts` conserva su adaptador local síncrono y expone una frontera pequeña para importar/suscribirse a instantáneas. Ante conflicto se elige la instantánea válida más reciente; un empate conserva el estado local. El service worker solo controla recursos del mismo origen y deja las peticiones Firebase fuera de su caché.
+
 ## Decisiones
 - **React + Vite + TypeScript**, sin librerías de UI/animación: bundle pequeño para teléfonos de gama baja y datos móviles.
 - **Router por hash** y **service worker**: funciona en hosting estático, offline, y como archivo único.
