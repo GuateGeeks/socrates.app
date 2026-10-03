@@ -19,6 +19,7 @@ import { Docente } from '@/screens/Docente';
 import { Medios } from '@/screens/Medios';
 import { Sistema } from '@/screens/Sistema';
 import { Ajustes } from '@/screens/Ajustes';
+import { EncuestaBeta } from '@/screens/EncuestaBeta';
 import { activateUpdate } from '@/pwa/service-worker';
 
 const TABS: { route: Route; icon: string; label: string; match: Route['name'][] }[] = [
@@ -26,7 +27,7 @@ const TABS: { route: Route; icon: string; label: string; match: Route['name'][] 
   { route: { name: 'anio' }, icon: 'Map', label: 'Mi año', match: ['anio', 'mission'] },
   { route: { name: 'materias' }, icon: 'LibraryBig', label: 'Materias', match: ['materias', 'materia', 'explorar'] },
   { route: { name: 'cuaderno' }, icon: 'NotebookPen', label: 'Cuaderno', match: ['cuaderno'] },
-  { route: { name: 'perfil' }, icon: 'CircleUser', label: 'Perfil', match: ['perfil', 'logros', 'docente', 'medios', 'sistema', 'ajustes'] },
+  { route: { name: 'perfil' }, icon: 'CircleUser', label: 'Perfil', match: ['perfil', 'logros', 'docente', 'medios', 'sistema', 'ajustes', 'encuesta-beta'] },
 ];
 
 export function App() {
@@ -70,6 +71,7 @@ export function App() {
     case 'medios': screen = <Medios />; break;
     case 'sistema': screen = <Sistema />; break;
     case 'ajustes': screen = <Ajustes />; break;
+    case 'encuesta-beta': screen = <EncuestaBeta />; break;
     default: screen = <Home />;
   }
   return (

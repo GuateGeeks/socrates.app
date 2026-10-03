@@ -49,8 +49,10 @@ Cada lección y varios pasos tienen un **espacio multimedia** (imagen, video, an
 Contenido curricular: © MINEDUC / cnbguatemala.org, CC BY-SA 4.0. Íconos: Lucide (ISC).
 # Firebase y PWA
 
-La aplicación funciona primero con almacenamiento local y sincroniza en segundo plano con Firebase. En la consola del proyecto `socrates-439aa`, habilita **Anonymous Authentication**, crea Firestore y Realtime Database, y despliega las reglas con `firebase deploy --only firestore:rules,database`.
+La aplicación funciona primero con almacenamiento local y sincroniza en segundo plano con Firebase. `firebase.json` configura **Anonymous Authentication**; el proyecto `socrates-439aa` usa Firestore y Realtime Database. Para publicar cambios del backend, ejecuta `firebase deploy --only auth,firestore:rules,database --project socrates-439aa`.
 
 `npm run dev` inicia el sitio; `npm run build` genera los iconos PWA, valida contenido, comprueba TypeScript y produce `dist/`. El primer inicio muestra una configuración de perfil a pantalla completa que también funciona sin conexión. Las cuentas anónimas pertenecen a la instalación del navegador y no se transfieren automáticamente a otro dispositivo.
 
-Los archivos `.firebaserc`, `firebase.json`, `firestore.rules` y `database.rules.json` permiten usar Firebase CLI y emuladores sin guardar credenciales privadas. El cliente usa el archivo raíz `firebase.ts` como configuración canónica.
+Los archivos `.firebaserc`, `firebase.json`, `firestore.rules` y `database.rules.json` permiten usar Firebase CLI y emuladores sin guardar credenciales privadas. El cliente usa el archivo raíz `firebase.ts` como configuración canónica. Un push a `main` activa `.github/workflows/deploy-pages.yml` para publicar el frontend en GitHub Pages; ese flujo no despliega la configuración de Firebase.
+
+La encuesta beta se abre desde Ajustes. Cada participante puede enviar y actualizar una respuesta; se guarda en Firestore como `betaSurveyResponses/{uid}` con el nombre de su perfil. Solo ese usuario autenticado puede leer o escribir su documento desde la app. El equipo del proyecto puede revisar las respuestas desde Firebase Console.

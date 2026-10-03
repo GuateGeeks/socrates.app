@@ -13,5 +13,30 @@ service cloud.firestore {
         allow delete: if false;
       }
     }
+    match /betaSurveyResponses/{uid} {
+      function validRating(value) { return value is int && value >= 1 && value <= 5; }
+      function validResponse() {
+        let data = request.resource.data;
+        let answers = data.answers;
+        return data.keys().hasOnly(['version', 'displayName', 'answers', 'submittedAt'])
+          && data.keys().hasAll(['version', 'displayName', 'answers', 'submittedAt'])
+          && data.version == 1
+          && data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 30
+          && data.submittedAt == request.time
+          && answers is map
+          && answers.keys().hasOnly(['role', 'overall', 'clarity', 'engagement', 'difficulty', 'visuals', 'navigation', 'interactivity', 'bestPart', 'firstImprovement'])
+          && answers.keys().hasAll(['role', 'overall', 'clarity', 'engagement', 'difficulty', 'visuals', 'navigation', 'interactivity', 'bestPart', 'firstImprovement'])
+          && answers.role in ['student', 'teacher', 'family', 'other']
+          && validRating(answers.overall) && validRating(answers.clarity)
+          && validRating(answers.engagement) && validRating(answers.difficulty)
+          && validRating(answers.visuals) && validRating(answers.navigation)
+          && validRating(answers.interactivity)
+          && answers.bestPart is string && answers.bestPart.size() >= 2 && answers.bestPart.size() <= 500
+          && answers.firstImprovement is string && answers.firstImprovement.size() >= 2 && answers.firstImprovement.size() <= 500;
+      }
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null && request.auth.uid == uid && validResponse();
+      allow delete: if false;
+    }
   }
 }

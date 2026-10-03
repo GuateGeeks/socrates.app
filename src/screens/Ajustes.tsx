@@ -60,6 +60,7 @@ export function Ajustes() {
       <Card>
         <SectionTitle>Más</SectionTitle>
         <div className="ds-stack" style={{ marginTop: 8 }}>
+          <Button variant="secondary" onClick={() => navigate({ name: 'encuesta-beta' })}><Icon name="MessageSquareHeart" size={18} /> Encuesta beta · comparte tu opinión</Button>
           <Button variant="secondary" onClick={() => navigate({ name: 'sistema' })}><Icon name="Palette" size={18} /> Sistema de diseño y actividades</Button>
           {!confirmReset
             ? <Button variant="ghost" onClick={() => setConfirmReset(true)}>Borrar mi progreso</Button>

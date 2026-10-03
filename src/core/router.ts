@@ -16,7 +16,8 @@ export type Route =
   | { name: 'docente' }
   | { name: 'medios' }
   | { name: 'sistema' }
-  | { name: 'ajustes' };
+  | { name: 'ajustes' }
+  | { name: 'encuesta-beta' };
 
 export function parse(hash: string): Route {
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
@@ -35,6 +36,7 @@ export function parse(hash: string): Route {
     case 'medios': return { name: 'medios' };
     case 'sistema': return { name: 'sistema' };
     case 'ajustes': return { name: 'ajustes' };
+    case 'encuesta-beta': return { name: 'encuesta-beta' };
     default: return { name: 'home' };
   }
 }
