@@ -1,11 +1,23 @@
-// Service worker mínimo: cache-first para el shell (offline en escuelas con conectividad intermitente).
-const CACHE = 'socrates-v2';
-self.addEventListener('install', (e) => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then((c) => c.addAll(['./', './index.html']))); });
-self.addEventListener('activate', (e) => e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())));
-self.addEventListener('fetch', (e) => {
-  if (e.request.method !== 'GET') return;
-  e.respondWith(caches.match(e.request).then((hit) => hit || fetch(e.request).then((res) => {
-    if (res.ok && new URL(e.request.url).origin === location.origin) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(e.request, copy)); }
-    return res;
-  }).catch(() => caches.match('./index.html'))));
+const CACHE = 'socrates-shell-v4';
+const SHELL = ["./assets/cloud-sync-Bq90w5n9.js","./assets/firebase-e9PzlkkA.js","./assets/index-BlgZAbjz.js","./assets/style-CmO2PS14.css","./icon.svg","./icons/icon-192.png","./icons/icon-512.png","./icons/maskable-192.png","./icons/maskable-512.png","./index.html","./manifest.webmanifest"];
+self.addEventListener('install', (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL))));
+self.addEventListener('activate', (event) => event.waitUntil(
+  caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('socrates-') && key !== CACHE).map((key) => caches.delete(key)))).then(() => self.clients.claim()),
+));
+self.addEventListener('message', (event) => { if (event.data === 'SKIP_WAITING') self.skipWaiting(); });
+self.addEventListener('fetch', (event) => {
+  const request = event.request;
+  const url = new URL(request.url);
+  if (request.method !== 'GET' || url.origin !== self.location.origin || /googleapis|firebaseio/.test(url.hostname)) return;
+  if (request.mode === 'navigate') {
+    event.respondWith(fetch(request).then((response) => {
+      const copy = response.clone(); void caches.open(CACHE).then((cache) => cache.put('./index.html', copy));
+      return response;
+    }).catch(() => caches.match('./index.html')));
+    return;
+  }
+  event.respondWith(caches.match(request).then((cached) => cached ?? fetch(request).then((response) => {
+    if (response.ok) { const copy = response.clone(); void caches.open(CACHE).then((cache) => cache.put(request, copy)); }
+    return response;
+  })));
 });
