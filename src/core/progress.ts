@@ -123,6 +123,7 @@ export interface Progress {
 export interface StorageAdapter { load(): Progress | null; save(p: Progress): void }
 
 const KEY = 'socrates.progress.v1';
+const UPDATED_KEY = 'socrates.progress.updatedAt';
 export const localStorageAdapter: StorageAdapter = {
   load() {
     try { const raw = localStorage.getItem(KEY); return raw ? (JSON.parse(raw) as Progress) : null; } catch { return null; }
@@ -320,15 +321,26 @@ export function getProgress(): Progress { return state; }
 export function isValidProgress(value: unknown): value is Progress {
   if (!value || typeof value !== 'object') return false;
   const p = value as Partial<Progress>;
-  return p.version === 1 && typeof p.xp === 'number' && Boolean(p.profile)
-    && Boolean(p.settings) && Boolean(p.lessons) && Boolean(p.evidence);
+  const profile = p.profile as Progress['profile'] | undefined;
+  const settings = p.settings as Settings | undefined;
+  return p.version === 1 && typeof p.xp === 'number' && Number.isFinite(p.xp)
+    && Boolean(profile) && typeof profile?.name === 'string' && typeof profile?.avatar === 'string'
+    && Boolean(settings) && typeof settings?.sound === 'boolean' && typeof settings?.haptics === 'boolean'
+    && typeof settings?.reducedMotion === 'boolean' && ['auto', 'light', 'dark'].includes(settings?.theme)
+    && typeof p.lessons === 'object' && p.lessons !== null && typeof p.evidence === 'object' && p.evidence !== null;
 }
+export function progressUpdatedAt(): number {
+  const value = Number(localStorage.getItem(UPDATED_KEY));
+  return Number.isFinite(value) && value > 0 ? value : Date.now();
+}
+function markProgressUpdated(now = Date.now()) { try { localStorage.setItem(UPDATED_KEY, String(now)); } catch { /* optional */ } }
 export function importProgress(snapshot: Progress) {
   state = hydrate(snapshot);
   adapter.save(state);
+  markProgressUpdated();
   emit();
 }
-export function updateProgress(fn: (p: Progress) => Progress) { state = fn(state); adapter.save(state); emit(); }
+export function updateProgress(fn: (p: Progress) => Progress) { state = fn(state); adapter.save(state); markProgressUpdated(); emit(); }
 export function resetProgress() { updateProgress(() => ({ ...emptyProgress(), settings: state.settings, profile: state.profile })); }
 
 function currentLowActivitySnapshot(): LowActivitySnapshot {

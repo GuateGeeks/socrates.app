@@ -2,12 +2,11 @@ import { onAuthStateChanged, signInAnonymously, type User } from 'firebase/auth'
 import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { onDisconnect, onValue, push, ref, remove, serverTimestamp as rtdbTimestamp, set } from 'firebase/database';
 import { auth, firestore, realtime } from '../../firebase';
-import { getProgress, importProgress, isValidProgress, subscribe, type Progress } from './progress';
-import type { LearnerProfile } from './learner-profile';
+import { getProgress, importProgress, isValidProgress, progressUpdatedAt, subscribe, type Progress } from './progress';
+import { parseLearnerProfile, saveLearnerProfile, subscribeLearnerProfile, type LearnerProfile } from './learner-profile';
 
 export interface CloudProgressSnapshot { schemaVersion: 1; snapshot: Progress; clientUpdatedAt: number }
 export interface CloudSession { uid: string; stop(): void }
-const LOCAL_UPDATED_KEY = 'socrates.progress.updatedAt';
 
 export function makeCloudSnapshot(snapshot: Progress, clientUpdatedAt = Date.now()): CloudProgressSnapshot {
   return { schemaVersion: 1, snapshot: structuredClone(snapshot), clientUpdatedAt };
@@ -37,6 +36,7 @@ async function ensureUser() {
 export async function syncLearnerProfile(uid: string, profile: LearnerProfile): Promise<void> {
   await setDoc(doc(firestore, 'users', uid), {
     schemaVersion: 1,
+    learnerProfile: profile,
     profile: { displayName: profile.displayName, avatar: profile.avatar, dailyGoal: profile.dailyGoal },
     preferences: { theme: profile.theme, sound: profile.sound, haptics: profile.haptics, reducedMotion: profile.reducedMotion },
     onboarding: { step: profile.onboardingStep, complete: profile.onboardingComplete },
@@ -49,24 +49,30 @@ export async function startCloudSession(profile: LearnerProfile): Promise<CloudS
   try {
     const user = await ensureUser();
     const progressRef = doc(firestore, 'users', user.uid, 'state', 'progress');
-    const storedUpdatedAt = Number(localStorage.getItem(LOCAL_UPDATED_KEY));
-    const local = makeCloudSnapshot(getProgress(), Number.isFinite(storedUpdatedAt) && storedUpdatedAt > 0 ? storedUpdatedAt : Date.now());
+    const local = makeCloudSnapshot(getProgress(), progressUpdatedAt());
     const remote = await getDoc(progressRef);
-    const chosen = chooseSnapshot(local, remote.exists() ? remote.data() : null);
+    const remoteValue = remote.exists() ? remote.data() : null;
+    const parsedRemote = parseCloudSnapshot(remoteValue);
+    const chosen = chooseSnapshot(local, remoteValue);
     if (chosen !== local) importProgress(chosen.snapshot);
-    localStorage.setItem(LOCAL_UPDATED_KEY, String(chosen.clientUpdatedAt));
-    await setDoc(progressRef, { ...chosen, updatedAt: serverTimestamp() }, { merge: true });
-    await syncLearnerProfile(user.uid, profile);
+    if (!remote.exists() || parsedRemote) await setDoc(progressRef, { ...chosen, updatedAt: serverTimestamp() }, { merge: true });
+    const userRef = doc(firestore, 'users', user.uid);
+    const cloudUser = await getDoc(userRef);
+    const cloudProfile = cloudUser.exists() ? parseLearnerProfile(cloudUser.data().learnerProfile) : null;
+    let currentProfile = profile;
+    if (cloudProfile && cloudProfile.updatedAt > profile.updatedAt) { currentProfile = cloudProfile; saveLearnerProfile(cloudProfile); }
+    else await syncLearnerProfile(user.uid, profile);
 
     let timer: ReturnType<typeof setTimeout> | undefined;
     const unsubscribeProgress = subscribe(() => {
       clearTimeout(timer);
       timer = setTimeout(() => {
         const envelope = makeCloudSnapshot(getProgress());
-        localStorage.setItem(LOCAL_UPDATED_KEY, String(envelope.clientUpdatedAt));
         void setDoc(progressRef, { ...envelope, updatedAt: serverTimestamp() }, { merge: true });
       }, 800);
     });
+    const unsubscribeProfile = subscribeLearnerProfile((next) => { currentProfile = next; void syncLearnerProfile(user.uid, next); });
+    if (currentProfile.updatedAt !== profile.updatedAt) await syncLearnerProfile(user.uid, currentProfile);
 
     const connected = ref(realtime, '.info/connected');
     const connection = push(ref(realtime, `presence/${user.uid}`));
@@ -76,6 +82,6 @@ export async function startCloudSession(profile: LearnerProfile): Promise<CloudS
         state: 'online', startedAt: rtdbTimestamp(), lastChanged: rtdbTimestamp(), appVersion: '0.2.0',
       }));
     });
-    return { uid: user.uid, stop() { clearTimeout(timer); unsubscribeProgress(); unsubscribePresence(); void remove(connection); } };
+    return { uid: user.uid, stop() { clearTimeout(timer); unsubscribeProgress(); unsubscribeProfile(); unsubscribePresence(); void remove(connection); } };
   } catch { return null; }
 }

@@ -25,6 +25,7 @@ export interface KeyValueStore {
 }
 
 const KEY = 'socrates.learner.v1';
+const listeners = new Set<(profile: LearnerProfile) => void>();
 const themes = ['auto', 'light', 'dark'] as const;
 const includes = <T extends readonly unknown[]>(values: T, value: unknown): value is T[number] => values.includes(value);
 
@@ -66,6 +67,12 @@ export function loadLearnerProfile(store: KeyValueStore = localStorage, now = Da
 
 export function saveLearnerProfile(profile: LearnerProfile, store: KeyValueStore = localStorage): void {
   try { store.setItem(KEY, JSON.stringify(profile)); } catch { /* storage can be unavailable */ }
+  if (typeof localStorage !== 'undefined' && store === localStorage) listeners.forEach((listener) => listener(profile));
+}
+export function subscribeLearnerProfile(listener: (profile: LearnerProfile) => void) { listeners.add(listener); return () => listeners.delete(listener); }
+export function parseLearnerProfile(value: unknown, now = Date.now()): LearnerProfile | null {
+  if (!value || typeof value !== 'object' || (value as { schemaVersion?: unknown }).schemaVersion !== 1) return null;
+  return hydrate(value, now);
 }
 
 export function updateLearnerProfile(patch: Partial<LearnerProfile>, store: KeyValueStore = localStorage, now = Date.now()): LearnerProfile {
