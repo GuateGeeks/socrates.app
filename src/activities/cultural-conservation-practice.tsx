@@ -1,4 +1,5 @@
-import { useId } from 'react';
+import { ActivityJourney } from '@/ui/ActivityJourney';
+import { useId, useState } from 'react';
 import { defineActivity } from '@/core/registry';
 import type { ActivityProps, StepBase } from '@/core/types';
 import { Button } from '@/design-system/components';
@@ -47,10 +48,11 @@ export function isCulturalConservationReady(props: CulturalConservationProps, va
 
 function CulturalConservationPractice({ props, value, onChange, status, step, api, attempt }: ActivityProps<CulturalConservationProps, CulturalConservationValue>) {
   const id = useId();
+  const [phase, setPhase] = useState(0);
   const current = isKnownCulturalPracticeValue(value) || isConsultationCulturalPracticeValue(value) ? value : undefined;
-  const selectMode = (mode: CulturalConservationValue['mode']) => onChange(mode === 'known-practice' ? knownInitial() : consultationInitial());
+  const selectMode = (mode: CulturalConservationValue['mode']) => { setPhase(0); onChange(mode === 'known-practice' ? knownInitial() : consultationInitial()); };
   return (
-    <div className="ds-stack act-cultural-practice">
+    <div className="ds-stack act-cultural-practice activity-journey">
       <fieldset className="act-cultural-practice__mode" disabled={status === 'correct' || status === 'revealed'}>
         <legend className="ds-small"><strong>Elige una ruta honesta</strong></legend>
         <label><input type="radio" name={`${id}-mode`} checked={current?.mode === 'known-practice'} onChange={() => selectMode('known-practice')} /> Conozco una práctica de mi contexto</label>
@@ -58,9 +60,10 @@ function CulturalConservationPractice({ props, value, onChange, status, step, ap
       </fieldset>
 
       {current?.mode === 'known-practice' && (
-        <>
+        <ActivityJourney index={phase} count={3} onNavigate={setPhase}>
+          <h3>{['Contexto', 'Acción', 'Revisión'][phase]}</h3>
           <p className="ds-small ds-muted">Describe solo una práctica que realmente conoces. El ejemplo suministrado enseña, pero no acredita este indicador.</p>
-          {culturalPracticeFields.map(([field, label], index) => (
+          {culturalPracticeFields.map(([field, label], index) => (phase === 0 ? index < 2 : phase === 1 ? index >= 2 : false) && (
             <label key={field} htmlFor={`${id}-${index}`} className="ds-stack" style={{ gap: 4 }}>
               <strong className="ds-small">{label}</strong>
               <textarea id={`${id}-${index}`} className="act-sa" rows={2} value={current[field]}
@@ -71,11 +74,12 @@ function CulturalConservationPractice({ props, value, onChange, status, step, ap
             </label>
           ))}
           {props.requiresLiveAction !== false && (
-            <LowActivityPracticeControl step={{ ...step, type: 'low-activity-mode', props: {} } as StepBase<string, LowActivityModeProps>}
+            <div hidden={phase !== 1}><LowActivityPracticeControl step={{ ...step, type: 'low-activity-mode', props: {} } as StepBase<string, LowActivityModeProps>}
               props={{}} value={current.practice as LowActivityModeValue | undefined} status={status} attempt={attempt} api={api}
-              onChange={(practice) => onChange({ ...current, practice })} />
+              onChange={(practice) => onChange({ ...current, practice })} /></div>
           )}
-          {!current.seen ? (
+          {phase > 0 && <details><summary>Consultar contexto y evidencia</summary>{culturalPracticeFields.map(([field, label]) => <p key={field}><strong>{label}:</strong> {current[field] || 'Sin completar'}</p>)}</details>}
+          {phase === 2 && (!current.seen ? (
             <Button variant="secondary" disabled={culturalPracticeFields.some(([field]) => culturalWordCount(current[field]) < 3)}
               onClick={() => onChange({ ...current, checks: props.rubric.map(() => false), seen: true })}>
               Revisar criterios antes de entregar
@@ -89,8 +93,8 @@ function CulturalConservationPractice({ props, value, onChange, status, step, ap
               }} />
               <span>{criterion}</span>
             </label>
-          ))}
-        </>
+          )))}
+        </ActivityJourney>
       )}
 
       {current?.mode === 'needs-consultation' && (

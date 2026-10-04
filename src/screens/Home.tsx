@@ -1,3 +1,4 @@
+import './mobile-screens.css';
 import { useState, type CSSProperties } from 'react';
 import { useProgress, updateProgress, dueReviews, schoolWeek, today } from '@/core/progress';
 import { navigate } from '@/core/router';
@@ -57,7 +58,7 @@ export function Home() {
   const avatar = p.profile.avatar && /^[A-Z]/.test(p.profile.avatar) ? p.profile.avatar : 'Bird';
 
   return (
-    <div ref={ref} className="ds-page ds-stack">
+    <div ref={ref} className="ds-page ds-stack mobile-screen">
       <header className="home__head">
         <span className="home__me"><Icon name={avatar} size={26} /></span>
         <div className="ds-grow">

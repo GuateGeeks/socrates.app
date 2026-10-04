@@ -1,6 +1,8 @@
+import { useState } from 'react';
+import { ActivityJourney, ActivityReview } from '@/ui/ActivityJourney';
 import { defineActivity } from '@/core/registry';
 import type { ActivityProps } from '@/core/types';
-import { Rich, Tile } from '@/design-system/components';
+import { Button, Rich, Tile } from '@/design-system/components';
 
 export interface ReadingProps {
   /** título del texto (opcional) */
@@ -15,14 +17,19 @@ type ReadingValue = Record<number, string>;
 
 function Reading({ props, value = {}, onChange, status }: ActivityProps<ReadingProps, ReadingValue>) {
   const locked = status === 'correct' || status === 'revealed';
-  return (
-    <div className="ds-stack">
-      <article className="act-read">
+  const [index, setIndex] = useState(0);
+  const [phase, setPhase] = useState<'reading' | 'questions' | 'review'>('reading');
+  const passage = <article className="act-read">
         {props.genre && <span className="act-read__genre">{props.genre}</span>}
         {props.heading && <h3>{props.heading}</h3>}
         {props.passage.split(/\n\s*\n/).map((para, i) => <p key={i}><Rich text={para} /></p>)}
-      </article>
-      {props.questions.map((q, qi) => (
+      </article>;
+  if (phase === 'reading') return <div className="activity-journey ds-stack">{passage}<Button onClick={() => setPhase('questions')}>Comenzar preguntas</Button></div>;
+  if (phase === 'review') return <ActivityReview readOnly={locked} items={props.questions.map((q, i) => ({ label: q.q, answer: q.options.find(o => o.id === value[i])?.text ?? 'Sin responder', feedback: status === 'incorrect' && value[i] !== undefined && value[i] !== q.correct ? 'Revisar esta respuesta' : undefined }))} onEdit={i => { setIndex(i); setPhase('questions'); }} />;
+  return (
+    <ActivityJourney focusOnMount index={index} count={props.questions.length} label="Pregunta" onNavigate={setIndex} onReview={() => setPhase('review')}>
+      <details><summary>Consultar texto</summary>{passage}</details>
+      {props.questions.map((q, qi) => qi === index && (
         <div key={qi} className="ds-stack" style={{ gap: 'var(--sp-2)' }}>
           <p><strong>{qi + 1}. <Rich text={q.q} /></strong></p>
           {q.options.map((o) => {
@@ -33,7 +40,7 @@ function Reading({ props, value = {}, onChange, status }: ActivityProps<ReadingP
           {locked && q.why && <p className="ds-xs ds-muted"><Rich text={q.why} /></p>}
         </div>
       ))}
-    </div>
+    </ActivityJourney>
   );
 }
 

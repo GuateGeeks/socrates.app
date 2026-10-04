@@ -1,3 +1,4 @@
+import { ActivityJourney, ActivityReview } from '@/ui/ActivityJourney';
 import { useState } from 'react';
 import { defineActivity } from '@/core/registry';
 import type { ActivityProps } from '@/core/types';
@@ -42,6 +43,9 @@ function LeadershipSimulation({ props, value, onChange, status }: ActivityProps<
   const locked = status === 'correct' || status === 'revealed';
   const complete = groups.every(([field]) => Boolean(current[field]));
   const [announcement, setAnnouncement] = useState('');
+  const [index, setIndex] = useState(0);
+  const [review, setReview] = useState(false);
+  const [focusOnEntry, setFocusOnEntry] = useState(false);
   const choose = (field: typeof groups[number][0], id: string) => {
     if (locked) return;
     onChange({ ...current, [field]: id, verified: false });
@@ -56,9 +60,11 @@ function LeadershipSimulation({ props, value, onChange, status }: ActivityProps<
       : 'El equipo simulado pide revisar las indicaciones antes de continuar.');
   };
   return (
-    <div className="ds-stack act-leadership">
+    <div className="ds-stack act-leadership activity-journey">
       <div className="act-scene"><Icon name="UsersRound" size={30} /><Rich text={`**Simulación individual:** ${props.scenario}`} /></div>
-      {groups.map(([field, label, source]) => (
+      {review ? <ActivityReview readOnly={locked} items={groups.map(([field, label, source]) => ({ label, answer: props[source].find(o => o.id === current[field])?.text ?? 'Sin responder' }))} onEdit={i => { setIndex(i); setFocusOnEntry(true); setReview(false); }} /> :
+      <ActivityJourney focusOnMount={focusOnEntry} index={index} count={groups.length} label="Decisión" onNavigate={setIndex} onReview={() => setReview(true)}>
+      {groups.map(([field, label, source], i) => i === index && (
         <fieldset key={field} className="act-leadership__group" disabled={locked}>
           <legend>{label}</legend>
           {props[source].map((option) => (
@@ -69,9 +75,10 @@ function LeadershipSimulation({ props, value, onChange, status }: ActivityProps<
           ))}
         </fieldset>
       ))}
-      <Button block variant="secondary" disabled={!complete || locked} onClick={verify}>
+      </ActivityJourney>}
+      {review && <Button block variant="secondary" disabled={!complete || locked} onClick={verify}>
         <Icon name="Play" size={18} /> Ejecutar indicaciones y verificar respuesta
-      </Button>
+      </Button>}
       {current.verified && (
         <div className="act-leadership__response">
           <Icon name={hasCorrectLeadershipSequence(props, current) ? 'CircleCheck' : 'CircleAlert'} size={20} />

@@ -1,3 +1,4 @@
+import './mobile-screens.css';
 import { useProgress } from '@/core/progress';
 import { navigate, type Route } from '@/core/router';
 import { allLessons } from '@/content';
@@ -20,7 +21,7 @@ export function Perfil() {
   const done = allLessons().filter((x) => p.lessons[x.lesson.id]).length;
   const avatar = p.profile.avatar && /^[A-Z]/.test(p.profile.avatar) ? p.profile.avatar : 'Bird';
   return (
-    <div ref={ref} className="ds-page ds-stack">
+    <div ref={ref} className="ds-page ds-stack mobile-screen">
       <Card raised>
         <div className="ds-row">
           <span className="pf__avatar"><Icon name={avatar} size={36} /></span>

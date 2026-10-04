@@ -82,6 +82,11 @@ function Slider({ props, value, onChange, status }: ActivityProps<SliderProps, n
     <div className="ds-stack">
       {props.stimulus && <div className="act-stimulus"><Rich text={props.stimulus} /></div>}
       <div className="act-slider__value" aria-live="polite">{label}</div>
+      <div className="act-precision__nav">
+        <button type="button" className="act-key" aria-label="Disminuir valor" disabled={locked || v <= props.min} onClick={() => onChange(Math.max(props.min, Number((v - props.step).toFixed(10))))}>−</button>
+        <span>Paso: {fmt(props.step)} {props.unit}</span>
+        <button type="button" className="act-key" aria-label="Aumentar valor" disabled={locked || v >= props.max} onClick={() => onChange(Math.min(props.max, Number((v + props.step).toFixed(10))))}>+</button>
+      </div>
       <Visual p={props} v={v} />
       <input type="range" className="act-range" min={props.min} max={props.max} step={props.step} value={v} disabled={locked}
         style={{ '--k': pctOf(props, v) } as CSSProperties}

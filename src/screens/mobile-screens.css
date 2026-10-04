@@ -1,0 +1,77 @@
+/* Catalogs and auxiliary screens keep every filter and control discoverable. */
+.mobile-screen { overflow-wrap: anywhere; }
+.mobile-screen button, .mobile-screen summary, .mobile-screen select, .mobile-screen input:not([type=checkbox]):not([type=radio]), .onboarding button, .onboarding select {
+  min-height: 44px;
+}
+.mobile-screen button { min-width: 44px; white-space: normal; }
+.mobile-screen .ds-btn { max-width: 100%; height: auto; padding-top: 10px; padding-bottom: 10px; }
+.mobile-screen .ds-btn--icon { padding: 0; flex-shrink: 0; }
+.mobile-screen .ds-row { flex-wrap: wrap; }
+.mobile-screen .ds-row > *, .mobile-screen .ds-card, .mobile-screen label { min-width: 0; }
+.mobile-screen .ds-row > svg, .mobile-screen .nb__entry > svg { flex-shrink: 0; }
+.mobile-screen .chips { flex-wrap: wrap; overflow: visible; padding-bottom: 0; }
+.mobile-screen .chips button { flex: 1 1 auto; justify-content: center; }
+.mobile-screen .daytabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); overflow: visible; }
+.mobile-screen .daytabs button { min-width: 0; }
+.mobile-screen .day-select { display: none; }
+.mobile-screen .home__head, .mobile-screen .home__today, .mobile-screen .home__hero, .mobile-screen .agenda__head { flex-wrap: wrap; }
+.mobile-screen .home__head .ds-grow { flex-basis: 55%; }
+.mobile-screen .home__hero-icon { flex-shrink: 0; }
+.mobile-screen .yr__uhead { width: 100%; border: 0; color: inherit; background: transparent; text-align: left; cursor: pointer; }
+.mobile-screen .yr__uhead::after { content: '+'; font-weight: 900; }
+.mobile-screen .yr__uhead[aria-expanded=true]::after { content: '−'; }
+.yr__unit-title { display: block; font-size: var(--fs-lg); }
+.yr__jump { display: grid; gap: 8px; }
+.yr__jump select { width: 100%; min-width: 0; }
+.mobile-screen .yr__week { width: 100%; }
+.pagination { display: grid; gap: 10px; margin: 12px 0; }
+.pagination p { font-size: var(--fs-sm); color: var(--c-ink-2); scroll-margin-block: 20px; }
+.pagination__actions, .survey-navigation { display: flex; flex-wrap: wrap; gap: 12px; }
+.pagination__actions > button { flex: 1; }
+.mobile-screen .nb__del { flex-shrink: 0; width: 44px; }
+.mobile-screen .nb__link { padding-block: 10px; }
+.mobile-screen .md__row { min-width: 0; }
+.mobile-screen .md__filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.mobile-screen .md__filters select { width: 100%; }
+.mobile-screen .dc__tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.mobile-screen .dc__tabs button { flex-wrap: wrap; padding: 8px 4px; }
+.mobile-screen .dc__arearow { grid-template-columns: minmax(0, 1fr) minmax(40px, 1fr) auto; min-height: 48px; }
+.dc__competency summary { cursor: pointer; padding-block: 10px; }
+.dc__plan-cards { display: grid; gap: 12px; margin-top: 12px; }
+.dc__plan-card { display: flex; flex-direction: column; gap: 8px; border: 2px solid var(--c-line); background: var(--c-surface); color: var(--c-ink); text-align: left; border-radius: var(--r-md); padding: 14px; }
+.dc__plan-card > * { width: 100%; }
+.dc__evidence-filters { display: grid; gap: 12px; margin-block: 12px; }
+.dc__evidence-filters label { display: grid; gap: 6px; }
+.mobile-screen .lg__arearow { grid-template-columns: minmax(0, 1fr) minmax(40px, 1fr) auto; }
+.mobile-screen .lg__arearow > span { white-space: normal; overflow: visible; }
+.mobile-screen .lc__stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.mobile-screen .ex__grid, .mobile-screen .mat__grid { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); }
+.survey-stage-title { scroll-margin-block: 20px; }
+.survey-review { display: grid; gap: 20px; padding-left: 24px; }
+.survey-review li p { margin-block: 6px; }
+.mobile-screen .survey-scale__choice { min-width: 0; }
+.mobile-screen .survey-scale__choice span { min-width: 44px; min-height: 44px; }
+.onboarding .onboarding__top, .onboarding .onboarding__actions, .onboarding .onboarding__prefs label { flex-wrap: wrap; gap: 10px; }
+.onboarding .onboarding__panel { min-width: 0; }
+.onboarding .onboarding__body { padding-block: 18px; overflow-wrap: anywhere; }
+.onboarding .onboarding__programs button { flex-wrap: wrap; }
+.onboarding .onboarding__programs button span { min-width: 0; flex-basis: 60%; }
+.onboarding .onboarding__prefs input[type=checkbox] { width: 24px; height: 24px; }
+.onboarding .onboarding__prefs label { min-height: 48px; }
+@media (min-width: 650px) {
+  .yr__jump { grid-template-columns: minmax(0, 1fr) auto; }
+  .yr__jump label { grid-column: 1 / -1; }
+  .dc__plan-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dc__evidence-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 359px) {
+  .mobile-screen .daytabs { display: none; }
+  .mobile-screen .day-select { display: grid; gap: 6px; }
+  .mobile-screen .md__filters { grid-template-columns: minmax(0, 1fr); }
+  .mobile-screen .yr__wicon { display: none; }
+  .mobile-screen .yr__uicon { display: none; }
+  .mobile-screen .nb__entry { gap: 8px; }
+  .mobile-screen .survey-scale__choices { gap: 2px; }
+  .mobile-screen .survey-question { padding: 12px; }
+  .onboarding .onboarding__panel { padding: 16px; }
+}

@@ -1,0 +1,20 @@
+.activity-journey { min-width: 0; overflow-wrap: anywhere; }
+.activity-journey__nav { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.activity-journey__nav > button { flex: 1 1 130px; }
+.activity-journey button, .activity-journey summary, .activity-journey .act-check, .activity-journey .act-leadership__option, .activity-journey .act-cultural-practice__mode label { min-height: 44px; white-space: normal; overflow-wrap: anywhere; }
+.activity-journey button { max-width: 100%; }
+.activity-journey details { min-width: 0; }
+.activity-journey summary { cursor: pointer; padding: var(--sp-2); font-weight: 700; }
+.activity-journey__review { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-3); }
+.activity-journey__review li { display: flex; align-items: start; flex-wrap: wrap; gap: var(--sp-2); padding: var(--sp-3); border: 1px solid var(--c-line); border-radius: var(--r-md); }
+.activity-journey__review li > div { flex: 1 1 180px; min-width: 0; }
+.activity-journey .act-rate__row { display: flex; flex-wrap: wrap; }
+.activity-journey .act-rate__opt { flex: 1 1 100px; min-width: 0; }
+.activity-journey .act-tf__btns { display: flex; flex-wrap: wrap; }
+.activity-journey .act-tf__btn { flex: 1 1 100px; }
+.activity-journey .act-low__states { grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); }
+.activity-journey .act-low__row { grid-template-columns: 24px minmax(0, 1fr); }
+.activity-journey .act-low__row b { grid-column: 2; text-align: left; }
+.activity-journey .act-reveal-grid { grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); }
+.activity-journey .act-proj__steps { padding-left: 1.5em; }
+.activity-journey [hidden] { display: none !important; }

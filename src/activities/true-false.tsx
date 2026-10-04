@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { ActivityJourney, ActivityReview } from '@/ui/ActivityJourney';
 import { defineActivity } from '@/core/registry';
 import type { ActivityProps } from '@/core/types';
 import { Rich } from '@/design-system/components';
@@ -12,9 +14,14 @@ function TrueFalse({ props, value, onChange, status }: ActivityProps<TrueFalsePr
   const v: TFValue = value ?? props.statements.map(() => null);
   const locked = status === 'correct' || status === 'revealed';
   const set = (i: number, b: boolean) => { if (locked) return; feedback('select'); const n = [...v]; n[i] = b; onChange(n); };
+  const [index, setIndex] = useState(0);
+  const [review, setReview] = useState(false);
+  const [focusOnEntry, setFocusOnEntry] = useState(false);
+  if (review) return <ActivityReview readOnly={locked} items={props.statements.map((s, i) => ({ label: s.text, answer: v[i] === null ? 'Sin responder' : v[i] ? 'Verdadero' : 'Falso', feedback: status === 'incorrect' && v[i] !== null && v[i] !== s.answer ? 'Revisar esta respuesta' : undefined }))} onEdit={i => { setIndex(i); setFocusOnEntry(true); setReview(false); }} />;
   return (
-    <div className="ds-stack" style={{ gap: 'var(--sp-3)' }}>
+    <ActivityJourney focusOnMount={focusOnEntry} index={index} count={props.statements.length} label="Afirmación" onNavigate={setIndex} onReview={() => setReview(true)}>
       {props.statements.map((s, i) => {
+        if (i !== index) return null;
         const shown = status !== 'answering' && v[i] !== null;
         const wrong = status === 'incorrect' && v[i] !== null && v[i] !== s.answer;
         const right = (status === 'correct' || status === 'revealed');
@@ -29,7 +36,7 @@ function TrueFalse({ props, value, onChange, status }: ActivityProps<TrueFalsePr
           </div>
         );
       })}
-    </div>
+    </ActivityJourney>
   );
 }
 

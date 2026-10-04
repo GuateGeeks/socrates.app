@@ -3,6 +3,7 @@ import { href, navigate, type Route } from '@/core/router';
 import type { LearnerProfile } from '@/core/learner-profile';
 import type { ProgramId } from '@/core/programs';
 import { Icon } from '@/design-system/icons';
+import { useReturnPosition, useSessionValue } from '@/ui/Pagination';
 import { Ajustes } from '@/screens/Ajustes';
 import { loadAwsCourse } from './content';
 import { type AwsCourse, type AwsDomain, type AwsLesson } from './course';
@@ -50,18 +51,22 @@ function DomainCard({ domain, index, completed }: { domain: AwsDomain; index: nu
 
 function AwsCurriculum({ course }: { course: AwsCourse }) {
   const progress = useAwsProgress();
+  const next = course.domains.find(domain => domain.lessons.some(lesson => !progress.lessons[lesson.id])) ?? course.domains[0];
+  const [openDomain, setOpenDomain] = useSessionValue<string | null>('aws-curriculum-domain', next?.id ?? null);
+  useReturnPosition('aws-curriculum');
   return <div className="aws-page aws-stack">
-    <header className="aws-title"><span className="aws-kicker">{course.examCode}</span><h1>Tu temario</h1><p>Explora los {course.domains.length} dominios y estudia a tu ritmo.</p></header>
-    {course.domains.map((domain, index) => <section key={domain.id} className="aws-module">
-      <div className="aws-module__head"><span className="aws-domain__icon"><Icon name={DOMAIN_ICONS[index] ?? 'BookOpen'} size={24} /></span><div><span className="aws-kicker">DOMINIO {index + 1} · {domain.weight} %</span><h2>{domain.title}</h2></div></div>
+    <header className="aws-title"><span className="aws-kicker">{course.examCode}</span><h1>Tu temario</h1><p>Elige un dominio para ver sus lecciones.</p></header>
+    {course.domains.map((domain, index) => <details key={domain.id} className="aws-module aws-curriculum-group" open={domain.id === openDomain} onToggle={event => { if (event.currentTarget.open) setOpenDomain(domain.id); else if (openDomain === domain.id) setOpenDomain(null); }}>
+      <summary className="aws-module__head"><span className="aws-domain__icon"><Icon name={DOMAIN_ICONS[index] ?? 'BookOpen'} size={24} /></span><span><span className="aws-kicker">DOMINIO {index + 1} · {domain.weight} %</span><strong>{domain.title}</strong><small>{domain.lessons.filter(lesson => progress.lessons[lesson.id]).length}/{domain.lessons.length} completadas</small></span><Icon name="ChevronDown" size={20} /></summary>
       <div className="aws-lesson-list">{domain.lessons.map((lesson) => <LessonLink key={lesson.id} lesson={lesson} done={!!progress.lessons[lesson.id]} />)}</div>
-    </section>)}
+    </details>)}
   </div>;
 }
 
 function AwsDomain({ domain, course }: { domain: AwsDomain; course: AwsCourse }) {
   const progress = useAwsProgress();
   const index = course.domains.findIndex((item) => item.id === domain.id);
+  useReturnPosition(`aws-domain-${domain.id}`);
   return <div className="aws-page aws-stack">
     <a className="aws-back" href={href({ name: 'aws-curriculum' })}><Icon name="ArrowLeft" size={18} /> Volver al temario</a>
     <header className="aws-title"><span className="aws-kicker">DOMINIO {index + 1} · {domain.weight} % DEL EXAMEN</span><h1>{domain.title}</h1><p>Explora los conceptos, conecta ideas en una práctica guiada y comprueba lo aprendido.</p></header>
@@ -108,5 +113,5 @@ export function AwsExperience({ route, profile, changeProgram }: { route: Route;
     { route: { name: 'aws-curriculum' }, label: 'Temario', icon: 'LibraryBig', active: ['aws-curriculum', 'aws-domain', 'aws-lesson'].includes(route.name) },
     { route: { name: 'perfil' }, label: 'Perfil', icon: 'CircleUser', active: ['perfil', 'ajustes'].includes(route.name) },
   ];
-  return <div className="aws-app">{screen}<footer className="ds-tabbar"><nav aria-label="Navegación AWS">{tabs.map((tab) => <a key={tab.label} href={href(tab.route)} aria-current={tab.active ? 'page' : undefined}><span aria-hidden><Icon name={tab.icon} size={24} /></span><span>{tab.label}</span></a>)}</nav></footer></div>;
+  return <div className="aws-app">{screen}{route.name !== 'aws-lesson' && <footer className="ds-tabbar"><nav aria-label="Navegación AWS">{tabs.map((tab) => <a key={tab.label} href={href(tab.route)} aria-current={tab.active ? 'page' : undefined}><span aria-hidden><Icon name={tab.icon} size={24} /></span><span>{tab.label}</span></a>)}</nav></footer>}</div>;
 }

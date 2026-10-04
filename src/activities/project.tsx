@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { ActivityJourney } from '@/ui/ActivityJourney';
+import { useEffect, useState } from 'react';
 import { defineActivity } from '@/core/registry';
 import type { ActivityProps } from '@/core/types';
 import { Rich } from '@/design-system/components';
@@ -25,8 +26,14 @@ const LEVELS = [
 function Project({ props, value, onChange, api }: ActivityProps<ProjectProps, PValue>) {
   const v: PValue = value ?? { done: props.steps.map(() => false), rubric: props.rubric.map(() => null) };
   useEffect(() => { api.setReady(v.done.every(Boolean) && v.rubric.every((r) => r !== null)); }, [JSON.stringify(v)]); // eslint-disable-line react-hooks/exhaustive-deps
+  const [phase, setPhase] = useState(0);
+  const guide = <div className="ds-stack"><p><Rich text={props.goal} /></p><ol>{props.steps.map((s, i) => <li key={i}><strong>{s.title}</strong><p><Rich text={s.detail} /></p></li>)}</ol><p><strong>Evidencia:</strong> <Rich text={props.evidence} /></p></div>;
   return (
-    <div className="ds-stack">
+    <ActivityJourney index={phase} count={3} onNavigate={setPhase}>
+      <h3>{['Guía', 'Trabajo', 'Autoevaluación'][phase]}</h3>
+      <p className="ds-small ds-muted">{v.done.filter(Boolean).length} de {props.steps.length} tareas realizadas · {v.rubric.filter(r => r !== null).length} de {props.rubric.length} criterios revisados</p>
+      {phase === 0 ? guide : <details><summary>Consultar guía</summary>{guide}</details>}
+      {phase === 1 && <>
       <div className="act-proj__goal"><Icon name="Target" size={22} /><div><strong>Meta</strong><p className="ds-small"><Rich text={props.goal} /></p></div></div>
       <ol className="act-proj__steps">
         {props.steps.map((s, i) => (
@@ -39,6 +46,8 @@ function Project({ props, value, onChange, api }: ActivityProps<ProjectProps, PV
         ))}
       </ol>
       <div className="act-proj__evidence"><Icon name="Camera" size={20} /><span className="ds-small"><strong>Evidencia:</strong> <Rich text={props.evidence} /></span></div>
+      </>}
+      {phase === 2 && <>
       <strong>Autoevalúa tu trabajo</strong>
       {props.rubric.map((r, i) => (
         <div key={i} className="act-rate">
@@ -53,7 +62,8 @@ function Project({ props, value, onChange, api }: ActivityProps<ProjectProps, PV
           </div>
         </div>
       ))}
-    </div>
+      </>}
+    </ActivityJourney>
   );
 }
 

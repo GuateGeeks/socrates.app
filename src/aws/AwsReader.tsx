@@ -1,23 +1,29 @@
-import { useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { Icon } from '@/design-system/icons';
 import { Rich } from '@/design-system/components';
 import type { AwsLesson } from './course';
 
 export function AwsReader({ lesson, hasPractice, onContinue }: { lesson: AwsLesson; hasPractice: boolean; onContinue(): void }) {
   const [index, setIndex] = useState(0);
+  const [indexOpen, setIndexOpen] = useState(false);
+  const indexId = useId();
   const heading = useRef<HTMLHeadingElement>(null);
   const section = lesson.sections[index];
   const choose = (next: number) => {
-    setIndex(next);
+    setIndex(next); setIndexOpen(false);
     requestAnimationFrame(() => { heading.current?.focus({ preventScroll: true }); heading.current?.scrollIntoView({ block: 'nearest' }); });
   };
   return <div className="aws-reader">
-    <nav className="aws-reader__index" aria-label="Secciones de la lección">
+    <div className="aws-reader__navigation">
+      <button className="aws-reader__toggle" type="button" aria-expanded={indexOpen} aria-controls={indexId} onClick={() => setIndexOpen(!indexOpen)}>
+        <span><small>Concepto {index + 1} de {lesson.sections.length}</small><strong>{section.heading}</strong></span><Icon name="ChevronDown" size={20} />
+      </button>
+    <nav id={indexId} className={`aws-reader__index${indexOpen ? ' is-open' : ''}`} aria-label="Secciones de la lección">
       <span className="aws-kicker">Tu recorrido</span>
       {lesson.sections.map((item, i) => <button key={item.heading} aria-current={i === index ? 'step' : undefined} onClick={() => choose(i)}>
         <span className="aws-step-number">{i + 1}</span><span>{item.heading}</span>
       </button>)}
-    </nav>
+    </nav></div>
     <div className="aws-stack">
       <article className="aws-reading-card">
         <div className="aws-section-head"><span className="aws-kicker">Explora un concepto</span><span className="aws-counter">{index + 1} de {lesson.sections.length}</span></div>

@@ -15,6 +15,7 @@
     "preview": "vite preview --host",
     "validate": "node --import tsx scripts/validate-content.ts",
     "test": "node --import tsx --test tests/*.test.ts",
+    "test:mobile": "node --import tsx tests/mobile-learning.mjs && node tests/mobile-precision.mjs && node tests/mobile-stages.mjs && node --import tsx tests/mobile-navigation.mjs",
     "test:ui": "node tests/interface-theme.mjs && node --import tsx tests/interface-e2e.mjs",
     "build:standalone": "npm run icons && node scripts/build-standalone.mjs",
     "e2e": "npm run build:standalone && node tests/e2e.mjs",

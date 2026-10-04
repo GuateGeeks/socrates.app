@@ -1,3 +1,4 @@
+import './mobile-screens.css';
 import { useState, type CSSProperties } from 'react';
 import type { Mission } from '@/core/types';
 import { useProgress, mastery, nivel, NIVEL_LABEL } from '@/core/progress';
@@ -12,6 +13,8 @@ import { Button, Card, Chip, Ring, SectionTitle, useEnter } from '@/design-syste
 import { Icon } from '@/design-system/icons';
 import { TemaWheel } from '@/ui/TemaWheel';
 import { MediaSlot } from '@/ui/MediaSlot';
+
+import { useSessionValue, useReturnPosition } from '@/ui/Pagination';
 
 const DAY_LABEL: Record<string, string> = { reto: 'Reto', diagnostico: 'Inicio', proyecto: 'Proyecto', evaluacion: 'Evaluación', extra: 'Extra' };
 
@@ -32,10 +35,12 @@ export function MissionScreen({ mission }: { mission: Mission }) {
   const extras = mission.semana ? extrasOf(mission.id) : [];
   const medal = !!p.badges[mission.badge.id];
   const reto = mission.lessons.find((l) => l.kind === 'reto');
-  const [day, setDay] = useState<number>(Math.min(5, Math.max(1, mission.lessons[nextIdx]?.day ?? 1)));
+  const [day, setDay] = useSessionValue<number>(`mission-${mission.id}-day`, Math.min(5, Math.max(1, mission.lessons[nextIdx]?.day ?? 1)));
+
+  useReturnPosition(`mission-${mission.id}`);
 
   return (
-    <div ref={ref} className="ds-page ds-stack" style={{ '--m': mission.color } as CSSProperties}>
+    <div ref={ref} className="ds-page ds-stack mobile-screen" style={{ '--m': mission.color } as CSSProperties}>
       <div className="ds-row">
         <Button variant="ghost" icon onClick={() => navigate({ name: 'anio' })} aria-label="Volver al año"><Icon name="ArrowLeft" /></Button>
         <div className="ds-grow">
@@ -50,13 +55,16 @@ export function MissionScreen({ mission }: { mission: Mission }) {
 
       {mission.lessons.length > 6 ? (
         <>
+          <label className="day-select">Día de la semana<select className="ds-input" value={day} onChange={event => setDay(Number(event.target.value))}>
+            {[1, 2, 3, 4, 5].map(d => <option key={d} value={d}>{DIAS[d - 1]}</option>)}
+          </select></label>
           <div className="daytabs" role="group" aria-label="Día de la semana">
             {[1, 2, 3, 4, 5].map((d) => {
               const ls = lessonsOfDay(mission, d);
               const done = ls.length > 0 && ls.every((l) => p.lessons[l.id]);
               return (
-                <button key={d} type="button" aria-pressed={day === d} className={done ? 'is-done' : ''} onClick={() => setDay(d)}>
-                  {done ? <Icon name="CircleCheck" size={16} /> : <span>{DIAS[d - 1].slice(0, 3)}</span>}
+                <button key={d} type="button" aria-pressed={day === d} aria-label={DIAS[d - 1]} className={done ? 'is-done' : ''} onClick={() => setDay(d)}>
+                  <span>{DIAS[d - 1].slice(0, 3)}</span>{done && <Icon name="CircleCheck" size={16} />}
                   <span className="ds-muted">{ls.filter((l) => p.lessons[l.id]).length}/{ls.length}</span>
                 </button>
               );

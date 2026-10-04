@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { defineActivity } from '@/core/registry';
 import type { ActivityProps } from '@/core/types';
 import { NumberPad } from './shared';
@@ -20,6 +20,19 @@ const scaled = (p: RecipeProps, i: number) => (p.ingredients[i].qty * p.targetSe
 
 function Recipe({ props, value = {}, onChange, status }: ActivityProps<RecipeProps, RecipeValue>) {
   const [sel, setSel] = useState(props.ask[0]);
+  const editorRef = useRef<HTMLDivElement>(null);
+  const reviewRef = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    if (status === 'incorrect' && reviewRef.current) reviewRef.current.open = true;
+  }, [status]);
+  const wrongQuantity = (i: number) => status === 'incorrect' && props.ask.includes(i) && !near(parseNumber(value[i] ?? '') ?? NaN, scaled(props, i), 0.01);
+  const edit = (i: number) => {
+    setSel(i);
+    requestAnimationFrame(() => {
+      editorRef.current?.focus({ preventScroll: true });
+      editorRef.current?.scrollIntoView({ block: 'center', inline: 'nearest' });
+    });
+  };
   const locked = status === 'correct' || status === 'revealed';
   const k = props.targetServings / props.baseServings;
   return (
@@ -28,26 +41,40 @@ function Recipe({ props, value = {}, onChange, status }: ActivityProps<RecipePro
         <span className="act-hero" aria-hidden><Glyph icon={props.icon} emoji={props.emoji} size={44} /></span>
         <div><strong>{props.dish}</strong><div className="ds-small ds-muted">Receta para {props.baseServings} → necesitas para <strong>{props.targetServings}</strong> personas</div></div>
       </div>
+      <p className="ds-xs ds-muted ds-center">Pista de proporción: {props.baseServings} : {props.targetServings} = cantidad : ? {Number.isInteger(k) ? `(×${k})` : ''}</p>
+      <div ref={editorRef} tabIndex={-1} className="act-recipe__active act-stimulus" aria-label={`Ingrediente activo: ${props.ingredients[sel].name}`}>
+        <strong>{props.ingredients[sel].name}</strong>
+        <p>Base: {fmt(props.ingredients[sel].qty)} {props.ingredients[sel].unit} para {props.baseServings} personas.</p>
+        <p>Calcula la cantidad para {props.targetServings} personas.</p>
+        {status === 'incorrect' && <p role="status">{wrongQuantity(sel) ? 'Revisa esta cantidad. Usa la misma proporción que el número de personas.' : 'Esta cantidad es correcta.'}</p>}
+        {status === 'revealed' && <p>Respuesta mostrada: <strong>{value[sel]} {props.ingredients[sel].unit}</strong></p>}
+      </div>
+      <div className="act-precision__nav">
+        <button type="button" className="ds-btn ds-btn--secondary" aria-label="Ingrediente anterior" disabled={props.ask.indexOf(sel) === 0} onClick={() => setSel(props.ask[props.ask.indexOf(sel) - 1])}>Anterior</button>
+        <span>Ingrediente {props.ask.indexOf(sel) + 1} de {props.ask.length}</span>
+        <button type="button" className="ds-btn ds-btn--secondary" aria-label="Siguiente ingrediente" disabled={props.ask.indexOf(sel) === props.ask.length - 1} onClick={() => setSel(props.ask[props.ask.indexOf(sel) + 1])}>Siguiente</button>
+      </div>
+      <NumberPad value={value[sel] ?? ''} onChange={(v) => onChange({ ...value, [sel]: v })} allowDecimal allowFraction disabled={locked} unit={props.ingredients[sel].unit} />
+      <details ref={reviewRef}><summary>Consultar receta completa y revisar</summary>
       <table className="act-table act-recipe">
         <thead><tr><th>Ingrediente</th><th>{props.baseServings} pers.</th><th>{props.targetServings} pers.</th></tr></thead>
         <tbody>
           {props.ingredients.map((ing, i) => {
             const asked = props.ask.includes(i);
-            const wrong = status === 'incorrect' && asked && !near(parseNumber(value[i] ?? '') ?? NaN, scaled(props, i), 0.01);
+            const wrong = wrongQuantity(i);
             return (
-              <tr key={i} className={asked && sel === i && !locked ? 'is-sel' : ''} onClick={() => asked && setSel(i)}>
+              <tr key={i} className={asked && sel === i && !locked ? 'is-sel' : ''}>
                 <td><Glyph icon={ing.icon} emoji={ing.emoji} size={16} /> {ing.name}</td>
                 <td>{fmt(ing.qty)} {ing.unit}</td>
-                <td>{asked
-                  ? <button type="button" className={`act-cellbtn${sel === i ? ' is-on' : ''}${wrong ? ' is-wrong' : ''}`} disabled={locked}>{value[i] || '?'} {ing.unit}</button>
+                <td>{wrong && <span className="ds-small">Revisar cantidad</span>}{asked
+                  ? <button type="button" className={`act-cellbtn${sel === i ? ' is-on' : ''}${wrong ? ' is-wrong' : ''}`} disabled={locked} onClick={() => edit(i)} aria-label={`Editar ${ing.name}`}>{value[i] || '?'} {ing.unit}</button>
                   : <span className="ds-muted">{fmt(scaled(props, i))} {ing.unit}</span>}</td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      <p className="ds-xs ds-muted ds-center">Pista de proporción: {props.baseServings} : {props.targetServings} = cantidad : ? {Number.isInteger(k) ? `(×${k})` : ''}</p>
-      <NumberPad value={value[sel] ?? ''} onChange={(v) => onChange({ ...value, [sel]: v })} allowDecimal allowFraction disabled={locked} unit={props.ingredients[sel].unit} />
+      </details>
     </div>
   );
 }

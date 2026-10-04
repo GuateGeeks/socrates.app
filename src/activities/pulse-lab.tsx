@@ -88,7 +88,7 @@ function PulseLab({ props, value, onChange, api }: ActivityProps<PulseLabProps, 
       )}
 
       {phase === 'count' && (
-        <div className="ds-stack" style={{ alignItems: 'center' }}>
+        <div className="ds-stack act-pulse__count" style={{ alignItems: 'center' }}>
           <Ring value={(cnt.left ?? 0) / props.seconds} size={96} stroke={10} color="var(--c-bad)"><span style={{ fontSize: '1.6rem' }}>{cnt.left}</span></Ring>
           <button ref={heart} type="button" className="act-heart" onClick={() => { setTaps((t) => t + 1); feedback('tap'); play(heart.current, 'pop'); }} aria-label="Latido">❤️</button>
           <strong style={{ fontSize: 'var(--fs-2xl)' }}>{taps}</strong>
@@ -99,9 +99,9 @@ function PulseLab({ props, value, onChange, api }: ActivityProps<PulseLabProps, 
         <div className="ds-stack" style={{ alignItems: 'center' }}>
           <p className="ds-center">Contaste <strong>{taps}</strong> latidos. Ajusta si te equivocaste:</p>
           <div className="ds-row">
-            <button type="button" className="act-key" onClick={() => setTaps((t) => Math.max(0, t - 1))}>−</button>
+            <button type="button" className="act-key" aria-label="Disminuir latidos" onClick={() => setTaps((t) => Math.max(0, t - 1))}>−</button>
             <strong style={{ fontSize: 'var(--fs-2xl)', minWidth: 60, textAlign: 'center' }}>{taps}</strong>
-            <button type="button" className="act-key" onClick={() => setTaps((t) => t + 1)}>+</button>
+            <button type="button" className="act-key" aria-label="Aumentar latidos" onClick={() => setTaps((t) => t + 1)}>+</button>
           </div>
           <p className="ds-small ds-muted">{taps} × {mult} = <strong>{taps * mult} lpm</strong></p>
           <Button block onClick={() => save(taps)} disabled={taps === 0}>Guardar medición</Button>

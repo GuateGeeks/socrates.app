@@ -1,3 +1,4 @@
+import './mobile-screens.css';
 import { useState } from 'react';
 import { useProgress, updateProgress, resetProgress, type Settings } from '@/core/progress';
 import { navigate } from '@/core/router';
@@ -21,7 +22,7 @@ export function Ajustes({ activeProgram, profile, changeProgram }: { activeProgr
     updateLearnerProfile(shared);
   };
   return (
-    <div ref={ref} className="ds-page ds-stack">
+    <div ref={ref} className="ds-page ds-stack mobile-screen">
       <div className="ds-row">
         <Button variant="ghost" icon onClick={() => navigate({ name: 'perfil' })} aria-label="Volver"><Icon name="ArrowLeft" /></Button>
         <h1>Ajustes</h1>

@@ -281,3 +281,23 @@
 .mat__bar > i { display: block; height: 100%; background: var(--a); border-radius: 99px; }
 .mat__hero { border-radius: var(--r-lg); padding: var(--sp-4); color: #fff; background: linear-gradient(135deg, var(--a), color-mix(in srgb, var(--a) 60%, #000)); display: flex; gap: var(--sp-3); align-items: center; }
 .mat__hero h1 { color: #fff; }
+
+/* The lesson footer reserves its measured size; explanations remain readable in flow. */
+.lp__main { padding-bottom: calc(var(--lesson-actions-height, 100px) + 24px); }
+.lp__close { min-width: 44px; min-height: 44px; flex: none; }
+.lp__cnbbtn, .lp__hintbtn, .lp__save { min-height: 44px; }
+.lp__main [tabindex="-1"] { scroll-margin-top: 88px; }
+.lp__main [tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
+.lp__explanation { padding: 16px; border-radius: var(--r-md); display: grid; gap: 12px; background: var(--c-surface-2); overflow-wrap: anywhere; }
+.lp__explanation:empty { display: none; }
+.lp__explanation.is-correct { background: var(--c-ok-soft); }
+.lp__explanation.is-incorrect { background: var(--c-bad-soft); }
+.lp__explanation.is-revealed { background: var(--c-hint-soft); }
+.lp .ds-actionbar .ds-row { flex-wrap: wrap; }
+.lp .ds-actionbar .ds-row > button { flex: 1 1 130px; }
+.lp__exit-dialog { width: min(92vw, 420px); max-height: 90dvh; overflow: auto; padding: 24px; border: 1px solid var(--c-line); border-radius: var(--r-lg); background: var(--c-surface); color: var(--c-ink); }
+.lp__exit-dialog::backdrop { background: #0009; }
+.lp:has(textarea:focus, input:focus) .ds-actionbar { position: static; }
+.lp:has(textarea:focus, input:focus) .lp__main { padding-bottom: 24px; }
+@media (max-height: 500px) { .lp .ds-actionbar { position: static; } .lp__main { padding-bottom: 24px; } .lp__top { position: static; } }
+@media (max-width: 480px) { .act-grid-2 { grid-template-columns: minmax(0, 1fr); } }

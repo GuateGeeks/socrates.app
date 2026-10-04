@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import './mobile-screens.css';
+import { useEffect, useRef, useState } from 'react';
 import { navigate } from '@/core/router';
 import { useProgress } from '@/core/progress';
 import {
@@ -10,6 +11,9 @@ import { Button, Card } from '@/design-system/components';
 import { Icon } from '@/design-system/icons';
 import './encuesta-beta.css';
 
+const SURVEY_STAGES = ['Tu experiencia', 'Contenido y diseño', 'Actividades y comentarios', 'Revisión'];
+const questionStage = (index: number) => index < 3 ? 0 : index < 7 ? 1 : 2;
+
 export function EncuestaBeta() {
   const name = useProgress((progress) => progress.profile.name.trim());
   const [draft, setDraft] = useState<SurveyDraft>(() => loadSurveyDraft());
@@ -17,6 +21,10 @@ export function EncuestaBeta() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
   const [message, setMessage] = useState('');
   const [focusTarget, setFocusTarget] = useState<SurveyQuestionId | null>(null);
+
+  const [stage, setStage] = useState(0);
+  const stageTitle = useRef<HTMLHeadingElement>(null);
+  const goStage = (next: number) => { setStage(next); requestAnimationFrame(() => stageTitle.current?.focus()); };
 
   useEffect(() => { saveSurveyDraft(draft); }, [draft]);
   useEffect(() => {
@@ -37,6 +45,7 @@ export function EncuestaBeta() {
     if (missing.length) {
       setErrors(missing);
       setMessage(`Revisa ${missing.length} ${missing.length === 1 ? 'respuesta' : 'respuestas'} antes de enviar.`);
+      setStage(questionStage(SURVEY_QUESTIONS.findIndex(question => question.id === missing[0])));
       setFocusTarget(missing[0]);
       return;
     }
@@ -55,7 +64,7 @@ export function EncuestaBeta() {
     }
   };
 
-  return <main className="ds-page ds-stack survey-page">
+  return <main className="ds-page ds-stack mobile-screen survey-page">
     <div className="ds-row">
       <Button variant="ghost" icon aria-label="Volver a Ajustes" onClick={() => navigate({ name: 'ajustes' })}><Icon name="ArrowLeft" /></Button>
       <h1>Encuesta beta</h1>
@@ -69,8 +78,9 @@ export function EncuestaBeta() {
       </div>
     </Card>
     {draft.submittedAt && status !== 'sent' && <p className="survey-note" role="status">Ya enviaste una respuesta. Puedes editarla y volver a enviarla.</p>}
-    <form className="ds-stack" onSubmit={(event) => { event.preventDefault(); void send(); }} noValidate>
-      {SURVEY_QUESTIONS.map((question, index) => <Card key={question.id} className="survey-question">
+    <form className="ds-stack" onSubmit={(event) => { event.preventDefault(); if (stage === 3) void send(); else goStage(stage + 1); }} noValidate>
+      <h2 ref={stageTitle} tabIndex={-1} className="survey-stage-title">Paso {stage + 1} de 4 · {SURVEY_STAGES[stage]}</h2>
+      {SURVEY_QUESTIONS.map((question, index) => questionStage(index) === stage && <Card key={question.id} className="survey-question">
         <div id={`survey-${question.id}`} className="survey-question__head">
           <span className="survey-question__number">{String(index + 1).padStart(2, '0')}</span>
           <h2>{question.label}</h2>
@@ -107,11 +117,24 @@ export function EncuestaBeta() {
           {question.kind === 'text' ? 'Escribe entre 2 y 500 caracteres.' : 'Responde esta pregunta antes de enviar.'}
         </p>}
       </Card>)}
-      <Card className="survey-submit">
+      {stage === 3 && <Card>
+        <h2>Revisa tus respuestas</h2>
+        <ol className="survey-review">{SURVEY_QUESTIONS.map((question, index) => <li key={question.id}>
+          <strong>{question.label}</strong>
+          <p>{question.id === 'role' ? SURVEY_ROLES.find(role => role.value === draft.answers.role)?.label || 'Sin responder' : draft.answers[question.id] || 'Sin responder'}</p>
+          <Button type="button" variant="secondary" aria-label={`Editar respuesta ${index + 1}`} onClick={() => goStage(questionStage(index))}>Editar</Button>
+        </li>)}</ol>
+      </Card>}
+      {message && stage !== 3 && <p role="alert" className="survey-error">{message}</p>}
+      <div className="survey-navigation">
+        {stage > 0 && <Button type="button" variant="secondary" onClick={() => goStage(stage - 1)}>Paso anterior</Button>}
+        {stage < 3 && <Button type="button" onClick={() => goStage(stage + 1)}>{stage === 2 ? 'Revisar respuestas' : 'Siguiente paso'}</Button>}
+      </div>
+      {stage === 3 && <Card className="survey-submit">
         <p>El borrador se guarda en este dispositivo. Al enviar, tus respuestas y el nombre de tu perfil se guardarán en Firebase. Solo tu cuenta puede leerlas desde la app; el equipo puede revisarlas en Firebase Console. No puedes borrarlas desde la app.</p>
         {message && <p role="status" className={status === 'sent' ? 'survey-success' : 'survey-error'}>{message}</p>}
         <Button type="submit" block disabled={status === 'sending'}>{status === 'sending' ? 'Enviando…' : draft.submittedAt ? 'Actualizar respuesta' : 'Enviar respuestas'}</Button>
-      </Card>
+      </Card>}
     </form>
   </main>;
 }

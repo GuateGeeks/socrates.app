@@ -158,3 +158,6 @@ a { color: inherit; }
 .ds-toggle > .ds-row { flex-wrap: wrap; }
 .ds-btn { overflow-wrap: anywhere; }
 @media (max-width: 420px) { .ds-toggle > .ds-row { gap: var(--sp-1); } }
+
+/* Explicit hiding must survive component display:grid/flex declarations. */
+[hidden] { display: none !important; }

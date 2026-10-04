@@ -1,3 +1,4 @@
+import '@/screens/mobile-screens.css';
 import { useState } from 'react';
 import { AVATARS, DAILY_GOALS, ONBOARDING_STEPS, validateLearnerName, type LearnerProfile, type OnboardingStep } from '@/core/learner-profile';
 import { Icon } from '@/design-system/icons';
@@ -40,7 +41,7 @@ export function Onboarding({ profile, updateProfile, complete }: Props) {
           {error && <small role="alert">{error}</small>}
         </div>}
         {profile.onboardingStep === 'name' && <label className="onboarding__field">Tu nombre<input autoFocus value={profile.displayName} maxLength={30} onChange={(e) => updateProfile({ displayName: e.target.value })} placeholder="Escribe tu nombre" />{error && <small role="alert">{error}</small>}</label>}
-        {profile.onboardingStep === 'avatar' && <div className="onboarding__choices avatars">{AVATARS.map((avatar) => <button key={avatar} aria-pressed={profile.avatar === avatar} onClick={() => updateProfile({ avatar })}><Icon name={avatar} size={34} /></button>)}</div>}
+        {profile.onboardingStep === 'avatar' && <div className="onboarding__choices avatars">{AVATARS.map((avatar) => <button key={avatar} aria-label={avatar} aria-pressed={profile.avatar === avatar} onClick={() => updateProfile({ avatar })}><Icon name={avatar} size={34} /></button>)}</div>}
         {profile.onboardingStep === 'goal' && <div className="onboarding__choices goals">{DAILY_GOALS.map((goal) => <button key={goal} aria-pressed={profile.dailyGoal === goal} onClick={() => updateProfile({ dailyGoal: goal })}><strong>{goal}</strong><span>puntos al día</span></button>)}</div>}
         {profile.onboardingStep === 'preferences' && <div className="onboarding__prefs">
           <label>Tema <select value={profile.theme} onChange={(e) => updateProfile({ theme: e.target.value as LearnerProfile['theme'] })}><option value="auto">Automático</option><option value="light">Claro</option><option value="dark">Oscuro</option></select></label>

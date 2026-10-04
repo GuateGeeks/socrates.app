@@ -188,11 +188,14 @@ export function LowActivityPracticeControl({ props, value, onChange, status }: A
   const alreadyActive = !value && isLowActivityMode(current);
 
   return (
-    <div className="ds-stack act-low">
+    <div className="ds-stack act-low activity-journey">
+      <p className="ds-small"><strong>Estado actual:</strong> sonido {current.sound ? 'activado' : 'desactivado'} · movimiento reducido {current.reducedMotion ? 'activado' : 'desactivado'}.</p>
+      <details><summary>Detalles del estado</summary>
       <div className="act-low__states">
         <StatePanel title={value ? 'Antes de la práctica' : 'Estado actual'} snapshot={value?.before ?? current} />
         {value && <StatePanel title={restoredNow ? 'Estado restaurado' : 'Estado verificado'} snapshot={current} />}
       </div>
+      </details>
       {locked ? (
         <p className="act-low__locked"><Icon name="CircleCheck" size={20} /> Práctica registrada. Estado de solo lectura.</p>
       ) : alreadyActive || maintaining ? (

@@ -74,14 +74,11 @@ function CoordMap({ props, value, onChange, status }: ActivityProps<CoordMapProp
           </g>
         )}
       </svg>
-      {task.kind === 'place'
-        ? <div className="act-stimulus ds-center">Coloca {task.emoji} <strong>{task.label}</strong> en <strong>({task.x}, {task.y})</strong>{value && <span className="ds-muted"> · tu punto: ({value.x}, {value.y})</span>}</div>
-        : (
-          <div className="ds-row" style={{ justifyContent: 'center', gap: 'var(--sp-5)' }}>
-            <Stepper label="x" v={value?.x ?? 0} set={(x) => onChange({ x, y: value?.y ?? 0 })} min={xmin} max={xmax} disabled={locked} />
-            <Stepper label="y" v={value?.y ?? 0} set={(y) => onChange({ x: value?.x ?? 0, y })} min={ymin} max={ymax} disabled={locked} />
-          </div>
-        )}
+      {task.kind === 'place' && <div className="act-stimulus ds-center">Coloca {task.emoji} <strong>{task.label}</strong> en <strong>({task.x}, {task.y})</strong>{value && <span className="ds-muted"> · tu punto: ({value.x}, {value.y})</span>}</div>}
+      <div className="act-coord__precision">
+        <Stepper label="x" v={value?.x ?? Math.max(xmin, Math.min(xmax, 0))} set={(x) => onChange({ x, y: value?.y ?? Math.max(ymin, Math.min(ymax, 0)) })} min={xmin} max={xmax} disabled={locked} />
+        <Stepper label="y" v={value?.y ?? Math.max(ymin, Math.min(ymax, 0))} set={(y) => onChange({ x: value?.x ?? Math.max(xmin, Math.min(xmax, 0)), y })} min={ymin} max={ymax} disabled={locked} />
+      </div>
     </div>
   );
 }

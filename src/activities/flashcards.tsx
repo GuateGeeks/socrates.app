@@ -1,3 +1,4 @@
+import { ActivityJourney } from '@/ui/ActivityJourney';
 import { useEffect, useState } from 'react';
 import { defineActivity } from '@/core/registry';
 import type { ActivityProps } from '@/core/types';
@@ -26,9 +27,8 @@ function Flashcards({ props, value, onChange, api }: ActivityProps<FlashcardsPro
     setFlipped(false); setI((i + 1) % props.cards.length);
   };
   return (
-    <div className="ds-stack">
+    <ActivityJourney index={i} count={props.cards.length} label="Tarjeta" onNavigate={n => { setI(n); setFlipped(false); }}>
       <div className="ds-row ds-xs ds-muted" style={{ justifyContent: 'space-between' }}>
-        <span>Tarjeta {i + 1} de {props.cards.length}</span>
         <span>Vistas {v.seen.filter(Boolean).length}/{props.cards.length} · Ya las sé {v.known.filter(Boolean).length}</span>
       </div>
       <button type="button" className={`act-fc${flipped ? ' is-back' : ''}`} onClick={flip} aria-label={flipped ? 'Mostrar frente' : 'Voltear tarjeta'}>
@@ -40,7 +40,7 @@ function Flashcards({ props, value, onChange, api }: ActivityProps<FlashcardsPro
         <Button variant="secondary" block disabled={!flipped} onClick={() => mark(false)}>Repasar</Button>
         <Button variant="ok" block disabled={!flipped} onClick={() => mark(true)}>¡Ya la sé!</Button>
       </div>
-    </div>
+    </ActivityJourney>
   );
 }
 

@@ -1,3 +1,4 @@
+import './mobile-screens.css';
 import { useReducer, useRef, useState } from 'react';
 import { listActivities } from '@/core/registry';
 import { canSubmit, initialStep, stepReducer } from '@/core/engine';
@@ -16,10 +17,11 @@ import { ICON_NAMES } from '@/design-system/icons.generated';
 export function Sistema() {
   const ref = useEnter<HTMLDivElement>('enter.screen');
   const [mood, setMood] = useState<MascotMood>('happy');
+  const [openActivity, setOpenActivity] = useState<string | null>(null);
   const usage = new Map<string, number>();
   for (const { lesson } of allLessons()) for (const s of lesson.steps) usage.set(s.type, (usage.get(s.type) ?? 0) + 1);
   return (
-    <div ref={ref} className="ds-page ds-stack">
+    <div ref={ref} className="ds-page ds-stack mobile-screen">
       <div>
         <h1>Sistema de diseño</h1>
         <p className="ds-small ds-muted">Tokens, movimiento, retroalimentación y actividades. Todo lo que ves aquí se usa en las lecciones.</p>
@@ -85,7 +87,7 @@ export function Sistema() {
       </Card>
 
       <SectionTitle>Catálogo de actividades ({listActivities().length})</SectionTitle>
-      {listActivities().map((d) => <ActivityCard key={d.type} def={d} uses={usage.get(d.type) ?? 0} />)}
+      {listActivities().map((d) => <ActivityCard key={d.type} def={d} uses={usage.get(d.type) ?? 0} open={openActivity === d.type} onToggle={() => setOpenActivity(openActivity === d.type ? null : d.type)} />)}
     </div>
   );
 }
@@ -99,8 +101,7 @@ function MotionDemo({ name }: { name: PresetName }) {
   );
 }
 
-function ActivityCard({ def, uses }: { def: ActivityDefinition; uses: number }) {
-  const [open, setOpen] = useState(false);
+function ActivityCard({ def, uses, open, onToggle }: { def: ActivityDefinition; uses: number; open: boolean; onToggle(): void }) {
   const example = def.example ?? findExample(def.type);
   return (
     <Card>
@@ -109,7 +110,7 @@ function ActivityCard({ def, uses }: { def: ActivityDefinition; uses: number }) 
         <div className="ds-grow"><strong>{def.label}</strong> <code className="ds-xs">{def.type}</code><div className="ds-xs ds-muted">{def.description}</div></div>
         <Chip color={def.graded ? 'var(--c-ok)' : 'var(--c-hint)'}>{def.graded ? 'calificada' : 'abierta'} · {uses}×</Chip>
       </div>
-      {example && <Button size="sm" variant="secondary" style={{ marginTop: 10 }} onClick={() => setOpen((o) => !o)}>{open ? 'Cerrar' : 'Probar'}</Button>}
+      {example && <Button size="sm" variant="secondary" style={{ marginTop: 10 }} aria-expanded={open} onClick={onToggle}>{open ? 'Cerrar' : 'Probar'}</Button>}
       {open && example && <Sandbox def={def} step={{ ...example, id: `demo-${def.type}`, type: def.type }} />}
     </Card>
   );

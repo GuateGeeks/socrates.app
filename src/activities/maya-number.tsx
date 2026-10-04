@@ -26,7 +26,7 @@ const LONG_NAMES = ["K'in", 'Winal', 'Tun', "K'atun", "B'ak'tun"];
 export const mayaTotal = (digits: number[], longCount?: boolean) => digits.reduce((s, d, i) => s + d * (longCount ? LONG : POS)[i], 0);
 
 function Level({ d, idx, props, onAdd, onClear, locked }: { d: number; idx: number; props: MayaNumberProps; onAdd: (n: number) => void; onClear: () => void; locked: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLButtonElement>(null);
   const prev = useRef(d);
   useEffect(() => { if (d !== prev.current) play(ref.current, d < prev.current && d !== 0 ? 'wiggle' : 'pop'); prev.current = d; }, [d]);
   const unit = (props.longCount ? LONG : POS)[idx];
@@ -38,9 +38,9 @@ function Level({ d, idx, props, onAdd, onClear, locked }: { d: number; idx: numb
           {props.longCount && <span className="ds-xs">{LONG_NAMES[idx]}</span>}
         </div>
       )}
-      <div ref={ref} className="act-maya__slot" onClick={() => !locked && d > 0 && onClear()} title="Toca para vaciar">
+      <button type="button" ref={ref} className="act-maya__slot" disabled={locked || d === 0} onClick={onClear} aria-label={`Vaciar nivel ${idx + 1}`} title="Vaciar nivel">
         <MayaDigit d={d} size={64} />
-      </div>
+      </button>
       <div className="act-maya__btns">
         <button type="button" disabled={locked} onClick={() => onAdd(1)} aria-label={`Agregar punto en nivel ${idx + 1}`}>+ ●</button>
         <button type="button" disabled={locked} onClick={() => onAdd(5)} aria-label={`Agregar barra en nivel ${idx + 1}`}>+ ▬</button>

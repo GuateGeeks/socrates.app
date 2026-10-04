@@ -93,22 +93,22 @@ try {
     await assertFits(page);
     await page.getByRole('button', { name: /Practicar/ }).click();
     const check = page.getByRole('button', { name: 'Comprobar conexiones' });
-    assert.equal(await check.isDisabled(), true);
+    assert.equal(await (practice.flow ? page.getByRole('button', { name: 'Continuar al recorrido' }) : check).isDisabled(), true);
     // Real keyboard interaction for the first selection and placement.
     for (const [i, item] of practice.items.entries()) {
-      const tile = page.getByRole('button', { name: `Seleccionar: ${item.text}`, exact: true });
-      await tile.focus(); await page.keyboard.press('Enter');
+      assert.equal(await page.locator('.assignment-active p').textContent(), item.text);
       const targetId = i === 0 ? practice.targets.find(target => target.id !== item.target).id : item.target;
       const target = practice.targets.find(target => target.id === targetId);
       await page.getByRole('button', { name: `Colocar en ${target.label}`, exact: true }).click();
     }
+    if (practice.flow) { await page.getByRole('button', { name: 'Continuar al recorrido' }).click(); await page.getByRole('button', { name: 'Revisar conexiones', exact: true }).click(); }
     await check.click();
     await page.getByText('Revisa estas conexiones', { exact: true }).waitFor();
     // Consulting content must preserve formative work.
     await page.getByRole('button', { name: /Explorar/ }).click();
     await page.getByRole('button', { name: /Practicar/ }).click();
     const item = practice.items[0];
-    await page.getByRole('button', { name: `Mover: ${item.text}`, exact: true }).click();
+    await page.getByRole('button', { name: `Editar: ${item.text}`, exact: true }).click();
     await page.getByRole('button', { name: `Colocar en ${practice.targets.find(target => target.id === item.target).label}`, exact: true }).click();
     if (practice.flow) {
       for (const [desired, step] of practice.flow.entries()) {

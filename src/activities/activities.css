@@ -189,7 +189,7 @@
 
 /* highlight */
 .act-hl { font-size: var(--fs-lg); line-height: 2.1; padding: var(--sp-3) var(--sp-4); border-radius: var(--r-md); background: var(--c-surface); border: 2px solid var(--c-line); }
-.act-hl__w { display: inline; border: 0; padding: 3px 4px; margin: 0 -1px; border-radius: 6px; background: transparent; font: inherit; font-weight: var(--fw-bold); color: inherit; transition: background var(--dur-fast); }
+.act-hl__w { display: inline-block; min-height: 44px; min-width: 24px; max-width: 100%; overflow-wrap: anywhere; border: 0; padding: 4px 6px; margin: 2px; border-radius: 6px; background: transparent; font: inherit; font-weight: var(--fw-bold); color: inherit; transition: background var(--dur-fast); }
 .act-hl__w:hover { background: var(--c-surface-2); }
 .act-hl__w.is-on { background: var(--c-maiz); color: #3b2b00; }
 .act-hl__w.is-wrong { background: var(--c-bad-soft); color: var(--c-bad); text-decoration: line-through; }

@@ -1,3 +1,4 @@
+import './mobile-screens.css';
 import type { CSSProperties } from 'react';
 import { useProgress, mastery } from '@/core/progress';
 import { AMBITOS, AREAS, WHEEL_CICLO_II, type Ambito, type AreaId } from '@/cnb/model';
@@ -21,7 +22,7 @@ export function Logros() {
   for (const a of Object.keys(byArea) as AreaId[]) byArea[a] = byArea[a]! / counts[a]!;
   const maxAmb = Math.max(1, ...Object.values(p.ambitos));
   return (
-    <div ref={ref} className="ds-page ds-stack">
+    <div ref={ref} className="ds-page ds-stack mobile-screen">
       <div className="ds-row">
         <Button variant="ghost" icon onClick={() => navigate({ name: 'perfil' })} aria-label="Volver"><Icon name="ArrowLeft" /></Button>
         <h1>Mis logros</h1>

@@ -92,10 +92,33 @@ export function LessonPlayer({ mission, lesson, mode = modeOf(lesson), skipIntro
   const def = getActivity(step?.type ?? '');
   const cardRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const feedbackRef = useRef<HTMLDivElement>(null);
+  const exitDialog = useRef<HTMLDialogElement>(null);
+  const [actionHeight, setActionHeight] = useState(100);
   const exam = mode === 'exam' || mode === 'review';
   const exit = onExit ?? (() => navigate(mission.semana ? { name: 'mission', missionId: mission.id } : { name: 'home' }));
 
-  useEffect(() => { if (started) play(cardRef.current, 'enter.step'); setShowCnb(false); }, [idx, started]);
+  useEffect(() => {
+    if (started) {
+      play(cardRef.current, 'enter.step');
+      cardRef.current?.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    setShowCnb(false);
+  }, [idx, started]);
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+    const measure = () => setActionHeight(bar.getBoundingClientRect().height);
+    const observer = new ResizeObserver(measure); observer.observe(bar); measure();
+    return () => observer.disconnect();
+  }, [started, summary, reviewDone]);
+  useEffect(() => {
+    if (s.status !== 'answering') feedbackRef.current?.focus();
+  }, [s.status]);
+  useEffect(() => {
+    if (confirmExit) exitDialog.current?.showModal(); else exitDialog.current?.close();
+  }, [confirmExit]);
   useEffect(() => {
     if (s.status === 'correct') { feedback('correct'); play(barRef.current, 'enter.item'); }
     if (s.status === 'incorrect') { feedback('incorrect'); play(cardRef.current, 'feedback.incorrect'); }
@@ -165,7 +188,7 @@ export function LessonPlayer({ mission, lesson, mode = modeOf(lesson), skipIntro
   const canSave = step.type === 'explain' && !exam;
 
   return (
-    <div className="lp" style={{ '--mission': color } as CSSProperties}>
+    <div className="lp" style={{ '--mission': color, '--lesson-actions-height': `${actionHeight}px` } as CSSProperties}>
       <header className="lp__top">
         <button type="button" className="lp__close" aria-label={t('lesson.exit')} onClick={() => { if (idx === 0) exit(); else setConfirmExit(true); }}><Icon name="X" size={22} /></button>
         <div className="ds-grow"><ProgressBar value={(idx + (s.status !== 'answering' ? 1 : 0)) / lesson.steps.length} color={color} label="Avance de la lección" /></div>
@@ -173,7 +196,7 @@ export function LessonPlayer({ mission, lesson, mode = modeOf(lesson), skipIntro
       </header>
 
       <main className="lp__main">
-        <div ref={cardRef} className="ds-stack" key={step.id}>
+        <div ref={cardRef} className="ds-stack" key={step.id} tabIndex={-1}>
           <div className="ds-row" style={{ flexWrap: 'wrap', gap: 6 }}>
             <Chip color={color} solid><Icon name={fase.icon} size={14} /> {fase.nombre}</Chip>
             {step.areas.map((a) => <Chip key={a} color={AREAS[a].color}><Icon name={AREAS[a].icon} size={13} /> {AREAS[a].corto}</Chip>)}
@@ -200,39 +223,37 @@ export function LessonPlayer({ mission, lesson, mode = modeOf(lesson), skipIntro
               ? <div className="lp__hint"><Mascot mood="think" size={48} idle={false} /><Rich text={step.hint} /></div>
               : <button type="button" className="lp__hintbtn" onClick={() => { feedback('hint'); dispatch({ type: 'hint' }); }}><Icon name="Lightbulb" size={16} /> {t('lesson.hint')}</button>
           )}
+          {s.status !== 'answering' && <div ref={feedbackRef} tabIndex={-1} className={`lp__explanation ${barState}`} role="status">
+            {s.status === 'incorrect' && s.result?.feedback && <p><Rich text={s.result.feedback} /></p>}
+            {(s.status === 'correct' || s.status === 'revealed' || exam) && step.explain && <p><Rich text={step.explain} /></p>}
+          </div>}
         </div>
       </main>
 
-      {confirmExit && (
-        <div className="lp__overlay" role="dialog" aria-modal="true" aria-label={t('lesson.exit')}>
-          <div className="lp__dialog ds-stack">
-            <Mascot mood="oops" size={72} idle={false} />
-            <p className="ds-center"><strong>{t('lesson.exitConfirm')}</strong></p>
-            <Button block onClick={() => setConfirmExit(false)}>Seguir aprendiendo</Button>
-            <Button block variant="ghost" onClick={exit}>{t('lesson.exit')}</Button>
-          </div>
+      <dialog ref={exitDialog} className="lp__exit-dialog" aria-label={t('lesson.exit')} onClose={() => setConfirmExit(false)}>
+        <div className="ds-stack">
+          <Mascot mood="oops" size={72} idle={false} />
+          <p className="ds-center"><strong>{t('lesson.exitConfirm')}</strong></p>
+          <Button block autoFocus onClick={() => setConfirmExit(false)}>Seguir aprendiendo</Button>
+          <Button block variant="ghost" onClick={exit}>{t('lesson.exit')}</Button>
         </div>
-      )}
+      </dialog>
 
       <footer ref={barRef} className={`ds-actionbar ${barState}`}>
         <div className="ds-actionbar__inner">
           {s.status === 'correct' && (
             <div>
               <div className="ds-feedback-title"><Icon name="CircleCheck" size={22} /> {s.attempt === 1 ? pickPraise(idx) : '¡Lo lograste!'}</div>
-              {step.explain && <p className="ds-small"><Rich text={step.explain} /></p>}
             </div>
           )}
           {s.status === 'incorrect' && (
             <div>
               <div className="ds-feedback-title"><Icon name="CircleAlert" size={22} /> {exam ? 'No es correcto' : t('lesson.incorrect')}</div>
-              {s.result?.feedback && <p className="ds-small"><Rich text={s.result.feedback} /></p>}
-              {exam && step.explain && <p className="ds-small"><Rich text={step.explain} /></p>}
             </div>
           )}
           {s.status === 'revealed' && (
             <div>
               <div className="ds-feedback-title"><Icon name="BookOpenCheck" size={22} /> {t('lesson.revealed')}</div>
-              {step.explain && <p className="ds-small"><Rich text={step.explain} /></p>}
             </div>
           )}
           <div className="ds-row">

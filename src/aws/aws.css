@@ -154,3 +154,55 @@
 }
 @media (prefers-reduced-motion: reduce) { .aws-app *, .aws-app *::before, .aws-app *::after { transition: none !important; } }
 :root[data-motion="reduced"] .aws-app * { transition: none !important; }
+
+/* Mobile lessons keep the current decision and its controls together. */
+.aws-lesson { --sp-6: 16px; gap: 16px; padding-top: calc(12px + var(--safe-t)); padding-bottom: calc(24px + var(--safe-b)); }
+.aws-lesson > .aws-title h1 { font-size: clamp(1.35rem, 4vw, 2rem); }
+.aws-lesson-summary summary { min-height: 44px; align-content: center; color: var(--c-ink-2); cursor: pointer; font-size: var(--fs-sm); }
+.aws-lesson-summary p { margin-top: 8px; }
+.aws-lesson .aws-back { min-height: 44px; }
+.aws-lesson .aws-phases { position: sticky; top: 0; z-index: 6; box-shadow: var(--e-1); }
+.aws-lesson .aws-phases button { min-height: 48px; flex-direction: row; }
+.aws-lesson .aws-phases button > svg { display: none; }
+.aws-reader { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.aws-reader__navigation { min-width: 0; }
+.aws-reader__toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; width: 100%; min-height: 56px; text-align: left; background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--r-md); }
+.aws-reader__toggle > span { display: grid; gap: 4px; min-width: 0; }
+.aws-reader__toggle small { color: var(--c-accent); }
+.aws-reader__toggle strong { overflow-wrap: anywhere; }
+.aws-reader__toggle svg { flex: none; }
+.aws-reader__index { display: none; overflow: visible; margin-top: 8px; }
+.aws-reader__index.is-open { display: grid; }
+.aws-reader__index button { flex: initial; width: 100%; min-height: 48px; font-size: var(--fs-sm); overflow-wrap: anywhere; }
+.aws-reader__index > .aws-kicker { display: none; }
+.aws-reading-card, .aws-practice, .aws-quiz { padding: 16px; gap: 16px; }
+.aws-reading-card h2, .aws-practice h2, #aws-question, #aws-answer-feedback { scroll-margin-top: 90px; }
+.aws-reader__controls, .aws-lesson-actions { position: sticky; bottom: 0; z-index: 4; padding: 12px 0 calc(12px + var(--safe-b)); background: var(--c-surface); border-top: 1px solid var(--c-line); gap: 8px; }
+.aws-reader__controls > *, .aws-lesson-actions > * { min-height: 48px; flex: 1 1 140px; width: auto; font-size: var(--fs-sm); padding: 10px; }
+.aws-lesson-actions > .aws-secondary { flex: 0 1 auto; font-size: var(--fs-xs); }
+.aws-flow li { flex-wrap: wrap; }
+.aws-flow li .ds-grow { flex-basis: calc(100% - 56px); }
+.aws-flow__actions { flex-direction: row; margin-left: auto; }
+.aws-flow__actions select { min-height: 48px; min-width: 48px; border: 1px solid var(--c-line); border-radius: var(--r-sm); }
+.aws-feedback summary { cursor: pointer; min-height: 44px; align-content: center; }
+.aws-reset-dialog { width: min(92vw, 440px); max-height: 90dvh; padding: 24px; border: 1px solid var(--c-line); border-radius: var(--r-lg); background: var(--c-surface); color: var(--c-ink); }
+.aws-reset-dialog::backdrop { background: #0009; }
+.aws-curriculum-group { display: block; }
+.aws-curriculum-group summary { cursor: pointer; min-height: 64px; }
+.aws-curriculum-group summary > span:nth-child(2) { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.aws-curriculum-group summary small { color: var(--c-ink-2); }
+.aws-curriculum-group .aws-lesson-list { margin-top: 16px; }
+@media (min-width: 900px) {
+  .aws-reader { grid-template-columns: 240px minmax(0, 1fr); }
+  .aws-reader__toggle { display: none; }
+  .aws-reader__index { display: grid; margin: 0; }
+  .aws-reader__controls > *, .aws-lesson-actions > * { flex-grow: 0; }
+}
+@media (max-height: 500px) {
+  .aws-lesson .aws-phases, .aws-reader__controls, .aws-lesson-actions { position: static; }
+}
+.aws-lesson .aws-phases { top: var(--safe-t); }
+.aws-lesson .aws-phases button { overflow-wrap: anywhere; line-height: 1.4; }
+.aws-lesson .aws-phases button > span:last-child { min-width: 0; }
+.aws-lesson .assignment-active { top: calc(var(--aws-phase-height, 64px) + var(--safe-t) + 12px); }
+.aws-lesson .assignment-work, .aws-reading-card h2, .aws-practice h2, #aws-question, #aws-answer-feedback { scroll-margin-top: calc(var(--aws-phase-height, 64px) + var(--safe-t) + 20px); }

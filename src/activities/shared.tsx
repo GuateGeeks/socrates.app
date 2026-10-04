@@ -52,7 +52,7 @@ export function NumberPad({ value, onChange, allowDecimal, allowFraction, allowN
   };
   return (
     <div className="ds-stack" style={{ gap: 'var(--sp-2)' }}>
-      <div className="act-display" aria-live="polite">{value || <span className="ds-muted">?</span>}{unit && <small> {unit}</small>}</div>
+      <div className="act-display" aria-live="polite"><span className="act-display__number">{value || <span className="ds-muted">?</span>}</span>{unit && <small> {unit}</small>}</div>
       <div className="ds-kbd">
         {keys.map((k, i) => (
           <button key={i} type="button" className="act-key" disabled={disabled || !k} onClick={() => press(k)} aria-label={k === '⌫' ? 'Borrar' : k}>{k}</button>

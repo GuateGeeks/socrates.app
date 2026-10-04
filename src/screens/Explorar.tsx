@@ -1,4 +1,5 @@
-import { useMemo, useState, type CSSProperties } from 'react';
+import './mobile-screens.css';
+import { useMemo, type CSSProperties } from 'react';
 import { useProgress, mastery, nivel, NIVEL_LABEL } from '@/core/progress';
 import { navigate } from '@/core/router';
 import { AREAS, WHEEL_CICLO_II, type AreaId } from '@/cnb/model';
@@ -8,6 +9,8 @@ import type { Lesson, Mission } from '@/core/types';
 import { Button, Card, Ring, useEnter } from '@/design-system/components';
 import { Icon } from '@/design-system/icons';
 
+import { useSessionValue, useReturnPosition } from '@/ui/Pagination';
+
 type Ref = { mission: Mission; lesson: Lesson };
 
 /** Explorar el CNB: aprendizaje autodirigido por área → competencia → indicador → lecciones. */
@@ -15,7 +18,8 @@ export function Explorar({ area }: { area?: string }) {
   const p = useProgress((s) => s);
   const ref = useEnter<HTMLDivElement>('enter.screen', area);
   const cat = getCatalog();
-  const [q, setQ] = useState('');
+  const [q, setQ] = useSessionValue(`explore-${area ?? 'all'}-search`, '');
+  useReturnPosition(`explore-${area ?? 'all'}`);
   const byInd = useMemo(() => {
     const m = new Map<string, Ref[]>();
     for (const x of allLessons()) {
@@ -27,7 +31,7 @@ export function Explorar({ area }: { area?: string }) {
 
   if (!area || !AREAS[area as AreaId]) {
     return (
-      <div ref={ref} className="ds-page ds-stack">
+      <div ref={ref} className="ds-page ds-stack mobile-screen">
         <div>
           <h1>Explorar el CNB</h1>
           <p className="ds-small ds-muted">Elige un área y aprende lo que quieras, cuando quieras. Cada indicador de logro te lleva a sus lecciones.</p>
@@ -56,7 +60,7 @@ export function Explorar({ area }: { area?: string }) {
   const comps = cat.areas[a]?.competencias ?? [];
   const ql = q.trim().toLowerCase();
   return (
-    <div ref={ref} className="ds-page ds-stack" style={{ '--a': AREAS[a].color } as CSSProperties}>
+    <div ref={ref} className="ds-page ds-stack mobile-screen" style={{ '--a': AREAS[a].color } as CSSProperties}>
       <div className="ds-row">
         <Button variant="ghost" icon onClick={() => navigate({ name: 'explorar' })} aria-label="Volver"><Icon name="ArrowLeft" /></Button>
         <span className="ex__aicon"><Icon name={AREAS[a].icon} size={24} /></span>

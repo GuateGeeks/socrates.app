@@ -25,19 +25,20 @@ function WorkedExample({ props, api }: ActivityProps<WorkedExampleProps, undefin
   const done = shown >= props.steps.length;
   useEffect(() => { api.setReady(done); }, [done]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const el = listRef.current?.children[shown - 1] as HTMLElement | undefined;
+    const el = listRef.current?.children[0] as HTMLElement | undefined;
     if (el) play(el, 'enter.item');
   }, [shown]);
   return (
-    <div className="ds-stack">
+    <div className="ds-stack activity-journey">
       <div className="we-problem">
         {props.icon && <Glyph icon={props.icon} size={28} />}
         <div><Rich text={props.problem} /></div>
       </div>
-      <ol ref={listRef} className="we-steps">
-        {props.steps.slice(0, shown).map((s, i) => (
-          <li key={i}>
-            <span className="we-num">{i + 1}</span>
+      {shown > 1 && <details><summary>Consultar pasos anteriores</summary><ol className="we-steps">{props.steps.slice(0, shown - 1).map((s, i) => <li key={i}><span className="we-num">{i + 1}</span><div><Rich text={s.text} />{s.why && <p className="ds-xs ds-muted"><Rich text={`¿Por qué? ${s.why}`} /></p>}</div></li>)}</ol></details>}
+      <ol ref={listRef} className="we-steps" start={shown || 1} aria-label="Paso actual">
+        {props.steps.slice(Math.max(0, shown - 1), shown).map((s) => (
+          <li key={shown}>
+            <span className="we-num">{shown}</span>
             <div><Rich text={s.text} />{s.why && <div className="ds-xs ds-muted we-why"><Rich text={`¿Por qué? ${s.why}`} /></div>}</div>
           </li>
         ))}

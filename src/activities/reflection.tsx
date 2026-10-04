@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { ActivityJourney, ActivityReview } from '@/ui/ActivityJourney';
+import { useEffect, useState } from 'react';
 import { defineActivity } from '@/core/registry';
 import type { ActivityProps } from '@/core/types';
 import { Tile } from '@/design-system/components';
@@ -21,9 +22,17 @@ const SCALE = [
 function Reflection({ props, value, onChange, api }: ActivityProps<ReflectionProps, ReflectionValue>) {
   const v: ReflectionValue = value ?? { ratings: props.statements.map(() => null) };
   useEffect(() => { api.setReady(v.ratings.every((r) => r !== null) && (!props.commitments || !!v.commitment)); }, [JSON.stringify(v)]); // eslint-disable-line react-hooks/exhaustive-deps
+  const [index, setIndex] = useState(0);
+  const [review, setReview] = useState(false);
+  const [focusOnEntry, setFocusOnEntry] = useState(false);
+  const count = props.statements.length + (props.commitments ? 1 : 0);
+  if (review) return <ActivityReview items={[
+    ...props.statements.map((label, i) => ({ label, answer: SCALE.find(s => s.v === v.ratings[i])?.label ?? 'Sin responder' })),
+    ...(props.commitments ? [{ label: 'Mi compromiso', answer: v.commitment ?? 'Sin responder' }] : []),
+  ]} onEdit={i => { setIndex(i); setFocusOnEntry(true); setReview(false); }} />;
   return (
-    <div className="ds-stack">
-      {props.statements.map((s, i) => (
+    <ActivityJourney focusOnMount={focusOnEntry} index={index} count={count} label="Autoevaluación" onNavigate={setIndex} onReview={() => setReview(true)}>
+      {props.statements.map((s, i) => i === index && (
         <div key={i} className="act-rate">
           <p><strong>{s}</strong></p>
           <div className="act-rate__row" role="radiogroup" aria-label={s}>
@@ -36,13 +45,13 @@ function Reflection({ props, value, onChange, api }: ActivityProps<ReflectionPro
           </div>
         </div>
       ))}
-      {props.commitments && (
+      {props.commitments && index === props.statements.length && (
         <>
           <h4>Mi compromiso 🤞</h4>
           {props.commitments.map((c) => <Tile key={c} selected={v.commitment === c} onClick={() => onChange({ ...v, commitment: c })}>{c}</Tile>)}
         </>
       )}
-    </div>
+    </ActivityJourney>
   );
 }
 

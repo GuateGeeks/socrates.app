@@ -1,4 +1,5 @@
-import { useState, type CSSProperties } from 'react';
+import './mobile-screens.css';
+import { type CSSProperties } from 'react';
 import { useProgress } from '@/core/progress';
 import { navigate } from '@/core/router';
 import { AREAS, ODEC_CICLO_II, type AreaId } from '@/cnb/model';
@@ -9,13 +10,15 @@ import { Button, Card, SectionTitle, useEnter } from '@/design-system/components
 import { Icon } from '@/design-system/icons';
 import { LessonRow } from '@/ui/LessonRow';
 
+import { useSessionValue, useReturnPosition } from '@/ui/Pagination';
+
 /** Mis materias: el recorrido de cada área del CNB a lo largo del año. */
 export function Materias({ area }: { area?: string }) {
   const p = useProgress((s) => s);
   const ref = useEnter<HTMLDivElement>('enter.screen', area);
   if (area && AREAS[area as AreaId]) return <Track area={area as AreaId} />;
   return (
-    <div ref={ref} className="ds-page ds-stack">
+    <div ref={ref} className="ds-page ds-stack mobile-screen">
       <div>
         <h1>Mis materias</h1>
         <p className="ds-small ds-muted">Cada materia tiene su propio camino durante el año. Sigue tu horario desde <strong>Hoy</strong> o avanza en la materia que quieras.</p>
@@ -46,13 +49,14 @@ function Track({ area }: { area: AreaId }) {
   const ref = useEnter<HTMLDivElement>('enter.screen', area);
   const t = trackOf(area);
   const next = t.find((x) => !p.lessons[x.lesson.id]);
-  const [unit, setUnit] = useState<number>(next?.mission.unidad ?? 1);
+  const [unit, setUnit] = useSessionValue<number>(`subject-${area}-unit`, next?.mission.unidad ?? 1);
+  useReturnPosition(`subject-${area}`);
   const meta = AREAS[area];
   const hilo = MATERIA_UNITS.find((u) => u.area === area && u.unidad === unit)?.hilo;
   const inUnit = t.filter((x) => x.mission.unidad === unit);
   const weeks = [...new Set(inUnit.map((x) => x.mission))];
   return (
-    <div ref={ref} className="ds-page ds-stack" style={{ '--a': meta.color } as CSSProperties}>
+    <div ref={ref} className="ds-page ds-stack mobile-screen" style={{ '--a': meta.color } as CSSProperties}>
       <div className="ds-row">
         <Button variant="ghost" icon onClick={() => navigate({ name: 'materias' })} aria-label="Volver a materias"><Icon name="ArrowLeft" /></Button>
         <span className="ds-xs ds-muted">Mis materias</span>

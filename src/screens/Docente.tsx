@@ -1,3 +1,4 @@
+import './mobile-screens.css';
 import { useMemo, useState } from 'react';
 import { useProgress, nivel, NIVEL_LABEL, getProgress, JOURNAL_STATUS_META, reviewJournalEntry, canApproveJournalEntry } from '@/core/progress';
 import { navigate } from '@/core/router';
@@ -6,6 +7,8 @@ import { getCatalog, indicadorOf, lookup } from '@/cnb/catalog';
 import { COURSE, WEEKS, everyLesson, missionAreas, weekProgress } from '@/content';
 import { Button, Card, Chip, ProgressBar, SectionTitle, useEnter } from '@/design-system/components';
 import { Icon } from '@/design-system/icons';
+
+import { Pagination, PAGE_SIZE, pageOf, useSessionValue, useReturnPosition } from '@/ui/Pagination';
 
 type Tab = 'cobertura' | 'plan' | 'evidencias';
 
@@ -29,10 +32,20 @@ export function Docente() {
   const p = useProgress((s) => s);
   const ref = useEnter<HTMLDivElement>('enter.screen');
   const cat = getCatalog();
-  const [tab, setTab] = useState<Tab>('cobertura');
-  const [area, setArea] = useState<AreaId>('mat');
-  const [onlyCovered, setOnlyCovered] = useState(false);
+  const [tab, setTab] = useSessionValue<Tab>('teacher-tab', 'cobertura');
+  const [area, setArea] = useSessionValue<AreaId>('teacher-area', 'mat');
+  const [onlyCovered, setOnlyCovered] = useSessionValue('teacher-only-covered', false);
   const [copied, setCopied] = useState(false);
+
+  const [q, setQ] = useSessionValue('evidence-search', '');
+  const [evidenceStatus, setEvidenceStatus] = useSessionValue('evidence-status', 'all');
+  const [page, setPage] = useSessionValue('evidence-page', 0);
+  const [openGroups, setOpenGroups] = useSessionValue<string[]>('teacher-groups', []);
+  useReturnPosition('teacher');
+  const journal = Object.entries(p.journal).filter(([key, entry]) =>
+    (evidenceStatus === 'all' || entry.status === evidenceStatus) &&
+    (!q.trim() || `${key} ${formatJournal(entry.value)} ${entry.cnb.join(' ')}`.toLowerCase().includes(q.trim().toLowerCase())));
+  const current = pageOf(page, journal.length);
 
   const coverage = useMemo(() => {
     const cont = new Map<string, Set<string>>();
@@ -69,7 +82,7 @@ export function Docente() {
   const copy = async () => { try { await navigator.clipboard.writeText(exportData); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch { /* sin permiso */ } };
 
   return (
-    <div ref={ref} className="ds-page ds-stack">
+    <div ref={ref} className="ds-page ds-stack mobile-screen">
       <div className="ds-row">
         <Button variant="ghost" icon onClick={() => navigate({ name: 'perfil' })} aria-label="Volver"><Icon name="ArrowLeft" /></Button>
         <div>
@@ -119,7 +132,11 @@ export function Docente() {
             if (!inds.length) return null;
             return (
               <Card key={c.id}>
-                <div className="dc__comp"><code>C{c.code}</code> {c.text}</div>
+                <details className="dc__competency" open={openGroups.includes(c.id)} onToggle={event => {
+                  const open = event.currentTarget.open;
+                  setOpenGroups(previous => open ? previous.includes(c.id) ? previous : [...previous, c.id] : previous.filter(id => id !== c.id));
+                }}>
+                <summary className="dc__comp"><code>C{c.code}</code> {c.text} <span className="ds-muted">· {inds.length} indicadores</span></summary>
                 <ul className="dc__inds">
                   {inds.map((i) => {
                     const lv = nivel(p.evidence[i.id]);
@@ -144,6 +161,7 @@ export function Docente() {
                     );
                   })}
                 </ul>
+                </details>
               </Card>
             );
           })}
@@ -153,24 +171,17 @@ export function Docente() {
       {tab === 'plan' && (
         <Card>
           <SectionTitle>Plan del ciclo escolar</SectionTitle>
-          <div className="dc__tablewrap">
-            <table className="act-table dc__plan">
-              <thead><tr><th>Sem.</th><th>Tema generador</th><th>Áreas</th><th>Lecc.</th><th>Avance</th></tr></thead>
-              <tbody>
-                {WEEKS.map((w) => {
-                  const wp = weekProgress(p, w);
-                  return (
-                    <tr key={w.id} onClick={() => navigate({ name: 'mission', missionId: w.id })} className="dc__planrow">
-                      <td><strong>{w.semana}</strong>{w.kind !== 'aprendizaje' && <div className="ds-xs ds-muted">{w.kind === 'proyecto' ? 'Proyecto' : 'Validación'}</div>}</td>
-                      <td>{w.title}<div className="ds-xs ds-muted">U{w.unidad}</div></td>
-                      <td><span className="dc__areas">{missionAreas(w).map((a) => <span key={a} title={AREAS[a].nombre} style={{ color: AREAS[a].color }}><Icon name={AREAS[a].icon} size={13} /></span>)}</span></td>
-                      <td>{w.lessons.length}</td>
-                      <td style={{ minWidth: 70 }}><ProgressBar value={wp.pct} color={w.color} /></td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+          <div className="dc__plan-cards">
+            {WEEKS.map(w => {
+              const wp = weekProgress(p, w);
+              return <button key={w.id} type="button" className="dc__plan-card" onClick={() => navigate({ name: 'mission', missionId: w.id })}>
+                <span className="ds-xs ds-muted">Semana {w.semana} · Unidad {w.unidad}{w.kind !== 'aprendizaje' ? ` · ${w.kind === 'proyecto' ? 'Proyecto' : 'Validación'}` : ''}</span>
+                <strong>{w.title}</strong>
+                <span className="ds-small">{missionAreas(w).map(a => AREAS[a].corto).join(' · ')}</span>
+                <span className="ds-xs">{wp.done}/{w.lessons.length} lecciones</span>
+                <ProgressBar value={wp.pct} color={w.color} />
+              </button>;
+            })}
           </div>
         </Card>
       )}
@@ -179,9 +190,17 @@ export function Docente() {
         <>
           <Card>
             <SectionTitle>Diario del estudiante (respuestas abiertas)</SectionTitle>
-            {Object.keys(p.journal).length === 0 ? <p className="ds-small ds-muted" style={{ marginTop: 8 }}>Aún no hay reflexiones, escritos ni decisiones registradas.</p> : (
+            <div className="dc__evidence-filters">
+              <label>Buscar evidencias<input type="search" className="ds-input" value={q} onChange={event => { setQ(event.target.value); setPage(0); }} /></label>
+              <label>Estado de evidencia<select className="ds-input" value={evidenceStatus} onChange={event => { setEvidenceStatus(event.target.value); setPage(0); }}>
+                <option value="all">Todos los estados</option>
+                {Object.entries(JOURNAL_STATUS_META).map(([value, meta]) => <option key={value} value={value}>{meta.label}</option>)}
+              </select></label>
+            </div>
+            <Pagination page={current} total={journal.length} onChange={setPage} />
+            {journal.length === 0 ? <p className="ds-small ds-muted" style={{ marginTop: 8 }}>{Object.keys(p.journal).length ? 'No hay evidencias con estos filtros.' : 'Aún no hay reflexiones, escritos ni decisiones registradas.'}</p> : (
               <ul className="dc__journal">
-                {Object.entries(p.journal).map(([k, j]) => (
+                {journal.slice(current * PAGE_SIZE, (current + 1) * PAGE_SIZE).map(([k, j]) => (
                   <li key={k} className={`dc__journal-entry dc__journal-entry--${j.status}`}>
                     <div className="ds-row dc__journal-head">
                       <code className="ds-xs">{k}</code>

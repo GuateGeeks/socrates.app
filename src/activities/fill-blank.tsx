@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { defineActivity } from '@/core/registry';
 import type { ActivityProps } from '@/core/types';
 import { feedback } from '@/design-system/feedback';
@@ -32,6 +32,7 @@ function FillBlank({ step, props, value, onChange, status }: ActivityProps<FillB
   const blanks = parts.filter((p) => p.t === 'blank') as { t: 'blank'; i: number; answers: string[] }[];
   const bank = useMemo(() => shuffled([...blanks.map((b) => b.answers[0]), ...(props.distractors ?? [])], step.id), [props.text, props.distractors, step.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const v: FBValue = value ?? blanks.map(() => null);
+  const editorRef = useRef<HTMLDivElement>(null);
   const [sel, setSel] = useState<number>(0);
   const locked = status === 'correct' || status === 'revealed';
   const used = (w: string, idx: number) => v.filter((x) => x === w).length > bank.slice(0, idx).filter((x) => x === w).length;
@@ -39,34 +40,37 @@ function FillBlank({ step, props, value, onChange, status }: ActivityProps<FillB
   const put = (w: string) => {
     if (locked) return;
     feedback('drop');
-    const n = [...v];
-    const target = n[sel] === null ? sel : n.findIndex((x) => x === null);
-    n[target === -1 ? sel : target] = w;
-    onChange(n);
-    const next = n.findIndex((x) => x === null);
-    setSel(next === -1 ? sel : next);
+    const n = [...v]; n[sel] = w; onChange(n);
   };
-  const clear = (i: number) => { if (locked) return; feedback('tap'); const n = [...v]; n[i] = null; onChange(n); setSel(i); };
+  const clear = () => { if (locked) return; const n = [...v]; n[sel] = null; onChange(n); };
   const wrong = (i: number) => status === 'incorrect' && v[i] !== null && !blanks[i].answers.some((a) => norm(a) === norm(v[i]!));
-
+  // Show the surrounding sentence without leaking an unanswered blank's solution.
+  const activePart = parts.findIndex((p) => p.t === 'blank' && p.i === sel);
+  const before = parts.slice(0, activePart).map((p) => p.t === 'text' ? p.v : v[p.i] ?? '____').join('');
+  const after = parts.slice(activePart + 1).map((p) => p.t === 'text' ? p.v : v[p.i] ?? '____').join('');
+  const contextBefore = before.split(/(?<=[.!?\n])\s+/).at(-1) ?? '';
+  const contextAfter = after.match(/^[^.!?\n]*[.!?]?/)?.[0] ?? '';
   return (
-    <div className="ds-stack">
-      <div className="act-fb__text">
-        {parts.map((p, k) => p.t === 'text'
-          ? <span key={k} style={{ whiteSpace: 'pre-wrap' }}>{p.v}</span>
-          : (
-            <button key={k} type="button" className={`act-fb__slot${sel === p.i && !locked ? ' is-sel' : ''}${v[p.i] ? ' is-filled' : ''}${wrong(p.i) ? ' is-wrong' : ''}${locked ? ' is-right' : ''}`}
-              onClick={() => (v[p.i] ? clear(p.i) : setSel(p.i))} aria-label={v[p.i] ? `Espacio ${p.i + 1}: ${v[p.i]} (toca para quitar)` : `Espacio ${p.i + 1} vacío`}>
-              {v[p.i] ?? ' '}
-            </button>
-          ))}
+    <div ref={editorRef} className="ds-stack act-fb-editor" tabIndex={-1}>
+      <div className="act-precision__nav">
+        <button type="button" className="ds-btn ds-btn--secondary" disabled={sel === 0} onClick={() => setSel(sel - 1)}>Espacio anterior</button>
+        <span aria-live="polite">Espacio {sel + 1} de {blanks.length}</span>
+        <button type="button" className="ds-btn ds-btn--secondary" disabled={sel === blanks.length - 1} onClick={() => setSel(sel + 1)}>Siguiente espacio</button>
       </div>
+      <div className="act-fb__text" aria-label="Contexto del espacio activo">
+        {contextBefore}<strong className={`act-fb__slot is-sel${wrong(sel) ? ' is-wrong' : ''}`}>{v[sel] ?? '____'}</strong>{contextAfter}
+      </div>
+      {wrong(sel) && <p role="status">Revisa este espacio.</p>}
       <div className="act-fb__bank" aria-label="Banco de palabras">
-        {bank.map((w, idx) => (
-          <button key={idx} type="button" className={`act-token${used(w, idx) ? ' is-used' : ''}`} disabled={locked || used(w, idx)} onClick={() => put(w)}>{w}</button>
-        ))}
+        {bank.map((w, idx) => <button key={idx} type="button" className={`act-token${used(w, idx) ? ' is-used' : ''}`} disabled={locked || used(w, idx)} onClick={() => put(w)}>{w}</button>)}
       </div>
-      <p className="ds-xs ds-muted ds-center">Toca una palabra para colocarla en el espacio marcado. Toca un espacio lleno para vaciarlo.</p>
+      <button type="button" className="ds-btn ds-btn--ghost" disabled={locked || !v[sel]} onClick={clear}>Vaciar espacio {sel + 1}</button>
+      <details><summary>Consultar texto completo</summary><div className="act-fb__text">
+        {parts.map((p, k) => p.t === 'text' ? <span key={k} style={{ whiteSpace: 'pre-wrap' }}>{p.v}</span> : <span className="act-fb__slot" key={k}>{v[p.i] ?? `(${p.i + 1}) ____`}</span>)}
+      </div></details>
+      <details open><summary>Revisar mis respuestas</summary>
+        <ol className="act-precision__review">{blanks.map((b) => <li key={b.i}><span>{v[b.i] ?? 'Pendiente'}{wrong(b.i) ? ' · Revisar' : ''}</span><button type="button" className="ds-btn ds-btn--secondary" aria-label={`Editar espacio ${b.i + 1}`} onClick={() => { setSel(b.i); editorRef.current?.scrollIntoView({ block: 'start' }); editorRef.current?.focus({ preventScroll: true }); }}>Editar espacio {b.i + 1}</button></li>)}</ol>
+      </details>
     </div>
   );
 }

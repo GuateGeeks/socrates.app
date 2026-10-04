@@ -1,0 +1,32 @@
+.assignment-board { display: grid; gap: 12px; min-width: 0; }
+.assignment-board * { min-width: 0; }
+.learning-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.learning-link { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; padding: 8px 10px; border: 1px solid var(--c-line); border-radius: var(--r-sm); background: var(--c-surface); color: var(--c-accent, var(--c-jade)); font: inherit; font-size: var(--fs-sm); font-weight: 700; overflow-wrap: anywhere; }
+.learning-link:disabled { opacity: .6; cursor: default; }
+.assignment-work { display: grid; gap: 12px; scroll-margin-block: 100px; }
+.assignment-active { display: grid; gap: 8px; position: sticky; top: 84px; z-index: 2; padding: 14px; border: 2px solid var(--c-accent, var(--c-jade)); background: var(--c-surface); border-radius: var(--r-md); box-shadow: var(--e-1); overflow-wrap: anywhere; }
+.assignment-active p { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: var(--fs-md); line-height: 1.45; }
+.assignment-active svg { flex: none; }
+.assignment-active--in-flow { position: static; scroll-margin-top: calc(var(--aws-phase-height, 72px) + var(--safe-t) + 20px); }
+.assignment-context { position: sticky; top: calc(var(--aws-phase-height, 72px) + var(--safe-t) + 12px); z-index: 2; background: var(--c-surface); border: 2px solid var(--c-accent, var(--c-jade)); box-shadow: var(--e-1); }
+.assignment-targets { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); }
+.assignment-target { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 10px 12px; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); text-align: left; line-height: 1.35; overflow-wrap: anywhere; }
+.assignment-target > svg { flex: none; color: var(--c-accent, var(--c-jade)); }
+.assignment-target[aria-pressed="true"], .assignment-target:active { border-color: var(--c-accent, var(--c-jade)); background: var(--c-accent-soft, var(--c-surface-2)); }
+.assignment-target small, .assignment-review-row small { display: flex; align-items: center; gap: 6px; margin-top: 6px; color: var(--c-ink-2); font-size: var(--fs-xs); }
+.learning-details { border: 1px solid var(--c-line); border-radius: var(--r-sm); background: var(--c-surface); padding: 0 12px; overflow-wrap: anywhere; }
+.learning-details summary { cursor: pointer; min-height: 48px; padding: 12px 0; font-weight: 700; }
+.learning-details > p { margin-bottom: 12px; line-height: 1.5; }
+.assignment-review { display: grid; gap: 8px; }
+.assignment-review[hidden] { display: none; }
+.assignment-review-row { display: flex; align-items: start; gap: 10px; padding: 12px 0; border-top: 1px solid var(--c-line); }
+.assignment-review-row > span { flex: 1; overflow-wrap: anywhere; }
+.assignment-review-row.is-incorrect small { color: var(--c-bad); }
+.assignment-review-row.is-correct small { color: var(--c-ok); }
+.assignment-complete { display: flex; align-items: center; gap: 10px; padding: 16px; background: var(--c-surface-2); border-radius: var(--r-md); }
+.assignment-announcement { flex: 1 1 180px; line-height: 1.45; color: var(--c-ink-2); }
+.assignment-announcement:empty { display: none; }
+@media (min-width: 360px) { .assignment-targets { grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); } }
+@media (max-width: 480px) { .assignment-target > svg { display: none; } }
+@media (max-height: 500px) { .assignment-active, .assignment-context { position: static; } }
+.assignment-matching .assignment-targets { grid-template-columns: minmax(0, 1fr); }

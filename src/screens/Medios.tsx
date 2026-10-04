@@ -1,9 +1,12 @@
+import './mobile-screens.css';
 import { useMemo, useState } from 'react';
 import type { MediaSlot as Slot } from '@/core/types';
 import { navigate } from '@/core/router';
 import { mediaBacklogRows, type MediaBacklogRow } from '@/media/mockRegistry';
 import { Button, Card, Chip, ProgressBar, useEnter } from '@/design-system/components';
 import { Icon } from '@/design-system/icons';
+
+import { Pagination, PAGE_SIZE, pageOf, useSessionValue, useReturnPosition } from '@/ui/Pagination';
 
 const KINDS: Slot['kind'][] = ['video', 'animation', 'image', 'diagram', 'audio'];
 const KIND_LABEL: Record<Slot['kind'], string> = { video: 'Video', animation: 'Animacion', image: 'Imagen', diagram: 'Diagrama', audio: 'Audio' };
@@ -12,11 +15,15 @@ const KIND_ICON: Record<Slot['kind'], string> = { video: 'Film', animation: 'Spa
 /** Catalogo de produccion: todos los espacios de imagen/video/audio del año con su ficha. */
 export function Medios() {
   const ref = useEnter<HTMLDivElement>('enter.screen');
-  const [kind, setKind] = useState<Slot['kind'] | 'all'>('all');
-  const [unit, setUnit] = useState<number | 0>(0);
+  const [kind, setKind] = useSessionValue<Slot['kind'] | 'all'>('media-kind', 'all');
+  const [unit, setUnit] = useSessionValue<number>('media-unit', 0);
   const [copied, setCopied] = useState('');
+  const [q, setQ] = useSessionValue('media-search', '');
+  const [page, setPage] = useSessionValue('media-page', 0);
+  useReturnPosition('media');
   const rows = useMemo(() => mediaBacklogRows(), []);
-  const filtered = rows.filter((r) => (kind === 'all' || r.slot.kind === kind) && (!unit || r.unidad === unit));
+  const filtered = rows.filter((r) => (kind === 'all' || r.slot.kind === kind) && (!unit || r.unidad === unit) && (!q.trim() || `${r.slot.title} ${r.slot.brief} ${r.where} ${r.slot.id}`.toLowerCase().includes(q.trim().toLowerCase())));
+  const current = pageOf(page, filtered.length);
   const produced = rows.filter((r) => r.replacement.produced).length;
   const minutes = Math.round(rows.filter((r) => r.slot.duration).reduce((s, r) => s + (r.slot.duration ?? 0), 0) / 60);
 
@@ -42,7 +49,7 @@ export function Medios() {
   };
 
   return (
-    <div ref={ref} className="ds-page ds-stack">
+    <div ref={ref} className="ds-page ds-stack mobile-screen">
       <div className="ds-row">
         <Button variant="ghost" icon onClick={() => navigate({ name: 'perfil' })} aria-label="Volver"><Icon name="ArrowLeft" /></Button>
         <div><h1>Medios por producir</h1><p className="ds-small ds-muted">Fichas de produccion de imagenes, videos, animaciones y audios del año.</p></div>
@@ -54,12 +61,13 @@ export function Medios() {
           {KINDS.map((k) => <Chip key={k} color="var(--c-jade)"><Icon name={KIND_ICON[k]} size={13} /> {KIND_LABEL[k]}: {rows.filter((r) => r.slot.kind === k).length}</Chip>)}
         </div>
       </Card>
+      <label className="ds-stack">Buscar medios<input className="ds-input" type="search" value={q} onChange={e => { setQ(e.target.value); setPage(0); }} /></label>
       <div className="md__filters" role="group" aria-label="Filtros">
-        <select className="ds-input" value={kind} onChange={(e) => setKind(e.target.value as Slot['kind'] | 'all')} aria-label="Tipo de medio">
+        <select className="ds-input" value={kind} onChange={(e) => { setKind(e.target.value as Slot['kind'] | 'all'); setPage(0); }} aria-label="Tipo de medio">
           <option value="all">Todos los tipos</option>
           {KINDS.map((k) => <option key={k} value={k}>{KIND_LABEL[k]}</option>)}
         </select>
-        <select className="ds-input" value={unit} onChange={(e) => setUnit(Number(e.target.value))} aria-label="Unidad">
+        <select className="ds-input" value={unit} onChange={(e) => { setUnit(Number(e.target.value)); setPage(0); }} aria-label="Unidad">
           <option value={0}>Todas las unidades</option>
           {[1, 2, 3, 4].map((u) => <option key={u} value={u}>Unidad {u}</option>)}
         </select>
@@ -69,8 +77,9 @@ export function Medios() {
         <Button size="sm" variant="secondary" onClick={() => copy('json')}><Icon name="Copy" size={16} /> {copied === 'json' ? 'JSON copiado' : 'Copiar JSON'}</Button>
         {copied === 'error' && <span className="ds-xs ds-muted">No se pudo copiar en este navegador.</span>}
       </div>
-      <p className="ds-xs ds-muted">{filtered.length} espacios</p>
-      {filtered.map((r) => (
+      <Pagination page={current} total={filtered.length} onChange={setPage} />
+      {!filtered.length && <p role="status">No hay medios con estos filtros.</p>}
+      {filtered.slice(current * PAGE_SIZE, (current + 1) * PAGE_SIZE).map((r) => (
         <Card key={r.slot.id}>
           <div className="md__row">
             <span className="md__icon"><Icon name={KIND_ICON[r.slot.kind]} size={22} /></span>

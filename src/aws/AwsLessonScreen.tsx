@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { href } from '@/core/router';
 import { Icon } from '@/design-system/icons';
 import { feedback } from '@/design-system/feedback';
@@ -22,6 +22,15 @@ export function AwsLessonScreen({ course, lessonId }: { course: AwsCourse; lesso
   const [restart, setRestart] = useState(false);
   const saved = useRef(false);
   const heading = useRef<HTMLHeadingElement>(null);
+  const phases = useRef<HTMLElement>(null);
+  const [phaseHeight, setPhaseHeight] = useState(64);
+  useEffect(() => {
+    const element = phases.current;
+    if (!element) return;
+    const observer = new ResizeObserver(() => setPhaseHeight(element.getBoundingClientRect().height));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
   const progress = useAwsProgress();
   useEffect(() => {
     heading.current?.focus({ preventScroll: true });
@@ -57,12 +66,12 @@ export function AwsLessonScreen({ course, lessonId }: { course: AwsCourse; lesso
     ...(practice ? [{ phase: 'practice' as const, label: 'Practicar', icon: 'MousePointer2' }] : []),
     { phase: score === null ? 'quiz' : 'result', label: 'Comprobar', icon: 'CircleCheck' },
   ];
-  return <div className="aws-page aws-stack aws-lesson">
+  return <div className="aws-page aws-stack aws-lesson" style={{ '--aws-phase-height': `${phaseHeight}px` } as CSSProperties}>
     <a className="aws-back" href={href({ name: 'aws-domain', domainId: domain.id })}><Icon name="ArrowLeft" size={18} /> {domain.title}</a>
     <header className="aws-title"><span className="aws-kicker">{lesson.taskCode ? `OBJETIVO ${lesson.taskCode} · ` : 'LECCIÓN · '}{lesson.minutes} MIN</span>
-      <h1 ref={heading} tabIndex={-1}>{lesson.title}</h1><p>{lesson.summary}</p>
+      <h1 ref={heading} tabIndex={-1}>{lesson.title}</h1><details className="aws-lesson-summary"><summary>Acerca de esta lección</summary><p>{lesson.summary}</p></details>
     </header>
-    <nav className="aws-phases" aria-label="Etapas de aprendizaje">{steps.map((step, i) => <button key={step.label} type="button" aria-current={phase === step.phase ? 'step' : undefined} onClick={() => { setRestart(false); setPhase(step.phase); }}>
+    <nav ref={phases} className="aws-phases" aria-label="Etapas de aprendizaje">{steps.map((step, i) => <button key={step.label} type="button" aria-current={phase === step.phase ? 'step' : undefined} onClick={() => { setRestart(false); setPhase(step.phase); }}>
       <span className="aws-step-number">{i + 1}</span><Icon name={step.icon} size={18} /><span>{step.label}</span>
     </button>)}</nav>
     <div hidden={phase !== 'study'}><AwsReader lesson={lesson} hasPractice={!!practice} onContinue={() => setPhase(practice ? 'practice' : score === null ? 'quiz' : 'result')} /></div>
@@ -86,9 +95,9 @@ export function AwsLessonScreen({ course, lessonId }: { course: AwsCourse; lesso
               <span className="aws-option-text">{option}</span>{confirmed && <span className="sr-only">{correct ? 'Respuesta correcta' : selected ? 'Tu respuesta, incorrecta' : ''}</span>}
             </button>;
           })}</div>
-          {confirmed && <div className={`aws-feedback${answerCorrect ? ' is-correct' : ''}`} role="status"><strong><Icon name={answerCorrect ? 'CircleCheck' : 'Lightbulb'} size={20} /> {answerCorrect ? 'Correcto' : 'Revisa este concepto'}</strong><p>{question.explanation}</p></div>}
-          <div className="aws-actions">{!confirmed ? <button className="aws-primary" disabled={draft.length !== correctOptions.length} onClick={() => {
-            setAnswers(current => [...current, [...draft]]); setConfirmed(true); feedback(isAwsAnswerCorrect(question, draft) ? 'correct' : 'incorrect');
+          {confirmed && <div id="aws-answer-feedback" tabIndex={-1} className={`aws-feedback${answerCorrect ? ' is-correct' : ''}`} role="status"><strong><Icon name={answerCorrect ? 'CircleCheck' : 'Lightbulb'} size={20} /> {answerCorrect ? 'Correcto' : 'Revisa este concepto'}</strong><p>{question.explanation}</p></div>}
+          <div className="aws-actions aws-lesson-actions">{!confirmed ? <button className="aws-primary" disabled={draft.length !== correctOptions.length} onClick={() => {
+            setAnswers(current => [...current, [...draft]]); setConfirmed(true); requestAnimationFrame(() => document.getElementById('aws-answer-feedback')?.focus()); feedback(isAwsAnswerCorrect(question, draft) ? 'correct' : 'incorrect');
           }}>Comprobar respuesta</button> : <button className="aws-primary" onClick={finishQuestion}>{index + 1 === lesson.questions.length ? 'Ver resultados' : 'Siguiente pregunta'} <Icon name="ArrowRight" size={18} /></button>}
             <button className="aws-secondary" onClick={() => setPhase('study')}><Icon name="BookOpen" size={18} /> Consultar contenido</button>
           </div>

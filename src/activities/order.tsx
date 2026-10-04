@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, type PointerEvent as RPointerEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type PointerEvent as RPointerEvent } from 'react';
 import { defineActivity } from '@/core/registry';
 import type { ActivityProps } from '@/core/types';
 import { Rich } from '@/design-system/components';
@@ -17,19 +17,29 @@ function Order({ step, props, value, onChange, status }: ActivityProps<OrderProp
   const initial = useMemo(() => shuffled(props.items, step.id).map((i) => i.id), [props.items, step.id]);
   useEffect(() => { if (!value) onChange(initial); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const order = value ?? initial;
+  const [announcement, announce] = useState('');
   const listRef = useRef<HTMLOListElement>(null);
   const locked = status === 'correct' || status === 'revealed';
   const byId = (id: string) => props.items.find((i) => i.id === id)!;
 
   const orderRef = useRef(order);
   orderRef.current = order;
-  const move = (from: number, to: number) => {
+  const move = (from: number, to: number, control?: HTMLElement) => {
     const cur = orderRef.current;
     if (to < 0 || to >= cur.length || from === to || locked) return;
     const els = Array.from(listRef.current?.children ?? []) as HTMLElement[];
     const next = [...cur]; const [x] = next.splice(from, 1); next.splice(to, 0, x);
     orderRef.current = next;
+    const focused = control ?? document.activeElement as HTMLElement | null;
     flip(els, () => onChange(next));
+    announce(`${byId(x).text}: posición ${to + 1} de ${next.length}`);
+    requestAnimationFrame(() => {
+      if (focused?.isConnected) {
+        const target = focused.matches(':disabled') ? focused.closest('li')?.querySelector('select') : focused;
+        (target as HTMLElement | null)?.focus({ preventScroll: true });
+        if (control) target?.scrollIntoView({ block: 'center', inline: 'nearest' });
+      }
+    });
     feedback('tap');
   };
 
@@ -67,13 +77,19 @@ function Order({ step, props, value, onChange, status }: ActivityProps<OrderProp
               <Glyph icon={it.icon} emoji={it.emoji} size={22} />
               <span className="ds-grow"><Rich text={it.text} /></span>
               <span className="act-order__btns">
-                <button type="button" aria-label="Subir" disabled={locked || i === 0} onClick={() => move(i, i - 1)}>▲</button>
-                <button type="button" aria-label="Bajar" disabled={locked || i === order.length - 1} onClick={() => move(i, i + 1)}>▼</button>
+                <button type="button" aria-label="Subir" disabled={locked || i === 0} onClick={(e) => move(i, i - 1, e.currentTarget)}>▲</button>
+                <button type="button" aria-label="Bajar" disabled={locked || i === order.length - 1} onClick={(e) => move(i, i + 1, e.currentTarget)}>▼</button>
               </span>
+              <label className="act-order__position">Mover a posición
+                <select aria-label={`Mover ${it.text} a posición`} value={i} disabled={locked} onChange={(e) => move(i, Number(e.target.value), e.currentTarget)}>
+                  {order.map((_, position) => <option key={position} value={position}>{position + 1}</option>)}
+                </select>
+              </label>
             </li>
           );
         })}
       </ol>
+      <p className="ds-xs ds-muted" role="status">{announcement}</p>
       {props.labels && <div className="ds-xs ds-muted">⬇ {props.labels.end}</div>}
     </div>
   );

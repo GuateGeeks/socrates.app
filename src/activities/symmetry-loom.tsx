@@ -19,6 +19,8 @@ function Loom({ props, value, onChange, status }: ActivityProps<LoomProps, Grid>
   const rows = props.half.length, hc = props.half[0].length;
   const grid: Grid = value ?? props.half.map((r) => r.map(() => null));
   const [color, setColor] = useState(0);
+  const [row, setRow] = useState(0);
+  const [column, setColumn] = useState(0);
   const locked = status === 'correct' || status === 'revealed';
   const boardRef = useRef<HTMLDivElement>(null);
   const painting = useRef<number | null | undefined>(undefined);
@@ -42,6 +44,17 @@ function Loom({ props, value, onChange, status }: ActivityProps<LoomProps, Grid>
 
   return (
     <div className="ds-stack">
+      <div className="act-precision__editor">
+        <div className="act-precision__nav">
+          <label>Fila<select aria-label="Fila" value={row} onChange={(e) => setRow(Number(e.target.value))}>{Array.from({length:rows}, (_, i) => <option key={i} value={i}>{i + 1}</option>)}</select></label>
+          <label>Columna<select aria-label="Columna" value={column} onChange={(e) => setColumn(Number(e.target.value))}>{Array.from({length:hc}, (_, i) => <option key={i} value={i}>{i + 1} (mitad derecha)</option>)}</select></label>
+        </div>
+        <p aria-live="polite">Celda {row + 1}, {column + 1}: {grid[row][column] === null ? 'vacía' : `color ${grid[row][column]! + 1}`}{wrong(row, column) ? ' · Revisar' : ''}</p>
+        <div className="act-precision__nav">
+          <button type="button" className="ds-btn ds-btn--secondary" disabled={locked} onClick={() => paint(row, column, color)}>Pintar celda</button>
+          <button type="button" className="ds-btn ds-btn--ghost" disabled={locked || grid[row][column] === null} onClick={() => paint(row, column, null)}>Vaciar celda</button>
+        </div>
+      </div>
       <div className="act-loom__palette" role="radiogroup" aria-label="Color de hilo">
         {props.palette.map((p, i) => (
           <button key={i} type="button" role="radio" aria-checked={color === i} className={`act-loom__swatch${color === i ? ' is-on' : ''}`}
@@ -50,13 +63,14 @@ function Loom({ props, value, onChange, status }: ActivityProps<LoomProps, Grid>
       </div>
       <div ref={boardRef} className="act-loom" style={{ '--cols': hc * 2 } as CSSProperties}
         onPointerMove={(e) => { if (painting.current === undefined || e.buttons === 0) return; const rc = cellAt(e.clientX, e.clientY); if (rc) paint(rc[0], rc[1], painting.current); }}
-        onPointerUp={() => { painting.current = undefined; }} onPointerLeave={() => { painting.current = undefined; }}>
+        onPointerCancel={() => { painting.current = undefined; }} onPointerUp={() => { painting.current = undefined; }} onPointerLeave={() => { painting.current = undefined; }}>
         {Array.from({ length: rows }, (_, r) => (
           [...props.half[r].map((v, c) => <div key={`L${r}-${c}`} className="act-loom__cell left" style={{ background: v === null ? undefined : props.palette[v] }} />),
             ...Array.from({ length: hc }, (_, c) => (
-              <div key={`R${r}-${c}`} data-r={r} data-c={c} className={`act-loom__cell right${wrong(r, c) ? ' is-wrong' : ''}`}
+              <button type="button" disabled={locked} aria-label={`Fila ${r + 1}, columna ${c + 1}: ${grid[r][c] === null ? 'vacía' : `color ${grid[r][c]! + 1}`}`} key={`R${r}-${c}`} data-r={r} data-c={c} className={`act-loom__cell right${wrong(r, c) ? ' is-wrong' : ''}`}
                 style={{ background: grid[r][c] === null ? undefined : props.palette[grid[r][c]!] }}
-                onPointerDown={(e) => { (e.target as HTMLElement).releasePointerCapture?.(e.pointerId); paint(r, c); }} />
+                onFocus={() => { setRow(r); setColumn(c); }} onClick={(e) => { if (e.detail === 0) paint(r, c); }}
+                onPointerDown={(e) => { (e.target as HTMLElement).releasePointerCapture?.(e.pointerId); setRow(r); setColumn(c); paint(r, c); }} />
             ))]
         ))}
         <div className="act-loom__axis" aria-hidden />

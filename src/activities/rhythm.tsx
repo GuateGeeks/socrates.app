@@ -39,13 +39,15 @@ function Rhythm({ props, value = [], onChange, status }: ActivityProps<RhythmPro
   const locked = status === 'correct' || status === 'revealed';
   const used = value.reduce((s, n) => s + FIGURAS[n.f].beats, 0);
   const [playing, setPlaying] = useState(-1);
+  const [selected, setSelected] = useState(0);
+  const active = Math.min(selected, Math.max(0, value.length - 1));
   const barRef = useRef<HTMLDivElement>(null);
   const add = (f: Figura) => {
     if (locked) return;
     if (used + FIGURAS[f].beats > props.beats) { feedback('incorrect'); play(barRef.current, 'feedback.incorrect'); return; }
     const note = value.length % MARIMBA_NOTES.length;
     marimba(MARIMBA_NOTES[note].freq);
-    onChange([...value, { f, note }]);
+    setSelected(value.length); onChange([...value, { f, note }]);
   };
   const cycle = (i: number) => {
     if (locked) return;
@@ -65,11 +67,19 @@ function Rhythm({ props, value = [], onChange, status }: ActivityProps<RhythmPro
   };
   return (
     <div className="ds-stack">
+      {value.length > 0 && <div className="act-precision__editor">
+        <label>Nota activa<select value={active} onChange={(e) => setSelected(Number(e.target.value))}>{value.map((n, i) => <option value={i} key={i}>{i + 1}. {FIGURAS[n.f].nombre} · {MARIMBA_NOTES[n.note].name}</option>)}</select></label>
+        <p>{FIGURAS[value[active].f].beats} tiempos · tono {MARIMBA_NOTES[value[active].note].name}</p>
+        <div className="act-precision__nav">
+          <button type="button" className="ds-btn ds-btn--secondary" disabled={locked} onClick={() => cycle(active)}>Cambiar tono</button>
+          <button type="button" className="ds-btn ds-btn--ghost" disabled={locked} onClick={() => onChange(value.filter((_, i) => i !== active))}>Quitar esta nota</button>
+        </div>
+      </div>}
       <div ref={barRef} className="act-measure" aria-label={`Compás de ${props.beats} tiempos`}>
         <div className="act-measure__fill" style={{ width: `${(used / props.beats) * 100}%` }} />
         <div className="act-measure__notes">
           {value.map((n, i) => (
-            <button key={i} type="button" className={`act-measure__note${playing === i ? ' is-playing' : ''}`} onClick={() => cycle(i)}
+            <button key={i} type="button" className={`act-measure__note${playing === i ? ' is-playing' : ''}`} onClick={() => setSelected(i)} aria-pressed={active === i}
               style={{ flexGrow: FIGURAS[n.f].beats, '--hue': `${n.note * 40}` } as CSSProperties} aria-label={`${FIGURAS[n.f].nombre} ${MARIMBA_NOTES[n.note].name}`}>
               <NoteGlyph f={n.f} size={36} /><small>{MARIMBA_NOTES[n.note].name}</small>
             </button>
@@ -92,7 +102,7 @@ function Rhythm({ props, value = [], onChange, status }: ActivityProps<RhythmPro
           </button>
         ))}
       </div>
-      <p className="ds-xs ds-muted ds-center">Toca una nota del compás para cambiar su tono en la marimba.</p>
+      <p className="ds-xs ds-muted ds-center">Selecciona una nota y usa Cambiar tono para editarla. El resumen conserva el orden del compás.</p>
     </div>
   );
 }

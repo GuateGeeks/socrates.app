@@ -39,7 +39,8 @@ function Highlight({ props, value = [], onChange, status }: ActivityProps<Highli
         {toks.map((t, i) => !t.tappable
           ? <span key={i}>{t.w}</span>
           : (
-            <button key={i} type="button" onClick={() => toggle(i)} aria-pressed={value.includes(i)}
+            <button key={i} type="button" onClick={() => toggle(i)} aria-pressed={value.includes(i)} disabled={locked}
+              aria-label={status === 'incorrect' && value.includes(i) && !t.target ? `${t.w}: no corresponde` : locked && t.target ? `${t.w}: correcta` : undefined}
               className={`act-hl__w${value.includes(i) ? ' is-on' : ''}${status === 'incorrect' && value.includes(i) && !t.target ? ' is-wrong' : ''}${locked && t.target ? ' is-right' : ''}`}>
               {t.w}
             </button>

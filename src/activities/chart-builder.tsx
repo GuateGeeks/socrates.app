@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties, type PointerEvent as RPointerEvent } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent as RPointerEvent } from 'react';
 import { defineActivity } from '@/core/registry';
 import type { ActivityProps } from '@/core/types';
 import { sfx } from '@/design-system/feedback';
@@ -17,6 +17,7 @@ export interface ChartBuilderProps {
 }
 
 function ChartBuilder({ props, value, onChange, status }: ActivityProps<ChartBuilderProps, number[]>) {
+  const [active, setActive] = useState(0);
   const vals = value ?? props.categories.map(() => 0);
   const locked = status === 'correct' || status === 'revealed';
   const plotRef = useRef<HTMLDivElement>(null);
@@ -24,6 +25,10 @@ function ChartBuilder({ props, value, onChange, status }: ActivityProps<ChartBui
   last.current = vals;
   useEffect(() => { if (!value) onChange(vals); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const adjust = (delta: number) => {
+    const next = [...vals]; next[active] = Math.min(props.max, Math.max(0, Number((next[active] + delta).toFixed(10))));
+    last.current = next; onChange(next);
+  };
   const setFromPointer = (i: number, clientY: number) => {
     const r = plotRef.current!.getBoundingClientRect();
     const k = Math.min(1, Math.max(0, (r.bottom - clientY) / r.height));
@@ -43,12 +48,21 @@ function ChartBuilder({ props, value, onChange, status }: ActivityProps<ChartBui
 
   return (
     <div className="ds-stack">
-      <table className="act-table">
+      <div className="act-precision__editor">
+        <label>Categoría activa<select value={active} onChange={(e) => setActive(Number(e.target.value))}>{props.categories.map((c, i) => <option key={c.id} value={i}>{c.label}</option>)}</select></label>
+        <p>{props.source ?? 'Dato fuente'}: <strong>{fmt(props.data[active])} {props.unit}</strong></p>
+        <div className="act-precision__nav">
+          <button type="button" className="act-key" aria-label="Disminuir barra" disabled={locked || vals[active] <= 0} onClick={() => adjust(-props.step)}>−</button>
+          <output aria-live="polite">Tu barra: {fmt(vals[active])} {props.unit}</output>
+          <button type="button" className="act-key" aria-label="Aumentar barra" disabled={locked || vals[active] >= props.max} onClick={() => adjust(props.step)}>+</button>
+        </div>
+      </div>
+      <details><summary>Consultar todos los datos</summary><table className="act-table">
         {props.source && <caption>{props.source}</caption>}
         <tbody>
           {props.categories.map((c, i) => <tr key={c.id}><th><Glyph icon={c.icon} emoji={c.emoji} size={16} /> {c.label}</th><td>{fmt(props.data[i])}{props.unit ? ` ${props.unit}` : ''}</td></tr>)}
         </tbody>
-      </table>
+      </table></details>
       <div className="act-chart">
         <div className="act-chart__axis">{[...gridLines].reverse().map((g) => <span key={g}>{fmt(g)}</span>)}<span>0</span></div>
         <div ref={plotRef} className="act-chart__plot">
@@ -57,7 +71,7 @@ function ChartBuilder({ props, value, onChange, status }: ActivityProps<ChartBui
             const wrong = status === 'incorrect' && Math.abs(vals[i] - props.data[i]) > props.step / 2;
             return (
               <div key={c.id} className="act-chart__col" onPointerDown={down(i)} onPointerMove={move(i)} role="slider"
-                aria-label={c.label} aria-valuemin={0} aria-valuemax={props.max} aria-valuenow={vals[i]} tabIndex={0}
+                aria-disabled={locked} onFocus={() => setActive(i)} aria-label={c.label} aria-valuemin={0} aria-valuemax={props.max} aria-valuenow={vals[i]} tabIndex={0}
                 onKeyDown={(e) => { if (locked) return; const d = e.key === 'ArrowUp' ? props.step : e.key === 'ArrowDown' ? -props.step : 0; if (d) { e.preventDefault(); const n = [...vals]; n[i] = Math.min(props.max, Math.max(0, n[i] + d)); onChange(n); } }}>
                 <div className={`act-chart__bar${wrong ? ' is-wrong' : ''}`} style={{ height: `${(vals[i] / props.max) * 100}%`, '--bar': c.color ?? 'var(--area-mat)' } as CSSProperties}>
                   <span>{fmt(vals[i])}</span>
@@ -68,7 +82,7 @@ function ChartBuilder({ props, value, onChange, status }: ActivityProps<ChartBui
         </div>
       </div>
       <div className="act-chart__labels">{props.categories.map((c) => <span key={c.id}><Glyph icon={c.icon} emoji={c.emoji} size={16} /><br />{c.label}</span>)}</div>
-      <p className="ds-xs ds-muted ds-center">Arrastra cada barra hacia arriba o abajo hasta su valor.</p>
+      <p className="ds-xs ds-muted ds-center">Elige una categoría y ajusta su barra con − y +. También puedes arrastrarla.</p>
     </div>
   );
 }

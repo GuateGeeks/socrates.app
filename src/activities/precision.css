@@ -1,0 +1,51 @@
+/* Precision editors keep the current decision and its controls together. */
+.act-precision__nav { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+.act-precision__nav > span, .act-precision__nav > output { flex:1; text-align:center; min-width:80px; }
+.act-precision__nav button, .act-precision__editor button, .act-order__position select { min-width:44px; min-height:44px; }
+.act-precision__editor { display:grid; gap:12px; padding:12px; border:2px solid var(--c-line); border-radius:var(--r-md); background:var(--c-surface); }
+.act-precision__editor label, .act-order__position { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.act-precision__editor select, .act-order__position select { max-width:100%; min-height:44px; color:var(--c-ink); background:var(--c-surface); border:2px solid var(--c-line); border-radius:8px; font:inherit; }
+.act-precision__editor select { width:100%; }
+.act-precision__review { display:grid; gap:8px; padding-left:24px; }
+.act-precision__review li { overflow-wrap:anywhere; }
+.act-precision__review li > span { display:block; }
+.act-order .act-order__item { flex-wrap:wrap; }
+.act-order .act-order__item > .ds-grow { flex:1 1 100px; min-width:0; overflow-wrap:anywhere; }
+.act-order .act-order__btns { flex-direction:row; }
+.act-order .act-order__btns button { width:44px; height:44px; }
+.act-order__position { flex:1 0 100%; justify-content:flex-end; font-size:var(--fs-sm); }
+.act-fb-editor .act-fb__slot { min-height:44px; overflow-wrap:anywhere; max-width:100%; }
+.act-fb-editor .act-fb__text { overflow-wrap:anywhere; }
+.act-fb-editor .act-token { min-height:44px; overflow-wrap:anywhere; max-width:100%; }
+.act-recipe__active p { margin:4px 0; }
+.act-recipe .act-cellbtn { min-height:44px; overflow-wrap:anywhere; max-width:100%; min-width:44px; }
+.act-recipe { table-layout:fixed; width:100%; overflow-wrap:anywhere; }
+.act-coord__precision { display:flex; flex-wrap:wrap; justify-content:center; gap:16px; }
+.act-coord__precision .act-key { width:44px; min-width:44px; }
+.act-display { flex-wrap:wrap; gap:4px; padding:8px; min-width:0; }
+.act-display__number, .act-display small { max-width:100%; overflow-wrap:anywhere; min-width:0; text-align:center; }
+.act-maya__btns button { min-height:44px; }
+button.act-maya__slot { border:2px solid var(--c-line); color:var(--c-ink); min-width:44px; }
+.act-poly { max-width:195px; }
+.act-poly__controls > .ds-grow { min-width:0; overflow-wrap:anywhere; }
+.act-chart__labels > span { min-width:0; overflow-wrap:anywhere; }
+.act-chart__plot { min-width:0; }
+.act-chart__col { min-width:0; }
+.act-measure__notes { flex-wrap:wrap; }
+.act-measure .act-measure__note { flex-basis:48px; min-width:44px; min-height:64px; }
+.act-loom__cell.right { padding:0; border:0; min-width:0; }
+.act-loom__cell.right:focus-visible { outline:3px solid var(--c-jade); outline-offset:-3px; }
+.act-pulse__result { gap:16px; }
+@media (max-width:400px) {
+  .act-maya__level { gap:4px 8px; padding:8px; }
+  .act-maya__pos { min-width:40px; overflow-wrap:anywhere; }
+  .act-maya__slot svg { max-width:100%; }
+  .act-poly__controls { gap:8px; }
+  .act-poly__controls .act-key { width:44px; min-width:44px; }
+}
+@media (max-height:500px) and (orientation:landscape) {
+  .act-pulse .act-pulse__count { display:flex; flex-direction:row; justify-content:center; flex-wrap:wrap; }
+  .act-pulse .act-heart { width:100px; height:100px; font-size:3rem; }
+  .act-coord { max-width:230px; }
+  .act-poly { max-width:150px; }
+}
