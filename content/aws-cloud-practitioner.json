@@ -4,7 +4,7 @@
   "published": true,
   "examCode": "CLF-C02",
   "title": "AWS Certified Cloud Practitioner",
-  "description": "Muestra inicial de preparación para la certificación. Aprende conceptos clave y practica con preguntas explicadas.",
+  "description": "Preparación integral en español para los 19 objetivos de AWS Certified Cloud Practitioner (CLF-C02), con lecturas y práctica explicada.",
   "sourceUrl": "https://docs.aws.amazon.com/es_es/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02.html",
   "domains": [
     {
@@ -18,13 +18,182 @@
           "minutes": 8,
           "summary": "Distingue agilidad, elasticidad y pago por uso.",
           "sections": [
-            { "heading": "De capacidad fija a capacidad flexible", "body": "En un centro de datos propio se compra capacidad antes de conocer la demanda exacta. En la nube puedes aprovisionar recursos cuando los necesitas y liberarlos después. Esto reduce el tiempo de espera para experimentar y lanzar soluciones." },
-            { "heading": "Elasticidad y escalabilidad", "body": "Escalar significa aumentar o reducir la capacidad de un sistema. Elasticidad significa ajustar esa capacidad según cambia la demanda. Si un sitio recibe más visitas durante unas horas, puede usar más recursos solo durante ese periodo." },
-            { "heading": "Economía de la nube", "body": "El modelo de pago por uso convierte parte del gasto fijo en gasto variable. Sigue siendo necesario supervisar el consumo y ajustar los recursos para evitar costos innecesarios." }
+            {
+              "heading": "De capacidad fija a capacidad flexible",
+              "body": "En un centro de datos propio se compra capacidad antes de conocer la demanda exacta. En la nube puedes aprovisionar recursos cuando los necesitas y liberarlos después. Esto reduce el tiempo de espera para experimentar y lanzar soluciones."
+            },
+            {
+              "heading": "Elasticidad y escalabilidad",
+              "body": "Escalar significa aumentar o reducir la capacidad de un sistema. Elasticidad significa ajustar esa capacidad según cambia la demanda. Si un sitio recibe más visitas durante unas horas, puede usar más recursos solo durante ese periodo."
+            },
+            {
+              "heading": "Economía de la nube",
+              "body": "El modelo de pago por uso convierte parte del gasto fijo en gasto variable. Sigue siendo necesario supervisar el consumo y ajustar los recursos para evitar costos innecesarios."
+            },
+            {
+              "heading": "Disponibilidad y alcance global",
+              "body": "Distribuir una aplicación entre varias Zonas de Disponibilidad puede reducir el impacto de una falla localizada. Elegir regiones cercanas a los usuarios puede mejorar la latencia y facilitar necesidades de residencia de datos. La infraestructura global permite desplegar con rapidez en distintos lugares; la alta disponibilidad sigue requiriendo diseño y configuración."
+            }
           ],
           "questions": [
-            { "id": "cloud-q1", "prompt": "Una tienda necesita más capacidad solo durante una campaña de dos días. ¿Qué beneficio de la nube responde mejor a esta necesidad?", "options": ["Elasticidad", "Comprar servidores para cinco años", "Una sola zona de disponibilidad", "Una dirección IP fija"], "correctOption": 0, "explanation": "La elasticidad permite ajustar recursos cuando cambia la demanda y reducirlos al terminar la campaña." },
-            { "id": "cloud-q2", "prompt": "¿Qué describe mejor el modelo de pago por uso?", "options": ["Pagar siempre una cantidad fija sin importar el consumo", "Pagar según los recursos consumidos", "No supervisar los costos", "Comprar todo el hardware por adelantado"], "correctOption": 1, "explanation": "El gasto depende del consumo de los recursos, aunque cada servicio tiene sus propias reglas de precio." }
+            {
+              "id": "cloud-q1",
+              "prompt": "Una tienda necesita más capacidad solo durante una campaña de dos días. ¿Qué beneficio de la nube responde mejor a esta necesidad?",
+              "options": [
+                "Una dirección IP fija",
+                "Comprar servidores para cinco años",
+                "Elasticidad",
+                "Una sola zona de disponibilidad"
+              ],
+              "correctOption": 2,
+              "explanation": "La elasticidad permite ajustar recursos cuando cambia la demanda y reducirlos al terminar la campaña."
+            },
+            {
+              "id": "cloud-q2",
+              "prompt": "¿Qué describe mejor el modelo de pago por uso?",
+              "options": [
+                "Pagar según los recursos consumidos",
+                "No supervisar los costos",
+                "Comprar todo el hardware por adelantado",
+                "Pagar siempre una cantidad fija sin importar el consumo"
+              ],
+              "correctOption": 0,
+              "explanation": "El gasto depende del consumo de los recursos, aunque cada servicio tiene sus propias reglas de precio."
+            }
+          ],
+          "taskCode": "1.1"
+        },
+        {
+          "id": "well-architected",
+          "taskCode": "1.2",
+          "title": "Diseño con AWS Well-Architected",
+          "minutes": 10,
+          "summary": "Reconoce los seis pilares y sus decisiones principales.",
+          "sections": [
+            {
+              "heading": "Seis pilares",
+              "body": "AWS Well-Architected organiza la revisión de cargas de trabajo en excelencia operativa, seguridad, fiabilidad, eficiencia del rendimiento, optimización de costos y sostenibilidad. Los pilares ayudan a formular preguntas y detectar riesgos; no son una certificación automática de una arquitectura."
+            },
+            {
+              "heading": "Decisiones y compromisos",
+              "body": "La fiabilidad trata de recuperarse ante fallas; la eficiencia del rendimiento busca usar recursos adecuados; la excelencia operativa mejora procesos y observabilidad. La seguridad protege información y sistemas. La optimización de costos elimina gasto innecesario, y la sostenibilidad reduce el impacto ambiental. Una mejora en un pilar puede afectar a otro."
+            }
+          ],
+          "questions": [
+            {
+              "id": "architecture-q1",
+              "prompt": "¿Qué pilar se centra en recuperar una carga tras una interrupción?",
+              "options": [
+                "Optimización de costos",
+                "Fiabilidad",
+                "Sostenibilidad",
+                "Eficiencia del rendimiento"
+              ],
+              "explanation": "Fiabilidad incluye anticipar fallas y recuperar el servicio.",
+              "correctOption": 1
+            },
+            {
+              "id": "architecture-q2",
+              "prompt": "Selecciona dos pilares de Well-Architected.",
+              "options": [
+                "Geolocalización",
+                "Compra de licencias",
+                "Sostenibilidad",
+                "Propiedad de hardware",
+                "Seguridad"
+              ],
+              "explanation": "Seguridad y sostenibilidad son dos de los seis pilares.",
+              "correctOptions": [
+                2,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cloud-migration",
+          "taskCode": "1.3",
+          "title": "Adopción y migración a la nube",
+          "minutes": 10,
+          "summary": "Relaciona AWS CAF, estrategias de migración y herramientas.",
+          "sections": [
+            {
+              "heading": "Preparar la adopción",
+              "body": "AWS Cloud Adoption Framework (AWS CAF) ayuda a identificar capacidades de negocio, personas, gobierno, plataforma, seguridad y operaciones. Una migración requiere objetivos, inventario, dependencias y plan de riesgos; mover servidores sin esta preparación no garantiza beneficios."
+            },
+            {
+              "heading": "Elegir estrategia y herramienta",
+              "body": "Rehost mueve una carga con pocos cambios; replatform introduce mejoras puntuales; refactor cambia la aplicación para aprovechar servicios nativos. También puede retirarse una carga o conservarse temporalmente. AWS Application Migration Service ayuda a migrar servidores; AWS DMS replica datos de bases de datos y reduce el tiempo de corte."
+            }
+          ],
+          "questions": [
+            {
+              "id": "migration-q1",
+              "prompt": "Una empresa quiere mover servidores con pocos cambios iniciales. ¿Qué estrategia describe el caso?",
+              "options": [
+                "Refactor",
+                "Retire",
+                "Rehost",
+                "Repurchase"
+              ],
+              "explanation": "Rehost traslada la carga con cambios mínimos.",
+              "correctOption": 2
+            },
+            {
+              "id": "migration-q2",
+              "prompt": "¿Qué servicio ayuda a migrar y replicar bases de datos hacia AWS?",
+              "options": [
+                "Amazon CloudFront",
+                "AWS DMS",
+                "Amazon SQS",
+                "AWS WAF"
+              ],
+              "explanation": "AWS Database Migration Service se usa para migrar y replicar datos de bases de datos.",
+              "correctOption": 1
+            }
+          ]
+        },
+        {
+          "id": "cloud-economics",
+          "taskCode": "1.4",
+          "title": "Economía de la nube",
+          "minutes": 10,
+          "summary": "Distingue gasto variable, dimensionamiento y licencias.",
+          "sections": [
+            {
+              "heading": "Comparar costos completos",
+              "body": "Un centro de datos propio implica compra de equipos, espacio, energía, mantenimiento y capacidad ociosa. En la nube parte de ese gasto fijo pasa a ser variable. La comparación debe incluir operación, red, almacenamiento y personal; el precio de una instancia aislada no refleja el costo total."
+            },
+            {
+              "heading": "Optimizar el consumo",
+              "body": "Dimensionar correctamente significa escoger capacidad acorde con las métricas de uso. Apagar recursos inactivos y automatizar aprovisionamiento evita gasto innecesario. Las economías de escala pueden reducir costos unitarios. En software, Bring Your Own License usa licencias elegibles existentes; licencia incluida incorpora ese costo en el servicio."
+            }
+          ],
+          "questions": [
+            {
+              "id": "economics-q1",
+              "prompt": "¿Qué práctica reduce gasto por capacidad sobredimensionada?",
+              "options": [
+                "Comprar siempre la instancia mayor",
+                "Ignorar el costo de red",
+                "Mantener todas las instancias encendidas",
+                "Ajustar recursos a las métricas reales"
+              ],
+              "explanation": "El dimensionamiento correcto alinea capacidad y demanda.",
+              "correctOption": 3
+            },
+            {
+              "id": "economics-q2",
+              "prompt": "¿Qué significa BYOL?",
+              "options": [
+                "Comprar hardware a AWS",
+                "Evitar todas las licencias",
+                "Pagar solo por transferencia",
+                "Usar licencias existentes elegibles"
+              ],
+              "explanation": "Bring Your Own License permite aplicar licencias propias cuando los términos lo permiten.",
+              "correctOption": 3
+            }
           ]
         }
       ]
@@ -40,13 +209,186 @@
           "minutes": 9,
           "summary": "Reconoce qué protege AWS y qué debe configurar el cliente.",
           "sections": [
-            { "heading": "Responsabilidad compartida", "body": "AWS protege la infraestructura que ejecuta sus servicios: centros de datos, hardware y componentes fundamentales. El cliente protege lo que configura y usa en la nube, como identidades, permisos, datos y ciertas configuraciones de red. El reparto preciso depende del servicio." },
-            { "heading": "Acceso de mínimo privilegio", "body": "AWS Identity and Access Management (IAM) controla quién puede hacer qué. Conceder solo los permisos necesarios limita el daño de errores o credenciales comprometidas. Se recomienda proteger el acceso con autenticación multifactor cuando corresponda." },
-            { "heading": "Elegir la respuesta", "body": "En preguntas de examen, identifica primero el servicio y la tarea. AWS puede administrar la infraestructura subyacente, mientras el cliente sigue siendo responsable de clasificar sus datos y configurar el acceso." }
+            {
+              "heading": "Responsabilidad compartida",
+              "body": "AWS protege la infraestructura que ejecuta sus servicios: centros de datos, hardware y componentes fundamentales. El cliente protege lo que configura y usa en la nube, como identidades, permisos, datos y ciertas configuraciones de red. El reparto preciso depende del servicio."
+            },
+            {
+              "heading": "Acceso de mínimo privilegio",
+              "body": "AWS Identity and Access Management (IAM) controla quién puede hacer qué. Conceder solo los permisos necesarios limita el daño de errores o credenciales comprometidas. Se recomienda proteger el acceso con autenticación multifactor cuando corresponda."
+            },
+            {
+              "heading": "Elegir la respuesta",
+              "body": "En preguntas de examen, identifica primero el servicio y la tarea. AWS puede administrar la infraestructura subyacente, mientras el cliente sigue siendo responsable de clasificar sus datos y configurar el acceso."
+            },
+            {
+              "heading": "El reparto cambia según el servicio",
+              "body": "En Amazon EC2 el cliente administra el sistema operativo invitado, sus parches y la configuración de la aplicación. En Amazon RDS AWS administra más tareas del motor y la infraestructura, pero el cliente controla cuentas, datos y accesos. En AWS Lambda AWS administra el entorno de ejecución subyacente; el cliente sigue siendo responsable del código y permisos que configura."
+            }
           ],
           "questions": [
-            { "id": "security-q1", "prompt": "¿Quién suele ser responsable de configurar los permisos de acceso a los datos almacenados por un cliente en AWS?", "options": ["El cliente", "Solo AWS", "El proveedor de internet", "El examinador"], "correctOption": 0, "explanation": "El cliente configura el acceso a sus datos; AWS protege la infraestructura de sus servicios." },
-            { "id": "security-q2", "prompt": "¿Qué principio recomienda conceder únicamente los permisos necesarios para una tarea?", "options": ["Alta disponibilidad", "Mínimo privilegio", "Escalado automático", "Pago por uso"], "correctOption": 1, "explanation": "Mínimo privilegio limita el alcance de cada identidad a las acciones que necesita." }
+            {
+              "id": "security-q1",
+              "prompt": "¿Quién suele ser responsable de configurar los permisos de acceso a los datos almacenados por un cliente en AWS?",
+              "options": [
+                "El examinador",
+                "Solo AWS",
+                "El cliente",
+                "El proveedor de internet"
+              ],
+              "correctOption": 2,
+              "explanation": "El cliente configura el acceso a sus datos; AWS protege la infraestructura de sus servicios."
+            },
+            {
+              "id": "security-q2",
+              "prompt": "En Amazon EC2, ¿quién suele administrar los parches del sistema operativo invitado?",
+              "options": [
+                "El examinador",
+                "El cliente",
+                "Solo AWS",
+                "El fabricante de la red"
+              ],
+              "correctOption": 1,
+              "explanation": "El cliente administra el sistema operativo de sus instancias EC2; AWS protege la infraestructura subyacente."
+            }
+          ],
+          "taskCode": "2.1"
+        },
+        {
+          "id": "security-governance",
+          "taskCode": "2.2",
+          "title": "Seguridad, gobernanza y cumplimiento",
+          "minutes": 10,
+          "summary": "Diferencia monitoreo, auditoría, cifrado y evidencia.",
+          "sections": [
+            {
+              "heading": "Cifrado y cumplimiento",
+              "body": "El cifrado en tránsito protege comunicaciones y el cifrado en reposo protege datos almacenados. El cliente decide clasificación, permisos y configuración de sus datos. AWS Artifact ofrece documentación de cumplimiento de AWS; no sustituye las obligaciones regulatorias del cliente ni la evaluación de cada servicio y región."
+            },
+            {
+              "heading": "Servicios con propósitos distintos",
+              "body": "Amazon CloudWatch observa métricas, registros y alarmas; AWS CloudTrail registra actividad de API; AWS Config registra configuraciones y sus cambios. AWS Audit Manager ayuda a recopilar evidencia para auditorías. Amazon Inspector evalúa vulnerabilidades, GuardDuty detecta amenazas y Security Hub reúne hallazgos de seguridad."
+            }
+          ],
+          "questions": [
+            {
+              "id": "governance-q1",
+              "prompt": "¿Qué servicio registra llamadas a la API de una cuenta AWS?",
+              "options": [
+                "AWS CloudTrail",
+                "Amazon EFS",
+                "Amazon Route 53",
+                "AWS Budgets"
+              ],
+              "explanation": "CloudTrail registra eventos de actividad, incluidas llamadas a la API.",
+              "correctOption": 0
+            },
+            {
+              "id": "governance-q2",
+              "prompt": "Selecciona dos medidas de protección de datos.",
+              "options": [
+                "Una sola zona",
+                "Una factura consolidada",
+                "Cifrado en tránsito",
+                "Más direcciones IP",
+                "Cifrado en reposo"
+              ],
+              "explanation": "Ambas formas de cifrado protegen los datos en momentos distintos.",
+              "correctOptions": [
+                2,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "id": "identity-access",
+          "taskCode": "2.3",
+          "title": "Identidad, IAM y acceso seguro",
+          "minutes": 10,
+          "summary": "Aplica mínimo privilegio, MFA y federación.",
+          "sections": [
+            {
+              "heading": "Identidades y políticas",
+              "body": "IAM controla el acceso a recursos mediante usuarios, grupos, roles y políticas. Los roles entregan credenciales temporales y pueden ser asumidos por servicios o identidades de otras cuentas. Las políticas deben conceder únicamente las acciones y recursos necesarios. IAM Identity Center centraliza el acceso de personal a varias cuentas y aplicaciones."
+            },
+            {
+              "heading": "Proteger credenciales",
+              "body": "La cuenta raíz tiene acceso amplio y se reserva para tareas que lo requieren. Protégela con MFA y evita su uso cotidiano. Guarda secretos en servicios como AWS Secrets Manager en vez de incrustarlos en código. Para personas, prioriza federación y credenciales temporales; las claves de acceso de larga duración requieren controles y rotación."
+            }
+          ],
+          "questions": [
+            {
+              "id": "identity-q1",
+              "prompt": "Una función Lambda necesita leer un bucket. ¿Cuál es la opción recomendada?",
+              "options": [
+                "Asignarle un rol IAM con permisos mínimos",
+                "Dar acceso de administrador a todos",
+                "Compartir la contraseña de un usuario",
+                "Guardar claves raíz en el código"
+              ],
+              "explanation": "Un rol entrega credenciales temporales y permite limitar permisos.",
+              "correctOption": 0
+            },
+            {
+              "id": "identity-q2",
+              "prompt": "Selecciona dos formas de proteger la cuenta raíz.",
+              "options": [
+                "Compartir su contraseña",
+                "Usarla para todas las tareas diarias",
+                "Activar MFA",
+                "Desactivar alertas",
+                "No crear claves de acceso raíz si no son necesarias"
+              ],
+              "explanation": "MFA y evitar claves raíz reducen el riesgo de compromiso.",
+              "correctOptions": [
+                2,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "id": "security-services",
+          "taskCode": "2.4",
+          "title": "Servicios y recursos de seguridad",
+          "minutes": 10,
+          "summary": "Elige protección web, detección y fuentes de ayuda.",
+          "sections": [
+            {
+              "heading": "Prevenir y detectar",
+              "body": "AWS WAF filtra solicitudes web según reglas; AWS Shield ayuda contra ataques DDoS y Firewall Manager administra políticas de seguridad centralmente. Amazon GuardDuty identifica actividad potencialmente maliciosa. Amazon Inspector busca vulnerabilidades en recursos compatibles. Ninguno reemplaza por sí solo el diseño de permisos y redes."
+            },
+            {
+              "heading": "Investigar y aprender",
+              "body": "AWS Security Hub consolida hallazgos; Trusted Advisor ofrece recomendaciones, también de seguridad. AWS Marketplace incluye productos de terceros. Para dudas y avisos, consulta la documentación oficial, AWS re:Post, AWS Knowledge Center y el blog de seguridad de AWS; verifica siempre la vigencia de una recomendación."
+            }
+          ],
+          "questions": [
+            {
+              "id": "securitytools-q1",
+              "prompt": "¿Qué servicio filtra solicitudes HTTP según reglas?",
+              "options": [
+                "AWS DMS",
+                "Amazon S3",
+                "AWS WAF",
+                "AWS Budgets"
+              ],
+              "explanation": "AWS WAF aplica reglas a solicitudes web.",
+              "correctOption": 2
+            },
+            {
+              "id": "securitytools-q2",
+              "prompt": "¿Qué servicio identifica actividad potencialmente maliciosa en una cuenta?",
+              "options": [
+                "AWS Pricing Calculator",
+                "Amazon EFS",
+                "Amazon GuardDuty",
+                "Amazon Athena"
+              ],
+              "explanation": "GuardDuty es un servicio de detección de amenazas.",
+              "correctOption": 2
+            }
           ]
         }
       ]
@@ -57,18 +399,371 @@
       "weight": 34,
       "lessons": [
         {
+          "id": "deployment-operations",
+          "taskCode": "3.1",
+          "title": "Implementación y operación",
+          "minutes": 10,
+          "summary": "Compara consola, CLI, SDK e infraestructura como código.",
+          "sections": [
+            {
+              "heading": "Formas de acceso",
+              "body": "La Consola de administración permite operaciones interactivas; AWS CLI y SDK usan API para automatizar tareas. La elección depende de repetibilidad, control de cambios y conocimiento del equipo. No conviene configurar manualmente una y otra vez recursos que deben ser consistentes."
+            },
+            {
+              "heading": "Modelos de despliegue",
+              "body": "La infraestructura como código, por ejemplo AWS CloudFormation, describe recursos de forma versionable y repetible. Un entorno puede estar íntegramente en la nube, en instalaciones propias o ser híbrido. AWS Outposts lleva infraestructura administrada de AWS a ciertas ubicaciones locales para necesidades específicas."
+            }
+          ],
+          "questions": [
+            {
+              "id": "operations-q1",
+              "prompt": "¿Qué enfoque facilita desplegar el mismo conjunto de recursos repetidamente?",
+              "options": [
+                "Una contraseña compartida",
+                "Infraestructura como código",
+                "Clics manuales sin registro",
+                "Cambiar recursos solo en producción"
+              ],
+              "explanation": "La infraestructura como código permite describir y repetir aprovisionamiento.",
+              "correctOption": 1
+            },
+            {
+              "id": "operations-q2",
+              "prompt": "¿Qué herramienta ofrece acceso programático desde una terminal?",
+              "options": [
+                "AWS CLI",
+                "AWS Shield",
+                "AWS Artifact",
+                "AWS Budgets"
+              ],
+              "explanation": "AWS CLI permite ejecutar comandos que llaman a servicios de AWS.",
+              "correctOption": 0
+            }
+          ]
+        },
+        {
           "id": "global-infrastructure",
           "title": "Regiones, zonas y servicios básicos",
           "minutes": 10,
           "summary": "Relaciona infraestructura global con cómputo y almacenamiento.",
           "sections": [
-            { "heading": "Infraestructura global", "body": "Una Región de AWS es una ubicación geográfica. Cada Región tiene varias Zonas de Disponibilidad independientes. Distribuir cargas entre zonas puede mejorar la disponibilidad; elegir una Región también influye en latencia y requisitos de residencia de datos." },
-            { "heading": "Cómputo y almacenamiento", "body": "Amazon EC2 proporciona instancias de cómputo configurables. AWS Lambda ejecuta código en respuesta a eventos sin administrar servidores. Amazon S3 almacena objetos, como archivos y copias de seguridad. Selecciona el servicio según la carga de trabajo." },
-            { "heading": "Identificar el servicio", "body": "Para resolver una pregunta, distingue la necesidad principal: ejecutar una máquina virtual, responder a eventos o almacenar objetos. Un nombre de servicio parecido no sustituye la lectura del caso de uso." }
+            {
+              "heading": "Infraestructura global",
+              "body": "Una Región de AWS es una ubicación geográfica. Cada Región tiene varias Zonas de Disponibilidad independientes. Distribuir cargas entre zonas puede mejorar la disponibilidad; elegir una Región también influye en latencia y requisitos de residencia de datos."
+            },
+            {
+              "heading": "Cómputo y almacenamiento",
+              "body": "Amazon EC2 proporciona instancias de cómputo configurables. AWS Lambda ejecuta código en respuesta a eventos sin administrar servidores. Amazon S3 almacena objetos, como archivos y copias de seguridad. Selecciona el servicio según la carga de trabajo."
+            },
+            {
+              "heading": "Identificar el servicio",
+              "body": "Para resolver una pregunta, distingue la necesidad principal: ejecutar una máquina virtual, responder a eventos o almacenar objetos. Un nombre de servicio parecido no sustituye la lectura del caso de uso."
+            },
+            {
+              "heading": "Ubicaciones periféricas y varias regiones",
+              "body": "Las ubicaciones periféricas acercan contenido y servicios de red a los usuarios, por ejemplo mediante Amazon CloudFront. Una aplicación puede usar varias regiones para recuperación ante desastres, menor latencia o requisitos de residencia de datos. Las regiones son independientes: distribuir entre zonas de una región no equivale a un despliegue multirregión."
+            }
           ],
           "questions": [
-            { "id": "technology-q1", "prompt": "Una aplicación necesita guardar millones de archivos como objetos. ¿Qué servicio encaja mejor?", "options": ["Amazon S3", "Amazon EC2", "AWS IAM", "AWS Budgets"], "correctOption": 0, "explanation": "Amazon S3 es un servicio de almacenamiento de objetos." },
-            { "id": "technology-q2", "prompt": "¿Qué es una Zona de Disponibilidad?", "options": ["Un plan de soporte", "Una ubicación aislada dentro de una Región", "Una política de IAM", "Un tipo de factura"], "correctOption": 1, "explanation": "Las Zonas de Disponibilidad son ubicaciones separadas dentro de una Región de AWS." }
+            {
+              "id": "technology-q1",
+              "prompt": "¿Qué recurso acerca contenido a usuarios finales mediante ubicaciones periféricas?",
+              "options": [
+                "AWS Budgets",
+                "Amazon EBS",
+                "AWS IAM",
+                "Amazon CloudFront"
+              ],
+              "correctOption": 3,
+              "explanation": "CloudFront usa una red de ubicaciones periféricas para entregar contenido con menor latencia."
+            },
+            {
+              "id": "technology-q2",
+              "prompt": "¿Qué es una Zona de Disponibilidad?",
+              "options": [
+                "Una ubicación aislada dentro de una Región",
+                "Una política de IAM",
+                "Un plan de soporte",
+                "Un tipo de factura"
+              ],
+              "correctOption": 0,
+              "explanation": "Las Zonas de Disponibilidad son ubicaciones separadas dentro de una Región de AWS."
+            },
+            {
+              "id": "technology-q3",
+              "prompt": "Una empresa necesita continuidad operativa si una región completa deja de estar disponible. ¿Qué estrategia con varias regiones responde mejor?",
+              "options": [
+                "Aumentar el tamaño de una instancia",
+                "Cambiar las etiquetas de costo",
+                "Desplegar en varias regiones con recuperación planificada",
+                "Usar una sola zona de disponibilidad"
+              ],
+              "correctOption": 2,
+              "explanation": "Un diseño multirregión puede ofrecer recuperación ante una interrupción regional, siempre que se configure y pruebe."
+            }
+          ],
+          "taskCode": "3.2"
+        },
+        {
+          "id": "compute-services",
+          "taskCode": "3.3",
+          "title": "Computación y escalado",
+          "minutes": 10,
+          "summary": "Compara EC2, contenedores, Lambda y balanceo.",
+          "sections": [
+            {
+              "heading": "Elegir ejecución",
+              "body": "Amazon EC2 ofrece máquinas virtuales configurables y familias optimizadas para diferentes necesidades. Amazon ECS orquesta contenedores; Amazon EKS administra Kubernetes. AWS Fargate ejecuta tareas de contenedores sin administrar servidores, mientras AWS Lambda ejecuta funciones activadas por eventos. Cada opción deja un grado distinto de control operativo al cliente."
+            },
+            {
+              "heading": "Escalar y distribuir",
+              "body": "EC2 Auto Scaling ajusta el número de instancias según políticas y demanda. Elastic Load Balancing distribuye tráfico entre destinos saludables y ayuda a evitar que una sola instancia concentre todas las solicitudes. Escalar no reemplaza las pruebas de disponibilidad ni el diseño entre zonas."
+            }
+          ],
+          "questions": [
+            {
+              "id": "compute-q1",
+              "prompt": "Una tarea corta se ejecuta en respuesta a un evento sin administrar servidores. ¿Qué servicio encaja?",
+              "options": [
+                "AWS Lambda",
+                "Amazon EC2 dedicado",
+                "Amazon EBS",
+                "AWS Direct Connect"
+              ],
+              "explanation": "Lambda ejecuta código por eventos sin que el cliente administre servidores.",
+              "correctOption": 0
+            },
+            {
+              "id": "compute-q2",
+              "prompt": "Selecciona dos servicios para cargas en contenedores.",
+              "options": [
+                "AWS Artifact",
+                "Amazon S3",
+                "Amazon Route 53",
+                "Amazon ECS",
+                "Amazon EKS"
+              ],
+              "explanation": "ECS y EKS son opciones de orquestación de contenedores.",
+              "correctOptions": [
+                3,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "id": "database-services",
+          "taskCode": "3.4",
+          "title": "Bases de datos y migración",
+          "minutes": 10,
+          "summary": "Distingue relacional, NoSQL, caché y herramientas de traslado.",
+          "sections": [
+            {
+              "heading": "Modelo de datos",
+              "body": "Amazon RDS administra tareas de bases relacionales; Amazon Aurora es un motor relacional compatible con MySQL y PostgreSQL. Amazon DynamoDB es NoSQL para acceso de baja latencia a escala. Amazon ElastiCache ofrece almacenamiento en memoria para acelerar lecturas. Alojar una base en EC2 da más control pero implica más administración."
+            },
+            {
+              "heading": "Mover datos",
+              "body": "AWS Database Migration Service (DMS) ayuda a migrar bases y replicar cambios. AWS Schema Conversion Tool (SCT) ayuda a convertir esquemas cuando cambian los motores. Elegir una base depende de relaciones, consultas, escala y operación; NoSQL no es una mejora universal sobre SQL."
+            }
+          ],
+          "questions": [
+            {
+              "id": "database-q1",
+              "prompt": "Una aplicación requiere transacciones y tablas relacionadas con administración del motor por AWS. ¿Qué elegirías?",
+              "options": [
+                "Amazon SQS",
+                "Amazon RDS",
+                "Amazon CloudFront",
+                "Amazon S3"
+              ],
+              "explanation": "RDS administra motores relacionales apropiados para ese caso.",
+              "correctOption": 1
+            },
+            {
+              "id": "database-q2",
+              "prompt": "¿Qué servicio NoSQL ofrece acceso de baja latencia a escala?",
+              "options": [
+                "AWS Config",
+                "Amazon Aurora",
+                "Amazon EFS",
+                "Amazon DynamoDB"
+              ],
+              "explanation": "DynamoDB es una base de datos NoSQL administrada.",
+              "correctOption": 3
+            }
+          ]
+        },
+        {
+          "id": "network-services",
+          "taskCode": "3.5",
+          "title": "Redes y conectividad",
+          "minutes": 10,
+          "summary": "Identifica VPC, controles de tráfico, DNS y conexión híbrida.",
+          "sections": [
+            {
+              "heading": "Red privada y controles",
+              "body": "Amazon VPC define una red virtual con subredes y rutas. Una puerta de enlace de internet facilita conectividad pública cuando la configuración lo permite. Los grupos de seguridad filtran tráfico de recursos y son con estado; las ACL de red se aplican a subredes y son sin estado. Su combinación depende del diseño de red."
+            },
+            {
+              "heading": "DNS y conexiones",
+              "body": "Amazon Route 53 ofrece DNS y otras funciones de enrutamiento. AWS Site-to-Site VPN crea conexión cifrada sobre internet; AWS Direct Connect proporciona conectividad dedicada desde una ubicación del cliente. Direct Connect no cifra por sí mismo todo el tráfico: si se requiere cifrado, se configura aparte."
+            }
+          ],
+          "questions": [
+            {
+              "id": "network-q1",
+              "prompt": "¿Qué servicio resuelve nombres de dominio para dirigir usuarios a una aplicación?",
+              "options": [
+                "Amazon EBS",
+                "AWS IAM",
+                "AWS DMS",
+                "Amazon Route 53"
+              ],
+              "explanation": "Route 53 es el servicio de DNS de AWS.",
+              "correctOption": 3
+            },
+            {
+              "id": "network-q2",
+              "prompt": "¿Qué control de VPC es con estado y se asocia a recursos?",
+              "options": [
+                "ACL de red",
+                "Tabla de rutas",
+                "Grupo de seguridad",
+                "Puerta de enlace"
+              ],
+              "explanation": "Los grupos de seguridad realizan seguimiento del tráfico de respuesta.",
+              "correctOption": 2
+            }
+          ]
+        },
+        {
+          "id": "storage-services",
+          "taskCode": "3.6",
+          "title": "Almacenamiento y protección de datos",
+          "minutes": 10,
+          "summary": "Elige objetos, bloques, archivos, archivos fríos y copias.",
+          "sections": [
+            {
+              "heading": "Tres modelos",
+              "body": "Amazon S3 guarda objetos y ofrece clases para distintos patrones de acceso, como S3 Standard y S3 Glacier. Amazon EBS ofrece volúmenes de bloques persistentes para EC2; el almacén de instancia es temporal. Amazon EFS proporciona archivos compartidos, y Amazon FSx ofrece sistemas de archivos administrados para necesidades específicas."
+            },
+            {
+              "heading": "Mover y retener",
+              "body": "Las políticas de ciclo de vida de S3 pueden mover objetos entre clases o expirarlos. AWS Storage Gateway conecta aplicaciones locales con almacenamiento en AWS. AWS Backup centraliza políticas de copia de seguridad para recursos compatibles. Comprueba frecuencia de acceso, latencia, recuperación y cargos antes de escoger una clase de almacenamiento."
+            }
+          ],
+          "questions": [
+            {
+              "id": "storage-q1",
+              "prompt": "¿Qué servicio proporciona almacenamiento de objetos?",
+              "options": [
+                "Amazon EC2",
+                "Amazon EBS",
+                "Amazon EFS",
+                "Amazon S3"
+              ],
+              "explanation": "S3 almacena objetos en buckets.",
+              "correctOption": 3
+            },
+            {
+              "id": "storage-q2",
+              "prompt": "Una instancia EC2 necesita un volumen de bloques persistente. ¿Qué servicio corresponde?",
+              "options": [
+                "Amazon EBS",
+                "Amazon SQS",
+                "Amazon Athena",
+                "Amazon CloudFront"
+              ],
+              "explanation": "EBS ofrece volúmenes de bloques persistentes para EC2.",
+              "correctOption": 0
+            }
+          ]
+        },
+        {
+          "id": "ai-analytics",
+          "taskCode": "3.7",
+          "title": "IA, aprendizaje automático y análisis",
+          "minutes": 10,
+          "summary": "Relaciona servicios de IA con búsqueda, flujos y consultas.",
+          "sections": [
+            {
+              "heading": "IA y búsqueda",
+              "body": "Amazon SageMaker AI proporciona herramientas para crear, entrenar e implementar modelos. Amazon Lex permite interfaces conversacionales; Amazon Kendra facilita búsqueda empresarial. Para preguntas del examen identifica primero la tarea: entrenar un modelo, crear un bot o buscar en documentos."
+            },
+            {
+              "heading": "Analítica de datos",
+              "body": "Amazon Athena consulta datos en S3 mediante SQL sin administrar servidores de consulta. Amazon Kinesis procesa datos en streaming. AWS Glue ayuda a descubrir, preparar e integrar datos. Amazon QuickSight permite visualizar y analizar información mediante paneles. Son servicios complementarios, no sustitutos directos."
+            }
+          ],
+          "questions": [
+            {
+              "id": "analytics-q1",
+              "prompt": "¿Qué servicio consulta datos de S3 con SQL sin aprovisionar servidores?",
+              "options": [
+                "Amazon EBS",
+                "Amazon Athena",
+                "Amazon Lex",
+                "AWS Shield"
+              ],
+              "explanation": "Athena permite consultas SQL sobre datos almacenados en S3.",
+              "correctOption": 1
+            },
+            {
+              "id": "analytics-q2",
+              "prompt": "¿Qué servicio se usa para construir interfaces conversacionales?",
+              "options": [
+                "AWS Glue",
+                "Amazon Kinesis",
+                "Amazon Lex",
+                "Amazon Route 53"
+              ],
+              "explanation": "Lex facilita crear bots de voz y texto.",
+              "correctOption": 2
+            }
+          ]
+        },
+        {
+          "id": "application-services",
+          "taskCode": "3.8",
+          "title": "Integración y otros servicios",
+          "minutes": 10,
+          "summary": "Distingue colas, eventos, notificaciones y herramientas.",
+          "sections": [
+            {
+              "heading": "Comunicación entre sistemas",
+              "body": "Amazon SQS desacopla componentes con colas de mensajes; Amazon SNS distribuye mensajes a suscriptores; Amazon EventBridge enruta eventos según reglas. Amazon SES envía correo electrónico y Amazon Connect ofrece centro de contacto. Escoge cola cuando el consumidor procesa a su ritmo, y notificación cuando se requiere distribución a varios destinos."
+            },
+            {
+              "heading": "Otras categorías",
+              "body": "AWS CodeBuild compila y prueba código; CodePipeline organiza etapas de entrega; AWS X-Ray ayuda a rastrear solicitudes. AWS Amplify y AppSync facilitan frontend y API; AWS IoT Core conecta dispositivos. Amazon WorkSpaces ofrece escritorios virtuales y AppStream 2.0 transmite aplicaciones. Reconoce la categoría y caso de uso, no cada parámetro interno."
+            }
+          ],
+          "questions": [
+            {
+              "id": "integration-q1",
+              "prompt": "¿Qué servicio desacopla componentes mediante una cola?",
+              "options": [
+                "Amazon SQS",
+                "Amazon Route 53",
+                "Amazon SNS",
+                "Amazon SES"
+              ],
+              "explanation": "SQS almacena mensajes para que los consumidores los procesen.",
+              "correctOption": 0
+            },
+            {
+              "id": "integration-q2",
+              "prompt": "¿Qué servicio enruta eventos a destinos según reglas?",
+              "options": [
+                "AWS Budgets",
+                "Amazon EBS",
+                "AWS Artifact",
+                "Amazon EventBridge"
+              ],
+              "explanation": "EventBridge usa reglas para dirigir eventos.",
+              "correctOption": 3
+            }
           ]
         }
       ]
@@ -79,18 +774,164 @@
       "weight": 12,
       "lessons": [
         {
+          "id": "pricing-models",
+          "taskCode": "4.1",
+          "title": "Modelos de precios y compra",
+          "minutes": 10,
+          "summary": "Compara compromisos, Spot y costos de transferencia.",
+          "sections": [
+            {
+              "heading": "Opciones de computación",
+              "body": "On-Demand ofrece flexibilidad sin compromiso previo. Savings Plans y ciertas reservas pueden reducir costo a cambio de compromiso; sus condiciones varían. Spot aprovecha capacidad disponible con posibilidad de interrupción. Los hosts dedicados y las instancias dedicadas cubren necesidades de aislamiento o licencias, con precios distintos."
+            },
+            {
+              "heading": "Almacenamiento y red",
+              "body": "El precio de almacenamiento cambia según clase, volumen, solicitudes y recuperación. La transferencia entrante de internet suele ser gratuita, mientras la salida a internet o entre regiones puede generar cargos; hay excepciones según servicio y ruta. Usa la página vigente de precios y la calculadora antes de presupuestar."
+            }
+          ],
+          "questions": [
+            {
+              "id": "pricing-q1",
+              "prompt": "Una tarea tolera interrupciones y busca capacidad con descuento. ¿Qué opción se ajusta?",
+              "options": [
+                "Licencia incluida",
+                "On-Demand sin comparación",
+                "Host dedicado obligatorio",
+                "Instancias Spot"
+              ],
+              "explanation": "Spot usa capacidad disponible y puede interrumpirse.",
+              "correctOption": 3
+            },
+            {
+              "id": "pricing-q2",
+              "prompt": "¿Qué opción suele requerir un compromiso de uso para obtener descuento?",
+              "options": [
+                "Savings Plans",
+                "AWS WAF",
+                "Transferencia entrante",
+                "AWS Artifact"
+              ],
+              "explanation": "Savings Plans ofrece descuento a cambio de un compromiso de uso.",
+              "correctOption": 0
+            }
+          ]
+        },
+        {
           "id": "cost-tools",
           "title": "Presupuestos y opciones de precio",
           "minutes": 8,
           "summary": "Diferencia herramientas de costos y modelos de compra.",
           "sections": [
-            { "heading": "Herramientas de costos", "body": "AWS Budgets permite crear presupuestos y alertas. AWS Cost Explorer ayuda a analizar el gasto histórico y sus tendencias. La calculadora de precios de AWS sirve para estimar costos antes de desplegar una solución." },
-            { "heading": "Opciones de compra", "body": "On-Demand resulta útil cuando necesitas flexibilidad sin un compromiso de uso previo. Savings Plans pueden reducir costos a cambio de un compromiso de uso. Las instancias Spot aprovechan capacidad disponible, pero pueden interrumpirse." },
-            { "heading": "La decisión depende del caso", "body": "Compara estabilidad de la carga, tolerancia a interrupciones y duración prevista. Ninguna opción es siempre la más barata para todos los escenarios." }
+            {
+              "heading": "Herramientas de costos",
+              "body": "AWS Budgets permite crear presupuestos y alertas. AWS Cost Explorer ayuda a analizar el gasto histórico y sus tendencias. La calculadora de precios de AWS sirve para estimar costos antes de desplegar una solución."
+            },
+            {
+              "heading": "Opciones de compra",
+              "body": "On-Demand resulta útil cuando necesitas flexibilidad sin un compromiso de uso previo. Savings Plans pueden reducir costos a cambio de un compromiso de uso. Las instancias Spot aprovechan capacidad disponible, pero pueden interrumpirse."
+            },
+            {
+              "heading": "La decisión depende del caso",
+              "body": "Compara estabilidad de la carga, tolerancia a interrupciones y duración prevista. Ninguna opción es siempre la más barata para todos los escenarios."
+            },
+            {
+              "heading": "Facturación unificada y asignación",
+              "body": "AWS Organizations permite administrar varias cuentas y usar facturación unificada. Las etiquetas de asignación de costos ayudan a atribuir gasto a equipos o proyectos tras activarlas; los informes de costo y uso ofrecen datos detallados para análisis. AWS Cost Explorer analiza tendencias, mientras AWS Budgets alerta sobre umbrales. Una etiqueta no limita el gasto por sí misma."
+            }
           ],
           "questions": [
-            { "id": "billing-q1", "prompt": "¿Qué herramienta permite crear alertas cuando el gasto se aproxima a un límite definido?", "options": ["AWS Budgets", "Amazon S3", "AWS IAM", "Amazon Route 53"], "correctOption": 0, "explanation": "AWS Budgets permite establecer umbrales de presupuesto y recibir alertas." },
-            { "id": "billing-q2", "prompt": "Una tarea tolera interrupciones y busca aprovechar capacidad disponible con descuento. ¿Qué opción corresponde?", "options": ["Instancias Spot", "On-Demand por obligación", "Una Zona de Disponibilidad", "AWS Cost Explorer"], "correctOption": 0, "explanation": "Las instancias Spot usan capacidad disponible y pueden interrumpirse." }
+            {
+              "id": "billing-q1",
+              "prompt": "¿Qué herramienta permite crear alertas cuando el gasto se aproxima a un límite definido?",
+              "options": [
+                "Amazon Route 53",
+                "Amazon S3",
+                "AWS Budgets",
+                "AWS IAM"
+              ],
+              "correctOption": 2,
+              "explanation": "AWS Budgets permite establecer umbrales de presupuesto y recibir alertas."
+            },
+            {
+              "id": "billing-q2",
+              "prompt": "¿Qué capacidad agrupa los cargos de varias cuentas AWS mediante facturación unificada?",
+              "options": [
+                "Amazon Lex",
+                "Amazon S3",
+                "AWS Shield",
+                "AWS Organizations"
+              ],
+              "correctOption": 3,
+              "explanation": "AWS Organizations permite administrar cuentas y usar facturación unificada."
+            },
+            {
+              "id": "billing-q3",
+              "prompt": "¿Qué recurso permite atribuir gastos a equipos o proyectos mediante etiquetas de asignación de costos?",
+              "options": [
+                "Una zona de disponibilidad",
+                "Etiquetas de asignación de costos activadas",
+                "Amazon Lex",
+                "Una ACL de red"
+              ],
+              "correctOption": 1,
+              "explanation": "Las etiquetas de asignación de costos, tras su activación, ayudan a clasificar cargos en informes y análisis."
+            },
+            {
+              "id": "billing-q4",
+              "prompt": "Antes de desplegar una solución, ¿qué herramienta ayuda a estimar su gasto previsto?",
+              "options": [
+                "AWS CloudTrail",
+                "AWS Pricing Calculator",
+                "Amazon GuardDuty",
+                "Amazon SQS"
+              ],
+              "correctOption": 1,
+              "explanation": "AWS Pricing Calculator permite elaborar estimaciones a partir de servicios y uso previstos."
+            }
+          ],
+          "taskCode": "4.2"
+        },
+        {
+          "id": "support-resources",
+          "taskCode": "4.3",
+          "title": "Soporte y recursos técnicos",
+          "minutes": 10,
+          "summary": "Encuentra ayuda oficial, planes y recomendaciones.",
+          "sections": [
+            {
+              "heading": "Canales de ayuda",
+              "body": "La documentación oficial, AWS re:Post y el Knowledge Center ayudan a resolver preguntas técnicas. AWS Support Center gestiona casos según el plan contratado; los planes y sus condiciones cambian, por lo que conviene revisar la comparación vigente. AWS Professional Services y los socios de AWS pueden apoyar proyectos específicos."
+            },
+            {
+              "heading": "Salud, recomendaciones y socios",
+              "body": "AWS Health comunica eventos que afectan cuentas y servicios; Trusted Advisor presenta recomendaciones sobre categorías como costos, seguridad y rendimiento según la cobertura disponible. AWS Marketplace facilita encontrar software de terceros. La red de socios de AWS incluye proveedores de software e integradores de sistemas. El equipo Trust and Safety recibe reportes de abuso de recursos AWS."
+            }
+          ],
+          "questions": [
+            {
+              "id": "support-q1",
+              "prompt": "¿Dónde puede un cliente consultar eventos de AWS que afectan su cuenta?",
+              "options": [
+                "AWS Health",
+                "Amazon EBS",
+                "AWS DMS",
+                "Amazon Lex"
+              ],
+              "explanation": "AWS Health comunica eventos relevantes para la cuenta.",
+              "correctOption": 0
+            },
+            {
+              "id": "support-q2",
+              "prompt": "¿Qué servicio presenta recomendaciones para optimizar costos y revisar seguridad?",
+              "options": [
+                "Amazon Kendra",
+                "AWS Trusted Advisor",
+                "Amazon SQS",
+                "AWS Lambda"
+              ],
+              "explanation": "Trusted Advisor ofrece recomendaciones en varias categorías, según la cobertura del plan.",
+              "correctOption": 1
+            }
           ]
         }
       ]

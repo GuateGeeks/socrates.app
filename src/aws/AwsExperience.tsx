@@ -5,7 +5,7 @@ import type { ProgramId } from '@/core/programs';
 import { Icon } from '@/design-system/icons';
 import { Ajustes } from '@/screens/Ajustes';
 import { loadAwsCourse } from './content';
-import { findAwsLesson, type AwsCourse, type AwsDomain, type AwsLesson } from './course';
+import { awsCorrectOptions, findAwsLesson, isAwsAnswerCorrect, type AwsCourse, type AwsDomain, type AwsLesson } from './course';
 import { saveAwsResult, useAwsProgress } from './progress';
 import './aws.css';
 
@@ -21,7 +21,7 @@ function AwsHome({ course, name }: { course: AwsCourse; name: string }) {
       <div className="aws-hero__eyebrow"><Icon name="Cloud" size={17} /> Ruta de certificación · {course.examCode}</div>
       <h1>{name ? `Hola, ${name}` : 'Tu ruta hacia la nube'}</h1>
       <p>{course.description}</p>
-      <div className="aws-hero__stats"><strong>{completed}/{lessons.length} lecciones</strong><span>Contenido de muestra · {course.domains.length} dominios</span></div>
+      <div className="aws-hero__stats"><strong>{completed}/{lessons.length} lecciones</strong><span>{course.domains.length} dominios · {lessons.reduce((sum, lesson) => sum + lesson.questions.length, 0)} preguntas de práctica</span></div>
       <div className="aws-meter" role="progressbar" aria-label="Progreso del programa" aria-valuenow={completed} aria-valuemin={0} aria-valuemax={lessons.length}><span style={{ width: `${lessons.length ? completed / lessons.length * 100 : 0}%` }} /></div>
     </header>
     {next && <section className="aws-next">
@@ -32,7 +32,7 @@ function AwsHome({ course, name }: { course: AwsCourse; name: string }) {
     <section className="aws-stack"><div className="aws-section-head"><div><span className="aws-kicker">Temario</span><h2>Dominios del examen</h2></div><a href={href({ name: 'aws-curriculum' })}>Ver todo <Icon name="ArrowRight" size={16} /></a></div>
       <div className="aws-domain-grid">{course.domains.map((domain, index) => <DomainCard key={domain.id} domain={domain} index={index} completed={domain.lessons.filter((lesson) => progress.lessons[lesson.id]).length} />)}</div>
     </section>
-    <p className="aws-disclaimer">Esta ruta contiene una muestra inicial y no sustituye el examen oficial. <a href={course.sourceUrl} target="_blank" rel="noreferrer">Consulta la guía oficial de AWS <Icon name="ExternalLink" size={13} /></a></p>
+    <p className="aws-disclaimer">Material de estudio independiente; las preguntas de práctica no son preguntas oficiales del examen. <a href={course.sourceUrl} target="_blank" rel="noreferrer">Consulta la guía oficial de AWS <Icon name="ExternalLink" size={13} /></a></p>
   </div>;
 }
 
@@ -69,7 +69,7 @@ function AwsDomain({ domain, course }: { domain: AwsDomain; course: AwsCourse })
 function LessonLink({ lesson, done }: { lesson: AwsLesson; done: boolean }) {
   return <a className="aws-lesson-link" href={href({ name: 'aws-lesson', lessonId: lesson.id })}>
     <span className={`aws-lesson-link__status${done ? ' is-done' : ''}`}><Icon name={done ? 'Check' : 'BookOpen'} size={19} /></span>
-    <span><strong>{lesson.title}</strong><small>{lesson.summary} · {lesson.minutes} min</small></span><Icon name="ChevronRight" size={20} />
+    <span><strong>{lesson.title}</strong><small>{lesson.taskCode ? `Objetivo ${lesson.taskCode} · ` : ''}{lesson.summary} · {lesson.minutes} min</small></span><Icon name="ChevronRight" size={20} />
   </a>;
 }
 
@@ -77,16 +77,22 @@ function AwsLessonScreen({ course, lessonId }: { course: AwsCourse; lessonId: st
   const found = findAwsLesson(course, lessonId);
   const [phase, setPhase] = useState<'study' | 'quiz' | 'result'>('study');
   const [index, setIndex] = useState(0);
-  const [answers, setAnswers] = useState<number[]>([]);
+  const [answers, setAnswers] = useState<number[][]>([]);
+  const [draft, setDraft] = useState<number[]>([]);
+  const [confirmed, setConfirmed] = useState(false);
   const [score, setScore] = useState(0);
   const progress = useAwsProgress();
   if (!found) return <div className="aws-page aws-stack"><h1>Lección no encontrada</h1><a href={href({ name: 'aws-curriculum' })}>Volver al temario</a></div>;
   const { domain, lesson } = found;
   const question = lesson.questions[index];
-  const selected = answers[index];
+  const correctOptions = awsCorrectOptions(question);
+  const multiple = correctOptions.length > 1;
+  const answerCorrect = confirmed && isAwsAnswerCorrect(question, draft);
+  const nextLesson = course.domains.flatMap((item) => item.lessons).find((_, itemIndex, all) => all[itemIndex - 1]?.id === lesson.id);
+  const startPractice = () => { setAnswers([]); setDraft([]); setConfirmed(false); setIndex(0); setPhase('quiz'); };
   const finishQuestion = () => {
-    if (index + 1 < lesson.questions.length) { setIndex(index + 1); return; }
-    const result = answers.filter((answer, i) => answer === lesson.questions[i].correctOption).length / lesson.questions.length;
+    if (index + 1 < lesson.questions.length) { setIndex(index + 1); setDraft([]); setConfirmed(false); return; }
+    const result = answers.filter((answer, i) => isAwsAnswerCorrect(lesson.questions[i], answer)).length / lesson.questions.length;
     saveAwsResult(lesson.id, result);
     setScore(result);
     setPhase('result');
@@ -94,20 +100,26 @@ function AwsLessonScreen({ course, lessonId }: { course: AwsCourse; lessonId: st
   return <div className="aws-page aws-stack">
     <a className="aws-back" href={href({ name: 'aws-domain', domainId: domain.id })}><Icon name="ArrowLeft" size={18} /> {domain.title}</a>
     {phase === 'study' && <>
-      <header className="aws-title"><span className="aws-kicker">LECCIÓN · {lesson.minutes} MIN</span><h1>{lesson.title}</h1><p>{lesson.summary}</p></header>
+      <header className="aws-title"><span className="aws-kicker">{lesson.taskCode ? `OBJETIVO ${lesson.taskCode} · ` : 'LECCIÓN · '}{lesson.minutes} MIN</span><h1>{lesson.title}</h1><p>{lesson.summary}</p></header>
       <div className="aws-reading">{lesson.sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2><p>{section.body}</p></section>)}</div>
-      <section className="aws-next"><span className="aws-kicker">PONTE A PRUEBA</span><h2>Comprueba lo aprendido</h2><p>{lesson.questions.length} preguntas con respuesta explicada. Puedes repetirlas cuando quieras.</p><button className="aws-primary" onClick={() => { setAnswers([]); setIndex(0); setPhase('quiz'); }}>Comenzar práctica <Icon name="ArrowRight" size={18} /></button></section>
+      <section className="aws-next"><span className="aws-kicker">PONTE A PRUEBA</span><h2>Comprueba lo aprendido</h2><p>{lesson.questions.length} preguntas con respuesta explicada. Puedes repetirlas cuando quieras.</p><button className="aws-primary" onClick={startPractice}>Comenzar práctica <Icon name="ArrowRight" size={18} /></button></section>
     </>}
     {phase === 'quiz' && <section className="aws-quiz">
       <div className="aws-quiz__top"><span className="aws-kicker">PREGUNTA {index + 1} DE {lesson.questions.length}</span><span>{Math.round((index / lesson.questions.length) * 100)} %</span></div>
       <div className="aws-meter"><span style={{ width: `${index / lesson.questions.length * 100}%` }} /></div>
       <h1>{question.prompt}</h1>
-      <div className="aws-options">{question.options.map((option, choice) => <button key={choice} disabled={selected !== undefined} className={`${selected !== undefined && choice === question.correctOption ? 'is-correct' : ''}${selected === choice && choice !== question.correctOption ? ' is-incorrect' : ''}`}
-        onClick={() => setAnswers((current) => { const next = [...current]; next[index] = choice; return next; })}><span>{String.fromCharCode(65 + choice)}</span>{option}</button>)}</div>
-      {selected !== undefined && <div className={`aws-feedback${selected === question.correctOption ? ' is-correct' : ''}`} role="status"><strong>{selected === question.correctOption ? 'Correcto' : 'Revisa este concepto'}</strong><p>{question.explanation}</p></div>}
-      <button className="aws-primary" disabled={selected === undefined} onClick={finishQuestion}>{index + 1 === lesson.questions.length ? 'Ver resultados' : 'Siguiente pregunta'} <Icon name="ArrowRight" size={18} /></button>
+      <p className="aws-quiz__instruction">{multiple ? `Selecciona ${correctOptions.length} respuestas.` : 'Selecciona una respuesta.'}</p>
+      <div className="aws-options">{question.options.map((option, choice) => {
+        const selected = draft.includes(choice);
+        const correct = correctOptions.includes(choice);
+        return <button key={choice} type="button" disabled={confirmed} aria-pressed={selected} className={`${confirmed && correct ? 'is-correct' : ''}${confirmed && selected && !correct ? ' is-incorrect' : ''}${!confirmed && selected ? ' is-selected' : ''}`}
+          onClick={() => setDraft((current) => multiple ? (current.includes(choice) ? current.filter((item) => item !== choice) : current.length < correctOptions.length ? [...current, choice] : current) : [choice])}><span>{String.fromCharCode(65 + choice)}</span>{option}</button>;
+      })}</div>
+      {confirmed && <div className={`aws-feedback${answerCorrect ? ' is-correct' : ''}`} role="status"><strong>{answerCorrect ? 'Correcto' : 'Revisa este concepto'}</strong><p>{question.explanation}</p></div>}
+      {!confirmed ? <button className="aws-primary" disabled={draft.length !== correctOptions.length} onClick={() => { setAnswers((current) => [...current, draft]); setConfirmed(true); }}>Comprobar respuesta</button>
+        : <button className="aws-primary" onClick={finishQuestion}>{index + 1 === lesson.questions.length ? 'Ver resultados' : 'Siguiente pregunta'} <Icon name="ArrowRight" size={18} /></button>}
     </section>}
-    {phase === 'result' && <section className="aws-result"><span className="aws-result__icon"><Icon name="CircleCheck" size={44} /></span><span className="aws-kicker">PRÁCTICA COMPLETADA</span><h1>{Math.round(score * 100)} % de aciertos</h1><p>{score === 1 ? 'Dominaste esta práctica. Sigue con el siguiente tema.' : 'Revisa las explicaciones y vuelve a intentarlo cuando quieras.'}</p><p className="aws-result__best">Mejor resultado: {Math.round((progress.lessons[lesson.id]?.bestScore ?? score) * 100)} %</p><div className="aws-result__actions"><button className="aws-primary" onClick={() => { setPhase('study'); setAnswers([]); setIndex(0); }}>Repetir lección</button><a className="aws-secondary" href={href({ name: 'aws-domain', domainId: domain.id })}>Volver al dominio</a></div></section>}
+    {phase === 'result' && <section className="aws-result"><span className="aws-result__icon"><Icon name="CircleCheck" size={44} /></span><span className="aws-kicker">PRÁCTICA COMPLETADA</span><h1>{Math.round(score * 100)} % de aciertos</h1><p>{score === 1 ? 'Dominaste esta práctica. Sigue con el siguiente tema.' : 'Revisa las explicaciones y vuelve a intentarlo cuando quieras.'}</p><p className="aws-result__best">Mejor resultado: {Math.round((progress.lessons[lesson.id]?.bestScore ?? score) * 100)} %</p><div className="aws-result__actions">{nextLesson && <a className="aws-primary" href={href({ name: 'aws-lesson', lessonId: nextLesson.id })}>Siguiente lección <Icon name="ArrowRight" size={18} /></a>}<button className="aws-secondary" onClick={() => { setPhase('study'); setAnswers([]); setIndex(0); }}>Repetir lección</button><a className="aws-secondary" href={href({ name: 'aws-domain', domainId: domain.id })}>Volver al dominio</a></div></section>}
   </div>;
 }
 

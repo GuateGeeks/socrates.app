@@ -1,6 +1,6 @@
 # Socrates Aprende · programas educativos
 
-Plataforma web mobile-first (PWA) con dos programas. **Sexto Primaria** conserva la experiencia basada en el Currículo Nacional Base (CNB) de Guatemala. **AWS Certified Cloud Practitioner** ofrece una muestra inicial de preparación para CLF-C02 cargada desde Firestore. El usuario elige un programa en la configuración inicial y puede cambiarlo en Ajustes; el avance de cada programa se guarda por separado.
+Plataforma web mobile-first (PWA) con dos programas. **Sexto Primaria** conserva la experiencia basada en el Currículo Nacional Base (CNB) de Guatemala. **AWS Certified Cloud Practitioner** ofrece un temario de preparación para los 19 objetivos CLF-C02 cargado desde Firestore. El usuario elige un programa en la configuración inicial y puede cambiarlo en Ajustes; el avance de cada programa se guarda por separado.
 
 ## El año completo
 | | |
@@ -59,7 +59,7 @@ La encuesta beta se abre desde Ajustes. Cada participante puede enviar y actuali
 
 ## Programa AWS en Firestore
 
-El cliente lee `programs/aws-cloud-practitioner` en Firestore. Las reglas permiten leer ese documento únicamente si `published` es `true`; las escrituras se realizan con credenciales administrativas. El contenido de muestra está en [`content/aws-cloud-practitioner.json`](content/aws-cloud-practitioner.json). Tiene cuatro dominios y una lección con preguntas explicadas por dominio, siguiendo la [guía oficial CLF-C02](https://docs.aws.amazon.com/es_es/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02.html). Es una muestra editable, no un curso de preparación completo.
+El cliente lee `programs/aws-cloud-practitioner` en Firestore. Las reglas permiten leer ese documento únicamente si `published` es `true`; las escrituras se realizan con credenciales administrativas. El contenido está en [`content/aws-cloud-practitioner.json`](content/aws-cloud-practitioner.json). Cubre los 19 enunciados de tareas de los cuatro dominios de la [guía oficial CLF-C02](https://docs.aws.amazon.com/es_es/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02.html), con lecturas breves y preguntas explicadas de respuesta única o múltiple. Las preguntas son material de práctica independiente y no reproducen el examen oficial.
 
 Para validar el archivo sin conectarse a Firebase, ejecuta `npm run publish:aws:dry-run`. Para publicarlo, configura credenciales de aplicación de Google con permiso de escritura en Firestore y ejecuta `GOOGLE_CLOUD_PROJECT=socrates-439aa npm run publish:aws`. Después despliega las reglas con `firebase deploy --only firestore:rules --project socrates-439aa`. El publicador exige el identificador exacto del proyecto para evitar escrituras accidentales en otro proyecto.
 
