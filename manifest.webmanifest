@@ -3,7 +3,7 @@
   "short_name": "Socrates",
   "id": "./",
   "scope": "./",
-  "description": "Experiencias interactivas basadas en el CNB de Guatemala",
+  "description": "Sexto Primaria CNB Guatemala y preparación para AWS Certified Cloud Practitioner",
   "lang": "es-GT",
   "start_url": "./",
   "display": "standalone",
@@ -11,7 +11,7 @@
   "orientation": "portrait",
   "background_color": "#FFF8EC",
   "theme_color": "#1F6F8B",
-  "categories": ["education", "kids"],
+  "categories": ["education"],
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },

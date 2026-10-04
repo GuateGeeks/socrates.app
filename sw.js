@@ -1,5 +1,5 @@
 const CACHE = 'socrates-shell-v4';
-const SHELL = ["./assets/beta-survey-submit-DsoZxRZh.js","./assets/cloud-sync-D2iZRhXB.js","./assets/firebase-ft4xej_f.js","./assets/index-C4UomBxS.js","./assets/style-DuXQbe-B.css","./icon.svg","./icons/icon-192.png","./icons/icon-512.png","./icons/maskable-192.png","./icons/maskable-512.png","./index.html","./manifest.webmanifest"];
+const SHELL = ["./assets/AwsExperience-UFqUOoc5.js","./assets/beta-survey-submit-5BVeqndr.js","./assets/cloud-sync-BwfOXb0s.js","./assets/firebase-ft4xej_f.js","./assets/index-B5ZV8ImA.js","./assets/style-mMw0ZtEN.css","./icon.svg","./icons/icon-192.png","./icons/icon-512.png","./icons/maskable-192.png","./icons/maskable-512.png","./index.html","./manifest.webmanifest"];
 self.addEventListener('install', (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL))));
 self.addEventListener('activate', (event) => event.waitUntil(
   caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('socrates-') && key !== CACHE).map((key) => caches.delete(key)))).then(() => self.clients.claim()),
