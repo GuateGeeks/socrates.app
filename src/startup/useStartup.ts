@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CloudSession } from '@/core/cloud-sync';
-import { completeOnboarding, loadLearnerProfile, saveLearnerProfile, type LearnerProfile } from '@/core/learner-profile';
+import { completeOnboarding, loadLearnerProfile, saveLearnerProfile, selectProgram, subscribeLearnerProfile, type LearnerProfile } from '@/core/learner-profile';
+import type { ProgramId } from '@/core/programs';
 import { updateProgress } from '@/core/progress';
 import { setReducedMotion } from '@/design-system/motion';
 
@@ -11,6 +12,7 @@ export function useStartup() {
   const [view, setView] = useState<StartupView>('splash');
   const [session, setSession] = useState<CloudSession | null>(null);
   const profileRef = useRef(profile);
+  useEffect(() => subscribeLearnerProfile((next) => { profileRef.current = next; setProfile(next); }), []);
   useEffect(() => {
     setReducedMotion(profile.reducedMotion);
     if (profile.theme === 'auto') delete document.documentElement.dataset.theme;
@@ -48,6 +50,7 @@ export function useStartup() {
   };
 
   const complete = () => {
+    if (!profile.activeProgram) { updateProfile({ onboardingStep: 'program' }); return; }
     const done = completeOnboarding(profile);
     if (!done.onboardingComplete) return;
     saveLearnerProfile(done);
@@ -61,5 +64,13 @@ export function useStartup() {
     setView('app');
   };
 
-  return { view, profile, updateProfile, complete };
+  const changeProgram = (id: ProgramId) => {
+    const next = selectProgram(profileRef.current, id);
+    saveLearnerProfile(next);
+    profileRef.current = next;
+    setProfile(next);
+    location.hash = '#/';
+  };
+
+  return { view, profile, updateProfile, complete, changeProgram };
 }

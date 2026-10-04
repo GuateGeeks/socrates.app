@@ -1,6 +1,8 @@
+import { isProgramId, type ProgramId } from './programs';
+
 export const AVATARS = ['Bird', 'Fox', 'Rabbit', 'Turtle', 'Cat', 'Dog'] as const;
 export const DAILY_GOALS = [30, 50, 100] as const;
-export const ONBOARDING_STEPS = ['welcome', 'name', 'avatar', 'goal', 'preferences', 'ready'] as const;
+export const ONBOARDING_STEPS = ['welcome', 'program', 'name', 'avatar', 'goal', 'preferences', 'ready'] as const;
 export type Avatar = typeof AVATARS[number];
 export type DailyGoal = typeof DAILY_GOALS[number];
 export type OnboardingStep = typeof ONBOARDING_STEPS[number];
@@ -16,6 +18,8 @@ export interface LearnerProfile {
   reducedMotion: boolean;
   onboardingStep: OnboardingStep;
   onboardingComplete: boolean;
+  activeProgram: ProgramId | null;
+  enrolledPrograms: ProgramId[];
   updatedAt: number;
 }
 
@@ -33,7 +37,7 @@ export function defaultLearnerProfile(now = Date.now()): LearnerProfile {
   return {
     schemaVersion: 1, displayName: '', avatar: 'Bird', dailyGoal: 50, theme: 'auto',
     sound: true, haptics: true, reducedMotion: false, onboardingStep: 'welcome',
-    onboardingComplete: false, updatedAt: now,
+    onboardingComplete: false, activeProgram: null, enrolledPrograms: [], updatedAt: now,
   };
 }
 
@@ -46,6 +50,10 @@ function hydrate(value: unknown, now: number): LearnerProfile {
   const base = defaultLearnerProfile(now);
   if (!value || typeof value !== 'object') return base;
   const raw = value as Partial<LearnerProfile>;
+  const activeProgram = isProgramId(raw.activeProgram) ? raw.activeProgram : raw.onboardingComplete === true ? 'cnb-sexto' : null;
+  const enrolledPrograms = Array.isArray(raw.enrolledPrograms)
+    ? [...new Set(raw.enrolledPrograms.filter(isProgramId))] : [];
+  if (activeProgram && !enrolledPrograms.includes(activeProgram)) enrolledPrograms.push(activeProgram);
   return {
     ...base,
     displayName: typeof raw.displayName === 'string' && raw.displayName.length <= 30 ? raw.displayName : base.displayName,
@@ -57,6 +65,8 @@ function hydrate(value: unknown, now: number): LearnerProfile {
     reducedMotion: typeof raw.reducedMotion === 'boolean' ? raw.reducedMotion : base.reducedMotion,
     onboardingStep: includes(ONBOARDING_STEPS, raw.onboardingStep) ? raw.onboardingStep : base.onboardingStep,
     onboardingComplete: raw.onboardingComplete === true,
+    activeProgram,
+    enrolledPrograms,
     updatedAt: typeof raw.updatedAt === 'number' && Number.isFinite(raw.updatedAt) ? raw.updatedAt : base.updatedAt,
   };
 }
@@ -69,7 +79,7 @@ export function saveLearnerProfile(profile: LearnerProfile, store: KeyValueStore
   try { store.setItem(KEY, JSON.stringify(profile)); } catch { /* storage can be unavailable */ }
   if (typeof localStorage !== 'undefined' && store === localStorage) listeners.forEach((listener) => listener(profile));
 }
-export function subscribeLearnerProfile(listener: (profile: LearnerProfile) => void) { listeners.add(listener); return () => listeners.delete(listener); }
+export function subscribeLearnerProfile(listener: (profile: LearnerProfile) => void) { listeners.add(listener); return () => { listeners.delete(listener); }; }
 export function parseLearnerProfile(value: unknown, now = Date.now()): LearnerProfile | null {
   if (!value || typeof value !== 'object' || (value as { schemaVersion?: unknown }).schemaVersion !== 1) return null;
   return hydrate(value, now);
@@ -81,12 +91,22 @@ export function updateLearnerProfile(patch: Partial<LearnerProfile>, store: KeyV
   return next;
 }
 
+export function selectProgram(profile: LearnerProfile, program: ProgramId, now = Date.now()): LearnerProfile {
+  return {
+    ...profile,
+    activeProgram: program,
+    enrolledPrograms: [...new Set([...profile.enrolledPrograms, program])],
+    updatedAt: now,
+  };
+}
+
 export function advanceOnboarding(profile: LearnerProfile, step: OnboardingStep, now = Date.now()): LearnerProfile {
   return { ...profile, onboardingStep: step, updatedAt: now };
 }
 
 export function completeOnboarding(profile: LearnerProfile, now = Date.now()): LearnerProfile {
   const name = validateLearnerName(profile.displayName);
-  if (!name.valid) return profile;
-  return { ...profile, displayName: name.value, onboardingStep: 'ready', onboardingComplete: true, updatedAt: now };
+  if (!name.valid || !profile.activeProgram) return profile;
+  return { ...profile, displayName: name.value, onboardingStep: 'ready', onboardingComplete: true,
+    enrolledPrograms: [...new Set([...profile.enrolledPrograms, profile.activeProgram])], updatedAt: now };
 }

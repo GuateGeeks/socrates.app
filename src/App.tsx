@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { href, useRoute, type Route } from '@/core/router';
 import { useProgress } from '@/core/progress';
 import { setReducedMotion } from '@/design-system/motion';
@@ -21,6 +21,11 @@ import { Sistema } from '@/screens/Sistema';
 import { Ajustes } from '@/screens/Ajustes';
 import { EncuestaBeta } from '@/screens/EncuestaBeta';
 import { activateUpdate } from '@/pwa/service-worker';
+import type { LearnerProfile } from '@/core/learner-profile';
+import type { ProgramId } from '@/core/programs';
+import { preferencesForProgram } from '@/core/program-settings';
+
+const AwsExperience = lazy(() => import('@/aws/AwsExperience').then((module) => ({ default: module.AwsExperience })));
 
 const TABS: { route: Route; icon: string; label: string; match: Route['name'][] }[] = [
   { route: { name: 'home' }, icon: 'House', label: 'Hoy', match: ['home', 'repaso'] },
@@ -30,9 +35,10 @@ const TABS: { route: Route; icon: string; label: string; match: Route['name'][] 
   { route: { name: 'perfil' }, icon: 'CircleUser', label: 'Perfil', match: ['perfil', 'logros', 'docente', 'medios', 'sistema', 'ajustes', 'encuesta-beta'] },
 ];
 
-export function App() {
+export function App({ profile, changeProgram }: { profile: LearnerProfile; changeProgram(id: ProgramId): void }) {
   const route = useRoute();
   const settings = useProgress((p) => p.settings);
+  const activeSettings = preferencesForProgram(profile.activeProgram, settings, profile);
   const [updateWorker, setUpdateWorker] = useState<ServiceWorker | null>(null);
 
   useEffect(() => {
@@ -42,11 +48,13 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    setReducedMotion(settings.reducedMotion);
-    configureFeedback({ sound: settings.sound, haptics: settings.haptics });
+    setReducedMotion(activeSettings.reducedMotion);
+    configureFeedback({ sound: activeSettings.sound, haptics: activeSettings.haptics });
     const root = document.documentElement;
-    if (settings.theme === 'auto') delete root.dataset.theme; else root.dataset.theme = settings.theme;
-  }, [settings]);
+    if (activeSettings.theme === 'auto') delete root.dataset.theme; else root.dataset.theme = activeSettings.theme;
+  }, [activeSettings.reducedMotion, activeSettings.sound, activeSettings.haptics, activeSettings.theme]);
+
+  if (profile.activeProgram === 'aws-cloud-practitioner') return <Suspense fallback={<main className="ds-page" role="status">Cargando programa AWS…</main>}><AwsExperience route={route} profile={profile} changeProgram={changeProgram} /></Suspense>;
 
   let screen;
   switch (route.name) {
@@ -70,7 +78,7 @@ export function App() {
     case 'docente': screen = <Docente />; break;
     case 'medios': screen = <Medios />; break;
     case 'sistema': screen = <Sistema />; break;
-    case 'ajustes': screen = <Ajustes />; break;
+    case 'ajustes': screen = <Ajustes activeProgram="cnb-sexto" profile={profile} changeProgram={changeProgram} />; break;
     case 'encuesta-beta': screen = <EncuestaBeta />; break;
     default: screen = <Home />;
   }

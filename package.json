@@ -2,7 +2,7 @@
   "name": "socrates-aprende",
   "private": true,
   "version": "0.2.0",
-  "description": "Socrates Aprende — ciclo escolar completo (40 semanas) de experiencias interactivas basadas en el CNB de Guatemala (Sexto Primaria).",
+  "description": "Socrates Aprende — programas educativos de Sexto Primaria CNB Guatemala y AWS Certified Cloud Practitioner.",
   "type": "module",
   "scripts": {
     "cnb": "node scripts/build-cnb.mjs ../contenido",
@@ -13,10 +13,12 @@
     "pwa:icons": "node scripts/gen-pwa-icons.mjs",
     "pwa:inject": "node scripts/inject-pwa-assets.mjs",
     "preview": "vite preview --host",
-    "validate": "tsx scripts/validate-content.ts",
-    "test": "tsx --test tests/*.test.ts",
+    "validate": "node --import tsx scripts/validate-content.ts",
+    "test": "node --import tsx --test tests/*.test.ts",
     "build:standalone": "npm run icons && node scripts/build-standalone.mjs",
-    "e2e": "npm run build:standalone && node tests/e2e.mjs"
+    "e2e": "npm run build:standalone && node tests/e2e.mjs",
+    "publish:aws:dry-run": "node --import tsx scripts/publish-aws-course.ts",
+    "publish:aws": "node --import tsx scripts/publish-aws-course.ts --publish"
   },
   "dependencies": {
     "firebase": "^12.19.0",
@@ -24,12 +26,16 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
+  "overrides": {
+    "@grpc/grpc-js": "^1.14.5"
+  },
   "devDependencies": {
     "@types/node": "^22.10.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^5.0.0",
     "esbuild": "^0.25.0",
+    "firebase-admin": "^14.5.0",
     "playwright": "^1.55.0",
     "sharp": "^0.35.5",
     "tsx": "^4.19.0",

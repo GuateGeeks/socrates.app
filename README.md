@@ -1,6 +1,6 @@
-# Socrates Aprende · Sexto Primaria
+# Socrates Aprende · programas educativos
 
-Plataforma web mobile-first (PWA) para **aprender a tu ritmo durante todo el ciclo escolar**, construida sobre el **Currículo Nacional Base (CNB) de Guatemala**. Funciona como "Brilliant": cada día una lección corta e interactiva, retos de validación, repaso inteligente y un cuaderno personal.
+Plataforma web mobile-first (PWA) con dos programas. **Sexto Primaria** conserva la experiencia basada en el Currículo Nacional Base (CNB) de Guatemala. **AWS Certified Cloud Practitioner** ofrece una muestra inicial de preparación para CLF-C02 cargada desde Firestore. El usuario elige un programa en la configuración inicial y puede cambiarlo en Ajustes; el avance de cada programa se guarda por separado.
 
 ## El año completo
 | | |
@@ -56,3 +56,11 @@ La aplicación funciona primero con almacenamiento local y sincroniza en segundo
 Los archivos `.firebaserc`, `firebase.json`, `firestore.rules` y `database.rules.json` permiten usar Firebase CLI y emuladores sin guardar credenciales privadas. El cliente usa el archivo raíz `firebase.ts` como configuración canónica. Un push a `main` activa `.github/workflows/deploy-pages.yml` para publicar el frontend en GitHub Pages; ese flujo no despliega la configuración de Firebase.
 
 La encuesta beta se abre desde Ajustes. Cada participante puede enviar y actualizar una respuesta; se guarda en Firestore como `betaSurveyResponses/{uid}` con el nombre de su perfil. Solo ese usuario autenticado puede leer o escribir su documento desde la app. El equipo del proyecto puede revisar las respuestas desde Firebase Console.
+
+## Programa AWS en Firestore
+
+El cliente lee `programs/aws-cloud-practitioner` en Firestore. Las reglas permiten leer ese documento únicamente si `published` es `true`; las escrituras se realizan con credenciales administrativas. El contenido de muestra está en [`content/aws-cloud-practitioner.json`](content/aws-cloud-practitioner.json). Tiene cuatro dominios y una lección con preguntas explicadas por dominio, siguiendo la [guía oficial CLF-C02](https://docs.aws.amazon.com/es_es/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02.html). Es una muestra editable, no un curso de preparación completo.
+
+Para validar el archivo sin conectarse a Firebase, ejecuta `npm run publish:aws:dry-run`. Para publicarlo, configura credenciales de aplicación de Google con permiso de escritura en Firestore y ejecuta `GOOGLE_CLOUD_PROJECT=socrates-439aa npm run publish:aws`. Después despliega las reglas con `firebase deploy --only firestore:rules --project socrates-439aa`. El publicador exige el identificador exacto del proyecto para evitar escrituras accidentales en otro proyecto.
+
+El progreso AWS se guarda en `socrates.aws-progress.v1` y se sincroniza en `users/{uid}/state/aws-cloud-practitioner`; el progreso CNB conserva su clave y documento anteriores. El acceso anónimo actual permite continuidad en la misma instalación del navegador.

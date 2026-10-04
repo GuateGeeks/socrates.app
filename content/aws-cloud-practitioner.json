@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "programId": "aws-cloud-practitioner",
+  "published": true,
+  "examCode": "CLF-C02",
+  "title": "AWS Certified Cloud Practitioner",
+  "description": "Muestra inicial de preparación para la certificación. Aprende conceptos clave y practica con preguntas explicadas.",
+  "sourceUrl": "https://docs.aws.amazon.com/es_es/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02.html",
+  "domains": [
+    {
+      "id": "cloud-concepts",
+      "title": "Conceptos de la nube",
+      "weight": 24,
+      "lessons": [
+        {
+          "id": "cloud-value",
+          "title": "Valor y elasticidad de la nube",
+          "minutes": 8,
+          "summary": "Distingue agilidad, elasticidad y pago por uso.",
+          "sections": [
+            { "heading": "De capacidad fija a capacidad flexible", "body": "En un centro de datos propio se compra capacidad antes de conocer la demanda exacta. En la nube puedes aprovisionar recursos cuando los necesitas y liberarlos después. Esto reduce el tiempo de espera para experimentar y lanzar soluciones." },
+            { "heading": "Elasticidad y escalabilidad", "body": "Escalar significa aumentar o reducir la capacidad de un sistema. Elasticidad significa ajustar esa capacidad según cambia la demanda. Si un sitio recibe más visitas durante unas horas, puede usar más recursos solo durante ese periodo." },
+            { "heading": "Economía de la nube", "body": "El modelo de pago por uso convierte parte del gasto fijo en gasto variable. Sigue siendo necesario supervisar el consumo y ajustar los recursos para evitar costos innecesarios." }
+          ],
+          "questions": [
+            { "id": "cloud-q1", "prompt": "Una tienda necesita más capacidad solo durante una campaña de dos días. ¿Qué beneficio de la nube responde mejor a esta necesidad?", "options": ["Elasticidad", "Comprar servidores para cinco años", "Una sola zona de disponibilidad", "Una dirección IP fija"], "correctOption": 0, "explanation": "La elasticidad permite ajustar recursos cuando cambia la demanda y reducirlos al terminar la campaña." },
+            { "id": "cloud-q2", "prompt": "¿Qué describe mejor el modelo de pago por uso?", "options": ["Pagar siempre una cantidad fija sin importar el consumo", "Pagar según los recursos consumidos", "No supervisar los costos", "Comprar todo el hardware por adelantado"], "correctOption": 1, "explanation": "El gasto depende del consumo de los recursos, aunque cada servicio tiene sus propias reglas de precio." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "security-compliance",
+      "title": "Seguridad y cumplimiento",
+      "weight": 30,
+      "lessons": [
+        {
+          "id": "shared-responsibility",
+          "title": "Responsabilidad compartida e IAM",
+          "minutes": 9,
+          "summary": "Reconoce qué protege AWS y qué debe configurar el cliente.",
+          "sections": [
+            { "heading": "Responsabilidad compartida", "body": "AWS protege la infraestructura que ejecuta sus servicios: centros de datos, hardware y componentes fundamentales. El cliente protege lo que configura y usa en la nube, como identidades, permisos, datos y ciertas configuraciones de red. El reparto preciso depende del servicio." },
+            { "heading": "Acceso de mínimo privilegio", "body": "AWS Identity and Access Management (IAM) controla quién puede hacer qué. Conceder solo los permisos necesarios limita el daño de errores o credenciales comprometidas. Se recomienda proteger el acceso con autenticación multifactor cuando corresponda." },
+            { "heading": "Elegir la respuesta", "body": "En preguntas de examen, identifica primero el servicio y la tarea. AWS puede administrar la infraestructura subyacente, mientras el cliente sigue siendo responsable de clasificar sus datos y configurar el acceso." }
+          ],
+          "questions": [
+            { "id": "security-q1", "prompt": "¿Quién suele ser responsable de configurar los permisos de acceso a los datos almacenados por un cliente en AWS?", "options": ["El cliente", "Solo AWS", "El proveedor de internet", "El examinador"], "correctOption": 0, "explanation": "El cliente configura el acceso a sus datos; AWS protege la infraestructura de sus servicios." },
+            { "id": "security-q2", "prompt": "¿Qué principio recomienda conceder únicamente los permisos necesarios para una tarea?", "options": ["Alta disponibilidad", "Mínimo privilegio", "Escalado automático", "Pago por uso"], "correctOption": 1, "explanation": "Mínimo privilegio limita el alcance de cada identidad a las acciones que necesita." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "technology-services",
+      "title": "Tecnología y servicios en la nube",
+      "weight": 34,
+      "lessons": [
+        {
+          "id": "global-infrastructure",
+          "title": "Regiones, zonas y servicios básicos",
+          "minutes": 10,
+          "summary": "Relaciona infraestructura global con cómputo y almacenamiento.",
+          "sections": [
+            { "heading": "Infraestructura global", "body": "Una Región de AWS es una ubicación geográfica. Cada Región tiene varias Zonas de Disponibilidad independientes. Distribuir cargas entre zonas puede mejorar la disponibilidad; elegir una Región también influye en latencia y requisitos de residencia de datos." },
+            { "heading": "Cómputo y almacenamiento", "body": "Amazon EC2 proporciona instancias de cómputo configurables. AWS Lambda ejecuta código en respuesta a eventos sin administrar servidores. Amazon S3 almacena objetos, como archivos y copias de seguridad. Selecciona el servicio según la carga de trabajo." },
+            { "heading": "Identificar el servicio", "body": "Para resolver una pregunta, distingue la necesidad principal: ejecutar una máquina virtual, responder a eventos o almacenar objetos. Un nombre de servicio parecido no sustituye la lectura del caso de uso." }
+          ],
+          "questions": [
+            { "id": "technology-q1", "prompt": "Una aplicación necesita guardar millones de archivos como objetos. ¿Qué servicio encaja mejor?", "options": ["Amazon S3", "Amazon EC2", "AWS IAM", "AWS Budgets"], "correctOption": 0, "explanation": "Amazon S3 es un servicio de almacenamiento de objetos." },
+            { "id": "technology-q2", "prompt": "¿Qué es una Zona de Disponibilidad?", "options": ["Un plan de soporte", "Una ubicación aislada dentro de una Región", "Una política de IAM", "Un tipo de factura"], "correctOption": 1, "explanation": "Las Zonas de Disponibilidad son ubicaciones separadas dentro de una Región de AWS." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "billing-pricing-support",
+      "title": "Facturación, precios y soporte",
+      "weight": 12,
+      "lessons": [
+        {
+          "id": "cost-tools",
+          "title": "Presupuestos y opciones de precio",
+          "minutes": 8,
+          "summary": "Diferencia herramientas de costos y modelos de compra.",
+          "sections": [
+            { "heading": "Herramientas de costos", "body": "AWS Budgets permite crear presupuestos y alertas. AWS Cost Explorer ayuda a analizar el gasto histórico y sus tendencias. La calculadora de precios de AWS sirve para estimar costos antes de desplegar una solución." },
+            { "heading": "Opciones de compra", "body": "On-Demand resulta útil cuando necesitas flexibilidad sin un compromiso de uso previo. Savings Plans pueden reducir costos a cambio de un compromiso de uso. Las instancias Spot aprovechan capacidad disponible, pero pueden interrumpirse." },
+            { "heading": "La decisión depende del caso", "body": "Compara estabilidad de la carga, tolerancia a interrupciones y duración prevista. Ninguna opción es siempre la más barata para todos los escenarios." }
+          ],
+          "questions": [
+            { "id": "billing-q1", "prompt": "¿Qué herramienta permite crear alertas cuando el gasto se aproxima a un límite definido?", "options": ["AWS Budgets", "Amazon S3", "AWS IAM", "Amazon Route 53"], "correctOption": 0, "explanation": "AWS Budgets permite establecer umbrales de presupuesto y recibir alertas." },
+            { "id": "billing-q2", "prompt": "Una tarea tolera interrupciones y busca aprovechar capacidad disponible con descuento. ¿Qué opción corresponde?", "options": ["Instancias Spot", "On-Demand por obligación", "Una Zona de Disponibilidad", "AWS Cost Explorer"], "correctOption": 0, "explanation": "Las instancias Spot usan capacidad disponible y pueden interrumpirse." }
+          ]
+        }
+      ]
+    }
+  ]
+}

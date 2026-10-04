@@ -17,7 +17,7 @@ function Root() {
   const startup = useStartup();
   if (startup.view === 'splash') return <Splash />;
   if (startup.view === 'onboarding') return <Onboarding profile={startup.profile} updateProfile={startup.updateProfile} complete={startup.complete} />;
-  return <App />;
+  return <App profile={startup.profile} changeProgram={startup.changeProgram} />;
 }
 
 createRoot(document.getElementById('root')!).render(

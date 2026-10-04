@@ -17,7 +17,10 @@ export type Route =
   | { name: 'medios' }
   | { name: 'sistema' }
   | { name: 'ajustes' }
-  | { name: 'encuesta-beta' };
+  | { name: 'encuesta-beta' }
+  | { name: 'aws-curriculum' }
+  | { name: 'aws-domain'; domainId: string }
+  | { name: 'aws-lesson'; lessonId: string };
 
 export function parse(hash: string): Route {
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
@@ -37,6 +40,9 @@ export function parse(hash: string): Route {
     case 'sistema': return { name: 'sistema' };
     case 'ajustes': return { name: 'ajustes' };
     case 'encuesta-beta': return { name: 'encuesta-beta' };
+    case 'aws-temario': return { name: 'aws-curriculum' };
+    case 'aws-dominio': return parts[1] ? { name: 'aws-domain', domainId: parts[1] } : { name: 'aws-curriculum' };
+    case 'aws-leccion': return parts[1] ? { name: 'aws-lesson', lessonId: parts[1] } : { name: 'aws-curriculum' };
     default: return { name: 'home' };
   }
 }
@@ -48,6 +54,9 @@ export function href(r: Route): string {
     case 'lesson': return `#/leccion/${encodeURIComponent(r.missionId)}/${encodeURIComponent(r.lessonId)}`;
     case 'explorar': return r.area ? `#/explorar/${r.area}` : '#/explorar';
     case 'materia': return `#/materia/${r.area}`;
+    case 'aws-curriculum': return '#/aws-temario';
+    case 'aws-domain': return `#/aws-dominio/${encodeURIComponent(r.domainId)}`;
+    case 'aws-lesson': return `#/aws-leccion/${encodeURIComponent(r.lessonId)}`;
     default: return `#/${r.name}`;
   }
 }

@@ -1,4 +1,4 @@
-// ARCHIVO GENERADO por `npm run icons` — no editar a mano. 443 íconos de Lucide (ISC).
+// ARCHIVO GENERADO por `npm run icons` — no editar a mano. 446 íconos de Lucide (ISC).
 import type { ComponentType } from 'react';
 import {
   Accessibility,
@@ -112,6 +112,7 @@ import {
   Clock9,
   Cloud,
   CloudFog,
+  CloudOff,
   CloudRain,
   CloudSun,
   Coffee,
@@ -153,6 +154,7 @@ import {
   Egg,
   Equal,
   Eraser,
+  ExternalLink,
   Eye,
   EyeOff,
   Factory,
@@ -344,6 +346,7 @@ import {
   Search,
   SearchCheck,
   Send,
+  Server,
   Settings,
   Shapes,
   Share2,
@@ -559,6 +562,7 @@ export const ICONS: Record<string, IconComponent> = {
   Clock9,
   Cloud,
   CloudFog,
+  CloudOff,
   CloudRain,
   CloudSun,
   Coffee,
@@ -600,6 +604,7 @@ export const ICONS: Record<string, IconComponent> = {
   Egg,
   Equal,
   Eraser,
+  ExternalLink,
   Eye,
   EyeOff,
   Factory,
@@ -791,6 +796,7 @@ export const ICONS: Record<string, IconComponent> = {
   Search,
   SearchCheck,
   Send,
+  Server,
   Settings,
   Shapes,
   Share2,
@@ -892,4 +898,4 @@ export const ICONS: Record<string, IconComponent> = {
   Wrench,
   Zap,
 } as unknown as Record<string, IconComponent>;
-export const ICON_NAMES: string[] = ["Accessibility","Activity","AlarmClock","AlertCircle","AlertTriangle","AlignJustify","AlignLeft","Anchor","Angry","AppWindow","Apple","Archive","Armchair","ArrowDown","ArrowDownLeft","ArrowDownRight","ArrowDownToLine","ArrowLeft","ArrowLeftRight","ArrowRight","ArrowRightLeft","ArrowUp","ArrowUpDown","ArrowUpFromLine","ArrowUpLeft","ArrowUpRight","Asterisk","AtSign","Atom","AudioLines","AudioWaveform","Award","Baby","Backpack","BadgeCheck","BadgeDollarSign","Ban","Banana","Banknote","BarChart3","Battery","Beaker","Bike","Binary","Bird","Blocks","Bold","Bone","Book","BookOpen","BookOpenCheck","BookOpenText","Bookmark","BookmarkCheck","Box","Boxes","Braces","Brain","Briefcase","BriefcaseBusiness","Brush","Bug","Building","Building2","Bus","Cable","Calculator","Calendar","CalendarCheck","CalendarDays","CalendarRange","Camera","Candy","Car","Carrot","CaseSensitive","Castle","Cat","ChartColumn","ChartNoAxesColumn","ChartNoAxesColumnIncreasing","ChartNoAxesCombined","Check","CheckCheck","CheckCircle","Cherry","ChevronRight","ChevronUp","ChevronsLeftRight","ChevronsRight","Church","Circle","CircleAlert","CircleCheck","CircleDashed","CircleDot","CircleDotDashed","CircleHelp","CircleOff","CirclePause","CircleUser","Citrus","Clapperboard","ClipboardCheck","ClipboardList","Clock","Clock3","Clock6","Clock9","Cloud","CloudFog","CloudRain","CloudSun","Coffee","Cog","Coins","Columns","Columns2","Columns3","Combine","Compass","Cone","Construction","Container","Contrast","CookingPot","Copy","CopyPlus","CopyX","CornerDownRight","Cpu","Crown","Cylinder","Diamond","Dice5","Divide","Dna","Dog","DoorClosed","DoorOpen","Dot","Download","Drama","Droplet","Droplets","Drum","Dumbbell","Ear","Earth","Egg","Equal","Eraser","Eye","EyeOff","Factory","Fan","FastForward","Feather","Fence","FileCheck","FileCheck2","FileSearch","FileText","FileWarning","Files","Film","Filter","Fish","Flag","Flame","FlaskConical","FlipHorizontal","Flower","Flower2","FoldHorizontal","FolderOpen","Footprints","Frown","Fuel","Gauge","Gavel","Gem","Gift","GitBranch","GitCompare","GitCompareArrows","GlassWater","Globe","Globe2","Goal","GraduationCap","Grape","Grid3x3","Guitar","Hammer","Hand","HandCoins","HandHeart","HandHelping","Handshake","HardHat","Hash","Heading","Headphones","Heart","HeartHandshake","HeartPulse","HelpCircle","Hexagon","Highlighter","History","Home","Hourglass","House","Image","Info","Italic","Key","Landmark","Languages","Laptop","Layers","LayoutGrid","LayoutPanelTop","Leaf","Library","LibraryBig","Lightbulb","Link","Link2","List","ListChecks","ListOrdered","ListPlus","ListRestart","ListTree","Lock","Mail","MailCheck","Map","MapPin","MapPinned","Maximize","Maximize2","Medal","Megaphone","Meh","Merge","MessageCircle","MessageCircleOff","MessageCircleQuestion","MessageSquareCheck","MessageSquareHeart","MessageSquareMore","MessageSquareText","MessagesSquare","Mic","Microscope","Milk","Minus","Monitor","Moon","MoreHorizontal","Mountain","MountainSnow","MousePointer2","Move","MoveHorizontal","MoveRight","MoveVertical","Music","Music2","Navigation","Network","Newspaper","Notebook","NotebookPen","Octagon","OctagonX","Package","PackageCheck","PackageOpen","PaintRoller","Paintbrush","Palette","PanelTop","PanelsTopLeft","Paperclip","Parentheses","PartyPopper","Pause","PawPrint","PenLine","PenTool","Pencil","PencilRuler","Pentagon","Percent","PersonStanding","Phone","Piano","Pickaxe","PieChart","PiggyBank","Pill","Pizza","Plane","Play","Plug","Plus","Pointer","Presentation","Puzzle","Quote","Rabbit","Radio","RadioTower","Receipt","RectangleHorizontal","Recycle","RefreshCcw","RefreshCw","Refrigerator","Repeat","Rocket","Rotate3D","RotateCcw","RotateCw","Route","Rows3","Ruler","Sailboat","Salad","Satellite","Scale","ScanLine","ScanSearch","School","Scissors","ScrollText","Search","SearchCheck","Send","Settings","Shapes","Share2","Shell","Shield","ShieldAlert","ShieldCheck","Ship","Shirt","ShoppingBasket","ShoppingCart","Shovel","Shuffle","Sigma","Signpost","SignpostBig","Slash","Slice","SlidersHorizontal","Smartphone","Smile","Snowflake","Sparkles","SpellCheck","Split","SplitSquareHorizontal","Sprout","Square","SquareSplitHorizontal","SquaresIntersect","Squirrel","Stamp","Star","Stethoscope","StickyNote","Store","Sun","Sunrise","Sunset","Sword","Syringe","Table","Table2","TableProperties","Tag","Tags","Target","Telescope","Tent","TextCursorInput","Theater","Thermometer","ThermometerSnowflake","ThumbsDown","ThumbsUp","Timer","ToggleRight","ToyBrick","Tractor","Train","Trash2","TreeDeciduous","TreePine","Trees","TrendingDown","TrendingUp","Triangle","TriangleAlert","TriangleRight","Trophy","Truck","Turtle","Tv","Type","Unlock","User","UserCheck","UserRoundCog","UserX","Users","UsersRound","Utensils","UtensilsCrossed","Video","Volume","Volume1","Volume2","VolumeX","Vote","Wallet","WalletCards","Warehouse","Waves","Waypoints","Weight","Wheat","Wind","Workflow","Wrench","Zap"];
+export const ICON_NAMES: string[] = ["Accessibility","Activity","AlarmClock","AlertCircle","AlertTriangle","AlignJustify","AlignLeft","Anchor","Angry","AppWindow","Apple","Archive","Armchair","ArrowDown","ArrowDownLeft","ArrowDownRight","ArrowDownToLine","ArrowLeft","ArrowLeftRight","ArrowRight","ArrowRightLeft","ArrowUp","ArrowUpDown","ArrowUpFromLine","ArrowUpLeft","ArrowUpRight","Asterisk","AtSign","Atom","AudioLines","AudioWaveform","Award","Baby","Backpack","BadgeCheck","BadgeDollarSign","Ban","Banana","Banknote","BarChart3","Battery","Beaker","Bike","Binary","Bird","Blocks","Bold","Bone","Book","BookOpen","BookOpenCheck","BookOpenText","Bookmark","BookmarkCheck","Box","Boxes","Braces","Brain","Briefcase","BriefcaseBusiness","Brush","Bug","Building","Building2","Bus","Cable","Calculator","Calendar","CalendarCheck","CalendarDays","CalendarRange","Camera","Candy","Car","Carrot","CaseSensitive","Castle","Cat","ChartColumn","ChartNoAxesColumn","ChartNoAxesColumnIncreasing","ChartNoAxesCombined","Check","CheckCheck","CheckCircle","Cherry","ChevronRight","ChevronUp","ChevronsLeftRight","ChevronsRight","Church","Circle","CircleAlert","CircleCheck","CircleDashed","CircleDot","CircleDotDashed","CircleHelp","CircleOff","CirclePause","CircleUser","Citrus","Clapperboard","ClipboardCheck","ClipboardList","Clock","Clock3","Clock6","Clock9","Cloud","CloudFog","CloudOff","CloudRain","CloudSun","Coffee","Cog","Coins","Columns","Columns2","Columns3","Combine","Compass","Cone","Construction","Container","Contrast","CookingPot","Copy","CopyPlus","CopyX","CornerDownRight","Cpu","Crown","Cylinder","Diamond","Dice5","Divide","Dna","Dog","DoorClosed","DoorOpen","Dot","Download","Drama","Droplet","Droplets","Drum","Dumbbell","Ear","Earth","Egg","Equal","Eraser","ExternalLink","Eye","EyeOff","Factory","Fan","FastForward","Feather","Fence","FileCheck","FileCheck2","FileSearch","FileText","FileWarning","Files","Film","Filter","Fish","Flag","Flame","FlaskConical","FlipHorizontal","Flower","Flower2","FoldHorizontal","FolderOpen","Footprints","Frown","Fuel","Gauge","Gavel","Gem","Gift","GitBranch","GitCompare","GitCompareArrows","GlassWater","Globe","Globe2","Goal","GraduationCap","Grape","Grid3x3","Guitar","Hammer","Hand","HandCoins","HandHeart","HandHelping","Handshake","HardHat","Hash","Heading","Headphones","Heart","HeartHandshake","HeartPulse","HelpCircle","Hexagon","Highlighter","History","Home","Hourglass","House","Image","Info","Italic","Key","Landmark","Languages","Laptop","Layers","LayoutGrid","LayoutPanelTop","Leaf","Library","LibraryBig","Lightbulb","Link","Link2","List","ListChecks","ListOrdered","ListPlus","ListRestart","ListTree","Lock","Mail","MailCheck","Map","MapPin","MapPinned","Maximize","Maximize2","Medal","Megaphone","Meh","Merge","MessageCircle","MessageCircleOff","MessageCircleQuestion","MessageSquareCheck","MessageSquareHeart","MessageSquareMore","MessageSquareText","MessagesSquare","Mic","Microscope","Milk","Minus","Monitor","Moon","MoreHorizontal","Mountain","MountainSnow","MousePointer2","Move","MoveHorizontal","MoveRight","MoveVertical","Music","Music2","Navigation","Network","Newspaper","Notebook","NotebookPen","Octagon","OctagonX","Package","PackageCheck","PackageOpen","PaintRoller","Paintbrush","Palette","PanelTop","PanelsTopLeft","Paperclip","Parentheses","PartyPopper","Pause","PawPrint","PenLine","PenTool","Pencil","PencilRuler","Pentagon","Percent","PersonStanding","Phone","Piano","Pickaxe","PieChart","PiggyBank","Pill","Pizza","Plane","Play","Plug","Plus","Pointer","Presentation","Puzzle","Quote","Rabbit","Radio","RadioTower","Receipt","RectangleHorizontal","Recycle","RefreshCcw","RefreshCw","Refrigerator","Repeat","Rocket","Rotate3D","RotateCcw","RotateCw","Route","Rows3","Ruler","Sailboat","Salad","Satellite","Scale","ScanLine","ScanSearch","School","Scissors","ScrollText","Search","SearchCheck","Send","Server","Settings","Shapes","Share2","Shell","Shield","ShieldAlert","ShieldCheck","Ship","Shirt","ShoppingBasket","ShoppingCart","Shovel","Shuffle","Sigma","Signpost","SignpostBig","Slash","Slice","SlidersHorizontal","Smartphone","Smile","Snowflake","Sparkles","SpellCheck","Split","SplitSquareHorizontal","Sprout","Square","SquareSplitHorizontal","SquaresIntersect","Squirrel","Stamp","Star","Stethoscope","StickyNote","Store","Sun","Sunrise","Sunset","Sword","Syringe","Table","Table2","TableProperties","Tag","Tags","Target","Telescope","Tent","TextCursorInput","Theater","Thermometer","ThermometerSnowflake","ThumbsDown","ThumbsUp","Timer","ToggleRight","ToyBrick","Tractor","Train","Trash2","TreeDeciduous","TreePine","Trees","TrendingDown","TrendingUp","Triangle","TriangleAlert","TriangleRight","Trophy","Truck","Turtle","Tv","Type","Unlock","User","UserCheck","UserRoundCog","UserX","Users","UsersRound","Utensils","UtensilsCrossed","Video","Volume","Volume1","Volume2","VolumeX","Vote","Wallet","WalletCards","Warehouse","Waves","Waypoints","Weight","Wheat","Wind","Workflow","Wrench","Zap"];

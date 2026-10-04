@@ -4,6 +4,8 @@ import { onDisconnect, onValue, push, ref, remove, serverTimestamp as rtdbTimest
 import { auth, firestore, realtime } from '../../firebase';
 import { getProgress, importProgress, isValidProgress, progressUpdatedAt, subscribe, type Progress } from './progress';
 import { parseLearnerProfile, saveLearnerProfile, subscribeLearnerProfile, type LearnerProfile } from './learner-profile';
+import { startAwsCloudSync } from '@/aws/cloud-progress';
+import { startRetriedCloudSync } from './retry-cloud-sync';
 
 export interface CloudProgressSnapshot { schemaVersion: 1; snapshot: Progress; clientUpdatedAt: number }
 export interface CloudSession { uid: string; stop(): void }
@@ -73,6 +75,7 @@ export async function startCloudSession(profile: LearnerProfile): Promise<CloudS
     });
     const unsubscribeProfile = subscribeLearnerProfile((next) => { currentProfile = next; void syncLearnerProfile(user.uid, next); });
     if (currentProfile.updatedAt !== profile.updatedAt) await syncLearnerProfile(user.uid, currentProfile);
+    const stopAws = startRetriedCloudSync(() => startAwsCloudSync(user.uid));
 
     const connected = ref(realtime, '.info/connected');
     const connection = push(ref(realtime, `presence/${user.uid}`));
@@ -82,6 +85,6 @@ export async function startCloudSession(profile: LearnerProfile): Promise<CloudS
         state: 'online', startedAt: rtdbTimestamp(), lastChanged: rtdbTimestamp(), appVersion: '0.2.0',
       }));
     });
-    return { uid: user.uid, stop() { clearTimeout(timer); unsubscribeProgress(); unsubscribeProfile(); unsubscribePresence(); void remove(connection); } };
+    return { uid: user.uid, stop() { clearTimeout(timer); unsubscribeProgress(); unsubscribeProfile(); unsubscribePresence(); stopAws(); void remove(connection); } };
   } catch { return null; }
 }
