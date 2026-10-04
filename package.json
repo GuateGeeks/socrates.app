@@ -15,6 +15,7 @@
     "preview": "vite preview --host",
     "validate": "node --import tsx scripts/validate-content.ts",
     "test": "node --import tsx --test tests/*.test.ts",
+    "test:ui": "node tests/interface-theme.mjs && node --import tsx tests/interface-e2e.mjs",
     "build:standalone": "npm run icons && node scripts/build-standalone.mjs",
     "e2e": "npm run build:standalone && node tests/e2e.mjs",
     "publish:aws:dry-run": "node --import tsx scripts/publish-aws-course.ts",

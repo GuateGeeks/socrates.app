@@ -243,7 +243,7 @@
 .we-problem { display: flex; gap: var(--sp-3); align-items: flex-start; padding: var(--sp-3); border-radius: var(--r-md); background: var(--c-surface-2); font-size: var(--fs-md); }
 .we-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .we-steps li { display: flex; gap: var(--sp-3); align-items: flex-start; padding: 10px var(--sp-3); border-radius: var(--r-md); border: 2px solid var(--c-line); background: var(--c-surface); }
-.we-num { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--mission, var(--c-jade)); }
+.we-num { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: color-mix(in srgb, var(--mission, var(--c-jade-fill)) 45%, #000); }
 .we-why { margin-top: 4px; }
 .we-next { min-height: var(--tap-min); border-radius: var(--r-md); border: 2px dashed var(--mission, var(--c-jade)); background: transparent; color: var(--c-ink); font-weight: 800; }
 .we-answer, .we-tip { display: flex; gap: 8px; align-items: flex-start; padding: 10px var(--sp-3); border-radius: var(--r-md); }

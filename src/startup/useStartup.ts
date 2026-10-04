@@ -3,7 +3,6 @@ import type { CloudSession } from '@/core/cloud-sync';
 import { completeOnboarding, loadLearnerProfile, saveLearnerProfile, selectProgram, subscribeLearnerProfile, type LearnerProfile } from '@/core/learner-profile';
 import type { ProgramId } from '@/core/programs';
 import { updateProgress } from '@/core/progress';
-import { setReducedMotion } from '@/design-system/motion';
 
 export type StartupView = 'splash' | 'onboarding' | 'app';
 
@@ -13,11 +12,6 @@ export function useStartup() {
   const [session, setSession] = useState<CloudSession | null>(null);
   const profileRef = useRef(profile);
   useEffect(() => subscribeLearnerProfile((next) => { profileRef.current = next; setProfile(next); }), []);
-  useEffect(() => {
-    setReducedMotion(profile.reducedMotion);
-    if (profile.theme === 'auto') delete document.documentElement.dataset.theme;
-    else document.documentElement.dataset.theme = profile.theme;
-  }, [profile.reducedMotion, profile.theme]);
 
   useEffect(() => {
     let active = true;

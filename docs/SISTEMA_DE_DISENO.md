@@ -10,6 +10,16 @@ Galería viva en la app: **Ajustes → Sistema de diseño** (`#/sistema`): color
 - **Táctil**: `--tap-min: 48px`; botones con profundidad física (`--press-depth`) que se "hunden" al tocar.
 - Modo **oscuro** automático y forzable; `safe-area` para teléfonos con muesca.
 
+### Apariencia compartida y AWS
+
+`Appearance` aplica el tema una sola vez, desde la raíz de la aplicación. Durante el onboarding usa el perfil; en cada programa conserva las preferencias existentes de ese programa. Claro explícito declara `color-scheme: only light`, para que el navegador no aplique su oscurecimiento automático sobre superficies claras.
+
+Los colores de feedback (`--c-ok`, `--c-bad`) sirven para texto y bordes y se aclaran en oscuro. Las insignias que conservan texto blanco usan `--c-ok-fill` y `--c-bad-fill`. Los chips sólidos y números sobre colores curriculares oscurecen su relleno para conservar la legibilidad. AWS usa `--c-accent`, `--c-accent-soft`, `--c-accent-fill` y `--c-on-accent`.
+
+Las lecciones AWS ofrecen **Explorar → Practicar → Comprobar**. El lector permite avanzar por secciones y consultar el texto completo. Las prácticas de `src/aws/practice.ts` se vinculan por ID a cuatro lecciones del curso publicado: `cloud-value`, `shared-responsibility`, `global-infrastructure` y `cost-tools`. Son formativas, admiten toque/teclado y no registran resultados de examen. Las respuestas y la práctica se conservan al cambiar de etapa durante la sesión; el cuestionario mantiene su mejor puntuación entre intentos.
+
+`npm run test:ui` ejecuta pruebas de contraste y de navegación/interacción con Playwright. Requiere Chromium de Playwright y sus bibliotecas del sistema. La prueba reemplaza solamente los límites de contenido remoto, analítica y sincronización para evitar escrituras en Firebase. Verifica las seis combinaciones de tema sistema/aplicación, cambios de programa, controles nativos, las cuatro prácticas, cuestionarios, pantallas CNB y tamaños móvil/tableta/escritorio. Guarda capturas en `socrates-interface-screens` dentro del directorio temporal del sistema.
+
 ## Movimiento (`src/design-system/motion.ts`)
 Tres capas; los componentes piden **intenciones**, nunca números:
 

@@ -25,11 +25,14 @@
   --area-fc: #1f6f8b;
 
   /* ---- Retroalimentación ---- */
-  --c-ok: #1f9d55;
+  --c-ok: #187a42;
+  --c-ok-fill: #187a42;
+  --c-bad-fill: #ba303b;
+  --c-jade-fill: #1f6f8b;
   --c-ok-soft: #dcf5e6;
-  --c-bad: #d9434a;
+  --c-bad: #ba303b;
   --c-bad-soft: #fde4e4;
-  --c-hint: #6d5dfc;
+  --c-hint: #6051d8;
   --c-hint-soft: #ece9ff;
 
   /* ---- Superficies (claro) ---- */
@@ -39,9 +42,16 @@
   --c-line: #eadcc3;
   --c-ink: #1d2433;
   --c-ink-2: #4a5468;
-  --c-ink-3: #7a8397;
+  --c-ink-3: #596479;
   --c-on-brand: #ffffff;
   --c-shadow: 29 36 51;
+
+  /* AWS: text and controls have separate foreground/background pairs. */
+  --c-accent: #995000;
+  --c-accent-soft: #fff0df;
+  --c-accent-fill: #f5a33e;
+  --c-on-accent: #352005;
+  --c-selection: color-mix(in srgb, var(--c-jade) 12%, var(--c-surface));
 
   /* ---- Tipografía ---- */
   --font: "Nunito", ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -84,7 +94,7 @@
   --content-max: 720px;
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
-  color-scheme: light;
+  color-scheme: only light;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -100,7 +110,15 @@
     --c-bad-soft: #43201f;
     --c-hint-soft: #2a2552;
     --c-shadow: 0 0 0;
-    --c-jade: #3aa0c2;
+    --c-jade: #72c8e2;
+    --c-jade-strong: #367e96;
+    --c-on-brand: #102833;
+    --c-ok: #65d99a;
+    --c-bad: #ff9e9e;
+    --c-hint: #b9aaff;
+    --c-accent: #ffc078;
+    --c-accent-soft: #3d2d1a;
+    --c-accent-fill: #ffc078;
     color-scheme: dark;
   }
 }
@@ -116,7 +134,15 @@
   --c-bad-soft: #43201f;
   --c-hint-soft: #2a2552;
   --c-shadow: 0 0 0;
-  --c-jade: #3aa0c2;
+  --c-jade: #72c8e2;
+  --c-jade-strong: #367e96;
+  --c-on-brand: #102833;
+  --c-ok: #65d99a;
+  --c-bad: #ff9e9e;
+  --c-hint: #b9aaff;
+  --c-accent: #ffc078;
+  --c-accent-soft: #3d2d1a;
+  --c-accent-fill: #ffc078;
   color-scheme: dark;
 }
 

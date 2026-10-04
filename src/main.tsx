@@ -10,14 +10,18 @@ import { Splash } from './startup/Splash';
 import { Onboarding } from './startup/Onboarding';
 import './startup/startup.css';
 import { registerServiceWorker } from './pwa/service-worker';
+import { Appearance } from './design-system/Appearance';
 
 registerAll();
 
 function Root() {
   const startup = useStartup();
-  if (startup.view === 'splash') return <Splash />;
-  if (startup.view === 'onboarding') return <Onboarding profile={startup.profile} updateProfile={startup.updateProfile} complete={startup.complete} />;
-  return <App profile={startup.profile} changeProgram={startup.changeProgram} />;
+  return <>
+    <Appearance profile={startup.profile} onboarding={!startup.profile.onboardingComplete} />
+    {startup.view === 'splash' ? <Splash /> : startup.view === 'onboarding'
+      ? <Onboarding profile={startup.profile} updateProfile={startup.updateProfile} complete={startup.complete} />
+      : <App profile={startup.profile} changeProgram={startup.changeProgram} />}
+  </>;
 }
 
 createRoot(document.getElementById('root')!).render(

@@ -1,8 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { href, useRoute, type Route } from '@/core/router';
-import { useProgress } from '@/core/progress';
-import { setReducedMotion } from '@/design-system/motion';
-import { configureFeedback } from '@/design-system/feedback';
 import { Icon } from '@/design-system/icons';
 import { getLesson, getMission } from '@/content';
 import { Home } from '@/screens/Home';
@@ -23,7 +20,6 @@ import { EncuestaBeta } from '@/screens/EncuestaBeta';
 import { activateUpdate } from '@/pwa/service-worker';
 import type { LearnerProfile } from '@/core/learner-profile';
 import type { ProgramId } from '@/core/programs';
-import { preferencesForProgram } from '@/core/program-settings';
 
 const AwsExperience = lazy(() => import('@/aws/AwsExperience').then((module) => ({ default: module.AwsExperience })));
 
@@ -37,8 +33,6 @@ const TABS: { route: Route; icon: string; label: string; match: Route['name'][] 
 
 export function App({ profile, changeProgram }: { profile: LearnerProfile; changeProgram(id: ProgramId): void }) {
   const route = useRoute();
-  const settings = useProgress((p) => p.settings);
-  const activeSettings = preferencesForProgram(profile.activeProgram, settings, profile);
   const [updateWorker, setUpdateWorker] = useState<ServiceWorker | null>(null);
 
   useEffect(() => {
@@ -46,13 +40,6 @@ export function App({ profile, changeProgram }: { profile: LearnerProfile; chang
     window.addEventListener('socrates:update-ready', ready);
     return () => window.removeEventListener('socrates:update-ready', ready);
   }, []);
-
-  useEffect(() => {
-    setReducedMotion(activeSettings.reducedMotion);
-    configureFeedback({ sound: activeSettings.sound, haptics: activeSettings.haptics });
-    const root = document.documentElement;
-    if (activeSettings.theme === 'auto') delete root.dataset.theme; else root.dataset.theme = activeSettings.theme;
-  }, [activeSettings.reducedMotion, activeSettings.sound, activeSettings.haptics, activeSettings.theme]);
 
   if (profile.activeProgram === 'aws-cloud-practitioner') return <Suspense fallback={<main className="ds-page" role="status">Cargando programa AWS…</main>}><AwsExperience route={route} profile={profile} changeProgram={changeProgram} /></Suspense>;
 

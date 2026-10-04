@@ -77,7 +77,7 @@ export function Medios() {
             <div className="ds-grow">
               <div className="ds-row" style={{ justifyContent: 'space-between', gap: 8 }}>
                 <strong>{r.slot.title}</strong>
-                {r.replacement.produced ? <Chip color="var(--c-ok)" solid>Producido</Chip> : <Chip color="var(--c-maiz-strong)">Pendiente</Chip>}
+                {r.replacement.produced ? <Chip color="var(--c-ok-fill)" solid>Producido</Chip> : <Chip color="var(--c-maiz-strong)">Pendiente</Chip>}
               </div>
               <div className="ds-xs ds-muted">{r.semana ? `Semana ${r.semana} · ` : 'Extra · '}{r.where} · {KIND_LABEL[r.slot.kind]}{r.slot.duration ? ` · ${r.slot.duration}s` : ''}{r.slot.aspect ? ` · ${r.slot.aspect}` : ''}</div>
               <p className="ds-small" style={{ marginTop: 6 }}>{r.slot.brief}</p>

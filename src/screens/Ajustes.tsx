@@ -68,7 +68,7 @@ export function Ajustes({ activeProgram, profile, changeProgram }: { activeProgr
           <strong>Tema</strong>
           <div className="ds-row" style={{ gap: 6 }}>
             {(['auto', 'light', 'dark'] as const).map((th) => (
-              <Button key={th} size="sm" variant={shownSettings.theme === th ? 'primary' : 'secondary'} onClick={() => set({ theme: th })}>{th === 'auto' ? 'Auto' : th === 'light' ? 'Claro' : 'Oscuro'}</Button>
+              <Button key={th} size="sm" aria-pressed={shownSettings.theme === th} variant={shownSettings.theme === th ? 'primary' : 'secondary'} onClick={() => set({ theme: th })}>{th === 'auto' ? 'Auto' : th === 'light' ? 'Claro' : 'Oscuro'}</Button>
             ))}
           </div>
         </div>
