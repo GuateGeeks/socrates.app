@@ -1,5 +1,5 @@
 const CACHE = 'socrates-shell-v4';
-const SHELL = ["./assets/AwsExperience-DjFI1fNH.js","./assets/beta-survey-submit-BKeTGxcX.js","./assets/cloud-sync-DoivTJio.js","./assets/firebase-ft4xej_f.js","./assets/index-D2R6Slzn.js","./assets/style-CvDIH9Ra.css","./icon.svg","./icons/icon-192.png","./icons/icon-512.png","./icons/maskable-192.png","./icons/maskable-512.png","./index.html","./manifest.webmanifest"];
+const SHELL = ["./assets/AwsExperience-QAnBDH6V.js","./assets/beta-survey-submit-7iu90cxW.js","./assets/cloud-sync-CGRRQxQf.js","./assets/firebase-ft4xej_f.js","./assets/index-siEuqCN9.js","./assets/style-BbxQ0xHE.css","./icon.svg","./icons/icon-192.png","./icons/icon-512.png","./icons/maskable-192.png","./icons/maskable-512.png","./index.html","./manifest.webmanifest"];
 self.addEventListener('install', (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL))));
 self.addEventListener('activate', (event) => event.waitUntil(
   caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('socrates-') && key !== CACHE).map((key) => caches.delete(key)))).then(() => self.clients.claim()),
