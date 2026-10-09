@@ -143,25 +143,33 @@
 .home__quick { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); }
 .home__quick .ds-card { display: flex; flex-direction: column; gap: 4px; }
 
-/* Año */
-.yr__unit { display: flex; flex-direction: column; gap: var(--sp-3); }
-.yr__uhead { display: flex; align-items: center; gap: var(--sp-3); }
-.yr__uhead h2 { font-size: var(--fs-lg); }
-.yr__uicon { width: 48px; height: 48px; border-radius: var(--r-md); display: grid; place-items: center; background: var(--u); color: #fff; flex: none; }
-.yr__weeks { list-style: none; margin: 0; padding: 0 0 0 22px; display: flex; flex-direction: column; gap: var(--sp-2); border-left: 4px solid color-mix(in srgb, var(--u) 40%, var(--c-line)); }
-.yr__week { position: relative; width: 100%; display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3); border-radius: var(--r-md); border: 2px solid var(--c-line); background: var(--c-surface); text-align: left; color: var(--c-ink); }
-.yr__week::before { content: ""; position: absolute; left: -33px; top: 50%; width: 14px; height: 14px; border-radius: 50%; transform: translateY(-50%); background: var(--c-surface); border: 3px solid color-mix(in srgb, var(--u) 60%, var(--c-line)); }
-.yr__week.is-done::before { background: var(--w); border-color: var(--w); }
-.yr__week.is-next { border-color: var(--c-maiz-strong); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-maiz) 40%, transparent); }
-.yr__week.is-empty { opacity: 0.55; cursor: default; }
-.yr__wnum { width: 30px; font-weight: var(--fw-black); color: var(--c-ink-3); text-align: center; flex: none; font-variant-numeric: tabular-nums; }
-.yr__wicon { width: 40px; height: 40px; border-radius: var(--r-sm); display: grid; place-items: center; background: color-mix(in srgb, var(--w) 16%, var(--c-surface)); color: var(--w); flex: none; }
-.yr__wbody { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.yr__wbody strong { font-size: var(--fs-sm); line-height: 1.2; }
-.yr__wbar { height: 6px; border-radius: 999px; background: var(--c-surface-2); overflow: hidden; margin-top: 4px; }
-.yr__wbar i { display: block; height: 100%; background: var(--w); border-radius: inherit; }
-.yr__wtags { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-.yr__now { font-size: 0.66rem; font-weight: var(--fw-black); background: var(--c-bad-fill); color: #fff; padding: 2px 6px; border-radius: 999px; }
+/* Año: el estudiante ve una semana a la vez. */
+.yr { gap: var(--sp-4); }
+.yr__focus,.yr__selected { display: grid; gap: var(--sp-3); padding: var(--sp-4); border: 2px solid var(--c-line); border-radius: var(--r-lg); background: var(--c-surface); }
+.yr__focus { border-color: var(--c-jade); background: linear-gradient(150deg,color-mix(in srgb,var(--c-jade) 12%,var(--c-surface)),var(--c-surface) 65%); }
+.yr__focus h2,.yr__selected h2,.yr__explore h2 { margin: 0; font-size: var(--fs-lg); line-height: 1.25; }
+.yr__selected h2 { scroll-margin-top: 16px; }
+.yr__focus p,.yr__selected p,.yr__explore p { margin: 0; }
+.yr__eyebrow { display: inline-flex; align-items: center; gap: 6px; color: var(--c-jade); font-size: var(--fs-sm); font-weight: var(--fw-black); }
+.yr__progress,.yr__unit-progress { height: 9px; overflow: hidden; border-radius: 999px; background: var(--c-surface-2); }
+.yr__progress i,.yr__unit-progress i { display: block; height: 100%; border-radius: inherit; background: var(--c-jade); }
+.yr__explore { display: grid; gap: var(--sp-2); }
+.yr__units { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--sp-2); margin-top: var(--sp-2); }
+.yr__unit { display: grid; align-content: start; gap: 7px; min-height: 142px; padding: var(--sp-3); border: 2px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); text-align: left; cursor: pointer; }
+.yr__unit.is-selected { border-color: var(--u); background: color-mix(in srgb,var(--u) 10%,var(--c-surface)); }
+.yr__unit:focus-visible { outline: 3px solid var(--u); outline-offset: 2px; }
+.yr__unit-number { color: var(--u); font-size: var(--fs-sm); font-weight: var(--fw-black); }
+.yr__unit strong { font-size: var(--fs-sm); line-height: 1.2; }
+.yr__unit-count { align-self: end; color: var(--c-ink-2); font-size: var(--fs-xs); }
+.yr__unit-progress { height: 6px; }
+.yr__unit-progress i { background: var(--u); }
+.yr__sequence { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--sp-2); }
+.yr__sequence .ds-btn { min-width: 0; }
+.settings__future-grades { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+.settings__future-grade { display: grid; gap: 2px; padding: 10px 12px; border: 2px dashed var(--c-line); border-radius: var(--r-md); background: var(--c-surface-2); color: var(--c-ink-2); }
+.settings__future-grade strong { font-size: var(--fs-sm); }
+.settings__future-grade small { font-size: var(--fs-xs); }
+@media(max-width:359px){.yr{padding-left:12px;padding-right:12px}.yr__focus,.yr__selected{padding:12px}.yr__units,.yr__sequence,.settings__future-grades{grid-template-columns:1fr}.yr__focus .ds-btn,.yr__selected .ds-btn{padding-inline:12px}}
 
 /* Semana */
 .ms__node.is-exam .ms__bubble { border-radius: 18px; }
@@ -194,6 +202,10 @@
 .lc__dot svg { display: block; }
 .lc__reco { display: flex; align-items: center; gap: var(--sp-3); width: 100%; padding: var(--sp-3); border-radius: var(--r-md); border: 2px solid var(--c-line); background: var(--c-surface); text-align: left; color: var(--c-ink); }
 .lc__reco:hover { border-color: var(--c-jade); }
+.lc__survey-invite { display: flex; align-items: flex-start; gap: var(--sp-3); background: color-mix(in srgb, var(--c-jade) 9%, var(--c-surface)); }
+.lc__survey-invite h2 { margin: 0; font-size: var(--fs-lg); }
+.lc__survey-invite p { margin: 0; color: var(--c-ink-2); font-size: var(--fs-sm); }
+.lc__survey-icon { flex: none; display: grid; place-items: center; width: 48px; height: 48px; border-radius: var(--r-md); background: var(--c-jade); color: var(--c-on-brand); }
 
 /* Medios (maquetas) */
 .ms-media { margin: 0; display: flex; flex-direction: column; gap: 6px; }

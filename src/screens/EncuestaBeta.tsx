@@ -73,7 +73,7 @@ export function EncuestaBeta() {
       <div className="survey-intro__icon" aria-hidden><Icon name="MessageSquareHeart" size={30} /></div>
       <div>
         <strong>Ayúdanos a mejorar Socrates</strong>
-        <p>Son diez preguntas sobre el contenido, el diseño y las actividades. Toma unos 3 minutos.</p>
+        <p>Son diez preguntas sobre lo que aprendiste y cómo te sentiste al usar la plataforma. Toma unos 3 minutos.</p>
         <p>Enviaremos las respuestas junto con el nombre de tu perfil: <strong>{name || 'sin nombre'}</strong>. Evita escribir datos personales en los comentarios.</p>
       </div>
     </Card>
@@ -131,7 +131,7 @@ export function EncuestaBeta() {
         {stage < 3 && <Button type="button" onClick={() => goStage(stage + 1)}>{stage === 2 ? 'Revisar respuestas' : 'Siguiente paso'}</Button>}
       </div>
       {stage === 3 && <Card className="survey-submit">
-        <p>El borrador se guarda en este dispositivo. Al enviar, tus respuestas y el nombre de tu perfil se guardarán en Firebase. Solo tu cuenta puede leerlas desde la app; el equipo puede revisarlas en Firebase Console. No puedes borrarlas desde la app.</p>
+        <p>Tus respuestas se guardan primero en este dispositivo. Si decides enviarlas, guardaremos tus respuestas y el nombre de tu perfil para mejorar Socrates. El equipo puede revisarlas. No puedes borrarlas desde la app.</p>
         {message && <p role="status" className={status === 'sent' ? 'survey-success' : 'survey-error'}>{message}</p>}
         <Button type="submit" block disabled={status === 'sending'}>{status === 'sending' ? 'Enviando…' : draft.submittedAt ? 'Actualizar respuesta' : 'Enviar respuestas'}</Button>
       </Card>}

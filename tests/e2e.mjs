@@ -20,19 +20,23 @@ const url = pathToFileURL(join(root, 'dist-standalone/index.html')).href;
 const shots = join(root, 'tests/screens');
 const quick = process.argv.includes('--quick');
 const unidad = Number(process.argv.find((a) => a.startsWith('--unidad='))?.split('=')[1] ?? 0);
+const semana = Number(process.argv.find((a) => a.startsWith('--semana='))?.split('=')[1] ?? 0);
 mkdirSync(shots, { recursive: true });
 
 const tsx = process.env.TSX ?? 'npx --no-install tsx';
-const course = JSON.parse(execSync(`${tsx} -e "import('./src/content/index.ts').then(m=>console.log(JSON.stringify([...m.WEEKS, ...m.COURSE.missions].map(w=>({id:w.id,semana:w.semana,lessons:w.lessons.map(l=>({id:l.id,steps:l.steps.length}))})))))"`, { cwd: root, encoding: 'utf8' }).trim().split('\n').pop());
+const course = JSON.parse(execSync(`${tsx} -e "import('./src/content/index.ts').then(m=>console.log(JSON.stringify([...m.WEEKS, ...m.COURSE.missions].map(w=>({id:w.id,semana:w.semana,lessons:w.lessons.map(l=>({id:l.id,kind:l.kind,steps:l.steps.length}))})))))"`, { cwd: root, encoding: 'utf8' }).trim().split('\n').pop());
 
 const browser = await chromium.launch(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {});
 const errors = [];
 let passed = 0, lessonsOk = 0;
 const seen = new Set();
 
-async function newPage(viewport, isMobile) {
+async function newPage(viewport, isMobile, savedState) {
   const ctx = await browser.newContext({ viewport, deviceScaleFactor: 2, isMobile, hasTouch: isMobile, locale: 'es-GT' });
   await ctx.addInitScript(() => { window.__SOCRATES_TEST__ = true; });
+  if (savedState) await ctx.addInitScript((entries) => {
+    for (const [key, value] of entries) localStorage.setItem(key, value);
+  }, savedState);
   const page = await ctx.newPage();
   page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
   page.on('console', (m) => { if (m.type() === 'error' && !/fonts\.g|ERR_|net::/.test(m.text())) errors.push(`console: ${m.text()}`); });
@@ -53,14 +57,17 @@ async function playLesson(page, w, l, shotTypes) {
     const type = await page.evaluate(() => window.__lp.type);
     if (shotTypes && !seen.has(type)) { seen.add(type); await page.waitForTimeout(300); await page.screenshot({ path: join(shots, `step-${type}.png`) }); }
     await page.evaluate(() => window.__lp.solve());
-    await page.waitForTimeout(25);
     const btn = primary(page);
+    await page.waitForFunction(() => {
+      const action = document.querySelector('.ds-actionbar .ds-btn--lg');
+      return action instanceof HTMLButtonElement && !action.disabled;
+    }, null, { timeout: 1500 }).catch(() => false);
     if (!(await btn.isEnabled())) { errors.push(`${w.id}/${l.id} paso ${i + 1} (${type}): botón deshabilitado tras resolver`); return false; }
     const label = await btn.innerText();
-    await btn.click();
+    await btn.click({ force: true });
     if (/Comprobar/.test(label)) {
       if (!(await page.locator('.ds-actionbar.is-correct').count())) { errors.push(`${w.id}/${l.id} paso ${i + 1} (${type}): la solución no se marcó como correcta`); return false; }
-      await primary(page).click();
+      await primary(page).click({ force: true });
     }
     passed++;
   }
@@ -72,14 +79,71 @@ async function playLesson(page, w, l, shotTypes) {
 // ---------- 1. Todo el año ----------
 const phone = await newPage({ width: 390, height: 844 }, true);
 await phone.goto(url);
-await phone.fill('#onb-name', 'Ixchel');
-await phone.click('text=¡Empezar a aprender!');
+await phone.waitForSelector('.onboarding__panel, #onb-name', { timeout: 10000 });
+if (await phone.locator('.onboarding__panel').count()) {
+  await phone.getByRole('button', { name: 'Continuar' }).click();
+  await phone.getByRole('radio', { name: /Sexto Primaria/ }).click();
+  await phone.getByRole('button', { name: 'Continuar' }).click();
+  await phone.locator('.onboarding__field input').fill('Ixchel');
+  for (let step = 0; step < 4; step++) await phone.getByRole('button', { name: 'Continuar' }).click();
+  await phone.getByRole('button', { name: 'Entrar a Socrates' }).click();
+} else {
+  await phone.fill('#onb-name', 'Ixchel');
+  await phone.click('text=¡Empezar a aprender!');
+}
 await phone.screenshot({ path: join(shots, '01-hoy.png') });
+const savedState = await phone.evaluate(() => Object.entries(localStorage));
 const toPlay = quick ? course.filter((w) => [1, 9, 10].includes(w.semana) || !w.semana).slice(0, 5)
-  : unidad ? course.filter((w) => w.semana && Math.ceil(w.semana / 10) === unidad) : course;
-for (const w of toPlay) for (const l of w.lessons) {
-  if (await playLesson(phone, w, l, true)) lessonsOk++;
-  if (w.semana === 1 && l.id.endsWith('reto')) await phone.screenshot({ path: join(shots, '03-cierre-reto.png'), fullPage: true });
+  : unidad ? course.filter((w) => w.semana && Math.ceil(w.semana / 10) === unidad && (!semana || w.semana === semana)) : course;
+for (const w of toPlay) {
+  for (const l of w.lessons) {
+    if (await playLesson(phone, w, l, true)) lessonsOk++;
+    if (w.semana === 1 && l.id.endsWith('reto')) await phone.screenshot({ path: join(shots, '03-cierre-reto.png'), fullPage: true });
+  }
+  if (unidad) console.log(`Semana ${w.semana}: ${lessonsOk} lecciones recorridas, ${errors.length} errores`);
+}
+
+if (unidad) {
+  const tablet = await newPage({ width: 820, height: 1180 }, true, savedState);
+  for (const w of toPlay) for (const l of w.lessons.filter((lesson) =>
+    lesson.id.endsWith('taller') || lesson.kind === 'proyecto' || lesson.kind === 'evaluacion')) {
+    if (await playLesson(tablet, w, l, false)) lessonsOk++;
+  }
+  for (const week of [11, 19, 20]) {
+    await phone.goto(`${url}#/semana/s${week}`);
+    if (!(await phone.locator('.ds-page').count())) errors.push(`semana ${week}: pantalla no renderizó`);
+  }
+  if (unidad === 2) {
+    const probe = await newPage({ width: 390, height: 844 }, true, savedState);
+    await probe.goto(`${url}#/leccion/s11/s11-d5-taller`);
+    await probe.waitForFunction(() => window.__lp);
+    await probe.evaluate(() => window.__lp.start());
+    for (let step = 0; step < 4; step++) {
+      await probe.waitForFunction((index) => window.__lp.started && window.__lp.index === index, step);
+      await probe.evaluate(() => window.__lp.solve());
+      await probe.waitForTimeout(25);
+      const label = await primary(probe).innerText();
+      await primary(probe).click({ force: true });
+      if (/Comprobar/.test(label)) {
+        await probe.locator('.ds-actionbar.is-correct').waitFor();
+        await primary(probe).click({ force: true });
+      }
+    }
+    await probe.waitForFunction(() => window.__lp.index === 4);
+    await probe.getByRole('button', { name: /Consultar a las tejedoras, contar visitas/ }).click();
+    await primary(probe).click({ force: true });
+    if (!(await probe.locator('.ds-actionbar.is-correct').count())) errors.push('s11 taller: decisión real no se marcó como correcta');
+    else passed++;
+  }
+  await browser.close();
+  console.log(`\nE2E Unidad ${unidad}: ${lessonsOk} recorridos completos · ${passed} pasos OK`);
+  if (errors.length) {
+    console.log(`✖ ${errors.length} errores:`);
+    errors.slice(0, 80).forEach((error) => console.log(`  ${error}`));
+    process.exit(1);
+  }
+  console.log('✔ Sin errores');
+  process.exit(0);
 }
 
 // ---------- 2. Pantallas ----------
@@ -93,7 +157,7 @@ await phone.goto(`${url}#/leccion/s01/s01-d1-planeta`); await phone.waitForTimeo
 await phone.screenshot({ path: join(shots, '02-intro-leccion.png'), fullPage: true });
 
 // ---------- 3. Interacciones reales ----------
-const p2 = await newPage({ width: 390, height: 844 }, true);
+const p2 = await newPage({ width: 390, height: 844 }, true, savedState);
 async function openStep(page, mission, lesson, index) {
   await page.goto(`${url}#/perfil`); await page.waitForTimeout(100);
   await page.evaluate(() => { delete window.__lp; }).catch(() => {});
@@ -125,7 +189,10 @@ for (let i = 0; i < tf.length; i++) await p2.locator('.act-tf').nth(i).locator(t
 await primary(p2).click(); await expectCorrect(p2, 'true-false (toques)');
 // fill-blank real (s01-d2 paso 4)
 await openStep(p2, 's01', 's01-d2-celulas-movimiento', 3);
-for (const w of ['ADN', 'cromosomas', 'gen', '46']) await p2.click(`.act-fb__bank .act-token:text-is("${w}")`);
+for (const [index, word] of ['ADN', 'cromosomas', 'gen', '46'].entries()) {
+  await p2.click(`.act-fb__bank .act-token:text-is("${word}")`);
+  if (index < 3) await p2.getByRole('button', { name: 'Siguiente frase' }).click();
+}
 await p2.screenshot({ path: join(shots, '06-fill-real.png') });
 await primary(p2).click(); await expectCorrect(p2, 'fill-blank (banco de palabras)');
 // numpad real (diagnóstico paso 2)
@@ -134,7 +201,7 @@ for (const k of ['5', '0', '6']) await p2.click(`.act-key[aria-label="${k}"]`);
 await primary(p2).click(); await expectCorrect(p2, 'number-input (teclado)');
 
 // ---------- 4. Tableta ----------
-const tab = await newPage({ width: 820, height: 1180 }, true);
+const tab = await newPage({ width: 820, height: 1180 }, true, savedState);
 for (const [r, n] of [['#/', '09-tablet-hoy'], ['#/anio', '10-tablet-anio'], ['#/semana/s01', '11-tablet-semana']]) {
   await tab.goto(url + r); await tab.waitForTimeout(450); await tab.screenshot({ path: join(shots, `${n}.png`) });
 }

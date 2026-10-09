@@ -5,8 +5,8 @@ import { S, cierre, lesson, semana } from '../../dsl';
  * Tema generador: Feria Red de la Milpa
  * Integra las semanas 11-18: milpa y Tierra, redes y cooperación, crecer con respeto,
  * decidir con información, alimento y memoria, bosques y libertades, comercio con el mundo
- * y el aire que compartimos (barriletes). Cada equipo monta un puesto con un proyecto
- * productivo o de servicio que fortalece las relaciones entre las familias.
+ * y el aire que compartimos (barriletes). El estudiante diseña un puesto con
+ * datos simulados y puede compartirlo con su comunidad de forma opcional.
  */
 export default semana({
   id: 's19',
@@ -15,10 +15,10 @@ export default semana({
   kind: 'proyecto',
   temaGenerador: 'Feria Red de la Milpa',
   title: 'Feria Red de la Milpa',
-  subtitle: 'Proyecto: una feria escolar que une familias, salud y ambiente',
+  subtitle: 'Proyecto individual: diseña un puesto con datos de un caso',
   icon: 'Store',
   color: 'var(--area-pyd)',
-  contexto: 'En muchas comunidades las familias casi no se conocen, la refacción se llena de golosinas y se cortan árboles cerca de los nacimientos de agua. Esta semana tu grado organizará la Feria Red de la Milpa: cinco puestos con proyectos productivos y de servicio (refacción nutritiva, vivero, radio de la feria, barriletes con mensaje y trueque justo) para que las familias se relacionen, intercambien lo que producen y se comprometan a cuidar su salud y su ambiente.',
+  contexto: 'Durante cinco días diseñarás un puesto para una feria escolar ficticia. Elegirás entre refacción nutritiva, vivero, radio, barriletes y trueque justo. El caso incluye datos de una encuesta y comentarios de visitantes; así podrás investigar, calcular, crear y evaluar tu propuesta en una hoja, aun si estudias sin equipo ni feria presencial.',
   ejes: ['vida-ciudadana', 'sostenible', 'trabajo', 'multiculturalidad', 'valores'],
   media: {
     id: 's19-portada', kind: 'video', title: 'Así se arma una feria que une', aspect: '16:9', duration: 60,
@@ -36,7 +36,7 @@ export default semana({
       day: 1,
       kind: 'proyecto',
       gancho: 'Si tu comunidad tuviera una feria para conocerse mejor, ¿qué puesto te gustaría atender y qué problema ayudaría a resolver?',
-      objetivos: ['Comprender el reto de la feria y su rúbrica', 'Relacionar cada puesto con una necesidad real de la comunidad', 'Diseñar instrumentos para investigar', 'Organizar el equipo, los roles y el calendario'],
+      objetivos: ['Comprender el reto de la feria y sus criterios', 'Relacionar un puesto con una necesidad del caso', 'Revisar un instrumento de investigación', 'Organizar un plan personal de cinco días'],
       resumen: [
         'La Feria Red de la Milpa tiene cinco puestos: Refacción de la milpa, Vivero y aire limpio, Radio de la feria, Barriletes con mensaje y Trueque justo.',
         'Cada puesto es un proyecto productivo o de servicio que responde a una necesidad de la escuela o la comunidad.',
@@ -61,23 +61,22 @@ export default semana({
         ),
         S.project(
           { fase: 'construir', areas: ['pyd', 'l1', 'art', 'fc'], cnb: ['pyd:4.1.2', 'pyd:4.3.2', 'l1:2.3.2', 'fc:3.2.3'], ambito: 'emprender',
-            prompt: 'Esta es la **guía completa** del proyecto. Léela con tu equipo y vuelve a ella cada día.' },
-          { goal: 'Organizar la Feria Red de la Milpa: cinco puestos con proyectos productivos o de servicio que fortalezcan las relaciones entre las familias y ayuden a cuidar la salud, el bosque, el aire y el comercio justo en la comunidad.',
+            prompt: 'Esta es la **guía completa** del proyecto individual. Escoge un puesto y vuelve a esta guía cada día. Los datos de la feria son simulados para que puedas trabajar sin depender de visitas o compras.' },
+          { goal: 'Diseñar un puesto de la Feria Red de la Milpa que responda a una necesidad del caso y explique cómo cuidaría la salud, el ambiente o el intercambio justo.',
             steps: [
-              { title: '1. Formar equipos y elegir puesto', detail: 'Equipos de 4 o 5 con roles rotativos: coordinación, investigación, diseño, producción y vocería. Cada equipo elige uno de los 5 puestos y lo presenta al gobierno escolar.' },
-              { title: '2. Investigar la necesidad', detail: 'Diseñar un instrumento (encuesta de 5 preguntas o guía de entrevista), aplicarlo a por lo menos 10 familias y consultar una fuente escrita. Anotar siempre la fuente.' },
-              { title: '3. Diseñar el puesto', detail: 'Bocetar el puesto: nombre, producto o servicio, un cálculo (receta, volumen, precio o reparto), una gráfica de la encuesta y una actividad para el público.' },
-              { title: '4. Producir', detail: 'Preparar el producto o servicio con materiales locales y reciclados, calcular cantidades y costos, escribir el cartel del puesto (borrador, revisión y versión final).' },
-              { title: '5. Presentar en la feria', detail: 'Atender el puesto con cortesía, explicar en 2 minutos qué problema resuelve, invitar al público a participar y registrar cuántas personas visitaron.' },
-              { title: '6. Evaluar y mejorar', detail: 'Analizar los datos y comentarios de los visitantes, escribir un plan de mejora y un compromiso que continúe después de la feria.' },
+              { title: 'Día 1 · Elegir e investigar', detail: 'Elige uno de los cinco puestos. Lee el caso, anota la necesidad y diseña tres preguntas de encuesta; usa los resultados simulados del día 2.' },
+              { title: 'Día 2 · Diseñar', detail: 'Boceta tu puesto en una hoja: nombre, producto o servicio, un cálculo, una gráfica de prioridades con los datos simulados y una actividad para visitantes.' },
+              { title: 'Día 3 · Crear en papel', detail: 'Prepara un cartel o prototipo dibujado. Comprueba cantidades y costos. No hace falta comprar materiales ni fabricar el producto.' },
+              { title: 'Día 4 · Presentar', detail: 'Escribe un anuncio y ensaya una presentación de hasta dos minutos. Puedes grabarla o presentarla a alguien si deseas; tu guion escrito es suficiente.' },
+              { title: 'Día 5 · Evaluar', detail: 'Usa el conteo y los comentarios simulados para escribir dos aciertos, una mejora y un compromiso realizable.' },
             ],
-            evidence: 'Instrumento de investigación con sus resultados, boceto del puesto, cálculos, cartel final, gráfica de visitantes y plan de mejora del equipo.',
+            evidence: 'Una hoja o cuaderno con preguntas de investigación, boceto, cálculo, gráfica, cartel o prototipo dibujado, guion y plan de mejora.',
             rubric: [
-              'El puesto responde a una necesidad real, comprobada con datos de la encuesta o entrevista',
+              'El puesto responde a una necesidad descrita en el caso simulado',
               'Integra al menos tres áreas (por ejemplo, ciencias, matemáticas y arte)',
               'Los cálculos (cantidades, volumen, precios) son correctos y están explicados',
               'Es accesible e incluyente: letra grande, rampas, trato respetuoso a todas las culturas',
-              'El equipo repartió roles con equidad entre niñas y niños y cumplió el calendario',
+              'El plan de cinco días se puede completar individualmente',
               'Propone un compromiso concreto que continúe después de la feria',
             ] },
         ),
@@ -95,7 +94,7 @@ export default semana({
         ),
         S.sort(
           { fase: 'construir', areas: ['l2', 'pyd', 'ccss'], cnb: ['l2:1.1.6', 'pyd:2.1.1', 'ccss:5.3.2'], ambito: 'hacer',
-            prompt: 'El equipo del puesto **Refacción de la milpa** diseña su **encuesta**. Clasifica cada pregunta: ¿sirve para el instrumento o conviene cambiarla?',
+            prompt: 'Para el puesto **Refacción de la milpa** se propone una **encuesta simulada**. Clasifica cada pregunta: ¿sirve o conviene cambiarla?',
             hint: 'Una buena pregunta de encuesta es clara, se puede contar y no ofende ni empuja una respuesta.',
             explain: 'Las preguntas útiles dan datos que se pueden contar y graficar. Las preguntas que juzgan o que ya traen la respuesta dañan la investigación.' },
           { buckets: [
@@ -111,18 +110,18 @@ export default semana({
         ),
         S.order(
           { fase: 'aplicar', areas: ['l1', 'pyd'], cnb: ['l1:2.3.2', 'pyd:4.1.2'], ambito: 'emprender',
-            prompt: 'Arma el **calendario** de la semana del proyecto: ordena las tareas del primer al último día.',
+            prompt: 'Arma tu **calendario personal** del proyecto: ordena las tareas del primer al último día.',
             explain: 'Un calendario claro permite que cada integrante sepa qué hacer y evita dejar todo para el final.' },
           { items: [
-            { id: 'k1', text: 'Formar equipos, elegir puesto y aplicar la encuesta' },
+            { id: 'k1', text: 'Elegir puesto, diseñar preguntas y leer datos simulados' },
             { id: 'k2', text: 'Bocetar el puesto y hacer los cálculos' },
-            { id: 'k3', text: 'Producir el producto o servicio y escribir el cartel' },
-            { id: 'k4', text: 'Ensayar y abrir la feria al público' },
+            { id: 'k3', text: 'Dibujar el prototipo y escribir el cartel' },
+            { id: 'k4', text: 'Escribir el anuncio y ensayar la presentación' },
             { id: 'k5', text: 'Analizar los resultados y escribir el plan de mejora' },
           ], labels: { start: 'Día 1', end: 'Día 5' } },
         ),
         S.dilemma(
-          { fase: 'aplicar', areas: ['fc', 'l1', 'pyd'], cnb: ['fc:3.1.2', 'l1:2.3.2'], ambito: 'convivir', prompt: 'Tu equipo reparte los roles. ¿Qué harías tú?' },
+          { fase: 'aplicar', areas: ['fc', 'l1', 'pyd'], cnb: ['fc:3.1.2', 'l1:2.3.2'], ambito: 'convivir', prompt: 'Imagina que un equipo presenta el puesto. ¿Qué decisión propondrías para repartir roles con justicia?' },
           { scene: { icon: 'Users', text: 'Al repartir roles, **Esteban** dice: "Yo coordino y decido todo, porque soy el que más sabe. Las niñas que hagan los carteles".' }, options: [
             { id: 'a', icon: 'ThumbsUp', text: 'Aceptar para no discutir', consequence: 'Esteban decide solo. Ixchel y Keyla, que tenían buenas ideas para el puesto, dejan de participar.', values: ['Conformismo'], constructive: false },
             { id: 'b', icon: 'Vote', text: 'Proponer que cada quien diga qué rol le gustaría y que la coordinación rote cada día', consequence: 'Todos participan. Keyla coordina el martes y organiza muy bien la compra de materiales.', values: ['Liderazgo democrático', 'Equidad', 'Diálogo'], constructive: true },
@@ -131,13 +130,13 @@ export default semana({
         ),
         S.write(
           { fase: 'aplicar', areas: ['l1', 'pyd', 'fc'], cnb: ['l1:2.3.2', 'pyd:4.1.2', 'fc:3.2.3'], ambito: 'emprender',
-            prompt: 'Escribe el **plan de tu equipo**: nombre del puesto, la necesidad que resuelve, el rol de cada integrante y el instrumento que usarán para investigar.' },
-          { minWords: 40, placeholder: 'Puesto… Necesidad… Roles: … Instrumento: …',
-            model: 'Puesto: Vivero y aire limpio. Necesidad: en la ladera del nacimiento se han cortado muchos árboles y el agua baja turbia en invierno. Roles: Keyla coordina, Esteban investiga, Ixchel diseña, Marvin produce y yo seré vocera; la coordinación rota cada día. Instrumento: una encuesta de 5 preguntas a 12 familias sobre de dónde viene su agua y si sembrarían un árbol, y una entrevista al guardabosques de la comunidad.',
-            rubric: ['Nombra el puesto y la necesidad', 'Reparte roles con equidad', 'Describe un instrumento de investigación concreto', 'Indica a quién se aplicará'] },
+            prompt: 'Escribe tu **plan personal**: puesto elegido, necesidad del caso, tres preguntas de encuesta y una idea para dar voz a otras personas si la feria se realiza.' },
+          { minWords: 40, placeholder: 'Puesto… Necesidad… Tres preguntas… Participación…',
+            model: 'Puesto: Vivero y aire limpio. Necesidad: en la ladera del nacimiento se han cortado árboles. Preguntas: ¿De dónde obtiene agua tu familia? ¿Qué árboles nativos conoces? ¿Qué apoyo necesitarías para cuidar uno? Si la feria se realiza, invitaría a otras personas a revisar mi propuesta antes de decidir.',
+            rubric: ['Nombra el puesto y la necesidad', 'Plantea tres preguntas respetuosas y claras', 'Usa el caso como fuente', 'Propone una forma incluyente de participación'] },
         ),
-        cierre({ areas: ['pyd', 'fc'], cnb: ['fc:3.2.3'] }, ['Entiendo el reto y la rúbrica de la feria', 'Mi puesto responde a una necesidad real', 'Mi equipo repartió roles con equidad'],
-          ['Aplicaré la encuesta a mi familia y a mis vecinos antes de mañana', 'Anotaré la fuente de cada dato', 'Cumpliré mi rol en el equipo']),
+        cierre({ areas: ['pyd', 'fc'], cnb: ['fc:3.2.3'] }, ['Entiendo el reto y sus criterios', 'Mi puesto responde a una necesidad del caso', 'Puedo completar el proyecto con los datos ofrecidos'],
+          ['Usaré los datos simulados del día 2', 'Anotaré la fuente de cada dato', 'Revisaré mi plan antes de dibujar el puesto']),
       ],
     }),
 
@@ -168,14 +167,23 @@ export default semana({
             prompt: 'Antes de construir, se **diseña**. Toca cada clave para un puesto que atraiga a las familias.' },
           { icon: 'PenTool', body: 'Un buen diseño comunica **una idea principal** con pocas palabras y mucha imagen.', reveal: [
             { icon: 'Newspaper', front: 'Figura y fondo', back: 'La imagen principal (figura) debe **resaltar** sobre el fondo: colores oscuros sobre claros o al revés.' },
-            { icon: 'BarChart3', front: 'Datos a la vista', back: 'Una gráfica de la encuesta demuestra que la necesidad es **real**.' },
+            { icon: 'BarChart3', front: 'Datos a la vista', back: 'Una gráfica de la encuesta simulada permite comparar prioridades del caso; no demuestra por sí sola una necesidad real fuera de él.' },
             { icon: 'Calculator', front: 'Cálculos exactos', back: 'Cantidades, volúmenes y precios bien calculados evitan que falte o se desperdicie.' },
             { icon: 'Hand', front: 'Para participar', back: 'Una actividad para el público: probar, sembrar, grabar un mensaje o intercambiar.' },
           ] },
         ),
+        S.reading(
+          { fase: 'construir', areas: ['ccss', 'mat', 'pyd'], cnb: ['ccss:5.3.2', 'pyd:4.1.2'], ambito: 'hacer',
+            prompt: 'Usa esta **encuesta hipotética común** para diseñar cualquiera de los cinco puestos. Cada estudiante eligió una prioridad; construye en tu hoja una gráfica de las cinco opciones y destaca la de tu puesto.' },
+          { genre: 'Resultados simulados', heading: 'Prioridades de 40 estudiantes',
+            passage: 'En una encuesta hipotética a 40 estudiantes, 12 eligieron una refacción más nutritiva, 10 cuidar árboles y aire, 7 compartir información por radio, 6 expresar mensajes con barriletes y 5 intercambiar productos de forma justa. Son prioridades del caso, no resultados medidos en una escuela real. Cada una corresponde a un puesto posible.',
+            questions: [{ q: '¿Cuántos estudiantes eligieron cuidar árboles y aire?', options: [
+              { id: 'a', text: '7' }, { id: 'b', text: '10' }, { id: 'c', text: '12' },
+            ], correct: 'b' }] },
+        ),
         S.chart(
           { fase: 'construir', areas: ['ccss', 'mat', 'cnt'], cnb: ['ccss:5.3.2', 'cnt:5.3.2'], ambito: 'hacer',
-            prompt: 'Supongamos que el equipo preguntó a **40 estudiantes**: "¿Qué trajiste hoy de refacción?". Resultados: golosinas 16, tortilla con frijol 10, fruta 8, nada 6. Construye la gráfica para el cartel del puesto.',
+            prompt: 'Este es otro **ejemplo**, específico de Refacción. Supongamos que el equipo preguntó a **40 estudiantes**: "¿Qué trajiste hoy de refacción?". Resultados: golosinas 16, tortilla con frijol 10, fruta 8, nada 6. Construye la gráfica y luego usa la encuesta de prioridades para tu puesto elegido.',
             explain: '22 de 40 estudiantes (16 + 6) trajeron golosinas o nada. Esa es la necesidad que justifica una refacción con proteínas, carbohidratos y vitaminas.' },
           { categories: [
             { id: 'gol', label: 'Golosinas', icon: 'Package', color: 'var(--area-cnt)' },
@@ -231,20 +239,20 @@ export default semana({
             rubric: ['Propone un título claro', 'Explica cómo resaltará la figura sobre el fondo', 'Incluye una gráfica o cálculo', 'Describe una actividad para el público'] },
         ),
         cierre({ areas: ['art', 'mat'], cnb: ['art:3.2.3'] }, ['Organicé los datos de la encuesta en una gráfica', 'Calculé cantidades y volúmenes para mi puesto', 'Mi cartel tiene buen contraste entre figura y fondo'],
-          ['Traeré materiales reciclados para construir el puesto', 'Revisaré mis cálculos con un compañero', 'Pediré opinión a mi familia sobre el boceto']),
+          ['Revisaré qué materiales reciclados podría usar si el puesto se realizara', 'Comprobaré mis cálculos con los datos del caso', 'Anotaré una mejora para que el boceto sea más claro']),
       ],
     }),
 
     /* ───────────────────────── Día 3: Crear y producir ───────────────────────── */
     lesson({
       id: 's19-d3-crear',
-      title: 'Crear y producir',
+      title: 'Crear el prototipo en papel',
       icon: 'Hammer',
       minutes: 15,
       day: 3,
       kind: 'proyecto',
-      gancho: '¿Cómo se convierten unas cajas, papel de china y granos de maíz en una feria de verdad?',
-      objetivos: ['Producir con seguridad y cuidando el ambiente', 'Revisar la exactitud de los carteles', 'Repartir en paquetes iguales con el máximo común divisor', 'Fijar precios justos para el trueque y la venta'],
+      gancho: '¿Cómo representarías el puesto de feria en una hoja sin comprar ni fabricar nada?',
+      objetivos: ['Crear un prototipo dibujado con seguridad y cuidado ambiental', 'Revisar la exactitud del cartel', 'Repartir en paquetes iguales con el máximo común divisor', 'Calcular un precio que cubra costos y trabajo'],
       resumen: [
         'Las herramientas se usan con supervisión, sobre una mesa firme, y los sobrantes se separan para reciclar.',
         'Un cartel debe tener datos exactos: revisar la información es parte de la honestidad.',
@@ -259,7 +267,7 @@ export default semana({
       steps: [
         S.explain(
           { fase: 'explorar', areas: ['pyd', 'cnt'], cnb: ['pyd:5.4.1', 'cnt:6.3.2'], ambito: 'hacer', title: 'Producir sin dañar',
-            prompt: 'Hoy se produce. Una feria que cuida el ambiente también cuida **cómo** se hacen las cosas. Toca cada tarjeta.' },
+            prompt: 'Hoy dibujarás un **prototipo en papel**. Si alguna vez se realiza la feria, estos criterios ayudarán a producir con cuidado. Toca cada tarjeta.' },
           { icon: 'Recycle', body: 'Un proyecto es **sostenible** cuando produce lo que la comunidad necesita sin dañar el agua, el aire ni el suelo.', reveal: [
             { icon: 'Scissors', front: 'Herramientas', back: 'Tijeras de punta roma sobre mesa firme; el cúter, solo una persona adulta.' },
             { icon: 'Leaf', front: 'Materiales', back: 'Papel de china, caña, cajas reutilizadas, tela y hojas de maxán en lugar de duroport y plástico.' },
@@ -269,7 +277,7 @@ export default semana({
         ),
         S.fill(
           { fase: 'construir', areas: ['cnt', 'ccss', 'art', 'fc'], cnb: ['cnt:6.3.2', 'cnt:5.1.2', 'art:4.3.3', 'fc:5.1.3'], ambito: 'conocer',
-            prompt: 'Revisa la **exactitud** de los carteles antes de colgarlos. Completa cada uno con el dato correcto que aprendiste en la unidad.',
+            prompt: 'Revisa la **exactitud** del cartel simulado antes de incluirlo en tu diseño. Completa cada dato con lo aprendido en la unidad.',
             explain: 'Un cartel con errores confunde al público. Por eso, revisar los datos es parte de la honestidad intelectual.' },
           { text: 'Vivero: los árboles absorben dióxido de carbono y liberan [[oxígeno]], por eso mejoran la calidad del aire.\nRefacción: el frijol y el huevo aportan [[proteínas]], que construyen y reparan los músculos.\nBarriletes: los barriletes gigantes de Sumpango se elevan el [[1 de noviembre]], Día de Todos los Santos.\nTrueque justo: el intercambio es [[desigual]] cuando un país vende materias primas baratas y compra productos procesados caros.',
             distractors: ['nitrógeno', 'grasas', '15 de septiembre', 'equilibrado'] },
@@ -304,13 +312,30 @@ export default semana({
         ),
         S.rhythm(
           { fase: 'aplicar', areas: ['art', 'mat', 'l1'], cnb: ['art:1.1.9', 'mat:4.4.2'], ambito: 'hacer',
-            prompt: 'La **Radio de la feria** necesita una cortinilla musical para anunciar cada puesto. Compón un compás de **4 tiempos** que tenga al menos una **blanca** y una **corchea**. ¡La tocarán con marimba o con palmas!',
+            prompt: 'La **Radio de la feria** necesita una cortinilla musical. Compón un compás de **4 tiempos** con una **blanca** y una **corchea**. Puedes marcarlo con palmas o escucharlo en la actividad.',
             hint: 'Blanca = 2 tiempos; negra = 1; corchea = 1/2. La suma debe dar 4.',
             explain: 'Por ejemplo: blanca + negra + corchea + corchea = 2 + 1 + ½ + ½ = 4 tiempos. ¡Sumaste fracciones con música!' },
           { beats: 4, allowed: ['blanca', 'negra', 'corchea'], mustInclude: ['blanca', 'corchea'], showFractions: true },
         ),
-        cierre({ areas: ['pyd', 'fc'], cnb: ['pyd:5.4.1'] }, ['Produje con seguridad y cuidando el ambiente', 'Nuestros carteles tienen datos exactos', 'Calculé repartos y precios justos'],
-          ['Terminaré mi parte del puesto', 'Separaré los sobrantes para reciclar', 'Ensayaré la cortinilla con mi equipo']),
+        S.project(
+          { fase: 'aplicar', areas: ['pyd', 'art', 'mat'], cnb: ['pyd:4.3.2', 'art:3.2.3'], ambito: 'hacer',
+            title: 'Mi prototipo en papel', prompt: 'Dibuja en una hoja el cartel o prototipo de tu puesto elegido. Señala la prioridad de la encuesta simulada, un cálculo revisado y una forma de cuidar materiales o personas. Conserva la hoja para tu presentación del día 4.' },
+          { goal: 'Prototipo dibujado del puesto elegido', steps: [
+            { title: 'Dibujar', detail: 'Haz visible el nombre, la figura principal y la actividad para visitantes.' },
+            { title: 'Comprobar', detail: 'Incluye la cifra de prioridad que corresponde a tu puesto y revisa un cálculo de cantidades, volumen o precio.' },
+            { title: 'Cuidar', detail: 'Anota cómo evitarías desperdicio o exclusión si el puesto se realizara.' },
+          ], evidence: 'Hoja con cartel o prototipo dibujado, cifra de prioridad, cálculo explicado y decisión de cuidado.',
+            rubric: ['La cifra coincide con los datos simulados', 'El cálculo y sus unidades se pueden revisar', 'La propuesta cuida el entorno o incluye a las personas'] },
+        ),
+        S.write(
+          { fase: 'aplicar', areas: ['pyd', 'art', 'mat'], cnb: ['pyd:4.3.2', 'art:3.2.3'], ambito: 'hacer',
+            prompt: 'Registra la evidencia de tu hoja: describe el puesto, la cifra de prioridad, el cálculo y una decisión de cuidado. Tu dibujo queda contigo; este texto permite revisar el trabajo.' },
+          { minWords: 30, placeholder: 'Mi puesto es… En la encuesta simulada… Calculé… Cuidaría…',
+            model: 'Mi puesto es Vivero y aire limpio. En la encuesta simulada, 10 estudiantes eligieron cuidar árboles y aire. Dibujé una caja de 30 por 20 por 15 centímetros y calculé 9,000 centímetros cúbicos de tierra. Usaría materiales reutilizados y elegiría plantas nativas con cuidado posterior.',
+            rubric: ['Identifico el puesto y la cifra correcta', 'Explico un cálculo con unidades', 'Describo una decisión de cuidado'] },
+        ),
+        cierre({ areas: ['pyd', 'fc'], cnb: ['pyd:5.4.1'] }, ['Dibujé un prototipo que cuida el ambiente', 'Mi cartel tiene datos exactos', 'Calculé repartos y precios justos'],
+          ['Revisaré mi boceto', 'Separaría los sobrantes para reciclar si realizara el puesto', 'Ensayaré la cortinilla con palmas']),
       ],
     }),
 
@@ -323,7 +348,7 @@ export default semana({
       day: 4,
       kind: 'proyecto',
       gancho: '¿Cómo logras que una abuela, un niño de primero y la presidenta del COCODE se detengan en tu puesto y participen?',
-      objetivos: ['Presentar tu puesto con una apertura interesante y calma', 'Escribir un anuncio para la radio de la feria', 'Distinguir hechos de opiniones en los mensajes', 'Responder con respeto ante situaciones de exclusión'],
+      objetivos: ['Preparar y ensayar una presentación con apertura interesante y calma', 'Escribir un anuncio simulado para la radio', 'Distinguir hechos de opiniones en los mensajes', 'Responder con respeto ante situaciones de exclusión'],
       resumen: [
         'Una buena presentación empieza con una apertura interesante (pregunta, dato sorprendente u objeto) y se sostiene con calma, buena postura y contacto visual.',
         'Un anuncio de radio es breve, claro, dice qué, cuándo y dónde, e invita a participar.',
@@ -338,7 +363,7 @@ export default semana({
       steps: [
         S.explain(
           { fase: 'explorar', areas: ['l1', 'l2'], cnb: ['l1:2.2.1', 'l1:2.2.2'], ambito: 'convivir', title: 'Presentar tu puesto en 2 minutos',
-            prompt: 'Cada equipo tiene **2 minutos** para presentar su puesto a cada grupo de visitantes. Toca cada momento.' },
+            prompt: 'Prepara una presentación de **2 minutos** para visitantes imaginarios. Escribe el guion y ensáyalo; compartirlo con alguien es opcional. Toca cada momento.' },
           { icon: 'Mic', body: 'Mantén la **calma**: pies firmes, hombros sueltos, mira a las personas y habla sin prisa.', reveal: [
             { icon: 'Lightbulb', front: '1. Apertura interesante', back: '"¿Sabían que 22 de cada 40 estudiantes vinieron hoy sin una refacción nutritiva?"' },
             { icon: 'Target', front: '2. El problema y la solución', back: '"Por eso preparamos atol de maíz con leche y fruta: energía y proteínas para aprender."' },
@@ -382,13 +407,13 @@ export default semana({
         ),
         S.write(
           { fase: 'aplicar', areas: ['l1', 'l2', 'pyd'], cnb: ['l1:2.2.1', 'l1:3.1.1', 'pyd:4.3.2'], ambito: 'emprender',
-            prompt: 'Escribe el **anuncio de radio** de tu puesto (máximo 50 palabras): apertura interesante, qué ofrece, dónde y a qué hora, y una invitación a participar.' },
+            prompt: 'Escribe un **anuncio de radio simulado** de tu puesto (máximo 50 palabras): apertura, oferta, lugar y hora ficticios, e invitación a participar.' },
           { minWords: 30, placeholder: '¡Buenos días, comunidad! ¿Sabían que…? En el puesto… Los esperamos en… hasta…',
             model: '¡Buenos días, comunidad! ¿Sabían que un árbol ayuda a que la lluvia se infiltre y llegue al nacimiento? En el puesto Vivero y aire limpio regalamos arbolitos de aliso y les enseñamos a sembrarlos. Estamos junto a la entrada, hasta las once. ¡Vengan, siembren con nosotros y cuiden el agua de todos!',
             rubric: ['Tiene una apertura interesante', 'Dice qué ofrece, dónde y cuándo', 'Usa solo datos comprobados', 'Invita a participar con cortesía'] },
         ),
-        cierre({ areas: ['l1', 'fc'], cnb: ['l1:2.2.1'] }, ['Presenté mi puesto con calma y una apertura interesante', 'Mi anuncio de radio es breve y claro', 'Respondí con respeto a todas las personas'],
-          ['Ensayaré mi presentación frente a mi familia', 'Saludaré con cortesía a cada visitante', 'Solo compartiré información comprobada']),
+        cierre({ areas: ['l1', 'fc'], cnb: ['l1:2.2.1'] }, ['Preparé y ensayé una presentación clara', 'Mi anuncio simulado es breve y claro', 'Elegí respuestas respetuosas en el caso'],
+          ['Podré compartir mi presentación si quiero', 'Saludaría con cortesía a cada visitante', 'Solo compartiré información comprobada']),
       ],
     }),
 
@@ -400,7 +425,7 @@ export default semana({
       minutes: 15,
       day: 5,
       kind: 'proyecto',
-      gancho: 'La feria terminó. ¿Cómo sabes si de verdad fortaleció las relaciones en tu comunidad?',
+      gancho: 'En el caso simulado la feria terminó. ¿Qué muestran los datos y qué mejorarías?',
       objetivos: ['Analizar los datos de visitantes y participación', 'Interpretar comentarios para mejorar', 'Repasar las ideas clave de la unidad', 'Escribir un plan de mejora y un compromiso comunitario'],
       resumen: [
         'Evaluar con datos (conteos y encuestas) y con comentarios permite saber qué funcionó y qué mejorar.',
@@ -470,13 +495,13 @@ export default semana({
         ),
         S.write(
           { fase: 'aplicar', areas: ['pyd', 'cnt', 'fc'], cnb: ['pyd:5.4.1', 'pyd:4.3.2', 'fc:3.2.3'], ambito: 'emprender',
-            prompt: 'Escribe el **plan de mejora** de tu equipo con "dos estrellas y un deseo", y un **compromiso comunitario** concreto que continuará después de la feria (qué, quiénes, cuándo).' },
+            prompt: 'Escribe un **plan de mejora para tu diseño** con "dos estrellas y un deseo" usando los datos simulados. Propón una acción comunitaria realizable si el proyecto se lleva a cabo (qué, quiénes, cuándo).' },
           { minWords: 45, placeholder: 'Estrella 1… Estrella 2… Deseo… Nuestro compromiso comunitario es…',
-            model: 'Estrella 1: entregamos 30 arbolitos de aliso a familias de tres aldeas. Estrella 2: explicamos con datos por qué el bosque protege el nacimiento. Deseo: la próxima vez daremos una hoja con los cuidados del arbolito y pondremos el puesto más cerca de la entrada. Nuestro compromiso comunitario es visitar a las familias el primer sábado de cada mes, con el apoyo del COCODE, para revisar y regar los arbolitos durante la temporada seca.',
-            rubric: ['Nombra dos logros concretos', 'Propone una mejora basada en datos o comentarios', 'Plantea un compromiso con qué, quiénes y cuándo', 'Valora el trabajo en equipo y las relaciones que nacieron'] },
+            model: 'En el caso, 30 personas visitaron el puesto de vivero. Estrella 1: el diseño explica por qué los árboles protegen el agua. Estrella 2: el cartel se lee con facilidad. Deseo: añadir una ficha de cuidados y ubicar el puesto cerca de la entrada. Si se realizara, propondría revisar los arbolitos una vez al mes con personas voluntarias.',
+            rubric: ['Nombra dos aciertos del diseño o del caso', 'Propone una mejora basada en datos o comentarios', 'Plantea una acción posible con qué, quiénes y cuándo', 'Distingue el caso simulado de una actividad que ya ocurrió'] },
         ),
-        cierre({ areas: ['pyd', 'fc'], cnb: ['pyd:4.1.2'] }, ['Analicé los resultados de la feria con datos y comentarios', 'Propuse mejoras concretas', 'Me comprometí con una acción para mi comunidad', 'Integré lo aprendido en la Unidad 2'],
-          ['Cumpliré el compromiso comunitario de mi equipo', 'Repasaré las tarjetas antes de la Semana de validación', 'Seguiré en contacto con las familias que conocí en la feria']),
+        cierre({ areas: ['pyd', 'fc'], cnb: ['pyd:4.1.2'] }, ['Analicé datos y comentarios del caso simulado', 'Propuse mejoras concretas', 'Diseñé una acción posible para la comunidad', 'Integré lo aprendido en la Unidad 2'],
+          ['Revisaré si mi acción es viable antes de proponerla', 'Repasaré las tarjetas antes de la Semana de validación', 'Escucharé opiniones si comparto mi proyecto']),
       ],
     }),
   ],

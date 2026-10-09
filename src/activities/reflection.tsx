@@ -26,12 +26,15 @@ function Reflection({ props, value, onChange, api }: ActivityProps<ReflectionPro
   const [review, setReview] = useState(false);
   const [focusOnEntry, setFocusOnEntry] = useState(false);
   const count = props.statements.length + (props.commitments ? 1 : 0);
+  const canAdvance = index < props.statements.length ? v.ratings[index] !== null : !!v.commitment;
+  const complete = v.ratings.every((rating) => rating !== null) && (!props.commitments || !!v.commitment);
   if (review) return <ActivityReview items={[
     ...props.statements.map((label, i) => ({ label, answer: SCALE.find(s => s.v === v.ratings[i])?.label ?? 'Sin responder' })),
     ...(props.commitments ? [{ label: 'Mi compromiso', answer: v.commitment ?? 'Sin responder' }] : []),
   ]} onEdit={i => { setIndex(i); setFocusOnEntry(true); setReview(false); }} />;
   return (
-    <ActivityJourney focusOnMount={focusOnEntry} index={index} count={count} label="Autoevaluación" onNavigate={setIndex} onReview={() => setReview(true)}>
+    <ActivityJourney focusOnMount={focusOnEntry} index={index} count={count} label="Autoevaluación" onNavigate={setIndex}
+      canAdvance={canAdvance} canReview={complete} nextVariant="primary" onReview={() => setReview(true)}>
       {props.statements.map((s, i) => i === index && (
         <div key={i} className="act-rate">
           <p><strong>{s}</strong></p>

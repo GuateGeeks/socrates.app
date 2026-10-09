@@ -29,7 +29,7 @@ function productionReadySlot(slot: MediaSlot): MediaSlot {
   return { ...slot, duration, brief: [slot.brief.trim(), ...additions].join(' ') };
 }
 
-/** Adds production metadata to Unit 1 slots without replacing their authored educational brief. */
+/** Adds production metadata to media slots without replacing their authored educational brief. */
 export function withProductionReadyMedia(mission: Mission): Mission {
   const media = mission.media ? productionReadySlot(mission.media) : undefined;
   const lessons = mission.lessons.map((lesson) => ({

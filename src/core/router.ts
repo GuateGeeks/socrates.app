@@ -29,15 +29,13 @@ export function parse(hash: string): Route {
     case 'mision': case 'semana': return parts[1] ? { name: 'mission', missionId: parts[1] } : { name: 'anio' };
     case 'leccion': return parts[1] && parts[2] ? { name: 'lesson', missionId: parts[1], lessonId: parts[2] } : { name: 'home' };
     case 'repaso': return { name: 'repaso' };
-    case 'explorar': return { name: 'explorar', area: parts[1] };
+    case 'explorar': return parts[1] ? { name: 'materia', area: parts[1] } : { name: 'materias' };
     case 'materias': return { name: 'materias' };
     case 'materia': return parts[1] ? { name: 'materia', area: parts[1] } : { name: 'materias' };
     case 'cuaderno': return { name: 'cuaderno' };
     case 'perfil': return { name: 'perfil' };
     case 'logros': return { name: 'logros' };
-    case 'docente': return { name: 'docente' };
-    case 'medios': return { name: 'medios' };
-    case 'sistema': return { name: 'sistema' };
+    case 'docente': case 'medios': case 'sistema': return { name: 'perfil' };
     case 'ajustes': return { name: 'ajustes' };
     case 'encuesta-beta': return { name: 'encuesta-beta' };
     case 'aws-temario': return { name: 'aws-curriculum' };

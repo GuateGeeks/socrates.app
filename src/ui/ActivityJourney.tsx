@@ -2,9 +2,9 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import { Button, Rich } from '@/design-system/components';
 
 /** Local navigation only: answer values and completion rules belong to each activity. */
-export function ActivityJourney({ index, count, label = 'Paso', onNavigate, onReview, focusOnMount = false, children }: {
+export function ActivityJourney({ index, count, label = 'Paso', onNavigate, onReview, canAdvance = true, canReview = true, nextVariant = 'secondary', focusOnMount = false, children }: {
   index: number; count: number; label?: string; onNavigate: (index: number) => void;
-  onReview?: () => void; focusOnMount?: boolean; children: ReactNode;
+  onReview?: () => void; canAdvance?: boolean; canReview?: boolean; nextVariant?: 'primary' | 'secondary'; focusOnMount?: boolean; children: ReactNode;
 }) {
   const heading = useRef<HTMLParagraphElement>(null);
   const previous = useRef<number | undefined>(focusOnMount ? undefined : index);
@@ -16,9 +16,9 @@ export function ActivityJourney({ index, count, label = 'Paso', onNavigate, onRe
     <p className="ds-small ds-muted" ref={heading} tabIndex={-1} aria-live="polite">{label} {index + 1} de {count}</p>
     {children}
     <nav className="activity-journey__nav" aria-label="Navegación de la actividad">
-      <Button variant="secondary" disabled={index <= 0} onClick={() => onNavigate(index - 1)}>Anterior</Button>
-      {index < count - 1 && <Button variant="secondary" onClick={() => onNavigate(index + 1)}>Siguiente</Button>}
-      {onReview && <Button variant="secondary" onClick={onReview}>Revisar mis respuestas</Button>}
+      {index > 0 && <Button variant="secondary" onClick={() => onNavigate(index - 1)}>Anterior</Button>}
+      {index < count - 1 && <Button variant={nextVariant} disabled={!canAdvance} onClick={() => onNavigate(index + 1)}>Siguiente</Button>}
+      {onReview && canReview && <Button variant="secondary" onClick={onReview}>Revisar mis respuestas</Button>}
     </nav>
   </section>;
 }

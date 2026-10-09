@@ -5,7 +5,7 @@ import { navigate } from '@/core/router';
 import { Button, Card, SectionTitle, Toggle, useEnter } from '@/design-system/components';
 import { Icon } from '@/design-system/icons';
 import { DAILY_GOALS, updateLearnerProfile, type DailyGoal, type LearnerProfile } from '@/core/learner-profile';
-import { PROGRAMS, PROGRAM_IDS, type ProgramId } from '@/core/programs';
+import { PROGRAMS, SCHOOL_GRADES, type ProgramId } from '@/core/programs';
 import { preferencesForProgram } from '@/core/program-settings';
 import { resetAwsProgress } from '@/aws/progress';
 
@@ -25,22 +25,35 @@ export function Ajustes({ activeProgram, profile, changeProgram }: { activeProgr
     <div ref={ref} className="ds-page ds-stack mobile-screen">
       <div className="ds-row">
         <Button variant="ghost" icon onClick={() => navigate({ name: 'perfil' })} aria-label="Volver"><Icon name="ArrowLeft" /></Button>
-        <h1>Ajustes</h1>
+        <h1>Mis datos y ajustes</h1>
       </div>
       <Card>
-        <SectionTitle>Perfil</SectionTitle>
-        <input className="ds-input" style={{ marginTop: 8 }} value={activeProgram === 'cnb-sexto' ? p.profile.name : profile.displayName} maxLength={20} aria-label="Nombre"
+        <SectionTitle>Quién soy</SectionTitle>
+        <label htmlFor="aj-name" className="ds-small" style={{ display: 'block', marginTop: 8 }}>Tu nombre</label>
+        <input id="aj-name" className="ds-input" style={{ marginTop: 8 }} value={activeProgram === 'cnb-sexto' ? p.profile.name : profile.displayName} maxLength={20}
           onChange={(e) => { if (activeProgram === 'cnb-sexto') updateProgress((x) => ({ ...x, profile: { ...x.profile, name: e.target.value } })); updateLearnerProfile({ displayName: e.target.value }); }} />
+        <p className="ds-xs ds-muted" style={{ marginTop: 8 }}>Se guarda al escribir. Puedes volver aquí desde Perfil.</p>
       </Card>
       <Card>
-        <SectionTitle>Programa educativo</SectionTitle>
-        <p className="ds-small ds-muted" style={{ margin: '8px 0 12px' }}>Puedes cambiar de programa. Tu avance en cada uno se conserva.</p>
-        <div className="ds-stack" style={{ gap: 8 }}>
-          {PROGRAM_IDS.map((id) => <Button key={id} variant={activeProgram === id ? 'primary' : 'secondary'}
-            aria-pressed={activeProgram === id} onClick={() => changeProgram(id)}>
-            <Icon name={PROGRAMS[id].icon} size={18} /> {PROGRAMS[id].title}
-          </Button>)}
+        <SectionTitle>Mi grado escolar</SectionTitle>
+        <p className="ds-small ds-muted" style={{ margin: '8px 0 12px' }}>Sexto Primaria está disponible. Los demás grados llegarán después.</p>
+        <div className="ds-stack" style={{ gap: 10 }}>
+          <Button variant={activeProgram === 'cnb-sexto' ? 'primary' : 'secondary'} aria-pressed={activeProgram === 'cnb-sexto'} onClick={() => changeProgram('cnb-sexto')}>
+            <Icon name="BookOpen" size={18} /> {PROGRAMS['cnb-sexto'].title} · disponible
+          </Button>
+          <div className="settings__future-grades">
+            {SCHOOL_GRADES.filter((grade) => !grade.available).map((grade) => <div key={grade.title} className="settings__future-grade" aria-disabled="true">
+              <strong>{grade.title}</strong><small>Próximamente</small>
+            </div>)}
+          </div>
         </div>
+      </Card>
+      <Card>
+        <SectionTitle>Formación adicional</SectionTitle>
+        <p className="ds-small ds-muted" style={{ margin: '8px 0 12px' }}>AWS es un curso de certificación independiente del año escolar. Tu avance se conserva si cambias.</p>
+        <Button variant={activeProgram === 'aws-cloud-practitioner' ? 'primary' : 'secondary'} aria-pressed={activeProgram === 'aws-cloud-practitioner'} onClick={() => changeProgram('aws-cloud-practitioner')}>
+          <Icon name="Cloud" size={18} /> {PROGRAMS['aws-cloud-practitioner'].title}
+        </Button>
       </Card>
       {activeProgram === 'cnb-sexto' && <>
       <Card>
@@ -64,7 +77,6 @@ export function Ajustes({ activeProgram, profile, changeProgram }: { activeProgr
         <Toggle label="Sonidos" desc={activeProgram === 'cnb-sexto' ? 'Marimba y efectos' : 'Efectos de la interfaz'} checked={shownSettings.sound} onChange={(v) => set({ sound: v })} />
         <Toggle label="Vibración" desc="En teléfonos compatibles" checked={shownSettings.haptics} onChange={(v) => set({ haptics: v })} />
         <Toggle label="Movimiento reducido" desc="Menos animaciones" checked={shownSettings.reducedMotion} onChange={(v) => set({ reducedMotion: v })} />
-        {activeProgram === 'cnb-sexto' && <Toggle label="Modo productor de contenidos" desc="Muestra las fichas de producción de imágenes y videos" checked={shownSettings.producerMode} onChange={(v) => set({ producerMode: v })} />}
         <div className="ds-toggle">
           <strong>Tema</strong>
           <div className="ds-row" style={{ gap: 6 }}>
@@ -78,7 +90,6 @@ export function Ajustes({ activeProgram, profile, changeProgram }: { activeProgr
         <SectionTitle>Más</SectionTitle>
         <div className="ds-stack" style={{ marginTop: 8 }}>
           {activeProgram === 'cnb-sexto' && <Button variant="secondary" onClick={() => navigate({ name: 'encuesta-beta' })}><Icon name="MessageSquareHeart" size={18} /> Encuesta beta · comparte tu opinión</Button>}
-          {activeProgram === 'cnb-sexto' && <Button variant="secondary" onClick={() => navigate({ name: 'sistema' })}><Icon name="Palette" size={18} /> Sistema de diseño y actividades</Button>}
           {!confirmReset
             ? <Button variant="ghost" onClick={() => setConfirmReset(true)}>Borrar mi progreso en este programa</Button>
             : <div className="ds-row"><Button variant="bad" onClick={() => { if (activeProgram === 'cnb-sexto') resetProgress(); else resetAwsProgress(); setConfirmReset(false); }}>Sí, borrar</Button><Button variant="secondary" onClick={() => setConfirmReset(false)}>Cancelar</Button></div>}

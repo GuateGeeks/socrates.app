@@ -6,7 +6,6 @@ import type { Lesson, Mission, StepBase } from '@/core/types';
 import { t } from '@/core/i18n';
 import { navigate } from '@/core/router';
 import { AREAS, FASES } from '@/cnb/model';
-import { indicadorText } from '@/cnb/catalog';
 import { Button, Chip, ProgressBar, Rich } from '@/design-system/components';
 import { Icon } from '@/design-system/icons';
 import { Mascot } from '@/design-system/components/Mascot';
@@ -64,7 +63,9 @@ function LessonIntro({ mission, lesson, mode, onStart }: { mission: Mission; les
         <div className="lp-intro__rules">
           <Icon name="ShieldCheck" size={20} />
           <div className="ds-small">
-            <strong>Modo validación.</strong> Sin pistas y un solo intento por pregunta. Al final verás tus resultados por indicador de logro.
+            {lesson.kind === 'diagnostico'
+              ? <><strong>Para conocer tu punto de partida.</strong> Responde con calma. No necesitas saberlo todo; al final verás qué puedes repasar.</>
+              : <><strong>Modo validación.</strong> Sin pistas y un solo intento por pregunta. Al final verás qué aprendiste y qué puedes repasar.</>}
             {lesson.kind === 'reto' && ' Con 70 % o más ganas la medalla de la semana.'}
           </div>
         </div>
@@ -85,7 +86,6 @@ export function LessonPlayer({ mission, lesson, mode = modeOf(lesson), skipIntro
   const [summary, setSummary] = useState<LessonSummary | null>(null);
   const [reviewDone, setReviewDone] = useState<StepOutcome[] | null>(null);
   const [combo, setCombo] = useState(0);
-  const [showCnb, setShowCnb] = useState(false);
   const [confirmExit, setConfirmExit] = useState(false);
   const [saved, setSaved] = useState<Record<string, boolean>>({});
   const step: StepBase | undefined = lesson.steps[idx];
@@ -104,7 +104,6 @@ export function LessonPlayer({ mission, lesson, mode = modeOf(lesson), skipIntro
       cardRef.current?.focus({ preventScroll: true });
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
-    setShowCnb(false);
   }, [idx, started]);
   useEffect(() => {
     const bar = barRef.current;
@@ -200,14 +199,7 @@ export function LessonPlayer({ mission, lesson, mode = modeOf(lesson), skipIntro
           <div className="ds-row" style={{ flexWrap: 'wrap', gap: 6 }}>
             <Chip color={color} solid><Icon name={fase.icon} size={14} /> {fase.nombre}</Chip>
             {step.areas.map((a) => <Chip key={a} color={AREAS[a].color}><Icon name={AREAS[a].icon} size={13} /> {AREAS[a].corto}</Chip>)}
-            {step.cnb.length > 0 && <button type="button" className="lp__cnbbtn" onClick={() => setShowCnb((v) => !v)} aria-expanded={showCnb}><Icon name="Info" size={13} /> CNB</button>}
           </div>
-          {showCnb && (
-            <div className="lp__cnb">
-              <strong className="ds-xs">¿Qué estoy aprendiendo? (Currículo Nacional Base)</strong>
-              {step.cnb.map((c) => <div key={c} className="ds-small"><code>{c}</code> {indicadorText(c)}</div>)}
-            </div>
-          )}
           {step.title && <h2 className="lp__title">{step.title}</h2>}
           <p className="lp__prompt"><Rich text={step.prompt} /></p>
           {step.media && <MediaSlot slot={step.media} color={color} />}

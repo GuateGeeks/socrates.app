@@ -62,7 +62,7 @@ export function Home() {
       <header className="home__head">
         <span className="home__me"><Icon name={avatar} size={26} /></span>
         <div className="ds-grow">
-          <p className="ds-xs ds-muted">Sexto Primaria · CNB Guatemala</p>
+          <p className="ds-xs ds-muted">Sexto Primaria · Guatemala</p>
           <h1>Hola{p.profile.name ? `, ${p.profile.name}` : ''}</h1>
         </div>
         <span className="ds-pill-stat" title="Racha de días"><Icon name="Flame" size={18} color="var(--c-bad)" /> {p.streak.count}</span>

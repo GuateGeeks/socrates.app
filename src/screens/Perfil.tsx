@@ -2,16 +2,13 @@ import './mobile-screens.css';
 import { useProgress } from '@/core/progress';
 import { navigate, type Route } from '@/core/router';
 import { allLessons } from '@/content';
-import { Card, useEnter } from '@/design-system/components';
+import { Button, Card, useEnter } from '@/design-system/components';
 import { Icon } from '@/design-system/icons';
 
 const MENU: { route: Route; icon: string; title: string; desc: string }[] = [
-  { route: { name: 'logros' }, icon: 'Trophy', title: 'Mis logros', desc: 'Insignias, rueda del CNB y perfil de egreso' },
+  { route: { name: 'logros' }, icon: 'Trophy', title: 'Mis logros', desc: 'Puntos, insignias y lo que he aprendido' },
   { route: { name: 'repaso' }, icon: 'RefreshCw', title: 'Repaso inteligente', desc: 'Ejercicios que conviene repasar hoy' },
-  { route: { name: 'docente' }, icon: 'GraduationCap', title: 'Vista docente', desc: 'Cobertura del CNB, plan semanal y evidencias' },
-  { route: { name: 'medios' }, icon: 'Clapperboard', title: 'Medios por producir', desc: 'Fichas de imágenes, videos y audios' },
-  { route: { name: 'sistema' }, icon: 'Palette', title: 'Sistema de diseño', desc: 'Íconos, movimiento, sonidos y actividades' },
-  { route: { name: 'ajustes' }, icon: 'Settings', title: 'Ajustes', desc: 'Perfil, calendario, sonido y accesibilidad' },
+  { route: { name: 'ajustes' }, icon: 'Settings', title: 'Mis datos y ajustes', desc: 'Nombre, grado, sonido y accesibilidad' },
 ];
 
 export function Perfil() {
@@ -35,6 +32,9 @@ export function Perfil() {
           <div className="lc__stat" style={{ borderColor: 'var(--c-bad)' }}><small>Racha</small><strong>{p.streak.count}</strong></div>
           <div className="lc__stat" style={{ borderColor: 'var(--c-ok)' }}><small>Insignias</small><strong>{Object.keys(p.badges).length}</strong></div>
         </div>
+        <Button block variant="secondary" style={{ marginTop: 16 }} onClick={() => navigate({ name: 'ajustes' })}>
+          <Icon name="Pencil" size={18} /> Editar mi nombre o grado
+        </Button>
       </Card>
       {MENU.map((m) => (
         <Card key={m.title} onClick={() => navigate(m.route)}>

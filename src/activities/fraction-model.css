@@ -1,0 +1,22 @@
+.fraction-model { gap: 10px; }
+.fraction-model__instruction { margin: 0; line-height: 1.5; }
+.fraction-model__labels { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center; font-size: var(--fs-sm); font-weight: var(--fw-black); color: var(--c-ink); }
+.fraction-model__scene { width: 100%; height: clamp(200px, 56vw, 290px); border: 2px solid var(--c-line); border-radius: var(--r-lg); background: radial-gradient(circle at 50% 28%, color-mix(in srgb, var(--c-jade) 12%, var(--c-surface)), var(--c-surface)); overflow: hidden; }
+.fraction-model__scene canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+.fraction-model__scene canvas:active { cursor: grabbing; }
+.fraction-model__hint { margin: 0; text-align: center; color: var(--c-ink-2); font-size: var(--fs-sm); }
+.fraction-model__accessible { font-size: var(--fs-sm); color: var(--c-ink-2); }
+.fraction-model__accessible summary { cursor: pointer; font-weight: var(--fw-bold); }
+.fraction-model__controls { display: flex; align-items: center; justify-content: center; gap: 5px; padding: 12px 0; }
+.fraction-model__piece { width: 66px; height: 110px; border: 3px solid var(--c-ink-2); background: var(--c-surface-2); color: var(--c-ink); font-weight: var(--fw-black); font-size: var(--fs-lg); cursor: pointer; }
+.fraction-model__piece:first-child { border-radius: 70px 4px 4px 70px; }
+.fraction-model__piece:last-child { border-radius: 4px 70px 70px 4px; }
+.fraction-model__piece.is-filled { background: var(--c-jade); color: var(--c-on-brand); }
+.fraction-model__piece:focus-visible { outline: 3px solid var(--c-jade); outline-offset: 3px; }
+.fraction-model__piece:disabled { cursor: default; }
+.fraction-model__fallback { display: grid; grid-template-columns: 1fr 1fr; align-items: center; justify-items: center; gap: 8px; min-height: 190px; border: 2px solid var(--c-line); border-radius: var(--r-lg); }
+.fraction-model__fallback .fraction-model__controls { gap: 2px; }
+.fraction-model__fallback .fraction-model__piece { width: 40px; height: 80px; }
+.fraction-model__source { display: flex; gap: 2px; width: min(100%, 140px); height: 48px; }
+.fraction-model__source i { flex: 1; border: 2px solid var(--c-ink-2); border-radius: 6px; background: var(--c-surface-2); }
+.fraction-model__source i.is-filled { background: var(--c-maiz-strong); }

@@ -56,7 +56,9 @@ export function buildValidationWeek(unidad: 1 | 2 | 3 | 4, weeks: Mission[]): Mi
         prompt: '¿Qué fue lo más importante que aprendiste en esta unidad y cómo lo puedes usar en tu comunidad?',
         props: { model: unidad === 1
           ? 'Aprendí a comparar evidencias y lo puedo usar cuando evalúo una propuesta porque necesito razones claras. También quiero seguir aprendiendo a comunicar mis conclusiones.'
-          : 'Aprendí a … y lo puedo usar cuando … porque …. También me gustaría seguir aprendiendo sobre ….',
+          : unidad === 2
+            ? 'Aprendí a distinguir un dato observado de una suposición. Puedo usarlo para explicar a mi comunidad por qué conviene investigar antes de tomar una decisión sobre salud o ambiente.'
+            : 'Aprendí a explicar una idea de mis lecciones con ejemplos y evidencia. Puedo usarlo para conversar con mi comunidad, escuchar otras opiniones y mejorar una propuesta.',
         rubric: ['Menciono al menos un aprendizaje concreto', 'Explico cómo lo uso en mi vida o comunidad', 'Escribo con oraciones completas y buena ortografía'], minWords: 15 } },
       { id: `${sid}-p-3`, type: 'reflection', fase: 'reflexionar', ambito: 'ser', areas: ['fc'], cnb: [], prompt: 'Autoevaluación de la unidad',
         props: { statements: ['Completé las lecciones de cada semana', 'Superé los retos semanales', 'Pedí ayuda o repasé cuando algo me costó', 'Apliqué lo aprendido fuera de la escuela'],

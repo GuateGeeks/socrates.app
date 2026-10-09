@@ -1,17 +1,17 @@
-# Estado de diseño y contenido · 2026-09-30
+# Estado de diseño y contenido · 2026-10-05
 
 ## Estado actual
 
-- La app valida correctamente: 40/40 semanas, 432 lecciones, 4,692 pasos, 597 espacios multimedia y cobertura CNB completa: 203/203 indicadores y 833/833 contenidos.
+- La validación curricular estricta de la unidad 2 pasa: 40/40 semanas, 624 lecciones totales, 6,379 pasos, 786 espacios multimedia y cobertura CNB completa: 203/203 indicadores y 833/833 contenidos.
 - La arquitectura es sana para una PWA educativa: React + Vite + TypeScript, contenido como datos, actividades registradas como plugins, motor separado de la UI y validadores de contenido.
-- El rediseño v3 por materias esta completo solo en Unidad 1: 216/864 lecciones de materia. Quedan pendientes 30/40 bloques materia-unidad y 24/32 semanas de aprendizaje por convertir a Taller + Reto.
+- El rediseño v3 por materias cubre las unidades 1 y 2: 432/864 lecciones de materia. Quedan pendientes 20/40 bloques materia-unidad y 16/32 semanas de aprendizaje por convertir a Taller + Reto.
 - La lista interna de medios mockeados vive en `src/media/mockRegistry.ts`. La pantalla `Medios por producir` exporta, por cada mock, ficha, archivo destino sugerido y snippet para `src/media/assets.ts`.
 
 ## Diagnostico de diseño
 
 - La estructura v3 es la direccion correcta: lecciones por materia para ensenar con profundidad, y taller/reto semanal solo para conexiones reales.
-- Unidad 1 ya muestra buena variedad: ejemplos resueltos, mapas de coordenadas, ritmos, recetas, graficas, dilemas, lecturas, escritura y actividades fisicas.
-- Las Unidades 2-4 aun conservan contenido integrado anterior. Son validas para cobertura, pero no siempre tienen la cohesion y profundidad de las clases por materia.
+- Las unidades 1 y 2 incluyen ejemplos resueltos, mapas, ritmos, gráficas, dilemas, lecturas, escritura y actividades físicas.
+- Las unidades 3 y 4 conservan contenido integrado anterior. Son válidas para cobertura, pero aún requieren clases por materia y talleres acotados.
 - Algunos temas generadores de semanas antiguas son amplios y pueden sentirse forzados. Al convertir Unidades 2-4, el tema semanal debe ajustarse a lo que las materias realmente ensenan, no al reves.
 - Hay medios suficientes como fichas de produccion, pero siguen siendo maquetas. Cuando producir una animacion o recurso complejo sea costoso, debe quedar como mock con ficha concreta, no como sustituto visual pobre dentro de la actividad.
 

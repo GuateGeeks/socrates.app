@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import type { LessonSummary, StepOutcome } from '@/core/progress';
+import { getProgress, type LessonSummary, type StepOutcome } from '@/core/progress';
+import { loadSurveyDraft, shouldOfferSurveyAfterLesson } from '@/core/beta-survey';
 import type { Lesson, Mission } from '@/core/types';
 import { navigate } from '@/core/router';
 import { t } from '@/core/i18n';
@@ -22,6 +23,9 @@ function lessonsFor(indicador: string, exclude: string) {
 
 export function LessonComplete({ mission, lesson, summary, mode }: { mission: Mission; lesson: Lesson; summary: LessonSummary; mode: PlayerMode }) {
   const [xp, setXp] = useState(0);
+  const [surveyDismissed, setSurveyDismissed] = useState(() => {
+    try { return localStorage.getItem('socrates.survey-invite.v1') === 'seen'; } catch { return false; }
+  });
   const starsRef = useRef<HTMLDivElement>(null);
   const badgesRef = useRef<HTMLDivElement>(null);
   const indRef = useRef<HTMLDivElement>(null);
@@ -29,6 +33,12 @@ export function LessonComplete({ mission, lesson, summary, mode }: { mission: Mi
   const exam = mode === 'exam';
   const passed = summary.score >= 0.7;
   const isReto = lesson.kind === 'reto';
+  const isDiagnostic = lesson.kind === 'diagnostico';
+  const offerSurvey = shouldOfferSurveyAfterLesson(getProgress().lessons, loadSurveyDraft().submittedAt, surveyDismissed);
+  const closeSurveyInvite = () => {
+    setSurveyDismissed(true);
+    try { localStorage.setItem('socrates.survey-invite.v1', 'seen'); } catch { /* almacenamiento no disponible */ }
+  };
 
   useEffect(() => {
     if (!exam || passed) confetti();
@@ -45,13 +55,13 @@ export function LessonComplete({ mission, lesson, summary, mode }: { mission: Mi
   return (
     <div className="ds-page ds-stack lc" style={{ paddingBottom: 40 }}>
       <div className="ds-center ds-stack" style={{ alignItems: 'center' }}>
-        <Mascot mood={exam && !passed ? 'think' : 'cheer'} size={112} />
-        <h1>{exam ? (passed ? (isReto ? '¡Reto superado!' : '¡Validación superada!') : '¡Buen intento!') : t('done.title')}</h1>
+        <Mascot mood={exam && !passed && !isDiagnostic ? 'think' : 'cheer'} size={112} />
+        <h1>{isDiagnostic ? '¡Diagnóstico completado!' : exam ? (passed ? (isReto ? '¡Reto superado!' : '¡Validación superada!') : '¡Buen intento!') : t('done.title')}</h1>
         <p className="ds-muted">{lesson.title}</p>
         <div ref={starsRef} className="lc__stars" aria-label={`${summary.stars} de 3 estrellas`}>
           {[1, 2, 3].map((n) => <span key={n} className={n <= summary.stars ? 'on' : ''}><Icon name="Star" size={42} strokeWidth={2.4} /></span>)}
         </div>
-        {exam && !passed && <p className="ds-small">Necesitas 70 % para {isReto ? 'la medalla' : 'aprobar'}. Repasa los indicadores marcados y vuelve a intentarlo.</p>}
+        {exam && !passed && !isDiagnostic && <p className="ds-small">Necesitas 70 % para {isReto ? 'la medalla' : 'aprobar'}. Repasa los temas marcados y vuelve a intentarlo.</p>}
       </div>
 
       <div className="lc__stats">
@@ -59,6 +69,18 @@ export function LessonComplete({ mission, lesson, summary, mode }: { mission: Mi
         <div className="lc__stat" style={{ borderColor: 'var(--c-bad)' }}><small>{t('done.streak')}</small><strong><Icon name="Flame" size={18} /> {summary.streak}</strong></div>
         <div className="lc__stat" style={{ borderColor: 'var(--c-ok)' }}><small>{t('done.precision')}</small><strong>{Math.round(summary.score * 100)}%</strong></div>
       </div>
+
+      {offerSurvey && <Card raised className="lc__survey-invite">
+        <div className="lc__survey-icon" aria-hidden><Icon name="MessageSquareHeart" size={26} /></div>
+        <div className="ds-stack" style={{ gap: 8 }}>
+          <h2>¿Cómo te pareció Socrates?</h2>
+          <p>¡Terminaste tu primera lección! Tu opinión nos ayuda a mejorar la experiencia para otros estudiantes. La encuesta es opcional y toma unos 3 minutos.</p>
+          <div className="ds-row" style={{ flexWrap: 'wrap' }}>
+            <Button onClick={() => { closeSurveyInvite(); navigate({ name: 'encuesta-beta' }); }}>Calificar la plataforma</Button>
+            <Button variant="secondary" onClick={closeSurveyInvite}>Ahora no</Button>
+          </div>
+        </div>
+      </Card>}
 
       {summary.newBadges.length > 0 && (
         <Card raised>
@@ -83,7 +105,7 @@ export function LessonComplete({ mission, lesson, summary, mode }: { mission: Mi
 
       {inds.length > 0 && (
         <Card>
-          <SectionTitle>Resultados por indicador de logro</SectionTitle>
+          <SectionTitle>Así te fue en cada tema</SectionTitle>
           <div ref={indRef} className="ds-stack" style={{ gap: 10, marginTop: 10 }}>
             {inds.map(([id, r]) => {
               const a = AREAS[areaOf(id)];

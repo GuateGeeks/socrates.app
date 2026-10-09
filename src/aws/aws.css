@@ -206,3 +206,33 @@
 .aws-lesson .aws-phases button > span:last-child { min-width: 0; }
 .aws-lesson .assignment-active { top: calc(var(--aws-phase-height, 64px) + var(--safe-t) + 12px); }
 .aws-lesson .assignment-work, .aws-reading-card h2, .aws-practice h2, #aws-question, #aws-answer-feedback { scroll-margin-top: calc(var(--aws-phase-height, 64px) + var(--safe-t) + 20px); }
+.aws-practice__scenario { padding: 14px 16px; border-left: 4px solid var(--c-accent-fill); border-radius: var(--r-sm); background: var(--c-accent-soft); color: var(--c-ink) !important; }
+.aws-journey-progress { display: grid; gap: 7px; color: var(--c-ink-2); font-size: var(--fs-sm); font-weight: var(--fw-bold); }
+.aws-lesson-compact { display: flex; align-items: center; gap: 12px; min-height: 48px; }
+.aws-lesson-compact strong { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-sm); }
+.aws-lesson-compact a, .aws-lesson-compact button { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border: 1px solid var(--c-line); border-radius: var(--r-sm); background: var(--c-surface); color: var(--c-ink); }
+.aws-practice-player { gap: 18px; }
+.aws-practice-player__head { display: grid; gap: 10px; }
+.aws-practice-player__progress { display: grid; gap: 8px; color: var(--c-ink-2); font-size: var(--fs-sm); font-weight: var(--fw-bold); }
+.aws-practice-player__card { display: grid; gap: 16px; }
+.aws-practice-player__card h3 { font-size: var(--fs-lg); }
+.aws-practice-question { padding: 18px; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface-2); color: var(--c-ink) !important; font-size: var(--fs-lg); font-weight: var(--fw-bold); line-height: 1.5 !important; }
+.aws-practice-choices { display: grid; gap: 10px; }
+.aws-practice-choices button { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 12px 16px; border: 2px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); font: inherit; text-align: left; cursor: pointer; }
+.aws-practice-choices button svg { flex: none; color: var(--c-accent); }
+.aws-practice-choices button.is-selected { border-color: var(--c-accent); background: var(--c-accent-soft); }
+.aws-practice-choices button:disabled { cursor: default; }
+.aws-practice-response { display: grid; gap: 8px; padding: 16px; border-radius: var(--r-md); }
+.aws-practice-response strong { display: flex; gap: 8px; align-items: center; }
+.aws-practice-response.is-correct { background: var(--c-ok-soft); }
+.aws-practice-response.is-correct strong { color: var(--c-ok); }
+.aws-practice-response.is-incorrect { background: var(--c-bad-soft); }
+.aws-practice-response.is-incorrect strong { color: var(--c-bad); }
+.aws-practice-player__actions { position: sticky; bottom: 0; z-index: 4; padding: 12px 0 calc(12px + var(--safe-b)); border-top: 1px solid var(--c-line); background: var(--c-surface); }
+.aws-practice-player__actions .aws-primary { width: 100%; min-height: 54px; }
+.aws-practice-player__actions.is-correct { background: var(--c-ok-soft); }
+.aws-practice-player__actions.is-incorrect { background: var(--c-bad-soft); }
+.aws-practice-result { justify-items: center; text-align: center; padding-block: 36px; }
+.aws-practice-result .aws-primary, .aws-practice-result .aws-secondary { width: min(100%, 340px); }
+@media (min-width: 700px) { .aws-practice-choices { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-height: 500px) { .aws-practice-player__actions { position: static; } }

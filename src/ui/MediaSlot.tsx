@@ -2,7 +2,6 @@ import { useState, type CSSProperties } from 'react';
 import type { MediaSlot as Slot } from '@/core/types';
 import { MEDIA_ASSETS } from '@/media/assets';
 import { Icon } from '@/design-system/icons';
-import { useProgress } from '@/core/progress';
 
 const KIND: Record<Slot['kind'], { icon: string; label: string }> = {
   image: { icon: 'Image', label: 'Imagen' },
@@ -16,11 +15,9 @@ const fmtDur = (s?: number) => (s ? `${Math.floor(s / 60)}:${String(s % 60).padS
 
 /**
  * Espacio multimedia. Si el recurso ya fue producido (src/media/assets.ts) se muestra;
- * si no, se dibuja una maqueta ilustrada con lo que el niño verá y, en modo productor,
- * la ficha de producción completa.
+ * si no, se dibuja una maqueta ilustrada con lo que el niño verá.
  */
 export function MediaSlot({ slot, color = 'var(--c-jade)', compact }: { slot: Slot; color?: string; compact?: boolean }) {
-  const producer = useProgress((p) => p.settings.producerMode);
   const [open, setOpen] = useState(false);
   const asset = MEDIA_ASSETS[slot.id];
   const k = KIND[slot.kind];
@@ -56,10 +53,9 @@ export function MediaSlot({ slot, color = 'var(--c-jade)', compact }: { slot: Sl
         </span>
         <span className="ms-mock__soon">Próximamente</span>
       </button>
-      {(open || producer) && (
+      {open && (
         <figcaption className="ms-mock__caption">
           <p><strong>Aquí verás:</strong> {slot.alt}</p>
-          {producer && <p className="ms-mock__brief"><strong>Ficha de producción ({slot.id}):</strong> {slot.brief}</p>}
         </figcaption>
       )}
     </figure>

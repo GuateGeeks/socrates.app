@@ -35,14 +35,20 @@ function FillBlank({ step, props, value, onChange, status }: ActivityProps<FillB
   const editorRef = useRef<HTMLDivElement>(null);
   const [sel, setSel] = useState<number>(0);
   const locked = status === 'correct' || status === 'revealed';
-  const used = (w: string, idx: number) => v.filter((x) => x === w).length > bank.slice(0, idx).filter((x) => x === w).length;
+  const current = blanks[sel];
+  const choices = useMemo(() => {
+    const answer = current.answers[0];
+    const alternatives = bank.filter((word) => norm(word) !== norm(answer));
+    const distinct = [...new Map(alternatives.map((word) => [norm(word), word])).values()].slice(0, 3);
+    return shuffled([answer, ...distinct], `${step.id}-${sel}`);
+  }, [bank, current, sel, step.id]);
+  const complete = v.length === blanks.length && v.every((answer) => answer !== null);
 
   const put = (w: string) => {
     if (locked) return;
     feedback('drop');
     const n = [...v]; n[sel] = w; onChange(n);
   };
-  const clear = () => { if (locked) return; const n = [...v]; n[sel] = null; onChange(n); };
   const wrong = (i: number) => status === 'incorrect' && v[i] !== null && !blanks[i].answers.some((a) => norm(a) === norm(v[i]!));
   // Show the surrounding sentence without leaking an unanswered blank's solution.
   const activePart = parts.findIndex((p) => p.t === 'blank' && p.i === sel);
@@ -52,25 +58,31 @@ function FillBlank({ step, props, value, onChange, status }: ActivityProps<FillB
   const contextAfter = after.match(/^[^.!?\n]*[.!?]?/)?.[0] ?? '';
   return (
     <div ref={editorRef} className="ds-stack act-fb-editor" tabIndex={-1}>
-      <div className="act-precision__nav">
-        <button type="button" className="ds-btn ds-btn--secondary" disabled={sel === 0} onClick={() => setSel(sel - 1)}>Espacio anterior</button>
-        <span aria-live="polite">Espacio {sel + 1} de {blanks.length}</span>
-        <button type="button" className="ds-btn ds-btn--secondary" disabled={sel === blanks.length - 1} onClick={() => setSel(sel + 1)}>Siguiente espacio</button>
-      </div>
+      <p className="ds-small ds-muted act-fb__progress" aria-live="polite">Frase {sel + 1} de {blanks.length}</p>
       <div className="act-fb__text" aria-label="Contexto del espacio activo">
         {contextBefore}<strong className={`act-fb__slot is-sel${wrong(sel) ? ' is-wrong' : ''}`}>{v[sel] ?? '____'}</strong>{contextAfter}
       </div>
       {wrong(sel) && <p role="status">Revisa este espacio.</p>}
-      <div className="act-fb__bank" aria-label="Banco de palabras">
-        {bank.map((w, idx) => <button key={idx} type="button" className={`act-token${used(w, idx) ? ' is-used' : ''}`} disabled={locked || used(w, idx)} onClick={() => put(w)}>{w}</button>)}
+      <p className="ds-small ds-muted">Elige la palabra que completa la frase.</p>
+      <div className="act-fb__bank" role="group" aria-label={`Opciones para la frase ${sel + 1}`}>
+        {choices.map((word) => <button key={word} type="button" className={`act-token${v[sel] === word ? ' is-selected' : ''}`}
+          aria-pressed={v[sel] === word} disabled={locked} onClick={() => put(word)}>{word}</button>)}
       </div>
-      <button type="button" className="ds-btn ds-btn--ghost" disabled={locked || !v[sel]} onClick={clear}>Vaciar espacio {sel + 1}</button>
-      <details><summary>Consultar texto completo</summary><div className="act-fb__text">
-        {parts.map((p, k) => p.t === 'text' ? <span key={k} style={{ whiteSpace: 'pre-wrap' }}>{p.v}</span> : <span className="act-fb__slot" key={k}>{v[p.i] ?? `(${p.i + 1}) ____`}</span>)}
-      </div></details>
-      <details open><summary>Revisar mis respuestas</summary>
-        <ol className="act-precision__review">{blanks.map((b) => <li key={b.i}><span>{v[b.i] ?? 'Pendiente'}{wrong(b.i) ? ' · Revisar' : ''}</span><button type="button" className="ds-btn ds-btn--secondary" aria-label={`Editar espacio ${b.i + 1}`} onClick={() => { setSel(b.i); editorRef.current?.scrollIntoView({ block: 'start' }); editorRef.current?.focus({ preventScroll: true }); }}>Editar espacio {b.i + 1}</button></li>)}</ol>
-      </details>
+      <nav className="act-fb__nav" aria-label="Frases del ejercicio">
+        {sel > 0 && <button type="button" className="ds-btn ds-btn--secondary" onClick={() => setSel(sel - 1)}>Frase anterior</button>}
+        {sel < blanks.length - 1 && <button type="button" className="ds-btn ds-btn--primary" disabled={!v[sel]} onClick={() => setSel(sel + 1)}>Siguiente frase</button>}
+      </nav>
+      {complete && <details><summary>Consultar texto completo</summary>
+        <div className="act-fb__text">
+          {parts.map((p, k) => p.t === 'text' ? <span key={k} style={{ whiteSpace: 'pre-wrap' }}>{p.v}</span> : <span className="act-fb__slot" key={k}>{v[p.i]}</span>)}
+        </div>
+        <ol className="act-precision__review">{blanks.map((blank) => <li key={blank.i}>
+          <span>{v[blank.i]}{wrong(blank.i) ? ' · Revisar' : ''}</span>
+          <button type="button" className="ds-btn ds-btn--secondary" aria-label={`Editar espacio ${blank.i + 1}`} onClick={() => {
+            setSel(blank.i); editorRef.current?.scrollIntoView({ block: 'start' }); editorRef.current?.focus({ preventScroll: true });
+          }}>Editar espacio {blank.i + 1}</button>
+        </li>)}</ol>
+      </details>}
     </div>
   );
 }

@@ -7,16 +7,16 @@ export const SURVEY_ROLES = [
 ] as const;
 
 export const SURVEY_QUESTIONS = [
-  { id: 'role', kind: 'choice', label: '¿Desde qué perspectiva estás probando la app?' },
-  { id: 'overall', kind: 'rating', label: 'En general, ¿qué tan buena ha sido tu experiencia?', low: 'Muy mala', high: 'Excelente' },
-  { id: 'clarity', kind: 'rating', label: '¿Qué tan claras son las explicaciones e instrucciones?', low: 'Nada claras', high: 'Muy claras' },
-  { id: 'engagement', kind: 'rating', label: '¿Qué tan interesantes te parecen los temas y ejemplos?', low: 'Nada interesantes', high: 'Muy interesantes' },
-  { id: 'difficulty', kind: 'rating', label: '¿Cómo sientes la dificultad de las actividades?', low: 'Muy fáciles', high: 'Muy difíciles' },
-  { id: 'visuals', kind: 'rating', label: '¿Qué tan fácil es leer y entender el diseño visual?', low: 'Muy difícil', high: 'Muy fácil' },
-  { id: 'navigation', kind: 'rating', label: '¿Qué tan fácil es encontrar lo que quieres hacer?', low: 'Muy difícil', high: 'Muy fácil' },
-  { id: 'interactivity', kind: 'rating', label: '¿Cuánto te ayudan las actividades interactivas a aprender?', low: 'Nada', high: 'Mucho' },
-  { id: 'bestPart', kind: 'text', label: '¿Qué es lo que más te gustó o te ayudó?' },
-  { id: 'firstImprovement', kind: 'text', label: 'Si pudiéramos mejorar una cosa primero, ¿cuál sería?' },
+  { id: 'role', kind: 'choice', label: '¿Quién está respondiendo?' },
+  { id: 'overall', kind: 'rating', label: '¿Cuánto te gustó usar Socrates?', low: 'Nada', high: 'Mucho' },
+  { id: 'clarity', kind: 'rating', label: '¿Entendiste las explicaciones e instrucciones?', low: 'Nada', high: 'Muy bien' },
+  { id: 'engagement', kind: 'rating', label: '¿Te parecieron interesantes los temas y ejemplos?', low: 'Nada', high: 'Mucho' },
+  { id: 'difficulty', kind: 'rating', label: '¿Cómo te parecieron los ejercicios?', low: 'Muy fáciles', high: 'Muy difíciles' },
+  { id: 'visuals', kind: 'rating', label: '¿Fue fácil leer y entender lo que ves?', low: 'Muy difícil', high: 'Muy fácil' },
+  { id: 'navigation', kind: 'rating', label: '¿Fue fácil encontrar qué hacer después?', low: 'Muy difícil', high: 'Muy fácil' },
+  { id: 'interactivity', kind: 'rating', label: '¿Los ejercicios te ayudaron a aprender?', low: 'Nada', high: 'Mucho' },
+  { id: 'bestPart', kind: 'text', label: '¿Qué fue lo que más te gustó o te ayudó?' },
+  { id: 'firstImprovement', kind: 'text', label: '¿Qué cambiarías para que sea más fácil o divertido?' },
 ] as const;
 
 export type SurveyRole = typeof SURVEY_ROLES[number]['value'];
@@ -73,6 +73,12 @@ export function createSurveySubmission(displayName: string, answers: SurveyAnswe
 
 const DRAFT_KEY = 'socrates.beta-survey.v1';
 export interface SurveyDraft { version: 1; answers: SurveyAnswers; submittedAt: number | null }
+
+export function shouldOfferSurveyAfterLesson(
+  lessons: Record<string, unknown>, submittedAt: number | null, dismissed: boolean,
+): boolean {
+  return Object.keys(lessons).length === 1 && submittedAt === null && !dismissed;
+}
 
 export function loadSurveyDraft(): SurveyDraft {
   try {

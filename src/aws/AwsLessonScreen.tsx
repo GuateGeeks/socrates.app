@@ -66,16 +66,26 @@ export function AwsLessonScreen({ course, lessonId }: { course: AwsCourse; lesso
     ...(practice ? [{ phase: 'practice' as const, label: 'Practicar', icon: 'MousePointer2' }] : []),
     { phase: score === null ? 'quiz' : 'result', label: 'Comprobar', icon: 'CircleCheck' },
   ];
+  const stepIndex = Math.max(0, steps.findIndex(step => step.phase === phase));
   return <div className="aws-page aws-stack aws-lesson" style={{ '--aws-phase-height': `${phaseHeight}px` } as CSSProperties}>
+    {(phase === 'practice' || phase === 'quiz') && <div className="aws-lesson-compact">
+      <a href={href({ name: 'aws-domain', domainId: domain.id })} aria-label="Salir de la lección"><Icon name="ArrowLeft" size={20} /></a>
+      <strong>{lesson.title}</strong>
+      <button type="button" onClick={() => setPhase('study')} aria-label="Consultar contenido"><Icon name="BookOpen" size={20} /></button>
+    </div>}
+    {(phase === 'study' || phase === 'result') && <>
     <a className="aws-back" href={href({ name: 'aws-domain', domainId: domain.id })}><Icon name="ArrowLeft" size={18} /> {domain.title}</a>
     <header className="aws-title"><span className="aws-kicker">{lesson.taskCode ? `OBJETIVO ${lesson.taskCode} · ` : 'LECCIÓN · '}{lesson.minutes} MIN</span>
       <h1 ref={heading} tabIndex={-1}>{lesson.title}</h1><details className="aws-lesson-summary"><summary>Acerca de esta lección</summary><p>{lesson.summary}</p></details>
     </header>
+    <div className="aws-journey-progress"><span>Etapa {stepIndex + 1} de {steps.length} · {steps[stepIndex].label}</span>
+      <div className="aws-meter" role="progressbar" aria-label="Progreso de la lección" aria-valuenow={stepIndex + 1} aria-valuemin={0} aria-valuemax={steps.length}><span style={{ width: `${(stepIndex + 1) / steps.length * 100}%` }} /></div>
+    </div>
     <nav ref={phases} className="aws-phases" aria-label="Etapas de aprendizaje">{steps.map((step, i) => <button key={step.label} type="button" aria-current={phase === step.phase ? 'step' : undefined} onClick={() => { setRestart(false); setPhase(step.phase); }}>
       <span className="aws-step-number">{i + 1}</span><Icon name={step.icon} size={18} /><span>{step.label}</span>
-    </button>)}</nav>
+    </button>)}</nav></>}
     <div hidden={phase !== 'study'}><AwsReader lesson={lesson} hasPractice={!!practice} onContinue={() => setPhase(practice ? 'practice' : score === null ? 'quiz' : 'result')} /></div>
-    {practice && <div hidden={phase !== 'practice'}><AwsPractice practice={practice} onContinue={() => setPhase(score === null ? 'quiz' : 'result')} /></div>}
+    {practice && <div hidden={phase !== 'practice'}><AwsPractice practice={practice} onContinue={startQuiz} /></div>}
     <div hidden={phase !== 'quiz'}>
       {!started ? <section className="aws-next"><span className="aws-kicker">Ponlo en práctica</span><h2>Comprueba lo aprendido</h2>
         <p>{lesson.questions.length} preguntas con explicación. Puedes volver a Explorar en cualquier momento; tus respuestas se conservan durante esta sesión.</p>
@@ -99,7 +109,6 @@ export function AwsLessonScreen({ course, lessonId }: { course: AwsCourse; lesso
           <div className="aws-actions aws-lesson-actions">{!confirmed ? <button className="aws-primary" disabled={draft.length !== correctOptions.length} onClick={() => {
             setAnswers(current => [...current, [...draft]]); setConfirmed(true); requestAnimationFrame(() => document.getElementById('aws-answer-feedback')?.focus()); feedback(isAwsAnswerCorrect(question, draft) ? 'correct' : 'incorrect');
           }}>Comprobar respuesta</button> : <button className="aws-primary" onClick={finishQuestion}>{index + 1 === lesson.questions.length ? 'Ver resultados' : 'Siguiente pregunta'} <Icon name="ArrowRight" size={18} /></button>}
-            <button className="aws-secondary" onClick={() => setPhase('study')}><Icon name="BookOpen" size={18} /> Consultar contenido</button>
           </div>
         </section>}
     </div>

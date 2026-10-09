@@ -35,6 +35,7 @@ import type { ProjectProps } from '@/activities/project';
 import type { LowActivityModeProps } from '@/activities/low-activity-mode';
 import type { LeadershipSimulationProps } from '@/activities/leadership-simulation';
 import type { CulturalConservationProps } from '@/activities/cultural-conservation-practice';
+import type { FractionModelProps } from '@/activities/fraction-model';
 
 type Meta = Omit<StepBase, 'type' | 'props' | 'id'> & { id?: string };
 export type Draft = Omit<StepBase, 'id'> & { id?: string };
@@ -70,6 +71,7 @@ export const S = {
   lowActivity: mk<LowActivityModeProps>('low-activity-mode'),
   leadership: mk<LeadershipSimulationProps>('leadership-simulation'),
   culturalPractice: mk<CulturalConservationProps>('cultural-conservation-practice'),
+  fractionModel: mk<FractionModelProps>('fraction-model'),
 };
 
 export function lesson(l: Omit<Lesson, 'steps'> & { steps: Draft[] }): Lesson {

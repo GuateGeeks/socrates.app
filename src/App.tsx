@@ -7,14 +7,10 @@ import { Year } from '@/screens/Year';
 import { MissionScreen } from '@/screens/MissionScreen';
 import { LessonPlayer } from '@/screens/LessonPlayer';
 import { Repaso } from '@/screens/Repaso';
-import { Explorar } from '@/screens/Explorar';
 import { Materias } from '@/screens/Materias';
 import { Cuaderno } from '@/screens/Cuaderno';
 import { Perfil } from '@/screens/Perfil';
 import { Logros } from '@/screens/Logros';
-import { Docente } from '@/screens/Docente';
-import { Medios } from '@/screens/Medios';
-import { Sistema } from '@/screens/Sistema';
 import { Ajustes } from '@/screens/Ajustes';
 import { EncuestaBeta } from '@/screens/EncuestaBeta';
 import { activateUpdate } from '@/pwa/service-worker';
@@ -28,7 +24,7 @@ const TABS: { route: Route; icon: string; label: string; match: Route['name'][] 
   { route: { name: 'anio' }, icon: 'Map', label: 'Mi año', match: ['anio', 'mission'] },
   { route: { name: 'materias' }, icon: 'LibraryBig', label: 'Materias', match: ['materias', 'materia', 'explorar'] },
   { route: { name: 'cuaderno' }, icon: 'NotebookPen', label: 'Cuaderno', match: ['cuaderno'] },
-  { route: { name: 'perfil' }, icon: 'CircleUser', label: 'Perfil', match: ['perfil', 'logros', 'docente', 'medios', 'sistema', 'ajustes', 'encuesta-beta'] },
+  { route: { name: 'perfil' }, icon: 'CircleUser', label: 'Perfil', match: ['perfil', 'logros', 'ajustes', 'encuesta-beta'] },
 ];
 
 export function App({ profile, changeProgram }: { profile: LearnerProfile; changeProgram(id: ProgramId): void }) {
@@ -56,15 +52,13 @@ export function App({ profile, changeProgram }: { profile: LearnerProfile; chang
     }
     case 'anio': screen = <Year />; break;
     case 'repaso': screen = <Repaso />; break;
-    case 'explorar': screen = <Explorar key={route.area ?? 'all'} area={route.area} />; break;
+    case 'explorar': screen = <Materias area={route.area} />; break;
     case 'materias': screen = <Materias />; break;
     case 'materia': screen = <Materias key={route.area} area={route.area} />; break;
     case 'cuaderno': screen = <Cuaderno />; break;
     case 'perfil': screen = <Perfil />; break;
     case 'logros': screen = <Logros />; break;
-    case 'docente': screen = <Docente />; break;
-    case 'medios': screen = <Medios />; break;
-    case 'sistema': screen = <Sistema />; break;
+    case 'docente': case 'medios': case 'sistema': screen = <Perfil />; break;
     case 'ajustes': screen = <Ajustes activeProgram="cnb-sexto" profile={profile} changeProgram={changeProgram} />; break;
     case 'encuesta-beta': screen = <EncuestaBeta />; break;
     default: screen = <Home />;

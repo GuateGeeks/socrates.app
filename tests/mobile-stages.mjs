@@ -25,7 +25,7 @@ const bundle = await build({stdin:{contents:source,loader:'tsx',resolveDir:proce
 const js=bundle.outputFiles.find(f=>f.path.endsWith('.js')).text.replace(/<\/script/gi,'<\\/script');
 const css=bundle.outputFiles.find(f=>f.path.endsWith('.css')).text;
 const html=`<!doctype html><html lang="es"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${css}output{display:none}</style><body><div id="root"></div><script>${js}</script></body></html>`;
-const browser=await chromium.launch();const errors=[];
+const browser=await chromium.launch(process.env.CHROMIUM ? {executablePath:process.env.CHROMIUM} : {});const errors=[];
 const page=await browser.newPage({viewport:{width:320,height:844},reducedMotion:'reduce',hasTouch:true});page.setDefaultTimeout(3000);page.on('pageerror',e=>errors.push(e.message));
 await page.route('**/*',r=>r.fulfill({contentType:'text/html',body:html}));
 const go=async type=>{await page.goto(`http://stages.test/${type}?run=${Date.now()}#${type}`);await page.locator('main').waitFor();};

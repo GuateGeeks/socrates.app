@@ -8,7 +8,7 @@
 export interface Practice {
   title: string;
   scenario: string;
-  targets: { id: string; label: string; hint: string; icon: string }[];
+  targets: { id: string; label: string; hint: string; icon: string; group?: string }[];
   items: { id: string; text: string; target: string; explanation: string }[];
   flow?: { id: string; text: string }[];
   flowExplanation?: string;
@@ -24,12 +24,12 @@ export const PRACTICES: Record<string, Practice> = {
     title: 'Una tienda que crece contigo',
     scenario: 'Una tienda prepara una campaña de dos días. Relaciona las primeras decisiones con los beneficios de la nube y las propuestas de infraestructura con su modelo de despliegue.',
     targets: [
-      { id: 'elasticity', label: 'Elasticidad', hint: 'Ajustar capacidad a la demanda', icon: 'MoveHorizontal' },
-      { id: 'agility', label: 'Agilidad', hint: 'Experimentar con rapidez', icon: 'Zap' },
-      { id: 'usage', label: 'Pago por uso', hint: 'Gasto según consumo', icon: 'Wallet' },
-      { id: 'public', label: 'Nube pública', hint: 'Servicios de un proveedor', icon: 'Cloud' },
-      { id: 'private', label: 'Nube privada', hint: 'Uso exclusivo de una organización', icon: 'Building2' },
-      { id: 'hybrid', label: 'Nube híbrida', hint: 'Infraestructuras conectadas', icon: 'Network' },
+      { id: 'elasticity', label: 'Elasticidad', hint: 'Ajustar capacidad a la demanda', icon: 'MoveHorizontal', group: 'benefits' },
+      { id: 'agility', label: 'Agilidad', hint: 'Experimentar con rapidez', icon: 'Zap', group: 'benefits' },
+      { id: 'usage', label: 'Pago por uso', hint: 'Gasto según consumo', icon: 'Wallet', group: 'benefits' },
+      { id: 'public', label: 'Nube pública', hint: 'Servicios de un proveedor', icon: 'Cloud', group: 'models' },
+      { id: 'private', label: 'Nube privada', hint: 'Uso exclusivo de una organización', icon: 'Building2', group: 'models' },
+      { id: 'hybrid', label: 'Nube híbrida', hint: 'Infraestructuras conectadas', icon: 'Network', group: 'models' },
     ],
     items: [
       { id: 'launch', text: 'Crear un entorno de prueba en minutos.', target: 'agility', explanation: 'Aprovisionar recursos rápidamente permite probar una idea sin esperar a comprar hardware.' },

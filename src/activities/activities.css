@@ -1,3 +1,4 @@
+@import './fraction-model.css';
 /* Estilos de actividades. Solo consumen tokens del sistema de diseño. */
 
 .act-hero { font-size: 3.4rem; line-height: 1; text-align: center; }
@@ -185,6 +186,11 @@
 .act-fb__slot.is-wrong { border-bottom-color: var(--c-bad); background: var(--c-bad-soft); color: var(--c-bad); }
 .act-fb__slot.is-right { border-bottom-color: var(--c-ok); background: var(--c-ok-soft); color: var(--c-ok); }
 .act-fb__bank { display: flex; flex-wrap: wrap; gap: var(--sp-2); justify-content: center; }
+.act-fb__bank .act-token { min-height: 48px; min-width: 72px; }
+.act-fb__bank .act-token.is-selected { border-color: var(--c-jade); background: var(--c-selection); }
+.act-fb__progress { text-align: center; font-weight: var(--fw-bold); }
+.act-fb__nav { display: flex; flex-wrap: wrap; gap: var(--sp-2); justify-content: center; }
+.act-fb__nav .ds-btn { min-width: 150px; }
 .act-token.is-used { opacity: 0.35; }
 
 /* highlight */

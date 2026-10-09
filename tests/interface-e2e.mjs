@@ -26,7 +26,7 @@ const bundle = await build({
 const js = bundle.outputFiles.find(file => file.path.endsWith('.js')).text.replace(/<\/script/gi, '<\\/script');
 const css = bundle.outputFiles.find(file => file.path.endsWith('.css')).text;
 const html = `<!doctype html><html lang="es"><head><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color"><style>${css}</style></head><body><div id="root"></div><script>${js}</script></body></html>`;
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {});
 const errors = [];
 const origin = 'http://socrates.claude.test/';
 async function createPage({ system = 'dark', app = 'dark', complete = true, width = 390 } = {}) {
@@ -91,38 +91,35 @@ try {
   for (const [id, practice] of Object.entries(PRACTICES)) {
     await go(page, `#/aws-leccion/${id}`);
     await assertFits(page);
+    assert.equal(await page.getByRole('progressbar', { name: 'Progreso de la lección' }).getAttribute('aria-valuenow'), '1');
     await page.getByRole('button', { name: /Practicar/ }).click();
-    const check = page.getByRole('button', { name: 'Comprobar conexiones' });
-    assert.equal(await (practice.flow ? page.getByRole('button', { name: 'Continuar al recorrido' }) : check).isDisabled(), true);
-    // Real keyboard interaction for the first selection and placement.
+    assert.equal(await page.getByRole('progressbar', { name: 'Avance de la práctica' }).getAttribute('aria-valuenow'), '0');
+    assert.equal(await page.getByText('Consultar el escenario', { exact: true }).isVisible(), true);
+    const lab = page.getByRole('region', { name: 'Práctica guiada' });
+    assert.equal(await lab.getByRole('button', { name: 'Comprobar', exact: true }).isDisabled(), true);
+    const firstTarget = practice.targets.find(target => target.id === practice.items[0].target);
+    await lab.getByRole('button', { name: firstTarget.label, exact: true }).click();
+    await page.getByRole('button', { name: 'Consultar contenido' }).click();
+    await page.getByRole('button', { name: /Practicar/ }).click();
+    assert.equal(await lab.getByRole('button', { name: firstTarget.label, exact: true }).getAttribute('aria-pressed'), 'true', 'Returning to the practice preserves the current choice');
     for (const [i, item] of practice.items.entries()) {
-      assert.equal(await page.locator('.assignment-active p').textContent(), item.text);
-      const targetId = i === 0 ? practice.targets.find(target => target.id !== item.target).id : item.target;
-      const target = practice.targets.find(target => target.id === targetId);
-      await page.getByRole('button', { name: `Colocar en ${target.label}`, exact: true }).click();
+      assert.equal(await page.locator('.aws-practice-question').textContent(), item.text);
+      await lab.getByRole('button', { name: practice.targets.find(target => target.id === item.target).label, exact: true }).click();
+      await lab.getByRole('button', { name: 'Comprobar', exact: true }).click();
+      await page.getByText('¡Muy bien!', { exact: true }).waitFor();
+      await lab.getByRole('button', { name: i + 1 === practice.items.length && !practice.flow ? 'Ver resultado' : 'Continuar' }).click();
     }
-    if (practice.flow) { await page.getByRole('button', { name: 'Continuar al recorrido' }).click(); await page.getByRole('button', { name: 'Revisar conexiones', exact: true }).click(); }
-    await check.click();
-    await page.getByText('Revisa estas conexiones', { exact: true }).waitFor();
-    // Consulting content must preserve formative work.
-    await page.getByRole('button', { name: /Explorar/ }).click();
-    await page.getByRole('button', { name: /Practicar/ }).click();
-    const item = practice.items[0];
-    await page.getByRole('button', { name: `Editar: ${item.text}`, exact: true }).click();
-    await page.getByRole('button', { name: `Colocar en ${practice.targets.find(target => target.id === item.target).label}`, exact: true }).click();
-    if (practice.flow) {
-      for (const [desired, step] of practice.flow.entries()) {
-        let current = await page.locator('.aws-flow li').allTextContents();
-        let index = current.findIndex(text => text.includes(step.text));
-        while (index > desired) { await page.getByRole('button', { name: `Subir paso: ${step.text}`, exact: true }).click(); index--; }
-      }
+    for (const [i, step] of (practice.flow ?? []).entries()) {
+      await lab.getByRole('button', { name: step.text, exact: true }).click();
+      await lab.getByRole('button', { name: 'Comprobar', exact: true }).click();
+      await lab.getByRole('button', { name: i + 1 === practice.flow.length ? 'Ver resultado' : 'Continuar' }).click();
     }
-    await check.click(); await page.getByText('¡Lo conectaste todo!', { exact: true }).waitFor();
+    await page.getByText(`${practice.items.length + (practice.flow?.length ?? 0)} de ${practice.items.length + (practice.flow?.length ?? 0)} decisiones resueltas`, { exact: true }).waitFor();
     assert.equal(await page.evaluate(() => localStorage.getItem('socrates.aws-progress.v1')), null, 'Formative work must not record a quiz result');
     await assertFits(page);
     await page.screenshot({ path: `${shots}/${id}-practice-dark.png`, fullPage: true });
-    await page.getByRole('button', { name: 'Ir a comprobar' }).click();
-    await page.getByRole('button', { name: 'Comenzar comprobación' }).waitFor();
+    await page.getByRole('button', { name: 'Continuar a las preguntas' }).click();
+    await page.locator('#aws-question').waitFor();
   }
   // Quiz drafts, confirmed answers, exact scoring and repeat attempts.
   await go(page, '#/aws-leccion/cloud-value');

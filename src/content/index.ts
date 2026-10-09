@@ -86,7 +86,7 @@ const units: Unit[] = ODEC_CICLO_II.map((o) => {
   const weeks = AUTHORED.filter((w) => w.unidad === o.unidad)
     .sort((a, b) => (a.semana ?? 0) - (b.semana ?? 0))
     .map(withMaterias)
-    .map((week) => o.unidad === 1 ? withProductionReadyMedia(week) : week);
+    .map((week) => o.unidad <= 2 ? withProductionReadyMedia(week) : week);
   return { n: o.unidad, tema: o.tema, icon: o.icon, color: o.color, weeks: [...weeks, buildValidationWeek(o.unidad, weeks)] };
 });
 

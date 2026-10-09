@@ -32,12 +32,13 @@ import project from './project';
 import lowActivityMode from './low-activity-mode';
 import leadershipSimulation from './leadership-simulation';
 import culturalConservationPractice from './cultural-conservation-practice';
+import fractionModel from './fraction-model';
 
 export const ACTIVITIES = [
   explain, workedExample, choice, sort, order, match, mayaNumber, numberInput, slider, symmetryLoom,
   polygonLab, coordinateMap, chartBuilder, rhythm, pulseLab, dilemma, recipeScaler, reflection,
   trueFalse, fillBlank, highlight, reading, shortAnswer, flashcards, project, lowActivityMode,
-  leadershipSimulation, culturalConservationPractice,
+  leadershipSimulation, culturalConservationPractice, fractionModel,
 ];
 
 let done = false;

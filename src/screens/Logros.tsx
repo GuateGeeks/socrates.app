@@ -34,13 +34,13 @@ export function Logros() {
       </div>
 
       <Card raised>
-        <SectionTitle>Mi rueda del CNB</SectionTitle>
+        <SectionTitle>Así avanzo en mis materias</SectionTitle>
         <div className="ms__wheelwrap"><TemaWheel tema={p.profile.name || 'Mi progreso'} active={WHEEL_CICLO_II.filter((a) => p.areasXp[a])} mastery={byArea} size={280} /></div>
-        <p className="ds-xs ds-muted ds-center">El anillo exterior se llena según tu dominio de los indicadores de logro de cada área.</p>
+        <p className="ds-xs ds-muted ds-center">La rueda crece a medida que aprendes y practicas en cada materia.</p>
       </Card>
 
       <Card>
-        <SectionTitle>Mi perfil de egreso</SectionTitle>
+        <SectionTitle>Mis habilidades</SectionTitle>
         <div className="ds-stack" style={{ gap: 10, marginTop: 10 }}>
           {(Object.keys(AMBITOS) as Ambito[]).map((k) => (
             <div key={k}>

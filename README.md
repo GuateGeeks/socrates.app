@@ -1,6 +1,6 @@
 # Socrates Aprende · programas educativos
 
-Plataforma web mobile-first (PWA) con dos programas. **Sexto Primaria** conserva la experiencia basada en el Currículo Nacional Base (CNB) de Guatemala. **AWS Certified Cloud Practitioner** ofrece un temario de preparación para los 19 objetivos CLF-C02 cargado desde Firestore. El usuario elige un programa en la configuración inicial y puede cambiarlo en Ajustes; el avance de cada programa se guarda por separado.
+Plataforma web mobile-first (PWA) con dos programas disponibles. **Sexto Primaria** conserva la experiencia basada en el Currículo Nacional Base (CNB) de Guatemala. Los espacios de 4.º y 5.º Primaria y 1.º, 2.º y 3.º Básico se muestran como próximos y no se pueden seleccionar. **AWS Certified Cloud Practitioner** aparece separado como formación adicional; ofrece un temario de preparación para los 19 objetivos CLF-C02 cargado desde Firestore. El usuario elige un programa disponible en la configuración inicial y puede cambiarlo en Ajustes; el avance de cada programa se guarda por separado.
 
 ## El año completo
 | | |
@@ -10,15 +10,16 @@ Plataforma web mobile-first (PWA) con dos programas. **Sexto Primaria** conserva
 | **Semana 9** | **Proyecto integrador** de la unidad (5 lecciones) |
 | **Semana 10** | **Semana de validación**: 4 evaluaciones por área + portafolio (se arma sola con los bancos de ítems) |
 | **Día 0** | Diagnóstico inicial |
-| **Cobertura** | **100 %** del CNB de Sexto: 203/203 indicadores y 833/833 contenidos, cada uno en su semana (`src/content/sexto/plan.json`); 216 lecciones, 2 408 pasos, 335 medios por producir |
+| **Cobertura** | **100 %** del CNB de Sexto: 203/203 indicadores y 833/833 contenidos, cada uno en su semana (`src/content/sexto/plan.json`). Las unidades 1 y 2 tienen 432 lecciones por materia con la estructura actual; las unidades 3 y 4 conservan temporalmente la estructura integrada. |
 
 ## Experiencia del estudiante
 - **Hoy**: meta diaria, "continúa donde te quedaste", **agenda del día** (una lección por materia según el horario), estado del calendario (al día / adelantado / atrasado) y repaso pendiente.
 - **Materias**: el recorrido anual de cada una de las 10 materias del CNB (Matemáticas, Comunicación y Lenguaje, Ciencias Naturales, Ciencias Sociales, L2, Inglés, Formación Ciudadana, Expresión Artística, Educación Física, Productividad y Desarrollo).
-- **Mi año**: mapa de las 40 semanas con avance y medallas.
+- **Mi año**: siguiente lección, cuatro unidades y exploración de una semana a la vez con controles anterior/siguiente.
 - **Semana**: horario de lunes a viernes, tema generador (rueda del CNB), contexto guatemalteco, lecciones extra.
 - **Lección**: portada con objetivos y recurso multimedia → pasos Explorar → Construir → Reto → **Comprobar** (boleto de salida sin pistas) → Reflexionar → cierre con ideas clave y resultados por indicador.
-- **Repaso inteligente** (Leitner 1-3-7-16-35 días) con lo que costó; **Explorar el CNB** por área e indicador; **Cuaderno** con ideas clave; **Logros** e insignias.
+- Al terminar la primera lección, una invitación opcional permite calificar la plataforma mediante la encuesta beta. El diagnóstico incluye un piloto de fracciones manipulables en 3D con controles alternativos si el navegador no muestra WebGL.
+- **Repaso inteligente** (Leitner 1-3-7-16-35 días) con lo que costó; **Cuaderno** con ideas clave; **Logros** e insignias. Desde **Perfil → Mis datos y ajustes** se pueden volver a editar el nombre y el programa.
 - 24 tipos de actividad interactiva, íconos **Lucide**, sonidos de marimba, animaciones con modo reducido, tema claro/oscuro.
 
 ## Inicio rápido
@@ -32,11 +33,13 @@ npm run validate     # contenido vs. CNB, claves de respuesta, estructura del a�
 npm test             # pruebas unitarias
 npm run build        # icons + validate + typecheck + build (dist/)
 npm run build:standalone   # un solo HTML sin internet (dist-standalone/index.html)
+npx playwright install chromium # navegador necesario para pruebas visuales
 npm run e2e          # recorre TODAS las lecciones en teléfono y tableta
+node tests/e2e.mjs --unidad=2 # recorre la unidad 2 tras build:standalone
 ```
 
 ## Medios por producir
-Cada lección y varios pasos tienen un **espacio multimedia** (imagen, video, animación, diagrama o audio) con **ficha de producción**. Se muestran como maquetas hasta que se produzcan. Ver **Perfil → Medios por producir** (exporta CSV/JSON) y `src/media/assets.ts` para conectar los archivos reales.
+Cada lección y varios pasos tienen un **espacio multimedia** (imagen, video, animación, diagrama o audio) con **ficha de producción**. Se muestran como maquetas hasta que se produzcan. Las fichas y el registro interno están en `src/media/assets.ts`; no forman parte de la navegación del estudiante.
 
 ## Documentación
 - [docs/METODOLOGIA_CNB.md](docs/METODOLOGIA_CNB.md) — de las figuras del CNB al producto.

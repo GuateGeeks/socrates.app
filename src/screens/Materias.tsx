@@ -6,7 +6,7 @@ import { AREAS, ODEC_CICLO_II, type AreaId } from '@/cnb/model';
 import { trackOf } from '@/content';
 import { MATERIAS, LECCIONES_POR_SEMANA } from '@/content/sexto/horario';
 import { MATERIA_UNITS } from '@/content/sexto/materias';
-import { Button, Card, SectionTitle, useEnter } from '@/design-system/components';
+import { Button, Card, useEnter } from '@/design-system/components';
 import { Icon } from '@/design-system/icons';
 import { LessonRow } from '@/ui/LessonRow';
 
@@ -37,9 +37,6 @@ export function Materias({ area }: { area?: string }) {
           );
         })}
       </div>
-      <Card onClick={() => navigate({ name: 'explorar' })}>
-        <div className="ds-row"><Icon name="Compass" size={24} color="var(--c-jade)" /><div className="ds-grow"><strong>Explorar el CNB</strong><div className="ds-xs ds-muted">Busca por competencia e indicador de logro</div></div><Icon name="ChevronRight" /></div>
-      </Card>
     </div>
   );
 }
@@ -80,8 +77,6 @@ function Track({ area }: { area: AreaId }) {
           {inUnit.filter((x) => x.mission === w).map((x, i) => <LessonRow key={x.lesson.id} mission={w} lesson={x.lesson} next={next?.lesson.id === x.lesson.id} sub={`Lección ${i + 1}`} />)}
         </section>
       ))}
-      <Button variant="ghost" onClick={() => navigate({ name: 'explorar', area })}><Icon name="Compass" size={16} /> Indicadores del CNB de {meta.corto}</Button>
     </div>
   );
 }
-void SectionTitle;
