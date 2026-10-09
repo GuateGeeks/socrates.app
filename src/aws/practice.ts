@@ -8,7 +8,7 @@
 export interface Practice {
   title: string;
   scenario: string;
-  targets: { id: string; label: string; hint: string; icon: string; group?: string }[];
+  targets: { id: string; label: string; hint: string; group?: string }[];
   items: { id: string; text: string; target: string; explanation: string }[];
   flow?: { id: string; text: string }[];
   flowExplanation?: string;
@@ -24,12 +24,12 @@ export const PRACTICES: Record<string, Practice> = {
     title: 'Una tienda que crece contigo',
     scenario: 'Una tienda prepara una campaña de dos días. Relaciona las primeras decisiones con los beneficios de la nube y las propuestas de infraestructura con su modelo de despliegue.',
     targets: [
-      { id: 'elasticity', label: 'Elasticidad', hint: 'Ajustar capacidad a la demanda', icon: 'MoveHorizontal', group: 'benefits' },
-      { id: 'agility', label: 'Agilidad', hint: 'Experimentar con rapidez', icon: 'Zap', group: 'benefits' },
-      { id: 'usage', label: 'Pago por uso', hint: 'Gasto según consumo', icon: 'Wallet', group: 'benefits' },
-      { id: 'public', label: 'Nube pública', hint: 'Servicios de un proveedor', icon: 'Cloud', group: 'models' },
-      { id: 'private', label: 'Nube privada', hint: 'Uso exclusivo de una organización', icon: 'Building2', group: 'models' },
-      { id: 'hybrid', label: 'Nube híbrida', hint: 'Infraestructuras conectadas', icon: 'Network', group: 'models' },
+      { id: 'elasticity', label: 'Elasticidad', hint: 'Ajustar capacidad a la demanda', group: 'benefits' },
+      { id: 'agility', label: 'Agilidad', hint: 'Experimentar con rapidez', group: 'benefits' },
+      { id: 'usage', label: 'Pago por uso', hint: 'Gasto según consumo', group: 'benefits' },
+      { id: 'public', label: 'Nube pública', hint: 'Servicios de un proveedor', group: 'models' },
+      { id: 'private', label: 'Nube privada', hint: 'Uso exclusivo de una organización', group: 'models' },
+      { id: 'hybrid', label: 'Nube híbrida', hint: 'Infraestructuras conectadas', group: 'models' },
     ],
     items: [
       { id: 'launch', text: 'Crear un entorno de prueba en minutos.', target: 'agility', explanation: 'Aprovisionar recursos rápidamente permite probar una idea sin esperar a comprar hardware.' },
@@ -45,8 +45,8 @@ export const PRACTICES: Record<string, Practice> = {
     title: 'Reparte las responsabilidades',
     scenario: 'Tu equipo ejecuta una aplicación en Amazon EC2. Decide quién se encarga de cada tarea en este servicio.',
     targets: [
-      { id: 'aws', label: 'AWS', hint: 'Seguridad de la infraestructura', icon: 'Cloud' },
-      { id: 'customer', label: 'Tu equipo', hint: 'Lo que configura y usa', icon: 'Users' },
+      { id: 'aws', label: 'AWS', hint: 'Seguridad de la infraestructura' },
+      { id: 'customer', label: 'Tu equipo', hint: 'Lo que configura y usa' },
     ],
     items: [
       { id: 'os', text: 'Instalar parches del sistema operativo de la instancia EC2.', target: 'customer', explanation: 'En EC2 el cliente administra el sistema operativo invitado y sus parches. El reparto cambia con servicios administrados.' },
@@ -59,9 +59,9 @@ export const PRACTICES: Record<string, Practice> = {
     title: 'Construye el recorrido de una imagen',
     scenario: 'Una aplicación recibe una solicitud, procesa una imagen con código activado por eventos y guarda el archivo. Relaciona primero cada necesidad con su servicio.',
     targets: [
-      { id: 's3', label: 'Amazon S3', hint: 'Almacenamiento de objetos', icon: 'Database' },
-      { id: 'ec2', label: 'Amazon EC2', hint: 'Máquinas virtuales configurables', icon: 'Server' },
-      { id: 'lambda', label: 'AWS Lambda', hint: 'Código en respuesta a eventos', icon: 'Zap' },
+      { id: 's3', label: 'Amazon S3', hint: 'Almacenamiento de objetos' },
+      { id: 'ec2', label: 'Amazon EC2', hint: 'Máquinas virtuales configurables' },
+      { id: 'lambda', label: 'AWS Lambda', hint: 'Código en respuesta a eventos' },
     ],
     items: [
       { id: 'event', text: 'Ejecutar el código de procesamiento sin administrar servidores.', target: 'lambda', explanation: 'Lambda ejecuta código en respuesta a eventos; tu equipo sigue siendo responsable del código y sus permisos.' },
@@ -79,9 +79,9 @@ export const PRACTICES: Record<string, Practice> = {
     title: 'Prepara el presupuesto del proyecto',
     scenario: 'Tu equipo quiere planificar el gasto, recibir alertas y entender la factura. Coloca cada tarea en la herramienta adecuada.',
     targets: [
-      { id: 'budgets', label: 'AWS Budgets', hint: 'Presupuestos y alertas', icon: 'Bell' },
-      { id: 'calculator', label: 'Pricing Calculator', hint: 'Estimar antes de desplegar', icon: 'Calculator' },
-      { id: 'explorer', label: 'Cost Explorer', hint: 'Analizar gasto y tendencias', icon: 'ChartNoAxesCombined' },
+      { id: 'budgets', label: 'AWS Budgets', hint: 'Presupuestos y alertas' },
+      { id: 'calculator', label: 'Pricing Calculator', hint: 'Estimar antes de desplegar' },
+      { id: 'explorer', label: 'Cost Explorer', hint: 'Analizar gasto y tendencias' },
     ],
     items: [
       { id: 'estimate', text: 'Estimar cuánto costaría una solución que todavía no se ha desplegado.', target: 'calculator', explanation: 'Pricing Calculator permite estimar costos a partir de los servicios y el uso previstos.' },

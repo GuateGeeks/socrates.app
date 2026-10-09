@@ -22,6 +22,7 @@ export function AwsPractice({ practice, onContinue }: { practice: Practice; onCo
   const targetGroup = practice.targets.find(target => target.id === item?.target)?.group;
   const options = isFlow ? practice.flow?.filter(step => !solvedFlow.includes(step.id)) ?? []
     : practice.targets.filter(target => !targetGroup || target.group === targetGroup);
+  const selectedTarget = !isFlow ? practice.targets.find(target => target.id === selection) : undefined;
 
   useEffect(() => {
     if (state === 'answering') question.current?.focus({ preventScroll: true });
@@ -67,15 +68,17 @@ export function AwsPractice({ practice, onContinue }: { practice: Practice; onCo
       </div>
     </div>
     <div className="aws-practice-player__card">
-      <span className="aws-kicker">{isFlow ? 'Ordena el recorrido' : 'Elige una respuesta'}</span>
-      <h3 ref={question} tabIndex={-1}>{isFlow ? `¿Qué sucede ${['primero', 'después', 'al final'][index - practice.items.length] ?? 'ahora'}?` : '¿Con qué concepto se relaciona?'}</h3>
-      {item && <p className="aws-practice-question">{item.text}</p>}
-      <div className="aws-practice-choices" role="group" aria-label="Respuestas disponibles">
+      <span className="aws-kicker">{isFlow ? 'Ordena el recorrido' : 'Relaciona los conceptos'}</span>
+      <h3 ref={question} tabIndex={-1}>{isFlow ? `¿Qué sucede ${['primero', 'después', 'al final'][index - practice.items.length] ?? 'ahora'}?` : 'Une la necesidad con el servicio o concepto adecuado'}</h3>
+      <div className={item ? 'aws-match' : undefined}>
+      {item && <div className="aws-match-prompt"><small>1 · Necesidad</small><p className="aws-practice-question">{item.text}</p>{selectedTarget && <span className="aws-match-join" role="status"><Icon name="Link2" size={17} /> Unido con {selectedTarget.label}</span>}</div>}
+      <div className="aws-practice-choices" role="group" aria-label={item ? '2 · Elige el servicio o concepto para unir' : 'Respuestas disponibles'}>
+        {item && <span className="aws-match-label">2 · Selecciona con qué unirlo</span>}
         {options.map(option => <button key={option.id} type="button" disabled={state !== 'answering'} aria-pressed={selection === option.id}
           className={selection === option.id ? 'is-selected' : ''} onClick={() => { setSelection(option.id); feedback('select'); }}>
-          {'icon' in option && <Icon name={option.icon} size={22} />}
           <span>{'label' in option ? option.label : option.text}</span>
         </button>)}
+      </div>
       </div>
       {(state === 'correct' || state === 'incorrect') && <div ref={response} tabIndex={-1} className={`aws-practice-response${state === 'correct' ? ' is-correct' : ' is-incorrect'}`} role="status">
         <strong><Icon name={state === 'correct' ? 'CircleCheck' : 'Lightbulb'} size={20} /> {state === 'correct' ? '¡Muy bien!' : 'Inténtalo de nuevo'}</strong>

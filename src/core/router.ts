@@ -39,6 +39,7 @@ export function parse(hash: string): Route {
     case 'ajustes': return { name: 'ajustes' };
     case 'encuesta-beta': return { name: 'encuesta-beta' };
     case 'aws-temario': return { name: 'aws-curriculum' };
+    case 'aws-ruta': return { name: 'aws-curriculum' };
     case 'aws-dominio': return parts[1] ? { name: 'aws-domain', domainId: parts[1] } : { name: 'aws-curriculum' };
     case 'aws-leccion': return parts[1] ? { name: 'aws-lesson', lessonId: parts[1] } : { name: 'aws-curriculum' };
     default: return { name: 'home' };

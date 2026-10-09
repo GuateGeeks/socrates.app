@@ -31,7 +31,11 @@ const errors = [];
 const origin = 'http://socrates.claude.test/';
 async function createPage({ system = 'dark', app = 'dark', complete = true, width = 390 } = {}) {
   const context = await browser.newContext({ viewport: { width, height: 844 }, colorScheme: system, reducedMotion: 'reduce', serviceWorkers: 'block' });
-  await context.route('**/*', route => route.request().url().startsWith(origin) ? route.fulfill({ contentType: 'text/html', body: html }) : route.abort());
+  await context.route('**/*', route => {
+    const url = route.request().url();
+    if (!url.startsWith(origin)) return route.abort();
+    return route.fulfill({ contentType: 'text/html', body: html });
+  });
   const profile = { ...defaultLearnerProfile(), displayName: 'Ixchel', theme: app, sound: false, haptics: false,
     activeProgram: 'aws-cloud-practitioner', enrolledPrograms: ['aws-cloud-practitioner', 'cnb-sexto'], onboardingComplete: complete, onboardingStep: complete ? 'ready' : 'name' };
   const cnb = emptyProgress();
@@ -91,14 +95,25 @@ try {
   for (const [id, practice] of Object.entries(PRACTICES)) {
     await go(page, `#/aws-leccion/${id}`);
     await assertFits(page);
+    if (id === 'global-infrastructure') {
+      await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
+      await page.getByRole('button', { name: 'Amazon S3', exact: true }).click();
+      assert.match(await page.locator('.aws-service-explorer__detail').textContent(), /Almacenamiento de objetos/);
+      assert.equal(await page.locator('.aws-service-explorer img').count(), 0);
+      await page.getByRole('button', { name: 'Anterior', exact: true }).click();
+    }
     assert.equal(await page.getByRole('progressbar', { name: 'Progreso de la lección' }).getAttribute('aria-valuenow'), '1');
     await page.getByRole('button', { name: /Practicar/ }).click();
     assert.equal(await page.getByRole('progressbar', { name: 'Avance de la práctica' }).getAttribute('aria-valuenow'), '0');
     assert.equal(await page.getByText('Consultar el escenario', { exact: true }).isVisible(), true);
     const lab = page.getByRole('region', { name: 'Práctica guiada' });
     assert.equal(await lab.getByRole('button', { name: 'Comprobar', exact: true }).isDisabled(), true);
+    if (id === 'global-infrastructure') {
+      assert.equal(await lab.locator('img').count(), 0);
+    }
     const firstTarget = practice.targets.find(target => target.id === practice.items[0].target);
     await lab.getByRole('button', { name: firstTarget.label, exact: true }).click();
+    if (id === 'global-infrastructure') assert.match(await lab.locator('.aws-match-join').textContent(), /AWS Lambda/);
     await page.getByRole('button', { name: 'Consultar contenido' }).click();
     await page.getByRole('button', { name: /Practicar/ }).click();
     assert.equal(await lab.getByRole('button', { name: firstTarget.label, exact: true }).getAttribute('aria-pressed'), 'true', 'Returning to the practice preserves the current choice');
@@ -122,6 +137,10 @@ try {
     await page.locator('#aws-question').waitFor();
   }
   // Quiz drafts, confirmed answers, exact scoring and repeat attempts.
+  await go(page, '#/aws-leccion/global-infrastructure');
+  await page.getByRole('navigation', { name: 'Etapas de aprendizaje' }).getByRole('button', { name: /Comprobar/ }).click();
+  await page.getByRole('button', { name: 'Comenzar comprobación' }).click();
+  assert.equal(await page.locator('.aws-options img').count(), 0);
   await go(page, '#/aws-leccion/cloud-value');
   await page.getByRole('button', { name: /Comprobar/, exact: false }).click();
   await page.getByRole('button', { name: 'Comenzar comprobación' }).click();
@@ -161,12 +180,24 @@ try {
   assert.equal(await page.getByRole('button', { name: /Practicar/ }).count(), 0);
   await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
   assert.equal(await page.locator('.aws-reader__index [aria-current]').textContent(), '2' + course.domains[0].lessons[1].sections[1].heading);
+  await go(page, '#/');
+  assert.deepEqual(await page.locator('nav[aria-label="Navegación AWS"] a').allTextContents(), ['Hoy', 'Módulos', 'Perfil']);
+  assert.equal(await page.locator('.aws-domain-grid .aws-domain').count(), 0, 'Hoy points to the next step without repeating the module catalog');
+  await go(page, '#/aws-ruta');
+  await page.getByRole('heading', { name: 'Módulos' }).waitFor();
+  await page.getByRole('navigation', { name: 'Navegación AWS' }).getByRole('link', { name: 'Módulos' }).click();
+  await page.getByRole('heading', { name: 'Módulos' }).waitFor();
+  assert.equal(await page.locator('.aws-domain-grid .aws-domain').count(), 4);
+  await page.getByRole('navigation', { name: 'Navegación AWS' }).getByRole('link', { name: 'Perfil' }).click();
+  await page.getByRole('link', { name: /Mis logros/ }).click();
+  await page.getByRole('heading', { name: 'Mis logros' }).waitFor();
+  assert.equal(await page.getByText('1/19').count() > 0, true);
   // Main screen appearance at phone/tablet/desktop sizes.
   for (const width of [375, 820, 1280]) for (const theme of ['light', 'dark']) {
     await page.setViewportSize({ width, height: 900 });
     await go(page, '#/ajustes');
     await page.getByRole('button', { name: theme === 'light' ? 'Claro' : 'Oscuro', exact: true }).click();
-    for (const route of ['#/', '#/aws-temario', '#/aws-dominio/cloud-concepts', '#/aws-leccion/cloud-value']) {
+    for (const route of ['#/', '#/aws-ruta', '#/aws-temario', '#/logros', '#/aws-dominio/cloud-concepts', '#/aws-leccion/cloud-value']) {
       await go(page, route); await assertFits(page); await assertTheme(page, theme);
     }
     await page.screenshot({ path: `${shots}/reader-${theme}-${width}.png`, fullPage: true });
