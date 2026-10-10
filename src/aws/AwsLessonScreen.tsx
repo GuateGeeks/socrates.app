@@ -67,7 +67,7 @@ export function AwsLessonScreen({ course, lessonId }: { course: AwsCourse; lesso
     { phase: score === null ? 'quiz' : 'result', label: 'Comprobar', icon: 'CircleCheck' },
   ];
   const stepIndex = Math.max(0, steps.findIndex(step => step.phase === phase));
-  return <div className="aws-page aws-stack aws-lesson" style={{ '--aws-phase-height': `${phaseHeight}px` } as CSSProperties}>
+  return <div className={`aws-page aws-stack aws-lesson${phase === 'practice' ? ' is-practice' : ''}`} style={{ '--aws-phase-height': `${phaseHeight}px` } as CSSProperties}>
     {(phase === 'practice' || phase === 'quiz') && <div className="aws-lesson-compact">
       <a href={href({ name: 'aws-domain', domainId: domain.id })} aria-label="Salir de la lección"><Icon name="ArrowLeft" size={20} /></a>
       <strong>{lesson.title}</strong>

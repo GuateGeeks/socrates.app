@@ -136,7 +136,29 @@ try {
     await page.getByRole('button', { name: 'Continuar a las preguntas' }).click();
     await page.locator('#aws-question').waitFor();
   }
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await go(page, '#/aws-leccion/global-infrastructure');
+  await page.getByRole('button', { name: /Practicar/ }).click();
+  const desktopPractice = await page.evaluate(() => {
+    const bounds = selector => document.querySelector(selector).getBoundingClientRect();
+    const buttons = [...document.querySelectorAll('.aws-match .aws-practice-choices button')];
+    return {
+      page: bounds('.aws-lesson').width,
+      match: bounds('.aws-match').width,
+      prompt: { width: bounds('.aws-match-prompt').width, bottom: bounds('.aws-match-prompt').bottom },
+      choicesTop: bounds('.aws-match .aws-practice-choices').top,
+      optionTops: buttons.map(button => button.getBoundingClientRect().top),
+    };
+  });
+  await page.screenshot({ path: `${shots}/aws-practice-desktop.png`, fullPage: true });
+  assert.ok(desktopPractice.page >= 1180, 'Desktop practice uses the available horizontal space');
+  assert.ok(desktopPractice.prompt.width >= desktopPractice.match * 0.9, 'The prompt spans the content width');
+  assert.ok(desktopPractice.choicesTop >= desktopPractice.prompt.bottom + 8, 'Choices sit below the prompt');
+  assert.ok(desktopPractice.optionTops.every(top => Math.abs(top - desktopPractice.optionTops[0]) < 3), 'Choices form one desktop row');
+  await assertFits(page);
+  await page.setViewportSize({ width: 375, height: 844 });
   // Quiz drafts, confirmed answers, exact scoring and repeat attempts.
+  await go(page, '#/');
   await go(page, '#/aws-leccion/global-infrastructure');
   await page.getByRole('navigation', { name: 'Etapas de aprendizaje' }).getByRole('button', { name: /Comprobar/ }).click();
   await page.getByRole('button', { name: 'Comenzar comprobación' }).click();
